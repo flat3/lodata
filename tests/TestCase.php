@@ -15,7 +15,7 @@ use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Type\Int32;
 use Spatie\Snapshots\MatchesSnapshots;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MatchesSnapshots;
     use RefreshDatabase;

@@ -1,11 +1,11 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit;
+namespace Flat3\OData\Tests\Unit\Queries;
 
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
-class EntitySetCountTest extends TestCase
+class EntityPrimitiveTest extends TestCase
 {
     public function setUp(): void
     {
@@ -13,12 +13,11 @@ class EntitySetCountTest extends TestCase
         $this->withFlightDataModel();
     }
 
-    public function test_read_an_entity_set()
+    public function test_read_an_entity_set_primitive()
     {
-        $this->assertTextResponse(
+        $this->assertJsonResponse(
             Request::factory()
-                ->text()
-                ->path('/flights/$count')
+                ->path('/flights(1)/id')
         );
     }
 }

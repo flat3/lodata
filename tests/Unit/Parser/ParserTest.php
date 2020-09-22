@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit;
+namespace Flat3\OData\Tests\Unit\Parser;
 
 use Illuminate\Http\Request;
 use Flat3\OData\Drivers\Database\Store;

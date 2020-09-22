@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit;
+namespace Flat3\OData\Tests\Unit\Protocol;
 
 use Flat3\OData\Attribute\Version;
 use Flat3\OData\Tests\Request;
