@@ -47,4 +47,13 @@ class EntitySetTest extends TestCase
                 ->query('$select', 'origin')
         );
     }
+
+    public function test_filter_eq()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->query('$filter', "origin eq 'lhr'")
+        );
+    }
 }

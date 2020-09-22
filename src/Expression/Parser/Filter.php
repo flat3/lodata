@@ -103,11 +103,11 @@ class Filter extends Parser
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
+            $this->tokenizeKeyword() ||
+            $this->tokenizeQuotedString() ||
             $this->tokenizeOperator() ||
             $this->tokenizeGuid() ||
             $this->tokenizeNumber() ||
-            $this->tokenizeBoolean() ||
-            $this->tokenizeQuotedString() ||
-            $this->tokenizeKeyword();
+            $this->tokenizeBoolean();
     }
 }
