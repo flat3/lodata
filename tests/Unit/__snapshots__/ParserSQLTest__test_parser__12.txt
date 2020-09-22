@@ -1,0 +1,9 @@
+[
+    "concat(title, concat(id, 4)) eq '123abc'",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( CONCAT( test.`title` , CONCAT( test.`id` , ? ) ) = ? ) LIMIT ?",
+    [
+        4,
+        "123abc",
+        500
+    ]
+]

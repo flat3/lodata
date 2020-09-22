@@ -1,0 +1,10 @@
+[
+    "not(contains(title,'a')) and ((title eq 'abcd') or (title eq 'e'))",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( NOT test.`title` LIKE ? ) AND ( ( test.`title` = ? ) OR ( test.`title` = ? ) ) ) LIMIT ?",
+    [
+        "%a%",
+        "abcd",
+        "e",
+        500
+    ]
+]

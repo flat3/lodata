@@ -1,0 +1,10 @@
+[
+    "id lt 4 or id lt 3 or id lt 2",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( ( test.`id` < ? ) OR ( test.`id` < ? ) ) OR ( test.`id` < ? ) ) LIMIT ?",
+    [
+        4,
+        3,
+        2,
+        500
+    ]
+]

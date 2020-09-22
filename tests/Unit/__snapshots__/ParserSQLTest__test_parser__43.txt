@@ -1,0 +1,8 @@
+[
+    "title eq 'test'",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( test.`title` = ? ) LIMIT ?",
+    [
+        "test",
+        500
+    ]
+]

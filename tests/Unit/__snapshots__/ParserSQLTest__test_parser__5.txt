@@ -1,0 +1,8 @@
+[
+    "toupper(title) eq 'abc123'",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( UPPER( test.`title` ) = ? ) LIMIT ?",
+    [
+        "abc123",
+        500
+    ]
+]

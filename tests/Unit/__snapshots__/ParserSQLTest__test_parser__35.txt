@@ -1,0 +1,9 @@
+[
+    "id in (4, 3)",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`id` IN ( ? , ? ) LIMIT ?",
+    [
+        4,
+        3,
+        500
+    ]
+]

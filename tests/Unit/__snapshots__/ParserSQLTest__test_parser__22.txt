@@ -1,0 +1,10 @@
+[
+    "id add 3.14 in (1.59, 2.14)",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( test.`id` + ? IN ( ? , ? ) ) LIMIT ?",
+    [
+        3.14,
+        1.59,
+        2.14,
+        500
+    ]
+]

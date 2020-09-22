@@ -1,0 +1,5 @@
+headers:
+    cache-control: ['no-cache, private']
+    odata-version: ['4.01']
+    content-type: [application/json;charset=utf-8;odata.streaming=true;odata.metadata=full;IEEE754Compatible=false]
+status: 200

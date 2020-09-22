@@ -1,0 +1,8 @@
+[
+    "round(title) eq 4",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ROUND( test.`title` ) = ? ) LIMIT ?",
+    [
+        4,
+        500
+    ]
+]

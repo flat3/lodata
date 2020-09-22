@@ -1,0 +1,10 @@
+[
+    "title in ('a', 'b', 'c')",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` IN ( ? , ? , ? ) LIMIT ?",
+    [
+        "a",
+        "b",
+        "c",
+        500
+    ]
+]

@@ -1,0 +1,5 @@
+headers:
+    cache-control: ['no-cache, private']
+    odata-version: ['4.01']
+    content-type: [text/plain;charset=utf-8]
+status: 200
