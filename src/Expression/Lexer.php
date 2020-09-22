@@ -334,6 +334,15 @@ class Lexer
         }
     }
 
+    public function maybeDateTimeOffset(): ?string
+    {
+        try {
+            return $this->datetimeoffset();
+        } catch (LexerException $e) {
+            return null;
+        }
+    }
+
     /**
      * Match one of the provided chars
      *

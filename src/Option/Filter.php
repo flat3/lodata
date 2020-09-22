@@ -15,7 +15,7 @@ class Filter extends Option
 {
     public const param = 'filter';
 
-    public function apply_query(EntitySet $query, array $validLiterals = []): void
+    public function applyQuery(EntitySet $query, array $validLiterals = []): void
     {
         if (!$this->hasValue()) {
             return;

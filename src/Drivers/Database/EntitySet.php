@@ -494,7 +494,7 @@ class EntitySet extends \Flat3\OData\EntitySet
                     $validLiterals[] = (string) $property->getIdentifier();
                 }
             }
-            $filter->apply_query($this, $validLiterals);
+            $filter->applyQuery($this, $validLiterals);
         }
 
         $search = $this->transaction->getSearch();

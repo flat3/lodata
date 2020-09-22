@@ -14,6 +14,7 @@ use Flat3\OData\Property;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
+use Flat3\OData\Type\DateTimeOffset;
 use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -49,11 +50,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         (new Airport([
             'code' => 'lhr',
             'name' => 'Heathrow',
+            'construction_date' => '1946-03-25',
         ]))->save();
 
         (new Airport([
             'code' => 'lax',
             'name' => 'Los Angeles',
+            'construction_date' => '1930-01-01',
         ]))->save();
 
         try {
@@ -71,6 +74,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $airportType->setKey(new Property('id', Int32::type()));
             $airportType->addProperty(new Property('name', String_::type()));
             $airportType->addProperty(new Property('code', String_::type()));
+            $airportType->addProperty(new Property('construction_date', DateTimeOffset::type()));
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
 

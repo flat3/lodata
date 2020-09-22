@@ -387,6 +387,22 @@ abstract class Parser
         return true;
     }
 
+    public function tokenizeDateTimeOffset(): bool
+    {
+        $token = $this->lexer->maybeDateTimeOffset();
+
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Literal\DateTimeOffset($this);
+        $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
     public function tokenizeKeyword(): bool
     {
         $token = $this->lexer->maybeKeyword(...$this->validLiterals);

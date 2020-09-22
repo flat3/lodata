@@ -56,4 +56,22 @@ class EntitySetTest extends TestCase
                 ->query('$filter', "origin eq 'lhr'")
         );
     }
+
+    public function test_filter_ne()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->query('$filter', "origin ne 'lhr'")
+        );
+    }
+
+    public function test_filter_gt()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->query('$filter', "construction_date gt 1935-01-01")
+        );
+    }
 }
