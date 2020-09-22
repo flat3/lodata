@@ -29,4 +29,22 @@ class EntityTest extends TestCase
                 ->query('$select', 'destination')
         );
     }
+
+    public function test_read_with_multiple_select()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'destination,origin')
+        );
+    }
+
+    public function test_rejects_invalid_select()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'nonexistent')
+        );
+    }
 }
