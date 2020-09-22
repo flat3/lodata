@@ -35,5 +35,8 @@
         "spatie/phpunit-snapshot-assertions": "^4.2"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+      "test": "vendor/bin/phpunit"
+    }
 }
