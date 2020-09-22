@@ -4,6 +4,7 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Property;
@@ -51,6 +52,10 @@ class Primitive extends Singular
 
         if (!$primitive) {
             throw new NotFoundException('The requested primitive or entity set was not found');
+        }
+
+        if (null === $primitive->getInternalValue()) {
+            throw new NoContentException('null_value');
         }
 
         $metadata = [

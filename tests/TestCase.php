@@ -7,6 +7,7 @@ use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Property;
@@ -81,6 +82,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertNotFound(Request $request)
     {
         $this->expectException(NotFoundException::class);
+        $this->req($request);
+    }
+
+    protected function assertNoContent(Request $request)
+    {
+        $this->expectException(NoContentException::class);
         $this->req($request);
     }
 

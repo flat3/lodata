@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Tests\Unit\Queries;
 
+use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
@@ -20,4 +21,18 @@ class EntityPrimitiveTest extends TestCase
                 ->path('/flights(1)/id')
         );
     }
+
+    public function test_null_no_content()
+    {
+        $flight = (new Flight([
+            'origin' => null,
+        ]));
+        $flight->save();
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/flights('.$flight->id.')/origin')
+        );
+    }
+
 }

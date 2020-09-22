@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Tests\Unit\Queries;
 
+use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
@@ -18,6 +19,14 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
+        );
+    }
+
+    public function test_not_found()
+    {
+        $this->assertNotFound(
+            Request::factory()
+                ->path('/flights(99)')
         );
     }
 
