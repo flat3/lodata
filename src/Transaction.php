@@ -481,4 +481,15 @@ class Transaction
     {
         $this->sendOutput(',');
     }
+
+    public function __clone() {
+        $this->count = new Count();
+        $this->expand = new Expand();
+        $this->filter = new Filter();
+        $this->orderby = new OrderBy();
+        $this->search = new Search();
+        $this->select = new Select();
+        $this->skip = new Skip();
+        $this->top = new Top();
+    }
 }
