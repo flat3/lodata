@@ -47,4 +47,13 @@ class EntityTest extends TestCase
                 ->query('$select', 'nonexistent')
         );
     }
+
+    public function test_empty_select_ignored()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', '')
+        );
+    }
 }

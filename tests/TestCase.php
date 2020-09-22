@@ -32,10 +32,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
         $this->artisan('migrate')->run();
+
         (new Flight([
             'origin' => 'lhr',
             'destination' => 'lax',
         ]))->save();
+
+        (new Flight([
+            'origin' => 'sam',
+            'destination' => 'rgr',
+        ]))->save();
+
         try {
             $model = app()->make(DataModel::class);
 

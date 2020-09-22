@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Tests\Unit\Queries;
 
-use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
@@ -24,7 +23,6 @@ class EntitySetTest extends TestCase
 
     public function test_uses_maxpagesize_preference()
     {
-        (new Flight([]))->save();
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
@@ -34,11 +32,19 @@ class EntitySetTest extends TestCase
 
     public function test_uses_odata_maxpagesize_preference()
     {
-        (new Flight([]))->save();
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
                 ->header('Prefer', 'odata.maxpagesize=1')
+        );
+    }
+
+    public function test_selects()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->query('$select', 'origin')
         );
     }
 }

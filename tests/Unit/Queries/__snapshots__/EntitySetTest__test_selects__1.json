@@ -1,0 +1,11 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights",
+    "value": [
+        {
+            "origin": "lhr"
+        },
+        {
+            "origin": "sam"
+        }
+    ]
+}

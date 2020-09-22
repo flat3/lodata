@@ -5,6 +5,11 @@
             "id": 1,
             "origin": "lhr",
             "destination": "lax"
+        },
+        {
+            "id": 2,
+            "origin": "sam",
+            "destination": "rgr"
         }
     ]
 }
