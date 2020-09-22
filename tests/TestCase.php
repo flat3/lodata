@@ -81,6 +81,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $model
                 ->entityType($airportType)
                 ->resource($airportStore);
+
+            $nav = new Property\Navigation($airportStore, $airportType);
+            $nav->addConstraint(new Property\Constraint($flightType->getProperty('origin'),
+                $airportType->getProperty('code')));
+            $flightType->addProperty($nav);
+            $flightStore->addNavigationBinding(new Property\Navigation\Binding($nav, $airportStore));
         } catch (Exception $e) {
         }
     }
