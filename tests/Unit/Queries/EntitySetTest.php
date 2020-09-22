@@ -66,7 +66,7 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_gt()
+    public function test_filter_gt_datetime()
     {
         $this->assertJsonResponse(
             Request::factory()
