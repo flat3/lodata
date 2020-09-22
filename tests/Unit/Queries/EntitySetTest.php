@@ -74,4 +74,13 @@ class EntitySetTest extends TestCase
                 ->query('$filter', "construction_date gt 1935-01-01")
         );
     }
+
+    public function test_filter_lt_datetime()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->query('$filter', "construction_date lt 1935-01-01")
+        );
+    }
 }
