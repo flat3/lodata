@@ -239,6 +239,11 @@ class Transaction
         return $this->preferences->getParameter($preference);
     }
 
+    public function getMaxPageSizePreference()
+    {
+        return $this->getPreference('maxpagesize') ?: $this->getPreference('odata.maxpagesize');
+    }
+
     public function getMetadata(): Metadata
     {
         return $this->metadata;

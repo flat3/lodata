@@ -59,7 +59,7 @@ class Set extends Handler
             }
         }
 
-        $maxPageSize = $transaction->getPreference('maxpagesize');
+        $maxPageSize = $transaction->getMaxPageSizePreference();
         $top = $transaction->getTop();
         if (!$top->hasValue() && $maxPageSize) {
             $top->setValue($maxPageSize);

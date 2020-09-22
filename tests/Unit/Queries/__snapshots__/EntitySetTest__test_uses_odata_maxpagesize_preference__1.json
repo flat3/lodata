@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights",
+    "@nextLink": "http://localhost/odata/flights?%24skip=1",
+    "value": [
+        {
+            "id": 1
+        }
+    ]
+}

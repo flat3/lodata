@@ -31,4 +31,14 @@ class EntitySetTest extends TestCase
                 ->header('Prefer', 'maxpagesize=1')
         );
     }
+
+    public function test_uses_odata_maxpagesize_preference()
+    {
+        (new Flight([]))->save();
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->header('Prefer', 'odata.maxpagesize=1')
+        );
+    }
 }
