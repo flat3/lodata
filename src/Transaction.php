@@ -49,7 +49,31 @@ class Transaction
     /** @var IEEE754Compatible $ieee754compatible */
     private $ieee754compatible;
 
-    public function get_request(): Request
+    /** @var Count $count */
+    private $count;
+
+    /** @var Expand $expand */
+    private $expand;
+
+    /** @var Filter $filter */
+    private $filter;
+
+    /** @var OrderBy $orderby */
+    private $orderby;
+
+    /** @var Search $search */
+    private $search;
+
+    /** @var Select $select */
+    private $select;
+
+    /** @var Skip $skip */
+    private $skip;
+
+    /** @var Top $top */
+    private $top;
+
+    public function getRequest(): Request
     {
         return $this->request;
     }
@@ -66,6 +90,15 @@ class Transaction
             $this->metadata = Metadata::factory($format, $this->version);
             $this->preferences = new ParameterList($this->getHeader('prefer'));
             $this->ieee754compatible = new IEEE754Compatible($format);
+
+            $this->count = (new Count())->transaction($this);
+            $this->expand = (new Expand())->transaction($this);
+            $this->filter = (new Filter())->transaction($this);
+            $this->orderby = (new OrderBy())->transaction($this);
+            $this->search = (new Search())->transaction($this);
+            $this->select = (new Select())->transaction($this);
+            $this->skip = (new Skip())->transaction($this);
+            $this->top = (new Top())->transaction($this);
         }
 
         if (!$this->response) {
@@ -142,7 +175,7 @@ class Transaction
      */
     public function getCount(): Count
     {
-        return (new Count())->transaction($this);
+        return $this->count;
     }
 
     /**
@@ -150,7 +183,7 @@ class Transaction
      */
     public function getExpand(): Expand
     {
-        return (new Expand())->transaction($this);
+        return $this->expand;
     }
 
     /**
@@ -158,7 +191,7 @@ class Transaction
      */
     public function getFilter(): Filter
     {
-        return (new Filter())->transaction($this);
+        return $this->filter;
     }
 
     /**
@@ -166,7 +199,7 @@ class Transaction
      */
     public function getOrderBy(): OrderBy
     {
-        return (new OrderBy())->transaction($this);
+        return $this->orderby;
     }
 
     /**
@@ -174,7 +207,7 @@ class Transaction
      */
     public function getSearch(): Search
     {
-        return (new Search())->transaction($this);
+        return $this->search;
     }
 
     /**
@@ -182,7 +215,7 @@ class Transaction
      */
     public function getSelect(): Select
     {
-        return (new Select())->transaction($this);
+        return $this->select;
     }
 
     /**
@@ -190,7 +223,7 @@ class Transaction
      */
     public function getSkip(): Skip
     {
-        return (new Skip())->transaction($this);
+        return $this->skip;
     }
 
     /**
@@ -198,7 +231,7 @@ class Transaction
      */
     public function getTop(): Top
     {
-        return (new Top())->transaction($this);
+        return $this->top;
     }
 
     public function getPreference(string $preference)
