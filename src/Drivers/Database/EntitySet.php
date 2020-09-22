@@ -3,6 +3,7 @@
 namespace Flat3\OData\Drivers\Database;
 
 use Flat3\OData\Exception\Internal\NodeHandledException;
+use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Expression\Event;
@@ -494,14 +495,23 @@ class EntitySet extends \Flat3\OData\EntitySet
                     $validLiterals[] = (string) $property->getIdentifier();
                 }
             }
-            $filter->applyQuery($this, $validLiterals);
+
+            try {
+                $filter->applyQuery($this, $validLiterals);
+            } catch (ParserException $e) {
+                throw new BadRequestException('parser_error', $e->getMessage());
+            }
         }
 
         $search = $this->transaction->getSearch();
         if ($search->hasValue()) {
             $this->whereMaybeAnd();
 
-            $search->applyQuery($this);
+            try {
+                $search->applyQuery($this);
+            } catch (ParserException $e) {
+                throw new BadRequestException('parser_error', $e->getMessage());
+            }
         }
     }
 
