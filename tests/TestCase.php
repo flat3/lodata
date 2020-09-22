@@ -12,6 +12,7 @@ use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Property;
 use Flat3\OData\ServiceProvider;
+use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
@@ -45,7 +46,18 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'destination' => 'rgr',
         ]))->save();
 
+        (new Airport([
+            'code' => 'lhr',
+            'name' => 'Heathrow',
+        ]))->save();
+
+        (new Airport([
+            'code' => 'lax',
+            'name' => 'Los Angeles',
+        ]))->save();
+
         try {
+            /** @var DataModel $model */
             $model = app()->make(DataModel::class);
 
             $flightType = new Collection('flight');
@@ -54,9 +66,21 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $flightType->addProperty(new Property('destination', String_::type()));
             $flightStore = new Store('flights', $flightType);
             $flightStore->setTable('flights');
+
+            $airportType = new Collection('airport');
+            $airportType->setKey(new Property('id', Int32::type()));
+            $airportType->addProperty(new Property('name', String_::type()));
+            $airportType->addProperty(new Property('code', String_::type()));
+            $airportStore = new Store('airports', $airportType);
+            $airportStore->setTable('airports');
+
             $model
                 ->entityType($flightType)
                 ->resource($flightStore);
+
+            $model
+                ->entityType($airportType)
+                ->resource($airportStore);
         } catch (Exception $e) {
         }
     }

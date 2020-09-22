@@ -5,6 +5,11 @@
             "name": "flights",
             "kind": "EntitySet",
             "url": "flights"
+        },
+        {
+            "name": "airports",
+            "kind": "EntitySet",
+            "url": "airports"
         }
     ]
 }

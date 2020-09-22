@@ -4,6 +4,7 @@
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="flights" EntityType="com.example.odata.flight"/>
+        <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
       </EntityContainer>
       <EntityType Name="flight">
         <Key>
@@ -12,6 +13,14 @@
         <Property Name="id" Type="Edm.Int32" Nullable="false"/>
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="airport">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="code" Type="Edm.String" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
