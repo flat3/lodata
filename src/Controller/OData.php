@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Controller;
 
+use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -41,7 +43,11 @@ class OData extends Controller
                 continue;
             }
 
-            $instance->handle();
+            try {
+                $instance->handle();
+            } catch (ParserException $e) {
+                throw new BadRequestException('parser_error', $e->getMessage());
+            }
             return $response;
         }
 

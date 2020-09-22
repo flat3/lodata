@@ -496,22 +496,13 @@ class EntitySet extends \Flat3\OData\EntitySet
                 }
             }
 
-            try {
-                $filter->applyQuery($this, $validLiterals);
-            } catch (ParserException $e) {
-                throw new BadRequestException('parser_error', $e->getMessage());
-            }
+            $filter->applyQuery($this, $validLiterals);
         }
 
         $search = $this->transaction->getSearch();
         if ($search->hasValue()) {
             $this->whereMaybeAnd();
-
-            try {
-                $search->applyQuery($this);
-            } catch (ParserException $e) {
-                throw new BadRequestException('parser_error', $e->getMessage());
-            }
+            $search->applyQuery($this);
         }
     }
 
