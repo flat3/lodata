@@ -54,7 +54,7 @@ abstract class Parser
      * @param  string  $literal
      * @return self
      */
-    public function addValidLiteral($literal): self
+    public function addValidLiteral(string $literal): self
     {
         $this->validLiterals[] = $literal;
 

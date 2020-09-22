@@ -66,10 +66,7 @@ abstract class EntitySet
      *
      * @return bool True if the event was handled
      */
-    public function filter(Event $event): ?bool
-    {
-        return false;
-    }
+     abstract public function filter(Event $event): ?bool;
 
     /**
      * Handle a discovered expression symbol in the search query
@@ -78,10 +75,7 @@ abstract class EntitySet
      *
      * @return bool True if the event was handled
      */
-    public function search(Event $event): ?bool
-    {
-        return false;
-    }
+    abstract public function search(Event $event): ?bool;
 
     /**
      * The number of items in this entity set query, including filters, without limit clauses

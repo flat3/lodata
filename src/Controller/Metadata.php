@@ -2,8 +2,6 @@
 
 namespace Flat3\OData\Controller;
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Flat3\OData\Attribute;
 use Flat3\OData\DataModel;
 use Flat3\OData\EntityType;
@@ -14,6 +12,8 @@ use Flat3\OData\Property\Navigation;
 use Flat3\OData\Store;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type\Boolean;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use SimpleXMLElement;
 
 class Metadata extends Controller

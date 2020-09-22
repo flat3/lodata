@@ -15,11 +15,6 @@ abstract class Boolean
         $this->value = $value === 'true';
     }
 
-    public function setValue(bool $value)
-    {
-        $this->value = $value;
-    }
-
     public function isTrue(): bool
     {
         return true === $this->value;

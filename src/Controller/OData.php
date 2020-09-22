@@ -5,11 +5,19 @@ namespace Flat3\OData\Controller;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Transaction;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OData extends Controller
 {
+    /**
+     * @param  Request  $request
+     * @param  Transaction  $transaction
+     * @return StreamedResponse
+     * @throws BindingResolutionException
+     */
     public function get(Request $request, Transaction $transaction)
     {
         $handlers = [

@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Tests;
 
-use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
@@ -23,24 +22,9 @@ class LoopbackEntitySet extends EntitySet
     public $searchBuffer;
     public $filterBuffer;
 
-    public function addSearch(string $s)
-    {
-        $this->searchBuffer .= ' '.$s;
-    }
-
-    public function addFilter(string $s)
-    {
-        $this->filterBuffer .= ' '.$s;
-    }
-
     public function countResults(): int
     {
         return 0;
-    }
-
-    protected function generateResultSet(): void
-    {
-        $this->resultSet = [];
     }
 
     public function search(Event $event): ?bool
@@ -88,6 +72,11 @@ class LoopbackEntitySet extends EntitySet
         }
 
         return false;
+    }
+
+    public function addSearch(string $s)
+    {
+        $this->searchBuffer .= ' '.$s;
     }
 
     public function filter(Event $event): ?bool
@@ -145,12 +134,19 @@ class LoopbackEntitySet extends EntitySet
         return false;
     }
 
+    public function addFilter(string $s)
+    {
+        $this->filterBuffer .= ' '.$s;
+    }
+
     public function count(): int
     {
+        return 0;
     }
 
     public function countTotal(): int
     {
+        return 0;
     }
 
     public function nextResult(): void
@@ -159,9 +155,16 @@ class LoopbackEntitySet extends EntitySet
 
     public function key(): ?string
     {
+        return '';
     }
 
     public function hasResult(): bool
     {
+        return false;
+    }
+
+    protected function generateResultSet(): void
+    {
+        $this->resultSet = [];
     }
 }

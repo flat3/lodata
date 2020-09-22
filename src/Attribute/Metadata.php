@@ -44,7 +44,8 @@ abstract class Metadata
                 return new Full($version);
         }
 
-        throw new NotAcceptableException('invalid_metadata_format', sprintf('An invalid metadata format (%s) was specified', $type));
+        throw new NotAcceptableException('invalid_metadata_format',
+            sprintf('An invalid metadata format (%s) was specified', $type));
     }
 
     public function __toString()

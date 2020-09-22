@@ -357,21 +357,6 @@ class TypesTest extends TestCase
             ],
         ],
     ];
-
-    public function test_types()
-    {
-        /** @var Type $type */
-        foreach (self::$assertions as $type => $methods) {
-            foreach ($methods as $method => $assertions) {
-                foreach ($assertions as $assertion) {
-                    list ($from, $to) = $assertion;
-                    $this->assertSame($to, $type::type()->factory($from)->$method(),
-                        $type.'('.(string) $from.')::'.$method.' -> '.$to);
-                }
-            }
-        }
-    }
-
     public $nulls = [
         Type\Binary::class => ['', ''],
         Type\Boolean::class => [false, "false"],
@@ -391,6 +376,20 @@ class TypesTest extends TestCase
         Type\String_::class => ['', "''"],
         Type\TimeOfDay::class => ['00:00:00.000000', '00%3A00%3A00.000000'],
     ];
+
+    public function test_types()
+    {
+        /** @var Type $type */
+        foreach (self::$assertions as $type => $methods) {
+            foreach ($methods as $method => $assertions) {
+                foreach ($assertions as $assertion) {
+                    list ($from, $to) = $assertion;
+                    $this->assertSame($to, $type::type()->factory($from)->$method(),
+                        $type.'('.(string) $from.')::'.$method.' -> '.$to);
+                }
+            }
+        }
+    }
 
     public function test_null()
     {

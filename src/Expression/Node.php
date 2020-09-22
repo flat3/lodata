@@ -25,9 +25,6 @@ abstract class Node
     /** @var self $arg2 */
     private $arg2 = null;
 
-    /** @var self $arg3 */
-    private $arg3 = null;
-
     public function __construct(Parser $parser)
     {
         $this->parser = $parser;

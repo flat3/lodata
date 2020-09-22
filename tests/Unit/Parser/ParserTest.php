@@ -2,10 +2,9 @@
 
 namespace Flat3\OData\Tests\Unit\Parser;
 
-use Flat3\OData\Exception\Internal\ParserException;
-use Illuminate\Http\Request;
 use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\EntityType\Collection;
+use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Expression\Parser\Filter;
 use Flat3\OData\Expression\Parser\Search;
 use Flat3\OData\Property;
@@ -13,6 +12,7 @@ use Flat3\OData\Tests\LoopbackEntitySet;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type\Int32;
+use Illuminate\Http\Request;
 
 class ParserTest extends TestCase
 {
@@ -118,7 +118,7 @@ class ParserTest extends TestCase
         foreach (array_reverse($this->filter_tests) as $from => $to) {
             try {
                 $type = new Collection('test');
-                $k = new Property('id', \Flat3\OData\Type\Int32::type());
+                $k = new Property('id', Int32::type());
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());

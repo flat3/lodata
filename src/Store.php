@@ -136,14 +136,6 @@ abstract class Store extends Resource
         return $entity->getPrimitive($property);
     }
 
-    /**
-     * Get a single entity from the entity set
-     *
-     * @param  Transaction  $transaction
-     * @param  string  $id
-     *
-     * @return array
-     */
     abstract public function getEntity(Transaction $transaction, Primitive $key): ?Entity;
 
     /**
@@ -160,13 +152,6 @@ abstract class Store extends Resource
         return $entity_set->countResults();
     }
 
-    /**
-     * Return an initialized EntitySet that can be used to iterate over entities from the set
-     *
-     * @param  Transaction  $transaction
-     *
-     * @return EntitySet
-     */
     public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet
     {
         $class = $this::ENTITY_SET;

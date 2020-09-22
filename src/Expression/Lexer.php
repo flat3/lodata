@@ -44,16 +44,6 @@ class Lexer
     }
 
     /**
-     * Return whether the lexer is at the end of the string
-     *
-     * @return bool
-     */
-    public function finished(): bool
-    {
-        return $this->pos === $this->len;
-    }
-
-    /**
      * Provide the current state of the lexer to report in errors
      *
      * @return string
@@ -178,6 +168,37 @@ class Lexer
         return $result;
     }
 
+    public function base64()
+    {
+        return $this->expression(self::BASE64);
+    }
+
+    public function expression(string $pattern, bool $wrapped = false): string
+    {
+        if ($this->pos >= $this->len) {
+            throw new LexerException($this->pos + 1, 'Expected %s but got end of string', $pattern);
+        }
+
+        if (!$wrapped) {
+            $pattern = '@^'.$pattern.'@';
+        }
+
+        $result = preg_match($pattern, substr($this->text, $this->pos + 1), $matches);
+
+        if (false === $result) {
+            throw new LexerException($this->pos + 1, 'Invalid expression match response', $pattern);
+        }
+
+        if (0 === $result) {
+            throw new LexerException($this->pos + 1, 'Expected %s but did not match', $pattern);
+        }
+
+        $match = $matches[0];
+        $this->pos += strlen($match);
+
+        return $match;
+    }
+
     /**
      * Match a boolean
      *
@@ -288,32 +309,6 @@ class Lexer
         }
     }
 
-    public function expression(string $pattern, bool $wrapped = false): string
-    {
-        if ($this->pos >= $this->len) {
-            throw new LexerException($this->pos + 1, 'Expected %s but got end of string', $pattern);
-        }
-
-        if (!$wrapped) {
-            $pattern = '@^'.$pattern.'@';
-        }
-
-        $result = preg_match($pattern, substr($this->text, $this->pos + 1), $matches);
-
-        if (false === $result) {
-            throw new LexerException($this->pos + 1, 'Invalid expression match response', $pattern);
-        }
-
-        if (0 === $result) {
-            throw new LexerException($this->pos + 1, 'Expected %s but did not match', $pattern);
-        }
-
-        $match = $matches[0];
-        $this->pos += strlen($match);
-
-        return $match;
-    }
-
     public function maybe_expression(...$args): ?string
     {
         try {
@@ -368,11 +363,6 @@ class Lexer
         throw new LexerException($this->pos + 1, 'Expected %s but got %s', $char, $next_char);
     }
 
-    public function base64()
-    {
-        return $this->expression(self::BASE64);
-    }
-
     public function datetimeoffset()
     {
         return $this->expression(self::ISO8601);
@@ -417,6 +407,16 @@ class Lexer
         }
 
         return implode('', $chars);
+    }
+
+    /**
+     * Return whether the lexer is at the end of the string
+     *
+     * @return bool
+     */
+    public function finished(): bool
+    {
+        return $this->pos === $this->len;
     }
 
     /**

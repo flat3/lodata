@@ -2,8 +2,9 @@
 
 namespace Flat3\OData\Drivers\Eloquent;
 
-use Illuminate\Support\Facades\File;
 use Flat3\OData\DataModel;
+use Flat3\OData\Entity;
+use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
 class Model
@@ -14,9 +15,6 @@ class Model
         $model = resolve(DataModel::class);
 
         $eloquentModels = self::getAllModels();
-        foreach ($eloquentModels as $eloquentModel) {
-            //$model->add_resource(new Entity());
-        }
     }
 
     public static function getAllModels(): array

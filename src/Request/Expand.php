@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Request;
 
-use Illuminate\Http\Request;
 use Flat3\OData\Attribute\ParameterList;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Filter;
@@ -11,6 +10,7 @@ use Flat3\OData\Option\Search;
 use Flat3\OData\Option\Skip;
 use Flat3\OData\Option\Top;
 use Flat3\OData\Property\Navigation;
+use Illuminate\Http\Request;
 
 class Expand extends Request
 {
@@ -29,6 +29,7 @@ class Expand extends Request
     /** @var ParameterList $options */
     protected $options;
 
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(Navigation $navigationProperty, ?string $options = '')
     {
         $this->navigationProperty = $navigationProperty;

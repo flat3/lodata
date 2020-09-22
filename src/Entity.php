@@ -17,6 +17,7 @@ class Entity extends Resource
     /** @var Store $store */
     private $store;
 
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(Store $store)
     {
         $this->store = $store;

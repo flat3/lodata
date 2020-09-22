@@ -33,7 +33,8 @@ class Primitive extends Singular
         $this->property = $this->store->getTypeProperty($property);
 
         if (!$this->property) {
-            throw new NotFoundException('unknown_property', sprintf('The requested property (%s) was not known', $property));
+            throw new NotFoundException('unknown_property',
+                sprintf('The requested property (%s) was not known', $property));
         }
     }
 

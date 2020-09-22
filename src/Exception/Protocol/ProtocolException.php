@@ -22,6 +22,11 @@ abstract class ProtocolException extends RuntimeException implements Responsable
         $this->message = $message;
     }
 
+    public static function factory(string $code = null, string $message = null)
+    {
+        return new static($code, $message);
+    }
+
     public function code(string $code)
     {
         $this->odataCode = $code;
@@ -50,11 +55,6 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     {
         $this->inner = $inner;
         return $this;
-    }
-
-    public static function factory(string $code = null, string $message = null)
-    {
-        return new static($code, $message);
     }
 
     public function toResponse($request): Response

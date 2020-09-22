@@ -13,11 +13,6 @@ class MediaType
     /** @var ParameterList $parameters */
     protected $parameters;
 
-    /**
-     * Parse the requested format
-     *
-     * https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_RequestingtheJSONFormat
-     */
     public function __construct($type)
     {
         $this->original = $type;

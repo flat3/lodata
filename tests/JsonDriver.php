@@ -8,6 +8,11 @@ use Spatie\Snapshots\Exceptions\CantBeSerialized;
 
 class JsonDriver implements Driver
 {
+    /**
+     * @param  mixed  $data
+     * @return string
+     * @throws CantBeSerialized
+     */
     public function serialize($data): string
     {
         if (is_string($data)) {

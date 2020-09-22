@@ -2,9 +2,8 @@
 
 namespace Flat3\OData\Drivers\Database;
 
-use Flat3\OData\Exception\StoreException;
-use Illuminate\Support\Facades\DB;
 use Flat3\OData\Entity;
+use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Filter;
 use Flat3\OData\Option\OrderBy;
@@ -13,6 +12,7 @@ use Flat3\OData\Option\Skip;
 use Flat3\OData\Option\Top;
 use Flat3\OData\Primitive;
 use Flat3\OData\Transaction;
+use Illuminate\Support\Facades\DB;
 use PDO;
 
 class Store extends \Flat3\OData\Store

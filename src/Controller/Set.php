@@ -9,6 +9,7 @@ use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Option;
 use Flat3\OData\Store;
 use Flat3\OData\Transaction;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Set extends Handler
 {
@@ -17,6 +18,10 @@ class Set extends Handler
     /** @var Store $store */
     protected $store;
 
+    /**
+     * @param  Transaction  $transaction
+     * @throws BindingResolutionException
+     */
     public function setup(Transaction $transaction): void
     {
         parent::setup($transaction);

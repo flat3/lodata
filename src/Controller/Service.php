@@ -2,11 +2,11 @@
 
 namespace Flat3\OData\Controller;
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Flat3\OData\DataModel;
 use Flat3\OData\Resource;
 use Flat3\OData\Transaction;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class Service extends Controller
 {

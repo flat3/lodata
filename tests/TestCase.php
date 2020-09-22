@@ -2,17 +2,18 @@
 
 namespace Flat3\OData\Tests;
 
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\NotAcceptableException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\TestResponse;
+use Exception;
 use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\EntityType\Collection;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Property;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Type\Int32;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\TestResponse;
 use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -31,17 +32,20 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
         $this->artisan('migrate')->run();
         (new Flight([]))->save();
-        $model = app()->make(DataModel::class);
+        try {
+            $model = app()->make(DataModel::class);
 
-        $entityType = new Collection('flight');
-        $entityType->setKey(new Property('id', Int32::type()));
+            $entityType = new Collection('flight');
+            $entityType->setKey(new Property('id', Int32::type()));
 
-        $store = new Store('flights', $entityType);
-        $store->setTable('flights');
+            $store = new Store('flights', $entityType);
+            $store->setTable('flights');
 
-        $model
-            ->entityType($entityType)
-            ->resource($store);
+            $model
+                ->entityType($entityType)
+                ->resource($store);
+        } catch (Exception $e) {
+        }
     }
 
     protected function getPackageProviders($app)
@@ -62,12 +66,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->req($request);
     }
 
-    protected function assertBadRequest(Request $request)
-    {
-        $this->expectException(BadRequestException::class);
-        $this->req($request);
-    }
-
     public function req(Request $request)
     {
         return $this->call(
@@ -78,6 +76,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             [],
             $this->transformHeadersToServerVars($request->headers)
         );
+    }
+
+    protected function assertBadRequest(Request $request)
+    {
+        $this->expectException(BadRequestException::class);
+        $this->req($request);
     }
 
     protected function assertXmlResponse(Request $request)

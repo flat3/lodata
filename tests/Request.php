@@ -15,6 +15,12 @@ class Request
         return $request;
     }
 
+    public function header($key, $value)
+    {
+        $this->headers[$key] = $value;
+        return $this;
+    }
+
     public function query($key, $value)
     {
         $this->query[$key] = $value;
@@ -28,12 +34,6 @@ class Request
 
     public function preference($key, $value)
     {
-        return $this;
-    }
-
-    public function header($key, $value)
-    {
-        $this->headers[$key] = $value;
         return $this;
     }
 

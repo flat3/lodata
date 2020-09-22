@@ -145,12 +145,6 @@ class Transaction
         return $this;
     }
 
-    public function sendHeader(string $key, string $value): self
-    {
-        $this->response->headers->set($key, $value);
-        return $this;
-    }
-
     public function getVersion(): string
     {
         return $this->version->getVersion();
@@ -234,14 +228,14 @@ class Transaction
         return $this->top;
     }
 
-    public function getPreference(string $preference)
-    {
-        return $this->preferences->getParameter($preference);
-    }
-
     public function getMaxPageSizePreference()
     {
         return $this->getPreference('maxpagesize') ?: $this->getPreference('odata.maxpagesize');
+    }
+
+    public function getPreference(string $preference)
+    {
+        return $this->preferences->getParameter($preference);
     }
 
     public function getMetadata(): Metadata
@@ -300,6 +294,12 @@ class Transaction
     public function sendContentType(string $contentType)
     {
         $this->sendHeader('content-type', $contentType);
+    }
+
+    public function sendHeader(string $key, string $value): self
+    {
+        $this->response->headers->set($key, $value);
+        return $this;
     }
 
     public function setContentTypeText()
@@ -361,27 +361,11 @@ class Transaction
         return $this->request->method();
     }
 
-    /**
-     * Get the entity context URL
-     *
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_Entity
-     *
-     * @return string
-     */
     public function getEntityContextUrl(Store $store): string
     {
         return $this->getEntityCollectionContextUrl($store).'/$entity';
     }
 
-    /**
-     * Get the entity collection context URL
-     *
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_CollectionofEntities
-     *
-     * @param $entityId
-     *
-     * @return string
-     */
     public function getEntityCollectionContextUrl(Store $store, $entityId = null): string
     {
         $url = $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier();
@@ -417,39 +401,16 @@ class Transaction
         return ServiceProvider::restEndpoint();
     }
 
-    /**
-     * Get the property value context URL
-     *
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_PropertyValue
-     *
-     * @return string
-     */
     public function getPropertyValueContextUrl(Store $store, $entityId, Property $property): string
     {
         return $this->getEntityCollectionContextUrl($store, $entityId).'/'.$property->getIdentifier();
     }
 
-    /**
-     * Get the entity resource URL
-     *
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_Entity
-     *
-     * @param $entityId
-     *
-     * @return string
-     */
     public function getEntityResourceUrl(Store $store, $entityId): string
     {
         return sprintf("%s(%s)", $this->getEntityCollectionResourceUrl($store), $entityId);
     }
 
-    /**
-     * Get the entity collection resource URL
-     *
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_CollectionofEntities
-     *
-     * @return string
-     */
     public function getEntityCollectionResourceUrl(Store $store): string
     {
         return $this->getServiceDocumentResourceUrl().$store->getIdentifier();

@@ -2,9 +2,9 @@
 
 namespace Flat3\OData\Controller;
 
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Response;
 use Flat3\OData\ServiceProvider;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class PBIDS extends Controller
