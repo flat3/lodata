@@ -2,8 +2,8 @@
 
 namespace Flat3\OData\Drivers\Database;
 
-use Flat3\OData\Exception\BadRequestException;
-use Flat3\OData\Exception\NodeHandledException;
+use Flat3\OData\Exception\Internal\NodeHandledException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;

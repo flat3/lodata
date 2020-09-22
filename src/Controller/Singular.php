@@ -2,10 +2,9 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\Exception\BadRequestException;
-use Flat3\OData\Exception\BadRequestLexerException;
-use Flat3\OData\Exception\LexerException;
-use Flat3\OData\Exception\NotFoundException;
+use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Primitive;
 use Flat3\OData\Property;
@@ -47,10 +46,13 @@ class Singular extends Set
                 $keyProperty = $this->store->getTypeProperty($alternateKey);
 
                 if ($keyProperty instanceof Property && !$keyProperty->isAlternativeKey()) {
-                    throw new BadRequestException(sprintf(
-                        'The requested property (%s) is not configured as an alternative key',
-                        $alternateKey
-                    ));
+                    throw new BadRequestException(
+                        'property_not_alternative_key',
+                        sprintf(
+                            'The requested property (%s) is not configured as an alternative key',
+                            $alternateKey
+                        )
+                    );
                 }
             } else {
                 // Captured value was not an alternative key, reset the lexer
@@ -59,16 +61,16 @@ class Singular extends Set
         }
 
         if (null === $keyProperty) {
-            throw new BadRequestException('No key property exists for this entity set');
+            throw new BadRequestException('no_key_property_exists', 'No key property exists for this entity set');
         }
 
         try {
             $value = $lexer->type($keyProperty->getType());
         } catch (LexerException $e) {
-            throw new BadRequestLexerException(
-                'The type of the provided identifier value was not valid for this entity type',
-                $lexer
-            );
+            throw BadRequestException::factory(
+                'invalid_identifier_value',
+                'The type of the provided identifier value was not valid for this entity type'
+            )->lexer($lexer);
         }
 
         $this->id = new Primitive($value, $keyProperty);
@@ -87,7 +89,8 @@ class Singular extends Set
         $transaction->setContentTypeJson();
 
         if (null === $entity) {
-            throw new NotFoundException(sprintf('Entity with id (%s) not found', $this->id->toJson()));
+            throw NotFoundException::factory('entity_not_found',
+                sprintf('Entity with id (%s) not found', $this->id->toJson()))->details($this->id->toJson());
         }
 
         $metadata = ['context' => $transaction->getEntityContextUrl($this->store)];

@@ -3,7 +3,7 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Exception\ConfigurationException;
-use Flat3\OData\Exception\NotFoundException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
 
@@ -119,7 +119,7 @@ abstract class Store extends Resource
      * Get a single primitive from the entity set
      *
      * @param  Transaction  $transaction
-     * @param  Primitive $key
+     * @param  Primitive  $key
      * @param  Property  $property
      *
      * @return Primitive
@@ -129,7 +129,8 @@ abstract class Store extends Resource
         $entity = $this->getEntity($transaction, $key);
 
         if (null === $entity) {
-            throw new NotFoundException();
+            throw NotFoundException::factory()
+                ->details($key->toJson());
         }
 
         return $entity->getPrimitive($property);

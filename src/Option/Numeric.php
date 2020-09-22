@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Option;
 
-use Flat3\OData\Exception\BadRequestException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Option;
 
 abstract class Numeric extends Option
@@ -16,7 +16,8 @@ abstract class Numeric extends Option
         }
 
         if (!is_numeric($value)) {
-            throw new BadRequestException(sprintf('The type of $%s must be numeric', $this::param));
+            throw new BadRequestException('option_not_numeric',
+                sprintf('The type of $%s must be numeric', $this::param));
         }
 
         $this->value = (int) $value;

@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Option;
 
-use Flat3\OData\Exception\BadRequestException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Option;
 use Flat3\OData\Store;
@@ -32,6 +32,7 @@ class Select extends Option
 
             if (null === $property) {
                 throw new BadRequestException(
+                    'property_does_not_exist',
                     sprintf(
                         'The requested property "%s" does not exist on this entity type',
                         $s

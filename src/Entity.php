@@ -2,8 +2,8 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Exception\BadRequestException;
-use Flat3\OData\Exception\InternalErrorException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Property\Constraint;
 
 class Entity extends Resource
@@ -87,6 +87,7 @@ class Entity extends Resource
 
             if (!$targetConstraint) {
                 throw new BadRequestException(
+                    'no_expansion_constraint',
                     sprintf(
                         'No applicable constraint could be found between sets %s and %s for expansion',
                         $this->store->getIdentifier()->get(),
@@ -157,8 +158,8 @@ class Entity extends Resource
     public function addPrimitive($value, Property $property): void
     {
         if (null === $value && !$property->isNullable()) {
-            throw new InternalErrorException(
-                sprintf('A null primitive cannot be added for property type %s', $property->getIdentifier())
+            throw new StoreException(
+                'The store provided a null value that cannot be added for this property type: '.$property->getIdentifier()->get(),
             );
         }
 

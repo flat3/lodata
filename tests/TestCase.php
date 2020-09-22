@@ -2,13 +2,13 @@
 
 namespace Flat3\OData\Tests;
 
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\EntityType\Collection;
-use Flat3\OData\Exception\BadRequestException;
-use Flat3\OData\Exception\NotAcceptableException;
 use Flat3\OData\Property;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Tests\Models\Flight;

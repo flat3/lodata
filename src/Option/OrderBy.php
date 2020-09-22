@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Option;
 
-use Flat3\OData\Exception\BadRequestException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Option;
 
 /**
@@ -28,7 +28,7 @@ class OrderBy extends Option
             $direction = strtolower($direction);
 
             if (!in_array($direction, ['asc', 'desc'], true)) {
-                throw new BadRequestException('The orderby direction must be "asc" or "desc"');
+                throw new BadRequestException('invalid_orderby', 'The orderby direction must be "asc" or "desc"');
             }
 
             $orders[] = [$literal, $direction];

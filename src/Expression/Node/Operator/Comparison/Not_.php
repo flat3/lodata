@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Expression\Node\Operator\Comparison;
 
-use Flat3\OData\Exception\NodeHandledException;
+use Flat3\OData\Exception\Internal\NodeHandledException;
 use Flat3\OData\Expression\Event\EndGroup;
 use Flat3\OData\Expression\Event\Operator;
 use Flat3\OData\Expression\Event\StartGroup;

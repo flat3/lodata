@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Expression;
 
-use Flat3\OData\Exception\NodeHandledException;
+use Flat3\OData\Exception\Internal\NodeHandledException;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
 use Flat3\OData\Expression\Event\EndGroup;
 use Flat3\OData\Expression\Event\Operator as OperatorEvent;

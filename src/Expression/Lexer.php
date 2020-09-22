@@ -3,7 +3,7 @@
 namespace Flat3\OData\Expression;
 
 use Exception;
-use Flat3\OData\Exception\LexerException;
+use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Type;
 
 /**

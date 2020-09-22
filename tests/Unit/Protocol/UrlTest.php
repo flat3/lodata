@@ -3,7 +3,7 @@
 namespace Flat3\OData\Tests\Unit\Protocol;
 
 use Flat3\OData\Controller\Singular;
-use Flat3\OData\Exception\LexerException;
+use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Type\String_;

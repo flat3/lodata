@@ -8,8 +8,8 @@ use Flat3\OData\Attribute\MediaType;
 use Flat3\OData\Attribute\Metadata;
 use Flat3\OData\Attribute\ParameterList;
 use Flat3\OData\Attribute\Version;
-use Flat3\OData\Exception\BadRequestException;
-use Flat3\OData\Exception\NotAcceptableException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Expand;
 use Flat3\OData\Option\Filter;
@@ -260,7 +260,8 @@ class Transaction
 
         if ('*' !== $this->getFormat()->getSubtype()) {
             if ($compatFormat->getSubtype() !== $this->getFormat()->getSubtype()) {
-                throw new NotAcceptableException('This route does not support the requested content type');
+                throw new NotAcceptableException('unsupported_content_type',
+                    'This route does not support the requested content type');
             }
         }
 
@@ -348,7 +349,8 @@ class Transaction
         $value = $this->getQueryParams()['@'.ltrim($key, '@')] ?? null;
 
         if (null === $value) {
-            throw new BadRequestException(sprintf('The requested reference value %s did not exist', $key));
+            throw new BadRequestException('reference_value_missing',
+                sprintf('The requested reference value %s did not exist', $key));
         }
 
         return $value;

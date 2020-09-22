@@ -2,8 +2,8 @@
 
 namespace Flat3\OData\Expression\Node;
 
-use Flat3\OData\Exception\NodeHandledException;
-use Flat3\OData\Exception\ParserException;
+use Flat3\OData\Exception\Internal\NodeHandledException;
+use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Expression\Event\EndFunction;
 use Flat3\OData\Expression\Event\StartFunction;
 use Flat3\OData\Expression\Operator;

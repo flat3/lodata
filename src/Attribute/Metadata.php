@@ -5,7 +5,7 @@ namespace Flat3\OData\Attribute;
 use Flat3\OData\Attribute\Metadata\Full;
 use Flat3\OData\Attribute\Metadata\Minimal;
 use Flat3\OData\Attribute\Metadata\None;
-use Flat3\OData\Exception\NotAcceptableException;
+use Flat3\OData\Exception\Protocol\NotAcceptableException;
 
 /**
  * Class Metadata
@@ -44,7 +44,7 @@ abstract class Metadata
                 return new Full($version);
         }
 
-        throw new NotAcceptableException(sprintf('An invalid metadata format (%s) was specified', $type));
+        throw new NotAcceptableException('invalid_metadata_format', sprintf('An invalid metadata format (%s) was specified', $type));
     }
 
     public function __toString()

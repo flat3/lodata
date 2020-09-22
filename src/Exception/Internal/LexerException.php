@@ -1,8 +1,10 @@
 <?php
 
-namespace Flat3\OData\Exception;
+namespace Flat3\OData\Exception\Internal;
 
-final class LexerException extends BadRequestException
+use RuntimeException;
+
+final class LexerException extends RuntimeException
 {
     public $pos;
     public $msg;

@@ -3,8 +3,8 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
-use Flat3\OData\Exception\NotImplementedException;
-use Flat3\OData\Exception\PathNotHandledException;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Option;
 use Flat3\OData\Store;
@@ -54,6 +54,7 @@ class Set extends Handler
             /** @var Option $sqo */
             if ($sqo->hasValue() && !in_array(get_class($sqo), $store->getSupportedQueryOptions(), true)) {
                 throw new NotImplementedException(
+                    'system_query_option_not_implemented',
                     sprintf('The %s system query option is not supported by this entity set', $sqo::param)
                 );
             }

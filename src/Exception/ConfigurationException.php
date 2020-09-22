@@ -2,8 +2,8 @@
 
 namespace Flat3\OData\Exception;
 
-use Exception;
+use RuntimeException;
 
-class ConfigurationException extends Exception
+final class ConfigurationException extends RuntimeException
 {
 }

@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\Exception\PathNotHandledException;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Transaction;
 

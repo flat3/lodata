@@ -2,12 +2,11 @@
 
 namespace Flat3\OData\Controller;
 
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
-use Flat3\OData\Exception\NotFoundException;
-use Flat3\OData\Exception\PathNotHandledException;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Transaction;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class OData extends Controller
 {
@@ -38,6 +37,6 @@ class OData extends Controller
             return $response;
         }
 
-        throw new NotFoundException();
+        throw new NotFoundException('no_handler', 'No route handler was able to process this request');
     }
 }

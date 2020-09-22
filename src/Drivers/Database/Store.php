@@ -2,9 +2,9 @@
 
 namespace Flat3\OData\Drivers\Database;
 
+use Flat3\OData\Exception\StoreException;
 use Illuminate\Support\Facades\DB;
 use Flat3\OData\Entity;
-use Flat3\OData\Exception\InternalErrorException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Filter;
 use Flat3\OData\Option\OrderBy;
@@ -63,7 +63,7 @@ class Store extends \Flat3\OData\Store
             $property = $this->getTypeProperty($id);
 
             if (!$property) {
-                throw new InternalErrorException(
+                throw new StoreException(
                     sprintf(
                         'The service attempted to access an undefined property for %s',
                         $id

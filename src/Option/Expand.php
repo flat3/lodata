@@ -3,7 +3,7 @@
 namespace Flat3\OData\Option;
 
 use Flat3\OData\EntityType;
-use Flat3\OData\Exception\BadRequestException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Option;
@@ -39,6 +39,7 @@ class Expand extends Option
 
             if (null === $navigationProperty) {
                 throw new BadRequestException(
+                    'nonexistent_expand_path',
                     sprintf(
                         'The requested expand path "%s" does not exist on this entity type',
                         $path
@@ -48,6 +49,7 @@ class Expand extends Option
 
             if (!$navigationProperty->isExpandable()) {
                 throw new BadRequestException(
+                    'path_not_expandable',
                     sprintf(
                         'The requested path "%s" is not available for expansion on this entity type',
                         $path

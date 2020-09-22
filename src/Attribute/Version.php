@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Attribute;
 
-use Flat3\OData\Exception\BadRequestException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 
 class Version
 {
@@ -16,11 +16,11 @@ class Version
     public function __construct($version, $maxVersion)
     {
         if ($version && ($version < self::minVersion || $version > self::version)) {
-            throw new BadRequestException(sprintf('Requested OData version (%s) is not supported', $version));
+            throw new BadRequestException('version_not_supported', sprintf('Requested OData version (%s) is not supported', $version));
         }
 
         if ($maxVersion && ($maxVersion < self::minVersion || $maxVersion > self::version)) {
-            throw new BadRequestException(sprintf('Requested OData max version (%s) is not supported', $version));
+            throw new BadRequestException('maxversion_not_supported', sprintf('Requested OData max version (%s) is not supported', $version));
         }
 
         $this->version = ($maxVersion ?: $version) ?: self::version;

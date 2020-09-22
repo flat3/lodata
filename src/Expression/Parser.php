@@ -3,7 +3,8 @@
 namespace Flat3\OData\Expression;
 
 use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\ParserException;
+use Flat3\OData\Exception\Internal\ParserException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Node\Field;
 use Flat3\OData\Expression\Node\Func;
 use Flat3\OData\Expression\Node\Group;
@@ -77,7 +78,7 @@ abstract class Parser
                 continue;
             }
 
-            throw new ParserException('Encountered an invalid symbol', $this->lexer->errorContext());
+            throw new ParserException('Encountered an invalid symbol', $this->lexer);
         }
 
         /**
@@ -136,7 +137,7 @@ abstract class Parser
         $leftOperand = array_pop($this->operandStack);
 
         if (!$rightOperand || !$leftOperand) {
-            throw new ParserException('An operator was used without an operand');
+            throw new BadRequestException('missing_operand', 'An operator was used without an operand');
         }
 
         $operator->setRightNode($rightOperand);
@@ -208,7 +209,10 @@ abstract class Parser
             }
         }
 
-        throw new ParserException('Unbalanced right parentheses', $this->lexer->errorContext());
+        throw BadRequestException::factory(
+            'unbalanced_right_parentheses',
+            'Unbalanced right parentheses'
+        )->lexer($this->lexer);
     }
 
     /**

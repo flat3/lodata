@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Expression;
 
-use Flat3\OData\Exception\NotImplementedException;
+use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Node\Func;
 
 abstract class Node
@@ -132,6 +132,7 @@ abstract class Node
         switch (true) {
             case $node instanceof Operator:
                 throw new NotImplementedException(
+                    'unsupported_operator',
                     sprintf(
                         'This query does not support the operator "%s"',
                         $node::symbol
@@ -140,6 +141,7 @@ abstract class Node
 
             case $node instanceof Func:
                 throw new NotImplementedException(
+                    'unsupported_function',
                     sprintf(
                         'This query does not support the function "%s"',
                         $node::symbol
@@ -147,7 +149,8 @@ abstract class Node
                 );
 
             default:
-                throw new NotImplementedException('This query does not support the provided expression');
+                throw new NotImplementedException('unsupported_expression',
+                    'This query does not support the provided expression');
         }
     }
 }

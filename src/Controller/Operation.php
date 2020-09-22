@@ -3,9 +3,9 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
-use Flat3\OData\Exception\BadRequestException;
-use Flat3\OData\Exception\LexerException;
-use Flat3\OData\Exception\PathNotHandledException;
+use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Transaction;
@@ -43,7 +43,8 @@ class Operation extends Handler
             $kv = array_map('trim', explode('=', $pair));
 
             if (count($kv) !== 2) {
-                throw new BadRequestException('The arguments provided to the operation were not valid');
+                throw new BadRequestException('invalid_arguments',
+                    'The arguments provided to the operation were not valid');
             }
 
             list($key, $value) = $kv;
@@ -62,7 +63,8 @@ class Operation extends Handler
             $argumentIdentifier = $argumentDefinition->getIdentifier()->get();
             if (!array_key_exists($argumentIdentifier, $providedArguments)) {
                 if (!$argumentDefinition->isNullable()) {
-                    throw new BadRequestException(sprintf('A non-null argument (%s) is missing', $argumentIdentifier));
+                    throw new BadRequestException('non_null_argument_missing',
+                        sprintf('A non-null argument (%s) is missing', $argumentIdentifier));
                 }
 
                 $parsedArguments[$argumentIdentifier] = $argumentDefinition->getType()->factory(null);
@@ -75,6 +77,7 @@ class Operation extends Handler
                 $parsedArguments[$argumentIdentifier] = $lexer->type($argumentDefinition->getType());
             } catch (LexerException $e) {
                 throw new BadRequestException(
+                    'invalid_argument_type',
                     sprintf(
                         'The provided argument %s was not of type %s',
                         $argumentIdentifier,

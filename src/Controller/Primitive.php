@@ -2,9 +2,9 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\Exception\BadRequestLexerException;
-use Flat3\OData\Exception\LexerException;
-use Flat3\OData\Exception\NotFoundException;
+use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Property;
 use Flat3\OData\Transaction;
@@ -26,13 +26,14 @@ class Primitive extends Singular
         try {
             $property = $lexer->odataIdentifier();
         } catch (LexerException $e) {
-            throw new BadRequestLexerException('Found invalid OData property', $lexer);
+            throw BadRequestException::factory('invalid_property', 'Found invalid OData property')
+                ->lexer($lexer);
         }
 
         $this->property = $this->store->getTypeProperty($property);
 
         if (!$this->property) {
-            throw new NotFoundException(sprintf('The requested property (%s) was not known', $property));
+            throw new NotFoundException('unknown_property', sprintf('The requested property (%s) was not known', $property));
         }
     }
 

@@ -2,11 +2,11 @@
 
 namespace Flat3\OData\Tests\Unit\Parser;
 
+use Flat3\OData\Exception\Internal\ParserException;
 use Illuminate\Http\Request;
 use Flat3\OData\Drivers\Database\EntitySet;
 use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\EntityType\Collection;
-use Flat3\OData\Exception\ParserException;
 use Flat3\OData\Property;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Transaction;

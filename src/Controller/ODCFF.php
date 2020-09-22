@@ -3,12 +3,12 @@
 namespace Flat3\OData\Controller;
 
 use DOMDocument;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Flat3\OData\DataModel;
-use Flat3\OData\Exception\NotFoundException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Resource;
 use Flat3\OData\ServiceProvider;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ODCFF extends Controller
@@ -25,7 +25,10 @@ class ODCFF extends Controller
         /** @var Resource $resource */
         $resource = $dataModel->getResources()->get($identifier);
         if (null === $resource) {
-            throw new NotFoundException();
+            throw NotFoundException::factory(
+                'resource_not_found',
+                'The requested resource did not exist'
+            )->details($identifier);
         }
 
         $resourceName = $resource->getTitle() ?: $resource->getIdentifier()->get();
