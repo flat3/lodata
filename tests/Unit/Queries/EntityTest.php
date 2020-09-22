@@ -20,4 +20,13 @@ class EntityTest extends TestCase
                 ->path('/flights(1)')
         );
     }
+
+    public function test_read_with_select()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'destination')
+        );
+    }
 }

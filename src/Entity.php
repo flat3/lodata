@@ -56,7 +56,7 @@ class Entity extends Resource
                 }
 
                 $this->primitives->next();
-                if ($this->primitives->valid()) {
+                if ($this->primitives->valid() && $selectedProperties->get($this->primitives->current()->getProperty())) {
                     $transaction->outputJsonSeparator();
                 }
             }

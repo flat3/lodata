@@ -10,6 +10,8 @@
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="origin" Type="Edm.String" Nullable="true"/>
+        <Property Name="destination" Type="Edm.String" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

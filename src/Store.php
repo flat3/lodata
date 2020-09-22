@@ -130,7 +130,7 @@ abstract class Store extends Resource
 
         if (null === $entity) {
             throw NotFoundException::factory()
-                ->details($key->toJson());
+                ->target($key->toJson());
         }
 
         return $entity->getPrimitive($property);

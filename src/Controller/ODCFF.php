@@ -28,7 +28,7 @@ class ODCFF extends Controller
             throw NotFoundException::factory(
                 'resource_not_found',
                 'The requested resource did not exist'
-            )->details($identifier);
+            )->target($identifier);
         }
 
         $resourceName = $resource->getTitle() ?: $resource->getIdentifier()->get();

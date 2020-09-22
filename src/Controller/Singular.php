@@ -90,7 +90,7 @@ class Singular extends Set
 
         if (null === $entity) {
             throw NotFoundException::factory('entity_not_found',
-                sprintf('Entity with id (%s) not found', $this->id->toJson()))->details($this->id->toJson());
+                sprintf('Entity with id (%s) not found', $this->id->toJson()))->target($this->id->toJson());
         }
 
         $metadata = ['context' => $transaction->getEntityContextUrl($this->store)];

@@ -12,6 +12,7 @@ use Flat3\OData\Property;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Type\Int32;
+use Flat3\OData\Type\String_;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -31,19 +32,22 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
         $this->artisan('migrate')->run();
-        (new Flight([]))->save();
+        (new Flight([
+            'origin' => 'lhr',
+            'destination' => 'lax',
+        ]))->save();
         try {
             $model = app()->make(DataModel::class);
 
-            $entityType = new Collection('flight');
-            $entityType->setKey(new Property('id', Int32::type()));
-
-            $store = new Store('flights', $entityType);
-            $store->setTable('flights');
-
+            $flightType = new Collection('flight');
+            $flightType->setKey(new Property('id', Int32::type()));
+            $flightType->addProperty(new Property('origin', String_::type()));
+            $flightType->addProperty(new Property('destination', String_::type()));
+            $flightStore = new Store('flights', $flightType);
+            $flightStore->setTable('flights');
             $model
-                ->entityType($entityType)
-                ->resource($store);
+                ->entityType($flightType)
+                ->resource($flightStore);
         } catch (Exception $e) {
         }
     }

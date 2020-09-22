@@ -15,6 +15,14 @@ class CreateFlightsTable extends Migration
     {
         Schema::create('flights', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('origin')->nullable();
+            $table->string('destination')->nullable();
+        });
+
+        Schema::create('airports', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('code');
         });
     }
 
@@ -26,6 +34,7 @@ class CreateFlightsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('flights');
+        Schema::dropIfExists('airports');
     }
 }
 
