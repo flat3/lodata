@@ -67,4 +67,10 @@ class Request
         $this->header('accept', 'text/plain');
         return $this;
     }
+
+    public function accept($accept)
+    {
+        $this->header('accept', $accept);
+        return $this;
+    }
 }

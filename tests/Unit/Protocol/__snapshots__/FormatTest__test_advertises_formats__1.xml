@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.01">
+  <edmx:DataServices>
+    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
+      <EntityContainer Name="DefaultContainer"/>
+      <Annotations Target="com.example.odata.DefaultContainer">
+        <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.DereferenceableIDs" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.ConformanceLevel">
+          <EnumMember>Org.OData.Capabilities.V1.ConformanceLevelType/Advanced</EnumMember>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
+          <Collection>
+            <String>application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true</String>
+            <String>application/json;odata.metadata=minimal;IEEE754Compatible=true;odata.streaming=true</String>
+            <String>application/json;odata.metadata=none;IEEE754Compatible=true;odata.streaming=true</String>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

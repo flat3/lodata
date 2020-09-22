@@ -2,9 +2,6 @@
 
 namespace Flat3\OData;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 use Flat3\OData\Attribute\Format;
 use Flat3\OData\Attribute\IEEE754Compatible;
 use Flat3\OData\Attribute\MediaType;
@@ -22,6 +19,9 @@ use Flat3\OData\Option\Select;
 use Flat3\OData\Option\Skip;
 use Flat3\OData\Option\Top;
 use Flat3\OData\Type\Boolean;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -238,7 +238,15 @@ class Transaction
             ]);
         }
 
-        $contentType .= ';'.http_build_query($contentTypeAttributes, '', ';');
+        $contentTypeAttributes = array_intersect_key(
+            $contentTypeAttributes,
+            array_flip($this->getFormat()->getParameterKeys())
+        );
+
+        if ($contentTypeAttributes) {
+            $contentType .= ';'.http_build_query($contentTypeAttributes, '', ';');
+        }
+
         $this->sendContentType($contentType);
     }
 

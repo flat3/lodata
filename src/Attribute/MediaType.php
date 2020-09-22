@@ -62,6 +62,11 @@ class MediaType
         return $this->parameters->getParameter($key);
     }
 
+    public function getParameterKeys()
+    {
+        return array_keys($this->parameters->getParameters());
+    }
+
     public function getSubtype()
     {
         return $this->subtype;
