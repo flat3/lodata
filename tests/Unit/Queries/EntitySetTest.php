@@ -48,7 +48,7 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_eq()
+    public function test_filter_string_eq()
     {
         $this->assertJsonResponse(
             Request::factory()
@@ -57,7 +57,7 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_ne()
+    public function test_filter_string_ne()
     {
         $this->assertJsonResponse(
             Request::factory()
@@ -66,7 +66,7 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_gt_datetime()
+    public function test_filter_datetime_gt()
     {
         $this->assertJsonResponse(
             Request::factory()
@@ -75,7 +75,7 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_lt_datetime()
+    public function test_filter_datetime_lt()
     {
         $this->assertJsonResponse(
             Request::factory()
@@ -84,12 +84,39 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_lt_invalid_datetime()
+    public function test_filter_invalid_datetime()
     {
         $this->assertBadRequest(
             Request::factory()
                 ->path('/airports')
                 ->query('$filter', "construction_date lt 1935-0x-")
+        );
+    }
+
+    public function test_filter_datetime_eq()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->query('$filter', 'construction_date eq 1930-01-01')
+        );
+    }
+
+    public function test_filter_datetime_eq_2()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->query('$filter', 'construction_date eq 1930-01-01T00:00:00')
+        );
+    }
+
+    public function test_filter_datetime_eq_3()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->query('$filter', 'construction_date eq 1930-01-01T01:00:00')
         );
     }
 }

@@ -59,6 +59,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'construction_date' => '1930-01-01',
         ]))->save();
 
+        (new Airport([
+            'code' => 'sfo',
+            'name' => 'San Francisco',
+            'construction_date' => '1930-01-01T01:00:00',
+        ]))->save();
+
         try {
             /** @var DataModel $model */
             $model = app()->make(DataModel::class);
