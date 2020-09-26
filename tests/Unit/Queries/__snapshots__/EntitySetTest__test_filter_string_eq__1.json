@@ -4,7 +4,8 @@
         {
             "id": 1,
             "origin": "lhr",
-            "destination": "lax"
+            "destination": "lax",
+            "gate": null
         }
     ]
 }

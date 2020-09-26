@@ -6,14 +6,16 @@
             "name": "Los Angeles",
             "code": "lax",
             "construction_date": "1930-01-01",
-            "open_time": "08:00:00.000000"
+            "open_time": "08:00:00.000000",
+            "review_score": null
         },
         {
             "id": 3,
             "name": "San Francisco",
             "code": "sfo",
             "construction_date": "1930-01-01",
-            "open_time": "15:00:00.000000"
+            "open_time": "15:00:00.000000",
+            "review_score": null
         }
     ]
 }

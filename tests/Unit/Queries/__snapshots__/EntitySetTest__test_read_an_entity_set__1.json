@@ -4,12 +4,14 @@
         {
             "id": 1,
             "origin": "lhr",
-            "destination": "lax"
+            "destination": "lax",
+            "gate": null
         },
         {
             "id": 2,
             "origin": "sam",
-            "destination": "rgr"
+            "destination": "rgr",
+            "gate": null
         }
     ]
 }

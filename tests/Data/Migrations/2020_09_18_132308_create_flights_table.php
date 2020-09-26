@@ -17,14 +17,16 @@ class CreateFlightsTable extends Migration
             $table->bigIncrements('id');
             $table->string('origin')->nullable();
             $table->string('destination')->nullable();
+            $table->integer('gate')->nullable();
         });
 
         Schema::create('airports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('code');
-            $table->date('construction_date');
-            $table->time('open_time');
+            $table->date('construction_date')->nullable();
+            $table->time('open_time')->nullable();
+            $table->float('review_score')->nullable();
         });
     }
 

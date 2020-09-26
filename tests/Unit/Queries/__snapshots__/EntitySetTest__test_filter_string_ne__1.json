@@ -4,7 +4,8 @@
         {
             "id": 2,
             "origin": "sam",
-            "destination": "rgr"
+            "destination": "rgr",
+            "gate": null
         }
     ]
 }
