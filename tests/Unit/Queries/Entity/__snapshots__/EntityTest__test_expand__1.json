@@ -1,0 +1,17 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights/$entity",
+    "id": 1,
+    "origin": "lhr",
+    "destination": "lax",
+    "gate": null,
+    "airports": [
+        {
+            "id": 1,
+            "name": "Heathrow",
+            "code": "lhr",
+            "construction_date": "1946-03-25",
+            "open_time": "09:00:00.000000",
+            "review_score": null
+        }
+    ]
+}
