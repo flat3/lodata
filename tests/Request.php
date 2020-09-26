@@ -29,17 +29,31 @@ class Request
 
     public function metadata($type)
     {
+        $this->accept('application/json;odata.metadata='.$type);
         return $this;
     }
 
     public function preference($key, $value)
     {
+        $this->accept('application/json;'.$key.'='.$value);
         return $this;
     }
 
     public function path($path)
     {
         $this->path = $path;
+        return $this;
+    }
+
+    public function filter($filter)
+    {
+        $this->query('$filter', $filter);
+        return $this;
+    }
+
+    public function select($select)
+    {
+        $this->query('$select', $select);
         return $this;
     }
 

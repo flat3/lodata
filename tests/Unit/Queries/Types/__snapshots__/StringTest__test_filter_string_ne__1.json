@@ -3,9 +3,7 @@
     "value": [
         {
             "id": 2,
-            "origin": "sam",
-            "destination": "rgr",
-            "gate": null
+            "origin": "sam"
         }
     ]
 }

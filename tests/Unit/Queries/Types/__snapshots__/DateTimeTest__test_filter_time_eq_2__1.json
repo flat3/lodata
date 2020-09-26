@@ -3,19 +3,11 @@
     "value": [
         {
             "id": 1,
-            "name": "Heathrow",
-            "code": "lhr",
-            "construction_date": "1946-03-25",
-            "open_time": "09:00:00.000000",
-            "review_score": null
+            "open_time": "09:00:00.000000"
         },
         {
             "id": 3,
-            "name": "San Francisco",
-            "code": "sfo",
-            "construction_date": "1930-01-01",
-            "open_time": "15:00:00.000000",
-            "review_score": null
+            "open_time": "15:00:00.000000"
         }
     ]
 }
