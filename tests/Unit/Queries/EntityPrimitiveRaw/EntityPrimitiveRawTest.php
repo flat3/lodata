@@ -1,13 +1,13 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries;
+namespace Flat3\OData\Tests\Unit\Queries\EntityPrimitiveRaw;
 
 use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
-class EntityPrimitiveTest extends TestCase
+class EntityPrimitiveRawTest extends TestCase
 {
     use FlightDataModel;
 
@@ -17,25 +17,26 @@ class EntityPrimitiveTest extends TestCase
         $this->withFlightDataModel();
     }
 
-    public function test_read_an_entity_set_primitive()
+    public function test_read_an_entity_set_primitive_raw()
     {
-        $this->assertJsonResponse(
+        $this->assertTextResponse(
             Request::factory()
-                ->path('/flights(1)/id')
+                ->text()
+                ->path('/flights(1)/id/$value')
         );
     }
 
-    public function test_null_no_content()
+    public function test_null_raw_not_found()
     {
         $flight = (new Flight([
             'origin' => null,
         ]));
         $flight->save();
 
-        $this->assertNoContent(
+        $this->assertNotFound(
             Request::factory()
-                ->path('/flights('.$flight->id.')/origin')
+                ->text()
+                ->path('/flights(' . $flight->id . ')/origin/$value')
         );
     }
-
 }
