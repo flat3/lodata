@@ -2,11 +2,14 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
+use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class ServiceMetadataTest extends TestCase
 {
+    use FlightDataModel;
+
     public function test_has_empty_metadata_document_at_document_root()
     {
         $this->assertXmlResponse(

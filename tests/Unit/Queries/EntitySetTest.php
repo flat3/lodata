@@ -2,11 +2,14 @@
 
 namespace Flat3\OData\Tests\Unit\Queries;
 
+use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class EntitySetTest extends TestCase
 {
+    use FlightDataModel;
+
     public function setUp(): void
     {
         parent::setUp();
