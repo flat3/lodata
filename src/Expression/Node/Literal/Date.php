@@ -4,13 +4,13 @@ namespace Flat3\OData\Expression\Node\Literal;
 
 use Flat3\OData\Expression\Node\Literal;
 
-class DateTimeOffset extends Literal
+class Date extends Literal
 {
     public function setValue(string $value): void
     {
-        $this->value = \Flat3\OData\Type\DateTimeOffset::type()
+        $this->value = \Flat3\OData\Type\Date::type()
             ->factory($value)
             ->getInternalValue()
-            ->format('c');
+            ->format('Y-m-d');
     }
 }

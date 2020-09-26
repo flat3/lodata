@@ -23,7 +23,8 @@ class CreateFlightsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('code');
-            $table->dateTimeTz('construction_date');
+            $table->date('construction_date');
+            $table->time('open_time');
         });
     }
 

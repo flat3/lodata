@@ -93,30 +93,30 @@ class EntitySetTest extends TestCase
         );
     }
 
-    public function test_filter_datetime_eq()
+    public function test_filter_time_eq()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->query('$filter', 'construction_date eq 1930-01-01')
+                ->query('$filter', 'open_time eq 08:00:00')
         );
     }
 
-    public function test_filter_datetime_eq_2()
+    public function test_filter_time_eq_2()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->query('$filter', 'construction_date eq 1930-01-01T00:00:00')
+                ->query('$filter', 'open_time gt 08:30:00')
         );
     }
 
-    public function test_filter_datetime_eq_3()
+    public function test_filter_time_eq_3()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->query('$filter', 'construction_date eq 1930-01-01T01:00:00')
+                ->query('$filter', 'open_time lt 07:13:13')
         );
     }
 }

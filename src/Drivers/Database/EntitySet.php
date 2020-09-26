@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Drivers\Database;
 
-use DateTime;
 use Flat3\OData\Exception\Internal\NodeHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
@@ -38,7 +37,6 @@ use Flat3\OData\Expression\Node\Func\StringCollection\IndexOf;
 use Flat3\OData\Expression\Node\Func\StringCollection\Length;
 use Flat3\OData\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\OData\Expression\Node\Func\StringCollection\Substring;
-use Flat3\OData\Expression\Node\Literal\DateTimeOffset;
 use Flat3\OData\Expression\Node\Operator\Arithmetic\Add;
 use Flat3\OData\Expression\Node\Operator\Arithmetic\Div;
 use Flat3\OData\Expression\Node\Operator\Arithmetic\DivBy;
@@ -151,15 +149,6 @@ class EntitySet extends \Flat3\OData\EntitySet
     {
         $field = sprintf('%s.`%s`', $this->store->getTable(), $this->store->getPropertySourceName($property));
 
-        switch (true) {
-            case $property->getType() instanceof \Flat3\OData\Type\DateTimeOffset:
-                switch ($this->getDbDriver()) {
-                    case 'sqlite':
-                        $field = sprintf('datetime(%s)', $field);
-                        break;
-                }
-        }
-
         return $field;
     }
 
@@ -193,16 +182,8 @@ class EntitySet extends \Flat3\OData\EntitySet
                 return true;
 
             case $event instanceof Literal:
-                switch (true) {
-                    case $event->getNode() instanceof DateTimeOffset:
-                        $this->addWhereDateTime($event->getNode());
-                        break;
-
-                    default:
-                        $this->addWhere('?');
-                        $this->addParameter($event->getValue());
-                        break;
-                }
+                $this->addWhere('?');
+                $this->addParameter($event->getValue());
 
                 return true;
 
@@ -434,39 +415,6 @@ class EntitySet extends \Flat3\OData\EntitySet
         return $this->store->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
 
-    public function addWhereDateTime($dtoNode)
-    {
-        /** @var DateTime $dt */
-        $dt = $dtoNode->getValue();
-
-        switch ($this->getDbDriver()) {
-            case 'sqlite':
-                $this->addWhere('datetime(?)');
-                $this->addParameter($dt->format('Y-m-d H:i:s'));
-                break;
-
-            case 'mysql':
-                $this->addWhere('from_unixtime(?)');
-                $this->addParameter($dt->format('U'));
-                break;
-
-            case 'pgsql':
-                $this->addWhere('TO_TIMESTAMP(?, "DD-MM-YYYY HH24:MI:SS")');
-                $this->addParameter($dt->format('Y-m-d H:i:s'));
-                break;
-
-            case 'sqlsrv':
-                $this->addWhere('CONVERT(datetime, ?, 126)');
-                $this->addParameter($dt->format(DateTime::ISO8601));
-                break;
-
-            default:
-                $this->addWhere('?');
-                $this->addParameter($dt->format(DateTime::ISO8601));
-                break;
-        }
-    }
-
     public function getParameters(): array
     {
         return $this->parameters;
@@ -516,9 +464,6 @@ class EntitySet extends \Flat3\OData\EntitySet
             switch (true) {
                 case is_int($value):
                     $type = PDO::PARAM_INT;
-                    break;
-
-                case $value instanceof DateTime:
                     break;
             }
 

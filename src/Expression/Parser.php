@@ -51,7 +51,7 @@ abstract class Parser
     /**
      * Set the list of valid field literals
      *
-     * @param  string  $literal
+     * @param string $literal
      * @return self
      */
     public function addValidLiteral(string $literal): self
@@ -64,7 +64,7 @@ abstract class Parser
     /**
      * Convert an expression to an abstract syntax tree.
      *
-     * @param  string  $expression  The expression, in infix notation.
+     * @param string $expression The expression, in infix notation.
      *
      * @return Node that serves as the root of the AST.
      */
@@ -104,7 +104,7 @@ abstract class Parser
     /**
      * Add the provided operator as an AST node
      *
-     * @param  Operator  $operator
+     * @param Operator $operator
      *
      * @throws ParserException
      */
@@ -396,6 +396,38 @@ abstract class Parser
         }
 
         $operand = new Literal\DateTimeOffset($this);
+        $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    public function tokenizeDate(): bool
+    {
+        $token = $this->lexer->maybeDate();
+
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Literal\Date($this);
+        $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    public function tokenizeTimeOfDay(): bool
+    {
+        $token = $this->lexer->maybeTimeOfDay();
+
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Literal\TimeOfDay($this);
         $operand->setValue($token);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;

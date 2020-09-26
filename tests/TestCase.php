@@ -14,9 +14,10 @@ use Flat3\OData\Property;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
-use Flat3\OData\Type\DateTimeOffset;
+use Flat3\OData\Type\Date;
 use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
+use Flat3\OData\Type\TimeOfDay;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -34,7 +35,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     public function withFlightDataModel(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         $this->artisan('migrate')->run();
 
         (new Flight([
@@ -51,18 +52,21 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'code' => 'lhr',
             'name' => 'Heathrow',
             'construction_date' => '1946-03-25',
+            'open_time' => '09:00:00',
         ]))->save();
 
         (new Airport([
             'code' => 'lax',
             'name' => 'Los Angeles',
             'construction_date' => '1930-01-01',
+            'open_time' => '08:00:00',
         ]))->save();
 
         (new Airport([
             'code' => 'sfo',
             'name' => 'San Francisco',
-            'construction_date' => '1930-01-01T01:00:00',
+            'construction_date' => '1930-01-01',
+            'open_time' => '15:00:00',
         ]))->save();
 
         try {
@@ -80,7 +84,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $airportType->setKey(new Property('id', Int32::type()));
             $airportType->addProperty(new Property('name', String_::type()));
             $airportType->addProperty(new Property('code', String_::type()));
-            $airportType->addProperty(new Property('construction_date', DateTimeOffset::type()));
+            $airportType->addProperty(new Property('construction_date', Date::type()));
+            $airportType->addProperty(new Property('open_time', TimeOfDay::type()));
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
 
@@ -145,7 +150,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return $this->call(
             'GET',
-            'odata'.$request->uri(),
+            'odata' . $request->uri(),
             [],
             [],
             [],
