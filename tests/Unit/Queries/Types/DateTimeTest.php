@@ -45,7 +45,7 @@ class DateTimeTest extends TypeTest
         );
     }
 
-    public function test_filter_time_eq_2()
+    public function test_filter_time_gt()
     {
         $this->assertJsonResponse(
             Request::factory()
@@ -55,12 +55,12 @@ class DateTimeTest extends TypeTest
         );
     }
 
-    public function test_filter_time_eq_3()
+    public function test_filter_time_lt()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter('open_time lt 07:13:13')
+                ->filter('open_time lt 08:13:13')
                 ->select('id,open_time')
         );
     }
