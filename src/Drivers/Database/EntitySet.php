@@ -37,6 +37,7 @@ use Flat3\OData\Expression\Node\Func\StringCollection\IndexOf;
 use Flat3\OData\Expression\Node\Func\StringCollection\Length;
 use Flat3\OData\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\OData\Expression\Node\Func\StringCollection\Substring;
+use Flat3\OData\Expression\Node\Literal\Boolean;
 use Flat3\OData\Expression\Node\Operator\Arithmetic\Add;
 use Flat3\OData\Expression\Node\Operator\Arithmetic\Div;
 use Flat3\OData\Expression\Node\Operator\Arithmetic\DivBy;
@@ -183,7 +184,16 @@ class EntitySet extends \Flat3\OData\EntitySet
 
             case $event instanceof Literal:
                 $this->addWhere('?');
-                $this->addParameter($event->getValue());
+
+                switch (true) {
+                    case $event->getNode() instanceof Boolean:
+                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue());
+                        break;
+
+                    default:
+                        $this->addParameter($event->getValue());
+                        break;
+                }
 
                 return true;
 

@@ -28,6 +28,7 @@ class CreateFlightsTable extends Migration
             $table->dateTime('sam_datetime')->nullable();
             $table->time('open_time')->nullable();
             $table->float('review_score')->nullable();
+            $table->boolean('is_big')->nullable();
         });
     }
 

@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#airports",
+    "value": [
+        {
+            "id": 2,
+            "is_big": false
+        }
+    ]
+}

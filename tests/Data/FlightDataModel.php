@@ -9,6 +9,7 @@ use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Property;
 use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
+use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Date;
 use Flat3\OData\Type\DateTimeOffset;
 use Flat3\OData\Type\Decimal;
@@ -20,7 +21,7 @@ trait FlightDataModel
 {
     public function withFlightDataModel(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Migrations');
         $this->artisan('migrate')->run();
 
         (new Flight([
@@ -39,6 +40,7 @@ trait FlightDataModel
             'construction_date' => '1946-03-25',
             'open_time' => '09:00:00',
             'sam_datetime' => '2001-11-10T14:00:00+00:00',
+            'is_big' => true,
         ]))->save();
 
         (new Airport([
@@ -47,6 +49,7 @@ trait FlightDataModel
             'construction_date' => '1930-01-01',
             'open_time' => '08:00:00',
             'sam_datetime' => '2000-11-10T14:00:00+00:00',
+            'is_big' => false,
         ]))->save();
 
         (new Airport([
@@ -55,6 +58,7 @@ trait FlightDataModel
             'construction_date' => '1930-01-01',
             'open_time' => '15:00:00',
             'sam_datetime' => '2001-11-10T14:00:01+00:00',
+            'is_big' => null,
         ]))->save();
 
         try {
@@ -77,6 +81,7 @@ trait FlightDataModel
             $airportType->addProperty(new Property('open_time', TimeOfDay::type()));
             $airportType->addProperty(new Property('sam_datetime', DateTimeOffset::type()));
             $airportType->addProperty(new Property('review_score', Decimal::type()));
+            $airportType->addProperty(new Property('is_big', Boolean::type()));
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
 
