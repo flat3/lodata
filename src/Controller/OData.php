@@ -28,6 +28,7 @@ class OData extends Controller
             Primitive::class,
             Count::class,
             Raw::class,
+            Operation::class,
         ];
 
         $transaction->setRequest($request);

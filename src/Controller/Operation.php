@@ -3,6 +3,8 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
+use Flat3\OData\Entity;
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
@@ -59,7 +61,7 @@ class Operation extends Handler
             }
 
             return [$key => $value];
-        }, explode(',', $args)));
+        }, array_filter(explode(',', $args))));
 
         $parsedArguments = [];
 
@@ -101,23 +103,43 @@ class Operation extends Handler
         $response = $transaction->getResponse();
         $transaction->setContentTypeJson();
 
-        $metadata = [
-            'context' => $transaction->getServiceDocumentContextUrl().'#',
-        ];
+        $metadata = [];
 
         $result = $this->operation->invoke($this->args);
 
-        if ($result instanceof Type) {
-            $metadata['context'] .= $this->operation->getReturnType()->getEdmTypeName();
+        switch (true) {
+            case $result instanceof Type:
+                $metadata['context'] = $transaction->getOperationResultTypeContextUrl($result);
+                break;
 
-            $result = ['value' => $result->toJson()];
+            case $result instanceof Entity:
+                $metadata['context'] = $transaction->getEntityContextUrl($result->getStore());
+                break;
+
+            case $result instanceof EntitySet:
+                $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($result->getStore());
+                break;
+
+            case $result instanceof \Flat3\OData\Primitive:
+                $metadata['context'] = $transaction->getPropertyValueContextUrl(
+                    $result->getEntity()->getStore(),
+                    $result->getEntity()->getEntityId()->toUrl(),
+                    $result->getProperty()
+                );
+                break;
+
+            default:
+                throw new BadRequestException(
+                    'bad_result_type',
+                    'The result type of the operation could not be encoded into a context url'
+                );
         }
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 
         $response->setCallback(function () use ($transaction, $metadata, $result) {
             $transaction->outputJsonObjectStart();
-            $transaction->outputJsonKV(array_merge($metadata, $result));
+            $transaction->outputJsonKV(array_merge($metadata, ['value' => $result->toJson()]));
             $transaction->outputJsonObjectEnd();
         });
     }

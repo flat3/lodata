@@ -403,6 +403,11 @@ class Transaction
         );
     }
 
+    public function getOperationResultTypeContextUrl(Type $type): string
+    {
+        return $this->getServiceDocumentContextUrl().'#'.$type->getEdmTypeName();
+    }
+
     /**
      * Get the service document URL
      *

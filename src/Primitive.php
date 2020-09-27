@@ -35,6 +35,11 @@ class Primitive
         $this->entity = $entity;
     }
 
+    public function getEntity(): Entity
+    {
+        return $this->entity;
+    }
+
     public function getProperty()
     {
         return $this->property;
