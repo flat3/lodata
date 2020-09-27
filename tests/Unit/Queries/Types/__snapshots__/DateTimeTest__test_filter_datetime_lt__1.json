@@ -3,11 +3,7 @@
     "value": [
         {
             "id": 2,
-            "construction_date": "1930-01-01"
-        },
-        {
-            "id": 3,
-            "construction_date": "1930-01-01"
+            "sam_datetime": "2000-11-10T14:00:00+00:00"
         }
     ]
 }

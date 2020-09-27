@@ -55,6 +55,7 @@ use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Property;
+use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -438,8 +439,6 @@ class EntitySet extends \Flat3\OData\EntitySet
         $dbh = $this->store->getDbHandle();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $s = $dbh->query('select *, datetime(construction_date) from airports')->fetchAll();
-
         try {
             $stmt = $dbh->prepare($query_string);
             $this->bindParameters($stmt);
@@ -459,15 +458,7 @@ class EntitySet extends \Flat3\OData\EntitySet
         }
 
         foreach ($this->parameters as $position => $value) {
-            $type = PDO::PARAM_STR;
-
-            switch (true) {
-                case is_int($value):
-                    $type = PDO::PARAM_INT;
-                    break;
-            }
-
-            $stmt->bindValue($position + 1, $value, $type);
+            $stmt->bindValue($position + 1, $value);
         }
     }
 

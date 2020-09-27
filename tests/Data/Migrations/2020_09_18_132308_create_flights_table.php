@@ -25,6 +25,7 @@ class CreateFlightsTable extends Migration
             $table->string('name');
             $table->string('code');
             $table->date('construction_date')->nullable();
+            $table->dateTime('sam_datetime')->nullable();
             $table->time('open_time')->nullable();
             $table->float('review_score')->nullable();
         });

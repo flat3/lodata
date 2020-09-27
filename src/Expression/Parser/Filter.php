@@ -103,9 +103,9 @@ class Filter extends Parser
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
+            $this->tokenizeDateTimeOffset() ||
             $this->tokenizeDate() ||
             $this->tokenizeTimeOfDay() ||
-            $this->tokenizeDateTimeOffset() ||
             $this->tokenizeKeyword() ||
             $this->tokenizeQuotedString() ||
             $this->tokenizeOperator() ||

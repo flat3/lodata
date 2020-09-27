@@ -2,8 +2,8 @@
     "@context": "http://localhost/odata/$metadata#airports",
     "value": [
         {
-            "id": 3,
-            "sam_datetime": "2001-11-10T14:00:01+00:00"
+            "id": 1,
+            "sam_datetime": "2001-11-10T14:00:00+00:00"
         }
     ]
 }

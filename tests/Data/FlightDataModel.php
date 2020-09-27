@@ -10,6 +10,7 @@ use Flat3\OData\Property;
 use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Type\Date;
+use Flat3\OData\Type\DateTimeOffset;
 use Flat3\OData\Type\Decimal;
 use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
@@ -37,6 +38,7 @@ trait FlightDataModel
             'name' => 'Heathrow',
             'construction_date' => '1946-03-25',
             'open_time' => '09:00:00',
+            'sam_datetime' => '2001-11-10T14:00:00+00:00',
         ]))->save();
 
         (new Airport([
@@ -44,6 +46,7 @@ trait FlightDataModel
             'name' => 'Los Angeles',
             'construction_date' => '1930-01-01',
             'open_time' => '08:00:00',
+            'sam_datetime' => '2000-11-10T14:00:00+00:00',
         ]))->save();
 
         (new Airport([
@@ -51,6 +54,7 @@ trait FlightDataModel
             'name' => 'San Francisco',
             'construction_date' => '1930-01-01',
             'open_time' => '15:00:00',
+            'sam_datetime' => '2001-11-10T14:00:01+00:00',
         ]))->save();
 
         try {
@@ -71,6 +75,7 @@ trait FlightDataModel
             $airportType->addProperty(new Property('code', String_::type()));
             $airportType->addProperty(new Property('construction_date', Date::type()));
             $airportType->addProperty(new Property('open_time', TimeOfDay::type()));
+            $airportType->addProperty(new Property('sam_datetime', DateTimeOffset::type()));
             $airportType->addProperty(new Property('review_score', Decimal::type()));
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
