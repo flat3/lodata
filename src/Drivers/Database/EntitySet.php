@@ -55,7 +55,6 @@ use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Property;
-use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
