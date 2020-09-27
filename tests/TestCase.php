@@ -95,6 +95,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $response = $this->req($request);
         $this->assertMatchesSnapshot($response->streamedContent(), new JsonDriver());
+    }
+
+    protected function assertJsonMetadataResponse(Request $request)
+    {
+        $response = $this->req($request);
+        $this->assertMatchesSnapshot($response->streamedContent(), new JsonDriver());
         $this->assertResponseMetadata($response);
     }
 

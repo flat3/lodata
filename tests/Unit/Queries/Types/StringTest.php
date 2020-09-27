@@ -26,5 +26,24 @@ class StringTest extends TypeTest
                 ->select('id,origin')
         );
     }
-}
 
+    public function test_filter_string_gt()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->filter("origin gt 'lhr'")
+                ->select('id,origin')
+        );
+    }
+
+    public function test_filter_string_lt()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->filter("origin lt 'zyx'")
+                ->select('id,origin')
+        );
+    }
+}
