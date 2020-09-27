@@ -12,7 +12,8 @@
             "construction_date": "1946-03-25",
             "open_time": "09:00:00.000000",
             "sam_datetime": "2001-11-10T14:00:00+00:00",
-            "review_score": null
+            "review_score": null,
+            "is_big": true
         }
     ]
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\EntitySet;
+namespace Flat3\OData\Tests\Unit\Options;
 
 use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
-class EntitySetTest extends TestCase
+class SelectTest extends TestCase
 {
     use FlightDataModel;
 
@@ -16,11 +16,12 @@ class EntitySetTest extends TestCase
         $this->withFlightDataModel();
     }
 
-    public function test_read_an_entity_set()
+    public function test_selects()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
+                ->query('$select', 'origin')
         );
     }
 }
