@@ -16,11 +16,20 @@ class SelectTest extends TestCase
         $this->withFlightDataModel();
     }
 
-    public function test_selects()
+    public function test_selects_set()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
+                ->query('$select', 'origin')
+        );
+    }
+
+    public function test_selects_singular()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
                 ->query('$select', 'origin')
         );
     }

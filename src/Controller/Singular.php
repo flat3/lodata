@@ -93,7 +93,15 @@ class Singular extends Set
                 sprintf('Entity with id (%s) not found', $this->id->toJson()))->target($this->id->toJson());
         }
 
-        $metadata = ['context' => $transaction->getEntityContextUrl($this->store)];
+        $metadata = [];
+
+        $select = $transaction->getSelect();
+
+        if ($select->hasValue()) {
+            $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->store, $select->getValue());
+        } else {
+            $metadata['context'] = $transaction->getEntityContextUrl($this->store);
+        }
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 

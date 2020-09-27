@@ -73,7 +73,18 @@ class Set extends Handler
 
         $setCount = $store->getCount($transaction);
 
-        $metadata = ['context' => $transaction->getEntityCollectionContextUrl($store)];
+        $metadata = [];
+
+        $select = $transaction->getSelect();
+
+        if ($select->hasValue()) {
+            $metadata['context'] = $transaction->getCollectionOfProjectedEntitiesContextUrl(
+                $store,
+                $select->getValue()
+            );
+        } else {
+            $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($store);
+        }
 
         $count = $transaction->getCount();
         if (true === $count->getValue()) {

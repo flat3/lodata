@@ -46,8 +46,17 @@ class Select extends Option
         return $result;
     }
 
+    public function hasValue(): bool
+    {
+        return !!$this->getValue();
+    }
+
     public function getValue(): array
     {
+        if ($this->value === '*') {
+            return [];
+        }
+
         return $this->getCommaSeparatedValues();
     }
 }

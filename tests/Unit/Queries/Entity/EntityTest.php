@@ -16,7 +16,7 @@ class EntityTest extends TestCase
         $this->withFlightDataModel();
     }
 
-    public function test_read_an_entity_set()
+    public function test_read_an_entity()
     {
         $this->assertJsonResponse(
             Request::factory()

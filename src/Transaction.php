@@ -361,22 +361,6 @@ class Transaction
         return $this->request->method();
     }
 
-    public function getEntityContextUrl(Store $store): string
-    {
-        return $this->getEntityCollectionContextUrl($store).'/$entity';
-    }
-
-    public function getEntityCollectionContextUrl(Store $store, $entityId = null): string
-    {
-        $url = $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier();
-
-        if ($entityId) {
-            $url = sprintf("%s(%s)", $url, $entityId);
-        }
-
-        return $url;
-    }
-
     /**
      * Get the service document context URL
      *
@@ -387,6 +371,36 @@ class Transaction
     public function getServiceDocumentContextUrl(): string
     {
         return $this->getServiceDocumentResourceUrl().'$metadata';
+    }
+
+    public function getCollectionOfEntitiesContextUrl(Store $store): string
+    {
+        return $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier();
+    }
+
+    public function getEntityContextUrl(Store $store): string
+    {
+        return $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier().'/$entity';
+    }
+
+    public function getCollectionOfProjectedEntitiesContextUrl(Store $store, array $selects): string
+    {
+        return sprintf(
+            '%s#%s(%s)',
+            $this->getServiceDocumentContextUrl(),
+            $store->getIdentifier(),
+            join(',', $selects)
+        );
+    }
+
+    public function getProjectedEntityContextUrl(Store $store, array $selects): string
+    {
+        return sprintf(
+            '%s#%s(%s)/$entity',
+            $this->getServiceDocumentContextUrl(),
+            $store->getIdentifier(),
+            join(',', $selects)
+        );
     }
 
     /**
@@ -403,7 +417,13 @@ class Transaction
 
     public function getPropertyValueContextUrl(Store $store, $entityId, Property $property): string
     {
-        return $this->getEntityCollectionContextUrl($store, $entityId).'/'.$property->getIdentifier();
+        return sprintf(
+            "%s#%s(%s)/%s",
+            $this->getServiceDocumentContextUrl(),
+            $store->getIdentifier(),
+            $entityId,
+            $property->getIdentifier()
+        );
     }
 
     public function getEntityResourceUrl(Store $store, $entityId): string
@@ -482,7 +502,8 @@ class Transaction
         $this->sendOutput(',');
     }
 
-    public function __clone() {
+    public function __clone()
+    {
         $this->count = new Count();
         $this->expand = new Expand();
         $this->filter = new Filter();
