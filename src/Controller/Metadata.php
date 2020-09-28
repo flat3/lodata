@@ -185,6 +185,10 @@ class Metadata extends Controller
             'Org.OData.Capabilities.V1.ConformanceLevelType/Advanced'
         );
 
+        $defaultNamespace = $annotations->addChild('Annotation');
+        $defaultNamespace->addAttribute('Term', 'Org.OData.Core.V1.DefaultNamespace');
+        $defaultNamespace->addAttribute('Bool', Boolean::URL_TRUE);
+
         $supportedFormats = $annotations->addChild('Annotation');
         $supportedFormats->addAttribute('Term', 'Org.OData.Capabilities.V1.SupportedFormats');
         $supportedFormatsCollection = $supportedFormats->addChild('Collection');

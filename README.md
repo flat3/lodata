@@ -25,6 +25,7 @@ Towards that end, the OData Protocol follows these design principles:
 * https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html
 * https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html
 * https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html
+* https://docs.oasis-open.org/odata/odata-vocabularies/v4.0/csprd01/odata-vocabularies-v4.0-csprd01.html
 
 ## License
 
