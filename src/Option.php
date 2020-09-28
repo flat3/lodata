@@ -59,4 +59,9 @@ abstract class Option
     {
         $this->value = null;
     }
+
+    public static function factory(): self
+    {
+        return new static();
+    }
 }

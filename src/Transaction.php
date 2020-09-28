@@ -73,6 +73,9 @@ class Transaction
     /** @var Top $top */
     private $top;
 
+    /** @var Format $format */
+    private $format;
+
     public function getRequest(): Request
     {
         return $this->request;
@@ -82,23 +85,26 @@ class Transaction
     {
         if (!$this->request) {
             $this->request = $request;
+
             $this->version = new Version(
                 $this->getHeader(Version::versionHeader),
                 $this->getHeader(Version::maxVersionHeader)
             );
-            $format = new Format($this->getSystemQueryOption('format'), $this->getHeader('accept'));
-            $this->metadata = Metadata::factory($format, $this->version);
-            $this->preferences = new ParameterList($this->getHeader('prefer'));
-            $this->ieee754compatible = new IEEE754Compatible($format);
 
-            $this->count = (new Count())->transaction($this);
-            $this->expand = (new Expand())->transaction($this);
-            $this->filter = (new Filter())->transaction($this);
-            $this->orderby = (new OrderBy())->transaction($this);
-            $this->search = (new Search())->transaction($this);
-            $this->select = (new Select())->transaction($this);
-            $this->skip = (new Skip())->transaction($this);
-            $this->top = (new Top())->transaction($this);
+            $this->format = new Format($this);
+
+            $this->metadata = Metadata::factory($this->format, $this->version);
+            $this->preferences = new ParameterList($this->getHeader('prefer'));
+            $this->ieee754compatible = new IEEE754Compatible($this->format);
+
+            $this->count = Count::factory()->transaction($this);
+            $this->expand = Expand::factory()->transaction($this);
+            $this->filter = Filter::factory()->transaction($this);
+            $this->orderby = OrderBy::factory()->transaction($this);
+            $this->search = Search::factory()->transaction($this);
+            $this->select = Select::factory()->transaction($this);
+            $this->skip = Skip::factory()->transaction($this);
+            $this->top = Top::factory()->transaction($this);
 
             foreach ($this->request->query->keys() as $param) {
                 if (
@@ -265,7 +271,7 @@ class Transaction
         $this->setContentType('application/xml');
     }
 
-    public function setContentType($contentType)
+    public function setContentType($contentType): self
     {
         $compatFormat = new MediaType($contentType);
 
@@ -298,6 +304,22 @@ class Transaction
         }
 
         $this->sendContentType($contentType);
+
+        return $this;
+    }
+
+    public function setContentEncoding($encoding): self
+    {
+        $this->sendHeader('content-encoding', $encoding);
+
+        return $this;
+    }
+
+    public function setContentLanguage($language): self
+    {
+        $this->sendHeader('content-language', $language);
+
+        return $this;
     }
 
     /**
@@ -305,28 +327,35 @@ class Transaction
      */
     public function getFormat(): Format
     {
-        return new Format($this->getSystemQueryOption(Option\Format::param), $this->getHeader('accept'));
+        return $this->format;
     }
 
-    public function sendContentType(string $contentType)
+    public function sendContentType(string $contentType): self
     {
         $this->sendHeader('content-type', $contentType);
+
+        return $this;
     }
 
     public function sendHeader(string $key, string $value): self
     {
         $this->response->headers->set($key, $value);
+
         return $this;
     }
 
-    public function setContentTypeText()
+    public function setContentTypeText(): self
     {
         $this->setContentType('text/plain');
+
+        return $this;
     }
 
-    public function setContentTypeJson()
+    public function setContentTypeJson(): self
     {
         $this->setContentType('application/json');
+
+        return $this;
     }
 
     public function getPathComponents(): array
