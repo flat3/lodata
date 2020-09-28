@@ -33,7 +33,7 @@ abstract class EntitySet
     /** @var int Limit of number of records to evaluate from the source */
     private $topLimit = PHP_INT_MAX;
 
-    public function __construct(Store $store, Transaction $transaction, ?Primitive $key = null)
+    public function __construct(Store $store, ?Transaction $transaction = null, ?Primitive $key = null)
     {
         $this->store = $store;
         $this->transaction = $transaction;
@@ -66,7 +66,7 @@ abstract class EntitySet
      *
      * @return bool True if the event was handled
      */
-     abstract public function filter(Event $event): ?bool;
+    abstract public function filter(Event $event): ?bool;
 
     /**
      * Handle a discovered expression symbol in the search query

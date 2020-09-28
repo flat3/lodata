@@ -144,10 +144,17 @@ class Operation extends Handler
                 $transaction->outputJsonKV($metadata);
                 $transaction->outputJsonSeparator();
             }
+
             switch (true) {
                 case $result instanceof Entity:
-                case $result instanceof EntitySet:
                     $result->writeToResponse($transaction);
+                    break;
+
+                case $result instanceof EntitySet:
+                    $transaction->outputJsonKey('value');
+                    $transaction->outputJsonArrayStart();
+                    $result->writeToResponse($transaction);
+                    $transaction->outputJsonArrayEnd();
                     break;
 
                 case $result instanceof Type:

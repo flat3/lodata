@@ -4,6 +4,7 @@ namespace Flat3\OData\Tests\Unit\Operation;
 
 use Flat3\OData\DataModel;
 use Flat3\OData\Entity;
+use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Operation\Function_;
 use Flat3\OData\Tests\Data\FlightDataModel;
@@ -54,6 +55,36 @@ class FunctionTest extends TestCase
             $entity->addPrimitive('abc', $airport->getProperty('code'));
 
             return $entity;
+        });
+
+        $model->resource($callback);
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/example()')
+        );
+    }
+
+    public function test_callback_entity_set()
+    {
+        /** @var DataModel $model */
+        $model = app()->make(DataModel::class);
+
+        $callback = new Function_('example', 'airport');
+        $callback->setCallback(function () use ($model) {
+            $store = $model->getResources()->get('airports');
+
+            $entity = new Entity($store);
+
+            /** @var EntityType $airport */
+            $airport = $model->getEntityTypes()->get('airport');
+
+            $entity->addPrimitive('abc', $airport->getProperty('code'));
+
+            $entityset = new EntitySet\Dynamic($store);
+            $entityset->addResult($entity);
+
+            return $entityset;
         });
 
         $model->resource($callback);
