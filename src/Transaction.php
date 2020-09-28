@@ -99,6 +99,20 @@ class Transaction
             $this->select = (new Select())->transaction($this);
             $this->skip = (new Skip())->transaction($this);
             $this->top = (new Top())->transaction($this);
+
+            foreach ($this->request->query->keys() as $param) {
+                if (
+                    Str::startsWith($param, '$') && !in_array(
+                        $param,
+                        ['$count', '$expand', '$filter', '$orderby', '$search', '$select', '$skip', '$top']
+                    )
+                ) {
+                    throw new BadRequestException(
+                        'invalid_system_query_option',
+                        sprintf('The provided system query option "%s" is not valid', $param)
+                    );
+                }
+            }
         }
 
         if (!$this->response) {
