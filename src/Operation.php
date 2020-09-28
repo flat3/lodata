@@ -2,11 +2,15 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Operation\Argument;
 use RuntimeException;
 
 abstract class Operation extends Resource
 {
+    /** @var callable $callback */
+    protected $callback;
+
     /** @var ObjectArray $arguments */
     protected $arguments;
 
@@ -52,5 +56,19 @@ abstract class Operation extends Resource
         return $this->returnType;
     }
 
-    abstract public function invoke(array $args): Type;
+    public function setCallback(callable $callback): self
+    {
+        $this->callback = $callback;
+
+        return $this;
+    }
+
+    public function invoke(array $args): Type
+    {
+        if (!is_callable($this->callback)) {
+            throw new NotImplementedException('no_callback', 'The requested operation has no implementation');
+        }
+
+        return call_user_func_array($this->callback, $args);
+    }
 }
