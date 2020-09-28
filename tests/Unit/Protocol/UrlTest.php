@@ -22,7 +22,7 @@ class UrlTest extends TestCase
         foreach ($this->tests as $path => $parsed) {
             $pathComponents = Lexer::patternMatch(Singular::path, $path);
             $lexer = new Lexer(rawurldecode(array_pop($pathComponents)));
-            $value = $lexer->type(String_::type());
+            $value = $lexer->type(String_::factory());
             $this->assertEquals($parsed, $value->getInternalValue());
         }
     }
@@ -32,7 +32,7 @@ class UrlTest extends TestCase
         $this->expectException(LexerException::class);
         $pathComponents = Lexer::patternMatch(Singular::path, "/t2('O'Neil')");
         $lexer = new Lexer(rawurldecode(array_pop($pathComponents)));
-        $lexer->type(String_::type());
+        $lexer->type(String_::factory());
     }
 
     public function test_invalid_urls_2()
@@ -40,7 +40,7 @@ class UrlTest extends TestCase
         $this->expectException(LexerException::class);
         $pathComponents = Lexer::patternMatch(Singular::path, "/t2('O%27Neil')");
         $lexer = new Lexer(rawurldecode(array_pop($pathComponents)));
-        $lexer->type(String_::type());
+        $lexer->type(String_::factory());
     }
 
     public function test_invalid_urls_3()
@@ -48,6 +48,6 @@ class UrlTest extends TestCase
         $this->expectException(LexerException::class);
         $pathComponents = Lexer::patternMatch(Singular::path, "/t2(\'Smartphone/Tablet\')");
         $lexer = new Lexer(rawurldecode(array_pop($pathComponents)));
-        $lexer->type(String_::type());
+        $lexer->type(String_::factory());
     }
 }

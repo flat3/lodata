@@ -173,7 +173,7 @@ class Entity extends Resource
 
     public function setEntityIdValue($entityId)
     {
-        $this->setEntityId($this->store->getEntityType()->getKey()->getType()->factory($entityId));
+        $this->setEntityId($this->store->getEntityType()->getKey()->getType()::factory($entityId));
     }
 
     public function primitiveFactory($value, Property $property): Primitive

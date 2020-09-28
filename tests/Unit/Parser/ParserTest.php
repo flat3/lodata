@@ -85,7 +85,7 @@ class ParserTest extends TestCase
         foreach (array_reverse($this->search_tests) as $from => $to) {
             try {
                 $type = new Collection('test');
-                $k = new Property('id', Int32::type());
+                $k = new Property('id', Int32::class);
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());
@@ -118,7 +118,7 @@ class ParserTest extends TestCase
         foreach (array_reverse($this->filter_tests) as $from => $to) {
             try {
                 $type = new Collection('test');
-                $k = new Property('id', Int32::type());
+                $k = new Property('id', Int32::class);
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());

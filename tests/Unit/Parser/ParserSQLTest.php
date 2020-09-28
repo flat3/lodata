@@ -333,10 +333,10 @@ class ParserSQLTest extends TestCase
         foreach (array_reverse($this->tests) as $from => $to) {
             try {
                 $entity_type = new Collection('test');
-                $id = new Property('id', Int32::type());
+                $id = new Property('id', Int32::class);
                 $id->setFilterable(true);
                 $entity_type->setKey($id);
-                $title = new Property('title', String_::type());
+                $title = new Property('title', String_::class);
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
                 $store = new Store('test', $entity_type);

@@ -64,7 +64,7 @@ class LoopbackEntitySet extends EntitySet
             case $event instanceof Literal:
                 $value = $event->getValue();
 
-                $value = \Flat3\OData\Type\String_::type()->factory($value)->toUrl();
+                $value = \Flat3\OData\Type\String_::factory($value)->toUrl();
 
                 $this->addSearch($value);
 

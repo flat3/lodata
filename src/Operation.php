@@ -3,6 +3,7 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Operation\Argument;
+use RuntimeException;
 
 abstract class Operation extends Resource
 {
@@ -12,7 +13,7 @@ abstract class Operation extends Resource
     /** @var Type $returnType */
     protected $returnType;
 
-    public function __construct($identifier, Type $returnType, array $arguments = [])
+    public function __construct($identifier, $returnType, array $arguments = [])
     {
         parent::__construct($identifier);
 
@@ -20,6 +21,15 @@ abstract class Operation extends Resource
 
         foreach ($arguments as $argument) {
             $this->arguments[] = $argument;
+        }
+
+        if (is_string($returnType) && is_a($returnType, Type::class, true)) {
+            /** @var Type $returnType */
+            $returnType = $returnType::factory();
+        }
+
+        if (!$returnType instanceof Type) {
+            throw new RuntimeException('Invalid return type supplied');
         }
 
         $this->returnType = $returnType;

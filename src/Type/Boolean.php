@@ -4,6 +4,10 @@ namespace Flat3\OData\Type;
 
 use Flat3\OData\Type;
 
+/**
+ * Class Boolean
+ * @package Flat3\OData\Type
+ */
 class Boolean extends Type
 {
     public const EDM_TYPE = 'Edm.Boolean';

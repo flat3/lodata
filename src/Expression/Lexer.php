@@ -131,40 +131,40 @@ class Lexer
 
         switch (true) {
             case $type instanceof Type\Binary:
-                $result = $type->factory($this->base64());
+                $result = $type::factory($this->base64());
                 break;
 
             case $type instanceof Type\Boolean:
-                $result = $type->factory($this->boolean());
+                $result = $type::factory($this->boolean());
                 break;
 
             case $type instanceof Type\Byte:
             case $type instanceof Type\Decimal:
-                $result = $type->factory($this->number());
+                $result = $type::factory($this->number());
                 break;
 
             case $type instanceof Type\Date:
-                $result = $type->factory($this->date());
+                $result = $type::factory($this->date());
                 break;
 
             case $type instanceof Type\TimeOfDay:
-                $result = $type->factory($this->timeOfDay());
+                $result = $type::factory($this->timeOfDay());
                 break;
 
             case $type instanceof Type\DateTimeOffset:
-                $result = $type->factory($this->datetimeoffset());
+                $result = $type::factory($this->datetimeoffset());
                 break;
 
             case $type instanceof Type\Duration:
-                $result = $type->factory($this->duration());
+                $result = $type::factory($this->duration());
                 break;
 
             case $type instanceof Type\Guid:
-                $result = $type->factory($this->guid());
+                $result = $type::factory($this->guid());
                 break;
 
             case $type instanceof Type\String_:
-                $result = $type->factory($this->quotedString());
+                $result = $type::factory($this->quotedString());
                 break;
         }
 

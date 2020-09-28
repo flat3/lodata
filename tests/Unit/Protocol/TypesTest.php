@@ -384,7 +384,7 @@ class TypesTest extends TestCase
             foreach ($methods as $method => $assertions) {
                 foreach ($assertions as $assertion) {
                     list ($from, $to) = $assertion;
-                    $this->assertSame($to, $type::type()->factory($from)->$method(),
+                    $this->assertSame($to, $type::factory($from)->$method(),
                         $type.'('.(string) $from.')::'.$method.' -> '.$to);
                 }
             }
@@ -398,10 +398,10 @@ class TypesTest extends TestCase
          * @var array $values
          */
         foreach ($this->nulls as $clazz => $values) {
-            $type = $clazz::type()->factory(null, true);
+            $type = $clazz::factory(null, true);
             $this->assertNull($type->toJson());
 
-            $type = $clazz::type()->factory(null, false);
+            $type = $clazz::factory(null, false);
             $this->assertNotNull($type->toJson(), $clazz);
             $this->assertEquals($values[0], $type->toJson(), $clazz);
             $this->assertEquals($values[1], $type->toUrl(), $clazz);

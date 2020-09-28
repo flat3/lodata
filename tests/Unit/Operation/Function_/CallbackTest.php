@@ -15,9 +15,9 @@ class CallbackTest extends TestCase
         /** @var DataModel $model */
         $model = app()->make(DataModel::class);
 
-        $callback = new Callback('example', String_::type());
+        $callback = new Callback('example', String_::class);
         $callback->setCallback(function () {
-            return String_::type()->factory('hello');
+            return String_::factory('hello');
         });
 
         $model->resource($callback);

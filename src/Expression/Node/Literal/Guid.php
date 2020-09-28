@@ -8,7 +8,7 @@ class Guid extends Literal
 {
     public function setValue(string $value): void
     {
-        $this->value = \Flat3\OData\Type\Guid::type()->factory($value)->getInternalValue();
+        $this->value = \Flat3\OData\Type\Guid::factory($value)->getInternalValue();
     }
 
     public function getValue(): string

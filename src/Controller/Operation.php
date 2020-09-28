@@ -74,7 +74,7 @@ class Operation extends Handler
                         sprintf('A non-null argument (%s) is missing', $argumentIdentifier));
                 }
 
-                $parsedArguments[$argumentIdentifier] = $argumentDefinition->getType()->factory(null);
+                $parsedArguments[$argumentIdentifier] = $argumentDefinition->getType()::factory(null);
                 continue;
             }
 

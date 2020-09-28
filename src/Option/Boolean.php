@@ -14,7 +14,7 @@ abstract class Boolean extends Option
             return;
         }
 
-        $this->value = \Flat3\OData\Type\Boolean::type()->factory($value)->getInternalValue();
+        $this->value = \Flat3\OData\Type\Boolean::factory($value)->getInternalValue();
     }
 
     public function getValue(): ?bool

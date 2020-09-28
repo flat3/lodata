@@ -21,7 +21,7 @@ class Primitive
             $value = $value->getInternalValue();
         }
 
-        $this->value = $property->getType()->factory($value);
+        $this->value = $property->getType()::factory($value);
         $this->entity = $entity;
     }
 

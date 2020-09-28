@@ -11,6 +11,7 @@ use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Store;
 use Flat3\OData\Transaction;
+use Flat3\OData\Type;
 use Flat3\OData\Type\Boolean;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -66,7 +67,7 @@ class Metadata extends Controller
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
                     'Nullable',
-                    Boolean::type()->factory($property->isNullable())->toUrl()
+                    Boolean::factory($property->isNullable())->toUrl()
                 );
             }
 
@@ -93,7 +94,7 @@ class Metadata extends Controller
                 $navigationPropertyElement->addAttribute('Type', $navigationPropertyType);
                 $navigationPropertyElement->addAttribute(
                     'Nullable',
-                    Boolean::type()->factory($navigationProperty->isNullable())->toUrl()
+                    Boolean::factory($navigationProperty->isNullable())->toUrl()
                 );
 
                 /** @var Property\Constraint $constraint */
@@ -143,7 +144,7 @@ class Metadata extends Controller
                     $returnType->addAttribute('Type', $resource->getReturnType()->getEdmTypeName());
                     $returnType->addAttribute(
                         'Nullable',
-                        Boolean::type()->factory($resource->getReturnType()->isNullable())->toUrl()
+                        Boolean::factory($resource->getReturnType()->isNullable())->toUrl()
                     );
 
                     /** @var Argument $argument */
@@ -153,7 +154,7 @@ class Metadata extends Controller
                         $parameterElement->addAttribute('Type', $argument->getType()->getEdmTypeName());
                         $parameterElement->addAttribute(
                             'Nullable',
-                            Boolean::type()->factory($argument->isNullable())->toUrl()
+                            Boolean::factory($argument->isNullable())->toUrl()
                         );
                     }
 

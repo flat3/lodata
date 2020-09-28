@@ -22,6 +22,12 @@ class Property extends Resource
     public function __construct($identifier, $type)
     {
         parent::__construct($identifier);
+
+        if (is_string($type)) {
+            /** @var Type $type */
+            $type = $type::factory();
+        }
+
         $this->type = $type;
     }
 
