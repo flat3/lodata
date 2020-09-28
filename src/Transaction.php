@@ -104,7 +104,10 @@ class Transaction
                 if (
                     Str::startsWith($param, '$') && !in_array(
                         $param,
-                        ['$count', '$expand', '$filter', '$orderby', '$search', '$select', '$skip', '$top']
+                        [
+                            '$count', '$compute', '$expand', '$format', '$filter',
+                            '$orderby', '$search', '$select', '$skip', '$top'
+                        ]
                     )
                 ) {
                     throw new BadRequestException(
