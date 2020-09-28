@@ -167,29 +167,34 @@ class Metadata extends Controller
             }
         }
 
-        $annotations = $schema->addChild('Annotations');
-        $annotations->addAttribute('Target', $dataModel->getNamespace().'.'.'DefaultContainer');
+        $schemaAnnotations = $schema->addChild('Annotations');
+        $schemaAnnotations->addAttribute('Target', $dataModel->getNamespace().'.'.'DefaultContainer');
 
-        $conventionalIds = $annotations->addChild('Annotation');
+        $conventionalIds = $schemaAnnotations->addChild('Annotation');
         $conventionalIds->addAttribute('Term', 'Org.OData.Core.V1.ConventionalIDs');
         $conventionalIds->addAttribute('Bool', Boolean::URL_TRUE);
 
-        $dereferencerableIds = $annotations->addChild('Annotation');
+        $dereferencerableIds = $schemaAnnotations->addChild('Annotation');
         $dereferencerableIds->addAttribute('Term', 'Org.OData.Core.V1.DereferenceableIDs');
         $dereferencerableIds->addAttribute('Bool', Boolean::URL_TRUE);
 
-        $conformanceLevel = $annotations->addChild('Annotation');
+        $conformanceLevel = $schemaAnnotations->addChild('Annotation');
         $conformanceLevel->addAttribute('Term', 'Org.OData.Capabilities.V1.ConformanceLevel');
         $conformanceLevelType = $conformanceLevel->addChild(
             'EnumMember',
             'Org.OData.Capabilities.V1.ConformanceLevelType/Advanced'
         );
 
-        $defaultNamespace = $annotations->addChild('Annotation');
+        $defaultNamespace = $schemaAnnotations->addChild('Annotation');
         $defaultNamespace->addAttribute('Term', 'Org.OData.Core.V1.DefaultNamespace');
         $defaultNamespace->addAttribute('Bool', Boolean::URL_TRUE);
 
-        $supportedFormats = $annotations->addChild('Annotation');
+        $odataVersions = $schemaAnnotations->addChild('Annotation');
+        $odataVersions->addAttribute('Term', 'Org.OData.Core.V1.ODataVersions');
+        $odataVersionsCollection = $odataVersions->addChild('Collection');
+        $odataVersionsCollection->addChild('String', '4.01');
+
+        $supportedFormats = $schemaAnnotations->addChild('Annotation');
         $supportedFormats->addAttribute('Term', 'Org.OData.Capabilities.V1.SupportedFormats');
         $supportedFormatsCollection = $supportedFormats->addChild('Collection');
 

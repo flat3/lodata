@@ -41,6 +41,11 @@
           <EnumMember>Org.OData.Capabilities.V1.ConformanceLevelType/Advanced</EnumMember>
         </Annotation>
         <Annotation Term="Org.OData.Core.V1.DefaultNamespace" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.ODataVersions">
+          <Collection>
+            <String>4.01</String>
+          </Collection>
+        </Annotation>
         <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
           <Collection>
             <String>application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true</String>
