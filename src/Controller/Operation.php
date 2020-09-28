@@ -139,7 +139,22 @@ class Operation extends Handler
 
         $response->setCallback(function () use ($transaction, $metadata, $result) {
             $transaction->outputJsonObjectStart();
-            $transaction->outputJsonKV(array_merge($metadata, ['value' => $result->toJson()]));
+
+            if ($metadata) {
+                $transaction->outputJsonKV($metadata);
+                $transaction->outputJsonSeparator();
+            }
+            switch (true) {
+                case $result instanceof Entity:
+                case $result instanceof EntitySet:
+                    $result->writeToResponse($transaction);
+                    break;
+
+                case $result instanceof Type:
+                    $transaction->outputJsonKV(['value' => $result->toJson()]);
+                    break;
+            }
+
             $transaction->outputJsonObjectEnd();
         });
     }

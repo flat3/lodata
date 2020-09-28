@@ -17,7 +17,7 @@ abstract class Operation extends Resource
     /** @var Type $returnType */
     protected $returnType;
 
-    public function __construct($identifier, $returnType, array $arguments = [])
+    public function __construct($identifier, string $returnType, array $arguments = [])
     {
         parent::__construct($identifier);
 
@@ -27,16 +27,19 @@ abstract class Operation extends Resource
             $this->arguments[] = $argument;
         }
 
-        if (is_string($returnType) && is_a($returnType, Type::class, true)) {
-            /** @var Type $returnType */
-            $returnType = $returnType::factory();
+        /** @var DataModel $dataModel */
+        $dataModel = app()->make(DataModel::class);
+        if ($dataModel->getEntityTypes()->get($returnType)) {
+            $this->returnType = $dataModel->getEntityTypes()->get($returnType);
         }
 
-        if (!$returnType instanceof Type) {
+        if (is_a($returnType, Type::class, true)) {
+            $this->returnType = $returnType::factory();
+        }
+
+        if (!$this->returnType) {
             throw new RuntimeException('Invalid return type supplied');
         }
-
-        $this->returnType = $returnType;
     }
 
     public function addArgument(Argument $argument): self
@@ -63,7 +66,7 @@ abstract class Operation extends Resource
         return $this;
     }
 
-    public function invoke(array $args): Type
+    public function invoke(array $args)
     {
         if (!is_callable($this->callback)) {
             throw new NotImplementedException('no_callback', 'The requested operation has no implementation');

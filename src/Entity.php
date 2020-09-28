@@ -30,9 +30,12 @@ class Entity extends Resource
         $expand = $transaction->getExpand();
         $selectedProperties = $transaction->getSelect()->getSelectedProperties($this->store);
 
-        $metadata = $transaction->getMetadata()->filter([
-            'id' => $transaction->getEntityResourceUrl($this->store, $entityId->toUrl()),
-        ]);
+        $metadata = [];
+        if ($entityId) {
+            $metadata['id'] = $transaction->getEntityResourceUrl($this->store, $entityId->toUrl());
+        }
+
+        $metadata = $transaction->getMetadata()->filter($metadata);
 
         $expansionRequests = $expand->getExpansionRequests($this->store->getEntityType());
 
@@ -136,7 +139,7 @@ class Entity extends Resource
         }
     }
 
-    public function getEntityId(): Type
+    public function getEntityId(): ?Type
     {
         return $this->entityId;
     }
