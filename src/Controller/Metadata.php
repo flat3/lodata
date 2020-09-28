@@ -199,11 +199,11 @@ class Metadata extends Controller
         $supportedFormatsCollection = $supportedFormats->addChild('Collection');
 
         /** @var Attribute\Metadata $attribute */
-        foreach ( [
-                Attribute\Metadata\Full::class,
-                Attribute\Metadata\Minimal::class,
-                Attribute\Metadata\None::class,
-            ] as $attribute
+        foreach ([
+                     Attribute\Metadata\Full::class,
+                     Attribute\Metadata\Minimal::class,
+                     Attribute\Metadata\None::class,
+                 ] as $attribute
         ) {
             $supportedFormatsCollection->addChild(
                 'String',

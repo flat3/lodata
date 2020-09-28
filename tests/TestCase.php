@@ -6,6 +6,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\ServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
@@ -52,11 +53,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->req($request);
     }
 
+    protected function assertPreconditionFailed(Request $request)
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $this->req($request);
+    }
+
     public function req(Request $request)
     {
         return $this->call(
             'GET',
-            'odata' . $request->uri(),
+            'odata'.$request->uri(),
             [],
             [],
             [],

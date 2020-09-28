@@ -1,0 +1,7 @@
+headers:
+    cache-control: ['no-cache, private']
+    odata-version: ['4.01']
+    content-type: [application/json]
+    preference-applied: [maxpagesize=1]
+    vary: [prefer]
+status: 200

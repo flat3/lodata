@@ -10,6 +10,7 @@ use Flat3\OData\Attribute\ParameterList;
 use Flat3\OData\Attribute\Version;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
+use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Expand;
 use Flat3\OData\Option\Filter;
@@ -121,6 +122,10 @@ class Transaction
                         sprintf('The provided system query option "%s" is not valid', $param)
                     );
                 }
+            }
+
+            if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {
+                throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
             }
         }
 
@@ -254,6 +259,14 @@ class Transaction
     public function getMaxPageSizePreference()
     {
         return $this->getPreference('maxpagesize') ?: $this->getPreference('odata.maxpagesize');
+    }
+
+    public function preferenceApplied($key, $value): self
+    {
+        $this->response->headers->set('preference-applied', sprintf('%s=%s', $key, $value));
+        $this->response->headers->set('vary', 'prefer', true);
+
+        return $this;
     }
 
     public function getPreference(string $preference)
