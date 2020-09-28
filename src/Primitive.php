@@ -55,7 +55,7 @@ class Primitive
         return $this->value->toUrl();
     }
 
-    public function toJsonIeee754(): string
+    public function toJsonIeee754(): ?string
     {
         return $this->value->toJsonIeee754();
     }

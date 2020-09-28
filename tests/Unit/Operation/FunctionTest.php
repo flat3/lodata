@@ -32,7 +32,7 @@ class FunctionTest extends TestCase
             return String_::factory('hello');
         });
 
-        $model->resource($callback);
+        $model->addResource($callback);
 
         $this->assertJsonResponse(
             Request::factory()
@@ -57,7 +57,7 @@ class FunctionTest extends TestCase
             return $entity;
         });
 
-        $model->resource($callback);
+        $model->addResource($callback);
 
         $this->assertJsonResponse(
             Request::factory()
@@ -89,7 +89,7 @@ class FunctionTest extends TestCase
             return $entityset;
         });
 
-        $model->resource($callback);
+        $model->addResource($callback);
 
         $this->assertJsonResponse(
             Request::factory()

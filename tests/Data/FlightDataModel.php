@@ -86,12 +86,12 @@ trait FlightDataModel
             $airportStore->setTable('airports');
 
             $model
-                ->entityType($flightType)
-                ->resource($flightStore);
+                ->addEntityType($flightType)
+                ->addResource($flightStore);
 
             $model
-                ->entityType($airportType)
-                ->resource($airportStore);
+                ->addEntityType($airportType)
+                ->addResource($airportStore);
 
             $nav = new Property\Navigation($airportStore, $airportType);
             $nav->addConstraint(

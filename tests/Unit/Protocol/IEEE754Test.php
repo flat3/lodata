@@ -6,7 +6,7 @@ use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
-class IEEE754 extends TestCase
+class IEEE754Test extends TestCase
 {
     use FlightDataModel;
 

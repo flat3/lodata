@@ -11,7 +11,6 @@ use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Store;
 use Flat3\OData\Transaction;
-use Flat3\OData\Type;
 use Flat3\OData\Type\Boolean;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -200,8 +199,7 @@ class Metadata extends Controller
         $supportedFormatsCollection = $supportedFormats->addChild('Collection');
 
         /** @var Attribute\Metadata $attribute */
-        foreach (
-            [
+        foreach ( [
                 Attribute\Metadata\Full::class,
                 Attribute\Metadata\Minimal::class,
                 Attribute\Metadata\None::class,

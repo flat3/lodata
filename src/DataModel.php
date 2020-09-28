@@ -16,7 +16,7 @@ class DataModel
         $this->entityTypes = new ObjectArray();
     }
 
-    public function entityType(EntityType $entityType): self
+    public function addEntityType(EntityType $entityType): self
     {
         $entityType->setDataModel($this);
         $this->entityTypes[] = $entityType;
@@ -24,7 +24,7 @@ class DataModel
         return $this;
     }
 
-    public function resource(Resource $resource): self
+    public function addResource(Resource $resource): self
     {
         $this->resources[] = $resource;
         return $this;
