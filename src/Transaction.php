@@ -477,6 +477,11 @@ class Transaction
         return $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier().'/$entity';
     }
 
+    public function getSingletonContextUrl(string $singleton): string
+    {
+        return $this->getServiceDocumentContextUrl().'#'.$singleton;
+    }
+
     public function getCollectionOfProjectedEntitiesContextUrl(Store $store, array $selects): string
     {
         return sprintf(
@@ -523,6 +528,21 @@ class Transaction
             $entityId,
             $property->getIdentifier()
         );
+    }
+
+    public function getCollectionOfTypesContextUrl(Store $store, Type $type): string
+    {
+        return sprintf(
+            '%s#%s(%s)',
+            $this->getServiceDocumentContextUrl(),
+            $store->getIdentifier(),
+            $type->getEdmTypeName()
+        );
+    }
+
+    public function getTypeContextUrl(Type $type): string
+    {
+        return $this->getServiceDocumentContextUrl().'#'.$type->getEdmTypeName();
     }
 
     public function getEntityResourceUrl(Store $store, $entityId): string

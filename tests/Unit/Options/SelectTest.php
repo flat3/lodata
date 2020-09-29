@@ -21,7 +21,7 @@ class SelectTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->query('$select', 'origin')
+                ->query('$select', 'origin,destination')
         );
     }
 
@@ -30,7 +30,7 @@ class SelectTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
-                ->query('$select', 'origin')
+                ->query('$select', 'origin,destination')
         );
     }
 }

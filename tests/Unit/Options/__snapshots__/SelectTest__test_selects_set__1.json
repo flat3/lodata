@@ -1,11 +1,13 @@
 {
-    "@context": "http://localhost/odata/$metadata#flights(origin)",
+    "@context": "http://localhost/odata/$metadata#flights(origin,destination)",
     "value": [
         {
-            "origin": "lhr"
+            "origin": "lhr",
+            "destination": "lax"
         },
         {
-            "origin": "sam"
+            "origin": "sam",
+            "destination": "rgr"
         }
     ]
 }
