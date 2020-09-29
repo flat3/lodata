@@ -28,7 +28,7 @@ class Guid extends Type
 
     public function toInternal($value): void
     {
-        $this->value = $this->maybeNull(Lexer::pattern_check(
+        $this->value = $this->maybeNull(Lexer::patternCheck(
             Lexer::GUID,
             $value
         ) ? $this->stringToBinary($value) : (null === $value ? null : (string) $value));

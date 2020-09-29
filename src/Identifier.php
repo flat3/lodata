@@ -12,7 +12,7 @@ final class Identifier
 
     public function __construct(string $identifier)
     {
-        if (!Lexer::pattern_check(Lexer::ODATA_IDENTIFIER, $identifier)) {
+        if (!Lexer::patternCheck(Lexer::ODATA_IDENTIFIER, $identifier)) {
             throw new ConfigurationException('The provided identifier was invalid', $identifier);
         }
 

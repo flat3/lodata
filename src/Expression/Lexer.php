@@ -34,14 +34,14 @@ class Lexer
         $this->len = strlen($expression) - 1;
     }
 
-    public static function pattern_check($expression, $value): bool
+    public static function patternCheck($expression, $value): bool
     {
-        return preg_match('@^' . $expression . '$@', $value) === 1;
+        return preg_match('@^'.$expression.'$@', $value) === 1;
     }
 
     public static function patternMatch($expression, $value): ?array
     {
-        $result = preg_match('@^' . $expression . '$@', $value, $matches);
+        $result = preg_match('@^'.$expression.'$@', $value, $matches);
 
         return $result === 1 ? $matches : null;
     }
@@ -75,7 +75,7 @@ class Lexer
     /**
      * Match one of the provided rules
      *
-     * @param mixed ...$rules
+     * @param  mixed  ...$rules
      *
      * @return mixed
      * @throws LexerException
@@ -191,7 +191,7 @@ class Lexer
         }
 
         if (!$wrapped) {
-            $pattern = '@^' . $pattern . '@';
+            $pattern = '@^'.$pattern.'@';
         }
 
         $result = preg_match($pattern, substr($this->text, $this->pos + 1), $matches);
@@ -222,9 +222,9 @@ class Lexer
     }
 
     /**
-     * Match a keyword
+     * Match a keyword, case insensitively
      *
-     * @param mixed ...$keywords
+     * @param  mixed  ...$keywords
      *
      * @return mixed
      * @throws LexerException
@@ -236,10 +236,10 @@ class Lexer
         }
 
         // Ensure the longest keyword is matched first
-        self::sort_array_by_length($keywords);
+        self::sortArrayByLength($keywords);
 
         foreach ($keywords as $keyword) {
-            if (substr($this->text, $this->pos + 1, strlen($keyword)) === $keyword) {
+            if (strtolower(substr($this->text, $this->pos + 1, strlen($keyword))) === strtolower($keyword)) {
                 $this->pos += strlen($keyword);
 
                 return $keyword;
@@ -254,7 +254,7 @@ class Lexer
         );
     }
 
-    public static function sort_array_by_length(&$array)
+    public static function sortArrayByLength(&$array)
     {
         usort($array, function ($a, $b) {
             return strlen($b) <=> strlen($a);
@@ -279,7 +279,7 @@ class Lexer
         $chars[] = $this->expression(self::DIGIT);
 
         while (true) {
-            $char = $this->maybe_expression(self::DIGIT);
+            $char = $this->maybeExpression(self::DIGIT);
             if (null === $char) {
                 break;
             }
@@ -292,7 +292,7 @@ class Lexer
             $chars[] = $this->expression(self::DIGIT);
 
             while (true) {
-                $char = $this->maybe_expression(self::DIGIT);
+                $char = $this->maybeExpression(self::DIGIT);
                 if (null === $char) {
                     break;
                 }
@@ -301,13 +301,13 @@ class Lexer
             }
         }
 
-        return (float)implode('', $chars);
+        return (float) implode('', $chars);
     }
 
     /**
      * Maybe match a keyword
      *
-     * @param mixed ...$args
+     * @param  mixed  ...$args
      *
      * @return mixed|null
      */
@@ -320,7 +320,7 @@ class Lexer
         }
     }
 
-    public function maybe_expression(...$args): ?string
+    public function maybeExpression(...$args): ?string
     {
         try {
             return $this->expression(...$args);
@@ -332,7 +332,7 @@ class Lexer
     /**
      * Maybe match from a character list
      *
-     * @param mixed ...$args
+     * @param  mixed  ...$args
      *
      * @return string|null
      */
@@ -375,7 +375,7 @@ class Lexer
     /**
      * Match one of the provided chars
      *
-     * @param string $char
+     * @param  string  $char
      *
      * @return string
      * @throws LexerException
@@ -560,13 +560,13 @@ class Lexer
     public function maybeMatchingParenthesis(): ?string
     {
         try {
-            return $this->matching_parenthesis();
+            return $this->matchingParenthesis();
         } catch (LexerException $e) {
             return null;
         }
     }
 
-    public function matching_parenthesis(): string
+    public function matchingParenthesis(): string
     {
         $this->char('(');
         $chars = [];
