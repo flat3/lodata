@@ -5,6 +5,7 @@ namespace Flat3\OData\Expression\Parser;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Expression\Event;
+use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
@@ -96,6 +97,17 @@ class Filter extends Parser
         return $this->store->filter($event);
     }
 
+    public function findLiteral(): bool
+    {
+        return $this->tokenizeDateTimeOffset() ||
+            $this->tokenizeDate() ||
+            $this->tokenizeTimeOfDay() ||
+            $this->tokenizeQuotedString() ||
+            $this->tokenizeGuid() ||
+            $this->tokenizeNumber() ||
+            $this->tokenizeBoolean();
+    }
+
     /**
      * Valid token types for this expression
      *
@@ -110,14 +122,33 @@ class Filter extends Parser
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
             $this->tokenizeParameterAlias($this->transaction) ||
-            $this->tokenizeDateTimeOffset() ||
-            $this->tokenizeDate() ||
-            $this->tokenizeTimeOfDay() ||
             $this->tokenizeKeyword() ||
-            $this->tokenizeQuotedString() ||
             $this->tokenizeOperator() ||
-            $this->tokenizeGuid() ||
-            $this->tokenizeNumber() ||
-            $this->tokenizeBoolean();
+            $this->findLiteral();
+    }
+
+    public function tokenizeParameterAlias(Transaction $transaction): bool
+    {
+        $token = $this->lexer->maybeParameterAlias();
+
+        if (!$token) {
+            return false;
+        }
+
+        $referencedValue = $transaction->getReferencedValue($token);
+        $lexer = $this->lexer;
+        $this->lexer = new Lexer($referencedValue);
+
+        while (!$this->lexer->finished()) {
+            if ($this->findLiteral()) {
+                continue;
+            }
+
+            throw new ParserException('Encountered an invalid symbol', $this->lexer);
+        }
+
+        $this->lexer = $lexer;
+
+        return true;
     }
 }

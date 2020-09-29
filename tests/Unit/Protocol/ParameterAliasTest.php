@@ -26,13 +26,23 @@ class ParameterAliasTest extends TestCase
         );
     }
 
-    public function test_complex_alias()
+    public function test_alias_date()
     {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("code eq @code")
-                ->query('@code', "substring('xsfo', 2)")
+                ->filter("construction_date eq @code")
+                ->query('@code', '1946-03-25')
+        );
+    }
+
+    public function test_alias_bool()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->filter("is_big eq @code")
+                ->query('@code', 'true')
         );
     }
 

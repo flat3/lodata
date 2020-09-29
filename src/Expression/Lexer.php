@@ -14,9 +14,11 @@ class Lexer
     public const OPEN_PAREN = "(?:\(|%28)";
     public const PATH_SEPARATOR = '/';
     public const ODATA_IDENTIFIER = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
-    public const ISO8601 = '([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?';
     public const ISO8601_DURATION = 'P(?:(?:(?P<d>[0-9]+)D)?)?(?:T(?:(?P<h>[0-9]+)H)?(?:(?P<m>[0-9]+)M)?(?:(?P<s>[0-9\.]+)S)?)?';
-    public const TIMEOFDAY = '([0-1][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]{1,12})?)?';
+    public const DATETIMEOFFSET = self::DATE.'T'.self::TIMEOFDAY.'(Z[-+]'.self::HOUR.':'.self::MINUTE.')?';
+    public const HOUR = '([0-1][0-9]|2[0-3])';
+    public const MINUTE = '([0-5][0-9])';
+    public const TIMEOFDAY = self::HOUR.':'.self::MINUTE.'(:[0-5][0-9](\.[0-9]{1,12})?)?';
     public const DATE = '([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][--9]|3[0-1])';
     public const GUID = '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}';
     public const CLOSE_PAREN = "(?:\)|%29)";
@@ -417,7 +419,7 @@ class Lexer
 
     public function datetimeoffset()
     {
-        return $this->expression(self::ISO8601);
+        return $this->expression(self::DATETIMEOFFSET);
     }
 
     public function date()

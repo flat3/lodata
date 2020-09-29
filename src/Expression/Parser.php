@@ -12,7 +12,6 @@ use Flat3\OData\Expression\Node\LeftParen;
 use Flat3\OData\Expression\Node\Literal;
 use Flat3\OData\Expression\Node\Operator\Logical;
 use Flat3\OData\Expression\Node\RightParen;
-use Flat3\OData\Transaction;
 
 /**
  * Class Parser
@@ -42,7 +41,7 @@ abstract class Parser
     private $operandStack = [];
 
     /** @var Lexer $lexer */
-    private $lexer;
+    protected $lexer;
 
     public function __construct(EntitySet $store)
     {
@@ -384,31 +383,6 @@ abstract class Parser
         $operand->setValue($token);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
-
-        return true;
-    }
-
-    public function tokenizeParameterAlias(Transaction $transaction): bool
-    {
-        $token = $this->lexer->maybeParameterAlias();
-
-        if (!$token) {
-            return false;
-        }
-
-        $referencedValue = $transaction->getReferencedValue($token);
-        $lexer = $this->lexer;
-        $this->lexer = new Lexer($referencedValue);
-
-        while (!$this->lexer->finished()) {
-            if ($this->findToken()) {
-                continue;
-            }
-
-            throw new ParserException('Encountered an invalid symbol', $this->lexer);
-        }
-
-        $this->lexer = $lexer;
 
         return true;
     }
