@@ -3,15 +3,16 @@
 namespace Flat3\OData\Tests;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
+use Flat3\OData\Exception\Protocol\ProtocolException;
 use Flat3\OData\ServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Spatie\Snapshots\MatchesSnapshots;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -44,7 +45,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function assertMethodNotAllowed(Request $request)
     {
-        $this->expectException(MethodNotAllowedHttpException::class);
+        $this->expectException(MethodNotAllowedException::class);
         $this->req($request);
     }
 
@@ -66,7 +67,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->req($request);
     }
 
-    public function req(Request $request)
+    public function req(Request $request): TestResponse
     {
         return $this->call(
             $request->method,
@@ -109,6 +110,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $response = $this->req($request);
         $this->assertMatchesSnapshot($response->streamedContent(), new JsonDriver());
+    }
+
+    protected function assertProtocolException(ProtocolException $e)
+    {
+        $this->assertMatchesSnapshot($e->serialize());
     }
 
     protected function assertJsonMetadataResponse(Request $request)

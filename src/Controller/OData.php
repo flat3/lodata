@@ -5,6 +5,7 @@ namespace Flat3\OData\Controller;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -53,5 +54,17 @@ class OData extends Controller
         }
 
         throw new NotFoundException('no_handler', 'No route handler was able to process this request');
+    }
+
+    public function fallback(Request $request)
+    {
+        throw MethodNotAllowedException::factory()
+            ->message(
+                sprintf(
+                    'The %s method is not allowed',
+                    $request->getMethod()
+                )
+            )
+            ->header('Allow', 'GET');
     }
 }

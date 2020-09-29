@@ -1,0 +1,4 @@
+httpCode: 405
+message: 'The PATCH method is not allowed'
+headers:
+    Allow: GET

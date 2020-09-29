@@ -46,6 +46,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             Route::get("{$route}/\$metadata", [Metadata::class, 'get']);
 
             Route::get("{$route}{path}", [OData::class, 'get'])->where('path', '(.*)');
+
+            Route::match(
+                ['post', 'put', 'patch', 'delete', 'options'],
+                "{$route}{path}",
+                [OData::class, 'fallback']
+            )->where('path', '.*');
         });
     }
 }
