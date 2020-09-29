@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Option;
 
-use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Option;
 use Flat3\OData\Store;
@@ -19,31 +18,25 @@ class Select extends Option
     public function getSelectedProperties(Store $store): ObjectArray
     {
         $selected = $this->getValue();
-        $properties = $store->getEntityType()->getDeclaredProperties();
+        $declaredProperties = $store->getEntityType()->getDeclaredProperties();
 
         if (!$selected || in_array('*', $selected, true)) {
-            return $properties;
+            return $declaredProperties;
         }
 
-        $result = new ObjectArray();
+        $properties = new ObjectArray();
 
         foreach ($selected as $s) {
-            $property = $properties[$s];
+            $property = $store->getTypeProperty($s);
 
             if (null === $property) {
-                throw new BadRequestException(
-                    'property_does_not_exist',
-                    sprintf(
-                        'The requested property "%s" does not exist on this entity type',
-                        $s
-                    )
-                );
+                continue;
             }
 
-            $result[] = $properties[$s];
+            $properties[] = $property;
         }
 
-        return $result;
+        return $properties;
     }
 
     public function hasValue(): bool

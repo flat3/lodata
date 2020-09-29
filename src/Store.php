@@ -95,6 +95,11 @@ abstract class Store extends Resource
         return $this->getEntityType()->getProperty($property);
     }
 
+    public function hasTypeProperty(string $property): bool
+    {
+        return $this->getTypeProperty($property) instanceof Property;
+    }
+
     public function getEntityType(): EntityType
     {
         return $this->entityType;

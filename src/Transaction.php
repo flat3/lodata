@@ -164,11 +164,17 @@ class Transaction
     public function setResponse(StreamedResponse $response): self
     {
         if (!$this->response) {
-            $response->headers->set(Version::versionHeader, $this->getVersion());
-            $response->setStatusCode(Response::HTTP_OK);
-        }
+            $this->response = $response;
 
-        $this->response = $response;
+            if ($this->getPreference('omit-values') === 'nulls') {
+                $this->preferenceApplied('omit-values', 'nulls');
+            }
+
+            $this->response->headers->set(Version::versionHeader, $this->getVersion());
+            $this->response->setStatusCode(Response::HTTP_OK);
+        } else {
+            $this->response = $response;
+        }
 
         return $this;
     }
@@ -256,11 +262,6 @@ class Transaction
         return $this->top;
     }
 
-    public function getMaxPageSizePreference()
-    {
-        return $this->getPreference('maxpagesize') ?: $this->getPreference('odata.maxpagesize');
-    }
-
     public function preferenceApplied($key, $value): self
     {
         $this->response->headers->set('preference-applied', sprintf('%s=%s', $key, $value));
@@ -271,7 +272,33 @@ class Transaction
 
     public function getPreference(string $preference)
     {
-        return $this->preferences->getParameter($preference);
+        return $this->preferences->getParameter($preference) ?: $this->preferences->getParameter('odata.'.$preference);
+    }
+
+    public function shouldEmitPrimitive(?Primitive $primitive = null): bool
+    {
+        if (null === $primitive) {
+            return false;
+        }
+
+        $property = $primitive->getProperty();
+
+        $omitNulls = $this->getPreference('omit-values') === 'nulls';
+
+        if ($omitNulls && $primitive->getInternalValue() === null && $property->isNullable()) {
+            return false;
+        }
+
+        $select = $this->getSelect();
+        $selected = $select->getValue();
+
+        if ($selected) {
+            if (!in_array((string) $property, $selected)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function getMetadata(): Metadata

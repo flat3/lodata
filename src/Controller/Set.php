@@ -4,6 +4,7 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Option;
@@ -39,9 +40,27 @@ class Set extends Handler
 
         $this->store = $store;
 
-        // Validate expand properties
+        // Validate $expand
         $expand = $transaction->getExpand();
         $expand->getExpansionRequests($store->getEntityType());
+
+        // Validate $select
+        $select = $transaction->getSelect();
+        $selected = $select->getValue();
+
+        foreach ($selected as $property) {
+            if ($store->hasTypeProperty($property)) {
+                continue;
+            }
+
+            throw new BadRequestException(
+                'property_does_not_exist',
+                sprintf(
+                    'The requested property "%s" does not exist on this entity type',
+                    $property
+                )
+            );
+        }
     }
 
     public function handle(): void
@@ -65,7 +84,7 @@ class Set extends Handler
             }
         }
 
-        $maxPageSize = $transaction->getMaxPageSizePreference();
+        $maxPageSize = $transaction->getPreference('maxpagesize');
         $top = $transaction->getTop();
         if (!$top->hasValue() && $maxPageSize) {
             $transaction->preferenceApplied('maxpagesize', $maxPageSize);

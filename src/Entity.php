@@ -54,13 +54,16 @@ class Entity extends Resource
                 /** @var Primitive $primitive */
                 $primitive = $this->primitives->current();
 
-                if ($selectedProperties->get($primitive->getProperty())) {
+                if ($transaction->shouldEmitPrimitive($primitive)) {
                     $transaction->outputJsonKV([$primitive->getProperty()->getIdentifier()->get() => $primitive]);
-                }
 
-                $this->primitives->next();
-                if ($this->primitives->valid() && $selectedProperties->get($this->primitives->current()->getProperty())) {
-                    $transaction->outputJsonSeparator();
+                    $this->primitives->next();
+
+                    if ($this->primitives->valid() && $transaction->shouldEmitPrimitive($this->primitives->current())) {
+                        $transaction->outputJsonSeparator();
+                    }
+                } else {
+                    $this->primitives->next();
                 }
             }
 
