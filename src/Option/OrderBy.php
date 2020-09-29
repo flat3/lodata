@@ -22,10 +22,13 @@ class OrderBy extends Option
         $properties = $store->getEntityType()->getDeclaredProperties();
 
         foreach ($this->getCommaSeparatedValues() as $expression) {
-            [$literal, $direction] = array_map('trim', explode(' ', $expression));
+            $pair = array_map('trim', explode(' ', $expression));
 
-            if (!$direction) {
-                $direction = 'asc';
+            $literal = array_shift($pair);
+            $direction = array_shift($pair) ?? 'asc';
+
+            if ($pair) {
+                throw new BadRequestException('invalid_orderby_syntax', 'The requested orderby syntax is invalid');
             }
 
             $direction = strtolower($direction);
