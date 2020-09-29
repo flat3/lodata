@@ -300,6 +300,11 @@ class Transaction
         }
 
         $select = $this->getSelect();
+
+        if ($select->isStar() || !$select->hasValue()) {
+            return true;
+        }
+
         $selected = $select->getValue();
 
         if ($selected) {

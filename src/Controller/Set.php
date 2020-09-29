@@ -4,7 +4,6 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Option;
@@ -46,21 +45,7 @@ class Set extends Handler
 
         // Validate $select
         $select = $transaction->getSelect();
-        $selected = $select->getValue();
-
-        foreach ($selected as $property) {
-            if ($store->hasTypeProperty($property)) {
-                continue;
-            }
-
-            throw new BadRequestException(
-                'property_does_not_exist',
-                sprintf(
-                    'The requested property "%s" does not exist on this entity type',
-                    $property
-                )
-            );
-        }
+        $select->getSelectedProperties($store);
     }
 
     public function handle(): void
@@ -97,7 +82,7 @@ class Set extends Handler
 
         $select = $transaction->getSelect();
 
-        if ($select->hasValue()) {
+        if ($select->hasValue() && !$select->isStar()) {
             $metadata['context'] = $transaction->getCollectionOfProjectedEntitiesContextUrl(
                 $store,
                 $select->getValue()

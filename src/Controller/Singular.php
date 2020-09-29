@@ -97,7 +97,7 @@ class Singular extends Set
 
         $select = $transaction->getSelect();
 
-        if ($select->hasValue()) {
+        if ($select->hasValue() && !$select->isStar()) {
             $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->store, $select->getValue());
         } else {
             $metadata['context'] = $transaction->getEntityContextUrl($this->store);

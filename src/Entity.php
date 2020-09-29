@@ -28,7 +28,6 @@ class Entity extends Resource
     {
         $entityId = $this->getEntityId();
         $expand = $transaction->getExpand();
-        $selectedProperties = $transaction->getSelect()->getSelectedProperties($this->store);
 
         $metadata = [];
         if ($entityId) {
