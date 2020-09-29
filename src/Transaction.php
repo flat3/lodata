@@ -113,7 +113,7 @@ class Transaction
                     Str::startsWith($param, '$') && !in_array(
                         $param,
                         [
-                            '$count', '$compute', '$expand', '$format', '$filter',
+                            '$apply', '$count', '$compute', '$expand', '$format', '$filter',
                             '$orderby', '$search', '$select', '$skip', '$top'
                         ]
                     )
@@ -125,11 +125,13 @@ class Transaction
                 }
             }
 
-            if ($this->getSystemQueryOption('compute')) {
-                throw new NotImplementedException(
-                    'compute_not_implemented',
-                    'The $compute system query option is not implemented'
-                );
+            foreach (['compute', 'apply'] as $sqo) {
+                if ($this->getSystemQueryOption($sqo)) {
+                    throw new NotImplementedException(
+                        $sqo.'_not_implemented',
+                        "The \${$sqo} system query option is not implemented"
+                    );
+                }
             }
 
             if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {
