@@ -7,6 +7,7 @@ class Request
     public $headers = [];
     public $path = '/';
     public $query = [];
+    public $method = 'GET';
 
     public static function factory()
     {
@@ -68,6 +69,12 @@ class Request
     public function headers()
     {
         return $this->headers;
+    }
+
+    public function method($method): self
+    {
+        $this->method = $method;
+        return $this;
     }
 
     public function xml()

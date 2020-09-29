@@ -11,6 +11,7 @@ use Flat3\OData\ServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Spatie\Snapshots\MatchesSnapshots;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -41,6 +42,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->req($request);
     }
 
+    protected function assertMethodNotAllowed(Request $request)
+    {
+        $this->expectException(MethodNotAllowedHttpException::class);
+        $this->req($request);
+    }
+
     protected function assertNotFound(Request $request)
     {
         $this->expectException(NotFoundException::class);
@@ -62,7 +69,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     public function req(Request $request)
     {
         return $this->call(
-            'GET',
+            $request->method,
             'odata'.$request->uri(),
             [],
             [],
