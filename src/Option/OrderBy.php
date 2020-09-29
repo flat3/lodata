@@ -4,6 +4,7 @@ namespace Flat3\OData\Option;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Option;
+use Flat3\OData\Store;
 
 /**
  * Class OrderBy
@@ -14,11 +15,13 @@ class OrderBy extends Option
 {
     public const param = 'orderby';
 
-    public function getValue(): array
+    public function getSortOrders(Store $store): array
     {
         $orders = [];
 
-        foreach ($this->value as $expression) {
+        $properties = $store->getEntityType()->getDeclaredProperties();
+
+        foreach ($this->getCommaSeparatedValues() as $expression) {
             [$literal, $direction] = array_map('trim', explode(' ', $expression));
 
             if (!$direction) {
@@ -28,7 +31,17 @@ class OrderBy extends Option
             $direction = strtolower($direction);
 
             if (!in_array($direction, ['asc', 'desc'], true)) {
-                throw new BadRequestException('invalid_orderby', 'The orderby direction must be "asc" or "desc"');
+                throw new BadRequestException(
+                    'invalid_orderby_direction',
+                    'The orderby direction must be "asc" or "desc"'
+                );
+            }
+
+            if (!$properties->get($literal)) {
+                throw new BadRequestException(
+                    'invalid_orderby_property',
+                    sprintf('The provided property %s was not found in this entity type', $literal)
+                );
             }
 
             $orders[] = [$literal, $direction];

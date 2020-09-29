@@ -33,4 +33,13 @@ class SelectTest extends TestCase
                 ->query('$select', 'origin,destination')
         );
     }
+
+    public function test_selects_invalid()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'invalid')
+        );
+    }
 }

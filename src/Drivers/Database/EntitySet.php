@@ -389,19 +389,19 @@ class EntitySet extends \Flat3\OData\EntitySet
             $query .= sprintf(' WHERE%s', $this->where);
         }
 
-        $query .= $this->generateLimits();
-
         $orderby = $this->transaction->getOrderBy();
 
         if ($orderby->hasValue()) {
-            $ob = implode(', ', array_reduce($orderby->getValue(), function ($ob, $o) {
+            $ob = implode(', ', array_map(function ($o) {
                 [$literal, $direction] = $o;
 
-                $ob[] = "$literal $direction";
-            }, []));
+                return "$literal $direction";
+            }, $orderby->getSortOrders($this->store)));
 
             $query .= ' ORDER BY '.$ob;
         }
+
+        $query .= $this->generateLimits();
 
         return $query;
     }

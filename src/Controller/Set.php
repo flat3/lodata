@@ -46,6 +46,10 @@ class Set extends Handler
         // Validate $select
         $select = $transaction->getSelect();
         $select->getSelectedProperties($store);
+
+        // Validate $orderby
+        $orderby = $transaction->getOrderBy();
+        $orderby->getSortOrders($store);
     }
 
     public function handle(): void
