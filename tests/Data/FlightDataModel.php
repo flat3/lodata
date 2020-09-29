@@ -76,7 +76,7 @@ trait FlightDataModel
             $airportType = new Collection('airport');
             $airportType->setKey(new Property\Declared('id', Int32::class));
             $airportType->addProperty(new Property\Declared('name', String_::class));
-            $airportType->addProperty(new Property\Declared('code', String_::class));
+            $airportType->addProperty((new Property\Declared('code', String_::class))->setSearchable());
             $airportType->addProperty(new Property\Declared('construction_date', Date::class));
             $airportType->addProperty(new Property\Declared('open_time', TimeOfDay::class));
             $airportType->addProperty(new Property\Declared('sam_datetime', DateTimeOffset::class));
