@@ -10,6 +10,7 @@ use Flat3\OData\Attribute\ParameterList;
 use Flat3\OData\Attribute\Version;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
+use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Expand;
@@ -122,6 +123,13 @@ class Transaction
                         sprintf('The provided system query option "%s" is not valid', $param)
                     );
                 }
+            }
+
+            if ($this->getSystemQueryOption('compute')) {
+                throw new NotImplementedException(
+                    'compute_not_implemented',
+                    'The $compute system query option is not implemented'
+                );
             }
 
             if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {

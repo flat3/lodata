@@ -7,6 +7,7 @@ use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Exception\Protocol\ProtocolException;
 use Flat3\OData\ServiceProvider;
@@ -64,6 +65,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertPreconditionFailed(Request $request)
     {
         $this->expectException(PreconditionFailedException::class);
+        $this->req($request);
+    }
+
+    protected function assertNotImplemented(Request $request)
+    {
+        $this->expectException(NotImplementedException::class);
         $this->req($request);
     }
 
