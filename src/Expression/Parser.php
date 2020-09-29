@@ -12,6 +12,7 @@ use Flat3\OData\Expression\Node\LeftParen;
 use Flat3\OData\Expression\Node\Literal;
 use Flat3\OData\Expression\Node\Operator\Logical;
 use Flat3\OData\Expression\Node\RightParen;
+use Flat3\OData\Transaction;
 
 /**
  * Class Parser
@@ -51,7 +52,7 @@ abstract class Parser
     /**
      * Set the list of valid field literals
      *
-     * @param string $literal
+     * @param  string  $literal
      * @return self
      */
     public function addValidLiteral(string $literal): self
@@ -64,7 +65,7 @@ abstract class Parser
     /**
      * Convert an expression to an abstract syntax tree.
      *
-     * @param string $expression The expression, in infix notation.
+     * @param  string  $expression  The expression, in infix notation.
      *
      * @return Node that serves as the root of the AST.
      */
@@ -104,7 +105,7 @@ abstract class Parser
     /**
      * Add the provided operator as an AST node
      *
-     * @param Operator $operator
+     * @param  Operator  $operator
      *
      * @throws ParserException
      */
@@ -383,6 +384,31 @@ abstract class Parser
         $operand->setValue($token);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    public function tokenizeParameterAlias(Transaction $transaction): bool
+    {
+        $token = $this->lexer->maybeParameterAlias();
+
+        if (!$token) {
+            return false;
+        }
+
+        $referencedValue = $transaction->getReferencedValue($token);
+        $lexer = $this->lexer;
+        $this->lexer = new Lexer($referencedValue);
+
+        while (!$this->lexer->finished()) {
+            if ($this->findToken()) {
+                continue;
+            }
+
+            throw new ParserException('Encountered an invalid symbol', $this->lexer);
+        }
+
+        $this->lexer = $lexer;
 
         return true;
     }

@@ -124,7 +124,7 @@ class ParserTest extends TestCase
                 $transaction->setRequest(new Request());
                 $query = new LoopbackEntitySet(new Store('test', $type), $transaction);
 
-                $parser = new Filter($query);
+                $parser = new Filter($query, $transaction);
                 $parser->addValidLiteral('id');
                 $parser->addValidLiteral('title');
 

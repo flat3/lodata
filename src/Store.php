@@ -10,7 +10,6 @@ use Flat3\OData\Property\Navigation\Binding;
 abstract class Store extends Resource
 {
     public const EDM_TYPE = 'EntitySet';
-    public const ENTITY_SET = EntitySet::class;
 
     protected $supportedQueryOptions = [];
 
@@ -157,10 +156,5 @@ abstract class Store extends Resource
         return $entity_set->countResults();
     }
 
-    public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet
-    {
-        $class = $this::ENTITY_SET;
-
-        return new $class($this, $transaction, $key);
-    }
+    abstract public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet;
 }

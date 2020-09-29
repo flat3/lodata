@@ -22,7 +22,7 @@ class Lexer
     public const CLOSE_PAREN = "(?:\)|%29)";
     public const DIGIT = '\d';
     public const BASE64 = '(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?';
-
+    public const PARAMETER_ALIAS = '\@'.self::ODATA_IDENTIFIER;
 
     private $text;
     private $pos = -1;
@@ -345,6 +345,15 @@ class Lexer
         }
     }
 
+    public function maybeParameterAlias(): ?string
+    {
+        try {
+            return $this->parameterAlias();
+        } catch (LexerException $e) {
+            return null;
+        }
+    }
+
     public function maybeDateTimeOffset(): ?string
     {
         try {
@@ -399,6 +408,11 @@ class Lexer
         }
 
         throw new LexerException($this->pos + 1, 'Expected %s but got %s', $char, $next_char);
+    }
+
+    public function parameterAlias()
+    {
+        return $this->expression(self::PARAMETER_ALIAS);
     }
 
     public function datetimeoffset()

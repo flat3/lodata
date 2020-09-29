@@ -8,6 +8,7 @@ use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
+use Flat3\OData\Transaction;
 
 class Filter extends Parser
 {
@@ -75,9 +76,14 @@ class Filter extends Parser
         Node\Operator\Comparison\Or_::class,
     ];
 
-    public function __construct(EntitySet $store)
+    /** @var Transaction $transaction */
+    protected $transaction;
+
+    public function __construct(EntitySet $store, Transaction $transaction)
     {
         parent::__construct($store);
+
+        $this->transaction = $transaction;
 
         /** @var Operator $operator */
         foreach (self::operators as $operator) {
@@ -103,6 +109,7 @@ class Filter extends Parser
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
+            $this->tokenizeParameterAlias($this->transaction) ||
             $this->tokenizeDateTimeOffset() ||
             $this->tokenizeDate() ||
             $this->tokenizeTimeOfDay() ||

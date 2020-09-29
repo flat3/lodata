@@ -3,6 +3,7 @@
 namespace Flat3\OData\Drivers\Database;
 
 use Flat3\OData\Entity;
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Filter;
@@ -17,8 +18,6 @@ use PDO;
 
 class Store extends \Flat3\OData\Store
 {
-    public const ENTITY_SET = EntitySet::class;
-
     protected $supportedQueryOptions = [
         Count::class,
         Filter::class,
@@ -47,9 +46,30 @@ class Store extends \Flat3\OData\Store
         return DB::connection()->getPdo();
     }
 
+    public function getDbDriver()
+    {
+        return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
+    }
+
     public function getEntity(Transaction $transaction, Primitive $key): ?Entity
     {
         return $this->getEntitySet($transaction, $key)->getCurrentResultAsEntity();
+    }
+
+    public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet
+    {
+        $driver = $this->getDbDriver();
+
+        switch ($driver) {
+            case 'sqlite':
+                return new SQLite\EntitySet($this, $transaction, $key);
+
+            case 'mysql':
+                return new MySQL\EntitySet($this, $transaction, $key);
+
+            default:
+                return new EntitySet($this, $transaction, $key);
+        }
     }
 
     public function convertResultToEntity($row = null): Entity

@@ -21,7 +21,7 @@ class Filter extends Option
             return;
         }
 
-        $parser = new Parser($query);
+        $parser = new Parser($query, $this->transaction);
 
         foreach ($validLiterals as $validLiteral) {
             $parser->addValidLiteral($validLiteral);
