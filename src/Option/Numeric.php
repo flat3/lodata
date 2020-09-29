@@ -20,6 +20,11 @@ abstract class Numeric extends Option
                 sprintf('The type of $%s must be numeric', $this::param));
         }
 
+        if ($value < 0) {
+            throw new BadRequestException('option_numeric_invalid',
+                sprintf('The value of $%s must be greater than zero', $this::param));
+        }
+
         $this->value = (int) $value;
     }
 

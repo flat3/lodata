@@ -1,0 +1,26 @@
+{
+    "@context": "http://localhost/odata/$metadata#airports",
+    "@nextLink": "http://localhost/odata/airports?%24top=2&%24skip=2",
+    "value": [
+        {
+            "id": 1,
+            "name": "Heathrow",
+            "code": "lhr",
+            "construction_date": "1946-03-25",
+            "open_time": "09:00:00.000000",
+            "sam_datetime": "2001-11-10T14:00:00+00:00",
+            "review_score": null,
+            "is_big": true
+        },
+        {
+            "id": 2,
+            "name": "Los Angeles",
+            "code": "lax",
+            "construction_date": "1930-01-01",
+            "open_time": "08:00:00.000000",
+            "sam_datetime": "2000-11-10T14:00:00+00:00",
+            "review_score": null,
+            "is_big": false
+        }
+    ]
+}
