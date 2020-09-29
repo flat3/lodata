@@ -52,6 +52,11 @@ class MediaType
         $this->parameters = new ParameterList($matches['parameters'] ?? '', ';');
     }
 
+    public function getOriginal(): string
+    {
+        return $this->original;
+    }
+
     public function getParameter(string $key): ?string
     {
         return $this->parameters->getParameter($key);

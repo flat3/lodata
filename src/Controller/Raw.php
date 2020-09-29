@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
+use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
 
@@ -13,16 +14,27 @@ class Raw extends Primitive
     {
         $transaction = $this->transaction;
         $response = $transaction->getResponse();
-        $transaction->setContentTypeText();
+
+        $requestedFormat = $transaction->getFormat();
+
+        if ($requestedFormat) {
+            $transaction->setContentType($requestedFormat->getOriginal());
+        } else {
+            $transaction->setContentTypeText();
+        }
 
         $primitive = $this->store->getPrimitive($transaction, $this->id, $this->property);
 
+        if (null === $primitive) {
+            throw new NotFoundException();
+        }
+
         if (null === $primitive->getInternalValue()) {
-            throw new NotFoundException('null', 'Value is null');
+            throw new NoContentException();
         }
 
         $response->setCallback(function () use ($transaction, $primitive) {
-            $transaction->outputText((string) $primitive->toJson());
+            $transaction->outputRaw((string) $primitive->getInternalValue());
         });
     }
 }

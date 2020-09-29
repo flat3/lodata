@@ -6,7 +6,7 @@ use Flat3\OData\Transaction;
 
 class Format
 {
-    protected $format = null;
+    protected $mediaType = null;
 
     /**
      * Format constructor.
@@ -30,21 +30,26 @@ class Format
             $type = '*';
         }
 
-        $this->format = new MediaType($type);
+        $this->mediaType = new MediaType($type);
+    }
+
+    public function getOriginal(): string
+    {
+        return $this->mediaType->getOriginal();
     }
 
     public function getParameter($key)
     {
-        return $this->format->getParameter($key);
+        return $this->mediaType->getParameter($key);
     }
 
     public function getParameterKeys()
     {
-        return $this->format->getParameterKeys();
+        return $this->mediaType->getParameterKeys();
     }
 
     public function getSubType()
     {
-        return $this->format->getSubtype();
+        return $this->mediaType->getSubtype();
     }
 }

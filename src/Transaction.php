@@ -114,7 +114,7 @@ class Transaction
                         $param,
                         [
                             '$apply', '$count', '$compute', '$expand', '$format', '$filter',
-                            '$orderby', '$search', '$select', '$skip', '$top'
+                            '$orderby', '$search', '$select', '$skip', '$top', '$schemaversion',
                         ]
                     )
                 ) {
@@ -582,7 +582,7 @@ class Transaction
         $this->sendOutput(']');
     }
 
-    public function outputText(string $text)
+    public function outputRaw(string $text)
     {
         $this->sendOutput($text);
     }
