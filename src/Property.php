@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-class Property extends Resource
+abstract class Property extends Resource
 {
     /** @var Type|EntityType $type */
     protected $type = null;

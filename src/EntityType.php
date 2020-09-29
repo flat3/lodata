@@ -2,6 +2,7 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
 
 abstract class EntityType extends Resource
@@ -88,7 +89,7 @@ abstract class EntityType extends Resource
                 $this->navigationProperties[] = $property;
                 break;
 
-            default:
+            case $property instanceof Declared:
                 $this->declaredProperties[] = $property;
                 break;
         }
