@@ -109,4 +109,17 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     {
         return !!$this->array;
     }
+
+    public function sliceByClass($class): self
+    {
+        $result = new self();
+
+        foreach ($this->array as $key => $value) {
+            if ($value instanceof $class) {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
 }

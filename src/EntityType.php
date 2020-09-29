@@ -10,11 +10,8 @@ abstract class EntityType extends Resource
     /** @var Property $key Primary key property */
     protected $key;
 
-    /** @var ObjectArray[Property] $declared_properties Declared properties */
-    protected $declaredProperties;
-
-    /** @var ObjectArray[Property] $navigation_properties Navigation properties */
-    protected $navigationProperties;
+    /** @var ObjectArray[Property] $properties Properties */
+    protected $properties;
 
     /** @var ObjectArray[Operation] $bound_operations Operations bound to this entity type */
     protected $boundOperations;
@@ -26,8 +23,7 @@ abstract class EntityType extends Resource
     {
         parent::__construct($identifier);
 
-        $this->declaredProperties = new ObjectArray();
-        $this->navigationProperties = new ObjectArray();
+        $this->properties = new ObjectArray();
         $this->boundOperations = new ObjectArray();
     }
 
@@ -84,22 +80,14 @@ abstract class EntityType extends Resource
      */
     public function addProperty(Property $property): self
     {
-        switch (true) {
-            case $property instanceof Navigation:
-                $this->navigationProperties[] = $property;
-                break;
-
-            case $property instanceof Declared:
-                $this->declaredProperties[] = $property;
-                break;
-        }
+        $this->properties[] = $property;
 
         return $this;
     }
 
     public function getDeclaredProperties(): ObjectArray
     {
-        return $this->declaredProperties;
+        return $this->properties->sliceByClass(Declared::class);
     }
 
     public function getProperty(string $property): ?Property
@@ -109,12 +97,12 @@ abstract class EntityType extends Resource
 
     public function getProperties(): ObjectArray
     {
-        return ObjectArray::merge($this->declaredProperties, $this->navigationProperties);
+        return $this->properties;
     }
 
     public function getNavigationProperties(): ObjectArray
     {
-        return $this->navigationProperties;
+        return $this->properties->sliceByClass(Navigation::class);
     }
 
     public function getEdmType(): string
