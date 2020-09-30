@@ -16,15 +16,9 @@ class DataModel
         $this->model = new ObjectArray();
     }
 
-    public function addEntityType(EntityType $entityType): self
+    public function add(IdentifierInterface $item): self
     {
-        $this->model[] = $entityType;
-        return $this;
-    }
-
-    public function addResource(IdentifierInterface $resource): self
-    {
-        $this->model[] = $resource;
+        $this->model[] = $item;
         return $this;
     }
 

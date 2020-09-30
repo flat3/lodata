@@ -85,12 +85,12 @@ trait FlightDataModel
             $airportStore->setTable('airports');
 
             $model
-                ->addEntityType($flightType)
-                ->addResource($flightStore);
+                ->add($flightType)
+                ->add($flightStore);
 
             $model
-                ->addEntityType($airportType)
-                ->addResource($airportStore);
+                ->add($airportType)
+                ->add($airportStore);
 
             $nav = new Property\Navigation($airportStore, $airportType);
             $nav->addConstraint(
@@ -132,9 +132,9 @@ trait FlightDataModel
                 return String_::factory('hello');
             });
 
-            $model->addResource($exf1);
-            $model->addResource($exf2);
-            $model->addResource($exa1);
+            $model->add($exf1);
+            $model->add($exf2);
+            $model->add($exa1);
         } catch (Exception $e) {
         }
     }
