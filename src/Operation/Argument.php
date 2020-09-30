@@ -3,16 +3,16 @@
 namespace Flat3\OData\Operation;
 
 use Flat3\OData\Resource;
-use Flat3\OData\Type;
+use Flat3\OData\Type\PrimitiveType;
 
 class Argument extends Resource
 {
-    /** @var Type $type */
+    /** @var \Flat3\OData\Type\PrimitiveType $type */
     protected $type;
 
     protected $nullable = true;
 
-    public function __construct(string $identifier, Type $type, bool $nullable = true)
+    public function __construct(string $identifier, PrimitiveType $type, bool $nullable = true)
     {
         parent::__construct($identifier);
 
@@ -21,9 +21,9 @@ class Argument extends Resource
     }
 
     /**
-     * @return Type
+     * @return PrimitiveType
      */
-    public function getType(): Type
+    public function getType(): PrimitiveType
     {
         return $this->type;
     }

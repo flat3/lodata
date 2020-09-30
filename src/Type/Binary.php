@@ -2,9 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Type;
-
-class Binary extends Type
+class Binary extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.Binary';
 

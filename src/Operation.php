@@ -4,6 +4,7 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Operation\Argument;
+use Flat3\OData\Type\PrimitiveType;
 use RuntimeException;
 
 abstract class Operation extends Resource
@@ -16,7 +17,7 @@ abstract class Operation extends Resource
     /** @var ObjectArray $arguments */
     protected $arguments;
 
-    /** @var Type $returnType */
+    /** @var PrimitiveType $returnType */
     protected $returnType;
 
     public function __construct($identifier, string $returnType, array $arguments = [])
@@ -35,7 +36,7 @@ abstract class Operation extends Resource
             $this->returnType = $dataModel->getEntityTypes()->get($returnType);
         }
 
-        if (is_a($returnType, Type::class, true)) {
+        if (is_a($returnType, PrimitiveType::class, true)) {
             $this->returnType = $returnType::factory();
         }
 
@@ -56,7 +57,7 @@ abstract class Operation extends Resource
         return $this->arguments;
     }
 
-    public function getReturnType(): Type
+    public function getReturnType(): PrimitiveType
     {
         return $this->returnType;
     }

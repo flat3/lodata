@@ -3,9 +3,8 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Type;
 
-class Guid extends Type
+class Guid extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.Guid';
 

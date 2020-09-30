@@ -2,9 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Type;
-
-class Byte extends Type
+class Byte extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.Byte';
     public const format = 'C';

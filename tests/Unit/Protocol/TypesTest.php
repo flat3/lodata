@@ -379,7 +379,7 @@ class TypesTest extends TestCase
 
     public function test_types()
     {
-        /** @var Type $type */
+        /** @var \Flat3\OData\Type\PrimitiveType $type */
         foreach (self::$assertions as $type => $methods) {
             foreach ($methods as $method => $assertions) {
                 foreach ($assertions as $assertion) {
@@ -394,7 +394,7 @@ class TypesTest extends TestCase
     public function test_null()
     {
         /**
-         * @var Type $clazz
+         * @var PrimitiveType $clazz
          * @var array $values
          */
         foreach ($this->nulls as $clazz => $values) {

@@ -2,9 +2,11 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Type\PrimitiveType;
+
 abstract class Property extends Resource
 {
-    /** @var Type|EntityType $type */
+    /** @var PrimitiveType|EntityType $type */
     protected $type = null;
 
     /** @var bool $nullable Whether this property is nullable */
@@ -24,7 +26,7 @@ abstract class Property extends Resource
         parent::__construct($identifier);
 
         if (is_string($type)) {
-            /** @var Type $type */
+            /** @var PrimitiveType $type */
             $type = $type::factory();
         }
 
@@ -111,7 +113,7 @@ abstract class Property extends Resource
         return $this->type;
     }
 
-    public function setType(Type $type)
+    public function setType(PrimitiveType $type)
     {
         $this->type = $type;
     }

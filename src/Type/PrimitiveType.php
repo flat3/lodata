@@ -1,28 +1,11 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Type;
 
-use Flat3\OData\Type\Binary;
-use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\Byte;
-use Flat3\OData\Type\Date;
-use Flat3\OData\Type\DateTimeOffset;
-use Flat3\OData\Type\Decimal;
-use Flat3\OData\Type\Double;
-use Flat3\OData\Type\Duration;
-use Flat3\OData\Type\Guid;
-use Flat3\OData\Type\Int16;
-use Flat3\OData\Type\Int32;
-use Flat3\OData\Type\Int64;
-use Flat3\OData\Type\SByte;
-use Flat3\OData\Type\Single;
-use Flat3\OData\Type\Stream;
-use Flat3\OData\Type\String_;
-use Flat3\OData\Type\TimeOfDay;
 use RuntimeException;
 
 /**
- * Class Type
+ * Class PrimitiveType
  * @method static Binary binary()
  * @method static Boolean boolean()
  * @method static Byte byte()
@@ -42,7 +25,7 @@ use RuntimeException;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class Type
+abstract class PrimitiveType
 {
     public const EDM_TYPE = 'Edm.None';
 
@@ -76,7 +59,7 @@ abstract class Type
 
     public static function factory($value = null, ?bool $nullable = true): self
     {
-        if ($value instanceof Type) {
+        if ($value instanceof PrimitiveType) {
             return $value;
         }
 

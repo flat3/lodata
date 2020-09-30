@@ -4,9 +4,8 @@ namespace Flat3\OData\Type;
 
 use DateTime;
 use Exception;
-use Flat3\OData\Type;
 
-class DateTimeOffset extends Type
+class DateTimeOffset extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.DateTimeOffset';
     public const DATE_FORMAT = 'c';

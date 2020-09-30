@@ -2,9 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Type;
-
-class Decimal extends Type
+class Decimal extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.Decimal';
 

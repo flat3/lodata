@@ -2,9 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Type;
-
-class String_ extends Type
+class String_ extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.String';
 

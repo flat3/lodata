@@ -2,6 +2,8 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Type\PrimitiveType;
+
 class Primitive
 {
     /** @var Entity $entity */
@@ -10,7 +12,7 @@ class Primitive
     /** @var Property $property */
     private $property;
 
-    /** @var Type $value */
+    /** @var PrimitiveType $value */
     private $value;
 
     public function __construct($value, Property $property, ?Entity $entity = null)
@@ -45,7 +47,7 @@ class Primitive
         return $this->property;
     }
 
-    public function getValue(): Type
+    public function getValue(): PrimitiveType
     {
         return $this->value;
     }

@@ -2,9 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Type;
-
-class Stream extends Type
+class Stream extends PrimitiveType
 {
     public const EDM_TYPE = 'Edm.Stream';
 

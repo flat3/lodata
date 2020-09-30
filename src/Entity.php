@@ -5,10 +5,11 @@ namespace Flat3\OData;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Property\Constraint;
+use Flat3\OData\Type\PrimitiveType;
 
 class Entity extends Resource
 {
-    /** @var Type $entityId */
+    /** @var PrimitiveType $entityId */
     private $entityId;
 
     /** @var ObjectArray $primitives */
@@ -141,12 +142,12 @@ class Entity extends Resource
         }
     }
 
-    public function getEntityId(): ?Type
+    public function getEntityId(): ?PrimitiveType
     {
         return $this->entityId;
     }
 
-    public function setEntityId(Type $entityId)
+    public function setEntityId(PrimitiveType $entityId)
     {
         $this->entityId = $entityId;
     }

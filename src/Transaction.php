@@ -23,6 +23,7 @@ use Flat3\OData\Option\Select;
 use Flat3\OData\Option\Skip;
 use Flat3\OData\Option\Top;
 use Flat3\OData\Type\Boolean;
+use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -522,7 +523,7 @@ class Transaction
         );
     }
 
-    public function getOperationResultTypeContextUrl(Type $type): string
+    public function getOperationResultTypeContextUrl(PrimitiveType $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getEdmTypeName();
     }
@@ -550,7 +551,7 @@ class Transaction
         );
     }
 
-    public function getCollectionOfTypesContextUrl(Store $store, Type $type): string
+    public function getCollectionOfTypesContextUrl(Store $store, PrimitiveType $type): string
     {
         return sprintf(
             '%s#%s(%s)',
@@ -560,7 +561,7 @@ class Transaction
         );
     }
 
-    public function getTypeContextUrl(Type $type): string
+    public function getTypeContextUrl(PrimitiveType $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getEdmTypeName();
     }

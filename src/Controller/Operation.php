@@ -11,7 +11,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Transaction;
-use Flat3\OData\Type;
+use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Operation extends Handler
@@ -108,7 +108,7 @@ class Operation extends Handler
         $result = $this->operation->invoke($this->args);
 
         switch (true) {
-            case $result instanceof Type:
+            case $result instanceof PrimitiveType:
                 $metadata['context'] = $transaction->getOperationResultTypeContextUrl($result);
                 break;
 
@@ -157,7 +157,7 @@ class Operation extends Handler
                     $transaction->outputJsonArrayEnd();
                     break;
 
-                case $result instanceof Type:
+                case $result instanceof PrimitiveType:
                     $transaction->outputJsonKV(['value' => $result->toJson()]);
                     break;
             }
