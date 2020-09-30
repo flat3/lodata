@@ -5,7 +5,6 @@ namespace Flat3\OData\Tests\Data;
 use Exception;
 use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
-use Flat3\OData\Entity;
 use Flat3\OData\Operation\Action;
 use Flat3\OData\Operation\Function_;
 use Flat3\OData\Property;
@@ -63,7 +62,7 @@ trait FlightDataModel
             /** @var DataModel $model */
             $model = app()->make(DataModel::class);
 
-            $flightType = new EntityType('flight');
+            $flightType = new class('flight') extends EntityType { };
             $flightType->setKey(new Property\Declared('id', Type::int32()));
             $flightType->addProperty(new Property\Declared('origin', Type::string()));
             $flightType->addProperty(new Property\Declared('destination', Type::string()));
@@ -71,7 +70,7 @@ trait FlightDataModel
             $flightStore = new Store('flights', $flightType);
             $flightStore->setTable('flights');
 
-            $airportType = new EntityType('airport');
+            $airportType = new class('airport') extends EntityType { };
             $airportType->setKey(new Property\Declared('id', Type::int32()));
             $airportType->addProperty(new Property\Declared('name', Type::string()));
             $airportType->addProperty((new Property\Declared('code', Type::string()))->setSearchable());

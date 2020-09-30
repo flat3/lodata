@@ -86,7 +86,7 @@ class ParserTest extends TestCase
     {
         foreach (array_reverse($this->search_tests) as $from => $to) {
             try {
-                $type = new EntityType('test');
+                $type = new class('test') extends EntityType{};
                 $k = new Property\Declared('id', Int32::class);
                 $type->setKey($k);
                 $transaction = new Transaction();
@@ -119,7 +119,7 @@ class ParserTest extends TestCase
     {
         foreach (array_reverse($this->filter_tests) as $from => $to) {
             try {
-                $type = new EntityType('test');
+                $type = new class('test') extends EntityType{};
                 $k = new Property\Declared('id', Int32::class);
                 $type->setKey($k);
                 $transaction = new Transaction();

@@ -333,7 +333,7 @@ class ParserMySQLTest extends TestCase
     {
         foreach (array_reverse($this->tests) as $from => $to) {
             try {
-                $entity_type = new EntityType('test');
+                $entity_type = new class('test') extends EntityType{};
                 $id = new Property\Declared('id', Int32::class);
                 $id->setFilterable(true);
                 $entity_type->setKey($id);
