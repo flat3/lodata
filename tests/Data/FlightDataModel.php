@@ -8,10 +8,9 @@ use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\Operation\Action;
 use Flat3\OData\Operation\Function_;
 use Flat3\OData\Property;
-use Flat3\OData\Tests\Models\Airport;
-use Flat3\OData\Tests\Models\Flight;
+use Flat3\OData\Tests\Models\Airport as AirportModel;
+use Flat3\OData\Tests\Models\Flight as FlightModel;
 use Flat3\OData\Type;
-use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\String_;
 
 trait FlightDataModel
@@ -21,17 +20,17 @@ trait FlightDataModel
         $this->loadMigrationsFrom(__DIR__.'/Migrations');
         $this->artisan('migrate')->run();
 
-        (new Flight([
+        (new FlightModel([
             'origin' => 'lhr',
             'destination' => 'lax',
         ]))->save();
 
-        (new Flight([
+        (new FlightModel([
             'origin' => 'sam',
             'destination' => 'rgr',
         ]))->save();
 
-        (new Airport([
+        (new AirportModel([
             'code' => 'lhr',
             'name' => 'Heathrow',
             'construction_date' => '1946-03-25',
@@ -40,7 +39,7 @@ trait FlightDataModel
             'is_big' => true,
         ]))->save();
 
-        (new Airport([
+        (new AirportModel([
             'code' => 'lax',
             'name' => 'Los Angeles',
             'construction_date' => '1930-01-01',
@@ -49,7 +48,7 @@ trait FlightDataModel
             'is_big' => false,
         ]))->save();
 
-        (new Airport([
+        (new AirportModel([
             'code' => 'sfo',
             'name' => 'San Francisco',
             'construction_date' => '1930-01-01',
@@ -62,7 +61,7 @@ trait FlightDataModel
             /** @var DataModel $model */
             $model = app()->make(DataModel::class);
 
-            $flightType = new class('flight') extends EntityType { };
+            $flightType = new Flight();
             $flightType->setKey(new Property\Declared('id', Type::int32()));
             $flightType->addProperty(new Property\Declared('origin', Type::string()));
             $flightType->addProperty(new Property\Declared('destination', Type::string()));
@@ -70,10 +69,10 @@ trait FlightDataModel
             $flightStore = new Store('flights', $flightType);
             $flightStore->setTable('flights');
 
-            $airportType = new class('airport') extends EntityType { };
+            $airportType = new Airport();
             $airportType->setKey(new Property\Declared('id', Type::int32()));
             $airportType->addProperty(new Property\Declared('name', Type::string()));
-            $airportType->addProperty((new Property\Declared('code', Type::string()))->setSearchable());
+            $airportType->addProperty(Property\Declared::factory('code', Type::string())->setSearchable());
             $airportType->addProperty(new Property\Declared('construction_date', Type::date()));
             $airportType->addProperty(new Property\Declared('open_time', Type::timeofday()));
             $airportType->addProperty(new Property\Declared('sam_datetime', Type::datetimeoffset()));
@@ -110,6 +109,11 @@ trait FlightDataModel
             $exf1 = new Function_('exf1');
             $exf1->setCallback(function (): String_ {
                 return String_::factory('hello');
+            });
+
+            $exf2 = new Function_('exf2');
+            $exf2->setCallback(function (): Airport {
+
             });
 
             $exa1 = new Action('exa1');

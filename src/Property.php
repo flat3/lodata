@@ -8,6 +8,7 @@ use Flat3\OData\Type\PrimitiveType;
 
 abstract class Property implements IdentifierInterface
 {
+    use WithFactory;
     use WithIdentifier;
 
     /** @var PrimitiveType|EntityType $type */

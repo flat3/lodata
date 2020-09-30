@@ -23,9 +23,18 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
     /** @var callable $callback */
     protected $callback;
 
+    /** @var mixed $returnType */
+    protected $returnType;
+
     public function __construct($identifier)
     {
         $this->setIdentifier($identifier);
+    }
+
+    public function setReturnType($returnType): self
+    {
+        $this->returnType = $returnType;
+        return $this;
     }
 
     public function isNullable(): bool
@@ -82,8 +91,6 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
         if (!$this->callback instanceof Closure) {
             throw new NotImplementedException('no_callback', 'The requested operation has no implementation');
         }
-
-        $j = new ReflectionFunction($this->callback);
 
         return call_user_func_array($this->callback, $args);
     }

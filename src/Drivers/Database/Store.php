@@ -3,7 +3,6 @@
 namespace Flat3\OData\Drivers\Database;
 
 use Flat3\OData\Entity;
-use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Filter;
@@ -74,7 +73,7 @@ class Store extends \Flat3\OData\Store
 
     public function convertResultToEntity($row = null): Entity
     {
-        $entity = new Entity($this);
+        $entity = new \Flat3\OData\Drivers\Database\Entity($this);
 
         $key = $this->getTypeKey()->getIdentifier()->get();
         $entity->setEntityIdValue($row[$key]);

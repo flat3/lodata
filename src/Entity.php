@@ -10,7 +10,7 @@ use Flat3\OData\Property\Constraint;
 use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Entity implements IdentifierInterface, EdmTypeInterface
+abstract class Entity implements IdentifierInterface, EdmTypeInterface
 {
     use WithIdentifier;
 

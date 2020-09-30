@@ -9,8 +9,10 @@ use Flat3\OData\Operation;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\WithIdentifier;
 use Flat3\OData\Type;
+use Flat3\OData\WithIdentifier;
+use Illuminate\Support\Str;
+use ReflectionClass;
 
 abstract class EntityType extends Type implements IdentifierInterface
 {
@@ -25,9 +27,14 @@ abstract class EntityType extends Type implements IdentifierInterface
     /** @var ObjectArray[Operation] $bound_operations Operations bound to this entity type */
     protected $boundOperations;
 
-    public function __construct($identifier)
+    public function __construct($identifier = null)
     {
-        $this->setIdentifier($identifier);
+        if ($identifier) {
+            $this->setIdentifier($identifier);
+        } else {
+            $reflect = new ReflectionClass($this);
+            $this->setIdentifier(Str::slug($reflect->getShortName(), ''));
+        }
 
         $this->properties = new ObjectArray();
         $this->boundOperations = new ObjectArray();
