@@ -142,7 +142,13 @@ class Metadata extends Controller
                     $returnType = $resource->getReturnType();
                     if (null !== $returnType) {
                         $returnTypeElement = $operationElement->addChild('ReturnType');
-                        $returnTypeElement->addAttribute('Type', $returnType->getEdmTypeName());
+
+                        if ($resource->returnsCollection()) {
+                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType::$name.')');
+                        } else {
+                            $returnTypeElement->addAttribute('Type', $returnType::$name);
+                        }
+
                         $returnTypeElement->addAttribute(
                             'Nullable',
                             Boolean::factory($resource->isNullable())->toUrl()

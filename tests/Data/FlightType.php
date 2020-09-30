@@ -6,4 +6,5 @@ use Flat3\OData\Type\EntityType;
 
 class FlightType extends EntityType
 {
+    public static $name = 'flight';
 }

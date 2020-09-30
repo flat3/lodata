@@ -109,8 +109,8 @@ class Operation extends Handler
         $returnType = $this->operation->getReturnType();
 
         switch (true) {
-            case $result === null && !$returnType->isNullable():
-            case $returnType instanceof EntityType && !$result->getEntityType() instanceof $returnType:
+            case $result === null && !$this->operation->isNullable():
+            case $returnType instanceof Entity && !$result->getEntityType() instanceof $returnType:
             case $returnType instanceof PrimitiveType && !$result instanceof $returnType:
                 throw new InternalServerErrorException(
                     'invalid_return_type',

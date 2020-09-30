@@ -4,13 +4,12 @@ namespace Flat3\OData;
 
 use Closure;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
-use Flat3\OData\Interfaces\EdmTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Operation\Argument;
+use Flat3\OData\Type\PrimitiveType;
 use ReflectionException;
 use ReflectionFunction;
-use ReflectionNamedType;
 use RuntimeException;
 
 abstract class Operation implements IdentifierInterface, ResourceInterface
@@ -26,9 +25,34 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
     /** @var mixed $returnType */
     protected $returnType;
 
+    protected $returnsCollection = false;
+
     public function __construct($identifier)
     {
         $this->setIdentifier($identifier);
+    }
+
+    public function returns(string $type): self
+    {
+        $this->returnType = $type;
+        return $this;
+    }
+
+    public function returnsCollection(): bool
+    {
+        $rfc = new ReflectionFunction($this->callback);
+        $rt = $rfc->getReturnType();
+        $tn = $rt->getName();
+        switch (true) {
+            case is_a($tn, EntitySet::class, true);
+                return true;
+
+            case is_a($tn, Entity::class, true);
+            case is_a($tn, PrimitiveType::class, true);
+                return false;
+        }
+
+        throw new RuntimeException('Invalid return type');
     }
 
     public function setReturnType($returnType): self
@@ -62,21 +86,9 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
         return $args;
     }
 
-    public function getReturnType(): ?EdmTypeInterface
+    public function getReturnType(): ?string
     {
-        $rfn = new ReflectionFunction($this->callback);
-        $rt = $rfn->getReturnType();
-
-        if (null === $rt) {
-            return null;
-        }
-
-        if (!$rt instanceof ReflectionNamedType) {
-            throw new RuntimeException('Not named type');
-        }
-
-        $name = $rt->getName();
-        return new $name();
+        return $this->returnType;
     }
 
     public function setCallback(callable $callback): self

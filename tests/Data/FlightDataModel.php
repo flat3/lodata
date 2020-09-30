@@ -5,6 +5,8 @@ namespace Flat3\OData\Tests\Data;
 use Exception;
 use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
+use Flat3\OData\EntitySet;
+use Flat3\OData\EntitySet\Dynamic;
 use Flat3\OData\Operation\Action;
 use Flat3\OData\Operation\Function_;
 use Flat3\OData\Property;
@@ -111,10 +113,18 @@ trait FlightDataModel
                 return String_::factory('hello');
             });
 
-            $exf2 = new Function_('exf2');
-            $exf2->setCallback(function (): AirportType {
-
-            });
+            $exf2 = Function_::factory('exf2')
+                ->setCallback(function (): EntitySet {
+                    /** @var DataModel $model */
+                    $model = app()->make(DataModel::class);
+                    $airports = $model->getResources()->get('airports');
+                    $airport = new Airport();
+                    $airport->addPrimitive('xyz', $model->getEntityTypes()->get('airport')->getProperty('code'));
+                    $set = new Dynamic($airports);
+                    $set->addResult($airport);
+                    return $set;
+                })
+                ->returns(AirportType::class);
 
             $exa1 = new Action('exa1');
             $exa1->setCallback(function (): String_ {
@@ -128,6 +138,7 @@ trait FlightDataModel
 
             $model->add($add);
             $model->add($exf1);
+            $model->add($exf2);
             $model->add($exa1);
         } catch (Exception $e) {
         }
