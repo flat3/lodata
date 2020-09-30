@@ -3,7 +3,6 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\DataModel;
-use Flat3\OData\Entity;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Operation;
@@ -115,13 +114,6 @@ abstract class EntityType extends Type implements ResourceInterface
     public function getEdmType(): string
     {
         return (string) $this->getIdentifier();
-    }
-
-    public function setDataModel(DataModel $dataModel): self
-    {
-        $this->dataModel = $dataModel;
-
-        return $this;
     }
 
     public function getEdmTypeName(): string
