@@ -6,7 +6,7 @@ use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Event;
-use Flat3\OData\Store;
+use RuntimeException;
 
 class Dynamic extends EntitySet
 {
@@ -27,7 +27,7 @@ class Dynamic extends EntitySet
 
     protected function generateResultSet(): void
     {
-        throw new \RuntimeException('no_dynamic_result_set_generation', 'Dynamic result sets cannot be generated');
+        throw new RuntimeException('Dynamic result sets cannot be generated');
     }
 
     public function addResult(Entity $entity): self
