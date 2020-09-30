@@ -8,6 +8,8 @@ use RuntimeException;
 
 abstract class Operation extends Resource
 {
+    const EDM_TYPE = null;
+
     /** @var callable $callback */
     protected $callback;
 

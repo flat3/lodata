@@ -5,6 +5,11 @@
             "name": "example",
             "kind": "Function",
             "url": "example"
+        },
+        {
+            "name": "example2",
+            "kind": "Action",
+            "url": "example2"
         }
     ]
 }

@@ -5,8 +5,8 @@ namespace Flat3\OData\Controller;
 use Flat3\OData\Attribute;
 use Flat3\OData\DataModel;
 use Flat3\OData\EntityType;
+use Flat3\OData\Operation;
 use Flat3\OData\Operation\Argument;
-use Flat3\OData\Operation\Function_;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Store;
@@ -134,12 +134,12 @@ class Metadata extends Controller
                     }
                     break;
 
-                /** @var Function_ $resource */
-                case $resource instanceof Function_:
-                    $functionElement = $schema->addChild('Function');
-                    $functionElement->addAttribute('Name', $resource->getIdentifier());
+                /** @var Operation $resource */
+                case $resource instanceof Operation:
+                    $operationElement = $schema->addChild($resource::EDM_TYPE);
+                    $operationElement->addAttribute('Name', $resource->getIdentifier());
 
-                    $returnType = $functionElement->addChild('ReturnType');
+                    $returnType = $operationElement->addChild('ReturnType');
                     $returnType->addAttribute('Type', $resource->getReturnType()->getEdmTypeName());
                     $returnType->addAttribute(
                         'Nullable',
@@ -148,7 +148,7 @@ class Metadata extends Controller
 
                     /** @var Argument $argument */
                     foreach ($resource->getArguments() as $argument) {
-                        $parameterElement = $functionElement->addChild('Parameter');
+                        $parameterElement = $operationElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getIdentifier());
                         $parameterElement->addAttribute('Type', $argument->getType()->getEdmTypeName());
                         $parameterElement->addAttribute(
@@ -157,10 +157,10 @@ class Metadata extends Controller
                         );
                     }
 
-                    $functionImport = $entityContainer->addChild('FunctionImport');
-                    $functionImport->addAttribute('Name', $resource->getIdentifier());
-                    $functionImport->addAttribute(
-                        'Function',
+                    $operationImport = $entityContainer->addChild($resource::EDM_TYPE.'Import');
+                    $operationImport->addAttribute('Name', $resource->getIdentifier());
+                    $operationImport->addAttribute(
+                        $resource::EDM_TYPE,
                         $dataModel->getNamespace().'.'.$resource->getIdentifier()
                     );
                     break;

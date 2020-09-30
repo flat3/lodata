@@ -12,7 +12,7 @@ use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
-class FunctionTest extends TestCase
+class ActionTest extends TestCase
 {
     use ExampleDataModel;
     use FlightDataModel;
