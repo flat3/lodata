@@ -4,7 +4,6 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\Attribute;
 use Flat3\OData\DataModel;
-use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Operation;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Property;
