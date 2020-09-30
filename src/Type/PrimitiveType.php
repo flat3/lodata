@@ -16,6 +16,9 @@ abstract class PrimitiveType extends Type
     public const URL_TRUE = 'true';
     public const URL_FALSE = 'false';
 
+    /** @var bool $nullable Whether the value can be made null */
+    protected $nullable = true;
+
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
 
@@ -91,6 +94,11 @@ abstract class PrimitiveType extends Type
         }
 
         return $value;
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->nullable;
     }
 
     protected function getEmpty()

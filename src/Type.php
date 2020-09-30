@@ -46,9 +46,6 @@ abstract class Type
 {
     const EDM_TYPE = '';
 
-    /** @var bool $nullable Whether the value can be made null */
-    protected $nullable = true;
-
     /**
      * Get the EDM name of this type
      *
@@ -57,11 +54,6 @@ abstract class Type
     public function getEdmTypeName()
     {
         return $this::EDM_TYPE;
-    }
-
-    public function isNullable(): bool
-    {
-        return $this->nullable;
     }
 
     public static function __callStatic($name, $arguments)

@@ -22,6 +22,9 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
     /** @var Type $returnType */
     protected $returnType;
 
+    /** @var bool $nullable */
+    protected $nullable = true;
+
     public function __construct($identifier, Type $returnType, array $arguments = [])
     {
         $this->setIdentifier($identifier);
@@ -33,6 +36,17 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
         }
 
         $this->setReturnType($returnType);
+    }
+
+    public function setNullable($nullable): self
+    {
+        $this->nullable = $nullable;
+        return $this;
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->nullable;
     }
 
     public function setReturnType(Type $returnType): self

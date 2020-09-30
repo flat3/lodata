@@ -139,11 +139,12 @@ class Metadata extends Controller
                     $operationElement = $schema->addChild($resource::EDM_TYPE);
                     $operationElement->addAttribute('Name', $resource->getIdentifier());
 
-                    $returnType = $operationElement->addChild('ReturnType');
-                    $returnType->addAttribute('Type', $resource->getReturnType()->getEdmTypeName());
-                    $returnType->addAttribute(
+                    $returnTypeElement = $operationElement->addChild('ReturnType');
+                    $returnType = $resource->getReturnType();
+                    $returnTypeElement->addAttribute('Type', $returnType->getEdmTypeName());
+                    $returnTypeElement->addAttribute(
                         'Nullable',
-                        Boolean::factory($resource->getReturnType()->isNullable())->toUrl()
+                        Boolean::factory($resource->isNullable())->toUrl()
                     );
 
                     /** @var Argument $argument */
