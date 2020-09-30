@@ -78,6 +78,7 @@ class ParserTest extends TestCase
         '"a \'\'t1" OR t1' => '( "a \'\'t1" OR "t1" )',
         '( t1 OR t2 ) AND t3' => '( ( "t1" OR "t2" ) AND "t3" )',
         '(t1 OR (t2 AND t3))' => '( "t1" OR ( "t2" AND "t3" ) )',
+        '"t1"""' => '"t1"""',
     ];
 
     public function test_search_parser()
