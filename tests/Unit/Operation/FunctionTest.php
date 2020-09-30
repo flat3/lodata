@@ -2,14 +2,9 @@
 
 namespace Flat3\OData\Tests\Unit\Operation;
 
-use Flat3\OData\DataModel;
-use Flat3\OData\Entity;
-use Flat3\OData\EntitySet;
-use Flat3\OData\Operation\Function_;
 use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Type\EntityType;
 
 class FunctionTest extends TestCase
 {
@@ -31,6 +26,8 @@ class FunctionTest extends TestCase
 
     public function test_callback_entity()
     {
+        $this->markTestIncomplete();
+
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/exf2()')
@@ -44,6 +41,14 @@ class FunctionTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/example()')
+        );
+    }
+
+    public function test_with_arguments()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/add(a=3,b=4)')
         );
     }
 }

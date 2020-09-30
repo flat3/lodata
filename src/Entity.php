@@ -4,14 +4,15 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
+use Flat3\OData\Interfaces\EdmTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Property\Constraint;
 use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Entity implements IdentifierInterface
+class Entity implements IdentifierInterface, EdmTypeInterface
 {
-    use HasIdentifier;
+    use WithIdentifier;
 
     /** @var PrimitiveType $entityId */
     private $entityId;
@@ -22,8 +23,7 @@ class Entity implements IdentifierInterface
     /** @var Store $store */
     private $store;
 
-    /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct(Store $store)
+    public function __construct(?Store $store = null)
     {
         $this->store = $store;
         $this->primitives = new ObjectArray();
@@ -199,5 +199,10 @@ class Entity implements IdentifierInterface
     public function getEntityType(): EntityType
     {
         return $this->store->getEntityType();
+    }
+
+    public function getEdmTypeName(): string
+    {
+        return $this->getEntityType()->getEdmTypeName();
     }
 }

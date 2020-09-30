@@ -22,7 +22,7 @@ abstract class PrimitiveType extends Type
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
 
-    public function __construct($value, bool $nullable = true)
+    public function __construct($value = null, bool $nullable = true)
     {
         $this->nullable = $nullable;
         $this->toInternal($value);
@@ -99,6 +99,12 @@ abstract class PrimitiveType extends Type
     public function isNullable(): bool
     {
         return $this->nullable;
+    }
+
+    public function setNullable(bool $nullable): self
+    {
+        $this->nullable = $nullable;
+        return $this;
     }
 
     protected function getEmpty()

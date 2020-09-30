@@ -3,12 +3,14 @@
 namespace Flat3\OData\Operation;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
-use Flat3\OData\HasIdentifier;
+use Flat3\OData\WithFactory;
+use Flat3\OData\WithIdentifier;
 use Flat3\OData\Type\PrimitiveType;
 
 class Argument implements IdentifierInterface
 {
-    use HasIdentifier;
+    use WithFactory;
+    use WithIdentifier;
 
     /** @var PrimitiveType $type */
     protected $type;

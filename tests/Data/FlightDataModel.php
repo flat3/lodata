@@ -108,32 +108,23 @@ trait FlightDataModel
             $flightType->addProperty($nav);
             $flightStore->addNavigationBinding(new Property\Navigation\Binding($nav, $airportStore));
 
-            $exf1 = new Function_('exf1', Type::string());
-            $exf1->setCallback(function () {
+            $exf1 = new Function_('exf1');
+            $exf1->setCallback(function (): String_ {
                 return String_::factory('hello');
             });
 
-            $exf2 = new Function_('exf2', $model->getEntityTypes()->get('airport'));
-            $exf2->setCallback(function () use ($model) {
-                /** @var Store $store */
-                $store = $model->getResources()->get('airports');
-                $entity = new Entity($store);
-
-                /** @var EntityType $airport */
-                $airport = $model->getEntityTypes()->get('airport');
-
-                $entity->addPrimitive('abc', $airport->getProperty('code'));
-
-                return $entity;
-            });
-
-            $exa1 = new Action('exa1', Type::string());
-            $exa1->setCallback(function () {
+            $exa1 = new Action('exa1');
+            $exa1->setCallback(function (): String_ {
                 return String_::factory('hello');
             });
 
+            $add = Function_::factory('add', Type::int32())
+                ->setCallback(function (Type\Int32 $a, Type\Int32 $b): Type\Int32 {
+                    return Type\Int32::factory($a->getInternalValue() + $b->getInternalValue());
+                });
+
+            $model->add($add);
             $model->add($exf1);
-            $model->add($exf2);
             $model->add($exa1);
         } catch (Exception $e) {
         }

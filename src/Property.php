@@ -8,7 +8,7 @@ use Flat3\OData\Type\PrimitiveType;
 
 abstract class Property implements IdentifierInterface
 {
-    use HasIdentifier;
+    use WithIdentifier;
 
     /** @var PrimitiveType|EntityType $type */
     protected $type = null;

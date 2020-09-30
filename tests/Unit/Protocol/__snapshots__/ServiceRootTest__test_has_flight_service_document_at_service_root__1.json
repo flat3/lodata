@@ -12,14 +12,14 @@
             "url": "airports"
         },
         {
+            "name": "add",
+            "kind": "Function",
+            "url": "add"
+        },
+        {
             "name": "exf1",
             "kind": "Function",
             "url": "exf1"
-        },
-        {
-            "name": "exf2",
-            "kind": "Function",
-            "url": "exf2"
         },
         {
             "name": "exa1",

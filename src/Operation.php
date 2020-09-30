@@ -2,75 +2,72 @@
 
 namespace Flat3\OData;
 
+use Closure;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Interfaces\EdmTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Operation\Argument;
+use ReflectionException;
+use ReflectionFunction;
+use ReflectionNamedType;
+use RuntimeException;
 
 abstract class Operation implements IdentifierInterface, ResourceInterface
 {
-    use HasIdentifier;
+    use WithFactory;
+    use WithIdentifier;
 
     const EDM_TYPE = null;
 
     /** @var callable $callback */
     protected $callback;
 
-    /** @var ObjectArray $arguments */
-    protected $arguments;
-
-    /** @var Type $returnType */
-    protected $returnType;
-
-    /** @var bool $nullable */
-    protected $nullable = true;
-
-    public function __construct($identifier, Type $returnType, array $arguments = [])
+    public function __construct($identifier)
     {
         $this->setIdentifier($identifier);
-
-        $this->arguments = new ObjectArray();
-
-        foreach ($arguments as $argument) {
-            $this->arguments[] = $argument;
-        }
-
-        $this->setReturnType($returnType);
-    }
-
-    public function setNullable($nullable): self
-    {
-        $this->nullable = $nullable;
-        return $this;
     }
 
     public function isNullable(): bool
     {
-        return $this->nullable;
-    }
-
-    public function setReturnType(Type $returnType): self
-    {
-        $this->returnType = $returnType;
-
-        return $this;
-    }
-
-    public function addArgument(Argument $argument): self
-    {
-        $this->arguments->add($argument);
-
-        return $this;
+        try {
+            $rfn = new ReflectionFunction($this->callback);
+            return $rfn->getReturnType()
+                ->allowsNull();
+        } catch (ReflectionException $e) {
+            return false;
+        }
     }
 
     public function getArguments(): ObjectArray
     {
-        return $this->arguments;
+        $rfn = new ReflectionFunction($this->callback);
+        $args = new ObjectArray();
+
+        foreach ($rfn->getParameters() as $parameter) {
+            $type = $parameter->getType()->getName();
+            $arg = new Argument($parameter->getName(), $type::factory(), $parameter->allowsNull());
+            $args[] = $arg;
+        }
+
+        return $args;
     }
 
-    public function getReturnType(): Type
+    public function getReturnType(): ?EdmTypeInterface
     {
-        return $this->returnType;
+        $rfn = new ReflectionFunction($this->callback);
+        $rt = $rfn->getReturnType();
+
+        if (null === $rt) {
+            return null;
+        }
+
+        if (!$rt instanceof ReflectionNamedType) {
+            throw new RuntimeException('Not named type');
+        }
+
+        $name = $rt->getName();
+        return new $name();
     }
 
     public function setCallback(callable $callback): self
@@ -82,9 +79,11 @@ abstract class Operation implements IdentifierInterface, ResourceInterface
 
     public function invoke(array $args)
     {
-        if (!is_callable($this->callback)) {
+        if (!$this->callback instanceof Closure) {
             throw new NotImplementedException('no_callback', 'The requested operation has no implementation');
         }
+
+        $j = new ReflectionFunction($this->callback);
 
         return call_user_func_array($this->callback, $args);
     }

@@ -12,7 +12,7 @@ use Flat3\OData\Type\EntityType;
 
 abstract class Store implements IdentifierInterface, ResourceInterface
 {
-    use HasIdentifier;
+    use WithIdentifier;
 
     public const EDM_TYPE = 'EntitySet';
 

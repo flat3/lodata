@@ -9,12 +9,12 @@ use Flat3\OData\Operation;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\HasIdentifier;
+use Flat3\OData\WithIdentifier;
 use Flat3\OData\Type;
 
 class EntityType extends Type implements IdentifierInterface
 {
-    use HasIdentifier;
+    use WithIdentifier;
 
     /** @var Property $key Primary key property */
     protected $key;
