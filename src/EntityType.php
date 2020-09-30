@@ -2,11 +2,14 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
 
-abstract class EntityType extends Resource
+abstract class EntityType extends Type implements ResourceInterface
 {
+    use Resource;
+
     /** @var Property $key Primary key property */
     protected $key;
 
@@ -21,7 +24,7 @@ abstract class EntityType extends Resource
 
     public function __construct($identifier)
     {
-        parent::__construct($identifier);
+        $this->setIdentifier($identifier);
 
         $this->properties = new ObjectArray();
         $this->boundOperations = new ObjectArray();

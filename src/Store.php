@@ -4,11 +4,14 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\ConfigurationException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
 
-abstract class Store extends Resource
+abstract class Store implements ResourceInterface
 {
+    use Resource;
+
     public const EDM_TYPE = 'EntitySet';
 
     protected $supportedQueryOptions = [];
@@ -27,7 +30,7 @@ abstract class Store extends Resource
 
     public function __construct(string $identifier, EntityType $entityType)
     {
-        parent::__construct($identifier);
+        $this->setIdentifier($identifier);
 
         $this->entityType = $entityType;
         $this->navigationBindings = new ObjectArray();

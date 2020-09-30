@@ -2,20 +2,13 @@
 
 namespace Flat3\OData;
 
-abstract class Resource
+trait Resource
 {
-    public const EDM_TYPE = 'Unknown';
-
     /** @var Identifier $identifier Resource identifier */
     protected $identifier;
 
     /** @var string $title Resource title */
     protected $title = null;
-
-    public function __construct($identifier)
-    {
-        $this->identifier = $identifier instanceof Identifier ? $identifier : new Identifier($identifier);
-    }
 
     /**
      * Get the Resource title
@@ -67,15 +60,14 @@ abstract class Resource
     }
 
     /**
-     * Set the Resource name
+     * Set the Resource identifier
      *
-     * @param  Identifier  $identifier
-     *
+     * @param $identifier
      * @return $this
      */
-    public function setIdentifier(Identifier $identifier): self
+    public function setIdentifier($identifier): self
     {
-        $this->identifier = $identifier;
+        $this->identifier = $identifier instanceof Identifier ? $identifier : new Identifier($identifier);
 
         return $this;
     }

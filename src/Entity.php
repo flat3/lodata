@@ -4,11 +4,14 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Property\Constraint;
 use Flat3\OData\Type\PrimitiveType;
 
-class Entity extends Resource
+class Entity implements ResourceInterface
 {
+    use Resource;
+
     /** @var PrimitiveType $entityId */
     private $entityId;
 

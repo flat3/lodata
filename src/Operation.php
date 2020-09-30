@@ -3,12 +3,15 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Type\PrimitiveType;
 use RuntimeException;
 
-abstract class Operation extends Resource
+abstract class Operation implements ResourceInterface
 {
+    use Resource;
+
     const EDM_TYPE = null;
 
     /** @var callable $callback */
@@ -22,7 +25,7 @@ abstract class Operation extends Resource
 
     public function __construct($identifier, string $returnType, array $arguments = [])
     {
-        parent::__construct($identifier);
+        $this->setIdentifier($identifier);
 
         $this->arguments = new ObjectArray();
 

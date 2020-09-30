@@ -2,11 +2,14 @@
 
 namespace Flat3\OData\Operation;
 
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Resource;
 use Flat3\OData\Type\PrimitiveType;
 
-class Argument extends Resource
+class Argument implements ResourceInterface
 {
+    use Resource;
+
     /** @var \Flat3\OData\Type\PrimitiveType $type */
     protected $type;
 
@@ -14,8 +17,7 @@ class Argument extends Resource
 
     public function __construct(string $identifier, PrimitiveType $type, bool $nullable = true)
     {
-        parent::__construct($identifier);
-
+        $this->setIdentifier($identifier);
         $this->type = $type;
         $this->nullable = $nullable;
     }

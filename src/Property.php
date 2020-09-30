@@ -2,10 +2,13 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Type\PrimitiveType;
 
-abstract class Property extends Resource
+abstract class Property implements ResourceInterface
 {
+    use Resource;
+
     /** @var PrimitiveType|EntityType $type */
     protected $type = null;
 
@@ -23,7 +26,7 @@ abstract class Property extends Resource
 
     public function __construct($identifier, $type)
     {
-        parent::__construct($identifier);
+        $this->setIdentifier($identifier);
 
         if (is_string($type)) {
             /** @var PrimitiveType $type */

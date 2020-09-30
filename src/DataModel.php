@@ -2,6 +2,8 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\ResourceInterface;
+
 class DataModel
 {
     /** @var ObjectArray $resources */
@@ -24,7 +26,7 @@ class DataModel
         return $this;
     }
 
-    public function addResource(Resource $resource): self
+    public function addResource(ResourceInterface $resource): self
     {
         $this->resources[] = $resource;
         return $this;
