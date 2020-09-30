@@ -10,12 +10,14 @@ use Flat3\OData\Attribute\ParameterList;
 use Flat3\OData\Attribute\Version;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Option\Count;
 use Flat3\OData\Option\Expand;
 use Flat3\OData\Option\Filter;
 use Flat3\OData\Option\OrderBy;
+use Flat3\OData\Option\SchemaVersion;
 use Flat3\OData\Option\Search;
 use Flat3\OData\Option\Select;
 use Flat3\OData\Option\Skip;
@@ -78,6 +80,9 @@ class Transaction
     /** @var Format $format */
     private $format;
 
+    /** @var SchemaVersion $schemaversion */
+    private $schemaversion;
+
     public function getRequest(): Request
     {
         return $this->request;
@@ -107,6 +112,7 @@ class Transaction
             $this->select = Select::factory()->transaction($this);
             $this->skip = Skip::factory()->transaction($this);
             $this->top = Top::factory()->transaction($this);
+            $this->schemaversion = SchemaVersion::factory()->transaction($this);
 
             foreach ($this->request->query->keys() as $param) {
                 if (
@@ -136,6 +142,13 @@ class Transaction
 
             if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {
                 throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
+            }
+
+            if ($this->schemaversion->hasValue() && $this->schemaversion->getValue() !== '*') {
+                throw new NotFoundException(
+                    'schema_version_not_found',
+                    'The requested schema version is not available'
+                );
             }
         }
 
@@ -638,5 +651,6 @@ class Transaction
         $this->select = new Select();
         $this->skip = new Skip();
         $this->top = new Top();
+        $this->schemaversion = new SchemaVersion();
     }
 }
