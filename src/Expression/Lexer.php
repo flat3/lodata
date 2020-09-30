@@ -445,22 +445,22 @@ class Lexer
     /**
      * Match a quoted string
      *
+     * @param  string  $quoteChar
      * @return string|null
-     * @throws LexerException
      */
-    public function quotedString(): string
+    public function quotedString($quoteChar = "'"): string
     {
-        $this->char("'");
+        $this->char($quoteChar);
 
         $chars = [];
 
         while (true) {
             $char = $this->char();
 
-            if ("'" === $char) {
-                if ($this->pos + 1 < $this->len && "'" === $this->text[$this->pos + 1]) {
+            if ($quoteChar === $char) {
+                if ($this->pos + 1 < $this->len && $quoteChar === $this->text[$this->pos + 1]) {
                     $this->pos++;
-                    $chars[] = "'";
+                    $chars[] = $quoteChar;
                     continue;
                 } else {
                     break;
@@ -488,10 +488,24 @@ class Lexer
      *
      * @return string|null
      */
-    public function maybeQuotedString(): ?string
+    public function maybeSingleQuotedString(): ?string
     {
         try {
             return $this->quotedString();
+        } catch (LexerException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Maybe match a quoted string
+     *
+     * @return string|null
+     */
+    public function maybeDoubleQuotedString(): ?string
+    {
+        try {
+            return $this->quotedString('"');
         } catch (LexerException $e) {
             return null;
         }

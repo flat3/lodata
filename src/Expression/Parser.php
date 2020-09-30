@@ -371,9 +371,25 @@ abstract class Parser
         return true;
     }
 
-    public function tokenizeQuotedString(): bool
+    public function tokenizeSingleQuotedString(): bool
     {
-        $token = $this->lexer->maybeQuotedString();
+        $token = $this->lexer->maybeSingleQuotedString();
+
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Literal\String_($this);
+        $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    public function tokenizeDoubleQuotedString(): bool
+    {
+        $token = $this->lexer->maybeDoubleQuotedString();
 
         if (!$token) {
             return false;

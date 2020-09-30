@@ -47,7 +47,7 @@ class Search extends Parser
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeOperator() ||
-            $this->tokenizeQuotedString() ||
+            $this->tokenizeDoubleQuotedString() ||
             $this->tokenizeString();
     }
 }

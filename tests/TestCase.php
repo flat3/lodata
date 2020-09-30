@@ -74,11 +74,35 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->req($request);
     }
 
+    public function urlToReq(string $url): Request
+    {
+        $request = Request::factory();
+
+        $url = parse_url($url);
+        $request->path($url['path'], false);
+        parse_str($url['query'], $query);
+
+        foreach ($query as $key => $value) {
+            $request->query($key, $value);
+        }
+
+        return $request;
+    }
+
+    /**
+     * @param  TestResponse  $response
+     * @return \stdClass
+     */
+    public function jsonResponse(TestResponse $response): \stdClass
+    {
+        return json_decode($response->streamedContent());
+    }
+
     public function req(Request $request): TestResponse
     {
         return $this->call(
             $request->method,
-            'odata'.$request->uri(),
+            $request->uri(),
             [],
             [],
             [],
@@ -113,10 +137,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->assertResponseMetadata($response);
     }
 
-    protected function assertJsonResponse(Request $request)
+    protected function assertJsonResponse(Request $request): TestResponse
     {
         $response = $this->req($request);
         $this->assertMatchesSnapshot($response->streamedContent(), new JsonDriver());
+        return $response;
     }
 
     protected function assertProtocolException(ProtocolException $e)

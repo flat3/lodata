@@ -12,7 +12,7 @@ class Request
     public static function factory()
     {
         $request = new self();
-        $request->header('accept', 'application/json');
+        $request->json();
         return $request;
     }
 
@@ -40,9 +40,14 @@ class Request
         return $this;
     }
 
-    public function path($path)
+    public function path($path, $withPrefix = true)
     {
         $this->path = $path;
+
+        if ($withPrefix) {
+            $this->path = '/odata'.$this->path;
+        }
+
         return $this;
     }
 
@@ -80,6 +85,12 @@ class Request
     public function xml()
     {
         $this->header('accept', 'application/xml');
+        return $this;
+    }
+
+    public function json(): self
+    {
+        $this->header('accept', 'application/json');
         return $this;
     }
 

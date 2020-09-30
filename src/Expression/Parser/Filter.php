@@ -102,7 +102,7 @@ class Filter extends Parser
         return $this->tokenizeDateTimeOffset() ||
             $this->tokenizeDate() ||
             $this->tokenizeTimeOfDay() ||
-            $this->tokenizeQuotedString() ||
+            $this->tokenizeSingleQuotedString() ||
             $this->tokenizeGuid() ||
             $this->tokenizeNumber() ||
             $this->tokenizeBoolean();
