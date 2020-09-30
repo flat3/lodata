@@ -3,6 +3,7 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Type\EntityType;
 
 class DataModel
 {
@@ -20,9 +21,7 @@ class DataModel
 
     public function addEntityType(EntityType $entityType): self
     {
-        $entityType->setDataModel($this);
         $this->entityTypes[] = $entityType;
-
         return $this;
     }
 

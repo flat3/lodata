@@ -8,9 +8,11 @@ use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Transaction;
+use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -40,7 +42,7 @@ class Operation extends Handler
 
         $this->operation = $dataModel->getResources()->get($operation);
 
-        if ($this->operation instanceof Operation) {
+        if (!$this->operation instanceof \Flat3\OData\Operation) {
             throw new PathNotHandledException();
         }
 
@@ -103,9 +105,20 @@ class Operation extends Handler
         $response = $transaction->getResponse();
         $transaction->setContentTypeJson();
 
-        $metadata = [];
-
         $result = $this->operation->invoke($this->args);
+        $returnType = $this->operation->getReturnType();
+
+        switch (true) {
+            case $result === null && !$returnType->isNullable():
+            case $returnType instanceof EntityType && !$result->getEntityType() instanceof $returnType:
+            case $returnType instanceof PrimitiveType && !$result instanceof $returnType:
+                throw new InternalServerErrorException(
+                    'invalid_return_type',
+                    'The operation returned an type that did not match its defined return type'
+                );
+        }
+
+        $metadata = [];
 
         switch (true) {
             case $result instanceof PrimitiveType:

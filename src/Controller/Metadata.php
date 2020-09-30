@@ -4,7 +4,7 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\Attribute;
 use Flat3\OData\DataModel;
-use Flat3\OData\EntityType;
+use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Operation;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Property;
@@ -40,7 +40,7 @@ class Metadata extends Controller
         $entityContainer->addAttribute('Name', 'DefaultContainer');
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
-        /** @var EntityType $entityType */
+        /** @var \Flat3\OData\Type\EntityType $entityType */
         foreach ($dataModel->getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
             $entityTypeElement->addAttribute('Name', $entityType->getIdentifier());
@@ -78,7 +78,7 @@ class Metadata extends Controller
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getIdentifier());
                 $navigationPropertyType = $dataModel->getNamespace().'.'.$targetEntityType->getIdentifier();
-                if ($targetEntityType instanceof EntityType\Collection) {
+                if ($targetEntityType instanceof Collection) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
 

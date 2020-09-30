@@ -5,11 +5,16 @@ namespace Flat3\OData\Tests\Data;
 use Exception;
 use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
+use Flat3\OData\Entity;
 use Flat3\OData\EntityType\Collection;
+use Flat3\OData\Operation\Action;
+use Flat3\OData\Operation\Function_;
 use Flat3\OData\Property;
 use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
 use Flat3\OData\Type;
+use Flat3\OData\Type\EntityType;
+use Flat3\OData\Type\String_;
 
 trait FlightDataModel
 {
@@ -102,6 +107,34 @@ trait FlightDataModel
             );
             $flightType->addProperty($nav);
             $flightStore->addNavigationBinding(new Property\Navigation\Binding($nav, $airportStore));
+
+            $exf1 = new Function_('exf1', Type::string());
+            $exf1->setCallback(function () {
+                return String_::factory('hello');
+            });
+
+            $exf2 = new Function_('exf2', $model->getEntityTypes()->get('airport'));
+            $exf2->setCallback(function () use ($model) {
+                /** @var Store $store */
+                $store = $model->getResources()->get('airports');
+                $entity = new Entity($store);
+
+                /** @var EntityType $airport */
+                $airport = $model->getEntityTypes()->get('airport');
+
+                $entity->addPrimitive('abc', $airport->getProperty('code'));
+
+                return $entity;
+            });
+
+            $exa1 = new Action('exa1', Type::string());
+            $exa1->setCallback(function () {
+                return String_::factory('hello');
+            });
+
+            $model->addResource($exf1);
+            $model->addResource($exf2);
+            $model->addResource($exa1);
         } catch (Exception $e) {
         }
     }

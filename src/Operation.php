@@ -5,7 +5,6 @@ namespace Flat3\OData;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Operation\Argument;
-use Flat3\OData\Type\PrimitiveType;
 use RuntimeException;
 
 abstract class Operation implements ResourceInterface
@@ -20,10 +19,10 @@ abstract class Operation implements ResourceInterface
     /** @var ObjectArray $arguments */
     protected $arguments;
 
-    /** @var PrimitiveType $returnType */
+    /** @var Type $returnType */
     protected $returnType;
 
-    public function __construct($identifier, string $returnType, array $arguments = [])
+    public function __construct($identifier, Type $returnType, array $arguments = [])
     {
         $this->setIdentifier($identifier);
 
@@ -33,19 +32,14 @@ abstract class Operation implements ResourceInterface
             $this->arguments[] = $argument;
         }
 
-        /** @var DataModel $dataModel */
-        $dataModel = app()->make(DataModel::class);
-        if ($dataModel->getEntityTypes()->get($returnType)) {
-            $this->returnType = $dataModel->getEntityTypes()->get($returnType);
-        }
+        $this->setReturnType($returnType);
+    }
 
-        if (is_a($returnType, PrimitiveType::class, true)) {
-            $this->returnType = $returnType::factory();
-        }
+    public function setReturnType(Type $returnType): self
+    {
+        $this->returnType = $returnType;
 
-        if (!$this->returnType) {
-            throw new RuntimeException('Invalid return type supplied');
-        }
+        return $this;
     }
 
     public function addArgument(Argument $argument): self
@@ -60,7 +54,7 @@ abstract class Operation implements ResourceInterface
         return $this->arguments;
     }
 
-    public function getReturnType(): PrimitiveType
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

@@ -1,10 +1,17 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Type;
 
+use Flat3\OData\DataModel;
+use Flat3\OData\Entity;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\ObjectArray;
+use Flat3\OData\Operation;
+use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
+use Flat3\OData\Resource;
+use Flat3\OData\Type;
 
 abstract class EntityType extends Type implements ResourceInterface
 {
@@ -18,9 +25,6 @@ abstract class EntityType extends Type implements ResourceInterface
 
     /** @var ObjectArray[Operation] $bound_operations Operations bound to this entity type */
     protected $boundOperations;
-
-    /** @var DataModel $dataModel */
-    protected $dataModel;
 
     public function __construct($identifier)
     {
@@ -113,15 +117,17 @@ abstract class EntityType extends Type implements ResourceInterface
         return (string) $this->getIdentifier();
     }
 
-    public function getDataModel(): DataModel
-    {
-        return $this->dataModel;
-    }
-
     public function setDataModel(DataModel $dataModel): self
     {
         $this->dataModel = $dataModel;
 
         return $this;
+    }
+
+    public function getEdmTypeName(): string
+    {
+        /** @var DataModel $dataModel */
+        $dataModel = app()->make(DataModel::class);
+        return $dataModel->getNamespace().'.'.$this->identifier;
     }
 }

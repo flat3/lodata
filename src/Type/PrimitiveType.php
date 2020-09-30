@@ -2,11 +2,13 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Type;
+
 /**
  * Class PrimitiveType
  * @package Flat3\OData
  */
-abstract class PrimitiveType
+abstract class PrimitiveType extends Type
 {
     public const EDM_TYPE = 'Edm.None';
 
@@ -16,9 +18,6 @@ abstract class PrimitiveType
 
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
-
-    /** @var bool $nullable Whether the value can be made null */
-    protected $nullable = true;
 
     public function __construct($value, bool $nullable = true)
     {
@@ -33,11 +32,6 @@ abstract class PrimitiveType
      */
     abstract public function toInternal($value): void;
 
-    public function isNullable(): bool
-    {
-        return $this->nullable;
-    }
-
     public static function factory($value = null, ?bool $nullable = true): self
     {
         if ($value instanceof PrimitiveType) {
@@ -45,16 +39,6 @@ abstract class PrimitiveType
         }
 
         return new static($value, $nullable);
-    }
-
-    /**
-     * Get the EDM name of this type
-     *
-     * @return string
-     */
-    public function getEdmTypeName()
-    {
-        return $this::EDM_TYPE;
     }
 
     /**

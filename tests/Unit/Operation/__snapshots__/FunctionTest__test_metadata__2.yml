@@ -1,5 +1,0 @@
-headers:
-    cache-control: ['no-cache, private']
-    odata-version: ['4.01']
-    content-type: [application/xml]
-status: 200

@@ -6,6 +6,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Property\Constraint;
+use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
 class Entity implements ResourceInterface
@@ -193,5 +194,10 @@ class Entity implements ResourceInterface
     public function getPrimitive(Property $property): ?Primitive
     {
         return $this->primitives[$property];
+    }
+
+    public function getEntityType(): EntityType
+    {
+        return $this->store->getEntityType();
     }
 }

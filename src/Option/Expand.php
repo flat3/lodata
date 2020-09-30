@@ -2,13 +2,13 @@
 
 namespace Flat3\OData\Option;
 
-use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Option;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Request;
+use Flat3\OData\Type\EntityType;
 
 /**
  * Class Expand

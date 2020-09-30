@@ -2,14 +2,29 @@
     "@context": "http://localhost/odata/$metadata",
     "value": [
         {
-            "name": "example",
-            "kind": "Function",
-            "url": "example"
+            "name": "flights",
+            "kind": "EntitySet",
+            "url": "flights"
         },
         {
-            "name": "example2",
+            "name": "airports",
+            "kind": "EntitySet",
+            "url": "airports"
+        },
+        {
+            "name": "exf1",
+            "kind": "Function",
+            "url": "exf1"
+        },
+        {
+            "name": "exf2",
+            "kind": "Function",
+            "url": "exf2"
+        },
+        {
+            "name": "exa1",
             "kind": "Action",
-            "url": "example2"
+            "url": "exa1"
         }
     ]
 }

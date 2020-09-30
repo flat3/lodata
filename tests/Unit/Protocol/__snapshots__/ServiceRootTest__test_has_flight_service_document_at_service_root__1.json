@@ -10,6 +10,21 @@
             "name": "airports",
             "kind": "EntitySet",
             "url": "airports"
+        },
+        {
+            "name": "exf1",
+            "kind": "Function",
+            "url": "exf1"
+        },
+        {
+            "name": "exf2",
+            "kind": "Function",
+            "url": "exf2"
+        },
+        {
+            "name": "exa1",
+            "kind": "Action",
+            "url": "exa1"
         }
     ]
 }

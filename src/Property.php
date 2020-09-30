@@ -3,6 +3,7 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
 abstract class Property implements ResourceInterface
