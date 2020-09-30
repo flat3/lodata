@@ -33,7 +33,7 @@ abstract class EntityType extends Type implements IdentifierInterface
             $this->setIdentifier($identifier);
         } else {
             $reflect = new ReflectionClass($this);
-            $this->setIdentifier(Str::slug($reflect->getShortName(), ''));
+            $this->setIdentifier(Str::slug(Str::replaceLast('Type', '', $reflect->getShortName()), ''));
         }
 
         $this->properties = new ObjectArray();

@@ -51,4 +51,24 @@ class FunctionTest extends TestCase
                 ->path('/add(a=3,b=4)')
         );
     }
+
+    public function test_with_indirect_arguments()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/add(a=@c,b=@d)')
+                ->query('@c', 1)
+                ->query('@d', 2)
+        );
+    }
+
+    public function test_with_missing_indirect_arguments()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/add(a=@c,b=@e)')
+                ->query('@c', 1)
+                ->query('@d', 2)
+        );
+    }
 }
