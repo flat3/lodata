@@ -14,6 +14,7 @@ use Flat3\OData\ServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Spatie\Snapshots\MatchesSnapshots;
+use stdClass;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -91,9 +92,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * @param  TestResponse  $response
-     * @return \stdClass
+     * @return stdClass
      */
-    public function jsonResponse(TestResponse $response): \stdClass
+    public function jsonResponse(TestResponse $response): stdClass
     {
         return json_decode($response->streamedContent());
     }

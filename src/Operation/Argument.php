@@ -10,7 +10,7 @@ class Argument implements ResourceInterface
 {
     use Resource;
 
-    /** @var \Flat3\OData\Type\PrimitiveType $type */
+    /** @var PrimitiveType $type */
     protected $type;
 
     protected $nullable = true;

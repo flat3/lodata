@@ -12,6 +12,7 @@ use Flat3\OData\Property\Navigation;
 use Flat3\OData\Store;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type\Boolean;
+use Flat3\OData\Type\EntityType;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use SimpleXMLElement;
@@ -40,7 +41,7 @@ class Metadata extends Controller
         $entityContainer->addAttribute('Name', 'DefaultContainer');
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
-        /** @var \Flat3\OData\Type\EntityType $entityType */
+        /** @var EntityType $entityType */
         foreach ($dataModel->getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
             $entityTypeElement->addAttribute('Name', $entityType->getIdentifier());
