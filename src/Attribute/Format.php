@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Attribute;
 
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Transaction;
+use Illuminate\Support\Str;
 
 class Format
 {
@@ -20,7 +22,14 @@ class Format
         $formatQueryOption = $transaction->getSystemQueryOption('format');
         $acceptHeader = $transaction->getHeader('accept');
 
-        if ('json' === $formatQueryOption || 'xml' === $formatQueryOption) {
+        if (Str::startsWith($formatQueryOption, ['json', 'xml'])) {
+            if (!in_array($formatQueryOption, ['json', 'xml'])) {
+                throw new BadRequestException(
+                    'invalid_short_format',
+                    'When using a short $format option, parameters cannot be used'
+                );
+            }
+
             $type = 'application/'.$formatQueryOption;
         } elseif ($formatQueryOption) {
             $type = $formatQueryOption;

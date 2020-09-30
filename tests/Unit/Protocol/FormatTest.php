@@ -140,6 +140,14 @@ class FormatTest extends TestCase
         );
     }
 
+    public function test_rejects_short_format_with_parameters()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->query('$format', 'json;metadata=none')
+        );
+    }
+
     public function test_rejects_format_short_xml()
     {
         $this->assertNotAcceptable(
