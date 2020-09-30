@@ -5,7 +5,7 @@ namespace Flat3\OData\Tests;
 class Request
 {
     public $headers = [];
-    public $path = '/';
+    public $path = '/odata';
     public $query = [];
     public $method = 'GET';
 

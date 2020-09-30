@@ -88,7 +88,7 @@ class FormatTest extends TestCase
         $this->assertMetadataResponse(
             Request::factory()
                 ->header('accept', 'application/xml')
-                ->path('$metadata')
+                ->path('/$metadata')
         );
     }
 

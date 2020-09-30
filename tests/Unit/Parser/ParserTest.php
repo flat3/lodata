@@ -69,15 +69,15 @@ class ParserTest extends TestCase
     ];
 
     public $search_tests = [
-        't1' => "'t1'",
-        't1 OR t2' => "( 't1' OR 't2' )",
-        't1 OR t2 OR t3' => "( ( 't1' OR 't2' ) OR 't3' )",
-        't1 OR t2 AND t3' => "( 't1' OR ( 't2' AND 't3' ) )",
-        't1 OR t2 NOT t3 AND t4' => "( 't2' OR ( ( NOT 't3' ) AND 't4' ) )",
-        "'a t1' OR t1" => "( 'a t1' OR 't1' )",
-        "'a ''t1' OR t1" => "( 'a ''t1' OR 't1' )",
-        '( t1 OR t2 ) AND t3' => "( ( 't1' OR 't2' ) AND 't3' )",
-        '(t1 OR (t2 AND t3))' => "( 't1' OR ( 't2' AND 't3' ) )",
+        't1' => '"t1"',
+        't1 OR t2' => '( "t1" OR "t2" )',
+        't1 OR t2 OR t3' => '( ( "t1" OR "t2" ) OR "t3" )',
+        't1 OR t2 AND t3' => '( "t1" OR ( "t2" AND "t3" ) )',
+        't1 OR t2 NOT t3 AND t4' => '( "t2" OR ( ( NOT "t3" ) AND "t4" ) )',
+        '"a t1" OR t1' => '( "a t1" OR "t1" )',
+        '"a \'\'t1" OR t1' => '( "a \'\'t1" OR "t1" )',
+        '( t1 OR t2 ) AND t3' => '( ( "t1" OR "t2" ) AND "t3" )',
+        '(t1 OR (t2 AND t3))' => '( "t1" OR ( "t2" AND "t3" ) )',
     ];
 
     public function test_search_parser()
