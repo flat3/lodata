@@ -12,7 +12,7 @@ use Flat3\OData\Property\Navigation;
 use Flat3\OData\HasIdentifier;
 use Flat3\OData\Type;
 
-abstract class EntityType extends Type implements IdentifierInterface
+class EntityType extends Type implements IdentifierInterface
 {
     use HasIdentifier;
 

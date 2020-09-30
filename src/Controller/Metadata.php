@@ -79,7 +79,7 @@ class Metadata extends Controller
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getIdentifier());
                 $navigationPropertyType = $dataModel->getNamespace().'.'.$targetEntityType->getIdentifier();
-                if ($targetEntityType instanceof Collection) {
+                if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
 

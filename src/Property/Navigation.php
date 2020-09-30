@@ -15,6 +15,9 @@ class Navigation extends Property
     /** @var ObjectArray $constraints */
     protected $constraints;
 
+    /** @var boolean $isCollection */
+    protected $isCollection = false;
+
     protected $expandable = true;
 
     public function __construct($identifier, EntityType $type)
@@ -26,6 +29,17 @@ class Navigation extends Property
         parent::__construct($identifier, $type);
 
         $this->constraints = new ObjectArray();
+    }
+
+    public function isCollection(): bool
+    {
+        return $this->isCollection;
+    }
+
+    public function setIsCollection($isCollection): self
+    {
+        $this->isCollection = $isCollection;
+        return $this;
     }
 
     public function isExpandable(): bool
