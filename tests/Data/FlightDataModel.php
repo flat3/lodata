@@ -92,7 +92,7 @@ trait FlightDataModel
                 ->add($airportStore);
 
             $nav = new Property\Navigation($airportStore, $airportType);
-            $nav->setIsCollection(true);
+            $nav->setCollection(true);
             $nav->addConstraint(
                 new Property\Constraint(
                     $flightType->getProperty('origin'),

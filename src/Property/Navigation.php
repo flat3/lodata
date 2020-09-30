@@ -15,9 +15,10 @@ class Navigation extends Property
     /** @var ObjectArray $constraints */
     protected $constraints;
 
-    /** @var boolean $isCollection */
-    protected $isCollection = false;
+    /** @var bool $collection */
+    protected $collection = false;
 
+    /** @var bool $expandable */
     protected $expandable = true;
 
     public function __construct($identifier, EntityType $type)
@@ -33,12 +34,12 @@ class Navigation extends Property
 
     public function isCollection(): bool
     {
-        return $this->isCollection;
+        return $this->collection;
     }
 
-    public function setIsCollection($isCollection): self
+    public function setCollection($collection): self
     {
-        $this->isCollection = $isCollection;
+        $this->collection = $collection;
         return $this;
     }
 
