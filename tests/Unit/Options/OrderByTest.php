@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\EntitySet;
+namespace Flat3\OData\Tests\Unit\Options;
 
 use Flat3\OData\Tests\Data\FlightDataModel;
 use Flat3\OData\Tests\Request;
