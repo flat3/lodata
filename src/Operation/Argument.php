@@ -2,13 +2,13 @@
 
 namespace Flat3\OData\Operation;
 
-use Flat3\OData\Interfaces\ResourceInterface;
-use Flat3\OData\Resource;
+use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\HasIdentifier;
 use Flat3\OData\Type\PrimitiveType;
 
-class Argument implements ResourceInterface
+class Argument implements IdentifierInterface
 {
-    use Resource;
+    use HasIdentifier;
 
     /** @var PrimitiveType $type */
     protected $type;

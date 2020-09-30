@@ -3,13 +3,13 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Operation\Argument;
-use RuntimeException;
 
-abstract class Operation implements ResourceInterface
+abstract class Operation implements IdentifierInterface, ResourceInterface
 {
-    use Resource;
+    use HasIdentifier;
 
     const EDM_TYPE = null;
 

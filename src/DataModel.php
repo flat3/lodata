@@ -2,32 +2,29 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Type\EntityType;
 
 class DataModel
 {
     /** @var ObjectArray $resources */
-    protected $resources;
-
-    /** @var ObjectArray $entityTypes */
-    protected $entityTypes;
+    protected $model;
 
     public function __construct()
     {
-        $this->resources = new ObjectArray();
-        $this->entityTypes = new ObjectArray();
+        $this->model = new ObjectArray();
     }
 
     public function addEntityType(EntityType $entityType): self
     {
-        $this->entityTypes[] = $entityType;
+        $this->model[] = $entityType;
         return $this;
     }
 
-    public function addResource(ResourceInterface $resource): self
+    public function addResource(IdentifierInterface $resource): self
     {
-        $this->resources[] = $resource;
+        $this->model[] = $resource;
         return $this;
     }
 
@@ -38,11 +35,11 @@ class DataModel
 
     public function getEntityTypes(): ObjectArray
     {
-        return $this->entityTypes;
+        return $this->model->sliceByClass(EntityType::class);
     }
 
     public function getResources(): ObjectArray
     {
-        return $this->resources;
+        return $this->model->sliceByClass(ResourceInterface::class);
     }
 }

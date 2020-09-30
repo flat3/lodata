@@ -25,13 +25,4 @@ class ServiceRootTest extends TestCase
             Request::factory()
         );
     }
-
-    public function test_has_operation_service_document_at_service_root()
-    {
-        $this->withFlightDataModel();
-
-        $this->assertJsonMetadataResponse(
-            Request::factory()
-        );
-    }
 }

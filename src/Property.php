@@ -2,13 +2,13 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
-abstract class Property implements ResourceInterface
+abstract class Property implements IdentifierInterface
 {
-    use Resource;
+    use HasIdentifier;
 
     /** @var PrimitiveType|EntityType $type */
     protected $type = null;

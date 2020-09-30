@@ -4,14 +4,15 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\ConfigurationException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
 use Flat3\OData\Type\EntityType;
 
-abstract class Store implements ResourceInterface
+abstract class Store implements IdentifierInterface, ResourceInterface
 {
-    use Resource;
+    use HasIdentifier;
 
     public const EDM_TYPE = 'EntitySet';
 

@@ -3,18 +3,18 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\DataModel;
-use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\ObjectArray;
 use Flat3\OData\Operation;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Resource;
+use Flat3\OData\HasIdentifier;
 use Flat3\OData\Type;
 
-abstract class EntityType extends Type implements ResourceInterface
+abstract class EntityType extends Type implements IdentifierInterface
 {
-    use Resource;
+    use HasIdentifier;
 
     /** @var Property $key Primary key property */
     protected $key;

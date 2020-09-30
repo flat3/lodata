@@ -3,7 +3,7 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
-use Flat3\OData\Resource;
+use Flat3\OData\HasIdentifier;
 use Flat3\OData\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -39,7 +39,7 @@ class Service extends Controller
             }
 
             while ($resources) {
-                /** @var Resource $resource */
+                /** @var HasIdentifier $resource */
                 $resource = array_shift($resources);
 
                 $transaction->outputJsonObjectStart();

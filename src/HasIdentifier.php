@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-trait Resource
+trait HasIdentifier
 {
     /** @var Identifier $identifier Resource identifier */
     protected $identifier;
