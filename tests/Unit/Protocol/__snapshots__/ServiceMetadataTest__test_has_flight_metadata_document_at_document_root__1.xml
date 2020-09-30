@@ -9,6 +9,7 @@
         <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
         <FunctionImport Name="add" Function="com.example.odata.add"/>
         <FunctionImport Name="exf1" Function="com.example.odata.exf1"/>
+        <FunctionImport Name="exf2" Function="com.example.odata.exf2"/>
         <ActionImport Name="exa1" Action="com.example.odata.exa1"/>
       </EntityContainer>
       <EntityType Name="flight">
@@ -38,16 +39,14 @@
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
       </EntityType>
       <Function Name="add">
-        <ReturnType Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Int32" Nullable="false"/>
       </Function>
-      <Function Name="exf1">
-        <ReturnType Type="Edm.String" Nullable="false"/>
+      <Function Name="exf1"/>
+      <Function Name="exf2">
+        <ReturnType Type="Collection(airport)" Nullable="false"/>
       </Function>
-      <Action Name="exa1">
-        <ReturnType Type="Edm.String" Nullable="false"/>
-      </Action>
+      <Action Name="exa1"/>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
         <Annotation Term="Org.OData.Core.V1.DereferenceableIDs" Bool="true"/>
