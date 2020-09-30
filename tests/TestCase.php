@@ -144,6 +144,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $response;
     }
 
+    protected function assertTextResponse(Request $request): TestResponse
+    {
+        $response = $this->req($request);
+        $this->assertMatchesTextSnapshot($response->streamedContent());
+        return $response;
+    }
+
     protected function assertProtocolException(ProtocolException $e)
     {
         $this->assertMatchesSnapshot($e->serialize());
@@ -156,7 +163,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->assertResponseMetadata($response);
     }
 
-    protected function assertTextResponse(Request $request)
+    protected function assertTextMetadataResponse(Request $request)
     {
         $response = $this->req($request);
         $this->assertMatchesTextSnapshot($response->streamedContent());

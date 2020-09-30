@@ -19,7 +19,7 @@ class EntityPrimitiveRawTest extends TestCase
 
     public function test_read_an_entity_set_primitive_raw()
     {
-        $this->assertTextResponse(
+        $this->assertTextMetadataResponse(
             Request::factory()
                 ->text()
                 ->path('/flights(1)/id/$value')
