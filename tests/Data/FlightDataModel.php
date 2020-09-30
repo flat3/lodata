@@ -9,13 +9,7 @@ use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Property;
 use Flat3\OData\Tests\Models\Airport;
 use Flat3\OData\Tests\Models\Flight;
-use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\Date;
-use Flat3\OData\Type\DateTimeOffset;
-use Flat3\OData\Type\Decimal;
-use Flat3\OData\Type\Int32;
-use Flat3\OData\Type\String_;
-use Flat3\OData\Type\TimeOfDay;
+use Flat3\OData\Type;
 
 trait FlightDataModel
 {
@@ -66,22 +60,22 @@ trait FlightDataModel
             $model = app()->make(DataModel::class);
 
             $flightType = new Collection('flight');
-            $flightType->setKey(new Property\Declared('id', Int32::class));
-            $flightType->addProperty(new Property\Declared('origin', String_::class));
-            $flightType->addProperty(new Property\Declared('destination', String_::class));
-            $flightType->addProperty(new Property\Declared('gate', Int32::class));
+            $flightType->setKey(new Property\Declared('id', Type::int32()));
+            $flightType->addProperty(new Property\Declared('origin', Type::string()));
+            $flightType->addProperty(new Property\Declared('destination', Type::string()));
+            $flightType->addProperty(new Property\Declared('gate', Type::int32()));
             $flightStore = new Store('flights', $flightType);
             $flightStore->setTable('flights');
 
             $airportType = new Collection('airport');
-            $airportType->setKey(new Property\Declared('id', Int32::class));
-            $airportType->addProperty(new Property\Declared('name', String_::class));
-            $airportType->addProperty((new Property\Declared('code', String_::class))->setSearchable());
-            $airportType->addProperty(new Property\Declared('construction_date', Date::class));
-            $airportType->addProperty(new Property\Declared('open_time', TimeOfDay::class));
-            $airportType->addProperty(new Property\Declared('sam_datetime', DateTimeOffset::class));
-            $airportType->addProperty(new Property\Declared('review_score', Decimal::class));
-            $airportType->addProperty(new Property\Declared('is_big', Boolean::class));
+            $airportType->setKey(new Property\Declared('id', Type::int32()));
+            $airportType->addProperty(new Property\Declared('name', Type::string()));
+            $airportType->addProperty((new Property\Declared('code', Type::string()))->setSearchable());
+            $airportType->addProperty(new Property\Declared('construction_date', Type::date()));
+            $airportType->addProperty(new Property\Declared('open_time', Type::timeofday()));
+            $airportType->addProperty(new Property\Declared('sam_datetime', Type::datetimeoffset()));
+            $airportType->addProperty(new Property\Declared('review_score', Type::decimal()));
+            $airportType->addProperty(new Property\Declared('is_big', Type::boolean()));
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
 
