@@ -62,6 +62,15 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_with_single_indirect_argument()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/add(a=@c,b=@c)')
+                ->query('@c', 1)
+        );
+    }
+
     public function test_with_missing_indirect_arguments()
     {
         $this->assertBadRequest(
