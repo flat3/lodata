@@ -5,7 +5,6 @@ namespace Flat3\OData;
 use Flat3\OData\Exception\ConfigurationException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\IdentifierInterface;
-use Flat3\OData\Interfaces\KindInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Property\Navigation;
