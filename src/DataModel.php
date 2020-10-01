@@ -16,10 +16,12 @@ class DataModel
         $this->model = new ObjectArray();
     }
 
-    public function add(IdentifierInterface $item): self
+    public static function add(IdentifierInterface $item): self
     {
-        $this->model[] = $item;
-        return $this;
+        /** @var self $model */
+        $model = app()->make(self::class);
+        $model->model[] = $item;
+        return $model;
     }
 
     public function getNamespace(): string

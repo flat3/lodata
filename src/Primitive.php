@@ -2,9 +2,11 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Type\PrimitiveType;
+use RuntimeException;
 
-class Primitive
+class Primitive implements TypeInterface
 {
     /** @var Entity $entity */
     private $entity;
@@ -65,5 +67,20 @@ class Primitive
     public function toJson()
     {
         return $this->value->toJson();
+    }
+
+    public function getType(): Type
+    {
+        return $this->property->getType();
+    }
+
+    public function getTypeName(): string
+    {
+        return $this->property->getTypeName();
+    }
+
+    public function setType(Type $type)
+    {
+        throw new RuntimeException('Cannot set type of a primitive, the type comes from the property');
     }
 }

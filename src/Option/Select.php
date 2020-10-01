@@ -18,7 +18,7 @@ class Select extends Option
 
     public function getSelectedProperties(Store $store): ObjectArray
     {
-        $declaredProperties = $store->getEntityType()->getDeclaredProperties();
+        $declaredProperties = $store->getType()->getDeclaredProperties();
 
         if ($this->isStar()) {
             return $declaredProperties;

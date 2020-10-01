@@ -30,7 +30,7 @@ class FunctionTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/exf2()')
+                ->path("/exf3(code='xyz')")
         );
     }
 

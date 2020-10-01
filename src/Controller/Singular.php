@@ -27,7 +27,7 @@ class Singular extends Set
         $id = array_shift($this->pathComponents);
 
         // Get the default key property
-        $keyProperty = $this->store->getEntityType()->getKey();
+        $keyProperty = $this->store->getType()->getKey();
 
         // Start the lexer
         $lexer = new Lexer($id);

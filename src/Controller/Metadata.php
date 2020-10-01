@@ -61,7 +61,7 @@ class Metadata extends Controller
                 $entityTypeProperty->addAttribute('Name', $property->getIdentifier());
 
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
-                $entityTypeProperty->addAttribute('Type', $property->getType()->getEdmTypeName());
+                $entityTypeProperty->addAttribute('Type', $property->getTypeName());
 
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
@@ -116,7 +116,7 @@ class Metadata extends Controller
                     $entitySetElement->addAttribute('Name', $resource->getIdentifier());
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $dataModel->getNamespace().'.'.$resource->getEntityType()->getIdentifier()
+                        $dataModel->getNamespace().'.'.$resource->getType()->getIdentifier()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -136,17 +136,17 @@ class Metadata extends Controller
 
                 /** @var Operation $resource */
                 case $resource instanceof Operation:
-                    $operationElement = $schema->addChild($resource::EDM_TYPE);
+                    $operationElement = $schema->addChild($resource->getKind());
                     $operationElement->addAttribute('Name', $resource->getIdentifier());
 
-                    $returnType = $resource->getReturnType();
+                    $returnType = $resource->getType();
                     if (null !== $returnType) {
                         $returnTypeElement = $operationElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
-                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType::$name.')');
+                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getTypeName().')');
                         } else {
-                            $returnTypeElement->addAttribute('Type', $returnType::$name);
+                            $returnTypeElement->addAttribute('Type', $returnType->getTypeName());
                         }
 
                         $returnTypeElement->addAttribute(
@@ -159,17 +159,17 @@ class Metadata extends Controller
                     foreach ($resource->getArguments() as $argument) {
                         $parameterElement = $operationElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getIdentifier());
-                        $parameterElement->addAttribute('Type', $argument->getType()->getEdmTypeName());
+                        $parameterElement->addAttribute('Type', $argument->getTypeName());
                         $parameterElement->addAttribute(
                             'Nullable',
                             Boolean::factory($argument->isNullable())->toUrl()
                         );
                     }
 
-                    $operationImport = $entityContainer->addChild($resource::EDM_TYPE.'Import');
+                    $operationImport = $entityContainer->addChild($resource->getKind().'Import');
                     $operationImport->addAttribute('Name', $resource->getIdentifier());
                     $operationImport->addAttribute(
-                        $resource::EDM_TYPE,
+                        $resource->getKind(),
                         $dataModel->getNamespace().'.'.$resource->getIdentifier()
                     );
                     break;

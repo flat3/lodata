@@ -4,7 +4,7 @@ namespace Flat3\OData\Type;
 
 class Stream extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.Stream';
+    protected $name = 'Edm.Stream';
 
     /** @var ?string $value */
     protected $value;

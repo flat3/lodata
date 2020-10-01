@@ -412,7 +412,7 @@ class EntitySet extends \Flat3\OData\EntitySet
 
         $properties = $select->getSelectedProperties($this->store);
 
-        $key = $this->getStore()->getEntityType()->getKey();
+        $key = $this->getStore()->getType()->getKey();
 
         if (!$properties[$key]) {
             $properties[] = $key;

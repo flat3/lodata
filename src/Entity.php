@@ -4,15 +4,15 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\StoreException;
-use Flat3\OData\Interfaces\EdmTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Property\Constraint;
-use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
-abstract class Entity implements IdentifierInterface, EdmTypeInterface
+abstract class Entity implements IdentifierInterface, TypeInterface
 {
-    use WithIdentifier;
+    use HasIdentifier;
+    use HasType;
 
     /** @var PrimitiveType $entityId */
     private $entityId;
@@ -41,7 +41,7 @@ abstract class Entity implements IdentifierInterface, EdmTypeInterface
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 
-        $expansionRequests = $expand->getExpansionRequests($this->store->getEntityType());
+        $expansionRequests = $expand->getExpansionRequests($this->store->getType());
 
         if ($metadata) {
             $transaction->outputJsonKV($metadata);
@@ -85,7 +85,7 @@ abstract class Entity implements IdentifierInterface, EdmTypeInterface
 
             $binding = $this->store->getBindingByNavigationProperty($navigationProperty);
             $targetStore = $binding->getTarget();
-            $targetStoreType = $targetStore->getEntityType();
+            $targetStoreType = $targetStore->getType();
 
             $targetConstraint = null;
             /** @var Constraint $constraint */
@@ -183,7 +183,7 @@ abstract class Entity implements IdentifierInterface, EdmTypeInterface
 
     public function setEntityIdValue($entityId)
     {
-        $this->setEntityId($this->store->getEntityType()->getKey()->getType()::factory($entityId));
+        $this->setEntityId($this->store->getType()->getKey()->getType()::factory($entityId));
     }
 
     public function primitiveFactory($value, Property $property): Primitive
@@ -194,15 +194,5 @@ abstract class Entity implements IdentifierInterface, EdmTypeInterface
     public function getPrimitive(Property $property): ?Primitive
     {
         return $this->primitives[$property];
-    }
-
-    public function getEntityType(): EntityType
-    {
-        return $this->store->getEntityType();
-    }
-
-    public function getEdmTypeName(): string
-    {
-        return $this->getEntityType()->getEdmTypeName();
     }
 }

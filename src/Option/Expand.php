@@ -8,7 +8,9 @@ use Flat3\OData\ObjectArray;
 use Flat3\OData\Option;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Request;
+use Flat3\OData\Type;
 use Flat3\OData\Type\EntityType;
+use RuntimeException;
 
 /**
  * Class Expand
@@ -19,8 +21,12 @@ class Expand extends Option
 {
     public const param = 'expand';
 
-    public function getExpansionRequests(EntityType $entityType): ObjectArray
+    public function getExpansionRequests(Type $entityType): ObjectArray
     {
+        if (!$entityType instanceof EntityType) {
+            throw new RuntimeException('Supplied type was not an entity type');
+        }
+
         $expanded = $this->getValue();
 
         $requests = new ObjectArray();

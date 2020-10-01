@@ -4,7 +4,7 @@ namespace Flat3\OData\Type;
 
 class Decimal extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.Decimal';
+    protected $name = 'Edm.Decimal';
 
     /** @var ?double $value */
     protected $value;

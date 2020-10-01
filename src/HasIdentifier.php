@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-trait WithIdentifier
+trait HasIdentifier
 {
     /** @var Identifier $identifier Resource identifier */
     protected $identifier;
@@ -32,16 +32,6 @@ trait WithIdentifier
         $this->title = $title;
 
         return $this;
-    }
-
-    /**
-     * Get the EDM type of this resource
-     *
-     * @return string
-     */
-    public function getEdmType(): string
-    {
-        return $this::EDM_TYPE;
     }
 
     public function __toString()

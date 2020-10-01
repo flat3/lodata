@@ -8,7 +8,7 @@ namespace Flat3\OData\Type;
  */
 class Boolean extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.Boolean';
+    protected $name = 'Edm.Boolean';
 
     /** @var ?bool $value */
     protected $value;

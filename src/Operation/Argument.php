@@ -3,17 +3,17 @@
 namespace Flat3\OData\Operation;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\WithFactory;
-use Flat3\OData\WithIdentifier;
+use Flat3\OData\HasIdentifier;
 use Flat3\OData\Type\PrimitiveType;
+use Flat3\OData\HasType;
 
-class Argument implements IdentifierInterface
+class Argument implements IdentifierInterface, TypeInterface
 {
     use WithFactory;
-    use WithIdentifier;
-
-    /** @var PrimitiveType $type */
-    protected $type;
+    use HasIdentifier;
+    use HasType;
 
     protected $nullable = true;
 
@@ -22,14 +22,6 @@ class Argument implements IdentifierInterface
         $this->setIdentifier($identifier);
         $this->type = $type;
         $this->nullable = $nullable;
-    }
-
-    /**
-     * @return PrimitiveType
-     */
-    public function getType(): PrimitiveType
-    {
-        return $this->type;
     }
 
     public function isNullable(): bool

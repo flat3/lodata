@@ -7,7 +7,7 @@ use Exception;
 
 class DateTimeOffset extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.DateTimeOffset';
+    protected $name = 'Edm.DateTimeOffset';
     public const DATE_FORMAT = 'c';
 
     /** @var ?DateTime $value */

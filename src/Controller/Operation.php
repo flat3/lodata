@@ -90,7 +90,7 @@ class Operation extends Handler
                     sprintf(
                         'The provided argument %s was not of type %s',
                         $argumentIdentifier,
-                        $argumentDefinition->getType()->getEdmTypeName()
+                        $argumentDefinition->getType()->getType()
                     )
                 );
             }
@@ -106,7 +106,7 @@ class Operation extends Handler
         $transaction->setContentTypeJson();
 
         $result = $this->operation->invoke($this->args);
-        $returnType = $this->operation->getReturnType();
+        $returnType = $this->operation->getType();
 
         switch (true) {
             case $result === null && !$this->operation->isNullable():

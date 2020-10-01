@@ -6,5 +6,8 @@ use Flat3\OData\Operation;
 
 class Action extends Operation
 {
-    public const EDM_TYPE = 'Action';
+    public function getKind(): string
+    {
+        return 'Action';
+    }
 }

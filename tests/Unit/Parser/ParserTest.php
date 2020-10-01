@@ -11,8 +11,8 @@ use Flat3\OData\Property;
 use Flat3\OData\Tests\LoopbackEntitySet;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Transaction;
+use Flat3\OData\Type;
 use Flat3\OData\Type\EntityType;
-use Flat3\OData\Type\Int32;
 use Illuminate\Http\Request;
 
 class ParserTest extends TestCase
@@ -86,8 +86,9 @@ class ParserTest extends TestCase
     {
         foreach (array_reverse($this->search_tests) as $from => $to) {
             try {
-                $type = new class('test') extends EntityType{};
-                $k = new Property\Declared('id', Int32::class);
+                $type = new class('test') extends EntityType {
+                };
+                $k = new Property\Declared('id', Type::int32());
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());
@@ -119,8 +120,9 @@ class ParserTest extends TestCase
     {
         foreach (array_reverse($this->filter_tests) as $from => $to) {
             try {
-                $type = new class('test') extends EntityType{};
-                $k = new Property\Declared('id', Int32::class);
+                $type = new class('test') extends EntityType {
+                };
+                $k = new Property\Declared('id', Type::int32());
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());

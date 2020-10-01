@@ -6,7 +6,7 @@ use Flat3\OData\Expression\Lexer;
 
 class Guid extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.Guid';
+    protected $name = 'Edm.Guid';
 
     /** @var ?string $value */
     protected $value;

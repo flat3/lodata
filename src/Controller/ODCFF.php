@@ -5,7 +5,7 @@ namespace Flat3\OData\Controller;
 use DOMDocument;
 use Flat3\OData\DataModel;
 use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\WithIdentifier;
+use Flat3\OData\HasIdentifier;
 use Flat3\OData\ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -22,7 +22,7 @@ class ODCFF extends Controller
 
         $htmlDoc = new DOMDocument();
 
-        /** @var WithIdentifier $resource */
+        /** @var HasIdentifier $resource */
         $resource = $dataModel->getResources()->get($identifier);
         if (null === $resource) {
             throw NotFoundException::factory(

@@ -5,6 +5,7 @@ namespace Flat3\OData\Tests\Data;
 use Exception;
 use Flat3\OData\DataModel;
 use Flat3\OData\Drivers\Database\Store;
+use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\EntitySet\Dynamic;
 use Flat3\OData\Operation\Action;
@@ -60,9 +61,6 @@ trait FlightDataModel
         ]))->save();
 
         try {
-            /** @var DataModel $model */
-            $model = app()->make(DataModel::class);
-
             $flightType = new FlightType();
             $flightType->setKey(new Property\Declared('id', Type::int32()));
             $flightType->addProperty(new Property\Declared('origin', Type::string()));
@@ -83,13 +81,11 @@ trait FlightDataModel
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
 
-            $model
-                ->add($flightType)
-                ->add($flightStore);
+            DataModel::add($flightType);
+            DataModel::add($flightStore);
 
-            $model
-                ->add($airportType)
-                ->add($airportStore);
+            DataModel::add($airportType);
+            DataModel::add($airportStore);
 
             $nav = new Property\Navigation($airportStore, $airportType);
             $nav->setCollection(true);
@@ -124,7 +120,17 @@ trait FlightDataModel
                     $set->addResult($airport);
                     return $set;
                 })
-                ->returns(AirportType::class);
+                ->setType(new AirportType());
+
+            $exf3 = Function_::factory('exf3')
+                ->setCallback(function (String_ $code): Entity {
+                    /** @var DataModel $model */
+                    $model = app()->make(DataModel::class);
+                    $airport = new Airport();
+                    $airport->addPrimitive($code->get(), $model->getEntityTypes()->get('airport')->getProperty('code'));
+                    return $airport;
+                })
+                ->setType(new AirportType());
 
             $exa1 = new Action('exa1');
             $exa1->setCallback(function (): String_ {
@@ -136,10 +142,11 @@ trait FlightDataModel
                     return Type\Int32::factory($a->get() + $b->get());
                 });
 
-            $model->add($add);
-            $model->add($exf1);
-            $model->add($exf2);
-            $model->add($exa1);
+            DataModel::add($add);
+            DataModel::add($exf1);
+            DataModel::add($exf2);
+            DataModel::add($exf3);
+            DataModel::add($exa1);
         } catch (Exception $e) {
         }
     }

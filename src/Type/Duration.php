@@ -6,7 +6,7 @@ use Flat3\OData\Expression\Lexer;
 
 class Duration extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.Duration';
+    protected $name = 'Edm.Duration';
 
     /** @var ?double $value */
     protected $value;

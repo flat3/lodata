@@ -10,13 +10,13 @@ use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Type;
-use Flat3\OData\WithIdentifier;
+use Flat3\OData\HasIdentifier;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
 abstract class EntityType extends Type implements IdentifierInterface
 {
-    use WithIdentifier;
+    use HasIdentifier;
 
     /** @var Property $key Primary key property */
     protected $key;
@@ -118,12 +118,12 @@ abstract class EntityType extends Type implements IdentifierInterface
         return $this->properties->sliceByClass(Navigation::class);
     }
 
-    public function getEdmType(): string
+    public function getTypeName(): string
     {
         return (string) $this->getIdentifier();
     }
 
-    public function getEdmTypeName(): string
+    public function getEdmType(): string
     {
         /** @var DataModel $dataModel */
         $dataModel = app()->make(DataModel::class);

@@ -10,8 +10,6 @@ use Flat3\OData\Type;
  */
 abstract class PrimitiveType extends Type
 {
-    public const EDM_TYPE = 'Edm.None';
-
     public const URL_NULL = 'null';
     public const URL_TRUE = 'true';
     public const URL_FALSE = 'false';

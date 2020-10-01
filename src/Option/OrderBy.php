@@ -19,7 +19,7 @@ class OrderBy extends Option
     {
         $orders = [];
 
-        $properties = $store->getEntityType()->getDeclaredProperties();
+        $properties = $store->getType()->getDeclaredProperties();
 
         foreach ($this->getCommaSeparatedValues() as $expression) {
             $pair = array_map('trim', explode(' ', $expression));

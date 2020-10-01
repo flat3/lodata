@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Interfaces\EdmTypeInterface;
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Byte;
@@ -43,18 +43,13 @@ use RuntimeException;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class Type implements EdmTypeInterface
+abstract class Type
 {
-    const EDM_TYPE = '';
+    protected $name = 'Edm.None';
 
-    /**
-     * Get the EDM name of this type
-     *
-     * @return string
-     */
-    public function getEdmTypeName(): string
+    public function getName(): string
     {
-        return $this::EDM_TYPE;
+        return $this->name;
     }
 
     public static function __callStatic($name, $arguments)

@@ -5,21 +5,19 @@ namespace Flat3\OData;
 use Flat3\OData\Exception\ConfigurationException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\KindInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
 use Flat3\OData\Type\EntityType;
 
-abstract class Store implements IdentifierInterface, ResourceInterface
+abstract class Store implements IdentifierInterface, ResourceInterface, TypeInterface
 {
-    use WithIdentifier;
-
-    public const EDM_TYPE = 'EntitySet';
+    use HasIdentifier;
+    use HasType;
 
     protected $supportedQueryOptions = [];
-
-    /** @var EntityType $entityType */
-    protected $entityType;
 
     /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
     protected $sourceMap;
@@ -34,7 +32,7 @@ abstract class Store implements IdentifierInterface, ResourceInterface
     {
         $this->setIdentifier($identifier);
 
-        $this->entityType = $entityType;
+        $this->type = $entityType;
         $this->navigationBindings = new ObjectArray();
         $this->sourceMap = new ObjectArray();
     }
@@ -79,7 +77,7 @@ abstract class Store implements IdentifierInterface, ResourceInterface
 
     public function setPropertySourceName(Property $property, string $sourceName): self
     {
-        if (!$this->entityType) {
+        if (!$this->type) {
             throw new ConfigurationException('The mapped type must exist on the bound entity type before a mapping can be added');
         }
 
@@ -96,7 +94,7 @@ abstract class Store implements IdentifierInterface, ResourceInterface
 
     public function getTypeProperty(string $property): ?Property
     {
-        return $this->getEntityType()->getProperty($property);
+        return $this->getType()->getProperty($property);
     }
 
     public function hasTypeProperty(string $property): bool
@@ -104,14 +102,9 @@ abstract class Store implements IdentifierInterface, ResourceInterface
         return $this->getTypeProperty($property) instanceof Property;
     }
 
-    public function getEntityType(): EntityType
-    {
-        return $this->entityType;
-    }
-
     public function getTypeKey(): ?Property
     {
-        return $this->getEntityType()->getKey();
+        return $this->getType()->getKey();
     }
 
     public function getPropertySourceName(Property $property): string
@@ -162,4 +155,9 @@ abstract class Store implements IdentifierInterface, ResourceInterface
     }
 
     abstract public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet;
+
+    public function getKind(): string
+    {
+        return 'EntitySet';
+    }
 }

@@ -6,7 +6,7 @@ use DateTime;
 
 class TimeOfDay extends DateTimeOffset
 {
-    public const EDM_TYPE = 'Edm.TimeOfDay';
+    protected $name = 'Edm.TimeOfDay';
     public const DATE_FORMAT = 'H:i:s.u';
 
     protected function repack(DateTime $dt)

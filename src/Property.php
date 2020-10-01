@@ -3,16 +3,15 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\PrimitiveType;
 
-abstract class Property implements IdentifierInterface
+abstract class Property implements IdentifierInterface, TypeInterface
 {
     use WithFactory;
-    use WithIdentifier;
-
-    /** @var PrimitiveType|EntityType $type */
-    protected $type = null;
+    use HasIdentifier;
+    use HasType;
 
     /** @var bool $nullable Whether this property is nullable */
     protected $nullable = true;
@@ -26,15 +25,9 @@ abstract class Property implements IdentifierInterface
     /** @var bool $alternativeKey Whether this property can be used as an alternative key */
     protected $alternativeKey = false;
 
-    public function __construct($identifier, $type)
+    public function __construct($identifier, Type $type)
     {
         $this->setIdentifier($identifier);
-
-        if (is_string($type)) {
-            /** @var PrimitiveType $type */
-            $type = $type::factory();
-        }
-
         $this->type = $type;
     }
 
@@ -111,15 +104,5 @@ abstract class Property implements IdentifierInterface
         $this->alternativeKey = $alternativeKey;
 
         return $this;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function setType(PrimitiveType $type)
-    {
-        $this->type = $type;
     }
 }

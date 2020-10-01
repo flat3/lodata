@@ -525,7 +525,7 @@ class Transaction
 
     public function getOperationResultTypeContextUrl(PrimitiveType $type): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$type->getEdmTypeName();
+        return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }
 
     /**
@@ -557,13 +557,13 @@ class Transaction
             '%s#%s(%s)',
             $this->getServiceDocumentContextUrl(),
             $store->getIdentifier(),
-            $type->getEdmTypeName()
+            $type->getType()
         );
     }
 
     public function getTypeContextUrl(PrimitiveType $type): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$type->getEdmTypeName();
+        return $this->getServiceDocumentContextUrl().'#'.$type->getType();
     }
 
     public function getEntityResourceUrl(Store $store, $entityId): string

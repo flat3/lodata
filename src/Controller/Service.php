@@ -3,7 +3,8 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\DataModel;
-use Flat3\OData\WithIdentifier;
+use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -39,14 +40,14 @@ class Service extends Controller
             }
 
             while ($resources) {
-                /** @var WithIdentifier $resource */
+                /** @var ResourceInterface|IdentifierInterface $resource */
                 $resource = array_shift($resources);
 
                 $transaction->outputJsonObjectStart();
 
                 $resourceData = [
                     'name' => (string) $resource->getIdentifier(),
-                    'kind' => $resource->getEdmType(),
+                    'kind' => $resource->getKind(),
                     'url' => (string) $resource->getIdentifier(),
                 ];
 

@@ -4,7 +4,7 @@ namespace Flat3\OData\Type;
 
 class String_ extends PrimitiveType
 {
-    public const EDM_TYPE = 'Edm.String';
+    protected $name = 'Edm.String';
 
     /** @var ?string $value */
     protected $value;

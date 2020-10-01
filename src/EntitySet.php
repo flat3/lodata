@@ -3,9 +3,12 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Expression\Event;
+use Flat3\OData\Interfaces\TypeInterface;
 
-abstract class EntitySet
+abstract class EntitySet implements TypeInterface
 {
+    use HasType;
+
     /** @var Transaction $transaction */
     protected $transaction;
 
@@ -37,7 +40,7 @@ abstract class EntitySet
     {
         $this->store = $store;
         $this->transaction = $transaction;
-        $this->entityKey = $key ? $key->getProperty() : $store->getEntityType()->getKey();
+        $this->entityKey = $key ? $key->getProperty() : $store->getType()->getKey();
         $this->entityId = $key;
 
         $maxPageSize = $store->getMaxPageSize();
@@ -89,7 +92,7 @@ abstract class EntitySet
      */
     public function getDeclaredProperties(): ObjectArray
     {
-        return $this->store->getEntityType()->getDeclaredProperties();
+        return $this->store->getType()->getDeclaredProperties();
     }
 
     public function writeToResponse(Transaction $transaction): void

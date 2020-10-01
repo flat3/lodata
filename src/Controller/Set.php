@@ -41,7 +41,7 @@ class Set extends Handler
 
         // Validate $expand
         $expand = $transaction->getExpand();
-        $expand->getExpansionRequests($store->getEntityType());
+        $expand->getExpansionRequests($store->getType());
 
         // Validate $select
         $select = $transaction->getSelect();

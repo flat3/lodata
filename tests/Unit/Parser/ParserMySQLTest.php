@@ -9,6 +9,7 @@ use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Property;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Transaction;
+use Flat3\OData\Type;
 use Flat3\OData\Type\EntityType;
 use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
@@ -334,10 +335,10 @@ class ParserMySQLTest extends TestCase
         foreach (array_reverse($this->tests) as $from => $to) {
             try {
                 $entity_type = new class('test') extends EntityType{};
-                $id = new Property\Declared('id', Int32::class);
+                $id = new Property\Declared('id', Type::int32());
                 $id->setFilterable(true);
                 $entity_type->setKey($id);
-                $title = new Property\Declared('title', String_::class);
+                $title = new Property\Declared('title', Type::string());
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
                 $store = new Store('test', $entity_type);
