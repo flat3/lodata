@@ -27,6 +27,11 @@
             "url": "exf2"
         },
         {
+            "name": "exf3",
+            "kind": "Function",
+            "url": "exf3"
+        },
+        {
             "name": "exa1",
             "kind": "Action",
             "url": "exa1"

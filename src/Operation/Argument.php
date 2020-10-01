@@ -4,14 +4,14 @@ namespace Flat3\OData\Operation;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\WithFactory;
-use Flat3\OData\HasIdentifier;
+use Flat3\OData\Traits\HasFactory;
+use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
-use Flat3\OData\HasType;
 
 class Argument implements IdentifierInterface, TypeInterface
 {
-    use WithFactory;
+    use HasFactory;
     use HasIdentifier;
     use HasType;
 

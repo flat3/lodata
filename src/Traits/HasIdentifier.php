@@ -1,6 +1,8 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Traits;
+
+use Flat3\OData\Identifier;
 
 trait HasIdentifier
 {

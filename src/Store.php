@@ -9,6 +9,8 @@ use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
+use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\EntityType;
 
 abstract class Store implements IdentifierInterface, ResourceInterface, TypeInterface

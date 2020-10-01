@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Traits;
 
-trait WithFactory
+trait HasFactory
 {
     public static function factory(...$args): self
     {

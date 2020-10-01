@@ -4,6 +4,7 @@ namespace Flat3\OData;
 
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Interfaces\TypeInterface;
+use Flat3\OData\Traits\HasType;
 
 abstract class EntitySet implements TypeInterface
 {

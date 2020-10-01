@@ -4,12 +4,13 @@ namespace Flat3\OData;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Type\EntityType;
-use Flat3\OData\Type\PrimitiveType;
+use Flat3\OData\Traits\HasFactory;
+use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasType;
 
 abstract class Property implements IdentifierInterface, TypeInterface
 {
-    use WithFactory;
+    use HasFactory;
     use HasIdentifier;
     use HasType;
 

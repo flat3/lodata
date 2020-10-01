@@ -9,8 +9,8 @@ use Flat3\OData\Operation;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
+use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type;
-use Flat3\OData\HasIdentifier;
 use Illuminate\Support\Str;
 use ReflectionClass;
 

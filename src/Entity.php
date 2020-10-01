@@ -7,6 +7,8 @@ use Flat3\OData\Exception\StoreException;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Property\Constraint;
+use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
 abstract class Entity implements IdentifierInterface, TypeInterface

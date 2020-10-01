@@ -8,6 +8,9 @@ use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Operation\Argument;
+use Flat3\OData\Traits\HasFactory;
+use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 use ReflectionException;
 use ReflectionFunction;
@@ -15,7 +18,7 @@ use RuntimeException;
 
 abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface
 {
-    use WithFactory;
+    use HasFactory;
     use HasIdentifier;
     use HasType;
 
