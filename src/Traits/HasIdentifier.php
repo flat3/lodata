@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Traits;
 
-use Flat3\OData\Identifier;
+use Flat3\OData\Internal\Identifier;
 
 trait HasIdentifier
 {
@@ -44,7 +44,7 @@ trait HasIdentifier
     /**
      * Get the Resource identifier
      *
-     * @return Identifier
+     * @return \Flat3\OData\Internal\Identifier
      */
     public function getIdentifier(): Identifier
     {

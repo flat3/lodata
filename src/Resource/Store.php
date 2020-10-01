@@ -1,16 +1,21 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Resource;
 
+use Flat3\OData\Entity;
 use Flat3\OData\Exception\ConfigurationException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
+use Flat3\OData\Internal\ObjectArray;
+use Flat3\OData\Primitive;
+use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
+use Flat3\OData\Transaction;
 use Flat3\OData\Type\EntityType;
 
 abstract class Store implements IdentifierInterface, ResourceInterface, TypeInterface

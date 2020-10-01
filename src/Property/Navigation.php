@@ -3,7 +3,7 @@
 namespace Flat3\OData\Property;
 
 use Flat3\OData\Exception\ConfigurationException;
-use Flat3\OData\ObjectArray;
+use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
 use Flat3\OData\Type\EntityType;
 

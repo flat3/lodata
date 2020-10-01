@@ -1,15 +1,13 @@
 <?php
 
-namespace Flat3\OData\Option;
-
-use Flat3\OData\Option;
+namespace Flat3\OData\Request\Option;
 
 /**
- * Class Skip
+ * Class Top
  *
  * http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionstopandskip
  */
-class Skip extends Option\Numeric
+class Top extends Numeric
 {
-    public const param = 'skip';
+    public const param = 'top';
 }

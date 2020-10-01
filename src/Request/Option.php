@@ -1,6 +1,8 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Request;
+
+use Flat3\OData\Transaction;
 
 abstract class Option
 {

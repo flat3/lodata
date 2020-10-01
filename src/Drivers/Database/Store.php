@@ -4,18 +4,18 @@ namespace Flat3\OData\Drivers\Database;
 
 use Flat3\OData\Entity;
 use Flat3\OData\Exception\StoreException;
-use Flat3\OData\Option\Count;
-use Flat3\OData\Option\Filter;
-use Flat3\OData\Option\OrderBy;
-use Flat3\OData\Option\Search;
-use Flat3\OData\Option\Skip;
-use Flat3\OData\Option\Top;
 use Flat3\OData\Primitive;
+use Flat3\OData\Request\Option\Count;
+use Flat3\OData\Request\Option\Filter;
+use Flat3\OData\Request\Option\OrderBy;
+use Flat3\OData\Request\Option\Search;
+use Flat3\OData\Request\Option\Skip;
+use Flat3\OData\Request\Option\Top;
 use Flat3\OData\Transaction;
 use Illuminate\Support\Facades\DB;
 use PDO;
 
-class Store extends \Flat3\OData\Store
+class Store extends \Flat3\OData\Resource\Store
 {
     protected $supportedQueryOptions = [
         Count::class,
@@ -55,7 +55,7 @@ class Store extends \Flat3\OData\Store
         return $this->getEntitySet($transaction, $key)->getCurrentResultAsEntity();
     }
 
-    public function getEntitySet(Transaction $transaction, ?Primitive $key = null): \Flat3\OData\EntitySet
+    public function getEntitySet(Transaction $transaction, ?Primitive $key = null): \Flat3\OData\Resource\EntitySet
     {
         $driver = $this->getDbDriver();
 

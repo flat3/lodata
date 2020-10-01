@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Internal;
 
 use ArrayAccess;
 use Countable;

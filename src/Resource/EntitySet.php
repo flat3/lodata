@@ -1,10 +1,15 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Resource;
 
+use Flat3\OData\Entity;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Interfaces\TypeInterface;
+use Flat3\OData\Internal\ObjectArray;
+use Flat3\OData\Primitive;
+use Flat3\OData\Property;
 use Flat3\OData\Traits\HasType;
+use Flat3\OData\Transaction;
 
 abstract class EntitySet implements TypeInterface
 {

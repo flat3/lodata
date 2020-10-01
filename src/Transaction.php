@@ -13,15 +13,16 @@ use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
-use Flat3\OData\Option\Count;
-use Flat3\OData\Option\Expand;
-use Flat3\OData\Option\Filter;
-use Flat3\OData\Option\OrderBy;
-use Flat3\OData\Option\SchemaVersion;
-use Flat3\OData\Option\Search;
-use Flat3\OData\Option\Select;
-use Flat3\OData\Option\Skip;
-use Flat3\OData\Option\Top;
+use Flat3\OData\Request\Option\Count;
+use Flat3\OData\Request\Option\Expand;
+use Flat3\OData\Request\Option\Filter;
+use Flat3\OData\Request\Option\OrderBy;
+use Flat3\OData\Request\Option\SchemaVersion;
+use Flat3\OData\Request\Option\Search;
+use Flat3\OData\Request\Option\Select;
+use Flat3\OData\Request\Option\Skip;
+use Flat3\OData\Request\Option\Top;
+use Flat3\OData\Resource\Store;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class Transaction
     /** @var Count $count */
     private $count;
 
-    /** @var Expand $expand */
+    /** @var \Flat3\OData\Request\Option\Expand $expand */
     private $expand;
 
     /** @var Filter $filter */
@@ -66,13 +67,13 @@ class Transaction
     /** @var OrderBy $orderby */
     private $orderby;
 
-    /** @var Search $search */
+    /** @var \Flat3\OData\Request\Option\Search $search */
     private $search;
 
     /** @var Select $select */
     private $select;
 
-    /** @var Skip $skip */
+    /** @var \Flat3\OData\Request\Option\Skip $skip */
     private $skip;
 
     /** @var Top $top */
@@ -231,7 +232,7 @@ class Transaction
     }
 
     /**
-     * @return Expand
+     * @return \Flat3\OData\Request\Option\Expand
      */
     public function getExpand(): Expand
     {
@@ -255,7 +256,7 @@ class Transaction
     }
 
     /**
-     * @return Search
+     * @return \Flat3\OData\Request\Option\Search
      */
     public function getSearch(): Search
     {
@@ -271,7 +272,7 @@ class Transaction
     }
 
     /**
-     * @return Skip
+     * @return \Flat3\OData\Request\Option\Skip
      */
     public function getSkip(): Skip
     {

@@ -2,12 +2,12 @@
 
 namespace Flat3\OData\Expression\Parser;
 
-use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
+use Flat3\OData\Resource\EntitySet;
 
 class Search extends Parser
 {

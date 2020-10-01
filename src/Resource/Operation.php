@@ -1,13 +1,15 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\OData\Resource;
 
 use Closure;
+use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Operation\Argument;
+use Flat3\OData\Internal\Argument;
+use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;

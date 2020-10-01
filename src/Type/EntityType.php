@@ -4,11 +4,11 @@ namespace Flat3\OData\Type;
 
 use Flat3\OData\DataModel;
 use Flat3\OData\Interfaces\IdentifierInterface;
-use Flat3\OData\ObjectArray;
-use Flat3\OData\Operation;
+use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
+use Flat3\OData\Resource\Operation;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type;
 use Illuminate\Support\Str;
@@ -21,10 +21,10 @@ abstract class EntityType extends Type implements IdentifierInterface
     /** @var Property $key Primary key property */
     protected $key;
 
-    /** @var ObjectArray[Property] $properties Properties */
+    /** @var \Flat3\OData\Internal\ObjectArray[Property] $properties Properties */
     protected $properties;
 
-    /** @var ObjectArray[Operation] $bound_operations Operations bound to this entity type */
+    /** @var \Flat3\OData\Internal\ObjectArray[Operation] $bound_operations Operations bound to this entity type */
     protected $boundOperations;
 
     public function __construct($identifier = null)

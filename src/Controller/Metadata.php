@@ -4,11 +4,11 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\Attribute;
 use Flat3\OData\DataModel;
-use Flat3\OData\Operation;
-use Flat3\OData\Operation\Argument;
+use Flat3\OData\Internal\Argument;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Store;
+use Flat3\OData\Resource\Operation;
+use Flat3\OData\Resource\Store;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\EntityType;
@@ -134,7 +134,7 @@ class Metadata extends Controller
                     }
                     break;
 
-                /** @var Operation $resource */
+                /** @var \Flat3\OData\Resource\Operation $resource */
                 case $resource instanceof Operation:
                     $operationElement = $schema->addChild($resource->getKind());
                     $operationElement->addAttribute('Name', $resource->getIdentifier());

@@ -6,8 +6,8 @@ use Flat3\OData\DataModel;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Option;
-use Flat3\OData\Store;
+use Flat3\OData\Request\Option;
+use Flat3\OData\Resource\Store;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -64,7 +64,7 @@ class Set extends Handler
                 $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
             ] as $sqo
         ) {
-            /** @var Option $sqo */
+            /** @var \Flat3\OData\Request\Option $sqo */
             if ($sqo->hasValue() && !in_array(get_class($sqo), $store->getSupportedQueryOptions(), true)) {
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',

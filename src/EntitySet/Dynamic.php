@@ -3,9 +3,9 @@
 namespace Flat3\OData\EntitySet;
 
 use Flat3\OData\Entity;
-use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Event;
+use Flat3\OData\Resource\EntitySet;
 use RuntimeException;
 
 class Dynamic extends EntitySet

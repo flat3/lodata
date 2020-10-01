@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Option;
+namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Option;
-use Flat3\OData\Store;
+use Flat3\OData\Request\Option;
+use Flat3\OData\Resource\Store;
 
 /**
  * Class OrderBy

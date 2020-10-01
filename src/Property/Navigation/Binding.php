@@ -3,7 +3,7 @@
 namespace Flat3\OData\Property\Navigation;
 
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Store;
+use Flat3\OData\Resource\Store;
 
 class Binding
 {

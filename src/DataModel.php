@@ -4,6 +4,7 @@ namespace Flat3\OData;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Type\EntityType;
 
 class DataModel

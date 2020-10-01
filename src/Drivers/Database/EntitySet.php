@@ -29,13 +29,13 @@ use Flat3\OData\Expression\Node\Operator\Logical\In;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
-use Flat3\OData\ObjectArray;
+use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
 use PDO;
 use PDOException;
 use PDOStatement;
 
-class EntitySet extends \Flat3\OData\EntitySet
+class EntitySet extends \Flat3\OData\Resource\EntitySet
 {
     /** @var string[] $parameters */
     protected $parameters = [];

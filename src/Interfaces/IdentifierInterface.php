@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Interfaces;
 
-use Flat3\OData\Identifier;
+use Flat3\OData\Internal\Identifier;
 
 interface IdentifierInterface
 {

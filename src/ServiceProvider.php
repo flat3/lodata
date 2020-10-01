@@ -7,6 +7,7 @@ use Flat3\OData\Controller\OData;
 use Flat3\OData\Controller\ODCFF;
 use Flat3\OData\Controller\PBIDS;
 use Flat3\OData\Controller\Service;
+use Flat3\OData\Middleware\Authentication;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 

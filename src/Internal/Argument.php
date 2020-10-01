@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Operation;
+namespace Flat3\OData\Internal;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
