@@ -23,7 +23,7 @@ class UrlTest extends TestCase
             $pathComponents = Lexer::patternMatch(Singular::path, $path);
             $lexer = new Lexer(rawurldecode(array_pop($pathComponents)));
             $value = $lexer->type(String_::factory());
-            $this->assertEquals($parsed, $value->getInternalValue());
+            $this->assertEquals($parsed, $value->get());
         }
     }
 

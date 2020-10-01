@@ -133,7 +133,7 @@ trait FlightDataModel
 
             $add = Function_::factory('add', Type::int32())
                 ->setCallback(function (Type\Int32 $a, Type\Int32 $b): Type\Int32 {
-                    return Type\Int32::factory($a->getInternalValue() + $b->getInternalValue());
+                    return Type\Int32::factory($a->get() + $b->get());
                 });
 
             $model->add($add);

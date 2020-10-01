@@ -49,7 +49,7 @@ abstract class PrimitiveType extends Type
      *
      * @return mixed
      */
-    public function getInternalValue()
+    public function get()
     {
         return $this->value;
     }

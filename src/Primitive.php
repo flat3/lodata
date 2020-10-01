@@ -29,7 +29,7 @@ class Primitive
 
     public function getInternalValue()
     {
-        return $this->value->getInternalValue();
+        return $this->value->get();
     }
 
     public function setEntity(Entity $entity): void

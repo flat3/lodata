@@ -9,7 +9,7 @@ class Date extends Literal
     public function setValue(string $value): void
     {
         $this->value = \Flat3\OData\Type\Date::factory($value)
-            ->getInternalValue()
+            ->get()
             ->format('Y-m-d');
     }
 }
