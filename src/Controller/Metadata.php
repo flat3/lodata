@@ -77,7 +77,7 @@ class Metadata extends Controller
 
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getIdentifier());
-                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getIdentifier();
+                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getName();
                 if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
@@ -116,7 +116,7 @@ class Metadata extends Controller
                     $entitySetElement->addAttribute('Name', $resource->getIdentifier());
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $model->getNamespace().'.'.$resource->getType()->getIdentifier()
+                        $model->getNamespace().'.'.$resource->getType()->getName()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -189,7 +189,7 @@ class Metadata extends Controller
 
         $conformanceLevel = $schemaAnnotations->addChild('Annotation');
         $conformanceLevel->addAttribute('Term', 'Org.OData.Capabilities.V1.ConformanceLevel');
-        $conformanceLevelType = $conformanceLevel->addChild(
+        $conformanceLevel->addChild(
             'EnumMember',
             'Org.OData.Capabilities.V1.ConformanceLevelType/Advanced'
         );

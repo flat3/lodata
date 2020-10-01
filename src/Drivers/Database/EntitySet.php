@@ -373,7 +373,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
     protected function generateResultSet(): void
     {
         $stmt = $this->pdoQuery($this->getSetResultQueryString());
-        $this->resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getSetResultQueryString(): string

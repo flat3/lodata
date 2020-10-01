@@ -22,7 +22,7 @@ class Dynamic extends EntitySet
 
     public function countResults(): int
     {
-        return count($this->resultSet);
+        return count($this->results);
     }
 
     protected function generateResultSet(): void
@@ -32,11 +32,11 @@ class Dynamic extends EntitySet
 
     public function addResult(Entity $entity): self
     {
-        if (null === $this->resultSet) {
-            $this->resultSet = [];
+        if (null === $this->results) {
+            $this->results = [];
         }
 
-        $this->resultSet[] = $entity;
+        $this->results[] = $entity;
         return $this;
     }
 }

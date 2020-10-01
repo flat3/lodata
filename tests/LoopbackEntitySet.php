@@ -165,6 +165,6 @@ class LoopbackEntitySet extends EntitySet
 
     protected function generateResultSet(): void
     {
-        $this->resultSet = [];
+        $this->results = [];
     }
 }

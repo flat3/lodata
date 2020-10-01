@@ -27,8 +27,8 @@ abstract class EntitySet implements TypeInterface
     /** @var Primitive $entityId */
     protected $entityId;
 
-    /** @var null|array $resultSet Result set from the query */
-    protected $resultSet = null;
+    /** @var null|array $results Result set from the query */
+    protected $results = null;
 
     /** @var int $top Page size to return from the query */
     protected $top = PHP_INT_MAX;
@@ -132,18 +132,18 @@ abstract class EntitySet implements TypeInterface
             return false;
         }
 
-        if ($this->resultSet === null) {
+        if ($this->results === null) {
             $this->generateResultSet();
-            $this->topCounter = count($this->resultSet);
-        } elseif (!current($this->resultSet) && ($this->topCounter < $this->topLimit)) {
+            $this->topCounter = count($this->results);
+        } elseif (!current($this->results) && ($this->topCounter < $this->topLimit)) {
             $this->top = min($this->top, $this->topLimit - $this->topCounter);
-            $this->skip += count($this->resultSet);
-            $this->resultSet = null;
+            $this->skip += count($this->results);
+            $this->results = null;
             $this->generateResultSet();
-            $this->topCounter += count($this->resultSet);
+            $this->topCounter += count($this->results);
         }
 
-        return !!current($this->resultSet);
+        return !!current($this->results);
     }
 
     /**
@@ -158,11 +158,11 @@ abstract class EntitySet implements TypeInterface
      */
     public function getCurrentResultAsEntity(): ?Entity
     {
-        if (null === $this->resultSet && !$this->hasResult()) {
+        if (null === $this->results && !$this->hasResult()) {
             return null;
         }
 
-        return $this->store->convertResultToEntity(current($this->resultSet));
+        return $this->store->convertResultToEntity(current($this->results));
     }
 
     /**
@@ -170,6 +170,6 @@ abstract class EntitySet implements TypeInterface
      */
     public function nextResult(): void
     {
-        next($this->resultSet);
+        next($this->results);
     }
 }
