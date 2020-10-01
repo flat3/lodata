@@ -79,7 +79,7 @@ abstract class Store implements IdentifierInterface, ResourceInterface, TypeInte
         return null;
     }
 
-    abstract public function convertResultToEntity($result = null): Entity;
+    abstract public function toEntity($result = null): Entity;
 
     public function setPropertySourceName(Property $property, string $sourceName): self
     {
@@ -157,7 +157,7 @@ abstract class Store implements IdentifierInterface, ResourceInterface, TypeInte
     {
         $entity_set = $this->getEntitySet($transaction);
 
-        return $entity_set->countResults();
+        return $entity_set->count();
     }
 
     abstract public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet;

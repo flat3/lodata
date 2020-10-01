@@ -20,12 +20,12 @@ class Dynamic extends EntitySet
         throw new BadRequestException('no_dynamic_entity_set_search', 'Dynamic entity sets do not support search');
     }
 
-    public function countResults(): int
+    public function count(): int
     {
         return count($this->results);
     }
 
-    protected function generateResultSet(): void
+    protected function generate(): void
     {
         throw new RuntimeException('Dynamic result sets cannot be generated');
     }

@@ -52,7 +52,7 @@ class Store extends \Flat3\OData\Resource\Store
 
     public function getEntity(Transaction $transaction, Primitive $key): ?Entity
     {
-        return $this->getEntitySet($transaction, $key)->getCurrentResultAsEntity();
+        return $this->getEntitySet($transaction, $key)->current();
     }
 
     public function getEntitySet(Transaction $transaction, ?Primitive $key = null): \Flat3\OData\Resource\EntitySet
@@ -71,7 +71,7 @@ class Store extends \Flat3\OData\Resource\Store
         }
     }
 
-    public function convertResultToEntity($row = null): Entity
+    public function toEntity($row = null): Entity
     {
         $entity = new \Flat3\OData\Drivers\Database\Entity($this);
 

@@ -22,7 +22,7 @@ class LoopbackEntitySet extends EntitySet
     public $searchBuffer;
     public $filterBuffer;
 
-    public function countResults(): int
+    public function count(): int
     {
         return 0;
     }
@@ -139,17 +139,7 @@ class LoopbackEntitySet extends EntitySet
         $this->filterBuffer .= ' '.$s;
     }
 
-    public function count(): int
-    {
-        return 0;
-    }
-
-    public function countTotal(): int
-    {
-        return 0;
-    }
-
-    public function nextResult(): void
+    public function next(): void
     {
     }
 
@@ -158,12 +148,12 @@ class LoopbackEntitySet extends EntitySet
         return '';
     }
 
-    public function hasResult(): bool
+    public function valid(): bool
     {
         return false;
     }
 
-    protected function generateResultSet(): void
+    protected function generate(): void
     {
         $this->results = [];
     }

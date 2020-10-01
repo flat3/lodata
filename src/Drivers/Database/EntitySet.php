@@ -272,7 +272,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
         return $this->parameters;
     }
 
-    public function countResults(): int
+    public function count(): int
     {
         $this->resetParameters();
 
@@ -370,7 +370,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
         }
     }
 
-    protected function generateResultSet(): void
+    protected function generate(): void
     {
         $stmt = $this->pdoQuery($this->getSetResultQueryString());
         $this->results = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -10,8 +10,10 @@ use Flat3\OData\Primitive;
 use Flat3\OData\Property;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Transaction;
+use Iterator;
+use RuntimeException;
 
-abstract class EntitySet implements TypeInterface
+abstract class EntitySet implements TypeInterface, Iterator
 {
     use HasType;
 
@@ -91,7 +93,7 @@ abstract class EntitySet implements TypeInterface
      *
      * @return int
      */
-    abstract public function countResults(): int;
+    abstract public function count(): int;
 
     /**
      * @return ObjectArray
@@ -103,16 +105,16 @@ abstract class EntitySet implements TypeInterface
 
     public function writeToResponse(Transaction $transaction): void
     {
-        while ($this->hasResult()) {
-            $entity = $this->getCurrentResultAsEntity();
+        while ($this->valid()) {
+            $entity = $this->current();
 
             $transaction->outputJsonObjectStart();
             $entity->writeToResponse($transaction);
             $transaction->outputJsonObjectEnd();
 
-            $this->nextResult();
+            $this->next();
 
-            if (!$this->hasResult()) {
+            if (!$this->valid()) {
                 break;
             }
 
@@ -126,20 +128,20 @@ abstract class EntitySet implements TypeInterface
      *
      * @return bool
      */
-    public function hasResult(): bool
+    public function valid(): bool
     {
         if (0 === $this->top) {
             return false;
         }
 
         if ($this->results === null) {
-            $this->generateResultSet();
+            $this->generate();
             $this->topCounter = count($this->results);
         } elseif (!current($this->results) && ($this->topCounter < $this->topLimit)) {
             $this->top = min($this->top, $this->topLimit - $this->topCounter);
             $this->skip += count($this->results);
             $this->results = null;
-            $this->generateResultSet();
+            $this->generate();
             $this->topCounter += count($this->results);
         }
 
@@ -149,27 +151,43 @@ abstract class EntitySet implements TypeInterface
     /**
      * Perform the query, observing $this->top and $this->skip, loading the results into $this->result_set
      */
-    abstract protected function generateResultSet(): void;
+    abstract protected function generate(): void;
 
     /**
      * The current entity
      *
      * @return Entity
      */
-    public function getCurrentResultAsEntity(): ?Entity
+    public function current(): ?Entity
     {
-        if (null === $this->results && !$this->hasResult()) {
+        if (null === $this->results && !$this->valid()) {
             return null;
         }
 
-        return $this->store->convertResultToEntity(current($this->results));
+        return $this->store->toEntity(current($this->results));
     }
 
     /**
      * Move to the next result
      */
-    public function nextResult(): void
+    public function next(): void
     {
         next($this->results);
+    }
+
+    public function key()
+    {
+        $entity = $this->current();
+
+        if (!$entity) {
+            return null;
+        }
+
+        return $entity->getEntityId();
+    }
+
+    public function rewind()
+    {
+        throw new RuntimeException('This entity set cannot be rewound');
     }
 }
