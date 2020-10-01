@@ -55,7 +55,7 @@ class Store extends \Flat3\OData\Store
         return $this->getEntitySet($transaction, $key)->getCurrentResultAsEntity();
     }
 
-    public function getEntitySet(Transaction $transaction, ?Primitive $key = null): EntitySet
+    public function getEntitySet(Transaction $transaction, ?Primitive $key = null): \Flat3\OData\EntitySet
     {
         $driver = $this->getDbDriver();
 

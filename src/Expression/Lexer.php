@@ -128,7 +128,7 @@ class Lexer
         }
     }
 
-    public function type(PrimitiveType $type): PrimitiveType
+    public function type(Type $type): PrimitiveType
     {
         $result = null;
 
