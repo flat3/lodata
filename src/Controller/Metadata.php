@@ -134,7 +134,7 @@ class Metadata extends Controller
                     }
                     break;
 
-                /** @var \Flat3\OData\Resource\Operation $resource */
+                /** @var Operation $resource */
                 case $resource instanceof Operation:
                     $operationElement = $schema->addChild($resource->getKind());
                     $operationElement->addAttribute('Name', $resource->getIdentifier());

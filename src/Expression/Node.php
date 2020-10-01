@@ -131,7 +131,7 @@ abstract class Node
                 throw new NotImplementedException(
                     'unsupported_operator',
                     sprintf(
-                        'This query does not support the operator "%s"',
+                        'This entity set does not support the operator "%s"',
                         $node::symbol
                     )
                 );
@@ -140,14 +140,14 @@ abstract class Node
                 throw new NotImplementedException(
                     'unsupported_function',
                     sprintf(
-                        'This query does not support the function "%s"',
+                        'This entity set does not support the function "%s"',
                         $node::symbol
                     )
                 );
 
             default:
                 throw new NotImplementedException('unsupported_expression',
-                    'This query does not support the provided expression');
+                    'This entity set does not support the provided expression');
         }
     }
 }

@@ -16,18 +16,6 @@ class EntitySet extends \Flat3\OData\Drivers\Database\EntitySet
             return $handled;
         }
 
-        switch (true) {
-            case $event instanceof StartFunction:
-                $func = $event->getNode();
-
-                switch (true) {
-                    case $func instanceof Substring:
-                        $this->addWhere('substr(');
-
-                        return true;
-                }
-        }
-
         return false;
     }
 }
