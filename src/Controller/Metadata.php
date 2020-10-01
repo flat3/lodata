@@ -3,7 +3,7 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\Attribute;
-use Flat3\OData\Model;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Internal\Argument;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
@@ -18,7 +18,7 @@ use SimpleXMLElement;
 
 class Metadata extends Controller
 {
-    public function get(Request $request, Model $model, Transaction $transaction)
+    public function get(Request $request, ODataModel $model, Transaction $transaction)
     {
         $transaction->setRequest($request);
         $response = $transaction->getResponse();

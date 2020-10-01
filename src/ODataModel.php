@@ -10,7 +10,7 @@ use Flat3\OData\Resource\Operation\Function_;
 use Flat3\OData\Resource\Store;
 use Flat3\OData\Type\EntityType;
 
-class Model
+class ODataModel
 {
     /** @var ObjectArray $resources */
     protected $model;

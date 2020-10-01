@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Model;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
@@ -125,8 +125,8 @@ class EntityType extends Type implements IdentifierInterface
 
     public function getEdmType(): string
     {
-        /** @var Model $model */
-        $model = app()->make(Model::class);
+        /** @var ODataModel $model */
+        $model = app()->make(ODataModel::class);
         return $model->getNamespace().'.'.$this->identifier;
     }
 }

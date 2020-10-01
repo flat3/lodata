@@ -6,7 +6,7 @@ use Exception;
 use Flat3\OData\Drivers\Database\Store;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet\Dynamic;
-use Flat3\OData\Model;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Property;
 use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
@@ -59,7 +59,7 @@ trait FlightModel
         ]))->save();
 
         try {
-            $flightType = Model::entitytype('flight');
+            $flightType = ODataModel::entitytype('flight');
             $flightType->setKey(new Property\Declared('id', Type::int32()));
             $flightType->addProperty(new Property\Declared('origin', Type::string()));
             $flightType->addProperty(new Property\Declared('destination', Type::string()));
@@ -67,7 +67,7 @@ trait FlightModel
             $flightStore = new Store('flights', $flightType);
             $flightStore->setTable('flights');
 
-            $airportType = Model::entitytype('airport');
+            $airportType = ODataModel::entitytype('airport');
             $airportType->setKey(new Property\Declared('id', Type::int32()));
             $airportType->addProperty(new Property\Declared('name', Type::string()));
             $airportType->addProperty(Property\Declared::factory('code', Type::string())->setSearchable());
@@ -79,9 +79,9 @@ trait FlightModel
             $airportStore = new Store('airports', $airportType);
             $airportStore->setTable('airports');
 
-            Model::add($flightStore);
+            ODataModel::add($flightStore);
 
-            Model::add($airportStore);
+            ODataModel::add($airportStore);
 
             $nav = new Property\Navigation($airportStore, $airportType);
             $nav->setCollection(true);
@@ -100,15 +100,15 @@ trait FlightModel
             $flightType->addProperty($nav);
             $flightStore->addNavigationBinding(new Property\Navigation\Binding($nav, $airportStore));
 
-            Model::fn('exf1')
+            ODataModel::fn('exf1')
                 ->setCallback(function (): String_ {
                     return String_::factory('hello');
                 });
 
-            Model::fn('exf2')
+            ODataModel::fn('exf2')
                 ->setCallback(function (): EntitySet {
-                    /** @var Model $model */
-                    $model = app()->make(Model::class);
+                    /** @var ODataModel $model */
+                    $model = app()->make(ODataModel::class);
                     $airports = $model->getResources()->get('airports');
                     $airport = new Airport();
                     $airport->addPrimitive('xyz', $model->getEntityTypes()->get('airport')->getProperty('code'));
@@ -118,22 +118,22 @@ trait FlightModel
                 })
                 ->setType($airportType);
 
-            Model::fn('exf3')
+            ODataModel::fn('exf3')
                 ->setCallback(function (String_ $code): Entity {
-                    /** @var Model $model */
-                    $model = app()->make(Model::class);
+                    /** @var ODataModel $model */
+                    $model = app()->make(ODataModel::class);
                     $airport = new Airport();
                     $airport->addPrimitive($code->get(), $model->getEntityTypes()->get('airport')->getProperty('code'));
                     return $airport;
                 })
                 ->setType($airportType);
 
-            Model::action('exa1')
+            ODataModel::action('exa1')
                 ->setCallback(function (): String_ {
                     return String_::factory('hello');
                 });
 
-            Model::fn('add')
+            ODataModel::fn('add')
                 ->setCallback(function (Type\Int32 $a, Type\Int32 $b): Type\Int32 {
                     return Type\Int32::factory($a->get() + $b->get());
                 })

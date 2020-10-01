@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Drivers\Eloquent;
 
-use Flat3\OData\Model;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Entity;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;

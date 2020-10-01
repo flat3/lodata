@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\Model;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Transaction;
@@ -18,8 +18,8 @@ class Service extends Controller
         $transaction->setContentTypeJson();
 
         $response->setCallback(function () use ($transaction) {
-            /** @var Model $model */
-            $model = app()->make(Model::class);
+            /** @var ODataModel $model */
+            $model = app()->make(ODataModel::class);
 
             $transaction->outputJsonObjectStart();
 

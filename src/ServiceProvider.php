@@ -3,7 +3,7 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Controller\Metadata;
-use Flat3\OData\Controller\OData;
+use Flat3\OData\Controller\OData as ODataController;
 use Flat3\OData\Controller\ODCFF;
 use Flat3\OData\Controller\PBIDS;
 use Flat3\OData\Controller\Service;
@@ -30,8 +30,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot(Router $router)
     {
-        $this->app->singleton(Model::class, function () {
-            return new Model();
+        $this->app->singleton(ODataModel::class, function () {
+            return new ODataModel();
         });
 
         $authMiddleware = config('odata.authmiddleware');
@@ -46,12 +46,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             Route::get("{$route}/", [Service::class, 'get']);
             Route::get("{$route}/\$metadata", [Metadata::class, 'get']);
 
-            Route::get("{$route}{path}", [OData::class, 'get'])->where('path', '(.*)');
+            Route::get("{$route}{path}", [ODataController::class, 'get'])->where('path', '(.*)');
 
             Route::match(
                 ['post', 'put', 'patch', 'delete', 'options'],
                 "{$route}{path}",
-                [OData::class, 'fallback']
+                [ODataController::class, 'fallback']
             )->where('path', '.*');
         });
     }
