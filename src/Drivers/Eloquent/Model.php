@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Drivers\Eloquent;
 
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Entity;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
@@ -11,8 +11,8 @@ class Model
 {
     public static function attach()
     {
-        /** @var DataModel $model */
-        $model = resolve(DataModel::class);
+        /** @var Model $model */
+        $model = resolve(Model::class);
 
         $eloquentModels = self::getAllModels();
     }

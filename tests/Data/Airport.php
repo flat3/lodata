@@ -6,5 +6,4 @@ use Flat3\OData\Entity;
 
 class Airport extends Entity
 {
-    protected $type = AirportType::class;
 }

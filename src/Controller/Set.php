@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
@@ -28,8 +28,8 @@ class Set extends Handler
 
         $identifier = array_shift($this->pathComponents);
 
-        /** @var DataModel $data_model */
-        $data_model = app()->make(DataModel::class);
+        /** @var Model $data_model */
+        $data_model = app()->make(Model::class);
         $lexer = new Lexer($identifier);
         $store = $data_model->getResources()->get($lexer->odataIdentifier());
 

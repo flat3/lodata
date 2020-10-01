@@ -2,7 +2,6 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Byte;

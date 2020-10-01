@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Entity;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
@@ -36,10 +36,10 @@ class Operation extends Handler
         $operation = array_shift($this->pathComponents);
         $args = array_shift($this->pathComponents);
 
-        /** @var DataModel $dataModel */
-        $dataModel = app()->make(DataModel::class);
+        /** @var Model $model */
+        $model = app()->make(Model::class);
 
-        $this->operation = $dataModel->getResources()->get($operation);
+        $this->operation = $model->getResources()->get($operation);
 
         if (!$this->operation instanceof \Flat3\OData\Resource\Operation) {
             throw new PathNotHandledException();

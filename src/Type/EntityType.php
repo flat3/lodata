@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
@@ -14,7 +14,7 @@ use Flat3\OData\Type;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
-abstract class EntityType extends Type implements IdentifierInterface
+class EntityType extends Type implements IdentifierInterface
 {
     use HasIdentifier;
 
@@ -118,15 +118,15 @@ abstract class EntityType extends Type implements IdentifierInterface
         return $this->properties->sliceByClass(Navigation::class);
     }
 
-    public function getTypeName(): string
+    public function getName(): string
     {
         return (string) $this->getIdentifier();
     }
 
     public function getEdmType(): string
     {
-        /** @var DataModel $dataModel */
-        $dataModel = app()->make(DataModel::class);
-        return $dataModel->getNamespace().'.'.$this->identifier;
+        /** @var Model $model */
+        $model = app()->make(Model::class);
+        return $model->getNamespace().'.'.$this->identifier;
     }
 }

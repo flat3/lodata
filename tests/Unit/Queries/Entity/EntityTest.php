@@ -2,18 +2,18 @@
 
 namespace Flat3\OData\Tests\Unit\Queries\Entity;
 
-use Flat3\OData\Tests\Data\FlightDataModel;
+use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class EntityTest extends TestCase
 {
-    use FlightDataModel;
+    use FlightModel;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->withFlightDataModel();
+        $this->withFlightModel();
     }
 
     public function test_read_an_entity()

@@ -3,7 +3,7 @@
 namespace Flat3\OData\Controller;
 
 use DOMDocument;
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Traits\HasIdentifier;
@@ -15,7 +15,7 @@ class ODCFF extends Controller
 {
     public const content_type = 'text/x-ms-odc; charset=utf-8';
 
-    public function get(DataModel $dataModel, $identifier)
+    public function get(Model $model, $identifier)
     {
         $response = new Response();
         $response->header('content-type', self::content_type);
@@ -23,7 +23,7 @@ class ODCFF extends Controller
         $htmlDoc = new DOMDocument();
 
         /** @var HasIdentifier $resource */
-        $resource = $dataModel->getResources()->get($identifier);
+        $resource = $model->getResources()->get($identifier);
         if (null === $resource) {
             throw NotFoundException::factory(
                 'resource_not_found',

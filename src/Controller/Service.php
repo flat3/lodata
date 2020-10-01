@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Transaction;
@@ -18,8 +18,8 @@ class Service extends Controller
         $transaction->setContentTypeJson();
 
         $response->setCallback(function () use ($transaction) {
-            /** @var DataModel $dataModel */
-            $dataModel = app()->make(DataModel::class);
+            /** @var Model $model */
+            $model = app()->make(Model::class);
 
             $transaction->outputJsonObjectStart();
 
@@ -33,7 +33,7 @@ class Service extends Controller
             $transaction->outputJsonKey('value');
             $transaction->outputJsonArrayStart();
 
-            $resourceMap = $dataModel->getResources();
+            $resourceMap = $model->getResources();
             $resources = [];
             foreach ($resourceMap as $resource) {
                 $resources[] = $resource;

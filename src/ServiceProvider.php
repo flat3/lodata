@@ -30,8 +30,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot(Router $router)
     {
-        $this->app->singleton(DataModel::class, function () {
-            return new DataModel();
+        $this->app->singleton(Model::class, function () {
+            return new Model();
         });
 
         $authMiddleware = config('odata.authmiddleware');

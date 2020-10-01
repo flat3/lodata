@@ -3,7 +3,7 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\Attribute;
-use Flat3\OData\DataModel;
+use Flat3\OData\Model;
 use Flat3\OData\Internal\Argument;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
@@ -18,7 +18,7 @@ use SimpleXMLElement;
 
 class Metadata extends Controller
 {
-    public function get(Request $request, DataModel $dataModel, Transaction $transaction)
+    public function get(Request $request, Model $model, Transaction $transaction)
     {
         $transaction->setRequest($request);
         $response = $transaction->getResponse();
@@ -33,7 +33,7 @@ class Metadata extends Controller
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Schema
         $schema = $dataServices->addChild('Schema', null, 'http://docs.oasis-open.org/odata/ns/edm');
-        $schema->addAttribute('Namespace', $dataModel->getNamespace());
+        $schema->addAttribute('Namespace', $model->getNamespace());
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityContainer
         $entityContainer = $schema->addChild('EntityContainer');
@@ -41,7 +41,7 @@ class Metadata extends Controller
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
         /** @var EntityType $entityType */
-        foreach ($dataModel->getEntityTypes() as $entityType) {
+        foreach ($model->getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
             $entityTypeElement->addAttribute('Name', $entityType->getIdentifier());
 
@@ -77,7 +77,7 @@ class Metadata extends Controller
 
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getIdentifier());
-                $navigationPropertyType = $dataModel->getNamespace().'.'.$targetEntityType->getIdentifier();
+                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getIdentifier();
                 if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
@@ -108,7 +108,7 @@ class Metadata extends Controller
             }
         }
 
-        foreach ($dataModel->getResources() as $resource) {
+        foreach ($model->getResources() as $resource) {
             switch (true) {
                 case $resource instanceof Store:
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
@@ -116,7 +116,7 @@ class Metadata extends Controller
                     $entitySetElement->addAttribute('Name', $resource->getIdentifier());
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $dataModel->getNamespace().'.'.$resource->getType()->getIdentifier()
+                        $model->getNamespace().'.'.$resource->getType()->getIdentifier()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -144,9 +144,9 @@ class Metadata extends Controller
                         $returnTypeElement = $operationElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
-                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getTypeName().')');
+                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getName().')');
                         } else {
-                            $returnTypeElement->addAttribute('Type', $returnType->getTypeName());
+                            $returnTypeElement->addAttribute('Type', $returnType->getName());
                         }
 
                         $returnTypeElement->addAttribute(
@@ -170,14 +170,14 @@ class Metadata extends Controller
                     $operationImport->addAttribute('Name', $resource->getIdentifier());
                     $operationImport->addAttribute(
                         $resource->getKind(),
-                        $dataModel->getNamespace().'.'.$resource->getIdentifier()
+                        $model->getNamespace().'.'.$resource->getIdentifier()
                     );
                     break;
             }
         }
 
         $schemaAnnotations = $schema->addChild('Annotations');
-        $schemaAnnotations->addAttribute('Target', $dataModel->getNamespace().'.'.'DefaultContainer');
+        $schemaAnnotations->addAttribute('Target', $model->getNamespace().'.'.'DefaultContainer');
 
         $conventionalIds = $schemaAnnotations->addChild('Annotation');
         $conventionalIds->addAttribute('Term', 'Org.OData.Core.V1.ConventionalIDs');
