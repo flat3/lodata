@@ -72,7 +72,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $this->isInstance = true;
     }
 
-    public function factory(Transaction $transaction = null): self
+    public function factory(Transaction $transaction): self
     {
         if ($this->isInstance) {
             throw new RuntimeException('Attempted to clone an instance of an entity set');
