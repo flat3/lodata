@@ -36,7 +36,7 @@ class OData extends Controller
         $response = $transaction->getResponse();
 
         foreach ($handlers as $handler) {
-            /** @var Handler $instance */
+            /** @var Controller $instance */
             $instance = app()->make($handler);
 
             try {

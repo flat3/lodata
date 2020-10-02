@@ -6,7 +6,7 @@ use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Transaction;
 
-abstract class Handler
+abstract class Controller
 {
     public const path = Lexer::PATH_SEPARATOR;
 
@@ -17,6 +17,13 @@ abstract class Handler
     protected $transaction;
 
     abstract public function handle(): void;
+
+    public function compose($fn)
+    {
+// http://host/service/Products/$filter(Color eq 'Red')/Diff.Comparison()
+
+        // EntitySet -> Filter -> Function
+    }
 
     public function setup(Transaction $transaction): void
     {

@@ -9,7 +9,7 @@ use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
-class Set extends Handler
+class Set extends Controller
 {
     public const path = parent::path.Lexer::ODATA_IDENTIFIER;
 

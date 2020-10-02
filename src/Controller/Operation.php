@@ -15,7 +15,7 @@ use Flat3\OData\Transaction;
 use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
-class Operation extends Handler
+class Operation extends Controller
 {
     public const path = parent::path.Lexer::ODATA_IDENTIFIER.Lexer::OPEN_PAREN.'(.*?)?'.Lexer::CLOSE_PAREN;
 
