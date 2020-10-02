@@ -2,6 +2,7 @@
 
 namespace Flat3\OData;
 
+use ArrayAccess;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Interfaces\IdentifierInterface;
@@ -13,7 +14,7 @@ use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Entity implements IdentifierInterface, TypeInterface
+class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
 {
     use HasIdentifier;
     use HasType;
@@ -171,8 +172,16 @@ class Entity implements IdentifierInterface, TypeInterface
         return $this->primitives;
     }
 
-    public function addPrimitive($value, Property $property): self
+    public function addPrimitive($property, $value): self
     {
+        if (is_string($property)) {
+            $property = $this->entitySet->getType()->getProperty($property);
+        }
+
+        if (!$property instanceof Property) {
+            throw new ResourceException('The service attempted to access an undefined property');
+        }
+
         if (null === $value && !$property->isNullable()) {
             throw new ResourceException(
                 'The entity set provided a null value that cannot be added for this property type: '.$property->getIdentifier()->get(),
@@ -201,5 +210,25 @@ class Entity implements IdentifierInterface, TypeInterface
     public function getPrimitive(Property $property): ?Primitive
     {
         return $this->primitives[$property];
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->primitives->exists($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->primitives->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->addPrimitive($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->primitives->drop($offset);
     }
 }

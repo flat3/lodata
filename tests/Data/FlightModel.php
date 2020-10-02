@@ -108,7 +108,7 @@ trait FlightModel
                     $type = ODataModel::getType('airport');
                     $airports = ODataModel::getResource('airports');
                     $airport = new Airport();
-                    $airport->addPrimitive('xyz', $type->getProperty('code'));
+                    $airport['code'] = 'xyz';
                     $set = new Dynamic($airports, $type);
                     $set->addResult($airport);
                     return $set;
@@ -117,9 +117,8 @@ trait FlightModel
 
             ODataModel::fn('exf3')
                 ->setCallback(function (String_ $code): Entity {
-                    $type = ODataModel::getType('airport');
                     $airport = new Airport();
-                    $airport->addPrimitive($code->get(), $type->getProperty('code'));
+                    $airport['code'] = $code->get();
                     return $airport;
                 })
                 ->setType($airportType);

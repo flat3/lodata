@@ -427,18 +427,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
             $entity->setEntityIdValue($row[$key]);
 
             foreach ($row as $id => $value) {
-                $property = $this->getType()->getProperty($id);
-
-                if (!$property) {
-                    throw new ResourceException(
-                        sprintf(
-                            'The service attempted to access an undefined property for %s',
-                            $id
-                        )
-                    );
-                }
-
-                $entity->addPrimitive($value, $property);
+                $entity[$id] = $value;
             }
 
             $results[] = $entity;

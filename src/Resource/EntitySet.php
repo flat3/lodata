@@ -278,6 +278,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         }
     }
 
+    public function entity(): Entity
+    {
+        return new Entity($this);
+    }
+
     /**
      * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */

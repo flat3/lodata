@@ -99,6 +99,11 @@ class EntityType extends Type implements IdentifierInterface
         return $this;
     }
 
+    public function addDeclaredProperty($identifier, Type $type): self
+    {
+        return $this->addProperty(new Declared($identifier, $type));
+    }
+
     public function getDeclaredProperties(): ObjectArray
     {
         return $this->properties->sliceByClass(Declared::class);
