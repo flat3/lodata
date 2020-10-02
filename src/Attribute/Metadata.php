@@ -25,9 +25,9 @@ abstract class Metadata
         $this->version = $version;
     }
 
-    public static function factory(Format $format, Version $version): self
+    public static function factory(MediaType $mediaType, Version $version): self
     {
-        $type = $format->getParameter('odata.metadata');
+        $type = $mediaType->getParameter('odata.metadata');
 
         if (!$type) {
             return new Minimal($version);

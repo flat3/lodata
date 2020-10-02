@@ -2,7 +2,6 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Attribute\Format;
 use Flat3\OData\Attribute\IEEE754Compatible;
 use Flat3\OData\Attribute\MediaType;
 use Flat3\OData\Attribute\Metadata;
@@ -16,6 +15,7 @@ use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Request\Option\Count;
 use Flat3\OData\Request\Option\Expand;
 use Flat3\OData\Request\Option\Filter;
+use Flat3\OData\Request\Option\Format;
 use Flat3\OData\Request\Option\OrderBy;
 use Flat3\OData\Request\Option\SchemaVersion;
 use Flat3\OData\Request\Option\Search;
@@ -73,14 +73,17 @@ class Transaction
     /** @var Select $select */
     private $select;
 
+    /** @var Format $format */
+    private $format;
+
     /** @var Skip $skip */
     private $skip;
 
     /** @var Top $top */
     private $top;
 
-    /** @var Format $format */
-    private $format;
+    /** @var MediaType $mediaType */
+    private $mediaType;
 
     /** @var SchemaVersion $schemaversion */
     private $schemaversion;
@@ -92,73 +95,100 @@ class Transaction
 
     public function setRequest(Request $request): self
     {
-        if (!$this->request) {
+        if ($this->request) {
             $this->request = $request;
 
-            $this->version = new Version(
-                $this->getHeader(Version::versionHeader),
-                $this->getHeader(Version::maxVersionHeader)
-            );
+            return $this;
+        }
 
-            $this->format = new Format($this);
+        $this->request = $request;
 
-            $this->metadata = Metadata::factory($this->format, $this->version);
-            $this->preferences = new ParameterList($this->getHeader('prefer'));
-            $this->ieee754compatible = new IEEE754Compatible($this->format);
+        $this->version = new Version(
+            $this->getHeader(Version::versionHeader),
+            $this->getHeader(Version::maxVersionHeader)
+        );
 
-            $this->count = Count::factory($this);
-            $this->expand = Expand::factory($this);
-            $this->filter = Filter::factory($this);
-            $this->orderby = OrderBy::factory($this);
-            $this->search = Search::factory($this);
-            $this->select = Select::factory($this);
-            $this->skip = Skip::factory($this);
-            $this->top = Top::factory($this);
-            $this->schemaversion = SchemaVersion::factory($this);
+        $this->count = Count::factory($this);
+        $this->format = Format::factory($this);
+        $this->expand = Expand::factory($this);
+        $this->filter = Filter::factory($this);
+        $this->orderby = OrderBy::factory($this);
+        $this->schemaversion = SchemaVersion::factory($this);
+        $this->search = Search::factory($this);
+        $this->select = Select::factory($this);
+        $this->skip = Skip::factory($this);
+        $this->top = Top::factory($this);
 
-            foreach ($this->request->query->keys() as $param) {
-                if (
-                    Str::startsWith($param, '$') && !in_array(
-                        $param,
-                        [
-                            '$apply', '$count', '$compute', '$expand', '$format', '$filter',
-                            '$orderby', '$search', '$select', '$skip', '$top', '$schemaversion',
-                        ]
-                    )
-                ) {
-                    throw new BadRequestException(
-                        'invalid_system_query_option',
-                        sprintf('The provided system query option "%s" is not valid', $param)
-                    );
-                }
+        $acceptHeader = $this->getHeader('accept');
+
+        $formatQueryOption = $this->getFormat()->getValue();
+        if (Str::startsWith($formatQueryOption, ['json', 'xml'])) {
+            if (!in_array($formatQueryOption, ['json', 'xml'])) {
+                throw new BadRequestException(
+                    'invalid_short_format',
+                    'When using a short $format option, parameters cannot be used'
+                );
             }
 
-            foreach (['compute', 'apply'] as $sqo) {
-                if ($this->getSystemQueryOption($sqo)) {
-                    throw new NotImplementedException(
-                        $sqo.'_not_implemented',
-                        "The \${$sqo} system query option is not implemented"
-                    );
-                }
-            }
+            $type = 'application/'.$formatQueryOption;
+        } elseif ($formatQueryOption) {
+            $type = $formatQueryOption;
+        } elseif ($acceptHeader) {
+            $type = $acceptHeader;
+        } else {
+            $type = '*';
+        }
 
-            if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {
-                throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
-            }
+        $this->mediaType = new MediaType($type);
+        $this->metadata = Metadata::factory($this->mediaType, $this->version);
+        $this->preferences = new ParameterList($this->getHeader('prefer'));
+        $this->ieee754compatible = new IEEE754Compatible($this->mediaType);
 
-            if ($this->schemaversion->hasValue() && $this->schemaversion->getValue() !== '*') {
-                throw new NotFoundException(
-                    'schema_version_not_found',
-                    'The requested schema version is not available'
+        foreach ($this->request->query->keys() as $param) {
+            if (
+                Str::startsWith($param, '$') && !in_array(
+                    $param,
+                    [
+                        '$apply', '$count', '$compute', '$expand', '$format', '$filter',
+                        '$orderby', '$search', '$select', '$skip', '$top', '$schemaversion',
+                    ]
+                )
+            ) {
+                throw new BadRequestException(
+                    'invalid_system_query_option',
+                    sprintf('The provided system query option "%s" is not valid', $param)
                 );
             }
         }
 
-        if (!$this->response) {
-            $this->setResponse(new StreamedResponse());
+        foreach (['compute', 'apply'] as $sqo) {
+            if ($this->getSystemQueryOption($sqo)) {
+                throw new NotImplementedException(
+                    $sqo.'_not_implemented',
+                    "The \${$sqo} system query option is not implemented"
+                );
+            }
         }
 
-        $this->request = $request;
+        if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {
+            throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
+        }
+
+        if ($this->schemaversion->hasValue() && $this->schemaversion->getValue() !== '*') {
+            throw new NotFoundException(
+                'schema_version_not_found',
+                'The requested schema version is not available'
+            );
+        }
+
+        $this->response = new StreamedResponse();
+
+        if ($this->getPreference('omit-values') === 'nulls') {
+            $this->preferenceApplied('omit-values', 'nulls');
+        }
+
+        $this->response->headers->set(Version::versionHeader, $this->getVersion());
+        $this->response->setStatusCode(Response::HTTP_OK);
 
         return $this;
     }
@@ -188,18 +218,7 @@ class Transaction
 
     public function setResponse(StreamedResponse $response): self
     {
-        if (!$this->response) {
-            $this->response = $response;
 
-            if ($this->getPreference('omit-values') === 'nulls') {
-                $this->preferenceApplied('omit-values', 'nulls');
-            }
-
-            $this->response->headers->set(Version::versionHeader, $this->getVersion());
-            $this->response->setStatusCode(Response::HTTP_OK);
-        } else {
-            $this->response = $response;
-        }
 
         return $this;
     }
@@ -345,8 +364,8 @@ class Transaction
     {
         $compatFormat = new MediaType($contentType);
 
-        if ('*' !== $this->getFormat()->getSubtype()) {
-            if ($compatFormat->getSubtype() !== $this->getFormat()->getSubtype()) {
+        if ('*' !== $this->mediaType->getSubtype()) {
+            if ($compatFormat->getSubtype() !== $this->mediaType->getSubtype()) {
                 throw new NotAcceptableException('unsupported_content_type',
                     'This route does not support the requested content type');
             }
@@ -366,7 +385,7 @@ class Transaction
 
         $contentTypeAttributes = array_intersect_key(
             $contentTypeAttributes,
-            array_flip($this->getFormat()->getParameterKeys())
+            array_flip($this->mediaType->getParameterKeys())
         );
 
         if ($contentTypeAttributes) {
@@ -398,6 +417,11 @@ class Transaction
     public function getFormat(): Format
     {
         return $this->format;
+    }
+
+    public function getMediaType(): MediaType
+    {
+        return $this->mediaType;
     }
 
     public function sendContentType(string $contentType): self

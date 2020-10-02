@@ -15,7 +15,7 @@ class Raw extends Primitive
         $transaction = $this->transaction;
         $response = $transaction->getResponse();
 
-        $requestedFormat = $transaction->getFormat();
+        $requestedFormat = $transaction->getMediaType();
 
         if ($requestedFormat) {
             $transaction->setContentType($requestedFormat->getOriginal());
