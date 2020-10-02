@@ -11,7 +11,6 @@ use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type;
 use Flat3\OData\Type\EntityType;
-use Illuminate\Http\Request;
 
 class ParserTest extends TestCase
 {

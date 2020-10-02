@@ -4,12 +4,6 @@ namespace Flat3\OData\Request;
 
 use Flat3\OData\Attribute\ParameterList;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Request\Option\Count;
-use Flat3\OData\Request\Option\Filter;
-use Flat3\OData\Request\Option\OrderBy;
-use Flat3\OData\Request\Option\Search;
-use Flat3\OData\Request\Option\Skip;
-use Flat3\OData\Request\Option\Top;
 use Illuminate\Http\Request;
 
 class Expand extends Request

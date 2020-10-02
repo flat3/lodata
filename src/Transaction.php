@@ -28,6 +28,7 @@ use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -211,7 +212,7 @@ class Transaction
     public function subTransaction(Request $request): self
     {
         if (!$this->request) {
-            throw new \RuntimeException('This transaction has not been initialised');
+            throw new RuntimeException('This transaction has not been initialised');
         }
 
         $transaction = clone $this;
@@ -247,12 +248,6 @@ class Transaction
     public function getVersion(): string
     {
         return $this->version->getVersion();
-    }
-
-    public function sendHttpStatus(int $code): self
-    {
-        $this->response->setStatusCode($code);
-        return $this;
     }
 
     /**
@@ -350,7 +345,7 @@ class Transaction
 
         $omitNulls = $this->getPreference('omit-values') === 'nulls';
 
-        if ($omitNulls && $primitive->getInternalValue() === null && $property->isNullable()) {
+        if ($omitNulls && $primitive->getValue() === null && $property->isNullable()) {
             return false;
         }
 

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpEntryPointsManager">
+    <entry_point>
+      <entry_point TYPE="phpMethod" FQNAME="\Flat3\OData\ServiceProvider boot" />
+      <entry_point TYPE="phpClass" FQNAME="\Flat3\OData\ServiceProvider" />
+    </entry_point>
+    <pattern value="\Flat3\OData\ServiceProvider" member="boot" />
+    <pattern value="\Flat3\OData\ServiceProvider" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_14" default="false">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

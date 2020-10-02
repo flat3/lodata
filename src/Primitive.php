@@ -22,21 +22,16 @@ class Primitive implements TypeInterface
         $this->property = $property;
 
         if ($value instanceof Primitive) {
-            $value = $value->getInternalValue();
+            $value = $value->getValue();
         }
 
         $this->value = $property->getType()::factory($value);
         $this->entity = $entity;
     }
 
-    public function getInternalValue()
+    public function getValue()
     {
         return $this->value->get();
-    }
-
-    public function setEntity(Entity $entity): void
-    {
-        $this->entity = $entity;
     }
 
     public function getEntity(): Entity
@@ -47,11 +42,6 @@ class Primitive implements TypeInterface
     public function getProperty()
     {
         return $this->property;
-    }
-
-    public function getValue(): PrimitiveType
-    {
-        return $this->value;
     }
 
     public function toUrl(): string

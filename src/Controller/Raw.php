@@ -30,12 +30,12 @@ class Raw extends Primitive
             throw new NotFoundException();
         }
 
-        if (null === $primitive->getInternalValue()) {
+        if (null === $primitive->getValue()) {
             throw new NoContentException();
         }
 
         $response->setCallback(function () use ($transaction, $primitive) {
-            $transaction->outputRaw((string) $primitive->getInternalValue());
+            $transaction->outputRaw((string) $primitive->getValue());
         });
     }
 }

@@ -116,7 +116,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
 
             /** @var Primitive $keyPrimitive */
             $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());
-            if ($keyPrimitive->getInternalValue() === null) {
+            if ($keyPrimitive->getValue() === null) {
                 $expansionRequests->next();
                 continue;
             }
@@ -164,11 +164,6 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
     public function getEntitySet(): EntitySet
     {
         return $this->entitySet;
-    }
-
-    public function getPrimitives(): ObjectArray
-    {
-        return $this->primitives;
     }
 
     public function addPrimitive($property, $value): self

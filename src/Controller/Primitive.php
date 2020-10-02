@@ -50,7 +50,7 @@ class Primitive extends Singular
             throw new NotFoundException('The requested primitive or entity set was not found');
         }
 
-        if (null === $primitive->getInternalValue()) {
+        if (null === $primitive->getValue()) {
             throw new NoContentException('null_value');
         }
 

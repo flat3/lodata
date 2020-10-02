@@ -376,7 +376,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
 
         if ($this->entityId) {
             $this->addWhere($this->propertyToField($this->keyProperty).' = ?');
-            $this->addParameter($this->entityId->getInternalValue());
+            $this->addParameter($this->entityId->getValue());
         }
 
         $filter = $this->transaction->getFilter();
