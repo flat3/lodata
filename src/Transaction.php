@@ -244,13 +244,6 @@ class Transaction
         return $this->response;
     }
 
-    public function setResponse(StreamedResponse $response): self
-    {
-
-
-        return $this;
-    }
-
     public function getVersion(): string
     {
         return $this->version->getVersion();
