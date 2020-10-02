@@ -8,6 +8,7 @@ use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Primitive;
@@ -73,7 +74,12 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $this->isInstance = true;
     }
 
-    public function factory(Transaction $transaction): self
+    public static function factory(string $identifier, EntityType $entityType): self
+    {
+        return new static($identifier, $entityType);
+    }
+
+    public function withTransaction(Transaction $transaction): self
     {
         if ($this->isInstance) {
             throw new RuntimeException('Attempted to clone an instance of an entity set');
@@ -186,6 +192,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         if ($this->results === null) {
             $this->results = $this->generate();
             $this->topCounter = count($this->results);
+        } elseif ($this->results && !current($this->results) && !$this instanceof PaginationInterface) {
+            return false;
         } elseif (!current($this->results) && ($this->topCounter < $this->topLimit)) {
             $this->top = min($this->top, $this->topLimit - $this->topCounter);
             $this->skip += count($this->results);

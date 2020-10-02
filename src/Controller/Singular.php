@@ -80,7 +80,7 @@ class Singular extends Set
     public function handle(): void
     {
         $transaction = $this->transaction;
-        $entitySet = $this->entitySet->factory($transaction);
+        $entitySet = $this->entitySet->withTransaction($transaction);
         $entity = $entitySet->getEntity($this->id);
         $transaction->setContentTypeJson();
 

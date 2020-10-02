@@ -3,11 +3,11 @@
 namespace Flat3\OData\Tests\Data;
 
 use Exception;
-use Flat3\OData\Drivers\Database\EntitySet;
 use Flat3\OData\Entity;
-use Flat3\OData\EntitySet\Dynamic;
+use Flat3\OData\EntitySet\Callback;
 use Flat3\OData\ODataModel;
 use Flat3\OData\Property;
+use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
 use Flat3\OData\Type;
@@ -63,7 +63,7 @@ trait FlightModel
             $flightType->addProperty(new Property\Declared('origin', Type::string()));
             $flightType->addProperty(new Property\Declared('destination', Type::string()));
             $flightType->addProperty(new Property\Declared('gate', Type::int32()));
-            $flightSet = new EntitySet('flights', $flightType);
+            $flightSet = new \Flat3\OData\Drivers\Database\EntitySet('flights', $flightType);
             $flightSet->setTable('flights');
 
             $airportType = ODataModel::entitytype('airport');
@@ -75,7 +75,7 @@ trait FlightModel
             $airportType->addProperty(new Property\Declared('sam_datetime', Type::datetimeoffset()));
             $airportType->addProperty(new Property\Declared('review_score', Type::decimal()));
             $airportType->addProperty(new Property\Declared('is_big', Type::boolean()));
-            $airportSet = new EntitySet('airports', $airportType);
+            $airportSet = new \Flat3\OData\Drivers\Database\EntitySet('airports', $airportType);
             $airportSet->setTable('airports');
 
             ODataModel::add($flightSet);
@@ -104,14 +104,15 @@ trait FlightModel
                 });
 
             ODataModel::fn('exf2')
-                ->setCallback(function (): \Flat3\OData\Resource\EntitySet {
+                ->setCallback(function (): EntitySet {
                     $type = ODataModel::getType('airport');
                     $airports = ODataModel::getResource('airports');
-                    $airport = new Airport();
-                    $airport['code'] = 'xyz';
-                    $set = new Dynamic($airports, $type);
-                    $set->addResult($airport);
-                    return $set;
+
+                    return Callback::factory($airports, $type)->setCallback(function () {
+                        $airport = new Airport();
+                        $airport['code'] = 'xyz';
+                        return [$airport];
+                    });
                 })
                 ->setType($airportType);
 

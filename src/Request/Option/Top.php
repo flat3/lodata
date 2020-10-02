@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Request\Option;
 
-use Flat3\OData\Interfaces\TopInterface;
+use Flat3\OData\Interfaces\PaginationInterface;
 
 /**
  * Class Top
@@ -12,5 +12,5 @@ use Flat3\OData\Interfaces\TopInterface;
 class Top extends Numeric
 {
     public const param = 'top';
-    public const query_interface = TopInterface::class;
+    public const query_interface = PaginationInterface::class;
 }

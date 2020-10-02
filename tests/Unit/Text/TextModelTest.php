@@ -22,10 +22,10 @@ class TextModelTest extends TestCase
             ) extends EntitySet {
                 public function generate(): array
                 {
-                    return array_slice([
+                    return [
                         $this->entity()
                             ->addPrimitive('a', 'a')
-                    ], $this->skip, $this->top);
+                    ];
                 }
             });
     }
@@ -35,6 +35,15 @@ class TextModelTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/texts')
+        );
+    }
+
+    public function test_rejects_filter()
+    {
+        $this->assertNotImplemented(
+            Request::factory()
+                ->path('/texts')
+                ->filter("a eq 'b'")
         );
     }
 }

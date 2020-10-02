@@ -125,7 +125,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
             $targetKey = new Primitive($keyPrimitive, $referencedProperty);
 
             if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
-                $expansionSet = $targetEntitySet->factory($transaction);
+                $expansionSet = $targetEntitySet->withTransaction($transaction);
                 $entity = $expansionSet->getEntity($targetKey);
                 $transaction->outputJsonKey($navigationProperty);
 
@@ -139,7 +139,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
             } else {
                 $transaction->outputJsonKey($navigationProperty);
                 $transaction->outputJsonArrayStart();
-                $entitySet = $targetEntitySet->factory($expansionTransaction)->setKey($targetKey);
+                $entitySet = $targetEntitySet->withTransaction($expansionTransaction)->setKey($targetKey);
                 $entitySet->writeToResponse($expansionTransaction);
                 $transaction->outputJsonArrayEnd();
             }

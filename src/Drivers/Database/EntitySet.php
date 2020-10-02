@@ -35,8 +35,7 @@ use Flat3\OData\Interfaces\ExpandInterface;
 use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Interfaces\OrderByInterface;
 use Flat3\OData\Interfaces\SearchInterface;
-use Flat3\OData\Interfaces\SkipInterface;
-use Flat3\OData\Interfaces\TopInterface;
+use Flat3\OData\Interfaces\PaginationInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
 use Flat3\OData\Type\EntityType;
@@ -45,7 +44,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, SkipInterface, TopInterface, ExpandInterface
+class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface
 {
     /** @var string[] $parameters */
     protected $parameters = [];

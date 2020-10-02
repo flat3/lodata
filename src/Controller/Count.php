@@ -34,7 +34,7 @@ class Count extends Set
         $transaction->getOrderBy()->clearValue();
         $transaction->getExpand()->clearValue();
 
-        $count = $this->entitySet->factory($transaction)->count();
+        $count = $this->entitySet->withTransaction($transaction)->count();
 
         $response->setCallback(function () use ($transaction, $count) {
             $transaction->sendOutput($count);

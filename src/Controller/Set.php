@@ -53,7 +53,7 @@ class Set extends Handler
     public function handle(): void
     {
         $transaction = $this->transaction;
-        $entitySet = $this->entitySet->factory($transaction);
+        $entitySet = $this->entitySet->withTransaction($transaction);
         $transaction->setContentTypeJson();
 
         $maxPageSize = $transaction->getPreference('maxpagesize');
@@ -101,7 +101,7 @@ class Set extends Handler
         $metadata = $transaction->getMetadata()->filter($metadata);
 
         $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
-            $entitySet = $this->entitySet->factory($transaction);
+            $entitySet = $this->entitySet->withTransaction($transaction);
 
             $transaction->outputJsonObjectStart();
 

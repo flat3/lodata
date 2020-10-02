@@ -89,7 +89,7 @@ class ParserTest extends TestCase
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $s = new LoopbackEntitySet('test', $type);
-                $query = $s->factory($transaction);
+                $query = $s->withTransaction($transaction);
 
                 $parser = new Search($query);
 
@@ -123,7 +123,7 @@ class ParserTest extends TestCase
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $entitySet = new LoopbackEntitySet('test', $type);
-                $query = $entitySet->factory($transaction);
+                $query = $entitySet->withTransaction($transaction);
 
                 $parser = new Filter($query, $transaction);
                 $parser->addValidLiteral('id');

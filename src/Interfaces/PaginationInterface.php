@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Interfaces;
 
-interface TopInterface
+interface PaginationInterface
 {
 
 }
