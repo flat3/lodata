@@ -47,7 +47,8 @@ class Primitive extends Singular
     public function handle(): void
     {
         $transaction = $this->transaction;
-        $primitive = $this->entitySet->getPrimitive($transaction, $this->id, $this->property);
+        $entitySet = $this->entitySet->factory($transaction);
+        $primitive = $entitySet->getPrimitive($this->id, $this->property);
         $transaction->setContentTypeJson();
 
         if (!$primitive) {

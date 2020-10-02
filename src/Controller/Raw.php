@@ -23,7 +23,8 @@ class Raw extends Primitive
             $transaction->setContentTypeText();
         }
 
-        $primitive = $this->entitySet->getPrimitive($transaction, $this->id, $this->property);
+        $entitySet = $this->entitySet->factory($transaction);
+        $primitive = $entitySet->getPrimitive($this->id, $this->property);
 
         if (null === $primitive) {
             throw new NotFoundException();

@@ -125,7 +125,8 @@ class Entity implements IdentifierInterface, TypeInterface
             $targetKey = new Primitive($keyPrimitive, $referencedProperty);
 
             if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
-                $entity = $targetEntitySet->getEntity($expansionTransaction, $targetKey);
+                $expansionSet = $targetEntitySet->factory($transaction);
+                $entity = $expansionSet->getEntity($targetKey);
                 $transaction->outputJsonKey($navigationProperty);
 
                 if ($entity) {
@@ -138,7 +139,7 @@ class Entity implements IdentifierInterface, TypeInterface
             } else {
                 $transaction->outputJsonKey($navigationProperty);
                 $transaction->outputJsonArrayStart();
-                $entitySet = $targetEntitySet->factory($expansionTransaction, $targetKey);
+                $entitySet = $targetEntitySet->factory($expansionTransaction)->setKey($targetKey);
                 $entitySet->writeToResponse($expansionTransaction);
                 $transaction->outputJsonArrayEnd();
             }

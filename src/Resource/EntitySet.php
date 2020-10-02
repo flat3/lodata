@@ -51,8 +51,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var Transaction $transaction */
     protected $transaction;
 
-    /** @var Property $entityKey */
-    protected $entityKey;
+    /** @var Property $keyProperty */
+    protected $keyProperty;
 
     /** @var Primitive $entityId */
     protected $entityId;
@@ -72,7 +72,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $this->isInstance = true;
     }
 
-    public function factory(Transaction $transaction = null, ?Primitive $key = null): self
+    public function factory(Transaction $transaction = null): self
     {
         if ($this->isInstance) {
             throw new RuntimeException('Attempted to clone an instance of an entity set');
@@ -81,8 +81,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $set = clone $this;
 
         $set->transaction = $transaction;
-        $set->entityKey = $key ? $key->getProperty() : $set->getType()->getKey();
-        $set->entityId = $key;
+        $this->keyProperty = $set->getType()->getKey();
 
         $maxPageSize = $set->getMaxPageSize();
         $skip = $transaction->getSkip();
@@ -98,6 +97,13 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         }
 
         return $set;
+    }
+
+    public function setKey(Primitive $key): self
+    {
+        $this->keyProperty = $key->getProperty();
+        $this->entityId = $key;
+        return $this;
     }
 
     public function getKind(): string
@@ -145,7 +151,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function count()
     {
-        return null;
+        return $this->results ? count($this->results) : null;
     }
 
     /**
@@ -191,7 +197,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $this->supportedQueryOptions;
     }
 
-    abstract public function getEntity(Transaction $transaction, Primitive $key): ?Entity;
+    abstract public function getEntity(Primitive $key): ?Entity;
 
     /**
      * Get a single primitive from the entity set
@@ -202,9 +208,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
      *
      * @return Primitive
      */
-    public function getPrimitive(Transaction $transaction, Primitive $key, Property $property): ?Primitive
+    public function getPrimitive(Primitive $key, Property $property): ?Primitive
     {
-        $entity = $this->getEntity($transaction, $key);
+        $entity = $this->getEntity($key);
 
         if (null === $entity) {
             throw NotFoundException::factory()
@@ -213,7 +219,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         return $entity->getPrimitive($property);
     }
-
 
     public function addNavigationBinding(Binding $binding): self
     {

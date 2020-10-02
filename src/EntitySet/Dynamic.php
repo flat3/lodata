@@ -10,14 +10,9 @@ use RuntimeException;
 
 class Dynamic extends EntitySet
 {
-    public function getEntity(Transaction $transaction, Primitive $key): ?Entity
+    public function getEntity(Primitive $key): ?Entity
     {
         return null;
-    }
-
-    public function count(): int
-    {
-        return count($this->results);
     }
 
     protected function generate(): void

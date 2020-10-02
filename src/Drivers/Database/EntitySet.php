@@ -42,7 +42,6 @@ use Flat3\OData\Request\Option\OrderBy;
 use Flat3\OData\Request\Option\Search;
 use Flat3\OData\Request\Option\Skip;
 use Flat3\OData\Request\Option\Top;
-use Flat3\OData\Transaction;
 use Flat3\OData\Type\EntityType;
 use Illuminate\Support\Facades\DB;
 use PDO;
@@ -99,9 +98,10 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
         return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
 
-    public function getEntity(Transaction $transaction, Primitive $key): ?Entity
+    public function getEntity(Primitive $key): ?Entity
     {
-        return $this->factory($transaction, $key)->current();
+        $this->setKey($key);
+        return $this->current();
     }
 
     public function search(Event $event): ?bool
@@ -400,7 +400,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
         $this->where = '';
 
         if ($this->entityId) {
-            $this->addWhere($this->propertyToField($this->entityKey).' = ?');
+            $this->addWhere($this->propertyToField($this->keyProperty).' = ?');
             $this->addParameter($this->entityId->getInternalValue());
         }
 

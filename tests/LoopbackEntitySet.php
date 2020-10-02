@@ -20,19 +20,13 @@ use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Interfaces\SearchInterface;
 use Flat3\OData\Primitive;
 use Flat3\OData\Resource\EntitySet;
-use Flat3\OData\Transaction;
 
 class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
 {
     public $searchBuffer;
     public $filterBuffer;
 
-    public function count(): int
-    {
-        return 0;
-    }
-
-    public function getEntity(Transaction $transaction, Primitive $key): ?Entity
+    public function getEntity(Primitive $key): ?Entity
     {
         return null;
     }
