@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Drivers\Database;
 
+use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Expression\Event;

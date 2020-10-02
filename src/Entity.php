@@ -5,19 +5,22 @@ namespace Flat3\OData;
 use ArrayAccess;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
+use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Constraint;
 use Flat3\OData\Resource\EntitySet;
+use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
+class Entity implements IdentifierInterface, TypeInterface, FactoryInterface, ArrayAccess
 {
     use HasIdentifier;
     use HasType;
+    use HasFactory;
 
     /** @var PrimitiveType $entityId */
     private $entityId;
@@ -28,7 +31,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
     /** @var EntitySet $entitySet */
     private $entitySet;
 
-    public function __construct(?EntitySet $entitySet = null)
+    public function __construct(EntitySet $entitySet)
     {
         $this->entitySet = $entitySet;
         $this->primitives = new ObjectArray();
