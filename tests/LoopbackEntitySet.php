@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Tests;
 
-use Flat3\OData\Entity;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
 use Flat3\OData\Expression\Event\EndFunction;
@@ -18,7 +17,6 @@ use Flat3\OData\Expression\Node\Operator\Comparison\Not_;
 use Flat3\OData\Expression\Node\Operator\Comparison\Or_;
 use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Interfaces\SearchInterface;
-use Flat3\OData\Primitive;
 use Flat3\OData\Resource\EntitySet;
 
 class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
@@ -138,22 +136,8 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
         $this->filterBuffer .= ' '.$s;
     }
 
-    public function next(): void
+    protected function generate(): array
     {
-    }
-
-    public function key(): ?string
-    {
-        return '';
-    }
-
-    public function valid(): bool
-    {
-        return false;
-    }
-
-    protected function generate(): void
-    {
-        $this->results = [];
+        return [];
     }
 }

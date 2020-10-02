@@ -414,14 +414,14 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
         }
     }
 
-    protected function generate(): void
+    protected function generate(): array
     {
         $stmt = $this->pdoQuery($this->getSetResultQueryString());
 
-        $this->results = [];
+        $results = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $entity = new \Flat3\OData\Drivers\Database\Entity($this);
+            $entity = new Entity($this);
 
             $key = $this->getType()->getKey()->getIdentifier()->get();
             $entity->setEntityIdValue($row[$key]);
@@ -441,8 +441,10 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
                 $entity->addPrimitive($value, $property);
             }
 
-            $this->results[] = $entity;
+            $results[] = $entity;
         }
+
+        return $results;
     }
 
     public function getSetResultQueryString(): string

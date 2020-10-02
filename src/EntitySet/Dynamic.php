@@ -8,7 +8,7 @@ use RuntimeException;
 
 class Dynamic extends EntitySet
 {
-    protected function generate(): void
+    protected function generate(): array
     {
         throw new RuntimeException('Dynamic result sets cannot be generated');
     }

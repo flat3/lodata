@@ -171,7 +171,7 @@ class Entity implements IdentifierInterface, TypeInterface
         return $this->primitives;
     }
 
-    public function addPrimitive($value, Property $property): void
+    public function addPrimitive($value, Property $property): self
     {
         if (null === $value && !$property->isNullable()) {
             throw new ResourceException(
@@ -184,6 +184,8 @@ class Entity implements IdentifierInterface, TypeInterface
         }
 
         $this->primitives[$property] = $this->primitiveFactory($value, $property);
+
+        return $this;
     }
 
     public function setEntityIdValue($entityId)

@@ -57,6 +57,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var Primitive $entityId */
     protected $entityId;
 
+    /** @var bool $isInstance */
     protected $isInstance = false;
 
     public function __construct(string $identifier, EntityType $entityType)
@@ -183,13 +184,12 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         }
 
         if ($this->results === null) {
-            $this->generate();
+            $this->results = $this->generate();
             $this->topCounter = count($this->results);
         } elseif (!current($this->results) && ($this->topCounter < $this->topLimit)) {
             $this->top = min($this->top, $this->topLimit - $this->topCounter);
             $this->skip += count($this->results);
-            $this->results = null;
-            $this->generate();
+            $this->results = $this->generate();
             $this->topCounter += count($this->results);
         }
 
@@ -279,7 +279,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     }
 
     /**
-     * Perform the query, observing $this->top and $this->skip, loading the results as Entity objects into $this->result_set
+     * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */
-    abstract protected function generate(): void;
+    abstract protected function generate(): array;
 }
