@@ -14,15 +14,6 @@ use Illuminate\Http\Request;
 
 class Expand extends Request
 {
-    public const options = [
-        Filter::class,
-        OrderBy::class,
-        Skip::class,
-        Top::class,
-        Count::class,
-        Search::class,
-    ];
-
     /** @var Navigation $navigationProperty */
     protected $navigationProperty;
 
@@ -36,11 +27,6 @@ class Expand extends Request
         $this->options = new ParameterList($options, ';');
     }
 
-    public function getHeader($key): ?string
-    {
-        return null;
-    }
-
     public function getMethod(): string
     {
         return Request::METHOD_GET;
@@ -49,11 +35,6 @@ class Expand extends Request
     public function getNavigationProperty(): Navigation
     {
         return $this->navigationProperty;
-    }
-
-    public function getQueryParams(): array
-    {
-        return $this->options->getParameters();
     }
 
     public function __toString()

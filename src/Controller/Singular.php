@@ -77,11 +77,6 @@ class Singular extends Set
         $this->key = $keyProperty;
     }
 
-    public function getId(): Primitive
-    {
-        return $this->id;
-    }
-
     public function handle(): void
     {
         $transaction = $this->transaction;

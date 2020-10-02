@@ -106,15 +106,15 @@ class Transaction
             $this->preferences = new ParameterList($this->getHeader('prefer'));
             $this->ieee754compatible = new IEEE754Compatible($this->format);
 
-            $this->count = Count::factory()->transaction($this);
-            $this->expand = Expand::factory()->transaction($this);
-            $this->filter = Filter::factory()->transaction($this);
-            $this->orderby = OrderBy::factory()->transaction($this);
-            $this->search = Search::factory()->transaction($this);
-            $this->select = Select::factory()->transaction($this);
-            $this->skip = Skip::factory()->transaction($this);
-            $this->top = Top::factory()->transaction($this);
-            $this->schemaversion = SchemaVersion::factory()->transaction($this);
+            $this->count = Count::factory($this);
+            $this->expand = Expand::factory($this);
+            $this->filter = Filter::factory($this);
+            $this->orderby = OrderBy::factory($this);
+            $this->search = Search::factory($this);
+            $this->select = Select::factory($this);
+            $this->skip = Skip::factory($this);
+            $this->top = Top::factory($this);
+            $this->schemaversion = SchemaVersion::factory($this);
 
             foreach ($this->request->query->keys() as $param) {
                 if (

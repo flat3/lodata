@@ -5,23 +5,21 @@ namespace Flat3\OData\Resource;
 use Closure;
 use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
-use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Internal\Argument;
 use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 use ReflectionException;
 use ReflectionFunction;
+use ReflectionNamedType;
 use RuntimeException;
 
-abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface, FactoryInterface
+abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface
 {
-    use HasFactory;
     use HasIdentifier;
     use HasType;
 
@@ -35,16 +33,21 @@ abstract class Operation implements IdentifierInterface, ResourceInterface, Type
 
     public function returnsCollection(): bool
     {
-        $rfc = new ReflectionFunction($this->callback);
-        $rt = $rfc->getReturnType();
-        $tn = $rt->getName();
-        switch (true) {
-            case is_a($tn, EntitySet::class, true);
-                return true;
+        try {
+            $rfc = new ReflectionFunction($this->callback);
 
-            case is_a($tn, Entity::class, true);
-            case is_a($tn, PrimitiveType::class, true);
-                return false;
+            /** @var ReflectionNamedType $rt */
+            $rt = $rfc->getReturnType();
+            $tn = $rt->getName();
+            switch (true) {
+                case is_a($tn, EntitySet::class, true);
+                    return true;
+
+                case is_a($tn, Entity::class, true);
+                case is_a($tn, PrimitiveType::class, true);
+                    return false;
+            }
+        } catch (ReflectionException $e) {
         }
 
         throw new RuntimeException('Invalid return type');
@@ -63,16 +66,21 @@ abstract class Operation implements IdentifierInterface, ResourceInterface, Type
 
     public function getArguments(): ObjectArray
     {
-        $rfn = new ReflectionFunction($this->callback);
-        $args = new ObjectArray();
+        try {
+            $rfn = new ReflectionFunction($this->callback);
+            $args = new ObjectArray();
 
-        foreach ($rfn->getParameters() as $parameter) {
-            $type = $parameter->getType()->getName();
-            $arg = new Argument($parameter->getName(), $type::factory(), $parameter->allowsNull());
-            $args[] = $arg;
+            foreach ($rfn->getParameters() as $parameter) {
+                $type = $parameter->getType()->getName();
+                $arg = new Argument($parameter->getName(), $type::factory(), $parameter->allowsNull());
+                $args[] = $arg;
+            }
+
+            return $args;
+        } catch (ReflectionException $e) {
         }
 
-        return $args;
+        throw new RuntimeException('Invalid arguments');
     }
 
     public function setCallback(callable $callback): self

@@ -2,17 +2,14 @@
 
 namespace Flat3\OData\Internal;
 
-use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Argument implements IdentifierInterface, TypeInterface, FactoryInterface
+class Argument implements IdentifierInterface, TypeInterface
 {
-    use HasFactory;
     use HasIdentifier;
     use HasType;
 
@@ -23,6 +20,11 @@ class Argument implements IdentifierInterface, TypeInterface, FactoryInterface
         $this->setIdentifier($identifier);
         $this->type = $type;
         $this->nullable = $nullable;
+    }
+
+    public static function factory(string $identifier, PrimitiveType $type, bool $nullable = true)
+    {
+        return new self($identifier, $type, $nullable);
     }
 
     public function isNullable(): bool

@@ -217,7 +217,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /**
      * Get a single primitive from the entity set
      *
-     * @param  Transaction  $transaction
      * @param  Primitive  $key
      * @param  Property  $property
      *

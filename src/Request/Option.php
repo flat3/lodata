@@ -63,8 +63,10 @@ abstract class Option
         $this->value = null;
     }
 
-    public static function factory(): self
+    public static function factory(Transaction $transaction): self
     {
-        return new static();
+        $option = new static();
+        $option->transaction($transaction);
+        return $option;
     }
 }

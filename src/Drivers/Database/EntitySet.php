@@ -81,11 +81,6 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
         return DB::connection()->getPdo();
     }
 
-    public function getDbDriver()
-    {
-        return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
-    }
-
     public function search(Event $event): ?bool
     {
         switch (true) {
@@ -163,9 +158,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
 
     protected function propertyToField(Property $property): string
     {
-        $field = sprintf('%s.`%s`', $this->getTable(), $this->getPropertySourceName($property));
-
-        return $field;
+        return sprintf('%s.`%s`', $this->getTable(), $this->getPropertySourceName($property));
     }
 
     public function getPropertySourceName(Property $property): string

@@ -3,10 +3,8 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\ODataModel;
-use Flat3\OData\Request\Option;
 use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;

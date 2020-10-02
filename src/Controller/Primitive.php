@@ -39,11 +39,6 @@ class Primitive extends Singular
         }
     }
 
-    public function get_id(): \Flat3\OData\Primitive
-    {
-        return $this->id;
-    }
-
     public function handle(): void
     {
         $transaction = $this->transaction;

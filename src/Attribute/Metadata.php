@@ -25,7 +25,7 @@ abstract class Metadata
         $this->version = $version;
     }
 
-    public static function factory(Format $format, Version $version)
+    public static function factory(Format $format, Version $version): self
     {
         $type = $format->getParameter('odata.metadata');
 

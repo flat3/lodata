@@ -2,16 +2,13 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 
-abstract class Property implements IdentifierInterface, TypeInterface, FactoryInterface
+abstract class Property implements IdentifierInterface, TypeInterface
 {
-    use HasFactory;
     use HasIdentifier;
     use HasType;
 
@@ -31,6 +28,11 @@ abstract class Property implements IdentifierInterface, TypeInterface, FactoryIn
     {
         $this->setIdentifier($identifier);
         $this->type = $type;
+    }
+
+    public static function factory($identifier, Type $type): self
+    {
+        return new static($identifier, $type);
     }
 
     /**

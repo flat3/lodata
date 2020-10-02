@@ -8,16 +8,15 @@ use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Resource\Operation;
-use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use ReflectionException;
 
 class EntityType extends Type implements IdentifierInterface
 {
     use HasIdentifier;
-    use HasFactory;
 
     /** @var Property $key Primary key property */
     protected $key;
@@ -33,8 +32,11 @@ class EntityType extends Type implements IdentifierInterface
         if ($identifier) {
             $this->setIdentifier($identifier);
         } else {
-            $reflect = new ReflectionClass($this);
-            $this->setIdentifier(Str::slug(Str::replaceLast('Type', '', $reflect->getShortName()), ''));
+            try {
+                $reflect = new ReflectionClass($this);
+                $this->setIdentifier(Str::slug(Str::replaceLast('Type', '', $reflect->getShortName()), ''));
+            } catch (ReflectionException $e) {
+            }
         }
 
         $this->properties = new ObjectArray();
