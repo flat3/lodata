@@ -197,7 +197,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $this->supportedQueryOptions;
     }
 
-    abstract public function getEntity(Primitive $key): ?Entity;
+    public function getEntity(Primitive $key): ?Entity
+    {
+        $this->setKey($key);
+        return $this->current();
+    }
 
     /**
      * Get a single primitive from the entity set
@@ -264,7 +268,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     }
 
     /**
-     * Perform the query, observing $this->top and $this->skip, loading the results into $this->result_set
+     * Perform the query, observing $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */
     abstract protected function generate(): void;
 }

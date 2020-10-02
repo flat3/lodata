@@ -98,12 +98,6 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
         return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
 
-    public function getEntity(Primitive $key): ?Entity
-    {
-        $this->setKey($key);
-        return $this->current();
-    }
-
     public function search(Event $event): ?bool
     {
         switch (true) {

@@ -26,11 +26,6 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
     public $searchBuffer;
     public $filterBuffer;
 
-    public function getEntity(Primitive $key): ?Entity
-    {
-        return null;
-    }
-
     public function search(Event $event): ?bool
     {
         switch (true) {
