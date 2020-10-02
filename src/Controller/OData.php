@@ -32,7 +32,7 @@ class OData extends Controller
             Operation::class,
         ];
 
-        $transaction->setRequest($request);
+        $transaction->initialize($request);
         $response = $transaction->getResponse();
 
         foreach ($handlers as $handler) {

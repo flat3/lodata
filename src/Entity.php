@@ -112,8 +112,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
                 );
             }
 
-            $expansionTransaction = clone $transaction;
-            $expansionTransaction->setRequest($expansionRequest);
+            $expansionTransaction = $transaction->subTransaction($expansionRequest);
 
             /** @var Primitive $keyPrimitive */
             $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());

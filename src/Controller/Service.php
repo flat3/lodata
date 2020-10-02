@@ -13,7 +13,7 @@ class Service extends Controller
 {
     public function get(Request $request, Transaction $transaction)
     {
-        $transaction->setRequest($request);
+        $transaction->initialize($request);
         $response = $transaction->getResponse();
         $transaction->setContentTypeJson();
 

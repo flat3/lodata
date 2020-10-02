@@ -343,7 +343,7 @@ class ParserMySQLTest extends TestCase
                 $request = new Request();
                 $request->query->set('$filter', $from);
                 $request->query->set('$select', 'id,title');
-                $transaction->setRequest($request);
+                $transaction->initialize($request);
 
                 $query = $entitySet->factory($transaction);
 

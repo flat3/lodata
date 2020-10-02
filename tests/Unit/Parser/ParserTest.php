@@ -89,7 +89,6 @@ class ParserTest extends TestCase
                 $k = new Property\Declared('id', Type::int32());
                 $type->setKey($k);
                 $transaction = new Transaction();
-                $transaction->setRequest(new Request());
                 $s = new LoopbackEntitySet('test', $type);
                 $query = $s->factory($transaction);
 
@@ -124,7 +123,6 @@ class ParserTest extends TestCase
                 $k = new Property\Declared('id', Type::int32());
                 $type->setKey($k);
                 $transaction = new Transaction();
-                $transaction->setRequest(new Request());
                 $entitySet = new LoopbackEntitySet('test', $type);
                 $query = $entitySet->factory($transaction);
 

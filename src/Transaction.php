@@ -28,6 +28,7 @@ use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -85,39 +86,37 @@ class Transaction
     /** @var MediaType $mediaType */
     private $mediaType;
 
-    /** @var SchemaVersion $schemaversion */
-    private $schemaversion;
+    /** @var SchemaVersion $schemaVersion */
+    private $schemaVersion;
+
+    public function __construct()
+    {
+        $this->count = new Count();
+        $this->format = new Format();
+        $this->expand = new Expand();
+        $this->filter = new Filter();
+        $this->orderby = new OrderBy();
+        $this->schemaVersion = new SchemaVersion();
+        $this->search = new Search();
+        $this->select = new Select();
+        $this->skip = new Skip();
+        $this->top = new Top();
+    }
 
     public function getRequest(): Request
     {
         return $this->request;
     }
 
-    public function setRequest(Request $request): self
+    public function initialize(Request $request): self
     {
-        if ($this->request) {
-            $this->request = $request;
-
-            return $this;
-        }
-
-        $this->request = $request;
+        $this->setRequest($request);
+        $this->response = new StreamedResponse();
 
         $this->version = new Version(
             $this->getHeader(Version::versionHeader),
             $this->getHeader(Version::maxVersionHeader)
         );
-
-        $this->count = Count::factory($this);
-        $this->format = Format::factory($this);
-        $this->expand = Expand::factory($this);
-        $this->filter = Filter::factory($this);
-        $this->orderby = OrderBy::factory($this);
-        $this->schemaversion = SchemaVersion::factory($this);
-        $this->search = Search::factory($this);
-        $this->select = Select::factory($this);
-        $this->skip = Skip::factory($this);
-        $this->top = Top::factory($this);
 
         $acceptHeader = $this->getHeader('accept');
 
@@ -174,14 +173,12 @@ class Transaction
             throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
         }
 
-        if ($this->schemaversion->hasValue() && $this->schemaversion->getValue() !== '*') {
+        if ($this->schemaVersion->hasValue() && $this->schemaVersion->getValue() !== '*') {
             throw new NotFoundException(
                 'schema_version_not_found',
                 'The requested schema version is not available'
             );
         }
-
-        $this->response = new StreamedResponse();
 
         if ($this->getPreference('omit-values') === 'nulls') {
             $this->preferenceApplied('omit-values', 'nulls');
@@ -191,6 +188,36 @@ class Transaction
         $this->response->setStatusCode(Response::HTTP_OK);
 
         return $this;
+    }
+
+    public function setRequest(Request $request): self
+    {
+        $this->request = $request;
+
+        $this->count = Count::factory($this);
+        $this->format = Format::factory($this);
+        $this->expand = Expand::factory($this);
+        $this->filter = Filter::factory($this);
+        $this->orderby = OrderBy::factory($this);
+        $this->schemaVersion = SchemaVersion::factory($this);
+        $this->search = Search::factory($this);
+        $this->select = Select::factory($this);
+        $this->skip = Skip::factory($this);
+        $this->top = Top::factory($this);
+
+        return $this;
+    }
+
+    public function subTransaction(Request $request): self
+    {
+        if (!$this->request) {
+            throw new \RuntimeException('This transaction has not been initialised');
+        }
+
+        $transaction = clone $this;
+        $transaction->setRequest($request);
+
+        return $transaction;
     }
 
     public function getHeader($key): ?string
@@ -208,7 +235,8 @@ class Transaction
 
     public function getQueryParams(): array
     {
-        return $this->request->query->all();
+        $query = $this->request->query;
+        return $query instanceof InputBag ? $query->all() : [];
     }
 
     public function getResponse(): StreamedResponse
@@ -665,18 +693,5 @@ class Transaction
     public function outputJsonSeparator()
     {
         $this->sendOutput(',');
-    }
-
-    public function __clone()
-    {
-        $this->count = new Count();
-        $this->expand = new Expand();
-        $this->filter = new Filter();
-        $this->orderby = new OrderBy();
-        $this->search = new Search();
-        $this->select = new Select();
-        $this->skip = new Skip();
-        $this->top = new Top();
-        $this->schemaversion = new SchemaVersion();
     }
 }

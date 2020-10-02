@@ -20,7 +20,7 @@ class Metadata extends Controller
 {
     public function get(Request $request, ODataModel $model, Transaction $transaction)
     {
-        $transaction->setRequest($request);
+        $transaction->initialize($request);
         $response = $transaction->getResponse();
         $transaction->setContentTypeXml();
 
