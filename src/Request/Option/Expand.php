@@ -4,6 +4,7 @@ namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Interfaces\ExpandInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Request;
@@ -20,6 +21,7 @@ use RuntimeException;
 class Expand extends Option
 {
     public const param = 'expand';
+    public const query_interface = ExpandInterface::class;
 
     public function getExpansionRequests(Type $entityType): ObjectArray
     {

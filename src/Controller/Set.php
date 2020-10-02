@@ -58,21 +58,6 @@ class Set extends Handler
         $entitySet = $this->entitySet->factory($transaction);
         $transaction->setContentTypeJson();
 
-        foreach (
-            [
-                $transaction->getCount(), $transaction->getFilter(), $transaction->getOrderBy(),
-                $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
-            ] as $sqo
-        ) {
-            /** @var Option $sqo */
-            if ($sqo->hasValue() && !in_array(get_class($sqo), $entitySet->getSupportedQueryOptions(), true)) {
-                throw new NotImplementedException(
-                    'system_query_option_not_implemented',
-                    sprintf('The %s system query option is not supported by this entity set', $sqo::param)
-                );
-            }
-        }
-
         $maxPageSize = $transaction->getPreference('maxpagesize');
         $top = $transaction->getTop();
         if (!$top->hasValue() && $maxPageSize) {

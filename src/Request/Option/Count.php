@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Request\Option;
 
+use Flat3\OData\Interfaces\CountInterface;
 use Flat3\OData\Request\Option;
 
 /**
@@ -12,4 +13,5 @@ use Flat3\OData\Request\Option;
 class Count extends Option\Boolean
 {
     public const param = 'count';
+    public const query_interface = CountInterface::class;
 }

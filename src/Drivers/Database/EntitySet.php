@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Drivers\Database;
 
-use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Expression\Event;
@@ -30,35 +29,23 @@ use Flat3\OData\Expression\Node\Operator\Logical\In;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
-use Flat3\OData\Interfaces\CountableInterface;
+use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\ExpandInterface;
 use Flat3\OData\Interfaces\FilterInterface;
+use Flat3\OData\Interfaces\OrderByInterface;
 use Flat3\OData\Interfaces\SearchInterface;
+use Flat3\OData\Interfaces\SkipInterface;
+use Flat3\OData\Interfaces\TopInterface;
 use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Primitive;
 use Flat3\OData\Property;
-use Flat3\OData\Request\Option\Count;
-use Flat3\OData\Request\Option\Filter;
-use Flat3\OData\Request\Option\OrderBy;
-use Flat3\OData\Request\Option\Search;
-use Flat3\OData\Request\Option\Skip;
-use Flat3\OData\Request\Option\Top;
 use Flat3\OData\Type\EntityType;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
 
-class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountableInterface
+class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, SkipInterface, TopInterface, ExpandInterface
 {
-    protected $supportedQueryOptions = [
-        Count::class,
-        Filter::class,
-        OrderBy::class,
-        Search::class,
-        Skip::class,
-        Top::class,
-    ];
-
     /** @var string[] $parameters */
     protected $parameters = [];
 

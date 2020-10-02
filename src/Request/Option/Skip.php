@@ -2,6 +2,8 @@
 
 namespace Flat3\OData\Request\Option;
 
+use Flat3\OData\Interfaces\SkipInterface;
+
 /**
  * Class Skip
  *
@@ -10,4 +12,5 @@ namespace Flat3\OData\Request\Option;
 class Skip extends Numeric
 {
     public const param = 'skip';
+    public const query_interface = SkipInterface::class;
 }

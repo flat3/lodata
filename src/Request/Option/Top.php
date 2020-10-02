@@ -2,6 +2,8 @@
 
 namespace Flat3\OData\Request\Option;
 
+use Flat3\OData\Interfaces\TopInterface;
+
 /**
  * Class Top
  *
@@ -10,4 +12,5 @@ namespace Flat3\OData\Request\Option;
 class Top extends Numeric
 {
     public const param = 'top';
+    public const query_interface = TopInterface::class;
 }

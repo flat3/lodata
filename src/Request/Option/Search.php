@@ -3,6 +3,7 @@
 namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Expression\Parser\Search as Parser;
+use Flat3\OData\Interfaces\SearchInterface;
 use Flat3\OData\Request\Option;
 use Flat3\OData\Resource\EntitySet;
 
@@ -14,6 +15,7 @@ use Flat3\OData\Resource\EntitySet;
 class Search extends Option
 {
     public const param = 'search';
+    public const query_interface = SearchInterface::class;
 
     public function applyQuery(EntitySet $query): void
     {

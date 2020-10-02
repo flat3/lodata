@@ -2,9 +2,10 @@
 
 namespace Flat3\OData\Resource;
 
+use Countable;
 use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\Interfaces\CountableInterface;
+use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
@@ -13,6 +14,7 @@ use Flat3\OData\Primitive;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
+use Flat3\OData\Request\Option;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Transaction;
@@ -20,12 +22,10 @@ use Flat3\OData\Type\EntityType;
 use Iterator;
 use RuntimeException;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, CountableInterface
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, Countable
 {
     use HasIdentifier;
     use HasEntityType;
-
-    protected $supportedQueryOptions = [];
 
     /** @var ObjectArray $navigationBindings Navigation bindings */
     protected $navigationBindings;
@@ -82,6 +82,22 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         $set->transaction = $transaction;
         $this->keyProperty = $set->getType()->getKey();
+
+        foreach (
+            [
+                $transaction->getCount(), $transaction->getFilter(), $transaction->getOrderBy(),
+                $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
+                $transaction->getExpand()
+            ] as $sqo
+        ) {
+            /** @var Option $sqo */
+            if ($sqo->hasValue() && !is_a($this, $sqo::query_interface)) {
+                throw new NotImplementedException(
+                    'system_query_option_not_implemented',
+                    sprintf('The %s system query option is not supported by this entity set', $sqo::param)
+                );
+            }
+        }
 
         $maxPageSize = $set->getMaxPageSize();
         $skip = $transaction->getSkip();
@@ -190,11 +206,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $this->maxPageSize = $maxPageSize;
 
         return $this;
-    }
-
-    public function getSupportedQueryOptions(): array
-    {
-        return $this->supportedQueryOptions;
     }
 
     public function getEntity(Primitive $key): ?Entity

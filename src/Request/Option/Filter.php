@@ -3,6 +3,7 @@
 namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Expression\Parser\Filter as Parser;
+use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Request\Option;
 use Flat3\OData\Resource\EntitySet;
 
@@ -14,6 +15,7 @@ use Flat3\OData\Resource\EntitySet;
 class Filter extends Option
 {
     public const param = 'filter';
+    public const query_interface = FilterInterface::class;
 
     public function applyQuery(EntitySet $query, array $validLiterals = []): void
     {

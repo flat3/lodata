@@ -3,6 +3,7 @@
 namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Interfaces\OrderByInterface;
 use Flat3\OData\Request\Option;
 use Flat3\OData\Resource\EntitySet;
 
@@ -14,6 +15,7 @@ use Flat3\OData\Resource\EntitySet;
 class OrderBy extends Option
 {
     public const param = 'orderby';
+    public const query_interface = OrderByInterface::class;
 
     public function getSortOrders(EntitySet $entitySet): array
     {
