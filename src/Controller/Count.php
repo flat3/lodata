@@ -4,7 +4,7 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\CountableInterface;
 use Flat3\OData\Transaction;
 
 class Count extends Set
@@ -15,7 +15,7 @@ class Count extends Set
     {
         parent::setup($transaction);
 
-        if (!$this->entitySet instanceof CountInterface) {
+        if (!$this->entitySet instanceof CountableInterface) {
             throw new BadRequestException(
                 'cannot_count_entity_set',
                 'The requested entity set does not support count'

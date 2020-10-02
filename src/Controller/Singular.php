@@ -43,7 +43,7 @@ class Singular extends Set
                     $lexer = new Lexer($referencedValue);
                 }
 
-                $keyProperty = $this->entitySet->getTypeProperty($alternateKey);
+                $keyProperty = $this->entitySet->getType()->getProperty($alternateKey);
 
                 if ($keyProperty instanceof Property && !$keyProperty->isAlternativeKey()) {
                     throw new BadRequestException(

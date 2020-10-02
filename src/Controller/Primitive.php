@@ -31,7 +31,7 @@ class Primitive extends Singular
                 ->lexer($lexer);
         }
 
-        $this->property = $this->entitySet->getTypeProperty($property);
+        $this->property = $this->entitySet->getType()->getProperty($property);
 
         if (!$this->property) {
             throw new NotFoundException('unknown_property',

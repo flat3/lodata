@@ -30,7 +30,7 @@ use Flat3\OData\Expression\Node\Operator\Logical\In;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
-use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\CountableInterface;
 use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Interfaces\SearchInterface;
 use Flat3\OData\Internal\ObjectArray;
@@ -49,7 +49,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountInterface
+class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountableInterface
 {
     protected $supportedQueryOptions = [
         Count::class,
@@ -142,7 +142,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
                 $properties = [];
 
                 /** @var Property $property */
-                foreach ($this->getDeclaredProperties() as $property) {
+                foreach ($this->getType()->getDeclaredProperties() as $property) {
                     if (!$property->isSearchable()) {
                         continue;
                     }
@@ -206,7 +206,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
                 return true;
 
             case $event instanceof Field:
-                $property = $this->getTypeProperty($event->getValue());
+                $property = $this->getType()->getProperty($event->getValue());
 
                 if (!$property->isFilterable()) {
                     throw new BadRequestException(
@@ -410,7 +410,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
             $validLiterals = [];
 
             /** @var Property $property */
-            foreach ($this->getDeclaredProperties() as $property) {
+            foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
                     $validLiterals[] = (string) $property->getIdentifier();
                 }
@@ -436,7 +436,32 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
     protected function generate(): void
     {
         $stmt = $this->pdoQuery($this->getSetResultQueryString());
-        $this->results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->results = [];
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $entity = new \Flat3\OData\Drivers\Database\Entity($this);
+
+            $key = $this->getType()->getKey()->getIdentifier()->get();
+            $entity->setEntityIdValue($row[$key]);
+
+            foreach ($row as $id => $value) {
+                $property = $this->getType()->getProperty($id);
+
+                if (!$property) {
+                    throw new ResourceException(
+                        sprintf(
+                            'The service attempted to access an undefined property for %s',
+                            $id
+                        )
+                    );
+                }
+
+                $entity->addPrimitive($value, $property);
+            }
+
+            $this->results[] = $entity;
+        }
     }
 
     public function getSetResultQueryString(): string
@@ -534,30 +559,5 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterfa
         $this->addParameter($this->skip);
 
         return $limits;
-    }
-
-    public function toEntity($row = null): Entity
-    {
-        $entity = new \Flat3\OData\Drivers\Database\Entity($this);
-
-        $key = $this->getTypeKey()->getIdentifier()->get();
-        $entity->setEntityIdValue($row[$key]);
-
-        foreach ($row as $id => $value) {
-            $property = $this->getTypeProperty($id);
-
-            if (!$property) {
-                throw new ResourceException(
-                    sprintf(
-                        'The service attempted to access an undefined property for %s',
-                        $id
-                    )
-                );
-            }
-
-            $entity->addPrimitive($value, $property);
-        }
-
-        return $entity;
     }
 }

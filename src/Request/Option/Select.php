@@ -32,7 +32,7 @@ class Select extends Option
         $selectedProperties = $this->getValue();
 
         foreach ($selectedProperties as $selectedProperty) {
-            $property = $entitySet->getTypeProperty($selectedProperty);
+            $property = $entitySet->getType()->getProperty($selectedProperty);
 
             if (null === $property) {
                 throw new BadRequestException(

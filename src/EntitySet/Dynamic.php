@@ -25,11 +25,6 @@ class Dynamic extends EntitySet
         throw new RuntimeException('Dynamic result sets cannot be generated');
     }
 
-    public function toEntity($data): Entity
-    {
-        return new Entity();
-    }
-
     public function addResult(Entity $entity): self
     {
         if (null === $this->results) {

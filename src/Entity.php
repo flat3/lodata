@@ -94,7 +94,7 @@ class Entity implements IdentifierInterface, TypeInterface
             $targetConstraint = null;
             /** @var Constraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
-                if ($targetEntitySetType->getProperty($constraint->getReferencedProperty()) && $this->entitySet->getTypeProperty($constraint->getProperty())) {
+                if ($targetEntitySetType->getProperty($constraint->getReferencedProperty()) && $this->entitySet->getType()->getProperty($constraint->getProperty())) {
                     $targetConstraint = $constraint;
                     break;
                 }
@@ -124,7 +124,7 @@ class Entity implements IdentifierInterface, TypeInterface
             $referencedProperty = $targetConstraint->getReferencedProperty();
             $targetKey = new Primitive($keyPrimitive, $referencedProperty);
 
-            if ($referencedProperty === $targetEntitySet->getTypeKey()) {
+            if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
                 $entity = $targetEntitySet->getEntity($expansionTransaction, $targetKey);
                 $transaction->outputJsonKey($navigationProperty);
 
@@ -178,7 +178,7 @@ class Entity implements IdentifierInterface, TypeInterface
             );
         }
 
-        if ($property === $this->entitySet->getTypeKey()) {
+        if ($property === $this->entitySet->getType()->getKey()) {
             $this->setEntityIdValue($value);
         }
 

@@ -4,6 +4,6 @@ namespace Flat3\OData\Interfaces;
 
 use Countable;
 
-interface CountInterface extends Countable
+interface CountableInterface extends Countable
 {
 }

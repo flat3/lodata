@@ -4,7 +4,7 @@ namespace Flat3\OData\Resource;
 
 use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\CountableInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
@@ -20,7 +20,7 @@ use Flat3\OData\Type\EntityType;
 use Iterator;
 use RuntimeException;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, CountInterface
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, CountableInterface
 {
     use HasIdentifier;
     use HasEntityType;
@@ -45,7 +45,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var int $maxPageSize Maximum pagination size allowed for this entity set */
     protected $maxPageSize = 500;
 
-    /** @var null|array $results Result set from the query */
+    /** @var null|Entity[] $results Result set from the query */
     protected $results = null;
 
     /** @var Transaction $transaction */
@@ -116,7 +116,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             return null;
         }
 
-        return $this->toEntity(current($this->results));
+        return current($this->results);
     }
 
     /**
@@ -239,24 +239,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return null;
     }
 
-    /**
-     * @return ObjectArray
-     */
-    public function getDeclaredProperties(): ObjectArray
-    {
-        return $this->getType()->getDeclaredProperties();
-    }
-
-    public function getTypeProperty(string $property): ?Property
-    {
-        return $this->getType()->getProperty($property);
-    }
-
-    public function getTypeKey(): ?Property
-    {
-        return $this->getType()->getKey();
-    }
-
     public function writeToResponse(Transaction $transaction): void
     {
         while ($this->valid()) {
@@ -280,6 +262,4 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
      * Perform the query, observing $this->top and $this->skip, loading the results into $this->result_set
      */
     abstract protected function generate(): void;
-
-    abstract protected function toEntity($data): Entity;
 }
