@@ -5,7 +5,7 @@ namespace Flat3\OData\Request\Option;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Request\Option;
-use Flat3\OData\Resource\Store;
+use Flat3\OData\Resource\EntitySet;
 
 /**
  * Class Select
@@ -16,9 +16,9 @@ class Select extends Option
 {
     public const param = 'select';
 
-    public function getSelectedProperties(Store $store): ObjectArray
+    public function getSelectedProperties(EntitySet $entitySet): ObjectArray
     {
-        $declaredProperties = $store->getType()->getDeclaredProperties();
+        $declaredProperties = $entitySet->getType()->getDeclaredProperties();
 
         if ($this->isStar()) {
             return $declaredProperties;
@@ -32,7 +32,7 @@ class Select extends Option
         $selectedProperties = $this->getValue();
 
         foreach ($selectedProperties as $selectedProperty) {
-            $property = $store->getTypeProperty($selectedProperty);
+            $property = $entitySet->getTypeProperty($selectedProperty);
 
             if (null === $property) {
                 throw new BadRequestException(

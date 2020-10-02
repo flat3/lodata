@@ -3,17 +3,17 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\StoreException;
+use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Constraint;
-use Flat3\OData\Resource\Store;
+use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
-abstract class Entity implements IdentifierInterface, TypeInterface
+class Entity implements IdentifierInterface, TypeInterface
 {
     use HasIdentifier;
     use HasType;
@@ -24,12 +24,12 @@ abstract class Entity implements IdentifierInterface, TypeInterface
     /** @var ObjectArray $primitives */
     private $primitives;
 
-    /** @var Store $store */
-    private $store;
+    /** @var EntitySet $entitySet */
+    private $entitySet;
 
-    public function __construct(?Store $store = null)
+    public function __construct(?EntitySet $entitySet = null)
     {
-        $this->store = $store;
+        $this->entitySet = $entitySet;
         $this->primitives = new ObjectArray();
     }
 
@@ -40,12 +40,12 @@ abstract class Entity implements IdentifierInterface, TypeInterface
 
         $metadata = [];
         if ($entityId) {
-            $metadata['id'] = $transaction->getEntityResourceUrl($this->store, $entityId->toUrl());
+            $metadata['id'] = $transaction->getEntityResourceUrl($this->entitySet, $entityId->toUrl());
         }
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 
-        $expansionRequests = $expand->getExpansionRequests($this->store->getType());
+        $expansionRequests = $expand->getExpansionRequests($this->entitySet->getType());
 
         if ($metadata) {
             $transaction->outputJsonKV($metadata);
@@ -87,14 +87,14 @@ abstract class Entity implements IdentifierInterface, TypeInterface
 
             $navigationProperty = $expansionRequest->getNavigationProperty();
 
-            $binding = $this->store->getBindingByNavigationProperty($navigationProperty);
-            $targetStore = $binding->getTarget();
-            $targetStoreType = $targetStore->getType();
+            $binding = $this->entitySet->getBindingByNavigationProperty($navigationProperty);
+            $targetEntitySet = $binding->getTarget();
+            $targetEntitySetType = $targetEntitySet->getType();
 
             $targetConstraint = null;
             /** @var Constraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
-                if ($targetStoreType->getProperty($constraint->getReferencedProperty()) && $this->store->getTypeProperty($constraint->getProperty())) {
+                if ($targetEntitySetType->getProperty($constraint->getReferencedProperty()) && $this->entitySet->getTypeProperty($constraint->getProperty())) {
                     $targetConstraint = $constraint;
                     break;
                 }
@@ -105,8 +105,8 @@ abstract class Entity implements IdentifierInterface, TypeInterface
                     'no_expansion_constraint',
                     sprintf(
                         'No applicable constraint could be found between sets %s and %s for expansion',
-                        $this->store->getIdentifier()->get(),
-                        $targetStore->getIdentifier()->get()
+                        $this->entitySet->getIdentifier()->get(),
+                        $targetEntitySet->getIdentifier()->get()
                     )
                 );
             }
@@ -124,8 +124,8 @@ abstract class Entity implements IdentifierInterface, TypeInterface
             $referencedProperty = $targetConstraint->getReferencedProperty();
             $targetKey = new Primitive($keyPrimitive, $referencedProperty);
 
-            if ($referencedProperty === $targetStore->getTypeKey()) {
-                $entity = $targetStore->getEntity($expansionTransaction, $targetKey);
+            if ($referencedProperty === $targetEntitySet->getTypeKey()) {
+                $entity = $targetEntitySet->getEntity($expansionTransaction, $targetKey);
                 $transaction->outputJsonKey($navigationProperty);
 
                 if ($entity) {
@@ -138,7 +138,7 @@ abstract class Entity implements IdentifierInterface, TypeInterface
             } else {
                 $transaction->outputJsonKey($navigationProperty);
                 $transaction->outputJsonArrayStart();
-                $entitySet = $targetStore->getEntitySet($expansionTransaction, $targetKey);
+                $entitySet = $targetEntitySet->factory($expansionTransaction, $targetKey);
                 $entitySet->writeToResponse($expansionTransaction);
                 $transaction->outputJsonArrayEnd();
             }
@@ -155,14 +155,14 @@ abstract class Entity implements IdentifierInterface, TypeInterface
         return $this->entityId;
     }
 
-    public function setEntityId(PrimitiveType $entityId)
+    public function setEntityId(Type $entityId)
     {
         $this->entityId = $entityId;
     }
 
-    public function getStore(): Store
+    public function getEntitySet(): EntitySet
     {
-        return $this->store;
+        return $this->entitySet;
     }
 
     public function getPrimitives(): ObjectArray
@@ -173,12 +173,12 @@ abstract class Entity implements IdentifierInterface, TypeInterface
     public function addPrimitive($value, Property $property): void
     {
         if (null === $value && !$property->isNullable()) {
-            throw new StoreException(
-                'The store provided a null value that cannot be added for this property type: '.$property->getIdentifier()->get(),
+            throw new ResourceException(
+                'The entity set provided a null value that cannot be added for this property type: '.$property->getIdentifier()->get(),
             );
         }
 
-        if ($property === $this->store->getTypeKey()) {
+        if ($property === $this->entitySet->getTypeKey()) {
             $this->setEntityIdValue($value);
         }
 
@@ -187,7 +187,7 @@ abstract class Entity implements IdentifierInterface, TypeInterface
 
     public function setEntityIdValue($entityId)
     {
-        $this->setEntityId($this->store->getType()->getKey()->getType()::factory($entityId));
+        $this->setEntityId($this->entitySet->getType()->getKey()->getType()::factory($entityId));
     }
 
     public function primitiveFactory($value, Property $property): Primitive

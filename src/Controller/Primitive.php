@@ -31,7 +31,7 @@ class Primitive extends Singular
                 ->lexer($lexer);
         }
 
-        $this->property = $this->store->getTypeProperty($property);
+        $this->property = $this->entitySet->getTypeProperty($property);
 
         if (!$this->property) {
             throw new NotFoundException('unknown_property',
@@ -47,7 +47,7 @@ class Primitive extends Singular
     public function handle(): void
     {
         $transaction = $this->transaction;
-        $primitive = $this->store->getPrimitive($transaction, $this->id, $this->property);
+        $primitive = $this->entitySet->getPrimitive($transaction, $this->id, $this->property);
         $transaction->setContentTypeJson();
 
         if (!$primitive) {
@@ -60,7 +60,7 @@ class Primitive extends Singular
 
         $metadata = [
             'context' => $transaction->getPropertyValueContextUrl(
-                $this->store,
+                $this->entitySet,
                 $this->id->toUrl(),
                 $this->property
             )

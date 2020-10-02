@@ -5,6 +5,7 @@ namespace Flat3\OData\Resource;
 use Closure;
 use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
@@ -18,7 +19,7 @@ use ReflectionException;
 use ReflectionFunction;
 use RuntimeException;
 
-abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface
+abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface, FactoryInterface
 {
     use HasFactory;
     use HasIdentifier;

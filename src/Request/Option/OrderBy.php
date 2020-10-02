@@ -4,7 +4,7 @@ namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Request\Option;
-use Flat3\OData\Resource\Store;
+use Flat3\OData\Resource\EntitySet;
 
 /**
  * Class OrderBy
@@ -15,11 +15,11 @@ class OrderBy extends Option
 {
     public const param = 'orderby';
 
-    public function getSortOrders(Store $store): array
+    public function getSortOrders(EntitySet $entitySet): array
     {
         $orders = [];
 
-        $properties = $store->getType()->getDeclaredProperties();
+        $properties = $entitySet->getType()->getDeclaredProperties();
 
         foreach ($this->getCommaSeparatedValues() as $expression) {
             $pair = array_map('trim', explode(' ', $expression));

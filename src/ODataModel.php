@@ -7,7 +7,6 @@ use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Resource\Operation\Action;
 use Flat3\OData\Resource\Operation\Function_;
-use Flat3\OData\Resource\Store;
 use Flat3\OData\Type\EntityType;
 
 class ODataModel
@@ -30,23 +29,51 @@ class ODataModel
 
     public static function fn($identifier): Function_
     {
+        /** @var self $model */
+        $model = app()->make(self::class);
+
         $fn = new Function_($identifier);
-        self::add($fn);
+
+        $model->model[] = $fn;
         return $fn;
     }
 
     public static function action($identifier): Action
     {
+        /** @var self $model */
+        $model = app()->make(self::class);
+
         $action = new Action($identifier);
-        self::add($action);
+
+        $model->model[] = $action;
         return $action;
     }
 
     public static function entitytype($identifier): EntityType
     {
+        /** @var self $model */
+        $model = app()->make(self::class);
+
         $type = new EntityType($identifier);
-        self::add($type);
+
+        $model->model[] = $type;
         return $type;
+    }
+
+    public static function getType($identifier): EntityType
+    {
+        /** @var self $model */
+        $model = app()->make(self::class);
+
+        return $model->getEntityTypes()->get($identifier);
+    }
+
+    public static function getResource($identifier): IdentifierInterface
+    {
+        /** @var self $model */
+        $model = app()->make(self::class);
+
+        return $model->getResources()->get($identifier);
     }
 
     public function getNamespace(): string

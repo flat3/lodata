@@ -28,8 +28,8 @@ abstract class Parser
     /** @var Node[] $tokens */
     protected $tokens = [];
 
-    /** @var \Flat3\OData\Resource\EntitySet $store */
-    protected $store;
+    /** @var EntitySet $entitySet */
+    protected $entitySet;
 
     /** @var string[] $validLiterals */
     private $validLiterals = [];
@@ -43,9 +43,9 @@ abstract class Parser
     /** @var Lexer $lexer */
     protected $lexer;
 
-    public function __construct(EntitySet $store)
+    public function __construct(EntitySet $entitySet)
     {
-        $this->store = $store;
+        $this->entitySet = $entitySet;
     }
 
     /**

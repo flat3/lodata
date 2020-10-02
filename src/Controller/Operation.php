@@ -66,7 +66,7 @@ class Operation extends Handler
 
         $parsedArguments = [];
 
-        /** @var \Flat3\OData\Internal\Argument $argumentDefinition */
+        /** @var Argument $argumentDefinition */
         foreach ($this->operation->getArguments() as $argumentDefinition) {
             $argumentIdentifier = $argumentDefinition->getIdentifier()->get();
             if (!array_key_exists($argumentIdentifier, $providedArguments)) {
@@ -89,7 +89,7 @@ class Operation extends Handler
                     sprintf(
                         'The provided argument %s was not of type %s',
                         $argumentIdentifier,
-                        $argumentDefinition->getType()->getType()
+                        $argumentDefinition->getType()->getName()
                     )
                 );
             }
@@ -125,16 +125,16 @@ class Operation extends Handler
                 break;
 
             case $result instanceof Entity:
-                $metadata['context'] = $transaction->getEntityContextUrl($result->getStore());
+                $metadata['context'] = $transaction->getEntityContextUrl($result->getEntitySet());
                 break;
 
             case $result instanceof EntitySet:
-                $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($result->getStore());
+                $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($result);
                 break;
 
             case $result instanceof \Flat3\OData\Primitive:
                 $metadata['context'] = $transaction->getPropertyValueContextUrl(
-                    $result->getEntity()->getStore(),
+                    $result->getEntity()->getEntitySet(),
                     $result->getEntity()->getEntityId()->toUrl(),
                     $result->getProperty()
                 );

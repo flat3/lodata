@@ -2,8 +2,6 @@
 
 namespace Flat3\OData\Tests\Unit\Parser;
 
-use Flat3\OData\Drivers\Database\Store;
-use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Expression\Parser\Filter;
 use Flat3\OData\Expression\Parser\Search;
@@ -92,7 +90,8 @@ class ParserTest extends TestCase
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());
-                $query = new LoopbackEntitySet(new Store('test', $type), $transaction);
+                $s = new LoopbackEntitySet('test', $type);
+                $query = $s->factory($transaction);
 
                 $parser = new Search($query);
 
@@ -126,7 +125,8 @@ class ParserTest extends TestCase
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $transaction->setRequest(new Request());
-                $query = new LoopbackEntitySet(new Store('test', $type), $transaction);
+                $entitySet = new LoopbackEntitySet('test', $type);
+                $query = $entitySet->factory($transaction);
 
                 $parser = new Filter($query, $transaction);
                 $parser->addValidLiteral('id');

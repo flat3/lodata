@@ -44,7 +44,7 @@ trait HasIdentifier
     /**
      * Get the Resource identifier
      *
-     * @return \Flat3\OData\Internal\Identifier
+     * @return Identifier
      */
     public function getIdentifier(): Identifier
     {

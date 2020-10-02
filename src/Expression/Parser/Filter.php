@@ -8,6 +8,7 @@ use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
+use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Transaction;
 
@@ -80,9 +81,9 @@ class Filter extends Parser
     /** @var Transaction $transaction */
     protected $transaction;
 
-    public function __construct(EntitySet $store, Transaction $transaction)
+    public function __construct(EntitySet $entitySet, Transaction $transaction)
     {
-        parent::__construct($store);
+        parent::__construct($entitySet);
 
         $this->transaction = $transaction;
 
@@ -94,7 +95,11 @@ class Filter extends Parser
 
     public function expressionEvent(Event $event): ?bool
     {
-        return $this->store->filter($event);
+        if ($this->entitySet instanceof FilterInterface) {
+            return $this->entitySet->filter($event);
+        }
+
+        return false;
     }
 
     public function findLiteral(): bool

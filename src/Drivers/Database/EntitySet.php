@@ -2,8 +2,9 @@
 
 namespace Flat3\OData\Drivers\Database;
 
+use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\StoreException;
+use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
 use Flat3\OData\Expression\Event\EndFunction;
@@ -29,22 +30,79 @@ use Flat3\OData\Expression\Node\Operator\Logical\In;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
+use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\FilterInterface;
+use Flat3\OData\Interfaces\SearchInterface;
 use Flat3\OData\Internal\ObjectArray;
+use Flat3\OData\Primitive;
 use Flat3\OData\Property;
+use Flat3\OData\Request\Option\Count;
+use Flat3\OData\Request\Option\Filter;
+use Flat3\OData\Request\Option\OrderBy;
+use Flat3\OData\Request\Option\Search;
+use Flat3\OData\Request\Option\Skip;
+use Flat3\OData\Request\Option\Top;
+use Flat3\OData\Transaction;
+use Flat3\OData\Type\EntityType;
+use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
 
-class EntitySet extends \Flat3\OData\Resource\EntitySet
+class EntitySet extends \Flat3\OData\Resource\EntitySet implements SearchInterface, FilterInterface, CountInterface
 {
+    protected $supportedQueryOptions = [
+        Count::class,
+        Filter::class,
+        OrderBy::class,
+        Search::class,
+        Skip::class,
+        Top::class,
+    ];
+
     /** @var string[] $parameters */
     protected $parameters = [];
 
     /** @var string $where */
     protected $where = '';
 
-    /** @var Store $store */
-    protected $store;
+    /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
+    protected $sourceMap;
+
+    /** @var string $table */
+    private $table;
+
+    public function __construct(string $identifier, EntityType $entityType)
+    {
+        parent::__construct($identifier, $entityType);
+        $this->sourceMap = new ObjectArray();
+    }
+
+    public function getTable(): string
+    {
+        return $this->table ?: $this->identifier;
+    }
+
+    public function setTable(string $table): self
+    {
+        $this->table = $table;
+        return $this;
+    }
+
+    public function getDbHandle(): PDO
+    {
+        return DB::connection()->getPdo();
+    }
+
+    public function getDbDriver()
+    {
+        return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
+    }
+
+    public function getEntity(Transaction $transaction, Primitive $key): ?Entity
+    {
+        return $this->factory($transaction, $key)->current();
+    }
 
     public function search(Event $event): ?bool
     {
@@ -123,9 +181,14 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
 
     protected function propertyToField(Property $property): string
     {
-        $field = sprintf('%s.`%s`', $this->store->getTable(), $this->store->getPropertySourceName($property));
+        $field = sprintf('%s.`%s`', $this->getTable(), $this->getPropertySourceName($property));
 
         return $field;
+    }
+
+    public function getPropertySourceName(Property $property): string
+    {
+        return $this->sourceMap[$property] ?? $property->getIdentifier()->get();
     }
 
     public function filter(Event $event): ?bool
@@ -143,7 +206,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
                 return true;
 
             case $event instanceof Field:
-                $property = $this->getStore()->getTypeProperty($event->getValue());
+                $property = $this->getTypeProperty($event->getValue());
 
                 if (!$property->isFilterable()) {
                     throw new BadRequestException(
@@ -287,7 +350,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
 
     private function pdoQuery(string $query_string): PDOStatement
     {
-        $dbh = $this->store->getDbHandle();
+        $dbh = $this->getDbHandle();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         try {
@@ -295,7 +358,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
             $this->bindParameters($stmt);
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new StoreException(sprintf('The executed query returned an error: %s', $e->getMessage()));
+            throw new ResourceException(sprintf('The executed query returned an error: %s', $e->getMessage()));
         }
 
         return $stmt;
@@ -321,7 +384,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
     public function getRowCountQueryString(): string
     {
         $this->resetParameters();
-        $queryString = sprintf('SELECT COUNT(*) FROM %s', $this->store->getTable());
+        $queryString = sprintf('SELECT COUNT(*) FROM %s', $this->getTable());
 
         $this->generateWhere();
 
@@ -381,7 +444,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
         $this->resetParameters();
         $columns = $this->selectToColumns();
 
-        $query = sprintf('SELECT %s FROM %s', $columns, $this->store->getTable());
+        $query = sprintf('SELECT %s FROM %s', $columns, $this->getTable());
 
         $this->generateWhere();
 
@@ -396,7 +459,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
                 [$literal, $direction] = $o;
 
                 return "$literal $direction";
-            }, $orderby->getSortOrders($this->store)));
+            }, $orderby->getSortOrders($this)));
 
             $query .= ' ORDER BY '.$ob;
         }
@@ -410,9 +473,9 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
     {
         $select = $this->transaction->getSelect();
 
-        $properties = $select->getSelectedProperties($this->store);
+        $properties = $select->getSelectedProperties($this);
 
-        $key = $this->getStore()->getType()->getKey();
+        $key = $this->getType()->getKey();
 
         if (!$properties[$key]) {
             $properties[] = $key;
@@ -432,7 +495,7 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
         $columns = implode(', ', $columns);
 
         if (!$columns) {
-            throw new StoreException('There are no properties to return in this query');
+            throw new ResourceException('There are no properties to return in this query');
         }
 
         return $columns;
@@ -471,5 +534,30 @@ class EntitySet extends \Flat3\OData\Resource\EntitySet
         $this->addParameter($this->skip);
 
         return $limits;
+    }
+
+    public function toEntity($row = null): Entity
+    {
+        $entity = new \Flat3\OData\Drivers\Database\Entity($this);
+
+        $key = $this->getTypeKey()->getIdentifier()->get();
+        $entity->setEntityIdValue($row[$key]);
+
+        foreach ($row as $id => $value) {
+            $property = $this->getTypeProperty($id);
+
+            if (!$property) {
+                throw new ResourceException(
+                    sprintf(
+                        'The service attempted to access an undefined property for %s',
+                        $id
+                    )
+                );
+            }
+
+            $entity->addPrimitive($value, $property);
+        }
+
+        return $entity;
     }
 }

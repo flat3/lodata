@@ -3,34 +3,32 @@
 namespace Flat3\OData\Resource;
 
 use Flat3\OData\Entity;
-use Flat3\OData\Expression\Event;
-use Flat3\OData\Interfaces\TypeInterface;
+use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\EntityTypeInterface;
+use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Primitive;
 use Flat3\OData\Property;
-use Flat3\OData\Traits\HasType;
+use Flat3\OData\Property\Navigation;
+use Flat3\OData\Property\Navigation\Binding;
+use Flat3\OData\Traits\HasEntityType;
+use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Transaction;
+use Flat3\OData\Type\EntityType;
 use Iterator;
 use RuntimeException;
 
-abstract class EntitySet implements TypeInterface, Iterator
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, CountInterface
 {
-    use HasType;
+    use HasIdentifier;
+    use HasEntityType;
 
-    /** @var Transaction $transaction */
-    protected $transaction;
+    protected $supportedQueryOptions = [];
 
-    /** @var Store $store */
-    protected $store;
-
-    /** @var Property $entityKey */
-    protected $entityKey;
-
-    /** @var Primitive $entityId */
-    protected $entityId;
-
-    /** @var null|array $results Result set from the query */
-    protected $results = null;
+    /** @var ObjectArray $navigationBindings Navigation bindings */
+    protected $navigationBindings;
 
     /** @var int $top Page size to return from the query */
     protected $top = PHP_INT_MAX;
@@ -42,84 +40,112 @@ abstract class EntitySet implements TypeInterface, Iterator
     private $topCounter = 0;
 
     /** @var int Limit of number of records to evaluate from the source */
-    private $topLimit = PHP_INT_MAX;
+    protected $topLimit = PHP_INT_MAX;
 
-    public function __construct(Store $store, ?Transaction $transaction = null, ?Primitive $key = null)
+    /** @var int $maxPageSize Maximum pagination size allowed for this entity set */
+    protected $maxPageSize = 500;
+
+    /** @var null|array $results Result set from the query */
+    protected $results = null;
+
+    /** @var Transaction $transaction */
+    protected $transaction;
+
+    /** @var Property $entityKey */
+    protected $entityKey;
+
+    /** @var Primitive $entityId */
+    protected $entityId;
+
+    protected $isInstance = false;
+
+    public function __construct(string $identifier, EntityType $entityType)
     {
-        $this->store = $store;
-        $this->transaction = $transaction;
-        $this->entityKey = $key ? $key->getProperty() : $store->getType()->getKey();
-        $this->entityId = $key;
+        $this->setIdentifier($identifier);
 
-        $maxPageSize = $store->getMaxPageSize();
+        $this->type = $entityType;
+        $this->navigationBindings = new ObjectArray();
+    }
+
+    public function __clone()
+    {
+        $this->isInstance = true;
+    }
+
+    public function factory(Transaction $transaction = null, ?Primitive $key = null): self
+    {
+        if ($this->isInstance) {
+            throw new RuntimeException('Attempted to clone an instance of an entity set');
+        }
+
+        $set = clone $this;
+
+        $set->transaction = $transaction;
+        $set->entityKey = $key ? $key->getProperty() : $set->getType()->getKey();
+        $set->entityId = $key;
+
+        $maxPageSize = $set->getMaxPageSize();
         $skip = $transaction->getSkip();
         $top = $transaction->getTop();
-        $this->top = $top->hasValue() && ($top->getValue() < $maxPageSize) ? $top->getValue() : $maxPageSize;
+        $set->top = $top->hasValue() && ($top->getValue() < $maxPageSize) ? $top->getValue() : $maxPageSize;
 
         if ($skip->hasValue()) {
-            $this->skip = $skip->getValue();
+            $set->skip = $skip->getValue();
         }
 
         if ($top->hasValue()) {
-            $this->topLimit = $top->getValue();
+            $set->topLimit = $top->getValue();
         }
+
+        return $set;
     }
 
-    public function getStore(): Store
+    public function getKind(): string
     {
-        return $this->store;
+        return 'EntitySet';
     }
 
     /**
-     * Handle a discovered expression symbol in the filter query
+     * The current entity
      *
-     * @param  Event  $event
-     *
-     * @return bool True if the event was handled
+     * @return Entity
      */
-    abstract public function filter(Event $event): ?bool;
-
-    /**
-     * Handle a discovered expression symbol in the search query
-     *
-     * @param  Event  $event
-     *
-     * @return bool True if the event was handled
-     */
-    abstract public function search(Event $event): ?bool;
-
-    /**
-     * The number of items in this entity set query, including filters, without limit clauses
-     *
-     * @return int
-     */
-    abstract public function count(): int;
-
-    /**
-     * @return ObjectArray
-     */
-    public function getDeclaredProperties(): ObjectArray
+    public function current(): ?Entity
     {
-        return $this->store->getType()->getDeclaredProperties();
-    }
-
-    public function writeToResponse(Transaction $transaction): void
-    {
-        while ($this->valid()) {
-            $entity = $this->current();
-
-            $transaction->outputJsonObjectStart();
-            $entity->writeToResponse($transaction);
-            $transaction->outputJsonObjectEnd();
-
-            $this->next();
-
-            if (!$this->valid()) {
-                break;
-            }
-
-            $transaction->outputJsonSeparator();
+        if (null === $this->results && !$this->valid()) {
+            return null;
         }
+
+        return $this->toEntity(current($this->results));
+    }
+
+    /**
+     * Move to the next result
+     */
+    public function next(): void
+    {
+        next($this->results);
+    }
+
+    public function key()
+    {
+        $entity = $this->current();
+
+        if (!$entity) {
+            return null;
+        }
+
+        return $entity->getEntityId();
+    }
+
+    public function rewind()
+    {
+        throw new RuntimeException('Entity sets cannot be rewound');
+    }
+
+    public function count()
+    {
+        return null;
     }
 
     /**
@@ -148,46 +174,112 @@ abstract class EntitySet implements TypeInterface, Iterator
         return !!current($this->results);
     }
 
+    public function getMaxPageSize(): int
+    {
+        return $this->maxPageSize;
+    }
+
+    public function setMaxPageSize(int $maxPageSize): self
+    {
+        $this->maxPageSize = $maxPageSize;
+
+        return $this;
+    }
+
+    public function getSupportedQueryOptions(): array
+    {
+        return $this->supportedQueryOptions;
+    }
+
+    abstract public function getEntity(Transaction $transaction, Primitive $key): ?Entity;
+
+    /**
+     * Get a single primitive from the entity set
+     *
+     * @param  Transaction  $transaction
+     * @param  Primitive  $key
+     * @param  Property  $property
+     *
+     * @return Primitive
+     */
+    public function getPrimitive(Transaction $transaction, Primitive $key, Property $property): ?Primitive
+    {
+        $entity = $this->getEntity($transaction, $key);
+
+        if (null === $entity) {
+            throw NotFoundException::factory()
+                ->target($key->toJson());
+        }
+
+        return $entity->getPrimitive($property);
+    }
+
+
+    public function addNavigationBinding(Binding $binding): self
+    {
+        $this->navigationBindings[] = $binding;
+
+        return $this;
+    }
+
+    public function getNavigationBindings(): ObjectArray
+    {
+        return $this->navigationBindings;
+    }
+
+    public function getBindingByNavigationProperty(Navigation $property): ?Binding
+    {
+        /** @var Binding $navigationBinding */
+        foreach ($this->navigationBindings as $navigationBinding) {
+            if ($navigationBinding->getPath() === $property) {
+                return $navigationBinding;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return ObjectArray
+     */
+    public function getDeclaredProperties(): ObjectArray
+    {
+        return $this->getType()->getDeclaredProperties();
+    }
+
+    public function getTypeProperty(string $property): ?Property
+    {
+        return $this->getType()->getProperty($property);
+    }
+
+    public function getTypeKey(): ?Property
+    {
+        return $this->getType()->getKey();
+    }
+
+    public function writeToResponse(Transaction $transaction): void
+    {
+        while ($this->valid()) {
+            $entity = $this->current();
+
+            $transaction->outputJsonObjectStart();
+            $entity->writeToResponse($transaction);
+            $transaction->outputJsonObjectEnd();
+
+            $this->next();
+
+            if (!$this->valid()) {
+                break;
+            }
+
+            $transaction->outputJsonSeparator();
+        }
+    }
+
     /**
      * Perform the query, observing $this->top and $this->skip, loading the results into $this->result_set
      */
     abstract protected function generate(): void;
 
-    /**
-     * The current entity
-     *
-     * @return Entity
-     */
-    public function current(): ?Entity
-    {
-        if (null === $this->results && !$this->valid()) {
-            return null;
-        }
-
-        return $this->store->toEntity(current($this->results));
-    }
-
-    /**
-     * Move to the next result
-     */
-    public function next(): void
-    {
-        next($this->results);
-    }
-
-    public function key()
-    {
-        $entity = $this->current();
-
-        if (!$entity) {
-            return null;
-        }
-
-        return $entity->getEntityId();
-    }
-
-    public function rewind()
-    {
-        throw new RuntimeException('This entity set cannot be rewound');
-    }
+    abstract protected function toEntity($data): Entity;
 }

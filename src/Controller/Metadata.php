@@ -7,8 +7,8 @@ use Flat3\OData\ODataModel;
 use Flat3\OData\Internal\Argument;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
+use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Resource\Operation;
-use Flat3\OData\Resource\Store;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\EntityType;
@@ -110,7 +110,7 @@ class Metadata extends Controller
 
         foreach ($model->getResources() as $resource) {
             switch (true) {
-                case $resource instanceof Store:
+                case $resource instanceof EntitySet:
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
                     $entitySetElement = $entityContainer->addChild('EntitySet');
                     $entitySetElement->addAttribute('Name', $resource->getIdentifier());

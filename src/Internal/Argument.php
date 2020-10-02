@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Internal;
 
+use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasFactory;
@@ -9,7 +10,7 @@ use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Argument implements IdentifierInterface, TypeInterface
+class Argument implements IdentifierInterface, TypeInterface, FactoryInterface
 {
     use HasFactory;
     use HasIdentifier;

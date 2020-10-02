@@ -2,14 +2,14 @@
 
 namespace Flat3\OData\Traits;
 
-use Flat3\OData\Type;
+use Flat3\OData\Type\EntityType;
 
-trait HasType
+trait HasEntityType
 {
-    /** @var Type $type */
+    /** @var EntityType $type */
     protected $type;
 
-    public function getType(): ?Type
+    public function getType(): ?EntityType
     {
         return $this->type;
     }
@@ -19,7 +19,7 @@ trait HasType
         return $this->type->getName();
     }
 
-    public function setType(Type $type)
+    public function setType(EntityType $type)
     {
         $this->type = $type;
         return $this;

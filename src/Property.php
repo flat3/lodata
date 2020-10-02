@@ -2,13 +2,14 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 
-abstract class Property implements IdentifierInterface, TypeInterface
+abstract class Property implements IdentifierInterface, TypeInterface, FactoryInterface
 {
     use HasFactory;
     use HasIdentifier;

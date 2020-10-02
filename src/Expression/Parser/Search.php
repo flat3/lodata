@@ -7,6 +7,7 @@ use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
+use Flat3\OData\Interfaces\SearchInterface;
 use Flat3\OData\Resource\EntitySet;
 
 class Search extends Parser
@@ -20,9 +21,9 @@ class Search extends Parser
         Node\Operator\Comparison\Or_::class,
     ];
 
-    public function __construct(EntitySet $store)
+    public function __construct(EntitySet $entitySet)
     {
-        parent::__construct($store);
+        parent::__construct($entitySet);
 
         /** @var Operator $operator */
         foreach (self::operators as $operator) {
@@ -32,7 +33,11 @@ class Search extends Parser
 
     public function expressionEvent(Event $event): ?bool
     {
-        return $this->store->search($event);
+        if ($this->entitySet instanceof SearchInterface) {
+            return $this->entitySet->search($event);
+        }
+
+        return false;
     }
 
     /**

@@ -27,7 +27,7 @@ class Singular extends Set
         $id = array_shift($this->pathComponents);
 
         // Get the default key property
-        $keyProperty = $this->store->getType()->getKey();
+        $keyProperty = $this->entitySet->getType()->getKey();
 
         // Start the lexer
         $lexer = new Lexer($id);
@@ -43,7 +43,7 @@ class Singular extends Set
                     $lexer = new Lexer($referencedValue);
                 }
 
-                $keyProperty = $this->store->getTypeProperty($alternateKey);
+                $keyProperty = $this->entitySet->getTypeProperty($alternateKey);
 
                 if ($keyProperty instanceof Property && !$keyProperty->isAlternativeKey()) {
                     throw new BadRequestException(
@@ -85,7 +85,7 @@ class Singular extends Set
     public function handle(): void
     {
         $transaction = $this->transaction;
-        $entity = $this->store->getEntity($transaction, $this->id);
+        $entity = $this->entitySet->getEntity($transaction, $this->id);
         $transaction->setContentTypeJson();
 
         if (null === $entity) {
@@ -98,9 +98,9 @@ class Singular extends Set
         $select = $transaction->getSelect();
 
         if ($select->hasValue() && !$select->isStar()) {
-            $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->store, $select->getValue());
+            $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->entitySet, $select->getValue());
         } else {
-            $metadata['context'] = $transaction->getEntityContextUrl($this->store);
+            $metadata['context'] = $transaction->getEntityContextUrl($this->entitySet);
         }
 
         $metadata = $transaction->getMetadata()->filter($metadata);

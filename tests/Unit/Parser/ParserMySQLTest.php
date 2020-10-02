@@ -3,16 +3,12 @@
 namespace Flat3\OData\Tests\Unit\Parser;
 
 use Flat3\OData\Drivers\Database\MySQL\EntitySet;
-use Flat3\OData\Drivers\Database\Store;
-use Flat3\OData\EntityType\Collection;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Property;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type;
 use Flat3\OData\Type\EntityType;
-use Flat3\OData\Type\Int32;
-use Flat3\OData\Type\String_;
 use Illuminate\Http\Request;
 
 class ParserMySQLTest extends TestCase
@@ -341,7 +337,7 @@ class ParserMySQLTest extends TestCase
                 $title = new Property\Declared('title', Type::string());
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
-                $store = new Store('test', $entity_type);
+                $entitySet = new EntitySet('test', $entity_type);
 
                 $transaction = new Transaction();
                 $request = new Request();
@@ -349,7 +345,7 @@ class ParserMySQLTest extends TestCase
                 $request->query->set('$select', 'id,title');
                 $transaction->setRequest($request);
 
-                $query = new EntitySet($store, $transaction);
+                $query = $entitySet->factory($transaction);
 
                 $q = $query->getSetResultQueryString();
                 $v = $query->getParameters();

@@ -4,11 +4,11 @@ namespace Flat3\OData\Type;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\ODataModel;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Resource\Operation;
+use Flat3\OData\Traits\HasFactory;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type;
 use Illuminate\Support\Str;
@@ -17,14 +17,15 @@ use ReflectionClass;
 class EntityType extends Type implements IdentifierInterface
 {
     use HasIdentifier;
+    use HasFactory;
 
     /** @var Property $key Primary key property */
     protected $key;
 
-    /** @var \Flat3\OData\Internal\ObjectArray[Property] $properties Properties */
+    /** @var ObjectArray[Property] $properties Properties */
     protected $properties;
 
-    /** @var \Flat3\OData\Internal\ObjectArray[Operation] $bound_operations Operations bound to this entity type */
+    /** @var ObjectArray[Operation] $bound_operations Operations bound to this entity type */
     protected $boundOperations;
 
     public function __construct($identifier = null)

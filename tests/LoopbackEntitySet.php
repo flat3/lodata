@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Tests;
 
+use Flat3\OData\Entity;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
 use Flat3\OData\Expression\Event\EndFunction;
@@ -15,9 +16,13 @@ use Flat3\OData\Expression\Node\Literal\String_;
 use Flat3\OData\Expression\Node\Operator\Comparison\And_;
 use Flat3\OData\Expression\Node\Operator\Comparison\Not_;
 use Flat3\OData\Expression\Node\Operator\Comparison\Or_;
+use Flat3\OData\Interfaces\FilterInterface;
+use Flat3\OData\Interfaces\SearchInterface;
+use Flat3\OData\Primitive;
 use Flat3\OData\Resource\EntitySet;
+use Flat3\OData\Transaction;
 
-class LoopbackEntitySet extends EntitySet
+class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
 {
     public $searchBuffer;
     public $filterBuffer;
@@ -25,6 +30,16 @@ class LoopbackEntitySet extends EntitySet
     public function count(): int
     {
         return 0;
+    }
+
+    public function getEntity(Transaction $transaction, Primitive $key): ?Entity
+    {
+        return null;
+    }
+
+    public function toEntity($data): Entity
+    {
+        return new Entity();
     }
 
     public function search(Event $event): ?bool

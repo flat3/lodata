@@ -22,7 +22,7 @@ use Flat3\OData\Request\Option\Search;
 use Flat3\OData\Request\Option\Select;
 use Flat3\OData\Request\Option\Skip;
 use Flat3\OData\Request\Option\Top;
-use Flat3\OData\Resource\Store;
+use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
@@ -58,7 +58,7 @@ class Transaction
     /** @var Count $count */
     private $count;
 
-    /** @var \Flat3\OData\Request\Option\Expand $expand */
+    /** @var Expand $expand */
     private $expand;
 
     /** @var Filter $filter */
@@ -67,13 +67,13 @@ class Transaction
     /** @var OrderBy $orderby */
     private $orderby;
 
-    /** @var \Flat3\OData\Request\Option\Search $search */
+    /** @var Search $search */
     private $search;
 
     /** @var Select $select */
     private $select;
 
-    /** @var \Flat3\OData\Request\Option\Skip $skip */
+    /** @var Skip $skip */
     private $skip;
 
     /** @var Top $top */
@@ -232,7 +232,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\Request\Option\Expand
+     * @return Expand
      */
     public function getExpand(): Expand
     {
@@ -256,7 +256,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\Request\Option\Search
+     * @return Search
      */
     public function getSearch(): Search
     {
@@ -272,7 +272,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\Request\Option\Skip
+     * @return Skip
      */
     public function getSkip(): Skip
     {
@@ -489,14 +489,14 @@ class Transaction
         return $this->getServiceDocumentResourceUrl().'$metadata';
     }
 
-    public function getCollectionOfEntitiesContextUrl(Store $store): string
+    public function getCollectionOfEntitiesContextUrl(EntitySet $entitySet): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier();
+        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getIdentifier();
     }
 
-    public function getEntityContextUrl(Store $store): string
+    public function getEntityContextUrl(EntitySet $entitySet): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$store->getIdentifier().'/$entity';
+        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getIdentifier().'/$entity';
     }
 
     public function getSingletonContextUrl(string $singleton): string
@@ -504,22 +504,22 @@ class Transaction
         return $this->getServiceDocumentContextUrl().'#'.$singleton;
     }
 
-    public function getCollectionOfProjectedEntitiesContextUrl(Store $store, array $selects): string
+    public function getCollectionOfProjectedEntitiesContextUrl(EntitySet $entitySet, array $selects): string
     {
         return sprintf(
             '%s#%s(%s)',
             $this->getServiceDocumentContextUrl(),
-            $store->getIdentifier(),
+            $entitySet->getIdentifier(),
             join(',', $selects)
         );
     }
 
-    public function getProjectedEntityContextUrl(Store $store, array $selects): string
+    public function getProjectedEntityContextUrl(EntitySet $entitySet, array $selects): string
     {
         return sprintf(
             '%s#%s(%s)/$entity',
             $this->getServiceDocumentContextUrl(),
-            $store->getIdentifier(),
+            $entitySet->getIdentifier(),
             join(',', $selects)
         );
     }
@@ -541,40 +541,40 @@ class Transaction
         return ServiceProvider::restEndpoint();
     }
 
-    public function getPropertyValueContextUrl(Store $store, $entityId, Property $property): string
+    public function getPropertyValueContextUrl(EntitySet $entitySet, $entityId, Property $property): string
     {
         return sprintf(
             "%s#%s(%s)/%s",
             $this->getServiceDocumentContextUrl(),
-            $store->getIdentifier(),
+            $entitySet->getIdentifier(),
             $entityId,
             $property->getIdentifier()
         );
     }
 
-    public function getCollectionOfTypesContextUrl(Store $store, PrimitiveType $type): string
+    public function getCollectionOfTypesContextUrl(EntitySet $entitySet, PrimitiveType $type): string
     {
         return sprintf(
             '%s#%s(%s)',
             $this->getServiceDocumentContextUrl(),
-            $store->getIdentifier(),
-            $type->getType()
+            $entitySet->getIdentifier(),
+            $type->getName()
         );
     }
 
     public function getTypeContextUrl(PrimitiveType $type): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$type->getType();
+        return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }
 
-    public function getEntityResourceUrl(Store $store, $entityId): string
+    public function getEntityResourceUrl(EntitySet $entitySet, $entityId): string
     {
-        return sprintf("%s(%s)", $this->getEntityCollectionResourceUrl($store), $entityId);
+        return sprintf("%s(%s)", $this->getEntityCollectionResourceUrl($entitySet), $entityId);
     }
 
-    public function getEntityCollectionResourceUrl(Store $store): string
+    public function getEntityCollectionResourceUrl(EntitySet $entitySet): string
     {
-        return $this->getServiceDocumentResourceUrl().$store->getIdentifier();
+        return $this->getServiceDocumentResourceUrl().$entitySet->getIdentifier();
     }
 
     public function outputJsonObjectStart()

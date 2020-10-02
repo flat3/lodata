@@ -3,21 +3,16 @@
 namespace Flat3\OData\EntitySet;
 
 use Flat3\OData\Entity;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Expression\Event;
+use Flat3\OData\Primitive;
 use Flat3\OData\Resource\EntitySet;
+use Flat3\OData\Transaction;
 use RuntimeException;
 
 class Dynamic extends EntitySet
 {
-    public function filter(Event $event): ?bool
+    public function getEntity(Transaction $transaction, Primitive $key): ?Entity
     {
-        throw new BadRequestException('no_dynamic_entity_set_filters', 'Dynamic entity sets do not support filter');
-    }
-
-    public function search(Event $event): ?bool
-    {
-        throw new BadRequestException('no_dynamic_entity_set_search', 'Dynamic entity sets do not support search');
+        return null;
     }
 
     public function count(): int
@@ -28,6 +23,11 @@ class Dynamic extends EntitySet
     protected function generate(): void
     {
         throw new RuntimeException('Dynamic result sets cannot be generated');
+    }
+
+    public function toEntity($data): Entity
+    {
+        return new Entity();
     }
 
     public function addResult(Entity $entity): self

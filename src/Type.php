@@ -2,6 +2,7 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\FactoryInterface;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Byte;
@@ -42,7 +43,7 @@ use RuntimeException;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class Type
+abstract class Type implements FactoryInterface
 {
     protected $name = 'Edm.None';
 

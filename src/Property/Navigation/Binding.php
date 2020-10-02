@@ -3,17 +3,17 @@
 namespace Flat3\OData\Property\Navigation;
 
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Resource\Store;
+use Flat3\OData\Resource\EntitySet;
 
 class Binding
 {
     /** @var Navigation $path */
     private $path;
 
-    /** @var Store $target */
+    /** @var EntitySet $target */
     private $target;
 
-    public function __construct(Navigation $path, Store $target)
+    public function __construct(Navigation $path, EntitySet $target)
     {
         $this->path = $path;
         $this->target = $target;
@@ -24,7 +24,7 @@ class Binding
         return $this->path;
     }
 
-    public function getTarget(): Store
+    public function getTarget(): EntitySet
     {
         return $this->target;
     }

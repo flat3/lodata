@@ -3,12 +3,11 @@
 namespace Flat3\OData\Tests\Data;
 
 use Exception;
-use Flat3\OData\Drivers\Database\Store;
+use Flat3\OData\Drivers\Database\EntitySet;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet\Dynamic;
 use Flat3\OData\ODataModel;
 use Flat3\OData\Property;
-use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
 use Flat3\OData\Type;
@@ -64,8 +63,8 @@ trait FlightModel
             $flightType->addProperty(new Property\Declared('origin', Type::string()));
             $flightType->addProperty(new Property\Declared('destination', Type::string()));
             $flightType->addProperty(new Property\Declared('gate', Type::int32()));
-            $flightStore = new Store('flights', $flightType);
-            $flightStore->setTable('flights');
+            $flightSet = new EntitySet('flights', $flightType);
+            $flightSet->setTable('flights');
 
             $airportType = ODataModel::entitytype('airport');
             $airportType->setKey(new Property\Declared('id', Type::int32()));
@@ -76,14 +75,13 @@ trait FlightModel
             $airportType->addProperty(new Property\Declared('sam_datetime', Type::datetimeoffset()));
             $airportType->addProperty(new Property\Declared('review_score', Type::decimal()));
             $airportType->addProperty(new Property\Declared('is_big', Type::boolean()));
-            $airportStore = new Store('airports', $airportType);
-            $airportStore->setTable('airports');
+            $airportSet = new EntitySet('airports', $airportType);
+            $airportSet->setTable('airports');
 
-            ODataModel::add($flightStore);
+            ODataModel::add($flightSet);
+            ODataModel::add($airportSet);
 
-            ODataModel::add($airportStore);
-
-            $nav = new Property\Navigation($airportStore, $airportType);
+            $nav = new Property\Navigation($airportSet, $airportType);
             $nav->setCollection(true);
             $nav->addConstraint(
                 new Property\Constraint(
@@ -98,7 +96,7 @@ trait FlightModel
                 )
             );
             $flightType->addProperty($nav);
-            $flightStore->addNavigationBinding(new Property\Navigation\Binding($nav, $airportStore));
+            $flightSet->addNavigationBinding(new Property\Navigation\Binding($nav, $airportSet));
 
             ODataModel::fn('exf1')
                 ->setCallback(function (): String_ {
@@ -106,13 +104,12 @@ trait FlightModel
                 });
 
             ODataModel::fn('exf2')
-                ->setCallback(function (): EntitySet {
-                    /** @var ODataModel $model */
-                    $model = app()->make(ODataModel::class);
-                    $airports = $model->getResources()->get('airports');
+                ->setCallback(function (): \Flat3\OData\Resource\EntitySet {
+                    $type = ODataModel::getType('airport');
+                    $airports = ODataModel::getResource('airports');
                     $airport = new Airport();
-                    $airport->addPrimitive('xyz', $model->getEntityTypes()->get('airport')->getProperty('code'));
-                    $set = new Dynamic($airports);
+                    $airport->addPrimitive('xyz', $type->getProperty('code'));
+                    $set = new Dynamic($airports, $type);
                     $set->addResult($airport);
                     return $set;
                 })
@@ -120,10 +117,9 @@ trait FlightModel
 
             ODataModel::fn('exf3')
                 ->setCallback(function (String_ $code): Entity {
-                    /** @var ODataModel $model */
-                    $model = app()->make(ODataModel::class);
+                    $type = ODataModel::getType('airport');
                     $airport = new Airport();
-                    $airport->addPrimitive($code->get(), $model->getEntityTypes()->get('airport')->getProperty('code'));
+                    $airport->addPrimitive($code->get(), $type->getProperty('code'));
                     return $airport;
                 })
                 ->setType($airportType);

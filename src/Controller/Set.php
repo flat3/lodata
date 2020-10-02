@@ -2,12 +2,12 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\ODataModel;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Request\Option;
-use Flat3\OData\Resource\Store;
+use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -15,8 +15,8 @@ class Set extends Handler
 {
     public const path = parent::path.Lexer::ODATA_IDENTIFIER;
 
-    /** @var Store $store */
-    protected $store;
+    /** @var EntitySet $entitySet */
+    protected $entitySet;
 
     /**
      * @param  Transaction  $transaction
@@ -31,31 +31,31 @@ class Set extends Handler
         /** @var ODataModel $data_model */
         $data_model = app()->make(ODataModel::class);
         $lexer = new Lexer($identifier);
-        $store = $data_model->getResources()->get($lexer->odataIdentifier());
+        $entitySet = $data_model->getResources()->get($lexer->odataIdentifier());
 
-        if (!$store instanceof Store) {
+        if (!$entitySet instanceof EntitySet) {
             throw new PathNotHandledException();
         }
 
-        $this->store = $store;
+        $this->entitySet = $entitySet;
 
         // Validate $expand
         $expand = $transaction->getExpand();
-        $expand->getExpansionRequests($store->getType());
+        $expand->getExpansionRequests($entitySet->getType());
 
         // Validate $select
         $select = $transaction->getSelect();
-        $select->getSelectedProperties($store);
+        $select->getSelectedProperties($entitySet);
 
         // Validate $orderby
         $orderby = $transaction->getOrderBy();
-        $orderby->getSortOrders($store);
+        $orderby->getSortOrders($entitySet);
     }
 
     public function handle(): void
     {
         $transaction = $this->transaction;
-        $store = $this->store;
+        $entitySet = $this->entitySet->factory($transaction);
         $transaction->setContentTypeJson();
 
         foreach (
@@ -64,8 +64,8 @@ class Set extends Handler
                 $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
             ] as $sqo
         ) {
-            /** @var \Flat3\OData\Request\Option $sqo */
-            if ($sqo->hasValue() && !in_array(get_class($sqo), $store->getSupportedQueryOptions(), true)) {
+            /** @var Option $sqo */
+            if ($sqo->hasValue() && !in_array(get_class($sqo), $entitySet->getSupportedQueryOptions(), true)) {
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',
                     sprintf('The %s system query option is not supported by this entity set', $sqo::param)
@@ -80,7 +80,7 @@ class Set extends Handler
             $top->setValue($maxPageSize);
         }
 
-        $setCount = $store->getCount($transaction);
+        $setCount = $entitySet->count();
 
         $metadata = [];
 
@@ -88,11 +88,11 @@ class Set extends Handler
 
         if ($select->hasValue() && !$select->isStar()) {
             $metadata['context'] = $transaction->getCollectionOfProjectedEntitiesContextUrl(
-                $store,
+                $entitySet,
                 $select->getValue()
             );
         } else {
-            $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($store);
+            $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($entitySet);
         }
 
         $count = $transaction->getCount();
@@ -106,7 +106,7 @@ class Set extends Handler
             if ($top->getValue() + ($skip->getValue() ?: 0) < $setCount) {
                 $np = $transaction->getQueryParams();
                 $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
-                $metadata['nextLink'] = $transaction->getEntityCollectionResourceUrl($store).'?'.http_build_query(
+                $metadata['nextLink'] = $transaction->getEntityCollectionResourceUrl($entitySet).'?'.http_build_query(
                         $np,
                         null,
                         '&',
@@ -118,7 +118,7 @@ class Set extends Handler
         $metadata = $transaction->getMetadata()->filter($metadata);
 
         $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
-            $entitySet = $this->store->getEntitySet($transaction);
+            $entitySet = $this->entitySet->factory($transaction);
 
             $transaction->outputJsonObjectStart();
 
