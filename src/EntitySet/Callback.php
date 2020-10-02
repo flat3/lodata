@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\EntitySet;
 
-use Flat3\OData\Resource\EntitySet;
+use Flat3\OData\EntitySet;
 
 class Callback extends EntitySet
 {

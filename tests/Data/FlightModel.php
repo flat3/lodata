@@ -4,10 +4,10 @@ namespace Flat3\OData\Tests\Data;
 
 use Exception;
 use Flat3\OData\Entity;
+use Flat3\OData\EntitySet;
 use Flat3\OData\EntitySet\Callback;
 use Flat3\OData\ODataModel;
 use Flat3\OData\Property;
-use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
 use Flat3\OData\Type;

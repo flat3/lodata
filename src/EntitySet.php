@@ -1,29 +1,26 @@
 <?php
 
-namespace Flat3\OData\Resource;
+namespace Flat3\OData;
 
 use Countable;
-use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Primitive;
-use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Property\Navigation\Binding;
 use Flat3\OData\Request\Option;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasIdentifier;
-use Flat3\OData\Transaction;
 use Flat3\OData\Type\EntityType;
 use Iterator;
 use RuntimeException;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, Countable
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, Countable, EmitInterface
 {
     use HasIdentifier;
     use HasEntityType;
@@ -266,13 +263,13 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return null;
     }
 
-    public function writeToResponse(Transaction $transaction): void
+    public function emit(Transaction $transaction): void
     {
         while ($this->valid()) {
             $entity = $this->current();
 
             $transaction->outputJsonObjectStart();
-            $entity->writeToResponse($transaction);
+            $entity->emit($transaction);
             $transaction->outputJsonObjectEnd();
 
             $this->next();

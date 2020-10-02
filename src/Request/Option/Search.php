@@ -2,10 +2,10 @@
 
 namespace Flat3\OData\Request\Option;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\Expression\Parser\Search as Parser;
 use Flat3\OData\Interfaces\SearchInterface;
 use Flat3\OData\Request\Option;
-use Flat3\OData\Resource\EntitySet;
 
 /**
  * Class Search

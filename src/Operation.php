@@ -1,9 +1,8 @@
 <?php
 
-namespace Flat3\OData\Resource;
+namespace Flat3\OData;
 
 use Closure;
-use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\ResourceInterface;

@@ -2,10 +2,10 @@
 
 namespace Flat3\OData\Controller;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\ODataModel;
-use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Transaction;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -13,7 +13,7 @@ class Set extends Controller
 {
     public const path = parent::path.Lexer::ODATA_IDENTIFIER;
 
-    /** @var EntitySet $entitySet */
+    /** @var \Flat3\OData\EntitySet $entitySet */
     protected $entitySet;
 
     /**
@@ -112,7 +112,7 @@ class Set extends Controller
 
             $transaction->outputJsonKey('value');
             $transaction->outputJsonArrayStart();
-            $entitySet->writeToResponse($transaction);
+            $entitySet->emit($transaction);
             $transaction->outputJsonArrayEnd();
             $transaction->outputJsonObjectEnd();
         });

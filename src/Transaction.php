@@ -22,7 +22,6 @@ use Flat3\OData\Request\Option\Search;
 use Flat3\OData\Request\Option\Select;
 use Flat3\OData\Request\Option\Skip;
 use Flat3\OData\Request\Option\Top;
-use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
@@ -320,6 +319,11 @@ class Transaction
     public function getTop(): Top
     {
         return $this->top;
+    }
+
+    public function getIEEE754Compatibility(): IEEE754Compatible
+    {
+        return $this->ieee754compatible;
     }
 
     public function preferenceApplied($key, $value): self

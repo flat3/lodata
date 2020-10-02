@@ -2,15 +2,15 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\ODataModel;
 use Flat3\OData\Entity;
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Internal\Argument;
-use Flat3\OData\Resource\EntitySet;
+use Flat3\OData\ODataModel;
 use Flat3\OData\Transaction;
 use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -19,7 +19,7 @@ class Operation extends Controller
 {
     public const path = parent::path.Lexer::ODATA_IDENTIFIER.Lexer::OPEN_PAREN.'(.*?)?'.Lexer::CLOSE_PAREN;
 
-    /** @var \Flat3\OData\Resource\Operation $operation */
+    /** @var \Flat3\OData\Operation $operation */
     protected $operation;
 
     /** @var string[] $args */
@@ -41,7 +41,7 @@ class Operation extends Controller
 
         $this->operation = $model->getResources()->get($operation);
 
-        if (!$this->operation instanceof \Flat3\OData\Resource\Operation) {
+        if (!$this->operation instanceof \Flat3\OData\Operation) {
             throw new PathNotHandledException();
         }
 
@@ -159,13 +159,13 @@ class Operation extends Controller
 
             switch (true) {
                 case $result instanceof Entity:
-                    $result->writeToResponse($transaction);
+                    $result->emit($transaction);
                     break;
 
                 case $result instanceof EntitySet:
                     $transaction->outputJsonKey('value');
                     $transaction->outputJsonArrayStart();
-                    $result->writeToResponse($transaction);
+                    $result->emit($transaction);
                     $transaction->outputJsonArrayEnd();
                     break;
 

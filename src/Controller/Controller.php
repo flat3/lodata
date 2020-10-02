@@ -22,7 +22,10 @@ abstract class Controller
     {
 // http://host/service/Products/$filter(Color eq 'Red')/Diff.Comparison()
 
-        // EntitySet -> Filter -> Function
+        // EntitySet(source:? sink:EntitySet) -> Filter(source:EntitySet sink:EntitySet) -> Operation(source:EntitySet sink:EntitySet)
+        // Operation(source:EntitySet sink:Entity)
+        // EntitySet(emit)
+        // Filter::pipe()
     }
 
     public function setup(Transaction $transaction): void

@@ -5,16 +5,16 @@ namespace Flat3\OData;
 use ArrayAccess;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
+use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Constraint;
-use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
 use Flat3\OData\Type\PrimitiveType;
 
-class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
+class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInterface
 {
     use HasIdentifier;
     use HasType;
@@ -34,7 +34,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
         $this->primitives = new ObjectArray();
     }
 
-    public function writeToResponse(Transaction $transaction)
+    public function emit(Transaction $transaction)
     {
         $entityId = $this->getEntityId();
         $expand = $transaction->getExpand();
@@ -131,7 +131,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
 
                 if ($entity) {
                     $transaction->outputJsonObjectStart();
-                    $entity->writeToResponse($expansionTransaction);
+                    $entity->emit($expansionTransaction);
                     $transaction->outputJsonObjectEnd();
                 } else {
                     $transaction->outputJsonValue(null);
@@ -140,7 +140,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess
                 $transaction->outputJsonKey($navigationProperty);
                 $transaction->outputJsonArrayStart();
                 $entitySet = $targetEntitySet->withTransaction($expansionTransaction)->setKey($targetKey);
-                $entitySet->writeToResponse($expansionTransaction);
+                $entitySet->emit($expansionTransaction);
                 $transaction->outputJsonArrayEnd();
             }
 

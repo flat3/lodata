@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Tests;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
 use Flat3\OData\Expression\Event\EndFunction;
@@ -17,7 +18,6 @@ use Flat3\OData\Expression\Node\Operator\Comparison\Not_;
 use Flat3\OData\Expression\Node\Operator\Comparison\Or_;
 use Flat3\OData\Interfaces\FilterInterface;
 use Flat3\OData\Interfaces\SearchInterface;
-use Flat3\OData\Resource\EntitySet;
 
 class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
 {

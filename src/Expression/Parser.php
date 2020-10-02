@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Expression;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Node\Field;
@@ -11,7 +12,6 @@ use Flat3\OData\Expression\Node\LeftParen;
 use Flat3\OData\Expression\Node\Literal;
 use Flat3\OData\Expression\Node\Operator\Logical;
 use Flat3\OData\Expression\Node\RightParen;
-use Flat3\OData\Resource\EntitySet;
 
 /**
  * Class Parser

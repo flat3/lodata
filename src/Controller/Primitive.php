@@ -72,7 +72,7 @@ class Primitive extends Singular
                 $transaction->outputJsonSeparator();
             }
 
-            $transaction->outputJsonKV(['value' => $primitive]);
+            $primitive->emit($transaction);
             $transaction->outputJsonObjectEnd();
         });
     }

@@ -109,7 +109,7 @@ class Singular extends Set
                 $transaction->outputJsonSeparator();
             }
 
-            $entity->writeToResponse($transaction);
+            $entity->emit($transaction);
             $transaction->outputJsonObjectEnd();
         });
     }

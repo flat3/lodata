@@ -2,8 +2,8 @@
 
 namespace Flat3\OData\Tests\Unit\Text;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\ODataModel;
-use Flat3\OData\Resource\EntitySet;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Type;

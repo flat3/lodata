@@ -2,11 +2,12 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Type\PrimitiveType;
 use RuntimeException;
 
-class Primitive implements TypeInterface
+class Primitive implements TypeInterface, EmitInterface
 {
     /** @var Entity $entity */
     private $entity;
@@ -72,5 +73,14 @@ class Primitive implements TypeInterface
     public function setType(Type $type)
     {
         throw new RuntimeException('Cannot set type of a primitive, the type comes from the property');
+    }
+
+    public function emit(Transaction $transaction)
+    {
+        $transaction->outputJsonKV(
+            [
+                'value' => $this
+            ]
+        );
     }
 }

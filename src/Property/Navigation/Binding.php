@@ -2,15 +2,15 @@
 
 namespace Flat3\OData\Property\Navigation;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Resource\EntitySet;
 
 class Binding
 {
     /** @var Navigation $path */
     private $path;
 
-    /** @var EntitySet $target */
+    /** @var \Flat3\OData\EntitySet $target */
     private $target;
 
     public function __construct(Navigation $path, EntitySet $target)

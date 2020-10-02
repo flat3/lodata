@@ -2,10 +2,10 @@
 
 namespace Flat3\OData\Request\Option;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Interfaces\OrderByInterface;
 use Flat3\OData\Request\Option;
-use Flat3\OData\Resource\EntitySet;
 
 /**
  * Class OrderBy
