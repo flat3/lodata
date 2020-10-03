@@ -375,7 +375,7 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
 
         if ($this->entityId) {
             $this->addWhere($this->propertyToField($this->keyProperty).' = ?');
-            $this->addParameter($this->entityId->getValue());
+            $this->addParameter($this->entityId->get());
         }
 
         $filter = $this->transaction->getFilter();
@@ -414,10 +414,10 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
         $results = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $entity = new Entity($this);
+            $entity = $this->entity();
 
             $key = $this->getType()->getKey()->getIdentifier()->get();
-            $entity->setEntityIdValue($row[$key]);
+            $entity->setPrimitive($key, $row[$key]);
 
             foreach ($row as $id => $value) {
                 $entity[$id] = $value;

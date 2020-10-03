@@ -136,29 +136,9 @@ abstract class Primitive extends Type implements EmitInterface, PipeInterface
         return $this;
     }
 
-    public function getValue()
-    {
-        return $this->get();
-    }
-
-    public function getEntity(): Entity
-    {
-        return $this->entity;
-    }
-
     public function getProperty()
     {
         return $this->property;
-    }
-
-    public function getType(): Type
-    {
-        return $this;
-    }
-
-    public function getTypeName(): string
-    {
-        return $this->getName();
     }
 
     public static function pipe(
@@ -199,7 +179,7 @@ abstract class Primitive extends Type implements EmitInterface, PipeInterface
 
     public function response(Transaction $transaction): StreamedResponse
     {
-        if (null === $this->getValue()) {
+        if (null === $this->get()) {
             throw new NoContentException('null_value');
         }
 

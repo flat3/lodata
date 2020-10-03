@@ -11,17 +11,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Value implements PipeInterface, EmitInterface
 {
-    /** @var Primitive $value */
-    protected $value;
+    /** @var Primitive $primitive */
+    protected $primitive;
 
-    public function __construct($value)
+    public function __construct(Primitive $primitive)
     {
-        if ($this->value instanceof Primitive) {
-            $this->value = $value->getValue();
-            return;
-        }
-
-        $this->value = $value;
+        $this->primitive = $primitive;
     }
 
     public static function pipe(
@@ -35,7 +30,7 @@ class Value implements PipeInterface, EmitInterface
 
         if (!$argument instanceof Primitive) {
             throw new BadRequestException('bad_value_argument',
-                '$value must be passed a primitive or primitive typed value');
+                '$value must be passed a primitive value');
         }
 
         return new static($argument);
@@ -51,7 +46,7 @@ class Value implements PipeInterface, EmitInterface
             $transaction->setContentTypeText();
         }
 
-        if (null === $this->value->getValue()) {
+        if (null === $this->primitive->get()) {
             throw new NoContentException('null_value');
         }
 
@@ -62,6 +57,6 @@ class Value implements PipeInterface, EmitInterface
 
     public function emit(Transaction $transaction): void
     {
-        $transaction->outputRaw($this->value->getValue());
+        $transaction->outputRaw($this->primitive->get());
     }
 }

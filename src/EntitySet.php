@@ -441,7 +441,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function entity(): Entity
     {
-        return new Entity($this);
+        $entity = new Entity();
+        $entity->setEntitySet($this);
+        return $entity;
     }
 
     /**

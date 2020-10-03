@@ -20,9 +20,6 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
     use HasIdentifier;
     use HasType;
 
-    /** @var Primitive $entityId */
-    private $entityId;
-
     /** @var ObjectArray $primitives */
     private $primitives;
 
@@ -31,10 +28,16 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
     protected $metadata = [];
 
-    public function __construct(?EntitySet $entitySet = null)
+    public function __construct()
+    {
+        $this->primitives = new ObjectArray();
+    }
+
+    public function setEntitySet(EntitySet $entitySet): self
     {
         $this->entitySet = $entitySet;
-        $this->primitives = new ObjectArray();
+        $this->type = $entitySet->getType();
+        return $this;
     }
 
     public function emit(Transaction $transaction): void
@@ -151,12 +154,8 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
     public function getEntityId(): ?Primitive
     {
-        return $this->entityId;
-    }
-
-    public function setEntityId(Type $entityId)
-    {
-        $this->entityId = $entityId;
+        $key = $this->getType()->getKey();
+        return $this->primitives[$key];
     }
 
     public function getEntitySet(): EntitySet
@@ -166,10 +165,10 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
     public function getType(): ?Type
     {
-        return $this->type ?: ($this->entitySet ? $this->entitySet->getType() : null);
+        return $this->type;
     }
 
-    public function addPrimitive($property, $value): self
+    public function setPrimitive($property, $value): self
     {
         if (is_string($property)) {
             $property = $this->getType()->getProperty($property);
@@ -185,27 +184,14 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
             );
         }
 
-        if ($property === $this->getType()->getKey()) {
-            $this->setEntityIdValue($value);
-        }
-
-        $this->primitives[$property] = $this->primitiveFactory($value, $property);
-
-        return $this;
-    }
-
-    public function setEntityIdValue($entityId)
-    {
-        $this->setEntityId($this->entitySet->getType()->getKey()->getType()::factory($entityId));
-    }
-
-    public function primitiveFactory($value, Property $property): Primitive
-    {
         $type = $property->getType();
         $primitive = new $type($value);
         $primitive->setProperty($property);
         $primitive->setEntity($this);
-        return $primitive;
+
+        $this->primitives[$property] = $primitive;
+
+        return $this;
     }
 
     public function getPrimitive(Property $property): ?Primitive
@@ -225,7 +211,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
     public function offsetSet($offset, $value)
     {
-        $this->addPrimitive($offset, $value);
+        $this->setPrimitive($offset, $value);
     }
 
     public function offsetUnset($offset)
@@ -251,10 +237,12 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
         if ($select->hasValue() && !$select->isStar()) {
             $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->entitySet, $select->getValue());
-        } else if ($this->entitySet) {
-            $metadata['context'] = $transaction->getEntityContextUrl($this->entitySet);
         } else {
-            $metadata['context'] = $transaction->getTypeContextUrl($this->type);
+            if ($this->entitySet) {
+                $metadata['context'] = $transaction->getEntityContextUrl($this->entitySet);
+            } else {
+                $metadata['context'] = $transaction->getTypeContextUrl($this->type);
+            }
         }
 
         $entityId = $this->getEntityId();

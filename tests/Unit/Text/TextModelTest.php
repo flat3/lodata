@@ -24,7 +24,7 @@ class TextModelTest extends TestCase
                 {
                     return [
                         $this->entity()
-                            ->addPrimitive('a', 'a')
+                            ->setPrimitive('a', 'a')
                     ];
                 }
             });

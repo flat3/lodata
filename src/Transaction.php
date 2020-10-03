@@ -348,7 +348,7 @@ class Transaction
 
         $omitNulls = $this->getPreference('omit-values') === 'nulls';
 
-        if ($omitNulls && $primitive->getValue() === null && $property->isNullable()) {
+        if ($omitNulls && $primitive->get() === null && $property->isNullable()) {
             return false;
         }
 

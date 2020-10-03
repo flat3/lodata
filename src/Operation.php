@@ -21,7 +21,6 @@ use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface, PipeInterface
 {
@@ -103,99 +102,6 @@ abstract class Operation implements IdentifierInterface, ResourceInterface, Type
 
         return call_user_func_array($this->callback, $args);
     }
-
-    public function response(Transaction $transaction): StreamedResponse
-    {
-        return $transaction->getResponse()->setCallback(function () use ($transaction) {
-
-        });
-    }
-
-    /*
-    public function emit(Transaction $transaction)
-    {
-    }
-
-    public function response(Transaction $transaction): StreamedResponse
-    {
-        $transaction = $this->transaction;
-        $response = $transaction->getResponse();
-        $transaction->setContentTypeJson();
-
-        $result = $this->operation->invoke($this->args);
-        $returnType = $this->operation->getType();
-
-        switch (true) {
-            case $result === null && !$this->operation->isNullable():
-            case $returnType instanceof Entity && !$result->getEntityType() instanceof $returnType:
-            case $returnType instanceof Primitive && !$result instanceof $returnType:
-                throw new InternalServerErrorException(
-                    'invalid_return_type',
-                    'The operation returned an type that did not match its defined return type'
-                );
-        }
-
-        $metadata = [];
-
-        switch (true) {
-            case $result instanceof Primitive:
-                $metadata['context'] = $transaction->getOperationResultTypeContextUrl($result);
-                break;
-
-            case $result instanceof Entity:
-                $metadata['context'] = $transaction->getEntityContextUrl($result->getEntitySet());
-                break;
-
-            case $result instanceof EntitySet:
-                $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($result);
-                break;
-
-            case $result instanceof \Flat3\OData\Primitive:
-                $metadata['context'] = $transaction->getPropertyValueContextUrl(
-                    $result->getEntity()->getEntitySet(),
-                    $result->getEntity()->getEntityId()->toUrl(),
-                    $result->getProperty()
-                );
-                break;
-
-            default:
-                throw new BadRequestException(
-                    'bad_result_type',
-                    'The result type of the operation could not be encoded into a context url'
-                );
-        }
-
-        $metadata = $transaction->getMetadata()->filter($metadata);
-
-        return $response->setCallback(function () use ($transaction, $metadata, $result) {
-            $transaction->outputJsonObjectStart();
-
-            if ($metadata) {
-                $transaction->outputJsonKV($metadata);
-                $transaction->outputJsonSeparator();
-            }
-
-            switch (true) {
-                case $result instanceof Entity:
-                    $result->emit($transaction);
-                    break;
-
-                case $result instanceof EntitySet:
-                    $transaction->outputJsonKey('value');
-                    $transaction->outputJsonArrayStart();
-                    $result->emit($transaction);
-                    $transaction->outputJsonArrayEnd();
-                    break;
-
-                case $result instanceof Primitive:
-                    $transaction->outputJsonKV(['value' => $result->toJson()]);
-                    break;
-            }
-
-            $transaction->outputJsonObjectEnd();
-        });
-    }
-    */
 
     public static function pipe(
         Transaction $transaction,
