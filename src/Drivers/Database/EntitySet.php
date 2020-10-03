@@ -2,7 +2,6 @@
 
 namespace Flat3\OData\Drivers\Database;
 
-use Flat3\OData\Entity;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Expression\Event;
@@ -373,9 +372,10 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
     {
         $this->where = '';
 
-        if ($this->entityId) {
-            $this->addWhere($this->propertyToField($this->keyProperty).' = ?');
-            $this->addParameter($this->entityId->get());
+        if ($this->key) {
+            $this->addWhere($this->propertyToField($this->key->getProperty()).' = ?');
+            $this->addParameter($this->key->get());
+            return;
         }
 
         $filter = $this->transaction->getFilter();

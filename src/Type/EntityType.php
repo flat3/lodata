@@ -4,7 +4,6 @@ namespace Flat3\OData\Type;
 
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Operation;
 use Flat3\OData\Property;
 use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;

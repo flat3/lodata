@@ -55,11 +55,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var Transaction $transaction */
     protected $transaction;
 
-    /** @var Property $keyProperty */
-    protected $keyProperty;
-
-    /** @var Primitive $entityId */
-    protected $entityId;
+    /** @var Primitive $key */
+    protected $key;
 
     /** @var bool $isInstance */
     protected $isInstance = false;
@@ -95,8 +92,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function setKey(Primitive $key): self
     {
-        $this->keyProperty = $key->getProperty();
-        $this->entityId = $key;
+        $this->key = $key;
         return $this;
     }
 
@@ -157,6 +153,10 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
      */
     public function valid(): bool
     {
+        if (!$this->isInstance) {
+            throw new RuntimeException('This function must be run on an instance of EntitySet');
+        }
+
         if (0 === $this->top) {
             return false;
         }
@@ -376,7 +376,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         if (null !== $argument) {
             throw new BadRequestException(
                 'no_entity_set_receiver',
-                'Entity set does not support composition from this type'
+                'EntitySet does not support composition from this type'
             );
         }
 
