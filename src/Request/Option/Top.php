@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Request\Option;
 
-use Flat3\OData\Interfaces\PaginationInterface;
+use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 
 /**
  * Class Top

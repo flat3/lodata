@@ -30,12 +30,12 @@ use Flat3\OData\Expression\Node\Operator\Logical\In;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
-use Flat3\OData\Interfaces\CountInterface;
-use Flat3\OData\Interfaces\ExpandInterface;
-use Flat3\OData\Interfaces\FilterInterface;
-use Flat3\OData\Interfaces\OrderByInterface;
-use Flat3\OData\Interfaces\PaginationInterface;
-use Flat3\OData\Interfaces\SearchInterface;
+use Flat3\OData\Interfaces\QueryOptions\CountInterface;
+use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
+use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
+use Flat3\OData\Interfaces\QueryOptions\OrderByInterface;
+use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
+use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property;
 use Flat3\OData\Type\EntityType;
@@ -509,7 +509,7 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
     {
         $limits = '';
 
-        if (!$this->top) {
+        if ($this->top === PHP_INT_MAX) {
             return $limits;
         }
 

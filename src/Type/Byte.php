@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Type;
 
-class Byte extends PrimitiveType
+use Flat3\OData\Primitive;
+
+class Byte extends Primitive
 {
     protected $name = 'Edm.Byte';
     public const format = 'C';

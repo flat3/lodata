@@ -1,28 +1,38 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\OData;
 
 use Flat3\OData\Attribute;
-use Flat3\OData\EntitySet;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Interfaces\EmitInterface;
+use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Internal\Argument;
-use Flat3\OData\ODataModel;
-use Flat3\OData\Operation;
-use Flat3\OData\Property;
 use Flat3\OData\Property\Navigation;
-use Flat3\OData\Transaction;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\EntityType;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use SimpleXMLElement;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Metadata extends Controller
+class Metadata implements PipeInterface, EmitInterface
 {
-    public function get(Request $request, ODataModel $model, Transaction $transaction)
+    public static function pipe(Transaction $transaction, string $pathComponent, ?PipeInterface $argument): PipeInterface
     {
-        $transaction->initialize($request);
-        $response = $transaction->getResponse();
-        $transaction->setContentTypeXml();
+        if ($pathComponent !== '$metadata') {
+            throw new PathNotHandledException();
+        }
+
+        if ($argument) {
+            throw new BadRequestException('metadata_argument', 'Metadata must be the first argument in the path');
+        }
+
+        return new static();
+    }
+
+    public function emit(Transaction $transaction):void
+    {
+        /** @var ODataModel $model */
+        $model = app()->make(ODataModel::class);
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_CSDLXMLDocument
         $root = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" />');
@@ -223,12 +233,15 @@ class Metadata extends Controller
             );
         }
 
-        $xml = $root->asXML();
+        $transaction->outputRaw($root->asXML());
+    }
 
-        $response->setCallback(function () use ($xml) {
-            echo $xml;
+    public function response(Transaction $transaction): StreamedResponse
+    {
+        $transaction->setContentTypeXml();
+
+        return $transaction->getResponse()->setCallback(function () use ($transaction) {
+            $this->emit($transaction);
         });
-
-        return $response;
     }
 }

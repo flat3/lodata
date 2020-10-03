@@ -1,9 +1,8 @@
 [
     "id add 3.14 eq 1.59",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`id` + ? ) = ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`id` + ? ) = ? )",
     [
         3.14,
-        1.59,
-        500
+        1.59
     ]
 ]

@@ -9,7 +9,7 @@ use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
-use Flat3\OData\Interfaces\FilterInterface;
+use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
 use Flat3\OData\Transaction;
 
 class Filter extends Parser

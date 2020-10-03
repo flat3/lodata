@@ -1,8 +1,7 @@
 [
     "matchesPattern(title,'^A.*e$')",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE REGEXP_LIKE( test.`title` , ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE REGEXP_LIKE( test.`title` , ? )",
     [
-        "^A.*e$",
-        500
+        "^A.*e$"
     ]
 ]

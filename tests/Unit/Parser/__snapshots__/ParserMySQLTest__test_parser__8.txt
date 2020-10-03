@@ -1,10 +1,9 @@
 [
     "substring(title,1,4) eq 'abc123'",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( SUBSTRING( test.`title` , ? , ? ) = ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( SUBSTRING( test.`title` , ? , ? ) = ? )",
     [
         1,
         4,
-        "abc123",
-        500
+        "abc123"
     ]
 ]

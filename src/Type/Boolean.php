@@ -2,11 +2,13 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Primitive;
+
 /**
  * Class Boolean
  * @package Flat3\OData\Type
  */
-class Boolean extends PrimitiveType
+class Boolean extends Primitive
 {
     protected $name = 'Edm.Boolean';
 

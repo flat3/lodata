@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Type;
 
-class Decimal extends PrimitiveType
+use Flat3\OData\Primitive;
+
+class Decimal extends Primitive
 {
     protected $name = 'Edm.Decimal';
 

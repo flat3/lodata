@@ -1,9 +1,8 @@
 [
     "title eq 'b' and not(title eq 'a')",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`title` = ? ) AND ( NOT ( test.`title` = ? ) ) ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`title` = ? ) AND ( NOT ( test.`title` = ? ) ) )",
     [
         "b",
-        "a",
-        500
+        "a"
     ]
 ]

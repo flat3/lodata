@@ -4,8 +4,8 @@ namespace Flat3\OData\Expression;
 
 use Exception;
 use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Primitive;
 use Flat3\OData\Type;
-use Flat3\OData\Type\PrimitiveType;
 
 /**
  * Class Lexer
@@ -128,7 +128,7 @@ class Lexer
         }
     }
 
-    public function type(Type $type): PrimitiveType
+    public function type(Type $type): Primitive
     {
         $result = null;
 

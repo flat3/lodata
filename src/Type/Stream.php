@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Type;
 
-class Stream extends PrimitiveType
+use Flat3\OData\Primitive;
+
+class Stream extends Primitive
 {
     protected $name = 'Edm.Stream';
 

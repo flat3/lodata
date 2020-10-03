@@ -2,9 +2,9 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
+use Flat3\OData\Primitive;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Type;
-use Flat3\OData\Type\PrimitiveType;
 
 class TypesTest extends TestCase
 {
@@ -380,7 +380,7 @@ class TypesTest extends TestCase
 
     public function test_types()
     {
-        /** @var PrimitiveType $type */
+        /** @var Primitive $type */
         foreach (self::$assertions as $type => $methods) {
             foreach ($methods as $method => $assertions) {
                 foreach ($assertions as $assertion) {
@@ -395,7 +395,7 @@ class TypesTest extends TestCase
     public function test_null()
     {
         /**
-         * @var PrimitiveType $clazz
+         * @var Primitive $clazz
          * @var array $values
          */
         foreach ($this->nulls as $clazz => $values) {

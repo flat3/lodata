@@ -3,12 +3,17 @@
 namespace Flat3\OData;
 
 use Countable;
+use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
-use Flat3\OData\Interfaces\PaginationInterface;
+use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Navigation;
@@ -19,8 +24,9 @@ use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type\EntityType;
 use Iterator;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, Countable, EmitInterface
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, Countable, EmitInterface, PipeInterface
 {
     use HasIdentifier;
     use HasEntityType;
@@ -76,46 +82,14 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return new static($identifier, $entityType);
     }
 
-    public function withTransaction(Transaction $transaction): self
+    public function asInstance(Transaction $transaction): self
     {
         if ($this->isInstance) {
             throw new RuntimeException('Attempted to clone an instance of an entity set');
         }
 
         $set = clone $this;
-
         $set->transaction = $transaction;
-        $this->keyProperty = $set->getType()->getKey();
-
-        foreach (
-            [
-                $transaction->getCount(), $transaction->getFilter(), $transaction->getOrderBy(),
-                $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
-                $transaction->getExpand()
-            ] as $sqo
-        ) {
-            /** @var Option $sqo */
-            if ($sqo->hasValue() && !is_a($this, $sqo::query_interface)) {
-                throw new NotImplementedException(
-                    'system_query_option_not_implemented',
-                    sprintf('The %s system query option is not supported by this entity set', $sqo::param)
-                );
-            }
-        }
-
-        $maxPageSize = $set->getMaxPageSize();
-        $skip = $transaction->getSkip();
-        $top = $transaction->getTop();
-        $set->top = $top->hasValue() && ($top->getValue() < $maxPageSize) ? $top->getValue() : $maxPageSize;
-
-        if ($skip->hasValue()) {
-            $set->skip = $skip->getValue();
-        }
-
-        if ($top->hasValue()) {
-            $set->topLimit = $top->getValue();
-        }
-
         return $set;
     }
 
@@ -171,6 +145,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function count()
     {
+        $this->valid();
         return $this->results ? count($this->results) : null;
     }
 
@@ -199,11 +174,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         }
 
         return !!current($this->results);
-    }
-
-    public function getMaxPageSize(): int
-    {
-        return $this->maxPageSize;
     }
 
     public function setMaxPageSize(int $maxPageSize): self
@@ -265,12 +235,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function emit(Transaction $transaction): void
     {
+        $transaction->outputJsonArrayStart();
+
         while ($this->valid()) {
             $entity = $this->current();
-
-            $transaction->outputJsonObjectStart();
             $entity->emit($transaction);
-            $transaction->outputJsonObjectEnd();
 
             $this->next();
 
@@ -280,6 +249,194 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
             $transaction->outputJsonSeparator();
         }
+
+        $transaction->outputJsonArrayEnd();
+    }
+
+    public function response(Transaction $transaction): StreamedResponse
+    {
+        $transaction = $this->transaction;
+        $transaction->setContentTypeJson();
+
+        foreach (
+            [
+                $transaction->getCount(), $transaction->getFilter(), $transaction->getOrderBy(),
+                $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
+                $transaction->getExpand()
+            ] as $sqo
+        ) {
+            /** @var Option $sqo */
+            if ($sqo->hasValue() && !is_a($this, $sqo::query_interface)) {
+                throw new NotImplementedException(
+                    'system_query_option_not_implemented',
+                    sprintf('The %s system query option is not supported by this entity set', $sqo::param)
+                );
+            }
+        }
+
+        // Validate $expand
+        $expand = $transaction->getExpand();
+        $expand->getExpansionRequests($this->getType());
+
+        // Validate $select
+        $select = $transaction->getSelect();
+        $select->getSelectedProperties($this);
+
+        // Validate $orderby
+        $orderby = $transaction->getOrderBy();
+        $orderby->getSortOrders($this);
+
+        $skip = $transaction->getSkip();
+
+        $maxPageSize = $transaction->getPreference('maxpagesize');
+        $top = $transaction->getTop();
+        if (!$top->hasValue() && $maxPageSize) {
+            $transaction->preferenceApplied('maxpagesize', $maxPageSize);
+            $top->setValue($maxPageSize);
+        }
+
+        $this->top = $top->hasValue() && ($top->getValue() < $this->maxPageSize) ? $top->getValue() : $this->maxPageSize;
+
+        if ($skip->hasValue()) {
+            $this->skip = $skip->getValue();
+        }
+
+        if ($top->hasValue()) {
+            $this->topLimit = $top->getValue();
+        }
+
+        $setCount = $this->count();
+
+        $metadata = [];
+
+        $select = $transaction->getSelect();
+
+        if ($select->hasValue() && !$select->isStar()) {
+            $metadata['context'] = $transaction->getCollectionOfProjectedEntitiesContextUrl(
+                $this,
+                $select->getValue()
+            );
+        } else {
+            $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($this);
+        }
+
+        $count = $transaction->getCount();
+        if (true === $count->getValue()) {
+            $metadata['count'] = $setCount;
+        }
+
+        $skip = $transaction->getSkip();
+
+        if ($top->hasValue()) {
+            if ($top->getValue() + ($skip->getValue() ?: 0) < $setCount) {
+                $np = $transaction->getQueryParams();
+                $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
+                $metadata['nextLink'] = $transaction->getEntityCollectionResourceUrl($this).'?'.http_build_query(
+                        $np,
+                        null,
+                        '&',
+                        PHP_QUERY_RFC3986
+                    );
+            }
+        }
+
+        $metadata = $transaction->getMetadata()->filter($metadata);
+
+        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+            $transaction->outputJsonObjectStart();
+
+            if ($metadata) {
+                $transaction->outputJsonKV($metadata);
+                $transaction->outputJsonSeparator();
+            }
+
+            $transaction->outputJsonKey('value');
+            $this->emit($transaction);
+            $transaction->outputJsonObjectEnd();
+        });
+    }
+
+    public static function pipe(
+        Transaction $transaction,
+        string $pathComponent,
+        ?PipeInterface $argument
+    ): ?PipeInterface {
+        /** @var ODataModel $data_model */
+        $data_model = app()->make(ODataModel::class);
+        $lexer = new Lexer($pathComponent);
+        try {
+            $entitySet = $data_model->getResources()->get($lexer->odataIdentifier());
+        } catch (LexerException $e) {
+            throw new PathNotHandledException();
+        }
+
+        if (!$entitySet instanceof EntitySet) {
+            throw new PathNotHandledException();
+        }
+
+        if (null !== $argument) {
+            throw new BadRequestException(
+                'no_entity_set_receiver',
+                'Entity set does not support composition from this type'
+            );
+        }
+
+        $entitySet = $entitySet->asInstance($transaction);
+
+        if ($lexer->finished()) {
+            return $entitySet;
+        }
+
+        $id = $lexer->matchingParenthesis();
+        $lexer = new Lexer($id);
+
+        // Get the default key property
+        $keyProperty = $entitySet->getType()->getKey();
+
+        // Test for alternative key syntax
+        $alternateKey = $lexer->maybeODataIdentifier();
+        if ($alternateKey) {
+            if ($lexer->maybeChar('=')) {
+                // Test for referenced value syntax
+                if ($lexer->maybeChar('@')) {
+                    $referencedKey = $lexer->odataIdentifier();
+                    $referencedValue = $transaction->getReferencedValue($referencedKey);
+                    $lexer = new Lexer($referencedValue);
+                }
+
+                $keyProperty = $entitySet->getType()->getProperty($alternateKey);
+
+                if ($keyProperty instanceof Property && !$keyProperty->isAlternativeKey()) {
+                    throw new BadRequestException(
+                        'property_not_alternative_key',
+                        sprintf(
+                            'The requested property (%s) is not configured as an alternative key',
+                            $alternateKey
+                        )
+                    );
+                }
+            } else {
+                // Captured value was not an alternative key, reset the lexer
+                $lexer = new Lexer($id);
+            }
+        }
+
+        if (null === $keyProperty) {
+            throw new BadRequestException('no_key_property_exists', 'No key property exists for this entity set');
+        }
+
+        try {
+            $value = $lexer->type($keyProperty->getType());
+        } catch (LexerException $e) {
+            throw BadRequestException::factory(
+                'invalid_identifier_value',
+                'The type of the provided identifier value was not valid for this entity type'
+            )->lexer($lexer);
+        }
+
+        $value->setProperty($keyProperty);
+
+        return $entitySet->getEntity($value);
     }
 
     public function entity(): Entity
@@ -291,4 +448,15 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
      * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */
     abstract protected function generate(): array;
+
+    public function toEntity(Primitive $key): Entity
+    {
+        if (!$this->isInstance) {
+            throw new RuntimeException('Cannot toEntity on a non-instance');
+        }
+
+        $this->entityId = $key;
+        $this->keyProperty = $key->getProperty();
+        return $this->current();
+    }
 }

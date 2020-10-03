@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Interfaces;
+namespace Flat3\OData\Interfaces\QueryOptions;
 
 use Flat3\OData\Expression\Event;
 

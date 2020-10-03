@@ -16,8 +16,8 @@ use Flat3\OData\Expression\Node\Literal\String_;
 use Flat3\OData\Expression\Node\Operator\Comparison\And_;
 use Flat3\OData\Expression\Node\Operator\Comparison\Not_;
 use Flat3\OData\Expression\Node\Operator\Comparison\Or_;
-use Flat3\OData\Interfaces\FilterInterface;
-use Flat3\OData\Interfaces\SearchInterface;
+use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
+use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
 
 class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
 {

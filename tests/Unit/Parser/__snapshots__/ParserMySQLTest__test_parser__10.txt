@@ -1,8 +1,7 @@
 [
     "length(title) eq 1",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( LENGTH( test.`title` ) = ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( LENGTH( test.`title` ) = ? )",
     [
-        1,
-        500
+        1
     ]
 ]

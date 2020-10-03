@@ -4,7 +4,7 @@ namespace Flat3\OData\Request\Option;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Interfaces\ExpandInterface;
+use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Request;

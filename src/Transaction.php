@@ -23,7 +23,6 @@ use Flat3\OData\Request\Option\Select;
 use Flat3\OData\Request\Option\Skip;
 use Flat3\OData\Request\Option\Top;
 use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\PrimitiveType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -474,7 +473,7 @@ class Transaction
 
     public function getPathComponents(): array
     {
-        return array_filter(explode('/', $this->getPath()));
+        return array_map('rawurldecode', array_filter(explode('/', $this->getPath())));
     }
 
     public function getPath(): string
@@ -568,7 +567,7 @@ class Transaction
         );
     }
 
-    public function getOperationResultTypeContextUrl(PrimitiveType $type): string
+    public function getOperationResultTypeContextUrl(Primitive $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }
@@ -596,7 +595,7 @@ class Transaction
         );
     }
 
-    public function getCollectionOfTypesContextUrl(EntitySet $entitySet, PrimitiveType $type): string
+    public function getCollectionOfTypesContextUrl(EntitySet $entitySet, Primitive $type): string
     {
         return sprintf(
             '%s#%s(%s)',
@@ -606,7 +605,7 @@ class Transaction
         );
     }
 
-    public function getTypeContextUrl(PrimitiveType $type): string
+    public function getTypeContextUrl(Primitive $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }

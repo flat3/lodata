@@ -1,8 +1,7 @@
 [
     "not(title eq 'a')",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( NOT ( test.`title` = ? ) ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( NOT ( test.`title` = ? ) )",
     [
-        "a",
-        500
+        "a"
     ]
 ]

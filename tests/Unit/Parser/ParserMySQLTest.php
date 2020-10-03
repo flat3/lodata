@@ -345,14 +345,13 @@ class ParserMySQLTest extends TestCase
                 $request->query->set('$select', 'id,title');
                 $transaction->initialize($request);
 
-                $query = $entitySet->withTransaction($transaction);
+                $query = $entitySet->asInstance($transaction);
 
                 $q = $query->getSetResultQueryString();
                 $v = $query->getParameters();
 
                 // Success, validate output
                 $this->assertMatchesTextSnapshot(json_encode([$from, $q, $v], JSON_PRETTY_PRINT));
-                //$this->assertEquals($to, array($q, $v), sprintf('%s => %s / %s', $from, $q, implode(',', $v)));
             } catch (ParserException $e) {
                 // Threw an unexpected exception
                 if (!is_string($to)) {

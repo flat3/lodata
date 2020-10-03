@@ -2,11 +2,9 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Controller\Metadata;
 use Flat3\OData\Controller\OData as ODataController;
 use Flat3\OData\Controller\ODCFF;
 use Flat3\OData\Controller\PBIDS;
-use Flat3\OData\Controller\Service;
 use Flat3\OData\Middleware\Authentication;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -42,10 +40,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             Route::get("{$route}/odata.pbids", [PBIDS::class, 'get']);
             Route::get("{$route}/{identifier}.odc", [ODCFF::class, 'get']);
-
-            Route::get("{$route}/", [Service::class, 'get']);
-            Route::get("{$route}/\$metadata", [Metadata::class, 'get']);
-
             Route::get("{$route}{path}", [ODataController::class, 'get'])->where('path', '(.*)');
 
             Route::match(

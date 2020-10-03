@@ -8,7 +8,7 @@ use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Node;
 use Flat3\OData\Expression\Operator;
 use Flat3\OData\Expression\Parser;
-use Flat3\OData\Interfaces\SearchInterface;
+use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
 
 class Search extends Parser
 {

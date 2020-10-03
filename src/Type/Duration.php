@@ -3,8 +3,9 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Primitive;
 
-class Duration extends PrimitiveType
+class Duration extends Primitive
 {
     protected $name = 'Edm.Duration';
 

@@ -1,13 +1,12 @@
 [
     "id add 3.14 in (1.59, 2.14) or (id gt -2.40 and id gt 4 add 5)",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`id` + ? IN ( ? , ? ) ) OR ( ( test.`id` > ? ) AND ( test.`id` > ( ? + ? ) ) ) ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`id` + ? IN ( ? , ? ) ) OR ( ( test.`id` > ? ) AND ( test.`id` > ( ? + ? ) ) ) )",
     [
         3.14,
         1.59,
         2.14,
         -2.4,
         4,
-        5,
-        500
+        5
     ]
 ]

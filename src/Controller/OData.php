@@ -2,15 +2,25 @@
 
 namespace Flat3\OData\Controller;
 
+use Flat3\OData\Count;
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Interfaces\EmitInterface;
+use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Metadata;
+use Flat3\OData\Operation;
+use Flat3\OData\Primitive;
+use Flat3\OData\Service;
 use Flat3\OData\Transaction;
+use Flat3\OData\Value;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OData extends Controller
@@ -23,37 +33,52 @@ class OData extends Controller
      */
     public function get(Request $request, Transaction $transaction)
     {
+        /** @var PipeInterface[] $handlers */
         $handlers = [
-            Set::class,
-            Singular::class,
-            Primitive::class,
+            EntitySet::class,
+            Metadata::class,
+            Value::class,
             Count::class,
-            Raw::class,
             Operation::class,
+            Primitive::class,
         ];
 
         $transaction->initialize($request);
-        $response = $transaction->getResponse();
 
-        foreach ($handlers as $handler) {
-            /** @var Controller $instance */
-            $instance = app()->make($handler);
+        $pathComponents = $transaction->getPathComponents();
 
-            try {
-                $instance->setup($transaction);
-            } catch (PathNotHandledException $exception) {
-                continue;
-            }
+        /** @var PipeInterface|EmitInterface $result */
+        $result = null;
 
-            try {
-                $instance->handle();
-            } catch (ParserException $e) {
-                throw new BadRequestException('parser_error', $e->getMessage());
-            }
-            return $response;
+        if (!$pathComponents) {
+            $service = new Service();
+            return $service->response($transaction);
         }
 
-        throw new NotFoundException('no_handler', 'No route handler was able to process this request');
+        while ($pathComponents) {
+            $pathComponent = array_shift($pathComponents);
+
+            foreach ($handlers as $handler) {
+                try {
+                    $result = $handler::pipe($transaction, $pathComponent, $result);
+                    continue 2;
+                } catch (PathNotHandledException $e) {
+                    continue;
+                }
+            }
+
+            throw new NotFoundException('no_handler', 'No route handler was able to process this request');
+        }
+
+        if (null === $result) {
+            throw NotFoundException::factory('resource_not_found', 'Resource not found');
+        }
+
+        if (!$result instanceof EmitInterface) {
+            throw new RuntimeException('A handler returned something that could not be emitted');
+        }
+
+        return $result->response($transaction);
     }
 
     public function fallback(Request $request)

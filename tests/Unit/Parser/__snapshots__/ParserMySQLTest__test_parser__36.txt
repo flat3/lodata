@@ -1,8 +1,7 @@
 [
     "title in ('a')",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` IN ( ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` IN ( ? )",
     [
-        "a",
-        500
+        "a"
     ]
 ]

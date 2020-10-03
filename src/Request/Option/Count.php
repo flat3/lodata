@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Request\Option;
 
-use Flat3\OData\Interfaces\CountInterface;
+use Flat3\OData\Interfaces\QueryOptions\CountInterface;
 use Flat3\OData\Request\Option;
 
 /**

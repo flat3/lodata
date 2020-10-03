@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Type;
 
-class Binary extends PrimitiveType
+use Flat3\OData\Primitive;
+
+class Binary extends Primitive
 {
     protected $name = 'Edm.Binary';
 

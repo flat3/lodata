@@ -4,8 +4,9 @@ namespace Flat3\OData\Type;
 
 use DateTime;
 use Exception;
+use Flat3\OData\Primitive;
 
-class DateTimeOffset extends PrimitiveType
+class DateTimeOffset extends Primitive
 {
     protected $name = 'Edm.DateTimeOffset';
     public const DATE_FORMAT = 'c';

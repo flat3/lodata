@@ -7,19 +7,20 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Constraint;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Traits\HasType;
-use Flat3\OData\Type\PrimitiveType;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInterface
+class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInterface, PipeInterface
 {
     use HasIdentifier;
     use HasType;
 
-    /** @var PrimitiveType $entityId */
+    /** @var Primitive $entityId */
     private $entityId;
 
     /** @var ObjectArray $primitives */
@@ -28,28 +29,23 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
     /** @var EntitySet $entitySet */
     private $entitySet;
 
+    protected $metadata = [];
+
     public function __construct(?EntitySet $entitySet = null)
     {
         $this->entitySet = $entitySet;
         $this->primitives = new ObjectArray();
     }
 
-    public function emit(Transaction $transaction)
+    public function emit(Transaction $transaction): void
     {
-        $entityId = $this->getEntityId();
+        $transaction->outputJsonObjectStart();
+
         $expand = $transaction->getExpand();
-
-        $metadata = [];
-        if ($entityId) {
-            $metadata['id'] = $transaction->getEntityResourceUrl($this->entitySet, $entityId->toUrl());
-        }
-
-        $metadata = $transaction->getMetadata()->filter($metadata);
-
         $expansionRequests = $expand->getExpansionRequests($this->entitySet->getType());
 
-        if ($metadata) {
-            $transaction->outputJsonKV($metadata);
+        if ($this->metadata) {
+            $transaction->outputJsonKV($this->metadata);
 
             if ($this->primitives->hasEntries()) {
                 $transaction->outputJsonSeparator();
@@ -64,7 +60,8 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
                 $primitive = $this->primitives->current();
 
                 if ($transaction->shouldEmitPrimitive($primitive)) {
-                    $transaction->outputJsonKV([$primitive->getProperty()->getIdentifier()->get() => $primitive]);
+                    $transaction->outputJsonKey($primitive->getProperty()->getIdentifier()->get());
+                    $transaction->outputJsonValue($primitive);
 
                     $this->primitives->next();
 
@@ -116,16 +113,17 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
             /** @var Primitive $keyPrimitive */
             $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());
-            if ($keyPrimitive->getValue() === null) {
+            if ($keyPrimitive->get() === null) {
                 $expansionRequests->next();
                 continue;
             }
 
             $referencedProperty = $targetConstraint->getReferencedProperty();
-            $targetKey = new Primitive($keyPrimitive, $referencedProperty);
+            $targetKey = clone $keyPrimitive;
+            $targetKey->setProperty($referencedProperty);
 
             if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
-                $expansionSet = $targetEntitySet->withTransaction($transaction);
+                $expansionSet = $targetEntitySet->asInstance($transaction);
                 $entity = $expansionSet->getEntity($targetKey);
                 $transaction->outputJsonKey($navigationProperty);
 
@@ -138,10 +136,8 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
                 }
             } else {
                 $transaction->outputJsonKey($navigationProperty);
-                $transaction->outputJsonArrayStart();
-                $entitySet = $targetEntitySet->withTransaction($expansionTransaction)->setKey($targetKey);
+                $entitySet = $targetEntitySet->asInstance($expansionTransaction)->setKey($targetKey);
                 $entitySet->emit($expansionTransaction);
-                $transaction->outputJsonArrayEnd();
             }
 
             $expansionRequests->next();
@@ -149,9 +145,11 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
                 $transaction->outputJsonSeparator();
             }
         }
+
+        $transaction->outputJsonObjectEnd();
     }
 
-    public function getEntityId(): ?PrimitiveType
+    public function getEntityId(): ?Primitive
     {
         return $this->entityId;
     }
@@ -164,6 +162,11 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
     public function getEntitySet(): EntitySet
     {
         return $this->entitySet;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type ?: ($this->entitySet ? $this->entitySet->getType() : null);
     }
 
     public function addPrimitive($property, $value): self
@@ -198,7 +201,11 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
     public function primitiveFactory($value, Property $property): Primitive
     {
-        return new Primitive($value, $property, $this);
+        $type = $property->getType();
+        $primitive = new $type($value);
+        $primitive->setProperty($property);
+        $primitive->setEntity($this);
+        return $primitive;
     }
 
     public function getPrimitive(Property $property): ?Primitive
@@ -224,5 +231,40 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
     public function offsetUnset($offset)
     {
         $this->primitives->drop($offset);
+    }
+
+    public static function pipe(
+        Transaction $transaction,
+        string $pathComponent,
+        ?PipeInterface $argument
+    ): ?PipeInterface {
+        return $argument;
+    }
+
+    public function response(Transaction $transaction): StreamedResponse
+    {
+        $transaction->setContentTypeJson();
+
+        $metadata = [];
+
+        $select = $transaction->getSelect();
+
+        if ($select->hasValue() && !$select->isStar()) {
+            $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->entitySet, $select->getValue());
+        } else {
+            $metadata['context'] = $transaction->getEntityContextUrl($this->entitySet);
+        }
+
+        $entityId = $this->getEntityId();
+
+        if ($entityId) {
+            $metadata['id'] = $transaction->getEntityResourceUrl($this->entitySet, $entityId->toUrl());
+        }
+
+        $this->metadata = $transaction->getMetadata()->filter($metadata);
+
+        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+            $this->emit($transaction);
+        });
     }
 }

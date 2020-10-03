@@ -1,9 +1,8 @@
 [
     "concat(title, 'abc') eq '123abc'",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( CONCAT( test.`title` , ? ) = ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( CONCAT( test.`title` , ? ) = ? )",
     [
         "abc",
-        "123abc",
-        500
+        "123abc"
     ]
 ]

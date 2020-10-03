@@ -1,8 +1,7 @@
 [
     "endswith(title, 'b')",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` LIKE ? LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` LIKE ?",
     [
-        "%b",
-        500
+        "%b"
     ]
 ]

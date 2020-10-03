@@ -1,8 +1,7 @@
 [
     "title eq 'test'",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( test.`title` = ? ) LIMIT ?",
+    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( test.`title` = ? )",
     [
-        "test",
-        500
+        "test"
     ]
 ]

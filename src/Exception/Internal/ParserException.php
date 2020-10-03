@@ -2,10 +2,10 @@
 
 namespace Flat3\OData\Exception\Internal;
 
+use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
-use RuntimeException;
 
-final class ParserException extends RuntimeException
+final class ParserException extends BadRequestException
 {
     public function __construct(string $message, Lexer $lexer = null)
     {
@@ -13,6 +13,6 @@ final class ParserException extends RuntimeException
             $message .= ' at: '.$lexer->errorContext();
         }
 
-        parent::__construct($message);
+        parent::__construct('expression_parser_error', $message);
     }
 }
