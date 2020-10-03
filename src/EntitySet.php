@@ -6,7 +6,6 @@ use Countable;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Interfaces\EmitInterface;
@@ -187,26 +186,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     {
         $this->setKey($key);
         return $this->current();
-    }
-
-    /**
-     * Get a single primitive from the entity set
-     *
-     * @param  Primitive  $key
-     * @param  Property  $property
-     *
-     * @return Primitive
-     */
-    public function getPrimitive(Primitive $key, Property $property): ?Primitive
-    {
-        $entity = $this->getEntity($key);
-
-        if (null === $entity) {
-            throw NotFoundException::factory()
-                ->target($key->toJson());
-        }
-
-        return $entity->getPrimitive($property);
     }
 
     public function addNavigationBinding(Binding $binding): self
@@ -421,7 +400,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         }
 
         if (null === $keyProperty) {
-            throw new BadRequestException('no_key_property_exists', 'No key property exists for this entity set');
+            throw new BadRequestException('invalid_key_property', 'The requested key property was not valid');
         }
 
         try {

@@ -24,6 +24,32 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_an_entity_with_referenced_key()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(id=@id)')
+                ->query('@id', 1)
+        );
+    }
+
+    public function test_read_an_entity_with_invalid_key()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path("/flights(origin='lax')")
+        );
+    }
+
+    public function test_read_an_entity_with_invalid_referenced_key()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/flights(origin=@origin)')
+                ->query('@origin', 'lax')
+        );
+    }
+
     public function test_not_found()
     {
         $this->assertNotFound(
@@ -77,11 +103,12 @@ class EntityTest extends TestCase
         );
     }
 
-    public function test_expand() {
+    public function test_expand()
+    {
         $this->assertJsonResponse(
-          Request::factory()
-          ->path('/flights(1)')
-          ->query('$expand', 'airports')
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$expand', 'airports')
         );
     }
 }
