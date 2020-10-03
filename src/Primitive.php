@@ -175,7 +175,7 @@ abstract class Primitive extends Type implements EmitInterface, PipeInterface
         }
 
         if (null === $argument) {
-            throw new NotFoundException('entity_not_found', 'Entity not found');
+            throw new PathNotHandledException();
         }
 
         if (!$argument instanceof Entity) {

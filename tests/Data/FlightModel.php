@@ -3,6 +3,7 @@
 namespace Flat3\OData\Tests\Data;
 
 use Exception;
+use Flat3\OData\Controller\OData;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\EntitySet\Callback;
@@ -118,7 +119,10 @@ trait FlightModel
 
             ODataModel::fn('exf3')
                 ->setCallback(function (String_ $code): Entity {
+                    /** @var ODataModel $model */
+                    $model = app()->get(ODataModel::class);
                     $airport = new Airport();
+                    $airport->setType($model->getEntityTypes()->get('airport'));
                     $airport['code'] = $code->get();
                     return $airport;
                 })

@@ -26,9 +26,7 @@ class ActionTest extends TestCase
 
     public function test_callback_entity()
     {
-        $this->markTestIncomplete();
-
-        $this->assertJsonResponse(
+        $this->assertNotFound(
             Request::factory()
                 ->path('/exa2()')
         );

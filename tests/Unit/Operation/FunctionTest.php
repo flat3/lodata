@@ -26,8 +26,6 @@ class FunctionTest extends TestCase
 
     public function test_callback_entity()
     {
-        $this->markTestIncomplete();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path("/exf3(code='xyz')")

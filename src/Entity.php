@@ -42,7 +42,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
         $transaction->outputJsonObjectStart();
 
         $expand = $transaction->getExpand();
-        $expansionRequests = $expand->getExpansionRequests($this->entitySet->getType());
+        $expansionRequests = $expand->getExpansionRequests($this->getType());
 
         if ($this->metadata) {
             $transaction->outputJsonKV($this->metadata);
@@ -172,7 +172,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
     public function addPrimitive($property, $value): self
     {
         if (is_string($property)) {
-            $property = $this->entitySet->getType()->getProperty($property);
+            $property = $this->getType()->getProperty($property);
         }
 
         if (!$property instanceof Property) {
@@ -185,7 +185,7 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
             );
         }
 
-        if ($property === $this->entitySet->getType()->getKey()) {
+        if ($property === $this->getType()->getKey()) {
             $this->setEntityIdValue($value);
         }
 
@@ -251,8 +251,10 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
 
         if ($select->hasValue() && !$select->isStar()) {
             $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->entitySet, $select->getValue());
-        } else {
+        } else if ($this->entitySet) {
             $metadata['context'] = $transaction->getEntityContextUrl($this->entitySet);
+        } else {
+            $metadata['context'] = $transaction->getTypeContextUrl($this->type);
         }
 
         $entityId = $this->getEntityId();

@@ -605,7 +605,7 @@ class Transaction
         );
     }
 
-    public function getTypeContextUrl(Primitive $type): string
+    public function getTypeContextUrl(Type $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }
