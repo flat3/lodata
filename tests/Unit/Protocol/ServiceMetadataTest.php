@@ -29,4 +29,15 @@ class ServiceMetadataTest extends TestCase
                 ->path('/$metadata')
         );
     }
+
+    public function test_error_service_metadata_not_service_root()
+    {
+        $this->withFlightModel();
+
+        $this->assertBadRequest(
+            Request::factory()
+                ->xml()
+                ->path('/flights/$metadata')
+        );
+    }
 }
