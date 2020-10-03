@@ -6,19 +6,19 @@ use ArrayAccess;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Interfaces\EmitInterface;
+use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Internal\ObjectArray;
 use Flat3\OData\Property\Constraint;
+use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasIdentifier;
-use Flat3\OData\Traits\HasType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInterface, PipeInterface
+class Entity implements IdentifierInterface, EntityTypeInterface, ArrayAccess, EmitInterface, PipeInterface
 {
     use HasIdentifier;
-    use HasType;
+    use HasEntityType;
 
     /** @var ObjectArray $primitives */
     private $primitives;
@@ -161,11 +161,6 @@ class Entity implements IdentifierInterface, TypeInterface, ArrayAccess, EmitInt
     public function getEntitySet(): EntitySet
     {
         return $this->entitySet;
-    }
-
-    public function getType(): ?Type
-    {
-        return $this->type;
     }
 
     public function setPrimitive($property, $value): self
