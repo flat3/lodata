@@ -10,9 +10,6 @@ use Flat3\OData\Property\Declared;
 use Flat3\OData\Property\Navigation;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type;
-use Illuminate\Support\Str;
-use ReflectionClass;
-use ReflectionException;
 
 class EntityType extends Type implements IdentifierInterface
 {
@@ -24,35 +21,10 @@ class EntityType extends Type implements IdentifierInterface
     /** @var ObjectArray[Property] $properties Properties */
     protected $properties;
 
-    /** @var ObjectArray[Operation] $bound_operations Operations bound to this entity type */
-    protected $boundOperations;
-
-    public function __construct($identifier = null)
+    public function __construct($identifier)
     {
-        if ($identifier) {
-            $this->setIdentifier($identifier);
-        } else {
-            try {
-                $reflect = new ReflectionClass($this);
-                $this->setIdentifier(Str::slug(Str::replaceLast('Type', '', $reflect->getShortName()), ''));
-            } catch (ReflectionException $e) {
-            }
-        }
-
+        $this->setIdentifier($identifier);
         $this->properties = new ObjectArray();
-        $this->boundOperations = new ObjectArray();
-    }
-
-    public function add_bound_operation(Operation $operation): self
-    {
-        $this->boundOperations[] = $operation;
-
-        return $this;
-    }
-
-    public function getBoundOperations(): ObjectArray
-    {
-        return $this->boundOperations;
     }
 
     /**
@@ -101,11 +73,6 @@ class EntityType extends Type implements IdentifierInterface
         return $this;
     }
 
-    public function addDeclaredProperty($identifier, Type $type): self
-    {
-        return $this->addProperty(new Declared($identifier, $type));
-    }
-
     public function getDeclaredProperties(): ObjectArray
     {
         return $this->properties->sliceByClass(Declared::class);
@@ -113,12 +80,7 @@ class EntityType extends Type implements IdentifierInterface
 
     public function getProperty(string $property): ?Property
     {
-        return $this->getProperties()->get($property);
-    }
-
-    public function getProperties(): ObjectArray
-    {
-        return $this->properties;
+        return $this->properties->get($property);
     }
 
     public function getNavigationProperties(): ObjectArray
