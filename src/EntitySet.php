@@ -438,7 +438,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $entitySet->getEntity($value);
     }
 
-    public function entity(): Entity
+    public function makeEntity(): Entity
     {
         $entity = new Entity();
         $entity->setEntitySet($this);
@@ -449,15 +449,4 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
      * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */
     abstract protected function generate(): array;
-
-    public function toEntity(Primitive $key): Entity
-    {
-        if (!$this->isInstance) {
-            throw new RuntimeException('Cannot toEntity on a non-instance');
-        }
-
-        $this->entityId = $key;
-        $this->keyProperty = $key->getProperty();
-        return $this->current();
-    }
 }

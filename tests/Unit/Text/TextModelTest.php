@@ -23,7 +23,7 @@ class TextModelTest extends TestCase
                 public function generate(): array
                 {
                     return [
-                        $this->entity()
+                        $this->makeEntity()
                             ->setPrimitive('a', 'a')
                     ];
                 }

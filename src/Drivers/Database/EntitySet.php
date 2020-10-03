@@ -414,7 +414,7 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
         $results = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $entity = $this->entity();
+            $entity = $this->makeEntity();
 
             $key = $this->getType()->getKey()->getIdentifier()->get();
             $entity->setPrimitive($key, $row[$key]);
