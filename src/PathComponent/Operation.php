@@ -12,24 +12,25 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Helper\Argument;
+use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Helper\Argument;
-use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Model;
-use Flat3\OData\Traits\HasIdentifier;
-use Flat3\OData\Traits\HasType;
+use Flat3\OData\PrimitiveType;
+use Flat3\OData\Traits\HasName;
+use Flat3\OData\Traits\HasDynamicType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 use RuntimeException;
 
-abstract class Operation implements IdentifierInterface, ResourceInterface, TypeInterface, PipeInterface
+abstract class Operation implements NamedInterface, ResourceInterface, TypeInterface, PipeInterface
 {
-    use HasIdentifier;
-    use HasType;
+    use HasName;
+    use HasDynamicType;
 
     /** @var callable $callback */
     protected $callback;
@@ -52,7 +53,7 @@ abstract class Operation implements IdentifierInterface, ResourceInterface, Type
                     return true;
 
                 case is_a($tn, Entity::class, true);
-                case is_a($tn, Primitive::class, true);
+                case is_a($tn, PrimitiveType::class, true);
                     return false;
             }
         } catch (ReflectionException $e) {
@@ -152,7 +153,7 @@ abstract class Operation implements IdentifierInterface, ResourceInterface, Type
 
         /** @var Argument $argumentDefinition */
         foreach ($operation->getArguments() as $argumentDefinition) {
-            $argumentIdentifier = $argumentDefinition->getIdentifier()->get();
+            $argumentIdentifier = $argumentDefinition->getName();
             if (!array_key_exists($argumentIdentifier, $providedArguments)) {
                 if (!$argumentDefinition->isNullable()) {
                     throw new BadRequestException('non_null_argument_missing',
@@ -186,7 +187,7 @@ abstract class Operation implements IdentifierInterface, ResourceInterface, Type
         switch (true) {
             case $result === null && !$operation->isNullable():
             case $returnType instanceof Entity && !$result->getEntityType() instanceof $returnType:
-            case $returnType instanceof Primitive && !$result instanceof $returnType:
+            case $returnType instanceof PrimitiveType && !$result instanceof $returnType:
                 throw new InternalServerErrorException(
                     'invalid_return_type',
                     'The operation returned an type that did not match its defined return type'

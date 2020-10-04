@@ -2,18 +2,18 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\PathComponent\Count;
-use Flat3\OData\PathComponent\Metadata;
-use Flat3\OData\PathComponent\Operation;
-use Flat3\OData\PathComponent\Primitive;
-use Flat3\OData\PathComponent\Service;
-use Flat3\OData\PathComponent\Value;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\PathComponent\Count;
+use Flat3\OData\PathComponent\Metadata;
+use Flat3\OData\PathComponent\Operation;
+use Flat3\OData\PathComponent\Service;
+use Flat3\OData\PathComponent\Value;
+use Flat3\OData\PrimitiveType;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -37,7 +37,7 @@ class OData extends Controller
             Value::class,
             Count::class,
             Operation::class,
-            Primitive::class,
+            PrimitiveType::class,
         ];
 
         $transaction->initialize($request);

@@ -8,7 +8,5 @@ interface EntityTypeInterface
 {
     public function getType(): ?EntityType;
 
-    public function getTypeName(): string;
-
     public function setType(EntityType $type);
 }

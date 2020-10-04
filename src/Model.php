@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Helper\ObjectArray;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -18,7 +18,7 @@ class Model
         $this->model = new ObjectArray();
     }
 
-    public static function add(IdentifierInterface $item): self
+    public static function add(NamedInterface $item): self
     {
         try {
             $model = app()->make(self::class);
@@ -89,10 +89,10 @@ class Model
 
     /**
      * @param $identifier
-     * @return IdentifierInterface
+     * @return NamedInterface
      * @throws BindingResolutionException
      */
-    public static function getResource($identifier): IdentifierInterface
+    public static function getResource($identifier): NamedInterface
     {
         /** @var self $model */
         $model = app()->make(self::class);

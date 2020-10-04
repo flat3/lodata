@@ -3,7 +3,6 @@
 namespace Flat3\OData;
 
 use ArrayAccess;
-use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
@@ -58,11 +57,11 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
             $this->primitives->rewind();
 
             while ($this->primitives->valid()) {
-                /** @var Primitive $primitive */
+                /** @var PrimitiveType $primitive */
                 $primitive = $this->primitives->current();
 
                 if ($transaction->shouldEmitPrimitive($primitive)) {
-                    $transaction->outputJsonKey($primitive->getProperty()->getIdentifier()->get());
+                    $transaction->outputJsonKey($primitive->getProperty()->getName());
                     $transaction->outputJsonValue($primitive);
 
                     $this->primitives->next();
@@ -105,15 +104,15 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
                     'no_expansion_constraint',
                     sprintf(
                         'No applicable constraint could be found between sets %s and %s for expansion',
-                        $this->entitySet->getIdentifier()->get(),
-                        $targetEntitySet->getIdentifier()->get()
+                        $this->entitySet->getName(),
+                        $targetEntitySet->getName()
                     )
                 );
             }
 
             $expansionTransaction = $transaction->subTransaction($expansionRequest);
 
-            /** @var Primitive $keyPrimitive */
+            /** @var PrimitiveType $keyPrimitive */
             $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());
             if ($keyPrimitive->get() === null) {
                 $expansionRequests->next();
@@ -151,7 +150,7 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
         $transaction->outputJsonObjectEnd();
     }
 
-    public function getEntityId(): ?Primitive
+    public function getEntityId(): ?PrimitiveType
     {
         $key = $this->getType()->getKey();
         return $this->primitives[$key];
@@ -174,7 +173,7 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
 
         if (null === $value && !$property->isNullable()) {
             throw new ResourceException(
-                'The entity set provided a null value that cannot be added for this property type: '.$property->getIdentifier()->get(),
+                'The entity set provided a null value that cannot be added for this property type: '.$property->getName()
             );
         }
 
@@ -188,7 +187,7 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
         return $this;
     }
 
-    public function getPrimitive(Property $property): ?Primitive
+    public function getPrimitive(Property $property): ?PrimitiveType
     {
         return $this->primitives[$property];
     }

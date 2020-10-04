@@ -4,7 +4,7 @@ namespace Flat3\OData\PathComponent;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Model;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -44,15 +44,15 @@ class Service implements EmitInterface
         }
 
         while ($resources) {
-            /** @var ResourceInterface|IdentifierInterface $resource */
+            /** @var ResourceInterface|NamedInterface $resource */
             $resource = array_shift($resources);
 
             $transaction->outputJsonObjectStart();
 
             $resourceData = [
-                'name' => (string) $resource->getIdentifier(),
+                'name' => (string) $resource->getName(),
                 'kind' => $resource->getKind(),
-                'url' => (string) $resource->getIdentifier(),
+                'url' => (string) $resource->getName(),
             ];
 
             if ($resource->getTitle()) {

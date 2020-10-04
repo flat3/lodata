@@ -3,9 +3,18 @@
 namespace Flat3\OData\Expression;
 
 use Exception;
-use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Type;
+use Flat3\OData\PrimitiveType;
+use Flat3\OData\Type\Binary;
+use Flat3\OData\Type\Boolean;
+use Flat3\OData\Type\Byte;
+use Flat3\OData\Type\Date;
+use Flat3\OData\Type\DateTimeOffset;
+use Flat3\OData\Type\Decimal;
+use Flat3\OData\Type\Duration;
+use Flat3\OData\Type\Guid;
+use Flat3\OData\Type\String_;
+use Flat3\OData\Type\TimeOfDay;
 
 /**
  * Class Lexer
@@ -128,45 +137,45 @@ class Lexer
         }
     }
 
-    public function type(Type $type): Primitive
+    public function type(PrimitiveType $type): PrimitiveType
     {
         $result = null;
 
         switch (true) {
-            case $type instanceof Type\Binary:
+            case $type instanceof Binary:
                 $result = $type::factory($this->base64());
                 break;
 
-            case $type instanceof Type\Boolean:
+            case $type instanceof Boolean:
                 $result = $type::factory($this->boolean());
                 break;
 
-            case $type instanceof Type\Byte:
-            case $type instanceof Type\Decimal:
+            case $type instanceof Byte:
+            case $type instanceof Decimal:
                 $result = $type::factory($this->number());
                 break;
 
-            case $type instanceof Type\Date:
+            case $type instanceof Date:
                 $result = $type::factory($this->date());
                 break;
 
-            case $type instanceof Type\TimeOfDay:
+            case $type instanceof TimeOfDay:
                 $result = $type::factory($this->timeOfDay());
                 break;
 
-            case $type instanceof Type\DateTimeOffset:
+            case $type instanceof DateTimeOffset:
                 $result = $type::factory($this->datetimeoffset());
                 break;
 
-            case $type instanceof Type\Duration:
+            case $type instanceof Duration:
                 $result = $type::factory($this->duration());
                 break;
 
-            case $type instanceof Type\Guid:
+            case $type instanceof Guid:
                 $result = $type::factory($this->guid());
                 break;
 
-            case $type instanceof Type\String_:
+            case $type instanceof String_:
                 $result = $type::factory($this->quotedString());
                 break;
         }

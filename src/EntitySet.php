@@ -12,21 +12,20 @@ use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
-use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
-use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\Traits\HasEntityType;
-use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasName;
 use Flat3\OData\Type\Property;
 use Iterator;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, Iterator, Countable, EmitInterface, PipeInterface
+abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, Iterator, Countable, EmitInterface, PipeInterface
 {
-    use HasIdentifier;
+    use HasName;
     use HasEntityType;
 
     /** @var ObjectArray $navigationBindings Navigation bindings */
@@ -53,7 +52,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var Transaction $transaction */
     protected $transaction;
 
-    /** @var Primitive $key */
+    /** @var PrimitiveType $key */
     protected $key;
 
     /** @var bool $isInstance */
@@ -88,7 +87,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $set;
     }
 
-    public function setKey(Primitive $key): self
+    public function setKey(PrimitiveType $key): self
     {
         $this->key = $key;
         return $this;
@@ -181,7 +180,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $this;
     }
 
-    public function getEntity(Primitive $key): ?Entity
+    public function getEntity(PrimitiveType $key): ?Entity
     {
         $this->setKey($key);
         return $this->current();

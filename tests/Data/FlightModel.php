@@ -9,10 +9,11 @@ use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Model;
 use Flat3\OData\NavigationProperty;
+use Flat3\OData\PrimitiveType;
 use Flat3\OData\ReferentialConstraint;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
-use Flat3\OData\Type;
+use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
 
 trait FlightModel
@@ -61,22 +62,22 @@ trait FlightModel
 
         try {
             $flightType = Model::entitytype('flight');
-            $flightType->setKey(DeclaredProperty::factory('id', Type::int32()));
-            $flightType->addProperty(DeclaredProperty::factory('origin', Type::string()));
-            $flightType->addProperty(DeclaredProperty::factory('destination', Type::string()));
-            $flightType->addProperty(DeclaredProperty::factory('gate', Type::int32()));
+            $flightType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
+            $flightType->addProperty(DeclaredProperty::factory('origin', PrimitiveType::string()));
+            $flightType->addProperty(DeclaredProperty::factory('destination', PrimitiveType::string()));
+            $flightType->addProperty(DeclaredProperty::factory('gate', PrimitiveType::int32()));
             $flightSet = new \Flat3\OData\Drivers\SQLEntitySet('flights', $flightType);
             $flightSet->setTable('flights');
 
             $airportType = Model::entitytype('airport');
-            $airportType->setKey(DeclaredProperty::factory('id', Type::int32()));
-            $airportType->addProperty(DeclaredProperty::factory('name', Type::string()));
-            $airportType->addProperty(DeclaredProperty::factory('code', Type::string())->setSearchable());
-            $airportType->addProperty(DeclaredProperty::factory('construction_date', Type::date()));
-            $airportType->addProperty(DeclaredProperty::factory('open_time', Type::timeofday()));
-            $airportType->addProperty(DeclaredProperty::factory('sam_datetime', Type::datetimeoffset()));
-            $airportType->addProperty(DeclaredProperty::factory('review_score', Type::decimal()));
-            $airportType->addProperty(DeclaredProperty::factory('is_big', Type::boolean()));
+            $airportType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
+            $airportType->addProperty(DeclaredProperty::factory('name', PrimitiveType::string()));
+            $airportType->addProperty(DeclaredProperty::factory('code', PrimitiveType::string())->setSearchable());
+            $airportType->addProperty(DeclaredProperty::factory('construction_date', PrimitiveType::date()));
+            $airportType->addProperty(DeclaredProperty::factory('open_time', PrimitiveType::timeofday()));
+            $airportType->addProperty(DeclaredProperty::factory('sam_datetime', PrimitiveType::datetimeoffset()));
+            $airportType->addProperty(DeclaredProperty::factory('review_score', PrimitiveType::decimal()));
+            $airportType->addProperty(DeclaredProperty::factory('is_big', PrimitiveType::boolean()));
             $airportSet = new \Flat3\OData\Drivers\SQLEntitySet('airports', $airportType);
             $airportSet->setTable('airports');
 
@@ -135,10 +136,10 @@ trait FlightModel
                 });
 
             Model::fn('add')
-                ->setCallback(function (Type\Int32 $a, Type\Int32 $b): Type\Int32 {
-                    return Type\Int32::factory($a->get() + $b->get());
+                ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+                    return Int32::factory($a->get() + $b->get());
                 })
-                ->setType(Type::int32());
+                ->setType(PrimitiveType::int32());
         } catch (Exception $e) {
         }
     }

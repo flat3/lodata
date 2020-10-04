@@ -4,13 +4,18 @@ namespace Flat3\OData\Traits;
 
 use Flat3\OData\Helper\Identifier;
 
-trait HasIdentifier
+trait HasName
 {
     /** @var Identifier $identifier Resource identifier */
     protected $identifier;
 
     /** @var string $title Resource title */
     protected $title = null;
+
+    public function getName(): string
+    {
+        return $this->identifier;
+    }
 
     /**
      * Get the Resource title

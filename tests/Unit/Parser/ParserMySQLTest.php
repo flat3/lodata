@@ -7,8 +7,8 @@ use Flat3\OData\DeclaredProperty;
 use Flat3\OData\Drivers\Database\MySQLEntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\ParserException;
+use Flat3\OData\PrimitiveType;
 use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Type;
 use Illuminate\Http\Request;
 
 class ParserMySQLTest extends TestCase
@@ -331,10 +331,10 @@ class ParserMySQLTest extends TestCase
         foreach (array_reverse($this->tests) as $from => $to) {
             try {
                 $entity_type = new class('test') extends EntityType{};
-                $id = DeclaredProperty::factory('id', Type::int32());
+                $id = DeclaredProperty::factory('id', PrimitiveType::int32());
                 $id->setFilterable(true);
                 $entity_type->setKey($id);
-                $title = DeclaredProperty::factory('title', Type::string());
+                $title = DeclaredProperty::factory('title', PrimitiveType::string());
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
                 $entitySet = new MySQLEntitySet('test', $entity_type);

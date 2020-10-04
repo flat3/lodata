@@ -6,7 +6,7 @@ use DOMDocument;
 use Flat3\OData\Model;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\ServiceProvider;
-use Flat3\OData\Traits\HasIdentifier;
+use Flat3\OData\Traits\HasName;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -22,7 +22,7 @@ class ODCFF extends Controller
 
         $htmlDoc = new DOMDocument();
 
-        /** @var HasIdentifier $resource */
+        /** @var HasName $resource */
         $resource = $model->getResources()->get($identifier);
         if (null === $resource) {
             throw NotFoundException::factory(
@@ -31,8 +31,8 @@ class ODCFF extends Controller
             )->target($identifier);
         }
 
-        $resourceName = $resource->getTitle() ?: $resource->getIdentifier()->get();
-        $resourceId = $resource->getIdentifier()->get();
+        $resourceName = $resource->getTitle() ?: $resource->getName();
+        $resourceId = $resource->getName();
         $office = 'urn:schemas-microsoft-com:office:office';
         $odc = 'urn:schemas-microsoft-com:office:odc';
 

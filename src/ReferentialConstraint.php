@@ -30,6 +30,6 @@ class ReferentialConstraint
 
     public function __toString()
     {
-        return $this->property->getIdentifier()->get().'/'.$this->referenced_property->getIdentifier()->get();
+        return $this->property->getName().'/'.$this->referenced_property->getName();
     }
 }

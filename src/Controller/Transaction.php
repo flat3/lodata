@@ -2,13 +2,14 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
+use Flat3\OData\Interfaces\TypeInterface;
+use Flat3\OData\PrimitiveType;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Transaction\IEEE754Compatible;
 use Flat3\OData\Transaction\MediaType;
@@ -25,7 +26,6 @@ use Flat3\OData\Transaction\Option\Skip;
 use Flat3\OData\Transaction\Option\Top;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
-use Flat3\OData\Type;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Property;
 use Illuminate\Http\Request;
@@ -343,7 +343,7 @@ class Transaction
         return $this->preferences->getParameter($preference) ?: $this->preferences->getParameter('odata.'.$preference);
     }
 
-    public function shouldEmitPrimitive(?Primitive $primitive = null): bool
+    public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
     {
         if (null === $primitive) {
             return false;
@@ -539,12 +539,12 @@ class Transaction
 
     public function getCollectionOfEntitiesContextUrl(EntitySet $entitySet): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getIdentifier();
+        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getName();
     }
 
     public function getEntityContextUrl(EntitySet $entitySet): string
     {
-        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getIdentifier().'/$entity';
+        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getName().'/$entity';
     }
 
     public function getSingletonContextUrl(string $singleton): string
@@ -557,7 +557,7 @@ class Transaction
         return sprintf(
             '%s#%s(%s)',
             $this->getServiceDocumentContextUrl(),
-            $entitySet->getIdentifier(),
+            $entitySet->getName(),
             join(',', $selects)
         );
     }
@@ -567,12 +567,12 @@ class Transaction
         return sprintf(
             '%s#%s(%s)/$entity',
             $this->getServiceDocumentContextUrl(),
-            $entitySet->getIdentifier(),
+            $entitySet->getName(),
             join(',', $selects)
         );
     }
 
-    public function getOperationResultTypeContextUrl(Primitive $type): string
+    public function getOperationResultTypeContextUrl(PrimitiveType $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }
@@ -594,23 +594,23 @@ class Transaction
         return sprintf(
             "%s#%s(%s)/%s",
             $this->getServiceDocumentContextUrl(),
-            $entitySet->getIdentifier(),
+            $entitySet->getName(),
             $entityId,
-            $property->getIdentifier()
+            $property->getName()
         );
     }
 
-    public function getCollectionOfTypesContextUrl(EntitySet $entitySet, Primitive $type): string
+    public function getCollectionOfTypesContextUrl(EntitySet $entitySet, PrimitiveType $type): string
     {
         return sprintf(
             '%s#%s(%s)',
             $this->getServiceDocumentContextUrl(),
-            $entitySet->getIdentifier(),
+            $entitySet->getName(),
             $type->getName()
         );
     }
 
-    public function getTypeContextUrl(Type $type): string
+    public function getTypeContextUrl(TypeInterface $type): string
     {
         return $this->getServiceDocumentContextUrl().'#'.$type->getName();
     }
@@ -622,7 +622,7 @@ class Transaction
 
     public function getEntityCollectionResourceUrl(EntitySet $entitySet): string
     {
-        return $this->getServiceDocumentResourceUrl().$entitySet->getIdentifier();
+        return $this->getServiceDocumentResourceUrl().$entitySet->getName();
     }
 
     public function outputJsonObjectStart()
@@ -679,7 +679,7 @@ class Transaction
 
     public function outputJsonValue($value)
     {
-        if ($value instanceof Primitive) {
+        if ($value instanceof PrimitiveType) {
             $value = $this->ieee754compatible->isTrue() ? $value->toJsonIeee754() : $value->toJson();
         }
 

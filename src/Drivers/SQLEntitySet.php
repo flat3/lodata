@@ -162,7 +162,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     public function getPropertySourceName(Property $property): string
     {
-        return $this->sourceMap[$property] ?? $property->getIdentifier()->get();
+        return $this->sourceMap[$property] ?? $property->getName();
     }
 
     public function filter(Event $event): ?bool
@@ -184,7 +184,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
                 if (!$property->isFilterable()) {
                     throw new BadRequestException(
-                        sprintf('The provided property (%s) is not filterable', $property->getIdentifier())
+                        sprintf('The provided property (%s) is not filterable', $property->getName())
                     );
                 }
 
@@ -387,7 +387,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             /** @var \Flat3\OData\Type\Property $property */
             foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
-                    $validLiterals[] = (string) $property->getIdentifier();
+                    $validLiterals[] = (string) $property->getName();
                 }
             }
 
@@ -417,7 +417,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
             $entity = $this->makeEntity();
 
-            $key = $this->getType()->getKey()->getIdentifier()->get();
+            $key = $this->getType()->getKey()->getName();
             $entity->setPrimitive($key, $row[$key]);
 
             foreach ($row as $id => $value) {
@@ -503,7 +503,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $column = $this->propertyToField($property);
 
-        return sprintf('%s AS %s', $column, $property->getIdentifier());
+        return sprintf('%s AS %s', $column, $property->getName());
     }
 
     public function generateLimits(): string

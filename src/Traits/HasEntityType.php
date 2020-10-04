@@ -14,11 +14,6 @@ trait HasEntityType
         return $this->type;
     }
 
-    public function getTypeName(): string
-    {
-        return $this->type->getName();
-    }
-
     public function setType(EntityType $type)
     {
         $this->type = $type;

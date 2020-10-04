@@ -2,9 +2,9 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\PathComponent\Primitive;
+use Flat3\OData\PrimitiveType;
 
-class String_ extends Primitive
+class String_ extends PrimitiveType
 {
     protected $name = 'Edm.String';
 

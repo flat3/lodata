@@ -5,9 +5,9 @@ namespace Flat3\OData\Tests\Unit\Text;
 use Flat3\OData\DeclaredProperty;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Model;
+use Flat3\OData\PrimitiveType;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Type;
 
 class TextModelTest extends TestCase
 {
@@ -19,7 +19,7 @@ class TextModelTest extends TestCase
             new class(
                 'texts',
                 Model::entitytype('text')
-                    ->addProperty(DeclaredProperty::factory('a', Type::string()))
+                    ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
             ) extends EntitySet {
                 public function generate(): array
                 {

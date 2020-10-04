@@ -8,14 +8,15 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\PrimitiveType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Value implements PipeInterface, EmitInterface
 {
-    /** @var Primitive $primitive */
+    /** @var PrimitiveType $primitive */
     protected $primitive;
 
-    public function __construct(Primitive $primitive)
+    public function __construct(PrimitiveType $primitive)
     {
         $this->primitive = $primitive;
     }
@@ -29,7 +30,7 @@ class Value implements PipeInterface, EmitInterface
             throw new PathNotHandledException();
         }
 
-        if (!$argument instanceof Primitive) {
+        if (!$argument instanceof PrimitiveType) {
             throw new BadRequestException('bad_value_argument',
                 '$value must be passed a primitive value');
         }

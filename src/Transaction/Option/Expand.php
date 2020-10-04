@@ -7,10 +7,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
-use Flat3\OData\NavigationProperty;
 use Flat3\OData\Transaction\Option;
-use Flat3\OData\Type;
-use RuntimeException;
 
 /**
  * Class Expand
@@ -22,12 +19,8 @@ class Expand extends Option
     public const param = 'expand';
     public const query_interface = ExpandInterface::class;
 
-    public function getExpansionRequests(Type $entityType): ObjectArray
+    public function getExpansionRequests(EntityType $entityType): ObjectArray
     {
-        if (!$entityType instanceof EntityType) {
-            throw new RuntimeException('Supplied type was not an entity type');
-        }
-
         $expanded = $this->getValue();
 
         $requests = new ObjectArray();

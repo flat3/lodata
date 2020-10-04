@@ -2,16 +2,15 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Interfaces\IdentifierInterface;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Traits\HasIdentifier;
-use Flat3\OData\Traits\HasType;
-use Flat3\OData\Type;
+use Flat3\OData\Traits\HasName;
+use Flat3\OData\Traits\HasDynamicType;
 
-abstract class Property implements IdentifierInterface, TypeInterface
+abstract class Property implements NamedInterface, TypeInterface
 {
-    use HasIdentifier;
-    use HasType;
+    use HasName;
+    use HasDynamicType;
 
     /** @var bool $nullable Whether this property is nullable */
     protected $nullable = true;
@@ -25,13 +24,13 @@ abstract class Property implements IdentifierInterface, TypeInterface
     /** @var bool $keyable Whether this property can be used as an alternative key */
     protected $keyable = false;
 
-    public function __construct($identifier, Type $type)
+    public function __construct($identifier, TypeInterface $type)
     {
         $this->setIdentifier($identifier);
         $this->type = $type;
     }
 
-    public static function factory($identifier, Type $type): self
+    public static function factory($identifier, TypeInterface $type): self
     {
         return new static($identifier, $type);
     }
