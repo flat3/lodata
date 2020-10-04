@@ -16,6 +16,7 @@ use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
@@ -24,7 +25,7 @@ use Iterator;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, Iterator, Countable, EmitInterface, PipeInterface
+abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, Iterator, Countable, EmitInterface, PipeInterface
 {
     use HasName;
     use HasTitle;
@@ -339,8 +340,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         string $pathComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        /** @var Model $data_model */
-        $data_model = app()->make(Model::class);
+        $data_model = Model::get();
         $lexer = new Lexer($pathComponent);
         try {
             $entitySet = $data_model->getResources()->get($lexer->odataIdentifier());

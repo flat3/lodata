@@ -10,11 +10,12 @@ use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Type\Property;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInterface
+class Entity implements ResourceInterface, EntityTypeInterface, ArrayAccess, EmitInterface, PipeInterface
 {
     use HasEntityType;
 

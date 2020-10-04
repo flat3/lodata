@@ -16,20 +16,13 @@ use Flat3\OData\PathComponent\Operation;
 use Flat3\OData\PathComponent\Service;
 use Flat3\OData\PathComponent\Value;
 use Flat3\OData\PrimitiveType;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Flat3\OData\Singleton;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OData extends Controller
 {
-    /**
-     * @param  Request  $request
-     * @param  Transaction  $transaction
-     * @return StreamedResponse
-     * @throws BindingResolutionException
-     */
     public function get(Request $request, Transaction $transaction)
     {
         /** @var PipeInterface[] $handlers */
@@ -40,6 +33,7 @@ class OData extends Controller
             Count::class,
             Operation::class,
             PrimitiveType::class,
+            Singleton::class,
         ];
 
         $transaction->initialize($request);

@@ -4,6 +4,7 @@ namespace Flat3\OData;
 
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Helper\ObjectArray;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use RuntimeException;
@@ -18,84 +19,62 @@ class Model
         $this->model = new ObjectArray();
     }
 
-    public static function add(NamedInterface $item): self
+    public static function get(): self
     {
         try {
-            $model = app()->make(self::class);
-            $model->model[] = $item;
-            return $model;
+            return app()->make(self::class);
         } catch (BindingResolutionException $e) {
             throw new RuntimeException($e->getMessage());
         }
+    }
+
+    public static function add(NamedInterface $item): self
+    {
+        $model = self::get();
+        $model->model[] = $item;
+        return $model;
     }
 
     public static function fn($name): FunctionOperation
     {
-        /** @var self $model */
-        try {
-            $model = app()->make(self::class);
+        $model = self::get();
 
-            $fn = new FunctionOperation($name);
+        $fn = new FunctionOperation($name);
 
-            $model->model[] = $fn;
-            return $fn;
-        } catch (BindingResolutionException $e) {
-            throw new RuntimeException($e->getMessage());
-        }
+        $model->model[] = $fn;
+        return $fn;
     }
 
     public static function action($name): ActionOperation
     {
-        /** @var self $model */
-        try {
-            $model = app()->make(self::class);
+        $model = self::get();
 
-            $action = new ActionOperation($name);
+        $action = new ActionOperation($name);
 
-            $model->model[] = $action;
-            return $action;
-        } catch (BindingResolutionException $e) {
-            throw new RuntimeException($e->getMessage());
-        }
+        $model->model[] = $action;
+        return $action;
     }
 
     public static function entitytype($name): EntityType
     {
-        /** @var self $model */
-        try {
-            $model = app()->make(self::class);
+        $model = self::get();
 
-            $type = new EntityType($name);
+        $type = new EntityType($name);
 
-            $model->model[] = $type;
-            return $type;
-        } catch (BindingResolutionException $e) {
-            throw new RuntimeException($e->getMessage());
-        }
+        $model->model[] = $type;
+        return $type;
     }
 
-    /**
-     * @param $name
-     * @return EntityType
-     * @throws BindingResolutionException
-     */
     public static function getType($name): EntityType
     {
-        /** @var self $model */
-        $model = app()->make(self::class);
+        $model = self::get();
 
         return $model->getEntityTypes()->get($name);
     }
 
-    /**
-     * @param $name
-     * @return NamedInterface
-     * @throws BindingResolutionException
-     */
     public static function getResource($name): NamedInterface
     {
-        /** @var self $model */
-        $model = app()->make(self::class);
+        $model = self::get();
 
         return $model->getResources()->get($name);
     }

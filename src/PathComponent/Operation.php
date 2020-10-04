@@ -16,6 +16,7 @@ use Flat3\OData\Helper\Argument;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Model;
 use Flat3\OData\PrimitiveType;
@@ -27,7 +28,7 @@ use ReflectionFunction;
 use ReflectionNamedType;
 use RuntimeException;
 
-abstract class Operation implements ResourceInterface, TypeInterface, PipeInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, PipeInterface
 {
     use HasName;
     use HasType;
@@ -122,8 +123,7 @@ abstract class Operation implements ResourceInterface, TypeInterface, PipeInterf
             throw new PathNotHandledException();
         }
 
-        /** @var Model $model */
-        $model = app()->make(Model::class);
+        $model = Model::get();
 
         $operation = $model->getResources()->get($operationIdentifier);
 

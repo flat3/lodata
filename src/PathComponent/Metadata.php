@@ -24,8 +24,11 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Metadata implements PipeInterface, EmitInterface
 {
-    public static function pipe(Transaction $transaction, string $pathComponent, ?PipeInterface $argument): PipeInterface
-    {
+    public static function pipe(
+        Transaction $transaction,
+        string $pathComponent,
+        ?PipeInterface $argument
+    ): PipeInterface {
         if ($pathComponent !== '$metadata') {
             throw new PathNotHandledException();
         }
@@ -37,10 +40,9 @@ class Metadata implements PipeInterface, EmitInterface
         return new static();
     }
 
-    public function emit(Transaction $transaction):void
+    public function emit(Transaction $transaction): void
     {
-        /** @var Model $model */
-        $model = app()->make(Model::class);
+        $model = Model::get();
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_CSDLXMLDocument
         $root = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" />');
@@ -225,7 +227,7 @@ class Metadata implements PipeInterface, EmitInterface
         $supportedFormats->addAttribute('Term', 'Org.OData.Capabilities.V1.SupportedFormats');
         $supportedFormatsCollection = $supportedFormats->addChild('Collection');
 
-        /** @var \Flat3\OData\Transaction\Metadata  $attribute */
+        /** @var \Flat3\OData\Transaction\Metadata $attribute */
         foreach ([
                      Full::class,
                      Minimal::class,
