@@ -6,15 +6,15 @@ use Flat3\OData\Helper\Identifier;
 
 trait HasName
 {
-    /** @var Identifier $identifier Resource identifier */
-    protected $identifier;
+    /** @var Identifier $name Resource identifier */
+    protected $name;
 
     /** @var string $title Resource title */
     protected $title = null;
 
     public function getName(): string
     {
-        return $this->identifier;
+        return $this->name;
     }
 
     /**
@@ -43,28 +43,18 @@ trait HasName
 
     public function __toString()
     {
-        return $this->getIdentifier()->get();
+        return (string) $this->name;
     }
 
     /**
-     * Get the Resource identifier
+     * Set the Resource name
      *
-     * @return Identifier
-     */
-    public function getIdentifier(): Identifier
-    {
-        return $this->identifier;
-    }
-
-    /**
-     * Set the Resource identifier
-     *
-     * @param $identifier
+     * @param $name
      * @return $this
      */
-    public function setIdentifier($identifier): self
+    public function setName($name): self
     {
-        $this->identifier = $identifier instanceof Identifier ? $identifier : new Identifier($identifier);
+        $this->name = $name instanceof Identifier ? $name : new Identifier($name);
 
         return $this;
     }

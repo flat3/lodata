@@ -4,7 +4,7 @@ namespace Flat3\OData\Traits;
 
 use Flat3\OData\Interfaces\TypeInterface;
 
-trait HasDynamicType
+trait HasType
 {
     /** @var TypeInterface $type */
     protected $type;

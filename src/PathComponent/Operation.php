@@ -20,7 +20,7 @@ use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Model;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
-use Flat3\OData\Traits\HasDynamicType;
+use Flat3\OData\Traits\HasType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
@@ -29,14 +29,14 @@ use RuntimeException;
 abstract class Operation implements ResourceInterface, TypeInterface, PipeInterface
 {
     use HasName;
-    use HasDynamicType;
+    use HasType;
 
     /** @var callable $callback */
     protected $callback;
 
     public function __construct($identifier)
     {
-        $this->setIdentifier($identifier);
+        $this->setName($identifier);
     }
 
     public function returnsCollection(): bool

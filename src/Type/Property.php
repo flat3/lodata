@@ -5,12 +5,12 @@ namespace Flat3\OData\Type;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasName;
-use Flat3\OData\Traits\HasDynamicType;
+use Flat3\OData\Traits\HasType;
 
 abstract class Property implements TypeInterface
 {
     use HasName;
-    use HasDynamicType;
+    use HasType;
 
     /** @var bool $nullable Whether this property is nullable */
     protected $nullable = true;
@@ -26,7 +26,7 @@ abstract class Property implements TypeInterface
 
     public function __construct($identifier, TypeInterface $type)
     {
-        $this->setIdentifier($identifier);
+        $this->setName($identifier);
         $this->type = $type;
     }
 

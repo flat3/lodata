@@ -6,7 +6,7 @@ use Flat3\OData\EntityType;
 
 trait HasEntityType
 {
-    /** @var \Flat3\OData\EntityType $type */
+    /** @var EntityType $type */
     protected $type;
 
     public function getType(): ?EntityType

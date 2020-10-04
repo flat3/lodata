@@ -6,18 +6,18 @@ use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
-use Flat3\OData\Traits\HasDynamicType;
+use Flat3\OData\Traits\HasType;
 
 class Argument implements TypeInterface
 {
     use HasName;
-    use HasDynamicType;
+    use HasType;
 
     protected $nullable = true;
 
     public function __construct(string $identifier, PrimitiveType $type, bool $nullable = true)
     {
-        $this->setIdentifier($identifier);
+        $this->setName($identifier);
         $this->type = $type;
         $this->nullable = $nullable;
     }

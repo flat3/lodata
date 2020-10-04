@@ -16,7 +16,7 @@ class ComplexType implements TypeInterface
 
     public function __construct($identifier)
     {
-        $this->setIdentifier($identifier);
+        $this->setName($identifier);
         $this->properties = new ObjectArray();
     }
 

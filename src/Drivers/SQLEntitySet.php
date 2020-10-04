@@ -66,7 +66,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     public function getTable(): string
     {
-        return $this->table ?: $this->identifier;
+        return $this->table ?: $this->name;
     }
 
     public function setTable(string $table): self

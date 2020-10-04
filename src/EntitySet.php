@@ -60,7 +60,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function __construct(string $identifier, EntityType $entityType)
     {
-        $this->setIdentifier($identifier);
+        $this->setName($identifier);
 
         $this->type = $entityType;
         $this->navigationBindings = new ObjectArray();
