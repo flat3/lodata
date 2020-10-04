@@ -11,7 +11,7 @@ class EntityType extends Type implements IdentifierInterface
 {
     use HasIdentifier;
 
-    /** @var \Flat3\OData\Type\Property $key Primary key property */
+    /** @var Property $key Primary key property */
     protected $key;
 
     /** @var ObjectArray[Property] $properties Properties */
@@ -26,7 +26,7 @@ class EntityType extends Type implements IdentifierInterface
     /**
      * Return the defined key
      *
-     * @return \Flat3\OData\Type\EntityType\\Flat3\OData\Type\Property|null
+     * @return Property|null
      */
     public function getKey(): ?Property
     {
@@ -36,7 +36,7 @@ class EntityType extends Type implements IdentifierInterface
     /**
      * Set the key property by name
      *
-     * @param  \Flat3\OData\Type\Property  $key
+     * @param  Property  $key
      *
      * @return $this
      */
@@ -48,7 +48,7 @@ class EntityType extends Type implements IdentifierInterface
         $key->setNullable(false);
 
         // Key property should be marked keyable
-        $key->setAlternativeKey(true);
+        $key->setKeyable(true);
 
         $this->key = $key;
 
@@ -58,7 +58,7 @@ class EntityType extends Type implements IdentifierInterface
     /**
      * Add a property to the list
      *
-     * @param  \Flat3\OData\Type\Property  $property
+     * @param  Property  $property
      *
      * @return $this
      */

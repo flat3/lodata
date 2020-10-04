@@ -22,8 +22,8 @@ abstract class Property implements IdentifierInterface, TypeInterface
     /** @var bool $filterable Whether this property can be used in a $filter expression */
     protected $filterable = true;
 
-    /** @var bool $alternativeKey Whether this property can be used as an alternative key */
-    protected $alternativeKey = false;
+    /** @var bool $keyable Whether this property can be used as an alternative key */
+    protected $keyable = false;
 
     public function __construct($identifier, Type $type)
     {
@@ -99,14 +99,14 @@ abstract class Property implements IdentifierInterface, TypeInterface
         return $this;
     }
 
-    public function isAlternativeKey(): bool
+    public function isKeyable(): bool
     {
-        return $this->alternativeKey;
+        return $this->keyable;
     }
 
-    public function setAlternativeKey(bool $alternativeKey = true): self
+    public function setKeyable(bool $keyable = true): self
     {
-        $this->alternativeKey = $alternativeKey;
+        $this->keyable = $keyable;
 
         return $this;
     }
