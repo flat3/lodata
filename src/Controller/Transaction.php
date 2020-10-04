@@ -54,13 +54,13 @@ class Transaction
     /** @var ParameterList $preferences */
     private $preferences;
 
-    /** @var \Flat3\OData\PathComponent\Metadata $metadata */
+    /** @var Metadata $metadata */
     private $metadata;
 
     /** @var IEEE754Compatible $ieee754compatible */
     private $ieee754compatible;
 
-    /** @var \Flat3\OData\PathComponent\Count $count */
+    /** @var Count $count */
     private $count;
 
     /** @var Expand $expand */
@@ -69,7 +69,7 @@ class Transaction
     /** @var Filter $filter */
     private $filter;
 
-    /** @var \Flat3\OData\Transaction\Option\OrderBy $orderby */
+    /** @var OrderBy $orderby */
     private $orderby;
 
     /** @var Search $search */
@@ -78,7 +78,7 @@ class Transaction
     /** @var Select $select */
     private $select;
 
-    /** @var \Flat3\OData\Transaction\Option\Format $format */
+    /** @var Format $format */
     private $format;
 
     /** @var Skip $skip */
@@ -262,7 +262,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\PathComponent\Count
+     * @return Count
      */
     public function getCount(): Count
     {
@@ -270,7 +270,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\Transaction\Option\Expand
+     * @return Expand
      */
     public function getExpand(): Expand
     {
@@ -286,7 +286,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\Transaction\Option\OrderBy
+     * @return OrderBy
      */
     public function getOrderBy(): OrderBy
     {
@@ -436,7 +436,7 @@ class Transaction
     }
 
     /**
-     * @return \Flat3\OData\Transaction\Option\Format
+     * @return Format
      */
     public function getFormat(): Format
     {
