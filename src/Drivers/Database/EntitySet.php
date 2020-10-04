@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Drivers\Database;
 
+use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Expression\Event;
@@ -29,15 +30,14 @@ use Flat3\OData\Expression\Node\Operator\Logical\In;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
+use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\QueryOptions\CountInterface;
 use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
 use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
 use Flat3\OData\Interfaces\QueryOptions\OrderByInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
-use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Property;
-use Flat3\OData\Type\EntityType;
+use Flat3\OData\Type\Property;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
@@ -116,7 +116,7 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
             case $event instanceof Literal:
                 $properties = [];
 
-                /** @var Property $property */
+                /** @var \Flat3\OData\Type\Property $property */
                 foreach ($this->getType()->getDeclaredProperties() as $property) {
                     if (!$property->isSearchable()) {
                         continue;
@@ -383,7 +383,7 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
             $this->whereMaybeAnd();
             $validLiterals = [];
 
-            /** @var Property $property */
+            /** @var \Flat3\OData\Type\Property $property */
             foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
                     $validLiterals[] = (string) $property->getIdentifier();
@@ -494,7 +494,7 @@ class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, Filte
     /**
      * Apply casts based on property type
      *
-     * @param  Property  $property
+     * @param  \Flat3\OData\Type\Property  $property
      *
      * @return string
      */

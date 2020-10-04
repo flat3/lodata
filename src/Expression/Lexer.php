@@ -3,8 +3,8 @@
 namespace Flat3\OData\Expression;
 
 use Exception;
+use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Primitive;
 use Flat3\OData\Type;
 
 /**

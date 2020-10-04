@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Type;
 
-use Flat3\OData\Primitive;
+use Flat3\OData\PathComponent\Primitive;
 
 class Byte extends Primitive
 {

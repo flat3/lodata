@@ -3,12 +3,13 @@
 namespace Flat3\OData\Tests\Data;
 
 use Exception;
-use Flat3\OData\Controller\OData;
+use Flat3\OData\DeclaredProperty;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\EntitySet\Callback;
-use Flat3\OData\ODataModel;
-use Flat3\OData\Property;
+use Flat3\OData\Model;
+use Flat3\OData\NavigationProperty;
+use Flat3\OData\ReferentialConstraint;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
 use Flat3\OData\Type;
@@ -59,55 +60,55 @@ trait FlightModel
         ]))->save();
 
         try {
-            $flightType = ODataModel::entitytype('flight');
-            $flightType->setKey(new Property\Declared('id', Type::int32()));
-            $flightType->addProperty(new Property\Declared('origin', Type::string()));
-            $flightType->addProperty(new Property\Declared('destination', Type::string()));
-            $flightType->addProperty(new Property\Declared('gate', Type::int32()));
+            $flightType = Model::entitytype('flight');
+            $flightType->setKey(DeclaredProperty::factory('id', Type::int32()));
+            $flightType->addProperty(DeclaredProperty::factory('origin', Type::string()));
+            $flightType->addProperty(DeclaredProperty::factory('destination', Type::string()));
+            $flightType->addProperty(DeclaredProperty::factory('gate', Type::int32()));
             $flightSet = new \Flat3\OData\Drivers\Database\EntitySet('flights', $flightType);
             $flightSet->setTable('flights');
 
-            $airportType = ODataModel::entitytype('airport');
-            $airportType->setKey(new Property\Declared('id', Type::int32()));
-            $airportType->addProperty(new Property\Declared('name', Type::string()));
-            $airportType->addProperty(Property\Declared::factory('code', Type::string())->setSearchable());
-            $airportType->addProperty(new Property\Declared('construction_date', Type::date()));
-            $airportType->addProperty(new Property\Declared('open_time', Type::timeofday()));
-            $airportType->addProperty(new Property\Declared('sam_datetime', Type::datetimeoffset()));
-            $airportType->addProperty(new Property\Declared('review_score', Type::decimal()));
-            $airportType->addProperty(new Property\Declared('is_big', Type::boolean()));
+            $airportType = Model::entitytype('airport');
+            $airportType->setKey(DeclaredProperty::factory('id', Type::int32()));
+            $airportType->addProperty(DeclaredProperty::factory('name', Type::string()));
+            $airportType->addProperty(DeclaredProperty::factory('code', Type::string())->setSearchable());
+            $airportType->addProperty(DeclaredProperty::factory('construction_date', Type::date()));
+            $airportType->addProperty(DeclaredProperty::factory('open_time', Type::timeofday()));
+            $airportType->addProperty(DeclaredProperty::factory('sam_datetime', Type::datetimeoffset()));
+            $airportType->addProperty(DeclaredProperty::factory('review_score', Type::decimal()));
+            $airportType->addProperty(DeclaredProperty::factory('is_big', Type::boolean()));
             $airportSet = new \Flat3\OData\Drivers\Database\EntitySet('airports', $airportType);
             $airportSet->setTable('airports');
 
-            ODataModel::add($flightSet);
-            ODataModel::add($airportSet);
+            Model::add($flightSet);
+            Model::add($airportSet);
 
-            $nav = new Property\Navigation($airportSet, $airportType);
+            $nav = new NavigationProperty($airportSet, $airportType);
             $nav->setCollection(true);
             $nav->addConstraint(
-                new Property\Constraint(
+                new ReferentialConstraint(
                     $flightType->getProperty('origin'),
                     $airportType->getProperty('code')
                 )
             );
             $nav->addConstraint(
-                new Property\Constraint(
+                new ReferentialConstraint(
                     $flightType->getProperty('destination'),
                     $airportType->getProperty('code')
                 )
             );
             $flightType->addProperty($nav);
-            $flightSet->addNavigationBinding(new Property\Navigation\Binding($nav, $airportSet));
+            $flightSet->addNavigationBinding(new \Flat3\OData\NavigationBinding($nav, $airportSet));
 
-            ODataModel::fn('exf1')
+            Model::fn('exf1')
                 ->setCallback(function (): String_ {
                     return String_::factory('hello');
                 });
 
-            ODataModel::fn('exf2')
+            Model::fn('exf2')
                 ->setCallback(function (): EntitySet {
-                    $type = ODataModel::getType('airport');
-                    $airports = ODataModel::getResource('airports');
+                    $type = Model::getType('airport');
+                    $airports = Model::getResource('airports');
 
                     return Callback::factory($airports, $type)->setCallback(function () {
                         $airport = new Airport();
@@ -117,10 +118,10 @@ trait FlightModel
                 })
                 ->setType($airportType);
 
-            ODataModel::fn('exf3')
+            Model::fn('exf3')
                 ->setCallback(function (String_ $code): Entity {
-                    /** @var ODataModel $model */
-                    $model = app()->get(ODataModel::class);
+                    /** @var Model $model */
+                    $model = app()->get(Model::class);
                     $airport = new Airport();
                     $airport->setType($model->getEntityTypes()->get('airport'));
                     $airport['code'] = $code->get();
@@ -128,12 +129,12 @@ trait FlightModel
                 })
                 ->setType($airportType);
 
-            ODataModel::action('exa1')
+            Model::action('exa1')
                 ->setCallback(function (): String_ {
                     return String_::factory('hello');
                 });
 
-            ODataModel::fn('add')
+            Model::fn('add')
                 ->setCallback(function (Type\Int32 $a, Type\Int32 $b): Type\Int32 {
                     return Type\Int32::factory($a->get() + $b->get());
                 })

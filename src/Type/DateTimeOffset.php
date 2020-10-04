@@ -4,7 +4,7 @@ namespace Flat3\OData\Type;
 
 use DateTime;
 use Exception;
-use Flat3\OData\Primitive;
+use Flat3\OData\PathComponent\Primitive;
 
 class DateTimeOffset extends Primitive
 {

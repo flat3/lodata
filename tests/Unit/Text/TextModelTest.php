@@ -2,9 +2,9 @@
 
 namespace Flat3\OData\Tests\Unit\Text;
 
+use Flat3\OData\DeclaredProperty;
 use Flat3\OData\EntitySet;
-use Flat3\OData\ODataModel;
-use Flat3\OData\Property\Declared;
+use Flat3\OData\Model;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Type;
@@ -15,11 +15,11 @@ class TextModelTest extends TestCase
     {
         parent::setUp();
 
-        ODataModel::add(
+        Model::add(
             new class(
                 'texts',
-                ODataModel::entitytype('text')
-                    ->addProperty(Declared::factory('a', Type::string()))
+                Model::entitytype('text')
+                    ->addProperty(DeclaredProperty::factory('a', Type::string()))
             ) extends EntitySet {
                 public function generate(): array
                 {

@@ -2,13 +2,13 @@
 
 namespace Flat3\OData\Tests\Unit\Parser;
 
+use Flat3\OData\Controller\Transaction;
+use Flat3\OData\DeclaredProperty;
 use Flat3\OData\Drivers\Database\MySQL\EntitySet;
+use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\ParserException;
-use Flat3\OData\Property;
 use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Transaction;
 use Flat3\OData\Type;
-use Flat3\OData\Type\EntityType;
 use Illuminate\Http\Request;
 
 class ParserMySQLTest extends TestCase
@@ -331,10 +331,10 @@ class ParserMySQLTest extends TestCase
         foreach (array_reverse($this->tests) as $from => $to) {
             try {
                 $entity_type = new class('test') extends EntityType{};
-                $id = new Property\Declared('id', Type::int32());
+                $id = DeclaredProperty::factory('id', Type::int32());
                 $id->setFilterable(true);
                 $entity_type->setKey($id);
-                $title = new Property\Declared('title', Type::string());
+                $title = DeclaredProperty::factory('title', Type::string());
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
                 $entitySet = new EntitySet('test', $entity_type);

@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Interfaces;
 
-use Flat3\OData\Type\EntityType;
+use Flat3\OData\EntityType;
 
 interface EntityTypeInterface
 {

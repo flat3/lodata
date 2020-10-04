@@ -3,24 +3,23 @@
 namespace Flat3\OData;
 
 use Countable;
+use Flat3\OData\PathComponent\Primitive;
+use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
-use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Property\Navigation;
-use Flat3\OData\Property\Navigation\Binding;
-use Flat3\OData\Request\Option;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasIdentifier;
-use Flat3\OData\Type\EntityType;
+use Flat3\OData\Type\Property;
 use Iterator;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -188,7 +187,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $this->current();
     }
 
-    public function addNavigationBinding(Binding $binding): self
+    public function addNavigationBinding(NavigationBinding $binding): self
     {
         $this->navigationBindings[] = $binding;
 
@@ -200,9 +199,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $this->navigationBindings;
     }
 
-    public function getBindingByNavigationProperty(Navigation $property): ?Binding
+    public function getBindingByNavigationProperty(NavigationProperty $property): ?NavigationBinding
     {
-        /** @var Binding $navigationBinding */
+        /** @var NavigationBinding $navigationBinding */
         foreach ($this->navigationBindings as $navigationBinding) {
             if ($navigationBinding->getPath() === $property) {
                 return $navigationBinding;
@@ -243,7 +242,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                 $transaction->getExpand()
             ] as $sqo
         ) {
-            /** @var Option $sqo */
+            /** @var \Flat3\OData\Transaction\Option $sqo */
             if ($sqo->hasValue() && !is_a($this, $sqo::query_interface)) {
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',
@@ -339,8 +338,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         string $pathComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        /** @var ODataModel $data_model */
-        $data_model = app()->make(ODataModel::class);
+        /** @var Model $data_model */
+        $data_model = app()->make(Model::class);
         $lexer = new Lexer($pathComponent);
         try {
             $entitySet = $data_model->getResources()->get($lexer->odataIdentifier());

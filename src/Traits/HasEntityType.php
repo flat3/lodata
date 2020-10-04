@@ -2,11 +2,11 @@
 
 namespace Flat3\OData\Traits;
 
-use Flat3\OData\Type\EntityType;
+use Flat3\OData\EntityType;
 
 trait HasEntityType
 {
-    /** @var EntityType $type */
+    /** @var \Flat3\OData\EntityType $type */
     protected $type;
 
     public function getType(): ?EntityType

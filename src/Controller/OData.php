@@ -2,21 +2,18 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\Count;
+use Flat3\OData\PathComponent\Count;
+use Flat3\OData\PathComponent\Metadata;
+use Flat3\OData\PathComponent\Operation;
+use Flat3\OData\PathComponent\Primitive;
+use Flat3\OData\PathComponent\Service;
+use Flat3\OData\PathComponent\Value;
 use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Metadata;
-use Flat3\OData\Operation;
-use Flat3\OData\Primitive;
-use Flat3\OData\Service;
-use Flat3\OData\Transaction;
-use Flat3\OData\Value;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

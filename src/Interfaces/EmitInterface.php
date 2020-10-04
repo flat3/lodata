@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Interfaces;
 
-use Flat3\OData\Transaction;
+use Flat3\OData\Controller\Transaction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 interface EmitInterface

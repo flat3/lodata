@@ -3,14 +3,16 @@
 namespace Flat3\OData;
 
 use ArrayAccess;
+use Flat3\OData\PathComponent\Primitive;
+use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
+use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Internal\ObjectArray;
-use Flat3\OData\Property\Constraint;
 use Flat3\OData\Traits\HasEntityType;
+use Flat3\OData\Type\Property;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInterface
@@ -78,7 +80,7 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
             }
         }
 
-        /** @var Request\Expand $expansionRequest */
+        /** @var \Flat3\OData\Transaction\Expand $expansionRequest */
         $expansionRequests->rewind();
         while ($expansionRequests->valid()) {
             $expansionRequest = $expansionRequests->current();
@@ -90,7 +92,7 @@ class Entity implements EntityTypeInterface, ArrayAccess, EmitInterface, PipeInt
             $targetEntitySetType = $targetEntitySet->getType();
 
             $targetConstraint = null;
-            /** @var Constraint $constraint */
+            /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 if ($targetEntitySetType->getProperty($constraint->getReferencedProperty()) && $this->entitySet->getType()->getProperty($constraint->getProperty())) {
                     $targetConstraint = $constraint;

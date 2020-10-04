@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Traits;
 
-use Flat3\OData\Internal\Identifier;
+use Flat3\OData\Helper\Identifier;
 
 trait HasIdentifier
 {
