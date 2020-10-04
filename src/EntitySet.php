@@ -3,7 +3,6 @@
 namespace Flat3\OData;
 
 use Countable;
-use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
@@ -17,6 +16,7 @@ use Flat3\OData\Interfaces\IdentifierInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
+use Flat3\OData\PathComponent\Primitive;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasIdentifier;
 use Flat3\OData\Type\Property;
