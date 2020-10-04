@@ -14,7 +14,6 @@ use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\Argument;
 use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
@@ -27,7 +26,7 @@ use ReflectionFunction;
 use ReflectionNamedType;
 use RuntimeException;
 
-abstract class Operation implements NamedInterface, ResourceInterface, TypeInterface, PipeInterface
+abstract class Operation implements ResourceInterface, TypeInterface, PipeInterface
 {
     use HasName;
     use HasDynamicType;

@@ -8,7 +8,7 @@ use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasDynamicType;
 
-class Argument implements NamedInterface, TypeInterface
+class Argument implements TypeInterface
 {
     use HasName;
     use HasDynamicType;

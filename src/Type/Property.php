@@ -7,7 +7,7 @@ use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasDynamicType;
 
-abstract class Property implements NamedInterface, TypeInterface
+abstract class Property implements TypeInterface
 {
     use HasName;
     use HasDynamicType;

@@ -3,12 +3,11 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Type\Property;
 
-class ComplexType implements NamedInterface, TypeInterface
+class ComplexType implements TypeInterface
 {
     use HasName;
 
