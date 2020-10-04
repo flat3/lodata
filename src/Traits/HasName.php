@@ -17,42 +17,12 @@ trait HasName
         return $this->name;
     }
 
-    /**
-     * Get the Resource title
-     *
-     * @return string|null
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set the Resource title
-     *
-     * @param  string  $title
-     *
-     * @return $this
-     */
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     public function __toString()
     {
         return (string) $this->name;
     }
 
-    /**
-     * Set the Resource name
-     *
-     * @param $name
-     * @return $this
-     */
-    public function setName($name): self
+    public function setName($name)
     {
         $this->name = $name instanceof Name ? $name : new Name($name);
 

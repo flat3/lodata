@@ -20,6 +20,7 @@ use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Model;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
+use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Traits\HasType;
 use ReflectionException;
 use ReflectionFunction;
@@ -30,6 +31,7 @@ abstract class Operation implements ResourceInterface, TypeInterface, PipeInterf
 {
     use HasName;
     use HasType;
+    use HasTitle;
 
     /** @var callable $callback */
     protected $callback;

@@ -18,6 +18,7 @@ use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasName;
+use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Type\Property;
 use Iterator;
 use RuntimeException;
@@ -26,6 +27,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, Iterator, Countable, EmitInterface, PipeInterface
 {
     use HasName;
+    use HasTitle;
     use HasEntityType;
 
     /** @var ObjectArray $navigationBindings Navigation bindings */

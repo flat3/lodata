@@ -79,11 +79,6 @@ abstract class PrimitiveType implements TypeInterface, EmitInterface, PipeInterf
         return $this->name;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->name;
-    }
-
     /**
      * Convert the provided value to the internal representation
      *
