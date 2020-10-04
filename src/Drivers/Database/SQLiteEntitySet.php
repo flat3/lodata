@@ -1,10 +1,11 @@
 <?php
 
-namespace Flat3\OData\Drivers\Database\SQLite;
+namespace Flat3\OData\Drivers\Database;
 
+use Flat3\OData\Drivers\SQLEntitySet;
 use Flat3\OData\Expression\Event;
 
-class EntitySet extends \Flat3\OData\Drivers\Database\EntitySet
+class SQLiteEntitySet extends SQLEntitySet
 {
     public function filter(Event $event): ?bool
     {

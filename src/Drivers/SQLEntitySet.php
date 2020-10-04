@@ -1,7 +1,8 @@
 <?php
 
-namespace Flat3\OData\Drivers\Database;
+namespace Flat3\OData\Drivers;
 
+use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
@@ -43,7 +44,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-class EntitySet extends \Flat3\OData\EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface
+class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface
 {
     /** @var string[] $parameters */
     protected $parameters = [];

@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\EntitySet;
+namespace Flat3\OData\Drivers;
 
 use Flat3\OData\EntitySet;
 
-class Callback extends EntitySet
+class CallbackEntitySet extends EntitySet
 {
     protected $callback;
 

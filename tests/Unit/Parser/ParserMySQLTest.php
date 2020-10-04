@@ -4,7 +4,7 @@ namespace Flat3\OData\Tests\Unit\Parser;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\DeclaredProperty;
-use Flat3\OData\Drivers\Database\MySQL\EntitySet;
+use Flat3\OData\Drivers\Database\MySQLEntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\ParserException;
 use Flat3\OData\Tests\TestCase;
@@ -337,7 +337,7 @@ class ParserMySQLTest extends TestCase
                 $title = DeclaredProperty::factory('title', Type::string());
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
-                $entitySet = new EntitySet('test', $entity_type);
+                $entitySet = new MySQLEntitySet('test', $entity_type);
 
                 $transaction = new Transaction();
                 $request = new Request();

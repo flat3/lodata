@@ -4,9 +4,9 @@ namespace Flat3\OData\Tests\Data;
 
 use Exception;
 use Flat3\OData\DeclaredProperty;
+use Flat3\OData\Drivers\CallbackEntitySet;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
-use Flat3\OData\EntitySet\Callback;
 use Flat3\OData\Model;
 use Flat3\OData\NavigationProperty;
 use Flat3\OData\ReferentialConstraint;
@@ -65,7 +65,7 @@ trait FlightModel
             $flightType->addProperty(DeclaredProperty::factory('origin', Type::string()));
             $flightType->addProperty(DeclaredProperty::factory('destination', Type::string()));
             $flightType->addProperty(DeclaredProperty::factory('gate', Type::int32()));
-            $flightSet = new \Flat3\OData\Drivers\Database\EntitySet('flights', $flightType);
+            $flightSet = new \Flat3\OData\Drivers\SQLEntitySet('flights', $flightType);
             $flightSet->setTable('flights');
 
             $airportType = Model::entitytype('airport');
@@ -77,7 +77,7 @@ trait FlightModel
             $airportType->addProperty(DeclaredProperty::factory('sam_datetime', Type::datetimeoffset()));
             $airportType->addProperty(DeclaredProperty::factory('review_score', Type::decimal()));
             $airportType->addProperty(DeclaredProperty::factory('is_big', Type::boolean()));
-            $airportSet = new \Flat3\OData\Drivers\Database\EntitySet('airports', $airportType);
+            $airportSet = new \Flat3\OData\Drivers\SQLEntitySet('airports', $airportType);
             $airportSet->setTable('airports');
 
             Model::add($flightSet);
@@ -110,7 +110,7 @@ trait FlightModel
                     $type = Model::getType('airport');
                     $airports = Model::getResource('airports');
 
-                    return Callback::factory($airports, $type)->setCallback(function () {
+                    return CallbackEntitySet::factory($airports, $type)->setCallback(function () {
                         $airport = new Airport();
                         $airport['code'] = 'xyz';
                         return [$airport];
