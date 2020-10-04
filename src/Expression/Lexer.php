@@ -4,6 +4,7 @@ namespace Flat3\OData\Expression;
 
 use Exception;
 use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;

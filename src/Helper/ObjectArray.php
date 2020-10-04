@@ -5,6 +5,7 @@ namespace Flat3\OData\Helper;
 use ArrayAccess;
 use Countable;
 use Iterator;
+use RuntimeException;
 
 class ObjectArray implements Countable, Iterator, ArrayAccess
 {
@@ -15,17 +16,17 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         $map = new self();
 
         foreach ($map_a as $a) {
-            $map->add($a);
+            $map->replace($a);
         }
 
         foreach ($map_b as $b) {
-            $map->add($b);
+            $map->replace($b);
         }
 
         return $map;
     }
 
-    public function add($key, $value = null): void
+    public function replace($key, $value = null): void
     {
         if (!$key) {
             $key = $value;
@@ -36,6 +37,15 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         }
 
         $this->array[(string) $key] = $value;
+    }
+
+    public function add($key, $value = null): void
+    {
+        if ($this->exists($key)) {
+            throw new RuntimeException('Attempted to add an item that already exists');
+        }
+
+        $this->replace($key, $value);
     }
 
     public function count()
@@ -92,7 +102,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     public function offsetSet($offset, $value)
     {
-        $this->add($offset, $value);
+        $this->replace($offset, $value);
     }
 
     public function offsetUnset($offset)

@@ -13,7 +13,7 @@ class Service implements EmitInterface
 {
     public function response(Transaction $transaction): StreamedResponse
     {
-        $transaction->setContentTypeJson();
+        $transaction->negotiateContentTypeJson();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);
@@ -36,33 +36,33 @@ class Service implements EmitInterface
         $transaction->outputJsonKey('value');
         $transaction->outputJsonArrayStart();
 
-        $resourceMap = $model->getResources();
-        $resources = [];
-        foreach ($resourceMap as $resource) {
-            $resources[] = $resource;
+        $serviceMap = $model->getServices();
+        $services = [];
+        foreach ($serviceMap as $service) {
+            $services[] = $service;
         }
 
-        while ($resources) {
-            /** @var ServiceInterface|NamedInterface $resource */
-            $resource = array_shift($resources);
+        while ($services) {
+            /** @var ServiceInterface $service */
+            $service = array_shift($services);
 
             $transaction->outputJsonObjectStart();
 
             $resourceData = [
-                'name' => (string) $resource->getName(),
-                'kind' => $resource->getKind(),
-                'url' => (string) $resource->getName(),
+                'name' => (string) $service->getName(),
+                'kind' => $service->getKind(),
+                'url' => (string) $service->getName(),
             ];
 
-            if ($resource->getTitle()) {
-                $resourceData['title'] = $resource->getTitle();
+            if ($service->getTitle()) {
+                $resourceData['title'] = $service->getTitle();
             }
 
             $transaction->outputJsonKV($resourceData);
 
             $transaction->outputJsonObjectEnd();
 
-            if ($resources) {
+            if ($services) {
                 $transaction->outputJsonSeparator();
             }
         }

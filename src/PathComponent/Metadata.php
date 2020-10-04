@@ -248,7 +248,7 @@ class Metadata implements PipeInterface, EmitInterface
 
     public function response(Transaction $transaction): StreamedResponse
     {
-        $transaction->setContentTypeXml();
+        $transaction->negotiateXml();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);

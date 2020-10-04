@@ -9,9 +9,4 @@ namespace Flat3\OData\Transaction;
  */
 class IEEE754Compatible extends Boolean
 {
-    public function __construct(MediaType $mediaType)
-    {
-        $value = $mediaType->getParameter('IEEE754Compatible');
-        parent::__construct($value);
-    }
 }

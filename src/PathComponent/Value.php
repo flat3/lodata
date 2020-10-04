@@ -9,6 +9,7 @@ use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\PrimitiveType;
+use Flat3\OData\Transaction\MediaType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Value implements PipeInterface, EmitInterface
@@ -40,12 +41,12 @@ class Value implements PipeInterface, EmitInterface
 
     public function response(Transaction $transaction): StreamedResponse
     {
-        $requestedFormat = $transaction->getMediaType();
+        $requestedFormat = $transaction->getRequestedContentType();
 
         if ($requestedFormat) {
-            $transaction->setContentType($requestedFormat->getOriginal());
+            $transaction->sendContentType(MediaType::factory()->parse($requestedFormat));
         } else {
-            $transaction->setContentTypeText();
+            $transaction->negotiateContentTypeText();
         }
 
         if (null === $this->primitive->get()) {

@@ -2,10 +2,10 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
-use Flat3\OData\Helper\ObjectArray;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use RuntimeException;
 
@@ -31,7 +31,7 @@ class Model
     public static function add(NamedInterface $item): self
     {
         $model = self::get();
-        $model->model[] = $item;
+        $model->model->add($item);
         return $model;
     }
 
@@ -92,5 +92,10 @@ class Model
     public function getResources(): ObjectArray
     {
         return $this->model->sliceByClass(ResourceInterface::class);
+    }
+
+    public function getServices(): ObjectArray
+    {
+        return $this->model->sliceByClass(ServiceInterface::class);
     }
 }

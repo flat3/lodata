@@ -223,7 +223,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ArrayAccess, Emi
 
     public function response(Transaction $transaction): StreamedResponse
     {
-        $transaction->setContentTypeJson();
+        $transaction->negotiateContentTypeJson();
 
         $metadata = [];
 

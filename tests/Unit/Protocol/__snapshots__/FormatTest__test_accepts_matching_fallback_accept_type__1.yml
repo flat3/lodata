@@ -2,6 +2,4 @@ headers:
     cache-control: ['no-cache, private']
     odata-version: ['4.01']
     content-type: [application/json]
-    preference-applied: [omit-values=nulls]
-    vary: [prefer]
 status: 200

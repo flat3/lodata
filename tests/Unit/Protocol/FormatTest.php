@@ -63,12 +63,8 @@ class FormatTest extends TestCase
         );
     }
 
-    /**
-     * TODO
-     */
     public function test_accepts_matching_fallback_accept_type()
     {
-        $this->markTestIncomplete();
         $this->assertMetadataResponse(
             Request::factory()
                 ->header('accept', 'application/xml;q=1.0,application/json;q=0.8')

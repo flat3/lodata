@@ -27,6 +27,13 @@ class SingletonTest extends TestCase
         $model::add($entity);
     }
 
+    public function test_service_document()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+        );
+    }
+
     public function test_singleton()
     {
         $this->assertJsonResponse(

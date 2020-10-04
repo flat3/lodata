@@ -27,7 +27,7 @@ class Count implements EmitInterface, PipeInterface
 
     public function response(Transaction $transaction): StreamedResponse
     {
-        $transaction->setContentTypeText();
+        $transaction->negotiateContentTypeText();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);

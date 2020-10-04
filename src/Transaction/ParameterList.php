@@ -33,6 +33,12 @@ class ParameterList
         return $this;
     }
 
+    public function dropParameter(string $key): self
+    {
+        unset($this->parameters[$key]);
+        return $this;
+    }
+
     public function getParameter(string $key)
     {
         return $this->parameters[$key] ?? null;

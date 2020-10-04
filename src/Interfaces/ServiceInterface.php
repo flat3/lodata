@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Interfaces;
 
-interface ServiceInterface
+interface ServiceInterface extends NamedInterface
 {
     public function getKind(): string;
 

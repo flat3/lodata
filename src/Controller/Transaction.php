@@ -4,7 +4,6 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
@@ -26,7 +25,6 @@ use Flat3\OData\Transaction\Option\Skip;
 use Flat3\OData\Transaction\Option\Top;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
-use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Property;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -87,9 +85,6 @@ class Transaction
     /** @var Top $top */
     private $top;
 
-    /** @var MediaType $mediaType */
-    private $mediaType;
-
     /** @var SchemaVersion $schemaVersion */
     private $schemaVersion;
 
@@ -121,31 +116,6 @@ class Transaction
             $this->getHeader(Version::versionHeader),
             $this->getHeader(Version::maxVersionHeader)
         );
-
-        $acceptHeader = $this->getHeader('accept');
-
-        $formatQueryOption = $this->getFormat()->getValue();
-        if (Str::startsWith($formatQueryOption, ['json', 'xml'])) {
-            if (!in_array($formatQueryOption, ['json', 'xml'])) {
-                throw new BadRequestException(
-                    'invalid_short_format',
-                    'When using a short $format option, parameters cannot be used'
-                );
-            }
-
-            $type = 'application/'.$formatQueryOption;
-        } elseif ($formatQueryOption) {
-            $type = $formatQueryOption;
-        } elseif ($acceptHeader) {
-            $type = $acceptHeader;
-        } else {
-            $type = '*';
-        }
-
-        $this->mediaType = new MediaType($type);
-        $this->metadata = Metadata::factory($this->mediaType, $this->version);
-        $this->preferences = new ParameterList($this->getHeader('prefer'));
-        $this->ieee754compatible = new IEEE754Compatible($this->mediaType);
 
         foreach ($this->request->query->keys() as $param) {
             if (
@@ -182,10 +152,6 @@ class Transaction
                 'schema_version_not_found',
                 'The requested schema version is not available'
             );
-        }
-
-        if ($this->getPreference('omit-values') === 'nulls') {
-            $this->preferenceApplied('omit-values', 'nulls');
         }
 
         $this->response->headers->set(Version::versionHeader, $this->getVersion());
@@ -379,44 +345,45 @@ class Transaction
         return $this->metadata;
     }
 
-    public function setContentTypeXml()
+    public function negotiateXml()
     {
-        $this->setContentType('application/xml');
+        $this->negotiateContentType('application/xml;charset=utf-8');
     }
 
-    public function setContentType($contentType): self
+    public function getRequestedContentType(): string
     {
-        $compatFormat = new MediaType($contentType);
+        $acceptHeader = $this->getHeader('accept');
 
-        if ('*' !== $this->mediaType->getSubtype()) {
-            if ($compatFormat->getSubtype() !== $this->mediaType->getSubtype()) {
-                throw new NotAcceptableException('unsupported_content_type',
-                    'This route does not support the requested content type');
+        $formatQueryOption = $this->getFormat()->getValue();
+        if (Str::startsWith($formatQueryOption, ['json', 'xml'])) {
+            if (!in_array($formatQueryOption, ['json', 'xml'])) {
+                throw new BadRequestException(
+                    'invalid_short_format',
+                    'When using a short $format option, parameters cannot be used'
+                );
             }
+
+            $type = 'application/'.$formatQueryOption;
+        } elseif ($formatQueryOption) {
+            $type = $formatQueryOption;
+        } elseif ($acceptHeader) {
+            $type = $acceptHeader;
+        } else {
+            $type = '*';
         }
 
-        $contentTypeAttributes = [
-            'charset' => 'utf-8',
-        ];
+        return $type;
+    }
 
-        if ('application/json' === $contentType) {
-            $contentTypeAttributes = array_merge($contentTypeAttributes, [
-                'odata.streaming' => Boolean::URL_TRUE,
-                'odata.metadata' => (string) $this->metadata,
-                'IEEE754Compatible' => (string) $this->ieee754compatible,
-            ]);
-        }
+    public function negotiateContentType(string $requiredType): self
+    {
+        $mediaType = MediaType::negotiate($this->getRequestedContentType(), $requiredType);
 
-        $contentTypeAttributes = array_intersect_key(
-            $contentTypeAttributes,
-            array_flip($this->mediaType->getParameterKeys())
-        );
+        $this->metadata = Metadata::factory($mediaType->getParameter('odata.metadata'), $this->version);
+        $this->preferences = new ParameterList($this->getHeader('prefer'));
+        $this->ieee754compatible = new IEEE754Compatible($mediaType->getParameter('IEEE754Compatible'));
 
-        if ($contentTypeAttributes) {
-            $contentType .= ';'.http_build_query($contentTypeAttributes, '', ';');
-        }
-
-        $this->sendContentType($contentType);
+        $this->sendContentType($mediaType);
 
         return $this;
     }
@@ -443,14 +410,9 @@ class Transaction
         return $this->format;
     }
 
-    public function getMediaType(): MediaType
+    public function sendContentType(MediaType $contentType): self
     {
-        return $this->mediaType;
-    }
-
-    public function sendContentType(string $contentType): self
-    {
-        $this->sendHeader('content-type', $contentType);
+        $this->sendHeader('content-type', $contentType->toString());
 
         return $this;
     }
@@ -462,16 +424,20 @@ class Transaction
         return $this;
     }
 
-    public function setContentTypeText(): self
+    public function negotiateContentTypeText(): self
     {
-        $this->setContentType('text/plain');
+        $this->negotiateContentType('text/plain');
 
         return $this;
     }
 
-    public function setContentTypeJson(): self
+    public function negotiateContentTypeJson(): self
     {
-        $this->setContentType('application/json');
+        $this->negotiateContentType('application/json;odata.streaming=true;odata.metadata=minimal;IEEE754Compatible=false;charset=utf-8');
+
+        if ($this->getPreference('omit-values') === 'nulls') {
+            $this->preferenceApplied('omit-values', 'nulls');
+        }
 
         return $this;
     }

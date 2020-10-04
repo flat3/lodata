@@ -1,0 +1,10 @@
+{
+    "@context": "http://localhost/odata/$metadata",
+    "value": [
+        {
+            "name": "atest",
+            "kind": "Singleton",
+            "url": "atest"
+        }
+    ]
+}
