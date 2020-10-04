@@ -34,9 +34,9 @@ abstract class Operation implements ResourceInterface, TypeInterface, PipeInterf
     /** @var callable $callback */
     protected $callback;
 
-    public function __construct($identifier)
+    public function __construct($name)
     {
-        $this->setName($identifier);
+        $this->setName($name);
     }
 
     public function returnsCollection(): bool

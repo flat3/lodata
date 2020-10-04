@@ -20,13 +20,13 @@ class NavigationProperty extends Property
     /** @var bool $expandable */
     protected $expandable = true;
 
-    public function __construct($identifier, EntityType $type)
+    public function __construct($name, EntityType $type)
     {
         if (!$type->getKey()) {
             throw new ConfigurationException('The specified entity type must have a key defined');
         }
 
-        parent::__construct($identifier, $type);
+        parent::__construct($name, $type);
 
         $this->constraints = new ObjectArray();
     }

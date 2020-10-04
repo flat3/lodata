@@ -15,7 +15,7 @@ class ODCFF extends Controller
 {
     public const content_type = 'text/x-ms-odc; charset=utf-8';
 
-    public function get(Model $model, $identifier)
+    public function get(Model $model, $name)
     {
         $response = new Response();
         $response->header('content-type', self::content_type);
@@ -23,12 +23,12 @@ class ODCFF extends Controller
         $htmlDoc = new DOMDocument();
 
         /** @var HasName $resource */
-        $resource = $model->getResources()->get($identifier);
+        $resource = $model->getResources()->get($name);
         if (null === $resource) {
             throw NotFoundException::factory(
                 'resource_not_found',
                 'The requested resource did not exist'
-            )->target($identifier);
+            )->target($name);
         }
 
         $resourceName = $resource->getTitle() ?: $resource->getName();
@@ -75,9 +75,9 @@ class ODCFF extends Controller
         $description->textContent = sprintf("Connection to the '%s' query in the workbook.", $resourceName);
         $documentProperties->appendChild($description);
 
-        $name = $htmlDoc->createElement('o:Name');
-        $name->textContent = $resourceName;
-        $documentProperties->appendChild($name);
+        $nameElement = $htmlDoc->createElement('o:Name');
+        $nameElement->textContent = $resourceName;
+        $documentProperties->appendChild($nameElement);
 
         $xml->appendChild($documentProperties);
         $head->appendChild($xml);

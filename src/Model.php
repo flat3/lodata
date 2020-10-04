@@ -29,13 +29,13 @@ class Model
         }
     }
 
-    public static function fn($identifier): FunctionOperation
+    public static function fn($name): FunctionOperation
     {
         /** @var self $model */
         try {
             $model = app()->make(self::class);
 
-            $fn = new FunctionOperation($identifier);
+            $fn = new FunctionOperation($name);
 
             $model->model[] = $fn;
             return $fn;
@@ -44,13 +44,13 @@ class Model
         }
     }
 
-    public static function action($identifier): ActionOperation
+    public static function action($name): ActionOperation
     {
         /** @var self $model */
         try {
             $model = app()->make(self::class);
 
-            $action = new ActionOperation($identifier);
+            $action = new ActionOperation($name);
 
             $model->model[] = $action;
             return $action;
@@ -59,13 +59,13 @@ class Model
         }
     }
 
-    public static function entitytype($identifier): EntityType
+    public static function entitytype($name): EntityType
     {
         /** @var self $model */
         try {
             $model = app()->make(self::class);
 
-            $type = new EntityType($identifier);
+            $type = new EntityType($name);
 
             $model->model[] = $type;
             return $type;
@@ -75,29 +75,29 @@ class Model
     }
 
     /**
-     * @param $identifier
+     * @param $name
      * @return EntityType
      * @throws BindingResolutionException
      */
-    public static function getType($identifier): EntityType
+    public static function getType($name): EntityType
     {
         /** @var self $model */
         $model = app()->make(self::class);
 
-        return $model->getEntityTypes()->get($identifier);
+        return $model->getEntityTypes()->get($name);
     }
 
     /**
-     * @param $identifier
+     * @param $name
      * @return NamedInterface
      * @throws BindingResolutionException
      */
-    public static function getResource($identifier): NamedInterface
+    public static function getResource($name): NamedInterface
     {
         /** @var self $model */
         $model = app()->make(self::class);
 
-        return $model->getResources()->get($identifier);
+        return $model->getResources()->get($name);
     }
 
     public function getNamespace(): string

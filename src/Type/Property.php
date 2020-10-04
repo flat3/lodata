@@ -24,15 +24,15 @@ abstract class Property implements TypeInterface
     /** @var bool $keyable Whether this property can be used as an alternative key */
     protected $keyable = false;
 
-    public function __construct($identifier, TypeInterface $type)
+    public function __construct($name, TypeInterface $type)
     {
-        $this->setName($identifier);
+        $this->setName($name);
         $this->type = $type;
     }
 
-    public static function factory($identifier, TypeInterface $type): self
+    public static function factory($name, TypeInterface $type): self
     {
-        return new static($identifier, $type);
+        return new static($name, $type);
     }
 
     /**

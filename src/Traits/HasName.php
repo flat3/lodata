@@ -2,11 +2,11 @@
 
 namespace Flat3\OData\Traits;
 
-use Flat3\OData\Helper\Identifier;
+use Flat3\OData\Helper\Name;
 
 trait HasName
 {
-    /** @var Identifier $name Resource identifier */
+    /** @var Name $name Resource identifier */
     protected $name;
 
     /** @var string $title Resource title */
@@ -54,7 +54,7 @@ trait HasName
      */
     public function setName($name): self
     {
-        $this->name = $name instanceof Identifier ? $name : new Identifier($name);
+        $this->name = $name instanceof Name ? $name : new Name($name);
 
         return $this;
     }

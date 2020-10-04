@@ -58,9 +58,9 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
     /** @var bool $isInstance */
     protected $isInstance = false;
 
-    public function __construct(string $identifier, EntityType $entityType)
+    public function __construct(string $name, EntityType $entityType)
     {
-        $this->setName($identifier);
+        $this->setName($name);
 
         $this->type = $entityType;
         $this->navigationBindings = new ObjectArray();
@@ -71,9 +71,9 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $this->isInstance = true;
     }
 
-    public static function factory(string $identifier, EntityType $entityType): self
+    public static function factory(string $name, EntityType $entityType): self
     {
-        return new static($identifier, $entityType);
+        return new static($name, $entityType);
     }
 
     public function asInstance(Transaction $transaction): self

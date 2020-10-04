@@ -14,9 +14,9 @@ class ComplexType implements TypeInterface
     /** @var ObjectArray[Property] $properties Properties */
     protected $properties;
 
-    public function __construct($identifier)
+    public function __construct($name)
     {
-        $this->setName($identifier);
+        $this->setName($name);
         $this->properties = new ObjectArray();
     }
 

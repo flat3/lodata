@@ -15,16 +15,16 @@ class Argument implements TypeInterface
 
     protected $nullable = true;
 
-    public function __construct(string $identifier, PrimitiveType $type, bool $nullable = true)
+    public function __construct(string $name, PrimitiveType $type, bool $nullable = true)
     {
-        $this->setName($identifier);
+        $this->setName($name);
         $this->type = $type;
         $this->nullable = $nullable;
     }
 
-    public static function factory(string $identifier, PrimitiveType $type, bool $nullable = true)
+    public static function factory(string $name, PrimitiveType $type, bool $nullable = true)
     {
-        return new self($identifier, $type, $nullable);
+        return new self($name, $type, $nullable);
     }
 
     public function isNullable(): bool
