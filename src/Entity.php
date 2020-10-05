@@ -258,7 +258,9 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $this->transaction = $transaction;
         $transaction->configureJsonResponse();
 
-        $metadata['context'] = $this->getContextUrl();
+        $metadata = [
+            'context' => $this->getContextUrl(),
+        ];
 
         $this->metadata = $transaction->getMetadata()->filter($metadata);
 

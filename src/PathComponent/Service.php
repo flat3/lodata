@@ -25,7 +25,9 @@ class Service implements EmitInterface
 
         $transaction->outputJsonObjectStart();
 
-        $metadata['context'] = Transaction::getContextUrl();
+        $metadata = [
+            'context' => Transaction::getContextUrl(),
+        ];
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 
