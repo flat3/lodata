@@ -235,7 +235,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function response(Transaction $transaction): StreamedResponse
     {
-        $transaction->negotiateContentTypeJson();
+        $transaction->configureJsonResponse();
 
         foreach (
             [

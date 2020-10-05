@@ -46,7 +46,7 @@ class Value implements PipeInterface, EmitInterface
         if ($requestedFormat) {
             $transaction->sendContentType(MediaType::factory()->parse($requestedFormat));
         } else {
-            $transaction->negotiateContentTypeText();
+            $transaction->configureTextResponse();
         }
 
         if (null === $this->primitive->get()) {

@@ -155,9 +155,6 @@ class Transaction
             );
         }
 
-        $this->response->headers->set(Version::versionHeader, $this->getVersion());
-        $this->response->setStatusCode(Response::HTTP_OK);
-
         return $this;
     }
 
@@ -346,12 +343,11 @@ class Transaction
         return $this->metadata;
     }
 
-    public function negotiateXml()
+    public function configureXmlResponse()
     {
-        $this->negotiateContentType(
+        $this->configureResponse(
             MediaType::factory()
                 ->parse('application/xml')
-                ->setParameter('charset', 'utf-8')
         );
     }
 
@@ -383,7 +379,7 @@ class Transaction
         return '*';
     }
 
-    public function negotiateContentType(MediaType $requiredType): self
+    public function configureResponse(MediaType $requiredType): self
     {
         $mediaType = $requiredType->negotiate($this->getRequestedContentType());
 
@@ -392,6 +388,8 @@ class Transaction
         $this->ieee754compatible = new IEEE754Compatible($mediaType->getParameter('IEEE754Compatible'));
 
         $this->sendContentType($mediaType);
+        $this->sendHeader(Version::versionHeader, $this->getVersion());
+        $this->response->setStatusCode(Response::HTTP_OK);
 
         return $this;
     }
@@ -432,9 +430,9 @@ class Transaction
         return $this;
     }
 
-    public function negotiateContentTypeText(): self
+    public function configureTextResponse(): self
     {
-        $this->negotiateContentType(
+        $this->configureResponse(
             MediaType::factory()
                 ->parse('text/plain')
         );
@@ -442,15 +440,14 @@ class Transaction
         return $this;
     }
 
-    public function negotiateContentTypeJson(): self
+    public function configureJsonResponse(): self
     {
-        $this->negotiateContentType(
+        $this->configureResponse(
             MediaType::factory()
                 ->parse('application/json')
                 ->setParameter('odata.streaming', Boolean::URL_TRUE)
                 ->setParameter('odata.metadata', Metadata\Minimal::name)
                 ->setParameter('IEEE754Compatible', Boolean::URL_FALSE)
-                ->setParameter('charset', 'utf-8')
         );
 
         if ($this->getPreference('omit-values') === 'nulls') {

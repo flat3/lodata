@@ -228,7 +228,7 @@ abstract class PrimitiveType implements TypeInterface, EmitInterface, PipeInterf
             throw new NoContentException('null_value');
         }
 
-        $transaction->negotiateContentTypeJson();
+        $transaction->configureJsonResponse();
 
         $metadata = [];
 

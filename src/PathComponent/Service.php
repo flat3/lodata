@@ -13,7 +13,7 @@ class Service implements EmitInterface
 {
     public function response(Transaction $transaction): StreamedResponse
     {
-        $transaction->negotiateContentTypeJson();
+        $transaction->configureJsonResponse();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);
