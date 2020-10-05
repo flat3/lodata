@@ -25,6 +25,7 @@ use Flat3\OData\Transaction\Option\Skip;
 use Flat3\OData\Transaction\Option\Top;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
+use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Property;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -347,14 +348,17 @@ class Transaction
 
     public function negotiateXml()
     {
-        $this->negotiateContentType('application/xml;charset=utf-8');
+        $this->negotiateContentType(
+            MediaType::factory()
+                ->parse('application/xml')
+                ->setParameter('charset', 'utf-8')
+        );
     }
 
     public function getRequestedContentType(): string
     {
-        $acceptHeader = $this->getHeader('accept');
-
         $formatQueryOption = $this->getFormat()->getValue();
+
         if (Str::startsWith($formatQueryOption, ['json', 'xml'])) {
             if (!in_array($formatQueryOption, ['json', 'xml'])) {
                 throw new BadRequestException(
@@ -363,21 +367,25 @@ class Transaction
                 );
             }
 
-            $type = 'application/'.$formatQueryOption;
-        } elseif ($formatQueryOption) {
-            $type = $formatQueryOption;
-        } elseif ($acceptHeader) {
-            $type = $acceptHeader;
-        } else {
-            $type = '*';
+            return 'application/'.$formatQueryOption;
         }
 
-        return $type;
+        if ($formatQueryOption) {
+            return $formatQueryOption;
+        }
+
+        $acceptHeader = $this->getHeader('accept');
+
+        if ($acceptHeader) {
+            return $acceptHeader;
+        }
+
+        return '*';
     }
 
-    public function negotiateContentType(string $requiredType): self
+    public function negotiateContentType(MediaType $requiredType): self
     {
-        $mediaType = MediaType::negotiate($this->getRequestedContentType(), $requiredType);
+        $mediaType = $requiredType->negotiate($this->getRequestedContentType());
 
         $this->metadata = Metadata::factory($mediaType->getParameter('odata.metadata'), $this->version);
         $this->preferences = new ParameterList($this->getHeader('prefer'));
@@ -426,14 +434,24 @@ class Transaction
 
     public function negotiateContentTypeText(): self
     {
-        $this->negotiateContentType('text/plain');
+        $this->negotiateContentType(
+            MediaType::factory()
+                ->parse('text/plain')
+        );
 
         return $this;
     }
 
     public function negotiateContentTypeJson(): self
     {
-        $this->negotiateContentType('application/json;odata.streaming=true;odata.metadata=minimal;IEEE754Compatible=false;charset=utf-8');
+        $this->negotiateContentType(
+            MediaType::factory()
+                ->parse('application/json')
+                ->setParameter('odata.streaming', Boolean::URL_TRUE)
+                ->setParameter('odata.metadata', Metadata\Minimal::name)
+                ->setParameter('IEEE754Compatible', Boolean::URL_FALSE)
+                ->setParameter('charset', 'utf-8')
+        );
 
         if ($this->getPreference('omit-values') === 'nulls') {
             $this->preferenceApplied('omit-values', 'nulls');

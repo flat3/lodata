@@ -19,11 +19,6 @@ final class Name
         $this->name = $name;
     }
 
-    public function get(): string
-    {
-        return $this->name;
-    }
-
     public function __toString(): string
     {
         return $this->name;

@@ -20,9 +20,10 @@ class MediaType
         return new self();
     }
 
-    public static function negotiate(string $requestedTypes, string $requiredType): MediaType
+    public function negotiate(string $requestedTypes): MediaType
     {
         $types = [];
+
         foreach (explode(',', $requestedTypes) as $type) {
             $types[] = MediaType::factory()->parse($type);
         }
@@ -31,20 +32,22 @@ class MediaType
             return $b->getParameter('q') <=> $a->getParameter('q');
         });
 
-        $requiredType = MediaType::factory()->parse($requiredType);
-
         foreach ($types as $type) {
-            if ($type->getSubtype() === '*' || $type->getSubtype() === $requiredType->getSubtype()) {
-                foreach ($requiredType->getParameterKeys() as $parameterKey) {
-                    $parameterValue = $type->getParameter($parameterKey);
-                    if ($parameterValue) {
-                        $requiredType->setParameter($parameterKey, $parameterValue);
-                    } else {
-                        $requiredType->dropParameter($parameterKey);
-                    }
-                }
-                return $requiredType;
+            if ($type->getSubtype() !== '*' && $type->getSubtype() !== $this->getSubtype()) {
+                continue;
             }
+
+            foreach ($this->getParameterKeys() as $parameterKey) {
+                $parameterValue = $type->getParameter($parameterKey);
+
+                if ($parameterValue) {
+                    $this->setParameter($parameterKey, $parameterValue);
+                } else {
+                    $this->dropParameter($parameterKey);
+                }
+            }
+
+            return $this;
         }
 
         throw new NotAcceptableException(
