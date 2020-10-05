@@ -408,7 +408,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
                 // Test for referenced value syntax
                 if ($lexer->maybeChar('@')) {
                     $referencedKey = $lexer->odataIdentifier();
-                    $referencedValue = $transaction->getReferencedValue($referencedKey);
+                    $referencedValue = $transaction->getParameterAlias($referencedKey);
                     $lexer = new Lexer($referencedValue);
                 }
 

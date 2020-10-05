@@ -140,7 +140,7 @@ class Filter extends Parser
             return false;
         }
 
-        $referencedValue = $transaction->getReferencedValue($token);
+        $referencedValue = $transaction->getParameterAlias($token);
         $lexer = $this->lexer;
         $this->lexer = new Lexer($referencedValue);
 

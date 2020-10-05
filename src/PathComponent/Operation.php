@@ -144,7 +144,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             list($key, $value) = $kv;
 
             if (strpos($value, '@') === 0) {
-                $value = $transaction->getReferencedValue($value);
+                $value = $transaction->getParameterAlias($value);
             }
 
             return [$key => $value];

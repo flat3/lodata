@@ -480,7 +480,7 @@ class Transaction
         return Str::substr($this->request->path(), strlen($route));
     }
 
-    public function getReferencedValue(string $key): ?string
+    public function getParameterAlias(string $key): ?string
     {
         $value = $this->getQueryParams()['@'.ltrim($key, '@')] ?? null;
 
