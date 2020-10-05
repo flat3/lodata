@@ -103,11 +103,6 @@ class Transaction
         $this->top = new Top();
     }
 
-    public function getRequest(): Request
-    {
-        return $this->request;
-    }
-
     public function initialize(Request $request): self
     {
         $this->setRequest($request);
@@ -218,14 +213,6 @@ class Transaction
     }
 
     /**
-     * @return ParameterList
-     */
-    public function getPreferences(): ParameterList
-    {
-        return $this->preferences;
-    }
-
-    /**
      * @return Count
      */
     public function getCount(): Count
@@ -287,11 +274,6 @@ class Transaction
     public function getTop(): Top
     {
         return $this->top;
-    }
-
-    public function getIEEE754Compatibility(): IEEE754Compatible
-    {
-        return $this->ieee754compatible;
     }
 
     public function preferenceApplied($key, $value): self

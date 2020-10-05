@@ -194,6 +194,14 @@ class FormatTest extends TestCase
         );
     }
 
+    public function test_adds_ieee754_parameter_true()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->accept('application/json;IEEE754Compatible=true')
+        );
+    }
+
     public function test_adds_streaming_parameter()
     {
         $this->assertMetadataResponse(

@@ -1,5 +1,5 @@
 headers:
     cache-control: ['no-cache, private']
-    odata-version: ['4.01']
     content-type: [application/json;odata.streaming=true]
+    odata-version: ['4.01']
 status: 200

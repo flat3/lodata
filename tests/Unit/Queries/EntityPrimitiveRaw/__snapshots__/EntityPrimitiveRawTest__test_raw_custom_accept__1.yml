@@ -1,5 +1,4 @@
 headers:
     cache-control: ['no-cache, private']
-    odata-version: ['4.01']
     content-type: [application/octet-stream]
 status: 200
