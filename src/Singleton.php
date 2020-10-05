@@ -4,12 +4,13 @@ namespace Flat3\OData;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
 
-class Singleton extends Entity implements ServiceInterface
+class Singleton extends Entity implements ServiceInterface, NamedInterface
 {
     use HasName;
     use HasTitle;
@@ -24,6 +25,16 @@ class Singleton extends Entity implements ServiceInterface
     public function getKind(): string
     {
         return 'Singleton';
+    }
+
+    public function getResourceUrl(): string
+    {
+        return Transaction::getServiceDocumentResourceUrl().$this->getName();
+    }
+
+    public function getContextUrl(): string
+    {
+        return Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
     }
 
     public static function pipe(

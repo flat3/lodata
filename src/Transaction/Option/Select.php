@@ -29,7 +29,7 @@ class Select extends Option
         }
 
         $properties = new ObjectArray();
-        $selectedProperties = $this->getValue();
+        $selectedProperties = $this->getCommaSeparatedValues();
 
         foreach ($selectedProperties as $selectedProperty) {
             $property = $entitySet->getType()->getProperty($selectedProperty);
@@ -53,10 +53,5 @@ class Select extends Option
     public function isStar(): bool
     {
         return $this->value === '*';
-    }
-
-    public function getValue(): array
-    {
-        return $this->getCommaSeparatedValues();
     }
 }

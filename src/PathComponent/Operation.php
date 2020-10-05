@@ -14,6 +14,7 @@ use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\Argument;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
@@ -28,7 +29,7 @@ use ReflectionFunction;
 use ReflectionNamedType;
 use RuntimeException;
 
-abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, PipeInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, NamedInterface, PipeInterface
 {
     use HasName;
     use HasType;
@@ -196,5 +197,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         }
 
         return $result;
+    }
+
+    public function getResourceUrl(): string
+    {
+        return Transaction::getServiceDocumentResourceUrl().$this->getName();
     }
 }

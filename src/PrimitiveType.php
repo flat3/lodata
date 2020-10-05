@@ -9,8 +9,11 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
+use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;
@@ -54,7 +57,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class PrimitiveType implements TypeInterface, EmitInterface, PipeInterface
+abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface
 {
     public const URL_NULL = 'null';
     public const URL_TRUE = 'true';
@@ -217,6 +220,25 @@ abstract class PrimitiveType implements TypeInterface, EmitInterface, PipeInterf
         return $argument->getPrimitive($property);
     }
 
+    public function getContextUrl(): string
+    {
+        if ($this->entity) {
+            return sprintf(
+                '%s(%s)/%s',
+                $this->entity->getEntitySet()->getContextUrl(),
+                $this->entity->getEntityId()->toUrl(),
+                $this->property
+            );
+        }
+
+        return Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
+    }
+
+    public function getResourceUrl(): string
+    {
+        return Transaction::getServiceDocumentResourceUrl().$this->getName().'()';
+    }
+
     public function emit(Transaction $transaction): void
     {
         $transaction->outputRaw($this);
@@ -230,17 +252,9 @@ abstract class PrimitiveType implements TypeInterface, EmitInterface, PipeInterf
 
         $transaction->configureJsonResponse();
 
-        $metadata = [];
-
-        if ($this->entity) {
-            $metadata['context'] = $transaction->getPropertyValueContextUrl(
-                $this->entity->getEntitySet(),
-                $this->entity->getEntityId()->toUrl(),
-                $this->property
-            );
-        } else {
-            $metadata['context'] = $transaction->getTypeContextUrl($this);
-        }
+        $metadata = [
+            'context' => $this->getContextUrl(),
+        ];
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 

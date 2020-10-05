@@ -39,7 +39,7 @@ class ParameterList
         return $this;
     }
 
-    public function getParameter(string $key)
+    public function getParameter(string $key): ?string
     {
         return $this->parameters[$key] ?? null;
     }

@@ -2,12 +2,10 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
-use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Transaction\IEEE754Compatible;
@@ -26,7 +24,6 @@ use Flat3\OData\Transaction\Option\Top;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
 use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\Property;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -109,8 +106,8 @@ class Transaction
         $this->response = new StreamedResponse();
 
         $this->version = new Version(
-            $this->getHeader(Version::versionHeader),
-            $this->getHeader(Version::maxVersionHeader)
+            $this->getRequestHeader(Version::versionHeader),
+            $this->getRequestHeader(Version::maxVersionHeader)
         );
 
         foreach ($this->request->query->keys() as $param) {
@@ -139,7 +136,7 @@ class Transaction
             }
         }
 
-        if ($this->getHeader('isolation') || $this->getHeader('odata-isolation')) {
+        if ($this->getRequestHeader('isolation') || $this->getRequestHeader('odata-isolation')) {
             throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
         }
 
@@ -183,9 +180,14 @@ class Transaction
         return $transaction;
     }
 
-    public function getHeader($key): ?string
+    public function getRequestHeader($key): ?string
     {
         return $this->request->header($key);
+    }
+
+    public function getResponseHeader($key): ?string
+    {
+        return $this->response->headers->get($key);
     }
 
     public function getSystemQueryOption(string $key): ?string
@@ -284,9 +286,14 @@ class Transaction
         return $this;
     }
 
-    public function getPreference(string $preference)
+    public function getPreference(string $preference): ?string
     {
         return $this->preferences->getParameter($preference) ?: $this->preferences->getParameter('odata.'.$preference);
+    }
+
+    public function getCharset(): ?string
+    {
+        return $this->getRequestHeader('accept-charset') ?: MediaType::factory()->parse($this->getResponseHeader('content-type'))->getParameter('charset');
     }
 
     public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
@@ -309,7 +316,7 @@ class Transaction
             return true;
         }
 
-        $selected = $select->getValue();
+        $selected = $select->getCommaSeparatedValues();
 
         if ($selected) {
             if (!in_array((string) $property, $selected)) {
@@ -352,25 +359,25 @@ class Transaction
             return $formatQueryOption;
         }
 
-        $acceptHeader = $this->getHeader('accept');
+        $acceptHeader = $this->getRequestHeader('accept');
 
         if ($acceptHeader) {
             return $acceptHeader;
         }
 
-        return '*';
+        return '*/*';
     }
 
     public function configureResponse(MediaType $requiredType): self
     {
         $requiredType->setParameter('charset', 'utf-8');
-        $mediaType = $requiredType->negotiate($this->getRequestedContentType());
+        $contentType = $requiredType->negotiate($this->getRequestedContentType());
 
-        $this->metadata = Metadata::factory($mediaType->getParameter('odata.metadata'), $this->version);
-        $this->preferences = new ParameterList($this->getHeader('prefer'));
-        $this->ieee754compatible = new IEEE754Compatible($mediaType->getParameter('IEEE754Compatible'));
+        $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
+        $this->preferences = new ParameterList($this->getRequestHeader('prefer'));
+        $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));
 
-        $this->sendContentType($mediaType);
+        $this->sendContentType($contentType);
         $this->sendHeader(Version::versionHeader, $this->getVersion());
         $this->response->setStatusCode(Response::HTTP_OK);
 
@@ -496,49 +503,9 @@ class Transaction
      *
      * @return string
      */
-    public function getServiceDocumentContextUrl(): string
+    public static function getServiceDocumentContextUrl(): string
     {
-        return $this->getServiceDocumentResourceUrl().'$metadata';
-    }
-
-    public function getCollectionOfEntitiesContextUrl(EntitySet $entitySet): string
-    {
-        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getName();
-    }
-
-    public function getEntityContextUrl(EntitySet $entitySet): string
-    {
-        return $this->getServiceDocumentContextUrl().'#'.$entitySet->getName().'/$entity';
-    }
-
-    public function getSingletonContextUrl(string $singleton): string
-    {
-        return $this->getServiceDocumentContextUrl().'#'.$singleton;
-    }
-
-    public function getCollectionOfProjectedEntitiesContextUrl(EntitySet $entitySet, array $selects): string
-    {
-        return sprintf(
-            '%s#%s(%s)',
-            $this->getServiceDocumentContextUrl(),
-            $entitySet->getName(),
-            join(',', $selects)
-        );
-    }
-
-    public function getProjectedEntityContextUrl(EntitySet $entitySet, array $selects): string
-    {
-        return sprintf(
-            '%s#%s(%s)/$entity',
-            $this->getServiceDocumentContextUrl(),
-            $entitySet->getName(),
-            join(',', $selects)
-        );
-    }
-
-    public function getOperationResultTypeContextUrl(PrimitiveType $type): string
-    {
-        return $this->getServiceDocumentContextUrl().'#'.$type->getName();
+        return ServiceProvider::restEndpoint().'$metadata';
     }
 
     /**
@@ -548,45 +515,45 @@ class Transaction
      *
      * @return string
      */
-    public function getServiceDocumentResourceUrl(): string
+    public static function getServiceDocumentResourceUrl(): string
     {
         return ServiceProvider::restEndpoint();
     }
 
-    public function getPropertyValueContextUrl(EntitySet $entitySet, $entityId, Property $property): string
+    public function getContextUrlProperties(): array
     {
-        return sprintf(
-            "%s#%s(%s)/%s",
-            $this->getServiceDocumentContextUrl(),
-            $entitySet->getName(),
-            $entityId,
-            $property->getName()
-        );
+        $properties = [];
+
+        $select = $this->getSelect();
+        if ($select->hasValue() && !$select->isStar()) {
+            $properties = array_merge($properties, $select->getCommaSeparatedValues());
+        }
+
+        $expand = $this->getExpand();
+        if ($expand->hasValue()) {
+            $properties = array_merge($properties, array_map(function ($property) {
+                return $property.'()';
+            }, $expand->getCommaSeparatedValues()));
+        }
+
+        return $properties;
     }
 
-    public function getCollectionOfTypesContextUrl(EntitySet $entitySet, PrimitiveType $type): string
+    public function getResourceUrlProperties(): array
     {
-        return sprintf(
-            '%s#%s(%s)',
-            $this->getServiceDocumentContextUrl(),
-            $entitySet->getName(),
-            $type->getName()
-        );
-    }
+        $properties = [];
 
-    public function getTypeContextUrl(TypeInterface $type): string
-    {
-        return $this->getServiceDocumentContextUrl().'#'.$type->getName();
-    }
+        $select = $this->getSelect();
+        if ($select->hasValue() && !$select->isStar()) {
+            $properties['$select'] = '('.$select->getValue().')';
+        }
 
-    public function getEntityResourceUrl(EntitySet $entitySet, $entityId): string
-    {
-        return sprintf("%s(%s)", $this->getEntityCollectionResourceUrl($entitySet), $entityId);
-    }
+        $expand = $this->getExpand();
+        if ($expand->hasValue()) {
+            $properties['$expand'] = $expand->getValue();
+        }
 
-    public function getEntityCollectionResourceUrl(EntitySet $entitySet): string
-    {
-        return $this->getServiceDocumentResourceUrl().$entitySet->getName();
+        return $properties;
     }
 
     public function outputJsonObjectStart()

@@ -10,6 +10,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\NamedInterface;
@@ -25,7 +26,7 @@ use Iterator;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, Iterator, Countable, EmitInterface, PipeInterface
+abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface
 {
     use HasName;
     use HasTitle;
@@ -286,18 +287,9 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
         $setCount = $this->count();
 
-        $metadata = [];
-
-        $select = $transaction->getSelect();
-
-        if ($select->hasValue() && !$select->isStar()) {
-            $metadata['context'] = $transaction->getCollectionOfProjectedEntitiesContextUrl(
-                $this,
-                $select->getValue()
-            );
-        } else {
-            $metadata['context'] = $transaction->getCollectionOfEntitiesContextUrl($this);
-        }
+        $metadata = [
+            'context' => $this->getContextUrl(),
+        ];
 
         $count = $transaction->getCount();
         if (true === $count->getValue()) {
@@ -310,12 +302,18 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
             if ($top->getValue() + ($skip->getValue() ?: 0) < $setCount) {
                 $np = $transaction->getQueryParams();
                 $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
-                $metadata['nextLink'] = $transaction->getEntityCollectionResourceUrl($this).'?'.http_build_query(
-                        $np,
-                        null,
-                        '&',
-                        PHP_QUERY_RFC3986
-                    );
+                $metadata['nextLink'] = http_build_url(
+                    $this->getResourceUrl(),
+                    [
+                        'query' => http_build_query(
+                            $np,
+                            null,
+                            '&',
+                            PHP_QUERY_RFC3986
+                        ),
+                    ],
+                    HTTP_URL_JOIN_QUERY
+                );
             }
         }
 
@@ -333,6 +331,32 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
             $this->emit($transaction);
             $transaction->outputJsonObjectEnd();
         });
+    }
+
+    public function getContextUrl(): string
+    {
+        $url = Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
+        $properties = $this->transaction->getContextUrlProperties();
+
+        if ($properties) {
+            $url .= sprintf('(%s)', join(',', $properties));
+        }
+
+        return $url;
+    }
+
+    public function getResourceUrl(): string
+    {
+        $url = Transaction::getServiceDocumentResourceUrl().$this->getName();
+        $properties = $this->transaction->getResourceUrlProperties();
+
+        if ($properties) {
+            $url = http_build_url($url, [
+                'query' => $this->transaction->getResourceUrlProperties(),
+            ]);
+        }
+
+        return $url;
     }
 
     public static function pipe(
@@ -422,6 +446,11 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $entity = new Entity();
         $entity->setEntitySet($this);
         return $entity;
+    }
+
+    public function getTransaction(): ?Transaction
+    {
+        return $this->transaction;
     }
 
     /**

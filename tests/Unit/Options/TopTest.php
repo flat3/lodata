@@ -75,5 +75,21 @@ class TopTest extends TestCase
             $this->urlToReq($page->{'@nextLink'})
         );
     }
+
+    public function test_page_select()
+    {
+        $page = $this->jsonResponse(
+            $this->assertJsonResponse(
+                Request::factory()
+                    ->path('/airports')
+                    ->query('$top', '2')
+                    ->query('$select', 'code')
+            )
+        );
+
+        $this->assertJsonResponse(
+            $this->urlToReq($page->{'@nextLink'})
+        );
+    }
 }
 

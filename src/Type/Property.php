@@ -8,7 +8,7 @@ use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasType;
 
-abstract class Property implements TypeInterface
+abstract class Property implements TypeInterface, NamedInterface
 {
     use HasName;
     use HasType;

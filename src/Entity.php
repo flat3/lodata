@@ -7,6 +7,7 @@ use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\ResourceException;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\PipeInterface;
@@ -15,7 +16,7 @@ use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Type\Property;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Entity implements ResourceInterface, EntityTypeInterface, ArrayAccess, EmitInterface, PipeInterface
+class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface
 {
     use HasEntityType;
 
@@ -24,6 +25,9 @@ class Entity implements ResourceInterface, EntityTypeInterface, ArrayAccess, Emi
 
     /** @var EntitySet $entitySet */
     private $entitySet;
+
+    /** @var Transaction $transaction */
+    private $transaction;
 
     protected $metadata = [];
 
@@ -221,29 +225,40 @@ class Entity implements ResourceInterface, EntityTypeInterface, ArrayAccess, Emi
         return $argument;
     }
 
+    public function getContextUrl(): string
+    {
+        if ($this->entitySet) {
+            $url = $this->entitySet->getContextUrl();
+
+            return $url.'/$entity';
+        }
+
+        $url = $this->type->getContextUrl();
+
+        $properties = $this->transaction->getContextUrlProperties();
+
+        if ($properties) {
+            $url .= sprintf('(%s)', join(',', $properties));
+        }
+
+        return $url;
+    }
+
+    public function getResourceUrl(): string
+    {
+        if (!$this->entitySet) {
+            throw new \RuntimeException('Entity is only a resource as part of an entity set');
+        }
+
+        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->toUrl());
+    }
+
     public function response(Transaction $transaction): StreamedResponse
     {
+        $this->transaction = $transaction;
         $transaction->configureJsonResponse();
 
-        $metadata = [];
-
-        $select = $transaction->getSelect();
-
-        if ($select->hasValue() && !$select->isStar()) {
-            $metadata['context'] = $transaction->getProjectedEntityContextUrl($this->entitySet, $select->getValue());
-        } else {
-            if ($this->entitySet) {
-                $metadata['context'] = $transaction->getEntityContextUrl($this->entitySet);
-            } else {
-                $metadata['context'] = $transaction->getTypeContextUrl($this->type);
-            }
-        }
-
-        $entityId = $this->getEntityId();
-
-        if ($entityId) {
-            $metadata['id'] = $transaction->getEntityResourceUrl($this->entitySet, $entityId->toUrl());
-        }
+        $metadata['context'] = $this->getContextUrl();
 
         $this->metadata = $transaction->getMetadata()->filter($metadata);
 

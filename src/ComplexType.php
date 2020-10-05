@@ -2,12 +2,16 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\ContextInterface;
+use Flat3\OData\Interfaces\NamedInterface;
+use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Type\Property;
 
-class ComplexType implements TypeInterface
+class ComplexType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface
 {
     use HasName;
 
@@ -47,5 +51,15 @@ class ComplexType implements TypeInterface
     public function getNavigationProperties(): ObjectArray
     {
         return $this->properties->sliceByClass(NavigationProperty::class);
+    }
+
+    public function getContextUrl(): string
+    {
+        return Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
+    }
+
+    public function getResourceUrl(): string
+    {
+        return Transaction::getServiceDocumentResourceUrl().$this->getName().'()';
     }
 }

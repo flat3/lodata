@@ -111,4 +111,14 @@ class EntityTest extends TestCase
                 ->query('$expand', 'airports')
         );
     }
+
+    public function test_expand_select()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$expand', 'airports')
+                ->query('$select', 'origin')
+        );
+    }
 }
