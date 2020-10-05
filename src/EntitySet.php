@@ -335,7 +335,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getContextUrl(): string
     {
-        $url = Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
+        $url = Transaction::getContextUrl().'#'.$this->getName();
         $properties = $this->transaction->getContextUrlProperties();
 
         if ($properties) {
@@ -347,7 +347,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getResourceUrl(): string
     {
-        $url = Transaction::getServiceDocumentResourceUrl().$this->getName();
+        $url = Transaction::getResourceUrl().$this->getName();
         $properties = $this->transaction->getResourceUrlProperties();
 
         if ($properties) {

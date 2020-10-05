@@ -55,11 +55,11 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
 
     public function getContextUrl(): string
     {
-        return Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl().'#'.$this->getName();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getServiceDocumentResourceUrl().$this->getName().'()';
+        return Transaction::getResourceUrl().$this->getName().'()';
     }
 }

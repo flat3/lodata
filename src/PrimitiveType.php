@@ -231,12 +231,12 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
             );
         }
 
-        return Transaction::getServiceDocumentContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl().'#'.$this->getName();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getServiceDocumentResourceUrl().$this->getName().'()';
+        return Transaction::getResourceUrl().$this->getName().'()';
     }
 
     public function emit(Transaction $transaction): void

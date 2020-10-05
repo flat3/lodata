@@ -503,7 +503,7 @@ class Transaction
      *
      * @return string
      */
-    public static function getServiceDocumentContextUrl(): string
+    public static function getContextUrl(): string
     {
         return ServiceProvider::restEndpoint().'$metadata';
     }
@@ -515,7 +515,7 @@ class Transaction
      *
      * @return string
      */
-    public static function getServiceDocumentResourceUrl(): string
+    public static function getResourceUrl(): string
     {
         return ServiceProvider::restEndpoint();
     }

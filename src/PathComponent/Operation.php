@@ -201,6 +201,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getResourceUrl(): string
     {
-        return Transaction::getServiceDocumentResourceUrl().$this->getName();
+        return Transaction::getResourceUrl().$this->getName();
     }
 }

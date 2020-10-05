@@ -4,7 +4,6 @@ namespace Flat3\OData\PathComponent;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Model;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -26,7 +25,9 @@ class Service implements EmitInterface
 
         $transaction->outputJsonObjectStart();
 
-        $metadata = $transaction->getMetadata()->filter(['context' => $transaction->getServiceDocumentContextUrl()]);
+        $metadata['context'] = Transaction::getContextUrl();
+
+        $metadata = $transaction->getMetadata()->filter($metadata);
 
         if ($metadata) {
             $transaction->outputJsonKV($metadata);
