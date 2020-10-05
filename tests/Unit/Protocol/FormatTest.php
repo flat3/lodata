@@ -51,7 +51,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             Request::factory()
-                ->header('accept', 'application/json;metadata=full')
+                ->header('accept', 'application/json;odata.metadata=full')
         );
     }
 
@@ -124,7 +124,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             Request::factory()
-                ->query('$format', 'application/json;metadata=full')
+                ->query('$format', 'application/json;odata.metadata=full')
         );
     }
 
@@ -140,7 +140,7 @@ class FormatTest extends TestCase
     {
         $this->assertBadRequest(
             Request::factory()
-                ->query('$format', 'json;metadata=none')
+                ->query('$format', 'json;odata.metadata=none')
         );
     }
 

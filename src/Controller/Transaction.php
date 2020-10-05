@@ -363,6 +363,7 @@ class Transaction
 
     public function configureResponse(MediaType $requiredType): self
     {
+        $requiredType->setParameter('charset', 'utf-8');
         $mediaType = $requiredType->negotiate($this->getRequestedContentType());
 
         $this->metadata = Metadata::factory($mediaType->getParameter('odata.metadata'), $this->version);

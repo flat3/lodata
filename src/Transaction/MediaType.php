@@ -28,11 +28,23 @@ class MediaType
             $types[] = MediaType::factory()->parse($type);
         }
 
+        // Order by priority
         usort($types, function (MediaType $a, MediaType $b) {
             return $b->getParameter('q') <=> $a->getParameter('q');
         });
 
         foreach ($types as $type) {
+            // Reject formats with unknown format parameters
+            if (array_diff($type->getParameterKeys(), [
+                'IEEE754Compatible',
+                'odata.metadata',
+                'odata.streaming',
+                'charset',
+                'q',
+            ])) {
+                continue;
+            }
+
             if ($type->getSubtype() !== '*' && $type->getSubtype() !== $this->getSubtype()) {
                 continue;
             }
@@ -52,7 +64,7 @@ class MediaType
 
         throw new NotAcceptableException(
             'unsupported_content_type',
-            'This route does not support the requested content type'
+            'This route does not support the requested content type, unsupported parameters may have been supplied'
         );
     }
 
