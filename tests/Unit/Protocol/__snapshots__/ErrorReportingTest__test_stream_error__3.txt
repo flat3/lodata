@@ -1,0 +1,1 @@
+{"@context":"http:\/\/localhost\/odata\/$metadata#texts","value":{"key":"value"

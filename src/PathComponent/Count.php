@@ -3,12 +3,12 @@
 namespace Flat3\OData\PathComponent;
 
 use Countable;
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Count implements EmitInterface, PipeInterface
 {
@@ -25,7 +25,7 @@ class Count implements EmitInterface, PipeInterface
         $transaction->outputRaw($this->countable->count());
     }
 
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         $transaction->configureTextResponse();
 

@@ -2,15 +2,15 @@
 
 namespace Flat3\OData\PathComponent;
 
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Model;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Service implements EmitInterface
 {
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         $transaction->configureJsonResponse();
 

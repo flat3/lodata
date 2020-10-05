@@ -77,6 +77,17 @@ abstract class ProtocolException extends RuntimeException implements Responsable
         ]);
     }
 
+    public function toError()
+    {
+        return array_filter([
+            'code' => $this->odataCode,
+            'message' => $this->message,
+            'target' => $this->target,
+            'details' => $this->details,
+            'inner' => $this->inner,
+        ]);
+    }
+
     public function toResponse($request): Response
     {
         return new Response(json_encode(array_filter([

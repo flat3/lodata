@@ -2,10 +2,12 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
@@ -33,8 +35,6 @@ use Flat3\OData\Type\Single;
 use Flat3\OData\Type\Stream;
 use Flat3\OData\Type\String_;
 use Flat3\OData\Type\TimeOfDay;
-use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class PrimitiveType
@@ -244,7 +244,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         $transaction->outputRaw($this);
     }
 
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         if (null === $this->get()) {
             throw new NoContentException('null_value');
@@ -296,7 +296,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         ];
 
         if (!array_key_exists($name, $resolver)) {
-            throw new RuntimeException('An invalid type was requested: '.$name);
+            throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: '.$name);
         }
 
         $clazz = $resolver[$name];

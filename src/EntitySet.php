@@ -3,10 +3,12 @@
 namespace Flat3\OData;
 
 use Countable;
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
@@ -23,8 +25,6 @@ use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Type\Property;
 use Iterator;
-use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface
 {
@@ -83,7 +83,10 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
     public function asInstance(Transaction $transaction): self
     {
         if ($this->isInstance) {
-            throw new RuntimeException('Attempted to clone an instance of an entity set');
+            throw new InternalServerErrorException(
+                'cannot_clone_entity_set_instance',
+                'Attempted to clone an instance of an entity set'
+            );
         }
 
         $set = clone $this;
@@ -137,7 +140,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function rewind()
     {
-        throw new RuntimeException('Entity sets cannot be rewound');
+        throw new InternalServerErrorException('no_rewind', 'Entity sets cannot be rewound');
     }
 
     public function count()
@@ -155,7 +158,10 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
     public function valid(): bool
     {
         if (!$this->isInstance) {
-            throw new RuntimeException('This function must be run on an instance of EntitySet');
+            throw new InternalServerErrorException(
+                'not_an_entity_set_instance',
+                'This function must be run on an instance of EntitySet'
+            );
         }
 
         if (0 === $this->top) {
@@ -234,7 +240,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $transaction->outputJsonArrayEnd();
     }
 
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         $transaction->configureJsonResponse();
 

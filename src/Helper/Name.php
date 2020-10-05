@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Helper;
 
-use Flat3\OData\Exception\ConfigurationException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Expression\Lexer;
 
 final class Name
@@ -13,7 +13,7 @@ final class Name
     public function __construct(string $name)
     {
         if (!Lexer::patternCheck(Lexer::ODATA_IDENTIFIER, $name)) {
-            throw new ConfigurationException('The provided name was invalid', $name);
+            throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$name);
         }
 
         $this->name = $name;

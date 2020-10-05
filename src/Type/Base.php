@@ -2,8 +2,6 @@
 
 namespace Flat3\OData\Type;
 
-use RuntimeException;
-
 /**
  * Class Type
  * @package Flat3\OData

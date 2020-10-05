@@ -2,7 +2,12 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
+use Flat3\OData\Controller\Transaction;
+use Flat3\OData\DeclaredProperty;
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Model;
+use Flat3\OData\PrimitiveType;
 use Flat3\OData\Tests\JsonDriver;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
@@ -34,5 +39,35 @@ class ErrorReportingTest extends TestCase
             $response = $e->toResponse(new \Illuminate\Http\Request());
             $this->assertMatchesSnapshot($response->getContent(), new JsonDriver());
         }
+    }
+
+    public function test_stream_error()
+    {
+        Model::add(
+            new class(
+                'texts',
+                Model::entitytype('text')
+                    ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
+            ) extends EntitySet {
+                public function emit(Transaction $transaction): void
+                {
+                    $transaction->outputJsonObjectStart();
+                    $transaction->outputJsonKV(['key' => 'value']);
+                    throw new NotImplementedException('not_implemented', 'Error during stream');
+                }
+
+                public function generate(): array
+                {
+                    return [];
+                }
+            });
+
+        ob_start();
+
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/texts'));
+
+        $this->assertMatchesSnapshot(ob_get_clean());
     }
 }

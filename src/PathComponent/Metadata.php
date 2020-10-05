@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\PathComponent;
 
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
@@ -11,7 +12,6 @@ use Flat3\OData\Helper\Argument;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Model;
-use Flat3\OData\NavigationProperty;
 use Flat3\OData\ReferentialConstraint;
 use Flat3\OData\Transaction\Metadata\Full;
 use Flat3\OData\Transaction\Metadata\Minimal;
@@ -20,7 +20,6 @@ use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Property;
 use SimpleXMLElement;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Metadata implements PipeInterface, EmitInterface
 {
@@ -246,7 +245,7 @@ class Metadata implements PipeInterface, EmitInterface
         $transaction->outputRaw($root->asXML());
     }
 
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         $transaction->configureXmlResponse();
 

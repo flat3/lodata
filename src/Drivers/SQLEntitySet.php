@@ -5,7 +5,7 @@ namespace Flat3\OData\Drivers;
 use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\ResourceException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\ArgumentSeparator;
 use Flat3\OData\Expression\Event\EndFunction;
@@ -332,7 +332,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $this->bindParameters($stmt);
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new ResourceException(sprintf('The executed query returned an error: %s', $e->getMessage()));
+            throw new InternalServerErrorException('query_error',
+                sprintf('The executed query returned an error: %s', $e->getMessage()));
         }
 
         return $stmt;
@@ -486,7 +487,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $columns = implode(', ', $columns);
 
         if (!$columns) {
-            throw new ResourceException('There are no properties to return in this query');
+            throw new InternalServerErrorException(
+                'empty_property_set',
+                'There are no properties to return in this query'
+            );
         }
 
         return $columns;

@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Exception\ConfigurationException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Type\Property;
 
@@ -23,7 +23,10 @@ class NavigationProperty extends Property
     public function __construct($name, EntityType $type)
     {
         if (!$type->getKey()) {
-            throw new ConfigurationException('The specified entity type must have a key defined');
+            throw new InternalServerErrorException(
+                'missing_entity_type_key',
+                'The specified entity type must have a key defined'
+            );
         }
 
         parent::__construct($name, $type);

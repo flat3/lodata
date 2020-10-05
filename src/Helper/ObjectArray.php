@@ -4,8 +4,8 @@ namespace Flat3\OData\Helper;
 
 use ArrayAccess;
 use Countable;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Iterator;
-use RuntimeException;
 
 class ObjectArray implements Countable, Iterator, ArrayAccess
 {
@@ -42,7 +42,10 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     public function add($key, $value = null): void
     {
         if ($this->exists($key)) {
-            throw new RuntimeException('Attempted to add an item that already exists');
+            throw new InternalServerErrorException(
+                'cannot_add_existing_key',
+                'Attempted to add an item that already exists'
+            );
         }
 
         $this->replace($key, $value);

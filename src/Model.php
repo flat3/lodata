@@ -2,12 +2,12 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use RuntimeException;
 
 class Model
 {
@@ -24,7 +24,7 @@ class Model
         try {
             return app()->make(self::class);
         } catch (BindingResolutionException $e) {
-            throw new RuntimeException($e->getMessage());
+            throw new InternalServerErrorException('binding_resolution_error', $e->getMessage());
         }
     }
 

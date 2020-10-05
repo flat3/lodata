@@ -27,7 +27,6 @@ use Flat3\OData\Traits\HasType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
-use RuntimeException;
 
 abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, NamedInterface, PipeInterface
 {
@@ -62,7 +61,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         } catch (ReflectionException $e) {
         }
 
-        throw new RuntimeException('Invalid return type');
+        throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
     }
 
     public function isNullable(): bool
@@ -92,7 +91,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         } catch (ReflectionException $e) {
         }
 
-        throw new RuntimeException('Invalid arguments');
+        throw new InternalServerErrorException('invalid_arguments', 'Invalid arguments');
     }
 
     public function setCallback(callable $callback): self

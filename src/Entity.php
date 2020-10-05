@@ -3,9 +3,10 @@
 namespace Flat3\OData;
 
 use ArrayAccess;
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\ResourceException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
@@ -14,7 +15,6 @@ use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Type\Property;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface
 {
@@ -173,11 +173,15 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         }
 
         if (!$property instanceof Property) {
-            throw new ResourceException('The service attempted to access an undefined property');
+            throw new InternalServerErrorException(
+                'undefined_property',
+                'The service attempted to access an undefined property'
+            );
         }
 
         if (null === $value && !$property->isNullable()) {
-            throw new ResourceException(
+            throw new InternalServerErrorException(
+                'cannot_add_null_property',
                 'The entity set provided a null value that cannot be added for this property type: '.$property->getName()
             );
         }
@@ -247,13 +251,16 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function getResourceUrl(): string
     {
         if (!$this->entitySet) {
-            throw new \RuntimeException('Entity is only a resource as part of an entity set');
+            throw new InternalServerErrorException(
+                'no_entity_resource',
+                'Entity is only a resource as part of an entity set'
+            );
         }
 
         return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->toUrl());
     }
 
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         $this->transaction = $transaction;
         $transaction->configureJsonResponse();

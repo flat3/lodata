@@ -6,6 +6,7 @@ use Flat3\OData\ActionOperation;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
@@ -19,7 +20,6 @@ use Flat3\OData\PrimitiveType;
 use Flat3\OData\Singleton;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use RuntimeException;
 
 class OData extends Controller
 {
@@ -76,7 +76,7 @@ class OData extends Controller
         }
 
         if (!$result instanceof EmitInterface) {
-            throw new RuntimeException('A handler returned something that could not be emitted');
+            throw new InternalServerErrorException('cannot_emit_handler', 'A handler returned something that could not be emitted');
         }
 
         return $result->response($transaction);

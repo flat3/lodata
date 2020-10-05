@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\PathComponent;
 
+use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
@@ -10,7 +11,6 @@ use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Transaction\MediaType;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Value implements PipeInterface, EmitInterface
 {
@@ -39,7 +39,7 @@ class Value implements PipeInterface, EmitInterface
         return new static($argument);
     }
 
-    public function response(Transaction $transaction): StreamedResponse
+    public function response(Transaction $transaction): Response
     {
         $requestedFormat = $transaction->getRequestedContentType();
 

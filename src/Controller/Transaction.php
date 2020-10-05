@@ -3,6 +3,7 @@
 namespace Flat3\OData\Controller;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
@@ -25,11 +26,8 @@ use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
 use Flat3\OData\Type\Boolean;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\InputBag;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class Transaction
@@ -41,7 +39,7 @@ class Transaction
     /** @var Request $request */
     private $request;
 
-    /** @var StreamedResponse $response */
+    /** @var Response $response */
     private $response;
 
     /** @var Version $version */
@@ -103,7 +101,7 @@ class Transaction
     public function initialize(Request $request): self
     {
         $this->setRequest($request);
-        $this->response = new StreamedResponse();
+        $this->response = new Response();
 
         $this->version = new Version(
             $this->getRequestHeader(Version::versionHeader),
@@ -171,7 +169,10 @@ class Transaction
     public function subTransaction(Request $request): self
     {
         if (!$this->request) {
-            throw new RuntimeException('This transaction has not been initialised');
+            throw new InternalServerErrorException(
+                'uninitialized_transaction',
+                'This transaction has not been initialised'
+            );
         }
 
         $transaction = clone $this;
@@ -204,7 +205,7 @@ class Transaction
         return $query instanceof InputBag ? $query->all() : [];
     }
 
-    public function getResponse(): StreamedResponse
+    public function getResponse(): Response
     {
         return $this->response;
     }
