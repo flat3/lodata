@@ -192,10 +192,11 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
 
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $lexer = new Lexer($pathComponent);
+        $lexer = new Lexer($currentComponent);
 
         try {
             $property = $lexer->odataIdentifier();

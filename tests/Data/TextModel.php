@@ -11,7 +11,6 @@ trait TextModel
 {
     public function withTextModel()
     {
-
         Model::add(
             new class(
                 'texts',

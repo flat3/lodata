@@ -26,10 +26,11 @@ class Metadata implements PipeInterface, EmitInterface
 {
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): PipeInterface {
-        if ($pathComponent !== '$metadata') {
+        if ($currentComponent !== '$metadata') {
             throw new PathNotHandledException();
         }
 

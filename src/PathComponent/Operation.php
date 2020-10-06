@@ -130,10 +130,11 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $lexer = new Lexer($pathComponent);
+        $lexer = new Lexer($currentComponent);
         try {
             $operationIdentifier = $lexer->odataIdentifier();
             $args = $lexer->matchingParenthesis();

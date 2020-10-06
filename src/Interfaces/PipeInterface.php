@@ -6,5 +6,5 @@ use Flat3\OData\Controller\Transaction;
 
 interface PipeInterface
 {
-    public static function pipe(Transaction $transaction, string $pathComponent, ?PipeInterface $argument): ?PipeInterface;
+    public static function pipe(Transaction $transaction, string $currentComponent, ?string $nextComponent, ?PipeInterface $argument): ?PipeInterface;
 }

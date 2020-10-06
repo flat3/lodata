@@ -224,7 +224,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
         return $argument;

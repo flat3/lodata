@@ -3,6 +3,7 @@
 namespace Flat3\OData\Tests;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
@@ -72,6 +73,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertNotImplemented(Request $request)
     {
         $this->expectException(NotImplementedException::class);
+        $this->req($request);
+    }
+
+    protected function assertInternalServerError(Request $request)
+    {
+        $this->expectException(InternalServerErrorException::class);
         $this->req($request);
     }
 

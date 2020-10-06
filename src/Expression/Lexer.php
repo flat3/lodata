@@ -4,7 +4,6 @@ namespace Flat3\OData\Expression;
 
 use Exception;
 use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;
@@ -409,7 +408,11 @@ class Lexer
         }
 
         if ($this->pos >= $this->len) {
-            throw new LexerException($this->pos + 1, 'Expected %s but got end of string', $char);
+            throw new LexerException(
+                $this->pos + 1,
+                'Expected %s but got end of string',
+                $char ? "'$char'" : 'character'
+            );
         }
 
         $next_char = $this->text[$this->pos + 1];

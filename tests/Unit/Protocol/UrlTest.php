@@ -2,47 +2,99 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
+use Flat3\OData\EntityType;
+use Flat3\OData\Model;
+use Flat3\OData\Tests\Data\FlightModel;
+use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class UrlTest extends TestCase
 {
-    public $tests = [
-        "/t2('O''Neil')" => "O'Neil",
-        '/t2(%27O%27%27Neil%27)' => "O'Neil",
-        '/t2%28%27O%27%27Neil%27%29' => "O'Neil",
-        '/t2(\'Smartphone%2FTablet\')' => 'Smartphone/Tablet',
-    ];
+    use FlightModel;
 
-    public function test_valid_urls()
+    public function setUp(): void
     {
-        $this->markTestIncomplete();
+        parent::setUp();
+        $this->withFlightModel();
+
+        (new AirportEModel([
+            'code' => 'ohr',
+            'name' => "O'Hare",
+            'construction_date' => '1930-01-01',
+            'open_time' => '15:00:00',
+            'sam_datetime' => '1999-11-10T14:00:01+00:00',
+            'is_big' => true,
+        ]))->save();
+
+        (new AirportEModel([
+            'code' => 'air',
+            'name' => "Air/Port",
+            'construction_date' => '1099-01-01',
+            'open_time' => '11:00:00',
+            'sam_datetime' => '1999-11-10T14:00:01+00:00',
+            'is_big' => false,
+        ]))->save();
+
+        /** @var EntityType $airportType */
+        $airportType = Model::get()->getEntityTypes()->get('airport');
+        $airportType->getProperty('name')->setSearchable()->setKeyable();
+        $airportType->getProperty('code')->setSearchable()->setKeyable();
+    }
+
+    public function test_valid_1()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/airports(name='O''Hare')")
+        );
+    }
+
+    public function test_valid_2()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/airports(name%3D%27O%27%27Hare%27)")
+        );
+    }
+
+    public function test_valid_3()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/airports%28name%3D%27O%27%27Hare%27%29")
+        );
+    }
+
+    public function test_valid_4()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/airports(name='Air%2FPort')")
+        );
     }
 
     public function test_invalid_urls_1()
     {
-        $this->markTestIncomplete();
         $this->assertBadRequest(
             Request::factory()
-                ->path("/t2('O'Neil')")
+                ->path("/airports('O'Hare')")
         );
     }
 
     public function test_invalid_urls_2()
     {
-        $this->markTestIncomplete();
         $this->assertBadRequest(
             Request::factory()
-                ->path("/t2('O%27Neil')")
+                ->path("/airports(name='O%27Hare')")
         );
     }
 
     public function test_invalid_urls_3()
     {
-        $this->markTestIncomplete();
         $this->assertBadRequest(
             Request::factory()
-                ->path("/t2(\'Smartphone/Tablet\')")
+                ->path("/airports('Air/Port')")
         );
     }
 }

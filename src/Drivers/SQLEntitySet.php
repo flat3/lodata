@@ -397,6 +397,15 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $search = $this->transaction->getSearch();
         if ($search->hasValue()) {
+            if (!$this->getType()->getDeclaredProperties()->filter(function ($property) {
+                return $property->isSearchable();
+            })->hasEntries()) {
+                throw new InternalServerErrorException(
+                    'query_no_searchable_properties',
+                    'The provided query had no properties marked searchable'
+                );
+            }
+
             $this->whereMaybeAnd();
             $search->applyQuery($this);
         }

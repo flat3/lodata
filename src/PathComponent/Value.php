@@ -24,10 +24,11 @@ class Value implements PipeInterface, EmitInterface
 
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        if ($pathComponent !== '$value') {
+        if ($currentComponent !== '$value') {
             throw new PathNotHandledException();
         }
 

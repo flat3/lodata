@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Tests\Unit\Options;
 
+use Flat3\OData\Model;
 use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
@@ -19,6 +20,17 @@ class SearchTest extends TestCase
     public function test_search()
     {
         $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->query('$search', 'sfo')
+        );
+    }
+
+    public function test_search_no_searchable_properties()
+    {
+        Model::get()->getEntityTypes()->get('airport')->getProperty('code')->setSearchable(false);
+
+        $this->assertInternalServerError(
             Request::factory()
                 ->path('/airports')
                 ->query('$search', 'sfo')

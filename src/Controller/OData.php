@@ -2,10 +2,8 @@
 
 namespace Flat3\OData\Controller;
 
-use Flat3\OData\ActionOperation;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
@@ -49,19 +47,12 @@ class OData extends Controller
         }
 
         while ($pathComponents) {
-            $pathComponent = array_shift($pathComponents);
+            $currentComponent = array_shift($pathComponents);
+            $nextComponent = $pathComponents[0] ?? null;
 
             foreach ($handlers as $handler) {
                 try {
-                    $result = $handler::pipe($transaction, $pathComponent, $result);
-
-                    if ($handler instanceof ActionOperation && $pathComponents) {
-                        throw new BadRequestException(
-                            'cannot_compose_action',
-                            'It is not permitted to further compose the result of an action'
-                        );
-                    }
-
+                    $result = $handler::pipe($transaction, $currentComponent, $nextComponent, $result);
                     continue 2;
                 } catch (PathNotHandledException $e) {
                     continue;
@@ -76,7 +67,10 @@ class OData extends Controller
         }
 
         if (!$result instanceof EmitInterface) {
-            throw new InternalServerErrorException('cannot_emit_handler', 'A handler returned something that could not be emitted');
+            throw new InternalServerErrorException(
+                'cannot_emit_handler',
+                'A handler returned something that could not be emitted'
+            );
         }
 
         return $result->response($transaction);

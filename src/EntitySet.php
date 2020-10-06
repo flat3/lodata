@@ -368,11 +368,12 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
         $data_model = Model::get();
-        $lexer = new Lexer($pathComponent);
+        $lexer = new Lexer($currentComponent);
         try {
             $entitySet = $data_model->getResources()->get($lexer->odataIdentifier());
         } catch (LexerException $e) {
@@ -396,7 +397,12 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
             return $entitySet;
         }
 
-        $id = $lexer->matchingParenthesis();
+        try {
+            $id = $lexer->matchingParenthesis();
+        } catch (LexerException $e) {
+            throw new BadRequestException('invalid_entity_set_suffix', 'The expected entity set suffix was not found');
+        }
+
         $lexer = new Lexer($id);
 
         // Get the default key property

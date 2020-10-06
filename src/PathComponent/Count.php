@@ -36,10 +36,11 @@ class Count implements EmitInterface, PipeInterface
 
     public static function pipe(
         Transaction $transaction,
-        string $pathComponent,
+        string $currentComponent,
+        ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        if ($pathComponent !== '$count') {
+        if ($currentComponent !== '$count') {
             throw new PathNotHandledException();
         }
 

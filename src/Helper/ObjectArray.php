@@ -135,4 +135,17 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
         return $result;
     }
+
+    public function filter(callable $callback): self
+    {
+        $result = new self();
+
+        foreach ($this->array as $key => $value) {
+            if ($callback($value)) {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
 }
