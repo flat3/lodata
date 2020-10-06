@@ -25,7 +25,7 @@ class Binary extends PrimitiveType
         return null === $this->value ? null : base64_encode($this->value);
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         $result = base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
         if (false === $result) {

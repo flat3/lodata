@@ -35,6 +35,16 @@
             "name": "add",
             "kind": "Function",
             "url": "add"
+        },
+        {
+            "name": "div",
+            "kind": "Function",
+            "url": "div"
+        },
+        {
+            "name": "ffn1",
+            "kind": "Function",
+            "url": "ffn1"
         }
     ]
 }

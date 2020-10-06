@@ -60,7 +60,7 @@ class Decimal extends PrimitiveType
         return strtolower((string) $this->value);
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         if (is_float($value)) {
             $this->value = $value;

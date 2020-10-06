@@ -43,7 +43,7 @@ class Duration extends PrimitiveType
         return $r;
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this->duration_to_number($value)));
     }

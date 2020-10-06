@@ -11,6 +11,7 @@ use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\NamedInterface;
@@ -57,7 +58,7 @@ use Flat3\OData\Type\TimeOfDay;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface
+abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface, ArgumentInterface
 {
     public const URL_NULL = 'null';
     public const URL_TRUE = 'true';
@@ -74,7 +75,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     public function __construct($value = null, bool $nullable = true)
     {
         $this->nullable = $nullable;
-        $this->toInternal($value);
+        $this->set($value);
     }
 
     public function getName(): string
@@ -83,11 +84,11 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     }
 
     /**
-     * Convert the provided value to the internal representation
+     * Set the internal value from a standard typed value
      *
      * @param $value
      */
-    abstract public function toInternal($value): void;
+    abstract public function set($value): void;
 
     public static function factory($value = null, ?bool $nullable = true): self
     {

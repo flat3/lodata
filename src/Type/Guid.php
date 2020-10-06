@@ -26,7 +26,7 @@ class Guid extends PrimitiveType
         return strtoupper(join('-', unpack('H8time_low/H4time_mid/H4time_hi/H4clock_seq_hi/H12clock_seq_low', $value)));
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         $this->value = $this->maybeNull(Lexer::patternCheck(
             Lexer::GUID,

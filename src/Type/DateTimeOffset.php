@@ -14,7 +14,7 @@ class DateTimeOffset extends PrimitiveType
     /** @var ?DateTime $value */
     protected $value;
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         if (is_bool($value)) {
             $value = $this->getEmpty();

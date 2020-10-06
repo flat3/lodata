@@ -12,6 +12,7 @@ use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
@@ -26,7 +27,7 @@ use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Type\Property;
 use Iterator;
 
-abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface
+abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
 {
     use HasName;
     use HasTitle;

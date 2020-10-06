@@ -20,7 +20,7 @@ class String_ extends PrimitiveType
         return "'".str_replace("'", "''", $this->value)."'";
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         $this->value = $this->maybeNull(null === $value ? null : (string) $value);
     }

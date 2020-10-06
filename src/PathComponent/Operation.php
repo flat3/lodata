@@ -6,20 +6,26 @@ use Closure;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
+use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Helper\Argument;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Model;
+use Flat3\OData\Operation\Argument;
+use Flat3\OData\Operation\EntityArgument;
+use Flat3\OData\Operation\EntitySetArgument;
+use Flat3\OData\Operation\PrimitiveTypeArgument;
+use Flat3\OData\Operation\TransactionArgument;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
@@ -42,23 +48,31 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         $this->setName($name);
     }
 
-    public function returnsCollection(): bool
+    public function getReflectedReturnType(): string
     {
         try {
             $rfc = new ReflectionFunction($this->callback);
 
             /** @var ReflectionNamedType $rt */
             $rt = $rfc->getReturnType();
-            $tn = $rt->getName();
-            switch (true) {
-                case is_a($tn, EntitySet::class, true);
-                    return true;
-
-                case is_a($tn, Entity::class, true);
-                case is_a($tn, PrimitiveType::class, true);
-                    return false;
-            }
+            return $rt->getName();
         } catch (ReflectionException $e) {
+        }
+
+        throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
+    }
+
+    public function returnsCollection(): bool
+    {
+        $tn = $this->getReflectedReturnType();
+
+        switch (true) {
+            case is_a($tn, EntitySet::class, true);
+                return true;
+
+            case is_a($tn, Entity::class, true);
+            case is_a($tn, PrimitiveType::class, true);
+                return false;
         }
 
         throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
@@ -82,9 +96,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             $args = new ObjectArray();
 
             foreach ($rfn->getParameters() as $parameter) {
-                $type = $parameter->getType()->getName();
-                $arg = new Argument($parameter->getName(), $type::factory(), $parameter->allowsNull());
-                $args[] = $arg;
+                $args[] = Argument::factory($parameter);
             }
 
             return $args;
@@ -97,6 +109,12 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     public function setCallback(callable $callback): self
     {
         $this->callback = $callback;
+
+        $returnType = $this->getReflectedReturnType();
+
+        if (is_a($returnType, PrimitiveType::class, true)) {
+            $this->setType($returnType::factory());
+        }
 
         return $this;
     }
@@ -131,7 +149,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             throw new PathNotHandledException();
         }
 
-        $providedArguments = array_merge(...array_map(function ($pair) use ($transaction) {
+        $transactionArguments = array_merge(...array_map(function ($pair) use ($transaction) {
             $pair = trim($pair);
 
             $kv = array_map('trim', explode('=', $pair));
@@ -150,52 +168,44 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             return [$key => $value];
         }, array_filter(explode(',', $args))));
 
-        $parsedArguments = [];
+        $operationArguments = [];
 
         /** @var Argument $argumentDefinition */
         foreach ($operation->getArguments() as $argumentDefinition) {
-            $argumentIdentifier = $argumentDefinition->getName();
-            if (!array_key_exists($argumentIdentifier, $providedArguments)) {
-                if (!$argumentDefinition->isNullable()) {
-                    throw new BadRequestException('non_null_argument_missing',
-                        sprintf('A non-null argument (%s) is missing', $argumentIdentifier));
-                }
+            switch (true) {
+                case $argumentDefinition instanceof TransactionArgument:
+                    $operationArguments[] = $argumentDefinition->generate($transaction);
+                    break;
 
-                $parsedArguments[$argumentIdentifier] = $argumentDefinition->getType()::factory(null);
-                continue;
-            }
+                case $argumentDefinition instanceof EntitySetArgument:
+                    $operationArguments[] = $argumentDefinition->generate($transaction);
+                    break;
 
-            $lexer = new Lexer($providedArguments[$argumentIdentifier]);
+                case $argumentDefinition instanceof EntityArgument:
+                    $operationArguments[] = $argumentDefinition->generate();
+                    break;
 
-            try {
-                $parsedArguments[$argumentIdentifier] = $lexer->type($argumentDefinition->getType());
-            } catch (LexerException $e) {
-                throw new BadRequestException(
-                    'invalid_argument_type',
-                    sprintf(
-                        'The provided argument %s was not of type %s',
-                        $argumentIdentifier,
-                        $argumentDefinition->getType()->getName()
-                    )
-                );
+                case $argumentDefinition instanceof PrimitiveTypeArgument:
+                    $operationArguments[] = $argumentDefinition->generate($transactionArguments[$argumentDefinition->getName()] ?? null);
+                    break;
             }
         }
 
-        $result = $operation->invoke($parsedArguments);
+        $result = $operation->invoke($operationArguments);
 
         $returnType = $operation->getType();
 
         switch (true) {
-            case $result === null && !$operation->isNullable():
-            case $returnType instanceof Entity && !$result->getEntityType() instanceof $returnType:
-            case $returnType instanceof PrimitiveType && !$result instanceof $returnType:
-                throw new InternalServerErrorException(
-                    'invalid_return_type',
-                    'The operation returned an type that did not match its defined return type'
-                );
+            case $result === null && $operation->isNullable():
+            case $returnType instanceof EntityType && $result instanceof EntityTypeInterface && $result->getType() instanceof $returnType:
+            case $returnType instanceof PrimitiveType && $result instanceof $returnType:
+                return $result;
         }
 
-        return $result;
+        throw new InternalServerErrorException(
+            'invalid_return_type',
+            'The operation returned an type that did not match its defined return type'
+        );
     }
 
     public function getResourceUrl(): string

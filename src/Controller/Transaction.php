@@ -7,6 +7,7 @@ use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
+use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\ServiceProvider;
 use Flat3\OData\Transaction\IEEE754Compatible;
@@ -34,7 +35,7 @@ use Symfony\Component\HttpFoundation\InputBag;
  *
  * @package Flat3\OData
  */
-class Transaction
+class Transaction implements ArgumentInterface
 {
     /** @var Request $request */
     private $request;

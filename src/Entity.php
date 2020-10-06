@@ -8,6 +8,7 @@ use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
@@ -16,7 +17,7 @@ use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Type\Property;
 
-class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface
+class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
     use HasEntityType;
 

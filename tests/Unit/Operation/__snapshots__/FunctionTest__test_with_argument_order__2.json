@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#Edm.Decimal",
+    "value": 1.3333333333333333
+}

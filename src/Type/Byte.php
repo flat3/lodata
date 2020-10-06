@@ -26,7 +26,7 @@ class Byte extends PrimitiveType
         return $this->value;
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         $this->value = $this->maybeNull(null === $value ? null : $this->repack($value));
     }

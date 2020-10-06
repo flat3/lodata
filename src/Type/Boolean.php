@@ -29,7 +29,7 @@ class Boolean extends PrimitiveType
         return $this->value;
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         if (is_bool($value)) {
             $this->value = $value;

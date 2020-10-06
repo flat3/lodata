@@ -12,6 +12,7 @@ use Flat3\OData\Helper\Argument;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Model;
+use Flat3\OData\Operation\PrimitiveTypeArgument;
 use Flat3\OData\ReferentialConstraint;
 use Flat3\OData\Transaction\Metadata\Full;
 use Flat3\OData\Transaction\Metadata\Minimal;
@@ -174,8 +175,8 @@ class Metadata implements PipeInterface, EmitInterface
                         );
                     }
 
-                    /** @var Argument $argument */
-                    foreach ($resource->getArguments() as $argument) {
+                    /** @var PrimitiveTypeArgument $argument */
+                    foreach ($resource->getArguments()->sliceByClass(PrimitiveTypeArgument::class) as $argument) {
                         $parameterElement = $operationElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
                         $parameterElement->addAttribute('Type', $argument->getType()->getName());

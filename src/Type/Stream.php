@@ -29,7 +29,7 @@ class Stream extends PrimitiveType
         return (string) $this->value;
     }
 
-    public function toInternal($value): void
+    public function set($value): void
     {
         $this->value = $this->maybeNull(null === $value ? null : $value);
     }

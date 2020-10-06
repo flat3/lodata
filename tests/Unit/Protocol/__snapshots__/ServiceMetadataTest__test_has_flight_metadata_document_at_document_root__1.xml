@@ -12,6 +12,8 @@
         <FunctionImport Name="exf3" Function="com.example.odata.exf3"/>
         <ActionImport Name="exa1" Action="com.example.odata.exa1"/>
         <FunctionImport Name="add" Function="com.example.odata.add"/>
+        <FunctionImport Name="div" Function="com.example.odata.div"/>
+        <FunctionImport Name="ffn1" Function="com.example.odata.ffn1"/>
       </EntityContainer>
       <EntityType Name="flight">
         <Key>
@@ -39,7 +41,9 @@
         <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
       </EntityType>
-      <Function Name="exf1"/>
+      <Function Name="exf1">
+        <ReturnType Type="Edm.String" Nullable="false"/>
+      </Function>
       <Function Name="exf2">
         <ReturnType Type="Collection(airport)" Nullable="false"/>
       </Function>
@@ -47,11 +51,21 @@
         <ReturnType Type="airport" Nullable="false"/>
         <Parameter Name="code" Type="Edm.String" Nullable="false"/>
       </Function>
-      <Action Name="exa1"/>
+      <Action Name="exa1">
+        <ReturnType Type="Edm.String" Nullable="false"/>
+      </Action>
       <Function Name="add">
         <ReturnType Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Int32" Nullable="false"/>
+      </Function>
+      <Function Name="div">
+        <ReturnType Type="Edm.Decimal" Nullable="false"/>
+        <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
+        <Parameter Name="b" Type="Edm.Int32" Nullable="false"/>
+      </Function>
+      <Function Name="ffn1">
+        <ReturnType Type="Collection(flight)" Nullable="false"/>
       </Function>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

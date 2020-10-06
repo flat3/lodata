@@ -4,6 +4,7 @@ namespace Flat3\OData;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;

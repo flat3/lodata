@@ -3,16 +3,19 @@
 namespace Flat3\OData\Tests\Data;
 
 use Exception;
+use Flat3\OData\Controller\Transaction;
 use Flat3\OData\DeclaredProperty;
-use Flat3\OData\Drivers\CallbackEntitySet;
+use Flat3\OData\Drivers\SQLEntitySet;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Model;
+use Flat3\OData\NavigationBinding;
 use Flat3\OData\NavigationProperty;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\ReferentialConstraint;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
+use Flat3\OData\Type\Decimal;
 use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
 
@@ -66,7 +69,7 @@ trait FlightModel
             $flightType->addProperty(DeclaredProperty::factory('origin', PrimitiveType::string()));
             $flightType->addProperty(DeclaredProperty::factory('destination', PrimitiveType::string()));
             $flightType->addProperty(DeclaredProperty::factory('gate', PrimitiveType::int32()));
-            $flightSet = new \Flat3\OData\Drivers\SQLEntitySet('flights', $flightType);
+            $flightSet = new SQLEntitySet('flights', $flightType);
             $flightSet->setTable('flights');
 
             $airportType = Model::entitytype('airport');
@@ -78,7 +81,7 @@ trait FlightModel
             $airportType->addProperty(DeclaredProperty::factory('sam_datetime', PrimitiveType::datetimeoffset()));
             $airportType->addProperty(DeclaredProperty::factory('review_score', PrimitiveType::decimal()));
             $airportType->addProperty(DeclaredProperty::factory('is_big', PrimitiveType::boolean()));
-            $airportSet = new \Flat3\OData\Drivers\SQLEntitySet('airports', $airportType);
+            $airportSet = new SQLEntitySet('airports', $airportType);
             $airportSet->setTable('airports');
 
             Model::add($flightSet);
@@ -99,7 +102,7 @@ trait FlightModel
                 )
             );
             $flightType->addProperty($nav);
-            $flightSet->addNavigationBinding(new \Flat3\OData\NavigationBinding($nav, $airportSet));
+            $flightSet->addNavigationBinding(new NavigationBinding($nav, $airportSet));
 
             Model::fn('exf1')
                 ->setCallback(function (): String_ {
@@ -107,15 +110,11 @@ trait FlightModel
                 });
 
             Model::fn('exf2')
-                ->setCallback(function (): EntitySet {
-                    $type = Model::getType('airport');
-                    $airports = Model::getResource('airports');
+                ->setCallback(function (EntitySet $airports): EntitySet {
+                    $airport = new Airport();
+                    $airport['code'] = 'xyz';
 
-                    return CallbackEntitySet::factory($airports, $type)->setCallback(function () {
-                        $airport = new Airport();
-                        $airport['code'] = 'xyz';
-                        return [$airport];
-                    });
+                    return $airports;
                 })
                 ->setType($airportType);
 
@@ -138,8 +137,19 @@ trait FlightModel
             Model::fn('add')
                 ->setCallback(function (Int32 $a, Int32 $b): Int32 {
                     return Int32::factory($a->get() + $b->get());
+                });
+
+            Model::fn('div')
+                ->setCallback(function (Int32 $a, Int32 $b): Decimal {
+                    return Decimal::factory($a->get() / $b->get());
+                });
+
+            Model::fn('ffn1')
+                ->setCallback(function (Transaction $transaction, EntitySet $flights): EntitySet {
+                    $transaction->getSelect()->setValue('origin');
+                    return $flights;
                 })
-                ->setType(PrimitiveType::int32());
+                ->setType(Model::getType('flight'));
         } catch (Exception $e) {
         }
     }
