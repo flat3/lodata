@@ -3,6 +3,7 @@
 namespace Flat3\OData\PathComponent;
 
 use Closure;
+use Flat3\OData\ActionOperation;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
@@ -13,6 +14,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\FunctionOperation;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\NamedInterface;
@@ -188,6 +190,13 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             throw new PathNotHandledException();
         }
 
+        if ($nextComponent && $operation instanceof ActionOperation) {
+            throw new BadRequestException(
+                'cannot_compose_action',
+                'It is not permitted to further compose the result of an action'
+            );
+        }
+
         $bindingParameter = $operation->getBindingParameter();
 
         if ($bindingParameter && !$argument) {
@@ -257,6 +266,13 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         $result = $operation->invoke($operationArguments);
 
         $returnType = $operation->getType();
+
+        if (null === $result && $operation instanceof FunctionOperation) {
+            throw new InternalServerErrorException(
+                'missing_function_result',
+                'Function is required to return a result'
+            );
+        }
 
         switch (true) {
             case $result === null && $operation->isNullable():

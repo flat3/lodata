@@ -13,25 +13,4 @@ class ActionOperation extends Operation
     {
         return 'Action';
     }
-
-    public static function pipe(
-        Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
-        ?PipeInterface $argument
-    ): ?PipeInterface {
-        if ($nextComponent) {
-            throw new BadRequestException(
-                'cannot_compose_action',
-                'It is not permitted to further compose the result of an action'
-            );
-        }
-
-        return parent::pipe(
-            $transaction,
-            $currentComponent,
-            $nextComponent,
-            $argument
-        );
-    }
 }

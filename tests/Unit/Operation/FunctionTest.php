@@ -3,6 +3,7 @@
 namespace Flat3\OData\Tests\Unit\Operation;
 
 use Flat3\OData\EntitySet;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Model;
 use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Data\TextModel;
@@ -120,38 +121,17 @@ class FunctionTest extends TestCase
 
     public function test_void_callback()
     {
+        $this->expectException(InternalServerErrorException::class);
         Model::fn('textv1')
             ->setCallback(function (): void {
             });
-
-        $this->assertNoContent(
-            Request::factory()
-                ->path('/textv1()')
-        );
     }
 
     public function test_default_null_callback()
     {
+        $this->expectException(InternalServerErrorException::class);
         Model::fn('textv1')
             ->setCallback(function () {
             });
-
-        $this->assertNoContent(
-            Request::factory()
-                ->path('/textv1()')
-        );
-    }
-
-    public function test_explicit_null_callback()
-    {
-        Model::fn('textv1')
-            ->setCallback(function () {
-                return null;
-            });
-
-        $this->assertNoContent(
-            Request::factory()
-                ->path('/textv1()')
-        );
     }
 }

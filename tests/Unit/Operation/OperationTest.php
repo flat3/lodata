@@ -35,7 +35,8 @@ class OperationTest extends TestCase
     public function test_parameter_order_unbound()
     {
         Model::fn('f1')
-            ->setCallback(function (Int32 $a, Decimal $b) {
+            ->setCallback(function (Int32 $a, Decimal $b): Int32 {
+                return new Int32(0);
             });
 
         $this->assertXmlResponse(
@@ -48,7 +49,8 @@ class OperationTest extends TestCase
     public function test_parameter_order_bound()
     {
         Model::fn('f1')
-            ->setCallback(function (Int32 $a, Decimal $b) {
+            ->setCallback(function (Int32 $a, Decimal $b): Int32 {
+                return new Int32(0);
             })
             ->setBindingParameter('b');
 

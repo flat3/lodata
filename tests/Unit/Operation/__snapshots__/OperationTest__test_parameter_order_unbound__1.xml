@@ -8,6 +8,7 @@
       <Function Name="f1">
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Decimal" Nullable="false"/>
+        <ReturnType Type="Edm.Int32" Nullable="false"/>
       </Function>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
