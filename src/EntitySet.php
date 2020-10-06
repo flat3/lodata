@@ -12,6 +12,7 @@ use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Helper\Url;
 use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
@@ -309,7 +310,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
             if ($top->getValue() + ($skip->getValue() ?: 0) < $setCount) {
                 $np = $transaction->getQueryParams();
                 $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
-                $metadata['nextLink'] = http_build_url(
+                $metadata['nextLink'] = Url::http_build_url(
                     $this->getResourceUrl(),
                     [
                         'query' => http_build_query(
@@ -319,7 +320,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
                             PHP_QUERY_RFC3986
                         ),
                     ],
-                    HTTP_URL_JOIN_QUERY
+                    Url::HTTP_URL_JOIN_QUERY
                 );
             }
         }
@@ -358,7 +359,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $properties = $this->transaction->getResourceUrlProperties();
 
         if ($properties) {
-            $url = http_build_url($url, [
+            $url = Url::http_build_url($url, [
                 'query' => $this->transaction->getResourceUrlProperties(),
             ]);
         }

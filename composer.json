@@ -16,7 +16,6 @@
     },
     "require": {
         "php": "^7.3",
-        "jakeasmith/http_build_url": "^1.0",
         "ext-simplexml": "*",
         "ext-json": "*",
         "ext-dom": "*",
