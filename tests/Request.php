@@ -2,6 +2,8 @@
 
 namespace Flat3\OData\Tests;
 
+use Flat3\OData\Helper\Url;
+
 class Request
 {
     public $headers = [];
@@ -65,7 +67,7 @@ class Request
 
     public function uri()
     {
-        return http_build_url([
+        return Url::http_build_url([
             'query' => http_build_query($this->query),
             'path' => $this->path,
         ]);
