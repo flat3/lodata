@@ -329,7 +329,7 @@ class Transaction implements ArgumentInterface
         return true;
     }
 
-    public function getMetadata(): Metadata
+    public function getMetadata(): ?Metadata
     {
         return $this->metadata;
     }
