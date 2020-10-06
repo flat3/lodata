@@ -11,6 +11,7 @@ use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\PathComponent\Count;
+use Flat3\OData\PathComponent\Filter;
 use Flat3\OData\PathComponent\Metadata;
 use Flat3\OData\PathComponent\Operation;
 use Flat3\OData\PathComponent\Service;
@@ -33,6 +34,7 @@ class OData extends Controller
             Operation::class,
             PrimitiveType::class,
             Singleton::class,
+            Filter::class,
         ];
 
         $transaction->initialize($request);

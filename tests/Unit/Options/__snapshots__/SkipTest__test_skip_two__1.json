@@ -10,6 +10,16 @@
             "sam_datetime": "2001-11-10T14:00:01+00:00",
             "review_score": null,
             "is_big": null
+        },
+        {
+            "id": 4,
+            "name": "O'Hare",
+            "code": "ohr",
+            "construction_date": "1930-01-01",
+            "open_time": "15:00:00.000000",
+            "sam_datetime": "1999-11-10T14:00:01+00:00",
+            "review_score": null,
+            "is_big": true
         }
     ]
 }

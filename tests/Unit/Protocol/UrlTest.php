@@ -19,15 +19,6 @@ class UrlTest extends TestCase
         $this->withFlightModel();
 
         (new AirportEModel([
-            'code' => 'ohr',
-            'name' => "O'Hare",
-            'construction_date' => '1930-01-01',
-            'open_time' => '15:00:00',
-            'sam_datetime' => '1999-11-10T14:00:01+00:00',
-            'is_big' => true,
-        ]))->save();
-
-        (new AirportEModel([
             'code' => 'air',
             'name' => "Air/Port",
             'construction_date' => '1099-01-01',

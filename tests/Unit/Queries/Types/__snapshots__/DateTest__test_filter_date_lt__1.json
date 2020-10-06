@@ -8,6 +8,10 @@
         {
             "id": 3,
             "construction_date": "1930-01-01"
+        },
+        {
+            "id": 4,
+            "construction_date": "1930-01-01"
         }
     ]
 }

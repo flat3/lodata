@@ -63,6 +63,15 @@ trait FlightModel
             'is_big' => null,
         ]))->save();
 
+        (new AirportEModel([
+            'code' => 'ohr',
+            'name' => "O'Hare",
+            'construction_date' => '1930-01-01',
+            'open_time' => '15:00:00',
+            'sam_datetime' => '1999-11-10T14:00:01+00:00',
+            'is_big' => true,
+        ]))->save();
+
         try {
             $flightType = Model::entitytype('flight');
             $flightType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
