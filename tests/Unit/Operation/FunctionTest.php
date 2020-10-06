@@ -2,6 +2,8 @@
 
 namespace Flat3\OData\Tests\Unit\Operation;
 
+use Flat3\OData\EntitySet;
+use Flat3\OData\Model;
 use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Data\TextModel;
 use Flat3\OData\Tests\Request;
@@ -98,6 +100,58 @@ class FunctionTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/ffn1()')
+        );
+    }
+
+    public function test_callback_bound_entity_set()
+    {
+        Model::fn('ffb1')
+            ->setCallback(function (EntitySet $flights): EntitySet {
+                return $flights;
+            })
+            ->setBindingParameter('flights')
+            ->setType(Model::getType('flight'));
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights/ffb1()')
+        );
+    }
+
+    public function test_void_callback()
+    {
+        Model::fn('textv1')
+            ->setCallback(function (): void {
+            });
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/textv1()')
+        );
+    }
+
+    public function test_default_null_callback()
+    {
+        Model::fn('textv1')
+            ->setCallback(function () {
+            });
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/textv1()')
+        );
+    }
+
+    public function test_explicit_null_callback()
+    {
+        Model::fn('textv1')
+            ->setCallback(function () {
+                return null;
+            });
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/textv1()')
         );
     }
 }

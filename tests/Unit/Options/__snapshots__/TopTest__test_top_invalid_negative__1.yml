@@ -1,0 +1,3 @@
+httpCode: 400
+odataCode: option_numeric_invalid
+message: 'The value of $top must be greater than zero'

@@ -48,7 +48,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             throw new RuntimeException('Failed to throw exception');
         } catch (ProtocolException $e) {
             if (!$e instanceof $exceptionClass) {
-                throw new RuntimeException('Incorrect exception thrown');
+                throw new RuntimeException('Incorrect exception thrown: '.get_class($e));
             }
 
             $this->assertMatchesObjectSnapshot($e->serialize());
@@ -90,6 +90,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->assertExceptionSnapshot($request, InternalServerErrorException::class);
     }
 
+    protected function assertBadRequest(Request $request)
+    {
+        $this->assertExceptionSnapshot($request, BadRequestException::class);
+    }
+
     public function urlToReq(string $url): Request
     {
         $request = Request::factory();
@@ -124,12 +129,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             [],
             $this->transformHeadersToServerVars($request->headers)
         );
-    }
-
-    protected function assertBadRequest(Request $request)
-    {
-        $this->expectException(BadRequestException::class);
-        $this->req($request);
     }
 
     protected function assertXmlResponse(Request $request)

@@ -9,6 +9,7 @@ use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
+use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
@@ -25,6 +26,7 @@ use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
+use Flat3\OData\Transaction\Option;
 use Flat3\OData\Type\Property;
 use Iterator;
 
@@ -253,7 +255,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
                 $transaction->getExpand()
             ] as $sqo
         ) {
-            /** @var \Flat3\OData\Transaction\Option $sqo */
+            /** @var Option $sqo */
             if ($sqo->hasValue() && !is_a($this, $sqo::query_interface)) {
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',
@@ -452,7 +454,13 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
         $value->setProperty($keyProperty);
 
-        return $entitySet->getEntity($value);
+        $entity = $entitySet->getEntity($value);
+
+        if (null === $entity) {
+            throw new NotFoundException('not_found', 'Entity not found');
+        }
+
+        return $entity;
     }
 
     public function makeEntity(): Entity

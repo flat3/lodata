@@ -4,6 +4,7 @@ namespace Flat3\OData\Operation;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\EntitySet;
+use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Model;
@@ -29,5 +30,11 @@ class EntitySetArgument extends Argument
         }
 
         return $entitySet->asInstance($source);
+    }
+
+    public function getType(): EntityType
+    {
+        $reflectedSet = $this->parameter->getName();
+        return Model::getResource($reflectedSet)->getType();
     }
 }

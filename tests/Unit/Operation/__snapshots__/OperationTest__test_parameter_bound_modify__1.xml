@@ -14,6 +14,7 @@
         <FunctionImport Name="add" Function="com.example.odata.add"/>
         <FunctionImport Name="div" Function="com.example.odata.div"/>
         <FunctionImport Name="ffn1" Function="com.example.odata.ffn1"/>
+        <FunctionImport Name="f1" Function="com.example.odata.f1"/>
       </EntityContainer>
       <EntityType Name="flight">
         <Key>
@@ -66,6 +67,11 @@
       </Function>
       <Function Name="ffn1">
         <ReturnType Type="Collection(flight)" Nullable="false"/>
+      </Function>
+      <Function Name="f1" IsBound="true">
+        <Parameter Name="flights" Type="flight" Nullable="false"/>
+        <Parameter Name="b" Type="Edm.Decimal" Nullable="true"/>
+        <ReturnType Type="Edm.Decimal" Nullable="false"/>
       </Function>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

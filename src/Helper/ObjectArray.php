@@ -126,10 +126,13 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     public function sliceByClass($class): self
     {
         $result = new self();
+        $classes = is_array($class) ? $class : [$class];
 
         foreach ($this->array as $key => $value) {
-            if ($value instanceof $class) {
-                $result[$key] = $value;
+            foreach ($classes as $class) {
+                if ($value instanceof $class) {
+                    $result[$key] = $value;
+                }
             }
         }
 
@@ -145,6 +148,19 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
                 $result[$key] = $value;
             }
         }
+
+        return $result;
+    }
+
+    public function sort(callable $callback): self
+    {
+        $result = new self();
+
+        foreach ($this->array as $key => $value) {
+            $result->array[$key] = $value;
+        }
+
+        uasort($result->array, $callback);
 
         return $result;
     }

@@ -37,6 +37,10 @@ class Value implements PipeInterface, EmitInterface
                 '$value must be passed a primitive value');
         }
 
+        if (null === $argument->get()) {
+            throw new NoContentException('no_content', 'No content');
+        }
+
         return new static($argument);
     }
 

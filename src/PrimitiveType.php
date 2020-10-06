@@ -214,7 +214,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
 
         $property = $argument->getType()->getProperty($property);
 
-        if (!$property) {
+        if (null === $property) {
             throw new NotFoundException('unknown_property',
                 sprintf('The requested property (%s) was not known', $property));
         }

@@ -8,10 +8,13 @@ use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Helper\Argument;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Model;
+use Flat3\OData\NavigationProperty;
+use Flat3\OData\Operation\Argument;
+use Flat3\OData\Operation\EntityArgument;
+use Flat3\OData\Operation\EntitySetArgument;
 use Flat3\OData\Operation\PrimitiveTypeArgument;
 use Flat3\OData\ReferentialConstraint;
 use Flat3\OData\Transaction\Metadata\Full;
@@ -92,7 +95,7 @@ class Metadata implements PipeInterface, EmitInterface
             }
 
             // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365
-            /** @var \Flat3\OData\NavigationProperty $navigationProperty */
+            /** @var NavigationProperty $navigationProperty */
             foreach ($entityType->getNavigationProperties() as $navigationProperty) {
                 $targetEntityType = $navigationProperty->getType();
 
@@ -159,6 +162,43 @@ class Metadata implements PipeInterface, EmitInterface
                 case $resource instanceof Operation:
                     $operationElement = $schema->addChild($resource->getKind());
                     $operationElement->addAttribute('Name', $resource->getName());
+                    if ($resource->getBindingParameter()) {
+                        $operationElement->addAttribute('IsBound', Boolean::URL_TRUE);
+                    }
+
+                    // Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
+                    $arguments = $resource->getArguments()->sort(function (Argument $a, Argument $b) use ($resource) {
+                        if ($a->getName() === $resource->getBindingParameter()) {
+                            return -1;
+                        }
+
+                        if ($b->getName() === $resource->getBindingParameter()) {
+                            return 1;
+                        }
+
+                        return 0;
+                    })->filter(function ($argument) use ($resource) {
+                        if ($argument instanceof PrimitiveTypeArgument) {
+                            return true;
+                        }
+
+                        if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $resource->getBindingParameter() === $argument->getName()) {
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    /** @var Argument $argument */
+                    foreach ($arguments as $argument) {
+                        $parameterElement = $operationElement->addChild('Parameter');
+                        $parameterElement->addAttribute('Name', $argument->getName());
+                        $parameterElement->addAttribute('Type', $argument->getType()->getName());
+                        $parameterElement->addAttribute(
+                            'Nullable',
+                            Boolean::factory($argument->isNullable())->toUrl()
+                        );
+                    }
 
                     $returnType = $resource->getType();
                     if (null !== $returnType) {
@@ -173,17 +213,6 @@ class Metadata implements PipeInterface, EmitInterface
                         $returnTypeElement->addAttribute(
                             'Nullable',
                             Boolean::factory($resource->isNullable())->toUrl()
-                        );
-                    }
-
-                    /** @var PrimitiveTypeArgument $argument */
-                    foreach ($resource->getArguments()->sliceByClass(PrimitiveTypeArgument::class) as $argument) {
-                        $parameterElement = $operationElement->addChild('Parameter');
-                        $parameterElement->addAttribute('Name', $argument->getName());
-                        $parameterElement->addAttribute('Type', $argument->getType()->getName());
-                        $parameterElement->addAttribute(
-                            'Nullable',
-                            Boolean::factory($argument->isNullable())->toUrl()
                         );
                     }
 

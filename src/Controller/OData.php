@@ -6,6 +6,7 @@ use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
+use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
@@ -63,7 +64,7 @@ class OData extends Controller
         }
 
         if (null === $result) {
-            throw NotFoundException::factory('resource_not_found', 'Resource not found');
+            throw NoContentException::factory('no_content', 'No content');
         }
 
         if (!$result instanceof EmitInterface) {

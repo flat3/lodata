@@ -16,10 +16,8 @@ class PrimitiveTypeArgument extends Argument
 
         $type = $this->getType();
 
-        try {
-            $type = $lexer->type($type);
-
-            if (null === $type->get() && !$this->isNullable()) {
+        if (null === $type->get()) {
+            if (!$this->isNullable()) {
                 throw new BadRequestException(
                     'non_null_argument_missing',
                     sprintf('A non-null argument (%s) is missing', $this->getName())
@@ -27,6 +25,10 @@ class PrimitiveTypeArgument extends Argument
             }
 
             return $type;
+        }
+
+        try {
+            return $lexer->type($type);
         } catch (LexerException $e) {
             throw new BadRequestException(
                 'invalid_argument_type',

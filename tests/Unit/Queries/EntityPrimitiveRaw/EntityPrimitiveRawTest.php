@@ -40,7 +40,7 @@ class EntityPrimitiveRawTest extends TestCase
         );
     }
 
-    public function test_null_raw_no_found_content()
+    public function test_null_raw_no_content()
     {
         $flight = (new Flight([
             'origin' => null,

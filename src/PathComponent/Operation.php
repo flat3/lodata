@@ -43,6 +43,9 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     /** @var callable $callback */
     protected $callback;
 
+    /** @var string $bindingParameter */
+    protected $bindingParameter;
+
     public function __construct($name)
     {
         $this->setName($name);
@@ -55,6 +58,11 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
             /** @var ReflectionNamedType $rt */
             $rt = $rfc->getReturnType();
+
+            if (null === $rt) {
+                return 'void';
+            }
+
             return $rt->getName();
         } catch (ReflectionException $e) {
         }
@@ -82,8 +90,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     {
         try {
             $rfn = new ReflectionFunction($this->callback);
-            return $rfn->getReturnType()
-                ->allowsNull();
+            return !$rfn->hasReturnType() || $rfn->getReturnType()->allowsNull() || $rfn->getReturnType()->getName() === 'void';
         } catch (ReflectionException $e) {
             return false;
         }
@@ -91,6 +98,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getArguments(): ObjectArray
     {
+        if (!$this->callback) {
+            throw new InternalServerErrorException('missing_callback', 'Missing callback for Operation');
+        }
+
         try {
             $rfn = new ReflectionFunction($this->callback);
             $args = new ObjectArray();
@@ -119,7 +130,34 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         return $this;
     }
 
-    public function invoke(array $args): PipeInterface
+    public function setBindingParameter(string $bindingParameter): self
+    {
+        if (!$this->callback) {
+            throw new InternalServerErrorException(
+                'no_callback',
+                'The callback must be defined before setting the binding parameter'
+            );
+        }
+
+        $arguments = $this->getArguments();
+
+        if (!$arguments->get($bindingParameter)) {
+            throw new InternalServerErrorException(
+                'cannot_find_binding_parameter',
+                'The requested binding parameter did not exist on the provided callback'
+            );
+        }
+
+        $this->bindingParameter = $bindingParameter;
+        return $this;
+    }
+
+    public function getBindingParameter(): ?string
+    {
+        return $this->bindingParameter;
+    }
+
+    public function invoke(array $args): ?PipeInterface
     {
         if (!$this->callback instanceof Closure) {
             throw new NotImplementedException('no_callback', 'The requested operation has no implementation');
@@ -150,6 +188,15 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             throw new PathNotHandledException();
         }
 
+        $bindingParameter = $operation->getBindingParameter();
+
+        if ($bindingParameter && !$argument) {
+            throw new BadRequestException(
+                'missing_bound_argument',
+                'This operation is bound, but no bound argument was provided'
+            );
+        }
+
         $transactionArguments = array_merge(...array_map(function ($pair) use ($transaction) {
             $pair = trim($pair);
 
@@ -173,6 +220,21 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
         /** @var Argument $argumentDefinition */
         foreach ($operation->getArguments() as $argumentDefinition) {
+            if ($bindingParameter === $argumentDefinition->getName()) {
+                switch (true) {
+                    case $argumentDefinition instanceof EntityArgument && !$argument instanceof Entity:
+                    case $argumentDefinition instanceof EntitySetArgument && !$argument instanceof EntitySet:
+                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$argument instanceof PrimitiveType:
+                        throw new BadRequestException(
+                            'invalid_bound_argument_type',
+                            'The provided bound argument was not of the correct type for this function'
+                        );
+                }
+
+                $operationArguments[] = $argument;
+                continue;
+            }
+
             switch (true) {
                 case $argumentDefinition instanceof TransactionArgument:
                     $operationArguments[] = $argumentDefinition->generate($transaction);
