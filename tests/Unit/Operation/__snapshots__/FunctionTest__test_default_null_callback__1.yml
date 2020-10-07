@@ -1,3 +1,0 @@
-httpCode: 500
-odataCode: missing_function_result
-message: 'Function is required to return a result'

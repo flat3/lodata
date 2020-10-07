@@ -10,7 +10,7 @@ use Flat3\OData\Type\String_;
 
 class ActionTest extends TestCase
 {
-    public function test_callback()
+    public function test_get_not_allowed()
     {
         Model::action('exa1')
             ->setCallback(function (): String_ {
@@ -21,6 +21,14 @@ class ActionTest extends TestCase
             Request::factory()
                 ->path('/exa1()')
         );
+    }
+
+    public function test_callback()
+    {
+        Model::action('exa1')
+            ->setCallback(function (): String_ {
+                return String_::factory('hello');
+            });
 
         $this->assertJsonResponse(
             Request::factory()
