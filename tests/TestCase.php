@@ -12,6 +12,7 @@ use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Exception\Protocol\ProtocolException;
 use Flat3\OData\ServiceProvider;
+use Flat3\OData\Tests\Data\TestModels;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;
@@ -22,6 +23,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MatchesSnapshots;
     use RefreshDatabase;
+    use TestModels;
 
     public function setUp(): void
     {

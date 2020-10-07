@@ -2,14 +2,11 @@
 
 namespace Flat3\OData\Tests\Unit\Queries\EntitySet\Filter\Functions;
 
-use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class Substring extends TestCase
 {
-    use FlightModel;
-
     public function setUp(): void
     {
         parent::setUp();

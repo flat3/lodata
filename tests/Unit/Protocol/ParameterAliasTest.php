@@ -2,14 +2,11 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
-use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class ParameterAliasTest extends TestCase
 {
-    use FlightModel;
-
     public function setUp(): void
     {
         parent::setUp();

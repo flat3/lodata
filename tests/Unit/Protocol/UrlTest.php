@@ -4,15 +4,12 @@ namespace Flat3\OData\Tests\Unit\Protocol;
 
 use Flat3\OData\EntityType;
 use Flat3\OData\Model;
-use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
 class UrlTest extends TestCase
 {
-    use FlightModel;
-
     public function setUp(): void
     {
         parent::setUp();

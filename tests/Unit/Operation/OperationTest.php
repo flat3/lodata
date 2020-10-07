@@ -5,7 +5,6 @@ namespace Flat3\OData\Tests\Unit\Operation;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Model;
-use Flat3\OData\Tests\Data\FlightModel;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Type\Decimal;
@@ -14,8 +13,6 @@ use Flat3\OData\Type\String_;
 
 class OperationTest extends TestCase
 {
-    use FlightModel;
-
     public function test_missing_callback()
     {
         $this->expectException(InternalServerErrorException::class);
