@@ -40,13 +40,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             Route::get("{$route}/odata.pbids", [PBIDS::class, 'get']);
             Route::get("{$route}/{identifier}.odc", [ODCFF::class, 'get']);
-            Route::get("{$route}{path}", [ODataController::class, 'get'])->where('path', '(.*)');
 
-            Route::match(
-                ['post', 'put', 'patch', 'delete', 'options'],
-                "{$route}{path}",
-                [ODataController::class, 'fallback']
-            )->where('path', '.*');
+            Route::any("{$route}{path}", [ODataController::class, 'get'])
+                ->where('path', '(.*)');
         });
     }
 }

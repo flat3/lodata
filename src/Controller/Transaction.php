@@ -4,6 +4,7 @@ namespace Flat3\OData\Controller;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
+use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
@@ -496,6 +497,37 @@ class Transaction implements ArgumentInterface
     public function getMethod(): string
     {
         return $this->request->method();
+    }
+
+    public function ensureMethod($permitted, ?string $message = null, ?string $code = null): void
+    {
+        $permitted = is_array($permitted) ? $permitted : [$permitted];
+
+        if (in_array($this->getMethod(), $permitted)) {
+            return;
+        }
+
+        $exception = (new MethodNotAllowedException())
+            ->message(
+                sprintf(
+                    'The %s method is not allowed',
+                    $this->getMethod()
+                )
+            );
+
+        if ($permitted) {
+            $exception->header('Allow', implode(' ', $permitted));
+        }
+
+        if ($message) {
+            $exception->message($message);
+        }
+
+        if ($code) {
+            $exception->code($message);
+        }
+
+        throw $exception;
     }
 
     /**

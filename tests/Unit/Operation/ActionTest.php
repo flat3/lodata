@@ -17,8 +17,14 @@ class ActionTest extends TestCase
                 return String_::factory('hello');
             });
 
+        $this->assertMethodNotAllowed(
+            Request::factory()
+                ->path('/exa1()')
+        );
+
         $this->assertJsonResponse(
             Request::factory()
+                ->post()
                 ->path('/exa1()')
         );
     }
@@ -52,6 +58,7 @@ class ActionTest extends TestCase
 
         $this->assertBadRequest(
             Request::factory()
+                ->post()
                 ->path('/textv1()/$value')
         );
     }
@@ -64,6 +71,7 @@ class ActionTest extends TestCase
 
         $this->assertNoContent(
             Request::factory()
+                ->post()
                 ->path('/textv1()')
         );
     }
@@ -76,6 +84,7 @@ class ActionTest extends TestCase
 
         $this->assertNoContent(
             Request::factory()
+                ->post()
                 ->path('/textv1()')
         );
     }
@@ -89,6 +98,7 @@ class ActionTest extends TestCase
 
         $this->assertNoContent(
             Request::factory()
+                ->post()
                 ->path('/textv1()')
         );
     }

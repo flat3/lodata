@@ -23,6 +23,7 @@ use Flat3\OData\Transaction\Metadata\None;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Property;
+use Illuminate\Http\Request;
 use SimpleXMLElement;
 
 class Metadata implements PipeInterface, EmitInterface
@@ -278,6 +279,7 @@ class Metadata implements PipeInterface, EmitInterface
 
     public function response(Transaction $transaction): Response
     {
+        $transaction->ensureMethod(Request::METHOD_GET);
         $transaction->configureXmlResponse();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {

@@ -7,11 +7,13 @@ use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Model;
+use Illuminate\Http\Request;
 
 class Service implements EmitInterface
 {
     public function response(Transaction $transaction): Response
     {
+        $transaction->ensureMethod(Request::METHOD_GET);
         $transaction->configureJsonResponse();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {

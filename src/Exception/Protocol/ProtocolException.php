@@ -16,11 +16,17 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     protected $inner;
     protected $headers = [];
 
-    public function __construct($code = 'odata_error', $message = 'OData error')
+    public function __construct(string $code = null, string $message = null)
     {
-        parent::__construct($message);
-        $this->odataCode = $code;
-        $this->message = $message;
+        if ($code) {
+            $this->odataCode = $code;
+        }
+
+        if ($message) {
+            $this->message = $message;
+        }
+
+        parent::__construct($this->message);
     }
 
     public static function factory(string $code = null, string $message = null): self

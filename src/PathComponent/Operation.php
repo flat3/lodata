@@ -32,6 +32,7 @@ use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Traits\HasType;
+use Illuminate\Http\Request;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
@@ -188,6 +189,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
         if (!$operation instanceof Operation) {
             throw new PathNotHandledException();
+        }
+
+        if ($operation instanceof ActionOperation) {
+            $transaction->ensureMethod(Request::METHOD_POST, 'This operation must be addressed with a POST request');
         }
 
         if ($nextComponent && $operation instanceof ActionOperation) {

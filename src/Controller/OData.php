@@ -5,7 +5,6 @@ namespace Flat3\OData\Controller;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
@@ -77,18 +76,6 @@ class OData extends Controller
         }
 
         return $result->response($transaction);
-    }
-
-    public function fallback(Request $request)
-    {
-        throw MethodNotAllowedException::factory()
-            ->message(
-                sprintf(
-                    'The %s method is not allowed',
-                    $request->getMethod()
-                )
-            )
-            ->header('Allow', 'GET');
     }
 
     public function callAction($method, $parameters)
