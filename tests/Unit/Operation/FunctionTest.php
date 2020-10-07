@@ -2,17 +2,24 @@
 
 namespace Flat3\OData\Tests\Unit\Operation;
 
+use Flat3\OData\Controller\Transaction;
+use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Model;
+use Flat3\OData\Tests\Data\Airport;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
+use Flat3\OData\Type\String_;
 
 class FunctionTest extends TestCase
 {
     public function test_callback()
     {
-        $this->withFlightModel();
+        Model::fn('exf1')
+            ->setCallback(function (): String_ {
+                return String_::factory('hello');
+            });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -20,9 +27,32 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_service_document()
+    {
+        Model::fn('exf1')
+            ->setCallback(function (): String_ {
+                return String_::factory('hello');
+            });
+
+        $this->assertJsonResponse(
+            Request::factory()
+        );
+    }
+
     public function test_callback_entity()
     {
         $this->withFlightModel();
+
+        Model::fn('exf3')
+            ->setCallback(function (String_ $code): Entity {
+                /** @var Model $model */
+                $model = app()->get(Model::class);
+                $airport = new Airport();
+                $airport->setType($model->getEntityTypes()->get('airport'));
+                $airport['code'] = $code->get();
+                return $airport;
+            })
+            ->setType(Model::getType('airport'));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -34,6 +64,12 @@ class FunctionTest extends TestCase
     {
         $this->withTextModel();
 
+        Model::fn('textf1')
+            ->setCallback(function (EntitySet $texts): EntitySet {
+                return $texts;
+            })
+            ->setType(Model::getType('text'));
+
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/textf1()')
@@ -42,7 +78,7 @@ class FunctionTest extends TestCase
 
     public function test_with_arguments()
     {
-        $this->withFlightModel();
+        $this->withMathFunctions();
 
         $this->assertJsonResponse(
             Request::factory()
@@ -52,7 +88,7 @@ class FunctionTest extends TestCase
 
     public function test_with_argument_order()
     {
-        $this->withFlightModel();
+        $this->withMathFunctions();
 
         $this->assertJsonResponse(
             Request::factory()
@@ -67,7 +103,7 @@ class FunctionTest extends TestCase
 
     public function test_with_indirect_arguments()
     {
-        $this->withFlightModel();
+        $this->withMathFunctions();
 
         $this->assertJsonResponse(
             Request::factory()
@@ -79,7 +115,7 @@ class FunctionTest extends TestCase
 
     public function test_with_single_indirect_argument()
     {
-        $this->withFlightModel();
+        $this->withMathFunctions();
 
         $this->assertJsonResponse(
             Request::factory()
@@ -90,7 +126,7 @@ class FunctionTest extends TestCase
 
     public function test_with_missing_indirect_arguments()
     {
-        $this->withFlightModel();
+        $this->withMathFunctions();
 
         $this->assertBadRequest(
             Request::factory()
@@ -103,6 +139,13 @@ class FunctionTest extends TestCase
     public function test_callback_modified_flight_entity_set()
     {
         $this->withFlightModel();
+
+        Model::fn('ffn1')
+            ->setCallback(function (Transaction $transaction, EntitySet $flights): EntitySet {
+                $transaction->getSelect()->setValue('origin');
+                return $flights;
+            })
+            ->setType(Model::getType('flight'));
 
         $this->assertJsonResponse(
             Request::factory()

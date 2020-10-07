@@ -2,6 +2,9 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
+use Flat3\OData\Controller\Transaction;
+use Flat3\OData\EntitySet;
+use Flat3\OData\Model;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
 
@@ -19,6 +22,7 @@ class ServiceMetadataTest extends TestCase
     public function test_has_flight_metadata_document_at_document_root()
     {
         $this->withFlightModel();
+        $this->withMathFunctions();
 
         $this->assertXmlResponse(
             Request::factory()

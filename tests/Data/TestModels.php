@@ -6,7 +6,6 @@ use Exception;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\DeclaredProperty;
 use Flat3\OData\Drivers\SQLEntitySet;
-use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Model;
 use Flat3\OData\NavigationBinding;
@@ -17,7 +16,6 @@ use Flat3\OData\Tests\Models\Airport as AirportEModel;
 use Flat3\OData\Tests\Models\Flight as FlightEModel;
 use Flat3\OData\Type\Decimal;
 use Flat3\OData\Type\Int32;
-use Flat3\OData\Type\String_;
 
 trait TestModels
 {
@@ -112,55 +110,21 @@ trait TestModels
             );
             $flightType->addProperty($nav);
             $flightSet->addNavigationBinding(new NavigationBinding($nav, $airportSet));
-
-            Model::fn('exf1')
-                ->setCallback(function (): String_ {
-                    return String_::factory('hello');
-                });
-
-            Model::fn('exf2')
-                ->setCallback(function (EntitySet $airports): EntitySet {
-                    $airport = new Airport();
-                    $airport['code'] = 'xyz';
-
-                    return $airports;
-                })
-                ->setType($airportType);
-
-            Model::fn('exf3')
-                ->setCallback(function (String_ $code): Entity {
-                    /** @var Model $model */
-                    $model = app()->get(Model::class);
-                    $airport = new Airport();
-                    $airport->setType($model->getEntityTypes()->get('airport'));
-                    $airport['code'] = $code->get();
-                    return $airport;
-                })
-                ->setType($airportType);
-
-            Model::action('exa1')
-                ->setCallback(function (): String_ {
-                    return String_::factory('hello');
-                });
-
-            Model::fn('add')
-                ->setCallback(function (Int32 $a, Int32 $b): Int32 {
-                    return Int32::factory($a->get() + $b->get());
-                });
-
-            Model::fn('div')
-                ->setCallback(function (Int32 $a, Int32 $b): Decimal {
-                    return Decimal::factory($a->get() / $b->get());
-                });
-
-            Model::fn('ffn1')
-                ->setCallback(function (Transaction $transaction, EntitySet $flights): EntitySet {
-                    $transaction->getSelect()->setValue('origin');
-                    return $flights;
-                })
-                ->setType(Model::getType('flight'));
         } catch (Exception $e) {
         }
+    }
+
+    public function withMathFunctions()
+    {
+        Model::fn('add')
+            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+                return Int32::factory($a->get() + $b->get());
+            });
+
+        Model::fn('div')
+            ->setCallback(function (Int32 $a, Int32 $b): Decimal {
+                return Decimal::factory($a->get() / $b->get());
+            });
     }
 
     public function withTextModel()
@@ -179,11 +143,5 @@ trait TestModels
                     ];
                 }
             });
-
-        Model::fn('textf1')
-            ->setCallback(function (EntitySet $texts): EntitySet {
-                return $texts;
-            })
-            ->setType(Model::getType('text'));
     }
 }

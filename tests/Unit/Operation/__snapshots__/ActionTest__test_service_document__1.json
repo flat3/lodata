@@ -1,0 +1,10 @@
+{
+    "@context": "http://localhost/odata/$metadata",
+    "value": [
+        {
+            "name": "exa1",
+            "kind": "Action",
+            "url": "exa1"
+        }
+    ]
+}

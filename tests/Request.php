@@ -84,6 +84,21 @@ class Request
         return $this;
     }
 
+    public function post(): self
+    {
+        return $this->method('POST');
+    }
+
+    public function patch(): self
+    {
+        return $this->method('PATCH');
+    }
+
+    public function delete(): self
+    {
+        return $this->method('DELETE');
+    }
+
     public function xml()
     {
         $this->header('accept', 'application/xml');

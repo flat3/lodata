@@ -10,41 +10,6 @@
             "name": "airports",
             "kind": "EntitySet",
             "url": "airports"
-        },
-        {
-            "name": "exf1",
-            "kind": "Function",
-            "url": "exf1"
-        },
-        {
-            "name": "exf2",
-            "kind": "Function",
-            "url": "exf2"
-        },
-        {
-            "name": "exf3",
-            "kind": "Function",
-            "url": "exf3"
-        },
-        {
-            "name": "exa1",
-            "kind": "Action",
-            "url": "exa1"
-        },
-        {
-            "name": "add",
-            "kind": "Function",
-            "url": "add"
-        },
-        {
-            "name": "div",
-            "kind": "Function",
-            "url": "div"
-        },
-        {
-            "name": "ffn1",
-            "kind": "Function",
-            "url": "ffn1"
         }
     ]
 }
