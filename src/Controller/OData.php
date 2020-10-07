@@ -90,4 +90,9 @@ class OData extends Controller
             )
             ->header('Allow', 'GET');
     }
+
+    public function callAction($method, $parameters)
+    {
+        return parent::callAction($method, array_values($parameters));
+    }
 }
