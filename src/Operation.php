@@ -268,6 +268,8 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         $operation = $operation->asInstance($transaction);
         $operation->setBoundParameter($argument);
 
+        $inlineParameters = [];
+
         try {
             $inlineParameters = array_filter(explode(',', $lexer->matchingParenthesis()));
 
@@ -289,10 +291,22 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
                 return [$key => $value];
             }, $inlineParameters));
-
-            $operation->setInlineParameters($inlineParameters);
         } catch (LexerException $e) {
+            if (!$nextComponent) {
+                /** @var Argument $argument */
+                foreach ($operation->getArguments() as $argument) {
+                    $value = $transaction->getImplicitParameterAlias($argument->getName());
+
+                    if (!$value) {
+                        continue;
+                    }
+
+                    $inlineParameters[$argument->getName()] = $value;
+                }
+            }
         }
+
+        $operation->setInlineParameters($inlineParameters);
 
         $result = $operation->invoke();
 

@@ -113,15 +113,7 @@ class Transaction implements ArgumentInterface
         );
 
         foreach ($this->request->query->keys() as $param) {
-            if (
-                Str::startsWith($param, '$') && !in_array(
-                    $param,
-                    [
-                        '$apply', '$count', '$compute', '$expand', '$format', '$filter',
-                        '$orderby', '$search', '$select', '$skip', '$top', '$schemaversion',
-                    ]
-                )
-            ) {
+            if (Str::startsWith($param, '$') && !in_array($param, $this->getSystemQueryOptions())) {
                 throw new BadRequestException(
                     'invalid_system_query_option',
                     sprintf('The provided system query option "%s" is not valid', $param)
@@ -207,6 +199,11 @@ class Transaction implements ArgumentInterface
     {
         $query = $this->request->query;
         return $query instanceof InputBag ? $query->all() : [];
+    }
+
+    public function getQueryParam(string $key): ?string
+    {
+        return $this->request->query->get($key);
     }
 
     public function getResponse(): Response
@@ -491,7 +488,7 @@ class Transaction implements ArgumentInterface
 
     public function getParameterAlias(string $key): ?string
     {
-        $value = $this->getQueryParams()['@' . ltrim($key, '@')] ?? null;
+        $value = $this->getQueryParam('@' . ltrim($key, '@'));
 
         if (null === $value) {
             throw new BadRequestException('reference_value_missing',
@@ -499,6 +496,15 @@ class Transaction implements ArgumentInterface
         }
 
         return $value;
+    }
+
+    public function getImplicitParameterAlias(string $key): ?string
+    {
+        if (in_array($key, $this->getSystemQueryOptions(false))) {
+            return $this->getParameterAlias($key);
+        }
+
+        return $this->getQueryParam($key);
     }
 
     public function getMethod(): string
@@ -569,6 +575,19 @@ class Transaction implements ArgumentInterface
         }
 
         throw new NotAcceptableException('not_json', 'Content provided to this request must be supplied with a JSON content type');
+    }
+
+    private function getSystemQueryOptions(bool $prefixed = true): array
+    {
+        $options = ['apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip', 'top', 'schemaversion'];
+
+        if ($prefixed) {
+            $options = array_map(function ($option) {
+                return '$' . $option;
+            }, $options);
+        }
+
+        return $options;
     }
 
     /**

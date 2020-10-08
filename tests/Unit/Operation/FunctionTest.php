@@ -10,6 +10,7 @@ use Flat3\OData\Model;
 use Flat3\OData\Tests\Data\Airport;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
+use Flat3\OData\Type\Int32;
 use Flat3\OData\Type\String_;
 
 class FunctionTest extends TestCase
@@ -146,6 +147,33 @@ class FunctionTest extends TestCase
                 ->path('/add(a=@c,b=@e)')
                 ->query('@c', 1)
                 ->query('@d', 2)
+        );
+    }
+
+    public function test_with_implicit_parameter_aliases()
+    {
+        $this->withMathFunctions();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/add')
+                ->query('a', 1)
+                ->query('b', 2)
+        );
+    }
+
+    public function test_with_implicit_parameter_alias_matching_system_query_option()
+    {
+        Model::fn('add')
+            ->setCallback(function (Int32 $apply, Int32 $compute): Int32 {
+                return Int32::factory($apply->get() + $compute->get());
+            });
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/add')
+                ->query('@apply', 1)
+                ->query('@compute', 2)
         );
     }
 
