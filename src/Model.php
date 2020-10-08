@@ -2,11 +2,18 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Annotation\Org\OData\Capabilities\V1\ConformanceLevel;
+use Flat3\OData\Annotation\Org\OData\Capabilities\V1\SupportedFormats;
+use Flat3\OData\Annotation\Org\OData\Core\V1\ConventionalIDs;
+use Flat3\OData\Annotation\Org\OData\Core\V1\DefaultNamespace;
+use Flat3\OData\Annotation\Org\OData\Core\V1\DereferencableIDs;
+use Flat3\OData\Annotation\Org\OData\Core\V1\ODataVersions;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
+use Flat3\OData\Transaction\Version;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Model
@@ -17,6 +24,13 @@ class Model
     public function __construct()
     {
         $this->model = new ObjectArray();
+
+        $this->model[] = new ODataVersions(Version::version);
+        $this->model[] = new ConformanceLevel('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
+        $this->model[] = new ConventionalIDs(true);
+        $this->model[] = new DereferencableIDs(true);
+        $this->model[] = new DefaultNamespace(true);
+        $this->model[] = new SupportedFormats();
     }
 
     public static function get(): self
@@ -84,6 +98,12 @@ class Model
         return config('odata.namespace') ?: 'com.example.odata';
     }
 
+    public function drop(string $key): self
+    {
+        $this->model->drop($key);
+        return $this;
+    }
+
     public function getEntityTypes(): ObjectArray
     {
         return $this->model->sliceByClass(EntityType::class);
@@ -97,5 +117,10 @@ class Model
     public function getServices(): ObjectArray
     {
         return $this->model->sliceByClass(ServiceInterface::class);
+    }
+
+    public function getAnnotations(): ObjectArray
+    {
+        return $this->model->sliceByClass(Annotation::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\PathComponent;
 
+use Flat3\OData\Annotation;
 use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\EntitySet;
@@ -34,7 +35,8 @@ class Metadata implements PipeInterface, EmitInterface
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): PipeInterface {
+    ): PipeInterface
+    {
         if ($currentComponent !== '$metadata') {
             throw new PathNotHandledException();
         }
@@ -103,9 +105,9 @@ class Metadata implements PipeInterface, EmitInterface
 
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getName());
-                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getName();
+                $navigationPropertyType = $model->getNamespace() . '.' . $targetEntityType->getName();
                 if ($navigationProperty->isCollection()) {
-                    $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
+                    $navigationPropertyType = 'Collection(' . $navigationPropertyType . ')';
                 }
 
                 $navigationPropertyPartner = $navigationProperty->getPartner();
@@ -142,7 +144,7 @@ class Metadata implements PipeInterface, EmitInterface
                     $entitySetElement->addAttribute('Name', $resource->getName());
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $model->getNamespace().'.'.$resource->getType()->getName()
+                        $model->getNamespace() . '.' . $resource->getType()->getName()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -207,7 +209,7 @@ class Metadata implements PipeInterface, EmitInterface
                         $returnTypeElement = $operationElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
-                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getName().')');
+                            $returnTypeElement->addAttribute('Type', 'Collection(' . $returnType->getName() . ')');
                         } else {
                             $returnTypeElement->addAttribute('Type', $returnType->getName());
                         }
@@ -218,61 +220,22 @@ class Metadata implements PipeInterface, EmitInterface
                         );
                     }
 
-                    $operationImport = $entityContainer->addChild($resource->getKind().'Import');
+                    $operationImport = $entityContainer->addChild($resource->getKind() . 'Import');
                     $operationImport->addAttribute('Name', $resource->getName());
                     $operationImport->addAttribute(
                         $resource->getKind(),
-                        $model->getNamespace().'.'.$resource->getName()
+                        $model->getNamespace() . '.' . $resource->getName()
                     );
                     break;
             }
         }
 
         $schemaAnnotations = $schema->addChild('Annotations');
-        $schemaAnnotations->addAttribute('Target', $model->getNamespace().'.'.'DefaultContainer');
+        $schemaAnnotations->addAttribute('Target', $model->getNamespace() . '.' . 'DefaultContainer');
 
-        $conventionalIds = $schemaAnnotations->addChild('Annotation');
-        $conventionalIds->addAttribute('Term', 'Org.OData.Core.V1.ConventionalIDs');
-        $conventionalIds->addAttribute('Bool', Boolean::URL_TRUE);
-
-        $dereferencerableIds = $schemaAnnotations->addChild('Annotation');
-        $dereferencerableIds->addAttribute('Term', 'Org.OData.Core.V1.DereferenceableIDs');
-        $dereferencerableIds->addAttribute('Bool', Boolean::URL_TRUE);
-
-        $conformanceLevel = $schemaAnnotations->addChild('Annotation');
-        $conformanceLevel->addAttribute('Term', 'Org.OData.Capabilities.V1.ConformanceLevel');
-        $conformanceLevel->addChild(
-            'EnumMember',
-            'Org.OData.Capabilities.V1.ConformanceLevelType/Advanced'
-        );
-
-        $defaultNamespace = $schemaAnnotations->addChild('Annotation');
-        $defaultNamespace->addAttribute('Term', 'Org.OData.Core.V1.DefaultNamespace');
-        $defaultNamespace->addAttribute('Bool', Boolean::URL_TRUE);
-
-        $odataVersions = $schemaAnnotations->addChild('Annotation');
-        $odataVersions->addAttribute('Term', 'Org.OData.Core.V1.ODataVersions');
-        $odataVersionsCollection = $odataVersions->addChild('Collection');
-        $odataVersionsCollection->addChild('String', '4.01');
-
-        $supportedFormats = $schemaAnnotations->addChild('Annotation');
-        $supportedFormats->addAttribute('Term', 'Org.OData.Capabilities.V1.SupportedFormats');
-        $supportedFormatsCollection = $supportedFormats->addChild('Collection');
-
-        /** @var \Flat3\OData\Transaction\Metadata $attribute */
-        foreach ([
-                     Full::class,
-                     Minimal::class,
-                     None::class,
-                 ] as $attribute
-        ) {
-            $supportedFormatsCollection->addChild(
-                'String',
-                'application/json;'.(new ParameterList())
-                    ->addParameter('odata.metadata', $attribute::name)
-                    ->addParameter('IEEE754Compatible', Boolean::URL_TRUE)
-                    ->addParameter('odata.streaming', Boolean::URL_TRUE)
-            );
+        /** @var Annotation $annotation */
+        foreach ($model->getAnnotations() as $annotation) {
+            $annotation->append($schemaAnnotations);
         }
 
         $transaction->outputRaw($root->asXML());

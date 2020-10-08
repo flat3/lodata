@@ -26,6 +26,7 @@ use Flat3\OData\Type\DateTimeOffset;
 use Flat3\OData\Type\Decimal;
 use Flat3\OData\Type\Double;
 use Flat3\OData\Type\Duration;
+use Flat3\OData\Type\Enum;
 use Flat3\OData\Type\Guid;
 use Flat3\OData\Type\Int16;
 use Flat3\OData\Type\Int32;
@@ -47,6 +48,7 @@ use Flat3\OData\Type\TimeOfDay;
  * @method static Decimal decimal()
  * @method static Double double()
  * @method static Duration duration()
+ * @method static Enum enum()
  * @method static Guid guid()
  * @method static Int16 int16()
  * @method static Int32 int32()
@@ -125,7 +127,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     {
         $value = $this->toJson();
 
-        return null === $value ? null : (string) $value;
+        return null === $value ? null : (string)$value;
     }
 
     /**
@@ -195,7 +197,8 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface {
+    ): ?PipeInterface
+    {
         $lexer = new Lexer($currentComponent);
 
         try {
@@ -233,12 +236,12 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
             );
         }
 
-        return Transaction::getContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl() . '#' . $this->getName();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getName().'()';
+        return Transaction::getResourceUrl() . $this->getName() . '()';
     }
 
     public function emit(Transaction $transaction): void
@@ -286,6 +289,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
             'decimal' => Decimal::class,
             'double' => Double::class,
             'duration' => Duration::class,
+            'enum' => Enum::class,
             'guid' => Guid::class,
             'int16' => Int16::class,
             'int32' => Int32::class,
@@ -298,7 +302,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         ];
 
         if (!array_key_exists($name, $resolver)) {
-            throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: '.$name);
+            throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: ' . $name);
         }
 
         $clazz = $resolver[$name];
