@@ -18,6 +18,7 @@ use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
+use Flat3\OData\Interfaces\InstanceInterface;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
@@ -30,7 +31,7 @@ use Flat3\OData\Transaction\Option;
 use Flat3\OData\Type\Property;
 use Iterator;
 
-abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
+abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
 {
     use HasName;
     use HasTitle;
@@ -57,14 +58,11 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
     /** @var null|Entity[] $results Result set from the query */
     protected $results = null;
 
-    /** @var Transaction $transaction */
-    protected $transaction;
-
     /** @var PrimitiveType $key */
     protected $key;
 
-    /** @var bool $isInstance */
-    protected $isInstance = false;
+    /** @var Transaction $transaction */
+    protected $transaction;
 
     public function __construct(string $name, EntityType $entityType)
     {
@@ -74,28 +72,9 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $this->navigationBindings = new ObjectArray();
     }
 
-    public function __clone()
-    {
-        $this->isInstance = true;
-    }
-
     public static function factory(string $name, EntityType $entityType): self
     {
         return new static($name, $entityType);
-    }
-
-    public function asInstance(Transaction $transaction): self
-    {
-        if ($this->isInstance) {
-            throw new InternalServerErrorException(
-                'cannot_clone_entity_set_instance',
-                'Attempted to clone an instance of an entity set'
-            );
-        }
-
-        $set = clone $this;
-        $set->transaction = $transaction;
-        return $set;
     }
 
     public function setKey(PrimitiveType $key): self
@@ -161,12 +140,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
      */
     public function valid(): bool
     {
-        if (!$this->isInstance) {
-            throw new InternalServerErrorException(
-                'not_an_entity_set_instance',
-                'This function must be run on an instance of EntitySet'
-            );
-        }
+        $this->ensureInstance();
 
         if (0 === $this->top) {
             return false;
@@ -345,7 +319,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getContextUrl(): string
     {
-        $url = Transaction::getContextUrl().'#'.$this->getName();
+        $url = Transaction::getContextUrl() . '#' . $this->getName();
         $properties = $this->transaction->getContextUrlProperties();
 
         if ($properties) {
@@ -357,7 +331,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getResourceUrl(): string
     {
-        $url = Transaction::getResourceUrl().$this->getName();
+        $url = Transaction::getResourceUrl() . $this->getName();
         $properties = $this->transaction->getResourceUrlProperties();
 
         if ($properties) {
@@ -374,7 +348,8 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface {
+    ): ?PipeInterface
+    {
         $data_model = Model::get();
         $lexer = new Lexer($currentComponent);
         try {
@@ -470,8 +445,41 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         return $entity;
     }
 
-    public function getTransaction(): ?Transaction
+    public function asInstance(Transaction $transaction): self
     {
+        if ($this->transaction) {
+            throw new InternalServerErrorException(
+                'cannot_clone_entity_set_instance',
+                'Attempted to clone an instance of an entity set'
+            );
+        }
+
+        $instance = clone $this;
+        $instance->transaction = $transaction;
+        return $instance;
+    }
+
+    public function isInstance(): bool
+    {
+        return !!$this->transaction;
+    }
+
+    public function ensureInstance(): void
+    {
+        if ($this->isInstance()) {
+            return;
+        }
+
+        throw new InternalServerErrorException(
+            'not_an_instance',
+            'Attempted to invoke a method that can only be run on a resource instance'
+        );
+    }
+
+    public function getTransaction(): Transaction
+    {
+        $this->ensureInstance();
+
         return $this->transaction;
     }
 

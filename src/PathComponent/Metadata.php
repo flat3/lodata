@@ -12,6 +12,7 @@ use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Model;
 use Flat3\OData\NavigationProperty;
+use Flat3\OData\Operation;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Operation\EntityArgument;
 use Flat3\OData\Operation\EntitySetArgument;
@@ -163,17 +164,17 @@ class Metadata implements PipeInterface, EmitInterface
                 case $resource instanceof Operation:
                     $operationElement = $schema->addChild($resource->getKind());
                     $operationElement->addAttribute('Name', $resource->getName());
-                    if ($resource->getBindingParameter()) {
+                    if ($resource->getBindingParameterName()) {
                         $operationElement->addAttribute('IsBound', Boolean::URL_TRUE);
                     }
 
                     // Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
                     $arguments = $resource->getArguments()->sort(function (Argument $a, Argument $b) use ($resource) {
-                        if ($a->getName() === $resource->getBindingParameter()) {
+                        if ($a->getName() === $resource->getBindingParameterName()) {
                             return -1;
                         }
 
-                        if ($b->getName() === $resource->getBindingParameter()) {
+                        if ($b->getName() === $resource->getBindingParameterName()) {
                             return 1;
                         }
 
@@ -183,7 +184,7 @@ class Metadata implements PipeInterface, EmitInterface
                             return true;
                         }
 
-                        if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $resource->getBindingParameter() === $argument->getName()) {
+                        if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $resource->getBindingParameterName() === $argument->getName()) {
                             return true;
                         }
 

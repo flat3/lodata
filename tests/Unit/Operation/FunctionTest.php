@@ -27,6 +27,19 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_callback_no_parentheses()
+    {
+        Model::fn('exf1')
+            ->setCallback(function (): String_ {
+                return String_::factory('hello');
+            });
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/exf1')
+        );
+    }
+
     public function test_service_document()
     {
         Model::fn('exf1')
@@ -161,7 +174,7 @@ class FunctionTest extends TestCase
             ->setCallback(function (EntitySet $flights): EntitySet {
                 return $flights;
             })
-            ->setBindingParameter('flights')
+            ->setBindingParameterName('flights')
             ->setType(Model::getType('flight'));
 
         $this->assertJsonResponse(

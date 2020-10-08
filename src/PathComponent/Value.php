@@ -46,7 +46,7 @@ class Value implements PipeInterface, EmitInterface
 
     public function response(Transaction $transaction): Response
     {
-        $requestedFormat = $transaction->getRequestedContentType();
+        $requestedFormat = $transaction->getAcceptedContentType();
 
         if ($requestedFormat) {
             $transaction->sendContentType(MediaType::factory()->parse($requestedFormat));

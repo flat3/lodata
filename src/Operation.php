@@ -1,43 +1,36 @@
 <?php
 
-namespace Flat3\OData\PathComponent;
+namespace Flat3\OData;
 
 use Closure;
-use Flat3\OData\ActionOperation;
 use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Entity;
-use Flat3\OData\EntitySet;
-use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
-use Flat3\OData\FunctionOperation;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\EntityTypeInterface;
+use Flat3\OData\Interfaces\InstanceInterface;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Model;
 use Flat3\OData\Operation\Argument;
 use Flat3\OData\Operation\EntityArgument;
 use Flat3\OData\Operation\EntitySetArgument;
 use Flat3\OData\Operation\PrimitiveTypeArgument;
 use Flat3\OData\Operation\TransactionArgument;
-use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Traits\HasType;
-use Illuminate\Http\Request;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 
-abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, NamedInterface, PipeInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, NamedInterface, PipeInterface, InstanceInterface
 {
     use HasName;
     use HasType;
@@ -46,8 +39,17 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     /** @var callable $callback */
     protected $callback;
 
-    /** @var string $bindingParameter */
-    protected $bindingParameter;
+    /** @var string $bindingParameterName */
+    protected $bindingParameterName;
+
+    /** @var ?PipeInterface $boundParameter */
+    protected $boundParameter;
+
+    /** @var array $inlineParameters */
+    protected $inlineParameters = [];
+
+    /** @var Transaction $transaction */
+    protected $transaction;
 
     public function __construct($name)
     {
@@ -133,7 +135,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         return $this;
     }
 
-    public function setBindingParameter(string $bindingParameter): self
+    public function setBindingParameterName(string $bindingParameterName): self
     {
         if (!$this->callback) {
             throw new InternalServerErrorException(
@@ -144,29 +146,86 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
         $arguments = $this->getArguments();
 
-        if (!$arguments->get($bindingParameter)) {
+        if (!$arguments->get($bindingParameterName)) {
             throw new InternalServerErrorException(
                 'cannot_find_binding_parameter',
                 'The requested binding parameter did not exist on the provided callback'
             );
         }
 
-        $this->bindingParameter = $bindingParameter;
+        $this->bindingParameterName = $bindingParameterName;
         return $this;
     }
 
-    public function getBindingParameter(): ?string
+    public function getBindingParameterName(): ?string
     {
-        return $this->bindingParameter;
+        return $this->bindingParameterName;
     }
 
-    public function invoke(array $args): ?PipeInterface
+    public function setBoundParameter(?PipeInterface $parameter): self
+    {
+        $this->ensureInstance();
+        $this->boundParameter = $parameter;
+        return $this;
+    }
+
+    public function setInlineParameters(array $inlineParameters): self
+    {
+        $this->inlineParameters = $inlineParameters;
+        return $this;
+    }
+
+    abstract public function getTransactionArguments(): array;
+
+    public function invoke(): ?PipeInterface
     {
         if (!$this->callback instanceof Closure) {
             throw new NotImplementedException('no_callback', 'The requested operation has no implementation');
         }
 
-        return call_user_func_array($this->callback, $args);
+        $bindingParameter = $this->getBindingParameterName();
+        $transactionArguments = $this->getTransactionArguments();
+
+        $arguments = [];
+
+        /** @var Argument $argumentDefinition */
+        foreach ($this->getArguments() as $argumentDefinition) {
+            $argumentName = $argumentDefinition->getName();
+            if ($bindingParameter === $argumentName) {
+                switch (true) {
+                    case $argumentDefinition instanceof EntityArgument && !$this->boundParameter instanceof Entity:
+                    case $argumentDefinition instanceof EntitySetArgument && !$this->boundParameter instanceof EntitySet:
+                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$this->boundParameter instanceof PrimitiveType:
+                        throw new BadRequestException(
+                            'invalid_bound_argument_type',
+                            'The provided bound argument was not of the correct type for this function'
+                        );
+                }
+
+                $arguments[] = $this->boundParameter;
+                continue;
+            }
+
+            switch (true) {
+                case $argumentDefinition instanceof TransactionArgument:
+                    $arguments[] = $argumentDefinition->generate($this->transaction);
+                    break;
+
+                case $argumentDefinition instanceof EntitySetArgument:
+                    $arguments[] = $argumentDefinition->generate($this->transaction);
+                    break;
+
+                case $argumentDefinition instanceof EntityArgument:
+                    $arguments[] = $argumentDefinition->generate();
+                    break;
+
+                case $argumentDefinition instanceof PrimitiveTypeArgument:
+                    $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null);
+                    break;
+            }
+        }
+
+        return call_user_func_array($this->callback, array_values($arguments));
     }
 
     public static function pipe(
@@ -174,11 +233,12 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface {
+    ): ?PipeInterface
+    {
         $lexer = new Lexer($currentComponent);
+
         try {
             $operationIdentifier = $lexer->odataIdentifier();
-            $args = $lexer->matchingParenthesis();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
@@ -191,10 +251,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             throw new PathNotHandledException();
         }
 
-        if ($operation instanceof ActionOperation) {
-            $transaction->ensureMethod(Request::METHOD_POST, 'This operation must be addressed with a POST request');
-        }
-
         if ($nextComponent && $operation instanceof ActionOperation) {
             throw new BadRequestException(
                 'cannot_compose_action',
@@ -202,82 +258,45 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             );
         }
 
-        $bindingParameter = $operation->getBindingParameter();
-
-        if ($bindingParameter && !$argument) {
+        if (!$argument && $operation->getBindingParameterName()) {
             throw new BadRequestException(
                 'missing_bound_argument',
                 'This operation is bound, but no bound argument was provided'
             );
         }
 
-        $transactionArguments = array_merge(...array_map(function ($pair) use ($transaction) {
-            $pair = trim($pair);
+        $operation = $operation->asInstance($transaction);
+        $operation->setBoundParameter($argument);
 
-            $kv = array_map('trim', explode('=', $pair));
+        try {
+            $inlineParameters = array_filter(explode(',', $lexer->matchingParenthesis()));
 
-            if (count($kv) !== 2) {
-                throw new BadRequestException('invalid_arguments',
-                    'The arguments provided to the operation were not valid');
-            }
+            $inlineParameters = array_merge(...array_map(function ($pair) use ($transaction) {
+                $pair = trim($pair);
 
-            list($key, $value) = $kv;
+                $kv = array_map('trim', explode('=', $pair));
 
-            if (strpos($value, '@') === 0) {
-                $value = $transaction->getParameterAlias($value);
-            }
-
-            return [$key => $value];
-        }, array_filter(explode(',', $args))));
-
-        $operationArguments = [];
-
-        /** @var Argument $argumentDefinition */
-        foreach ($operation->getArguments() as $argumentDefinition) {
-            if ($bindingParameter === $argumentDefinition->getName()) {
-                switch (true) {
-                    case $argumentDefinition instanceof EntityArgument && !$argument instanceof Entity:
-                    case $argumentDefinition instanceof EntitySetArgument && !$argument instanceof EntitySet:
-                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$argument instanceof PrimitiveType:
-                        throw new BadRequestException(
-                            'invalid_bound_argument_type',
-                            'The provided bound argument was not of the correct type for this function'
-                        );
+                if (count($kv) !== 2) {
+                    throw new BadRequestException('invalid_arguments',
+                        'The arguments provided to the operation were not valid');
                 }
 
-                $operationArguments[] = $argument;
-                continue;
-            }
+                list($key, $value) = $kv;
 
-            switch (true) {
-                case $argumentDefinition instanceof TransactionArgument:
-                    $operationArguments[] = $argumentDefinition->generate($transaction);
-                    break;
+                if (strpos($value, '@') === 0) {
+                    $value = $transaction->getParameterAlias($value);
+                }
 
-                case $argumentDefinition instanceof EntitySetArgument:
-                    $operationArguments[] = $argumentDefinition->generate($transaction);
-                    break;
+                return [$key => $value];
+            }, $inlineParameters));
 
-                case $argumentDefinition instanceof EntityArgument:
-                    $operationArguments[] = $argumentDefinition->generate();
-                    break;
-
-                case $argumentDefinition instanceof PrimitiveTypeArgument:
-                    $operationArguments[] = $argumentDefinition->generate($transactionArguments[$argumentDefinition->getName()] ?? null);
-                    break;
-            }
+            $operation->setInlineParameters($inlineParameters);
+        } catch (LexerException $e) {
         }
 
-        $result = $operation->invoke($operationArguments);
+        $result = $operation->invoke();
 
         $returnType = $operation->getType();
-
-        if (null === $result && $operation instanceof FunctionOperation) {
-            throw new InternalServerErrorException(
-                'missing_function_result',
-                'Function is required to return a result'
-            );
-        }
 
         switch (true) {
             case $result === null && $operation->isNullable():
@@ -294,6 +313,44 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getName();
+        return Transaction::getResourceUrl() . $this->getName();
+    }
+
+    public function asInstance(Transaction $transaction): self
+    {
+        if ($this->transaction) {
+            throw new InternalServerErrorException(
+                'cannot_clone_entity_set_instance',
+                'Attempted to clone an instance of an entity set'
+            );
+        }
+
+        $instance = clone $this;
+        $instance->transaction = $transaction;
+        return $instance;
+    }
+
+    public function isInstance(): bool
+    {
+        return !!$this->transaction;
+    }
+
+    public function ensureInstance(): void
+    {
+        if ($this->isInstance()) {
+            return;
+        }
+
+        throw new InternalServerErrorException(
+            'not_an_instance',
+            'Attempted to invoke a method that can only be run on a resource instance'
+        );
+    }
+
+    public function getTransaction(): Transaction
+    {
+        $this->ensureInstance();
+
+        return $this->transaction;
     }
 }

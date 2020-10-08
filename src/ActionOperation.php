@@ -2,12 +2,35 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\PathComponent\Operation;
+use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Interfaces\PipeInterface;
+use Illuminate\Http\Request;
 
 class ActionOperation extends Operation
 {
     public function getKind(): string
     {
         return 'Action';
+    }
+
+    public function getTransactionArguments(): array
+    {
+        $body = $this->transaction->getBody();
+
+        if ($body && !is_array($body)) {
+            throw new BadRequestException('invalid_action_arguments', 'The arguments to the action were not correctly formed as an array');
+        }
+
+        return $body ? : [];
+    }
+
+    public function invoke(): ?PipeInterface
+    {
+        $this->transaction->ensureMethod(Request::METHOD_POST, 'This operation must be addressed with a POST request');
+        if ($this->transaction->getBody()) {
+            $this->transaction->ensureContentTypeJson();
+        }
+
+        return parent::invoke();
     }
 }

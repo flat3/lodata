@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Tests\Unit\Operation;
 
+use Flat3\OData\Entity;
 use Flat3\OData\Model;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
@@ -108,6 +109,75 @@ class ActionTest extends TestCase
             Request::factory()
                 ->post()
                 ->path('/textv1()')
+        );
+    }
+
+    public function test_bound()
+    {
+        $this->withFlightModel();
+
+        Model::action('aa1')
+            ->setCallback(function (Entity $airport): Entity {
+                return $airport;
+            })
+            ->setBindingParameterName('airport')
+            ->setType(Model::getType('airport'));
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->post()
+                ->path('/airports(1)/aa1')
+        );
+    }
+
+    public function test_parameters()
+    {
+        Model::action('aa1')
+            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+                return new Int32($a->get() + $b->get());
+            });
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->post()
+                ->body([
+                    'a' => 3,
+                    'b' => 4,
+                ])
+                ->path('/aa1')
+        );
+    }
+
+    public function test_parameters_invalid_body_string()
+    {
+        Model::action('aa1')
+            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+                return new Int32($a->get() + $b->get());
+            });
+
+        $this->assertNotAcceptable(
+            Request::factory()
+                ->post()
+                ->body('[d')
+                ->path('/aa1')
+        );
+    }
+
+    public function test_parameters_invalid_body_array()
+    {
+        $this->withFlightModel();
+
+        Model::action('aa1')
+            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+                return new Int32($a->get() + $b->get());
+            });
+
+        $this->assertBadRequest(
+            Request::factory()
+                ->post()
+                ->header('content-type', 'application/json')
+                ->body('[d')
+                ->path('/aa1')
         );
     }
 }

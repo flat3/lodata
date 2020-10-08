@@ -22,7 +22,7 @@ class EntityType extends ComplexType
     /**
      * Set the key property by name
      *
-     * @param  Property  $key
+     * @param Property $key
      *
      * @return $this
      */

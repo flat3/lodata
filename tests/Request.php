@@ -9,6 +9,7 @@ class Request
     public $headers = [];
     public $path = '/odata';
     public $query = [];
+    public $body = null;
     public $method = 'GET';
 
     public static function factory()
@@ -32,13 +33,13 @@ class Request
 
     public function metadata($type)
     {
-        $this->accept('application/json;odata.metadata='.$type);
+        $this->accept('application/json;odata.metadata=' . $type);
         return $this;
     }
 
     public function preference($key, $value)
     {
-        $this->accept('application/json;'.$key.'='.$value);
+        $this->accept('application/json;' . $key . '=' . $value);
         return $this;
     }
 
@@ -47,7 +48,7 @@ class Request
         $this->path = $path;
 
         if ($withPrefix) {
-            $this->path = '/odata'.$this->path;
+            $this->path = '/odata' . $this->path;
         }
 
         return $this;
@@ -87,6 +88,17 @@ class Request
     public function post(): self
     {
         return $this->method('POST');
+    }
+
+    public function body($body): self
+    {
+        if (is_array($body)) {
+            $this->header('content-type', 'application/json');
+            $body = json_encode($body, JSON_UNESCAPED_SLASHES);
+        }
+
+        $this->body = $body;
+        return $this;
     }
 
     public function patch(): self

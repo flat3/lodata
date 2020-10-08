@@ -2,7 +2,7 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Controller\OData as ODataController;
+use Flat3\OData\Controller\OData;
 use Flat3\OData\Controller\ODCFF;
 use Flat3\OData\Controller\PBIDS;
 use Flat3\OData\Middleware\Authentication;
@@ -41,7 +41,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             Route::get("{$route}/odata.pbids", [PBIDS::class, 'get']);
             Route::get("{$route}/{identifier}.odc", [ODCFF::class, 'get']);
 
-            Route::any("{$route}{path}", [ODataController::class, 'get'])
+            Route::any("{$route}{path}", [OData::class, 'handle'])
                 ->where('path', '(.*)');
         });
     }

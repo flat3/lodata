@@ -25,22 +25,22 @@ class Lexer
     public const PATH_SEPARATOR = '/';
     public const ODATA_IDENTIFIER = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
     public const ISO8601_DURATION = 'P(?:(?:(?P<d>[0-9]+)D)?)?(?:T(?:(?P<h>[0-9]+)H)?(?:(?P<m>[0-9]+)M)?(?:(?P<s>[0-9\.]+)S)?)?';
-    public const DATETIMEOFFSET = self::DATE.'T'.self::TIMEOFDAY.'(Z[-+]'.self::HOUR.':'.self::MINUTE.')?';
+    public const DATETIMEOFFSET = self::DATE . 'T' . self::TIMEOFDAY . '(Z[-+]' . self::HOUR . ':' . self::MINUTE . ')?';
     public const HOUR = '([0-1][0-9]|2[0-3])';
     public const MINUTE = '([0-5][0-9])';
-    public const TIMEOFDAY = self::HOUR.':'.self::MINUTE.'(:[0-5][0-9](\.[0-9]{1,12})?)?';
+    public const TIMEOFDAY = self::HOUR . ':' . self::MINUTE . '(:[0-5][0-9](\.[0-9]{1,12})?)?';
     public const DATE = '([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][--9]|3[0-1])';
     public const GUID = '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}';
     public const CLOSE_PAREN = "(?:\)|%29)";
     public const DIGIT = '\d';
     public const BASE64 = '(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?';
-    public const PARAMETER_ALIAS = '\@'.self::ODATA_IDENTIFIER;
+    public const PARAMETER_ALIAS = '\@' . self::ODATA_IDENTIFIER;
 
     private $text;
     private $pos = -1;
     private $len;
 
-    public function __construct($expression)
+    public function __construct(?string $expression)
     {
         $this->text = $expression;
         $this->len = strlen($expression) - 1;
@@ -48,12 +48,12 @@ class Lexer
 
     public static function patternCheck($expression, $value): bool
     {
-        return preg_match('@^'.$expression.'$@', $value) === 1;
+        return preg_match('@^' . $expression . '$@', $value) === 1;
     }
 
     public static function patternMatch($expression, $value): ?array
     {
-        $result = preg_match('@^'.$expression.'$@', $value, $matches);
+        $result = preg_match('@^' . $expression . '$@', $value, $matches);
 
         return $result === 1 ? $matches : null;
     }
@@ -87,7 +87,7 @@ class Lexer
     /**
      * Match one of the provided rules
      *
-     * @param  mixed  ...$rules
+     * @param mixed ...$rules
      *
      * @return mixed
      * @throws LexerException
@@ -203,7 +203,7 @@ class Lexer
         }
 
         if (!$wrapped) {
-            $pattern = '@^'.$pattern.'@';
+            $pattern = '@^' . $pattern . '@';
         }
 
         $result = preg_match($pattern, substr($this->text, $this->pos + 1), $matches);
@@ -236,7 +236,7 @@ class Lexer
     /**
      * Match a keyword, case insensitively
      *
-     * @param  mixed  ...$keywords
+     * @param mixed ...$keywords
      *
      * @return mixed
      * @throws LexerException
@@ -313,13 +313,13 @@ class Lexer
             }
         }
 
-        return (float) implode('', $chars);
+        return (float)implode('', $chars);
     }
 
     /**
      * Maybe match a keyword
      *
-     * @param  mixed  ...$args
+     * @param mixed ...$args
      *
      * @return mixed|null
      */
@@ -344,7 +344,7 @@ class Lexer
     /**
      * Maybe match from a character list
      *
-     * @param  mixed  ...$args
+     * @param mixed ...$args
      *
      * @return string|null
      */
@@ -396,7 +396,7 @@ class Lexer
     /**
      * Match one of the provided chars
      *
-     * @param  string  $char
+     * @param string $char
      *
      * @return string
      * @throws LexerException
@@ -459,7 +459,7 @@ class Lexer
     /**
      * Match a quoted string
      *
-     * @param  string  $quoteChar
+     * @param string $quoteChar
      * @return string|null
      */
     public function quotedString($quoteChar = "'"): string

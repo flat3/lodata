@@ -9,10 +9,10 @@ use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Operation;
 use Flat3\OData\PathComponent\Count;
 use Flat3\OData\PathComponent\Filter;
 use Flat3\OData\PathComponent\Metadata;
-use Flat3\OData\PathComponent\Operation;
 use Flat3\OData\PathComponent\Service;
 use Flat3\OData\PathComponent\Value;
 use Flat3\OData\PrimitiveType;
@@ -22,20 +22,20 @@ use Illuminate\Routing\Controller;
 
 class OData extends Controller
 {
-    public function get(Request $request, Transaction $transaction)
-    {
-        /** @var PipeInterface[] $handlers */
-        $handlers = [
-            EntitySet::class,
-            Metadata::class,
-            Value::class,
-            Count::class,
-            Operation::class,
-            PrimitiveType::class,
-            Singleton::class,
-            Filter::class,
-        ];
+    /** @var PipeInterface[] $handlers */
+    protected $handlers = [
+        EntitySet::class,
+        Metadata::class,
+        Value::class,
+        Count::class,
+        Operation::class,
+        PrimitiveType::class,
+        Singleton::class,
+        Filter::class,
+    ];
 
+    public function handle(Request $request, Transaction $transaction)
+    {
         $transaction->initialize($request);
 
         $pathComponents = $transaction->getPathComponents();
@@ -52,7 +52,7 @@ class OData extends Controller
             $currentComponent = array_shift($pathComponents);
             $nextComponent = $pathComponents[0] ?? null;
 
-            foreach ($handlers as $handler) {
+            foreach ($this->handlers as $handler) {
                 try {
                     $result = $handler::pipe($transaction, $currentComponent, $nextComponent, $result);
                     continue 2;

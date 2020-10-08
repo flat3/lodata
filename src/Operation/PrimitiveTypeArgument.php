@@ -16,7 +16,7 @@ class PrimitiveTypeArgument extends Argument
 
         $type = $this->getType();
 
-        if (null === $type->get()) {
+        if (null === $source) {
             if (!$this->isNullable()) {
                 throw new BadRequestException(
                     'non_null_argument_missing',

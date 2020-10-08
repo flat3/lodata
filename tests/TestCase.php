@@ -18,6 +18,7 @@ use Illuminate\Testing\TestResponse;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
 use stdClass;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -50,7 +51,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             throw new RuntimeException('Failed to throw exception');
         } catch (ProtocolException $e) {
             if (!$e instanceof $exceptionClass) {
-                throw new RuntimeException('Incorrect exception thrown: '.get_class($e));
+                throw new RuntimeException('Incorrect exception thrown: ' . get_class($e));
             }
 
             $this->assertMatchesObjectSnapshot($e->serialize());
@@ -113,12 +114,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * @param  TestResponse  $response
+     * @param TestResponse $response
      * @return stdClass
      */
     public function jsonResponse(TestResponse $response): stdClass
     {
-        return json_decode($response->streamedContent());
+        return json_decode($this->responseContent($response));
+    }
+
+    private function responseContent(TestResponse $response)
+    {
+        return $response->baseResponse instanceof StreamedResponse ? $response->streamedContent() : $response->getContent();
     }
 
     public function req(Request $request): TestResponse
@@ -129,14 +135,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             [],
             [],
             [],
-            $this->transformHeadersToServerVars($request->headers)
+            $this->transformHeadersToServerVars($request->headers),
+            $request->body,
         );
     }
 
     protected function assertXmlResponse(Request $request)
     {
         $response = $this->req($request);
-        $this->assertMatchesXmlSnapshot($response->streamedContent());
+        $this->assertMatchesXmlSnapshot($this->responseContent($response));
         $this->assertResponseMetadata($response);
     }
 
@@ -157,14 +164,21 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertJsonResponse(Request $request): TestResponse
     {
         $response = $this->req($request);
-        $this->assertMatchesSnapshot($response->streamedContent(), new JsonDriver());
+        $this->assertMatchesSnapshot($this->responseContent($response), new JsonDriver());
+        return $response;
+    }
+
+    protected function assertHtmlResponse(Request $request): TestResponse
+    {
+        $response = $this->req($request);
+        $this->assertMatchesHtmlSnapshot($this->responseContent($response));
         return $response;
     }
 
     protected function assertTextResponse(Request $request): TestResponse
     {
         $response = $this->req($request);
-        $this->assertMatchesTextSnapshot($response->streamedContent());
+        $this->assertMatchesTextSnapshot($this->responseContent($response));
         return $response;
     }
 
@@ -176,14 +190,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertJsonMetadataResponse(Request $request)
     {
         $response = $this->req($request);
-        $this->assertMatchesSnapshot($response->streamedContent(), new JsonDriver());
+        $this->assertMatchesSnapshot($this->responseContent($response), new JsonDriver());
         $this->assertResponseMetadata($response);
     }
 
     protected function assertTextMetadataResponse(Request $request)
     {
         $response = $this->req($request);
-        $this->assertMatchesTextSnapshot($response->streamedContent());
+        $this->assertMatchesTextSnapshot($this->responseContent($response));
         $this->assertResponseMetadata($response);
     }
 }

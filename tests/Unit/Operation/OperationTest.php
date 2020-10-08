@@ -17,7 +17,7 @@ class OperationTest extends TestCase
     {
         $this->expectException(InternalServerErrorException::class);
         Model::fn('f1')
-            ->setBindingParameter('texts');
+            ->setBindingParameterName('texts');
     }
 
     public function test_binding_did_not_exist()
@@ -26,7 +26,7 @@ class OperationTest extends TestCase
         Model::fn('f1')
             ->setCallback(function (Int32 $taxts) {
             })
-            ->setBindingParameter('texts');
+            ->setBindingParameterName('texts');
     }
 
     public function test_parameter_order_unbound()
@@ -49,7 +49,7 @@ class OperationTest extends TestCase
             ->setCallback(function (Int32 $a, Decimal $b): Int32 {
                 return new Int32(0);
             })
-            ->setBindingParameter('b');
+            ->setBindingParameterName('b');
 
         $this->assertXmlResponse(
             Request::factory()
@@ -66,7 +66,7 @@ class OperationTest extends TestCase
             ->setCallback(function (?Decimal $b, EntitySet $flights): EntitySet {
                 return $flights;
             })
-            ->setBindingParameter('flights')
+            ->setBindingParameterName('flights')
             ->setType(Model::getType('flight'));
 
         $this->assertXmlResponse(
@@ -89,7 +89,7 @@ class OperationTest extends TestCase
             ->setCallback(function (?Decimal $b, EntitySet $flights): Decimal {
                 return new Decimal($flights->count());
             })
-            ->setBindingParameter('flights');
+            ->setBindingParameterName('flights');
 
         $this->assertXmlResponse(
             Request::factory()
@@ -111,7 +111,7 @@ class OperationTest extends TestCase
             ->setCallback(function (?Decimal $b, EntitySet $flights): EntitySet {
                 return $flights;
             })
-            ->setBindingParameter('flights')
+            ->setBindingParameterName('flights')
             ->setType(Model::getType('flight'));
 
         $this->assertBadRequest(
@@ -128,7 +128,7 @@ class OperationTest extends TestCase
             ->setCallback(function (?Decimal $b, EntitySet $flights): EntitySet {
                 return $flights;
             })
-            ->setBindingParameter('flights')
+            ->setBindingParameterName('flights')
             ->setType(Model::getType('flight'));
 
         $this->assertBadRequest(
@@ -148,7 +148,7 @@ class OperationTest extends TestCase
             ->setCallback(function (String_ $second): String_ {
                 return new String_($second->get().' world');
             })
-            ->setBindingParameter('second');
+            ->setBindingParameterName('second');
 
         $this->assertJsonResponse(
             Request::factory()

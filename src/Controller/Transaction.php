@@ -5,6 +5,7 @@ namespace Flat3\OData\Controller;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
+use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
@@ -29,6 +30,7 @@ use Flat3\OData\Transaction\Version;
 use Flat3\OData\Type\Boolean;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use JsonException;
 use Symfony\Component\HttpFoundation\InputBag;
 
 /**
@@ -130,7 +132,7 @@ class Transaction implements ArgumentInterface
         foreach (['compute', 'apply'] as $sqo) {
             if ($this->getSystemQueryOption($sqo)) {
                 throw new NotImplementedException(
-                    $sqo.'_not_implemented',
+                    $sqo . '_not_implemented',
                     "The \${$sqo} system query option is not implemented"
                 );
             }
@@ -198,7 +200,7 @@ class Transaction implements ArgumentInterface
         $key = strtolower($key);
         $params = array_change_key_case($this->getQueryParams(), CASE_LOWER);
 
-        return $params[$key] ?? ($params['$'.$key] ?? null);
+        return $params[$key] ?? ($params['$' . $key] ?? null);
     }
 
     public function getQueryParams(): array
@@ -291,12 +293,17 @@ class Transaction implements ArgumentInterface
 
     public function getPreference(string $preference): ?string
     {
-        return $this->preferences->getParameter($preference) ?: $this->preferences->getParameter('odata.'.$preference);
+        return $this->preferences->getParameter($preference) ?: $this->preferences->getParameter('odata.' . $preference);
     }
 
     public function getCharset(): ?string
     {
         return $this->getRequestHeader('accept-charset') ?: MediaType::factory()->parse($this->getResponseHeader('content-type'))->getParameter('charset');
+    }
+
+    public function getProvidedContentType(): MediaType
+    {
+        return MediaType::factory()->parse($this->getRequestHeader('content-type'));
     }
 
     public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
@@ -322,7 +329,7 @@ class Transaction implements ArgumentInterface
         $selected = $select->getCommaSeparatedValues();
 
         if ($selected) {
-            if (!in_array((string) $property, $selected)) {
+            if (!in_array((string)$property, $selected)) {
                 return false;
             }
         }
@@ -343,7 +350,7 @@ class Transaction implements ArgumentInterface
         );
     }
 
-    public function getRequestedContentType(): string
+    public function getAcceptedContentType(): string
     {
         $formatQueryOption = $this->getFormat()->getValue();
 
@@ -355,7 +362,7 @@ class Transaction implements ArgumentInterface
                 );
             }
 
-            return 'application/'.$formatQueryOption;
+            return 'application/' . $formatQueryOption;
         }
 
         if ($formatQueryOption) {
@@ -374,7 +381,7 @@ class Transaction implements ArgumentInterface
     public function configureResponse(MediaType $requiredType): self
     {
         $requiredType->setParameter('charset', 'utf-8');
-        $contentType = $requiredType->negotiate($this->getRequestedContentType());
+        $contentType = $requiredType->negotiate($this->getAcceptedContentType());
 
         $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
         $this->preferences = new ParameterList($this->getRequestHeader('prefer'));
@@ -469,7 +476,7 @@ class Transaction implements ArgumentInterface
         $path = $this->getRequestPath();
 
         foreach ($unreservedChars as $unreservedChar) {
-            $path = str_replace('%'.str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT), $unreservedChar,
+            $path = str_replace('%' . str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT), $unreservedChar,
                 $path);
         }
 
@@ -484,7 +491,7 @@ class Transaction implements ArgumentInterface
 
     public function getParameterAlias(string $key): ?string
     {
-        $value = $this->getQueryParams()['@'.ltrim($key, '@')] ?? null;
+        $value = $this->getQueryParams()['@' . ltrim($key, '@')] ?? null;
 
         if (null === $value) {
             throw new BadRequestException('reference_value_missing',
@@ -497,6 +504,21 @@ class Transaction implements ArgumentInterface
     public function getMethod(): string
     {
         return $this->request->method();
+    }
+
+    public function getBody()
+    {
+        $content = $this->request->getContent();
+
+        if ($this->getProvidedContentType()->getSubtype() === 'json') {
+            try {
+                $content = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $e) {
+                throw new BadRequestException('invalid_json', 'Invalid JSON was provided');
+            }
+        }
+
+        return $content;
     }
 
     public function ensureMethod($permitted, ?string $message = null, ?string $code = null): void
@@ -530,6 +552,25 @@ class Transaction implements ArgumentInterface
         throw $exception;
     }
 
+    public function ensureContentTypeJson(): void
+    {
+        $subtype = $this->getProvidedContentType()->getSubtype();
+
+        if (!$subtype) {
+            return;
+        }
+
+        if ($subtype === '*') {
+            return;
+        }
+
+        if ($subtype === 'json') {
+            return;
+        }
+
+        throw new NotAcceptableException('not_json', 'Content provided to this request must be supplied with a JSON content type');
+    }
+
     /**
      * Get the service document context URL
      *
@@ -539,7 +580,7 @@ class Transaction implements ArgumentInterface
      */
     public static function getContextUrl(): string
     {
-        return ServiceProvider::restEndpoint().'$metadata';
+        return ServiceProvider::restEndpoint() . '$metadata';
     }
 
     /**
@@ -566,7 +607,7 @@ class Transaction implements ArgumentInterface
         $expand = $this->getExpand();
         if ($expand->hasValue()) {
             $properties = array_merge($properties, array_map(function ($property) {
-                return $property.'()';
+                return $property . '()';
             }, $expand->getCommaSeparatedValues()));
         }
 
@@ -579,7 +620,7 @@ class Transaction implements ArgumentInterface
 
         $select = $this->getSelect();
         if ($select->hasValue() && !$select->isStar()) {
-            $properties['$select'] = '('.$select->getValue().')';
+            $properties['$select'] = '(' . $select->getValue() . ')';
         }
 
         $expand = $this->getExpand();
@@ -639,7 +680,7 @@ class Transaction implements ArgumentInterface
 
     public function outputJsonKey($key)
     {
-        $this->sendOutput(json_encode((string) $key).':');
+        $this->sendOutput(json_encode((string)$key) . ':');
     }
 
     public function outputJsonValue($value)

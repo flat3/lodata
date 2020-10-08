@@ -4,8 +4,8 @@ namespace Flat3\OData;
 
 use Flat3\OData\Controller\Transaction;
 use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
+use Flat3\OData\Interfaces\JsonReceiverInterface;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
@@ -28,7 +28,7 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
     /**
      * Add a property to the list
      *
-     * @param  Property  $property
+     * @param Property $property
      *
      * @return $this
      */
@@ -56,11 +56,11 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
 
     public function getContextUrl(): string
     {
-        return Transaction::getContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl() . '#' . $this->getName();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getName().'()';
+        return Transaction::getResourceUrl() . $this->getName() . '()';
     }
 }

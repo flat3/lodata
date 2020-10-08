@@ -3,10 +3,12 @@
 namespace Flat3\OData\Controller;
 
 use DOMDocument;
-use Flat3\OData\Model;
+use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\OData\Interfaces\NamedInterface;
+use Flat3\OData\Interfaces\ServiceInterface;
+use Flat3\OData\Model;
 use Flat3\OData\ServiceProvider;
-use Flat3\OData\Traits\HasName;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -22,17 +24,17 @@ class ODCFF extends Controller
 
         $htmlDoc = new DOMDocument();
 
-        /** @var HasName $resource */
-        $resource = $model->getResources()->get($name);
-        if (null === $resource) {
+        /** @var EntitySet $entitySet */
+        $entitySet = $model->getResources()->sliceByClass(EntitySet::class)->get($name);
+        if (null === $entitySet) {
             throw NotFoundException::factory(
                 'resource_not_found',
                 'The requested resource did not exist'
             )->target($name);
         }
 
-        $resourceName = $resource->getTitle() ?: $resource->getName();
-        $resourceId = $resource->getName();
+        $resourceName = $entitySet->getTitle() ?: $entitySet->getName();
+        $resourceId = $entitySet->getName();
         $office = 'urn:schemas-microsoft-com:office:office';
         $odc = 'urn:schemas-microsoft-com:office:odc';
 
@@ -58,7 +60,7 @@ class ODCFF extends Controller
         $head->appendChild($meta);
 
         $title = $htmlDoc->createElement('title');
-        $title->textContent = 'Query - '.$resourceName;
+        $title->textContent = 'Query - ' . $resourceName;
         $head->appendChild($title);
 
         $xml = $htmlDoc->createElement('xml');
@@ -184,7 +186,7 @@ class ODCFF extends Controller
 
         $disposition = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $resource.'.odc'
+            $entitySet->getName() . '.odc'
         );
         $response->headers->set('Content-Disposition', $disposition);
         $response->setContent($htmlDoc->saveHTML());
