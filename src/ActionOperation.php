@@ -3,6 +3,7 @@
 namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Interfaces\PipeInterface;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class ActionOperation extends Operation
             throw new BadRequestException('invalid_action_arguments', 'The arguments to the action were not correctly formed as an array');
         }
 
-        return $body ? : [];
+        return $body ?: [];
     }
 
     public function invoke(): ?PipeInterface
@@ -31,6 +32,15 @@ class ActionOperation extends Operation
             $this->transaction->ensureContentTypeJson();
         }
 
-        return parent::invoke();
+        $result = parent::invoke();
+
+        $returnPreference = $this->transaction->getPreference('return');
+
+        if ($returnPreference === 'minimal') {
+            throw NoContentException::factory()
+                ->header('preference-applied', 'return=minimal');
+        }
+
+        return $result;
     }
 }

@@ -148,6 +148,25 @@ class ActionTest extends TestCase
         );
     }
 
+    public function test_prefers_no_results()
+    {
+        Model::action('aa1')
+            ->setCallback(function (): Int32 {
+                return new Int32(99);
+            });
+
+        $this->assertNoContent(
+            Request::factory()
+                ->post()
+                ->body([
+                    'a' => 3,
+                    'b' => 4,
+                ])
+                ->path('/aa1')
+                ->header('Prefer', 'return=minimal')
+        );
+    }
+
     public function test_parameters_invalid_body_string()
     {
         Model::action('aa1')

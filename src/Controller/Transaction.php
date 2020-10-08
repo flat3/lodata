@@ -112,6 +112,8 @@ class Transaction implements ArgumentInterface
             $this->getRequestHeader(Version::maxVersionHeader)
         );
 
+        $this->preferences = new ParameterList($this->getRequestHeader('prefer'));
+
         foreach ($this->request->query->keys() as $param) {
             if (Str::startsWith($param, '$') && !in_array($param, $this->getSystemQueryOptions())) {
                 throw new BadRequestException(
@@ -381,7 +383,6 @@ class Transaction implements ArgumentInterface
         $contentType = $requiredType->negotiate($this->getAcceptedContentType());
 
         $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
-        $this->preferences = new ParameterList($this->getRequestHeader('prefer'));
         $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));
 
         $this->sendContentType($contentType);
