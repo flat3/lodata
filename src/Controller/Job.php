@@ -42,9 +42,10 @@ class Job implements ShouldQueue
 
     protected $transaction;
 
-    public function __construct(Transaction $transaction)
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
+        return $this;
     }
 
     public function handle()

@@ -9,11 +9,10 @@ use Illuminate\Routing\Controller;
 
 class OData extends Controller
 {
-    public function handle(Request $request, Transaction $transaction)
+    public function handle(Request $request, Transaction $transaction, Job $job)
     {
         $transaction->initialize($request);
-
-        $job = new Job($transaction);
+        $job->setTransaction($transaction);
 
         if ($transaction->getPreference(Constants::RESPOND_ASYNC)) {
             /** @var Dispatcher $dispatcher */
