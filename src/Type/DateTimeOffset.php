@@ -4,6 +4,7 @@ namespace Flat3\OData\Type;
 
 use DateTime;
 use Exception;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class DateTimeOffset extends PrimitiveType
@@ -47,7 +48,7 @@ class DateTimeOffset extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return rawurlencode($this->value->format($this::DATE_FORMAT));

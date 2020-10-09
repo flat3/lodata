@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class String_ extends PrimitiveType
@@ -14,7 +15,7 @@ class String_ extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return "'".str_replace("'", "''", $this->value)."'";

@@ -3,7 +3,6 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\Interfaces\ServiceInterface;
 use Flat3\OData\Interfaces\TypeInterface;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasType;

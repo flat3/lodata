@@ -8,7 +8,7 @@ use Flat3\OData\Type\Property;
 
 abstract class Literal extends Node
 {
-    /** @var \Flat3\OData\Type\EntityType\\Flat3\OData\Type\Property property */
+    /** @var Property property */
     public const property = null;
 
     public function compute(): void

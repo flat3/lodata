@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 /**
@@ -18,10 +19,10 @@ class Boolean extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
-        return $this->value ? $this::URL_TRUE : $this::URL_FALSE;
+        return $this->value ? Constants::TRUE : Constants::FALSE;
     }
 
     public function toJson(): ?bool
@@ -37,13 +38,13 @@ class Boolean extends PrimitiveType
             return;
         }
 
-        if ($this::URL_TRUE === $value) {
+        if (Constants::TRUE === $value) {
             $this->value = true;
 
             return;
         }
 
-        if ($this::URL_FALSE === $value) {
+        if (Constants::FALSE === $value) {
             $this->value = false;
 
             return;

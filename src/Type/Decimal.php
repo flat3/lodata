@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class Decimal extends PrimitiveType
@@ -46,7 +47,7 @@ class Decimal extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         if (is_nan($this->value)) {

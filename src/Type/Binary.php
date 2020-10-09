@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class Binary extends PrimitiveType
@@ -14,7 +15,7 @@ class Binary extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($this->value));

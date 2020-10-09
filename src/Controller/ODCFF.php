@@ -5,8 +5,7 @@ namespace Flat3\OData\Controller;
 use DOMDocument;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\Interfaces\ServiceInterface;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\Model;
 use Flat3\OData\ServiceProvider;
 use Illuminate\Http\Response;
@@ -144,7 +143,7 @@ class ODCFF extends Controller
         $mashup->appendChild($culture);
 
         $safeCombine = $mashupDoc->createElement('SafeCombine');
-        $safeCombine->textContent = 'true';
+        $safeCombine->textContent = Constants::TRUE;
         $mashup->appendChild($safeCombine);
 
         $items = $mashupDoc->createElement('Items');
@@ -163,11 +162,11 @@ class ODCFF extends Controller
         $query->appendChild($formula);
 
         $isParameterQuery = $mashupDoc->createElement('IsParameterQuery');
-        $isParameterQuery->setAttribute('xsi:nil', 'true');
+        $isParameterQuery->setAttribute('xsi:nil', Constants::TRUE);
         $query->appendChild($isParameterQuery);
 
         $isDirectQuery = $mashupDoc->createElement('IsDirectQuery');
-        $isDirectQuery->setAttribute('xsi:nil', 'true');
+        $isDirectQuery->setAttribute('xsi:nil', Constants::TRUE);
         $query->appendChild($isDirectQuery);
 
         $items->appendChild($query);

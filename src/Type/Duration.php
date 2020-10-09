@@ -3,6 +3,7 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class Duration extends PrimitiveType
@@ -15,7 +16,7 @@ class Duration extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return sprintf("'%s'", $this->numberToDuration($this->value));

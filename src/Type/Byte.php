@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class Byte extends PrimitiveType
@@ -15,7 +16,7 @@ class Byte extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return (string) $this->value;

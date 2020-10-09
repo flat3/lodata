@@ -4,6 +4,7 @@ namespace Flat3\OData;
 
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\NoContentException;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\Interfaces\PipeInterface;
 use Illuminate\Http\Request;
 
@@ -34,11 +35,11 @@ class ActionOperation extends Operation
 
         $result = parent::invoke();
 
-        $returnPreference = $this->transaction->getPreference('return');
+        $returnPreference = $this->transaction->getPreference(Constants::RETURN);
 
         if ($returnPreference === 'minimal') {
             throw NoContentException::factory()
-                ->header('preference-applied', 'return=minimal');
+                ->header(Constants::PREFERENCE_APPLIED, 'return=minimal');
         }
 
         return $result;

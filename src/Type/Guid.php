@@ -3,6 +3,7 @@
 namespace Flat3\OData\Type;
 
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class Guid extends PrimitiveType
@@ -15,7 +16,7 @@ class Guid extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return $this->binaryToString($this->value);

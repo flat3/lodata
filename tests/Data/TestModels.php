@@ -3,7 +3,6 @@
 namespace Flat3\OData\Tests\Data;
 
 use Exception;
-use Flat3\OData\Controller\Transaction;
 use Flat3\OData\DeclaredProperty;
 use Flat3\OData\Drivers\SQLEntitySet;
 use Flat3\OData\EntitySet;

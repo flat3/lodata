@@ -62,10 +62,6 @@ use Flat3\OData\Type\TimeOfDay;
  */
 abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface, ArgumentInterface
 {
-    public const URL_NULL = 'null';
-    public const URL_TRUE = 'true';
-    public const URL_FALSE = 'false';
-
     protected $name = 'Edm.None';
 
     /** @var bool $nullable Whether the value can be made null */

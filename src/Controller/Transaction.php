@@ -9,6 +9,7 @@ use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\ServiceProvider;
@@ -27,7 +28,6 @@ use Flat3\OData\Transaction\Option\Skip;
 use Flat3\OData\Transaction\Option\Top;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
-use Flat3\OData\Type\Boolean;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use JsonException;
@@ -313,7 +313,7 @@ class Transaction implements ArgumentInterface
 
         $property = $primitive->getProperty();
 
-        $omitNulls = $this->getPreference('omit-values') === 'nulls';
+        $omitNulls = $this->getPreference(Constants::OMIT_VALUES) === Constants::NULLS;
 
         if ($omitNulls && $primitive->get() === null && $property->isNullable()) {
             return false;
@@ -443,13 +443,13 @@ class Transaction implements ArgumentInterface
         $this->configureResponse(
             MediaType::factory()
                 ->parse('application/json')
-                ->setParameter('odata.streaming', Boolean::URL_TRUE)
+                ->setParameter('odata.streaming', Constants::TRUE)
                 ->setParameter('odata.metadata', Metadata\Minimal::name)
-                ->setParameter('IEEE754Compatible', Boolean::URL_FALSE)
+                ->setParameter('IEEE754Compatible', Constants::FALSE)
         );
 
-        if ($this->getPreference('omit-values') === 'nulls') {
-            $this->preferenceApplied('omit-values', 'nulls');
+        if ($this->getPreference(Constants::OMIT_VALUES) === Constants::NULLS) {
+            $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
         }
 
         return $this;

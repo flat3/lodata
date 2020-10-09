@@ -9,6 +9,7 @@ use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Model;
@@ -19,10 +20,6 @@ use Flat3\OData\Operation\EntityArgument;
 use Flat3\OData\Operation\EntitySetArgument;
 use Flat3\OData\Operation\PrimitiveTypeArgument;
 use Flat3\OData\ReferentialConstraint;
-use Flat3\OData\Transaction\Metadata\Full;
-use Flat3\OData\Transaction\Metadata\Minimal;
-use Flat3\OData\Transaction\Metadata\None;
-use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Type\Boolean;
 use Flat3\OData\Type\Property;
 use Illuminate\Http\Request;
@@ -167,7 +164,7 @@ class Metadata implements PipeInterface, EmitInterface
                     $operationElement = $schema->addChild($resource->getKind());
                     $operationElement->addAttribute('Name', $resource->getName());
                     if ($resource->getBindingParameterName()) {
-                        $operationElement->addAttribute('IsBound', Boolean::URL_TRUE);
+                        $operationElement->addAttribute('IsBound', Constants::TRUE);
                     }
 
                     // Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.

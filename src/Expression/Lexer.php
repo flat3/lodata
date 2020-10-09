@@ -4,6 +4,7 @@ namespace Flat3\OData\Expression;
 
 use Exception;
 use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Type\Binary;
 use Flat3\OData\Type\Boolean;
@@ -230,7 +231,7 @@ class Lexer
      */
     public function boolean(): string
     {
-        return $this->keyword('true', 'false');
+        return $this->keyword(Constants::TRUE, Constants::FALSE);
     }
 
     /**

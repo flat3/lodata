@@ -2,6 +2,8 @@
 
 namespace Flat3\OData\Transaction;
 
+use Flat3\OData\Helper\Constants;
+
 abstract class Boolean
 {
     protected $value = false;
@@ -12,7 +14,7 @@ abstract class Boolean
             return;
         }
 
-        $this->value = $value === 'true';
+        $this->value = $value === Constants::TRUE;
     }
 
     public function isTrue(): bool
@@ -22,6 +24,6 @@ abstract class Boolean
 
     public function __toString()
     {
-        return $this->value === true ? 'true' : 'false';
+        return $this->value === true ? Constants::TRUE : Constants::FALSE;
     }
 }

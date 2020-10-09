@@ -12,6 +12,7 @@ use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Helper\Url;
 use Flat3\OData\Interfaces\ArgumentInterface;
@@ -252,10 +253,10 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
         $skip = $transaction->getSkip();
 
-        $maxPageSize = $transaction->getPreference('maxpagesize');
+        $maxPageSize = $transaction->getPreference(Constants::MAX_PAGE_SIZE);
         $top = $transaction->getTop();
         if (!$top->hasValue() && $maxPageSize) {
-            $transaction->preferenceApplied('maxpagesize', $maxPageSize);
+            $transaction->preferenceApplied(Constants::MAX_PAGE_SIZE, $maxPageSize);
             $top->setValue($maxPageSize);
         }
 

@@ -11,7 +11,6 @@ use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Traits\HasName;
 use ReflectionParameter;
-use ReflectionType;
 
 abstract class Argument implements NamedInterface
 {

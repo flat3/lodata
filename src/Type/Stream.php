@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Type;
 
+use Flat3\OData\Helper\Constants;
 use Flat3\OData\PrimitiveType;
 
 class Stream extends PrimitiveType
@@ -14,7 +15,7 @@ class Stream extends PrimitiveType
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return $this::URL_NULL;
+            return Constants::NULL;
         }
 
         return sprintf("'%s'", $this->value);
@@ -26,7 +27,7 @@ class Stream extends PrimitiveType
             return null;
         }
 
-        return (string) $this->value;
+        return (string)$this->value;
     }
 
     public function set($value): void
