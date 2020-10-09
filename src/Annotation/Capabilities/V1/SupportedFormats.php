@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Annotation\Org\OData\Capabilities\V1;
+namespace Flat3\OData\Annotation\Capabilities\V1;
 
 use Flat3\OData\Annotation;
 use Flat3\OData\Transaction\Metadata;

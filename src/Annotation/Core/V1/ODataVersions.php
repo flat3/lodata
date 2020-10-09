@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Annotation\Org\OData\Core\V1;
+namespace Flat3\OData\Annotation\Core\V1;
 
 use Flat3\OData\Annotation;
 use Flat3\OData\Type\String_;

@@ -2,12 +2,12 @@
 
 namespace Flat3\OData;
 
-use Flat3\OData\Annotation\Org\OData\Capabilities\V1\ConformanceLevel;
-use Flat3\OData\Annotation\Org\OData\Capabilities\V1\SupportedFormats;
-use Flat3\OData\Annotation\Org\OData\Core\V1\ConventionalIDs;
-use Flat3\OData\Annotation\Org\OData\Core\V1\DefaultNamespace;
-use Flat3\OData\Annotation\Org\OData\Core\V1\DereferencableIDs;
-use Flat3\OData\Annotation\Org\OData\Core\V1\ODataVersions;
+use Flat3\OData\Annotation\Capabilities\V1\ConformanceLevel;
+use Flat3\OData\Annotation\Capabilities\V1\SupportedFormats;
+use Flat3\OData\Annotation\Core\V1\ConventionalIDs;
+use Flat3\OData\Annotation\Core\V1\DefaultNamespace;
+use Flat3\OData\Annotation\Core\V1\DereferencableIDs;
+use Flat3\OData\Annotation\Core\V1\ODataVersions;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\NamedInterface;
