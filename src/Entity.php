@@ -15,6 +15,7 @@ use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Traits\HasEntityType;
+use Flat3\OData\Transaction\Expand;
 use Flat3\OData\Type\Property;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
@@ -85,7 +86,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             }
         }
 
-        /** @var \Flat3\OData\Transaction\Expand $expansionRequest */
+        /** @var Expand $expansionRequest */
         $expansionRequests->rewind();
         while ($expansionRequests->valid()) {
             $expansionRequest = $expansionRequests->current();

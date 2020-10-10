@@ -6,7 +6,7 @@ use Flat3\OData\Type\Property;
 
 class ReferentialConstraint
 {
-    /** @var \Flat3\OData\Type\Property $property */
+    /** @var Property $property */
     protected $property;
 
     /** @var Property $referenced_property */

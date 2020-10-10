@@ -7,6 +7,7 @@ use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Expression\Lexer;
 use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
+use Flat3\OData\NavigationProperty;
 use Flat3\OData\Transaction\Option;
 
 /**
@@ -34,7 +35,7 @@ class Expand extends Option
         while (!$lexer->finished()) {
             $path = $lexer->maybeODataIdentifier();
 
-            /** @var \Flat3\OData\NavigationProperty $navigationProperty */
+            /** @var NavigationProperty $navigationProperty */
             $navigationProperty = $entityType->getNavigationProperties()->get($path);
 
             if (null === $navigationProperty) {

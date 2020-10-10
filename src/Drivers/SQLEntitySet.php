@@ -117,7 +117,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             case $event instanceof Literal:
                 $properties = [];
 
-                /** @var \Flat3\OData\Type\Property $property */
+                /** @var Property $property */
                 foreach ($this->getType()->getDeclaredProperties() as $property) {
                     if (!$property->isSearchable()) {
                         continue;
@@ -385,7 +385,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $this->whereMaybeAnd();
             $validLiterals = [];
 
-            /** @var \Flat3\OData\Type\Property $property */
+            /** @var Property $property */
             foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
                     $validLiterals[] = (string) $property->getName();
@@ -508,7 +508,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     /**
      * Apply casts based on property type
      *
-     * @param  \Flat3\OData\Type\Property  $property
+     * @param Property $property
      *
      * @return string
      */

@@ -13,6 +13,7 @@ use Flat3\OData\Helper\Constants;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\PipeInterface;
 use Flat3\OData\Model;
+use Flat3\OData\NavigationBinding;
 use Flat3\OData\NavigationProperty;
 use Flat3\OData\Operation;
 use Flat3\OData\Operation\Argument;
@@ -145,7 +146,7 @@ class Metadata implements PipeInterface, EmitInterface
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
-                    /** @var \Flat3\OData\NavigationBinding $binding */
+                    /** @var NavigationBinding $binding */
                     foreach ($resource->getNavigationBindings() as $binding) {
                         $navigationPropertyBindingElement = $entitySetElement->addChild('NavigationPropertyBinding');
                         $navigationPropertyBindingElement->addAttribute(

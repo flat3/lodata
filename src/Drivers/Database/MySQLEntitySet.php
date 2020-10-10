@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Drivers\Database;
 
+use Flat3\OData\Drivers\SQLEntitySet;
 use Flat3\OData\Exception\Internal\NodeHandledException;
 use Flat3\OData\Expression\Event;
 use Flat3\OData\Expression\Event\StartFunction;
@@ -29,7 +30,7 @@ use Flat3\OData\Expression\Node\Func\StringCollection\Length;
 use Flat3\OData\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\OData\Expression\Node\Func\StringCollection\Substring;
 
-class MySQLEntitySet extends \Flat3\OData\Drivers\SQLEntitySet
+class MySQLEntitySet extends SQLEntitySet
 {
     public function filter(Event $event): ?bool
     {
