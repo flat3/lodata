@@ -11,6 +11,7 @@ use Flat3\OData\PrimitiveType;
 use Flat3\OData\Tests\JsonDriver;
 use Flat3\OData\Tests\Request;
 use Flat3\OData\Tests\TestCase;
+use Illuminate\Testing\TestResponse;
 
 class ErrorReportingTest extends TestCase
 {
@@ -23,7 +24,7 @@ class ErrorReportingTest extends TestCase
                 ->query('$format', 'xml')
         );
 
-        $this->assertMatchesJsonSnapshot($response->getContent());
+        $this->assertMatchesJsonSnapshot($response->streamedContent());
     }
 
     public function test_error_response_body()
@@ -36,8 +37,10 @@ class ErrorReportingTest extends TestCase
                 ->details('test details')
                 ->inner('inner error');
         } catch (NotImplementedException $e) {
-            $response = $e->toResponse(new \Illuminate\Http\Request());
-            $this->assertMatchesSnapshot($response->getContent(), new JsonDriver());
+            $response = $e->toResponse();
+            /** @noinspection PhpParamsInspection */
+            $testResponse = new TestResponse($response);
+            $this->assertMatchesSnapshot($testResponse->streamedContent(), new JsonDriver());
         }
     }
 

@@ -1,0 +1,5 @@
+httpCode: 202
+odataCode: accepted
+message: Accepted
+headers:
+    location: 'http://localhost/odata/_flat3/monitor/00000000-0000-0000-0000-000000000000'

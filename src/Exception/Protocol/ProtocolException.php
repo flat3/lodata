@@ -2,8 +2,8 @@
 
 namespace Flat3\OData\Exception\Protocol;
 
+use Flat3\OData\Controller\Response;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\Response;
 use RuntimeException;
 
 abstract class ProtocolException extends RuntimeException implements Responsable
@@ -94,14 +94,23 @@ abstract class ProtocolException extends RuntimeException implements Responsable
         ]);
     }
 
-    public function toResponse($request): Response
+    public function toResponse($request = null): Response
     {
-        return new Response(json_encode(array_filter([
-            'code' => $this->odataCode,
-            'message' => $this->message,
-            'target' => $this->target,
-            'details' => $this->details,
-            'innererror' => $this->inner,
-        ])), $this->httpCode, $this->headers);
+        $response = new Response();
+
+        $response->setCallback(function () {
+            echo json_encode(array_filter([
+                'code' => $this->odataCode,
+                'message' => $this->message,
+                'target' => $this->target,
+                'details' => $this->details,
+                'innererror' => $this->inner,
+            ]));
+        });
+
+        $response->setStatusCode($this->httpCode);
+        $response->headers->replace($this->headers);
+
+        return $response;
     }
 }

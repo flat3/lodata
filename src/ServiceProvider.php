@@ -2,6 +2,7 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Controller\Monitor;
 use Flat3\OData\Controller\OData;
 use Flat3\OData\Controller\ODCFF;
 use Flat3\OData\Controller\PBIDS;
@@ -38,8 +39,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         Route::middleware([$authMiddleware])->group(function () {
             $route = self::route();
 
-            Route::get("{$route}/odata.pbids", [PBIDS::class, 'get']);
-            Route::get("{$route}/{identifier}.odc", [ODCFF::class, 'get']);
+            Route::get("{$route}/_flat3/odata.pbids", [PBIDS::class, 'get']);
+            Route::get("{$route}/_flat3/{identifier}.odc", [ODCFF::class, 'get']);
+            Route::resource("${route}/_flat3/monitor", Monitor::class);
 
             Route::any("{$route}{path}", [OData::class, 'handle'])
                 ->where('path', '(.*)');

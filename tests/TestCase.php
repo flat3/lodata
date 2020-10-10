@@ -2,6 +2,8 @@
 
 namespace Flat3\OData\Tests;
 
+use Flat3\OData\Controller\Response;
+use Flat3\OData\Exception\Protocol\AcceptedException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
@@ -44,7 +46,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         // perform environment setup
     }
 
-    protected function assertExceptionSnapshot(Request $request, string $exceptionClass)
+    protected function assertExceptionSnapshot(Request $request, string $exceptionClass): ProtocolException
     {
         try {
             $this->req($request);
@@ -55,47 +57,53 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             }
 
             $this->assertMatchesObjectSnapshot($e->serialize());
+            return $e;
         }
     }
 
-    protected function assertNotAcceptable(Request $request)
+    protected function assertNotAcceptable(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, NotAcceptableException::class);
+        return $this->assertExceptionSnapshot($request, NotAcceptableException::class);
     }
 
-    protected function assertMethodNotAllowed(Request $request)
+    protected function assertMethodNotAllowed(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, MethodNotAllowedException::class);
+        return $this->assertExceptionSnapshot($request, MethodNotAllowedException::class);
     }
 
-    protected function assertNotFound(Request $request)
+    protected function assertNotFound(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, NotFoundException::class);
+        return $this->assertExceptionSnapshot($request, NotFoundException::class);
     }
 
-    protected function assertNoContent(Request $request)
+    protected function assertNoContent(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, NoContentException::class);
+        return $this->assertExceptionSnapshot($request, NoContentException::class);
     }
 
-    protected function assertPreconditionFailed(Request $request)
+    protected function assertPreconditionFailed(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, PreconditionFailedException::class);
+        return $this->assertExceptionSnapshot($request, PreconditionFailedException::class);
     }
 
-    protected function assertNotImplemented(Request $request)
+    protected function assertNotImplemented(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, NotImplementedException::class);
+        return $this->assertExceptionSnapshot($request, NotImplementedException::class);
     }
 
-    protected function assertInternalServerError(Request $request)
+    protected function assertInternalServerError(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, InternalServerErrorException::class);
+        return $this->assertExceptionSnapshot($request, InternalServerErrorException::class);
     }
 
-    protected function assertBadRequest(Request $request)
+    protected function assertBadRequest(Request $request): ProtocolException
     {
-        $this->assertExceptionSnapshot($request, BadRequestException::class);
+        return $this->assertExceptionSnapshot($request, BadRequestException::class);
+    }
+
+    protected function assertAccepted(Request $request): ProtocolException
+    {
+        return $this->assertExceptionSnapshot($request, AcceptedException::class);
     }
 
     public function urlToReq(string $url): Request
@@ -153,6 +161,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'headers' => array_diff_key($response->baseResponse->headers->all(), array_flip(['date'])),
             'status' => $response->baseResponse->getStatusCode(),
         ]);
+    }
+
+    protected function assertStoredResponseMetadata(string $metadata)
+    {
+        $metadata = json_decode($metadata, true);
+        $response = new Response();
+        $response->headers->replace($metadata['headers']);
+        $response->setStatusCode($metadata['status']);
+        return $this->assertResponseMetadata(new TestResponse($response));
     }
 
     protected function assertMetadataResponse(Request $request)

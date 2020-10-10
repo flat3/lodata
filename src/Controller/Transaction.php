@@ -2,17 +2,26 @@
 
 namespace Flat3\OData\Controller;
 
+use Flat3\OData\EntitySet;
+use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
+use Flat3\OData\Exception\Protocol\NoContentException;
 use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Exception\Protocol\PreconditionFailedException;
 use Flat3\OData\Helper\Constants;
 use Flat3\OData\Interfaces\ArgumentInterface;
+use Flat3\OData\Interfaces\EmitInterface;
+use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Operation;
+use Flat3\OData\PathComponent\Service;
+use Flat3\OData\PathComponent\Value;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\ServiceProvider;
+use Flat3\OData\Singleton;
 use Flat3\OData\Transaction\IEEE754Compatible;
 use Flat3\OData\Transaction\MediaType;
 use Flat3\OData\Transaction\Metadata;
@@ -29,8 +38,10 @@ use Flat3\OData\Transaction\Option\Top;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use JsonException;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\InputBag;
 
 /**
@@ -40,6 +51,9 @@ use Symfony\Component\HttpFoundation\InputBag;
  */
 class Transaction implements ArgumentInterface
 {
+    /** @var UuidInterface $id */
+    protected $id;
+
     /** @var Request $request */
     private $request;
 
@@ -88,8 +102,21 @@ class Transaction implements ArgumentInterface
     /** @var SchemaVersion $schemaVersion */
     private $schemaVersion;
 
+    /** @var PipeInterface[] $handlers */
+    protected $handlers = [
+        EntitySet::class,
+        \Flat3\OData\PathComponent\Metadata::class,
+        Value::class,
+        \Flat3\OData\PathComponent\Count::class,
+        Operation::class,
+        PrimitiveType::class,
+        Singleton::class,
+        \Flat3\OData\PathComponent\Filter::class,
+    ];
+
     public function __construct()
     {
+        $this->id = Str::uuid();
         $this->count = new Count();
         $this->format = new Format();
         $this->expand = new Expand();
@@ -161,6 +188,12 @@ class Transaction implements ArgumentInterface
         $this->skip = Skip::factory($this);
         $this->top = Top::factory($this);
 
+        return $this;
+    }
+
+    public function setResponse(Response $response): self
+    {
+        $this->response = $response;
         return $this;
     }
 
@@ -290,9 +323,14 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
+    public function hasPreference(string $preference): bool
+    {
+        return $this->getPreference($preference) !== null;
+    }
+
     public function getPreference(string $preference): ?string
     {
-        return $this->preferences->getParameter($preference) ?: $this->preferences->getParameter('odata.' . $preference);
+        return $this->preferences->getParameter($preference) ?? $this->preferences->getParameter('odata.' . $preference);
     }
 
     public function getCharset(): ?string
@@ -575,12 +613,16 @@ class Transaction implements ArgumentInterface
             return;
         }
 
-        throw new NotAcceptableException('not_json', 'Content provided to this request must be supplied with a JSON content type');
+        throw new NotAcceptableException('not_json',
+            'Content provided to this request must be supplied with a JSON content type');
     }
 
     private function getSystemQueryOptions(bool $prefixed = true): array
     {
-        $options = ['apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip', 'top', 'schemaversion'];
+        $options = [
+            'apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip', 'top',
+            'schemaversion'
+        ];
 
         if ($prefixed) {
             $options = array_map(function ($option) {
@@ -715,5 +757,51 @@ class Transaction implements ArgumentInterface
     public function outputJsonSeparator()
     {
         $this->sendOutput(',');
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function execute(): EmitInterface
+    {
+        $pathComponents = $this->getPathComponents();
+
+        /** @var PipeInterface|EmitInterface $result */
+        $result = null;
+
+        if (!$pathComponents) {
+            return new Service();
+        }
+
+        while ($pathComponents) {
+            $currentComponent = array_shift($pathComponents);
+            $nextComponent = $pathComponents[0] ?? null;
+
+            foreach ($this->handlers as $handler) {
+                try {
+                    $result = $handler::pipe($this, $currentComponent, $nextComponent, $result);
+                    continue 2;
+                } catch (PathNotHandledException $e) {
+                    continue;
+                }
+            }
+
+            throw new NotFoundException('no_handler', 'No route handler was able to process this request');
+        }
+
+        if (null === $result) {
+            throw NoContentException::factory('no_content', 'No content');
+        }
+
+        if (!$result instanceof EmitInterface) {
+            throw new InternalServerErrorException(
+                'cannot_emit_handler',
+                'A handler returned something that could not be emitted'
+            );
+        }
+
+        return $result;
     }
 }
