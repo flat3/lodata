@@ -30,8 +30,12 @@ class Stream extends PrimitiveType
         return (string)$this->value;
     }
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         $this->value = $this->maybeNull(null === $value ? null : $value);
+
+        return $this;
     }
 }

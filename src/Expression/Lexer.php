@@ -189,7 +189,7 @@ class Lexer
             throw new LexerException($this->pos + 1, 'Not complete');
         }
 
-        return $result;
+        return $result->seal();
     }
 
     public function base64()

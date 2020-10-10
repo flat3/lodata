@@ -29,5 +29,7 @@ class SupportedFormats extends Annotation
                     ->addParameter('odata.streaming', Constants::TRUE)
             ));
         }
+
+        $this->type->seal();
     }
 }

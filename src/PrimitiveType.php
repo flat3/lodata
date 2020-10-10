@@ -37,6 +37,7 @@ use Flat3\OData\Type\Single;
 use Flat3\OData\Type\Stream;
 use Flat3\OData\Type\String_;
 use Flat3\OData\Type\TimeOfDay;
+use RuntimeException;
 
 /**
  * Class PrimitiveType
@@ -67,6 +68,8 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     /** @var bool $nullable Whether the value can be made null */
     protected $nullable = true;
 
+    protected $immutable = false;
+
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
 
@@ -74,6 +77,13 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     {
         $this->nullable = $nullable;
         $this->set($value);
+    }
+
+    public function seal(): self
+    {
+        $this->immutable = true;
+
+        return $this;
     }
 
     public function getName(): string
@@ -85,8 +95,17 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
      * Set the internal value from a standard typed value
      *
      * @param $value
+     * @noinspection PhpUnusedParameterInspection
+     * @return PrimitiveType
      */
-    abstract public function set($value): void;
+    public function set($value)
+    {
+        if ($this->immutable) {
+            throw new RuntimeException('Primitive value is immutable');
+        }
+
+        return $this;
+    }
 
     public static function factory($value = null, ?bool $nullable = true): self
     {
@@ -156,6 +175,10 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
 
     public function setNullable(bool $nullable): self
     {
+        if ($this->immutable) {
+            throw new RuntimeException('Primitive type is immutable');
+        }
+
         $this->nullable = $nullable;
         return $this;
     }
@@ -302,6 +325,16 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         }
 
         $clazz = $resolver[$name];
-        return new $clazz(null, true);
+        return (new $clazz())->seal();
+    }
+
+    public function clone(): self
+    {
+        return clone $this;
+    }
+
+    public function __clone()
+    {
+        $this->immutable = false;
     }
 }

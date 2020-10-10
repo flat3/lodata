@@ -61,12 +61,14 @@ class Decimal extends PrimitiveType
         return strtolower((string) $this->value);
     }
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         if (is_float($value)) {
             $this->value = $value;
 
-            return;
+            return $this;
         }
 
         if (is_string($value)) {
@@ -74,21 +76,23 @@ class Decimal extends PrimitiveType
                 case 'INF':
                     $this->value = INF;
 
-                    return;
+                    return $this;
 
                 case '-INF':
                     $this->value = -INF;
 
-                    return;
+                    return $this;
 
                 case 'NaN':
                     $this->value = NAN;
 
-                    return;
+                    return $this;
             }
         }
 
         $this->value = $this->maybeNull(null === $value ? null : (float) $value);
+
+        return $this;
     }
 
     protected function getEmpty()

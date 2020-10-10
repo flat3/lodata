@@ -9,9 +9,13 @@ class Collection extends PrimitiveType implements ArrayAccess
 {
     protected $value = [];
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         $this->value[] = $value;
+
+        return $this;
     }
 
     public function toUrl(): string

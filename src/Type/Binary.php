@@ -26,13 +26,17 @@ class Binary extends PrimitiveType
         return null === $this->value ? null : base64_encode($this->value);
     }
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         $result = base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
         if (false === $result) {
             $result = null;
         }
 
         $this->value = $this->maybeNull(null === $value ? null : $result);
+
+        return $this;
     }
 }

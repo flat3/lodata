@@ -30,27 +30,31 @@ class Boolean extends PrimitiveType
         return $this->value;
     }
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         if (is_bool($value)) {
             $this->value = $value;
 
-            return;
+            return $this;
         }
 
         if (Constants::TRUE === $value) {
             $this->value = true;
 
-            return;
+            return $this;
         }
 
         if (Constants::FALSE === $value) {
             $this->value = false;
 
-            return;
+            return $this;
         }
 
-        $this->value = $this->maybeNull(null === $value ? null : (bool) $value);
+        $this->value = $this->maybeNull(null === $value ? null : (bool)$value);
+
+        return $this;
     }
 
     protected function getEmpty()

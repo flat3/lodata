@@ -13,9 +13,13 @@ class Enum extends PrimitiveType
 
     protected $values = [];
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         $this->value = array_search($value, $this->values);
+
+        return $this;
     }
 
     public function add($value, ?int $position = null): self

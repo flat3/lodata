@@ -15,8 +15,10 @@ class DateTimeOffset extends PrimitiveType
     /** @var ?DateTime $value */
     protected $value;
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         if (is_bool($value)) {
             $value = $this->getEmpty();
         }
@@ -24,7 +26,7 @@ class DateTimeOffset extends PrimitiveType
         if ($value instanceof DateTime) {
             $this->value = $value;
 
-            return;
+            return $this;
         }
 
         try {
@@ -33,6 +35,8 @@ class DateTimeOffset extends PrimitiveType
         } catch (Exception $e) {
             $this->value = $this->getEmpty();
         }
+
+        return $this;
     }
 
     protected function getEmpty()

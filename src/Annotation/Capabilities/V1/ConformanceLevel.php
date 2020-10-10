@@ -15,6 +15,6 @@ class ConformanceLevel extends Annotation
         $this->type->add('Org.OData.Capabilities.V1.ConformanceLevelType/Minimal');
         $this->type->add('Org.OData.Capabilities.V1.ConformanceLevelType/Intermediate');
         $this->type->add('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
-        $this->type->set($value);
+        $this->type->set($value)->seal();
     }
 }

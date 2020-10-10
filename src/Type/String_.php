@@ -18,12 +18,16 @@ class String_ extends PrimitiveType
             return Constants::NULL;
         }
 
-        return "'".str_replace("'", "''", $this->value)."'";
+        return "'" . str_replace("'", "''", $this->value) . "'";
     }
 
-    public function set($value): void
+    public function set($value): self
     {
-        $this->value = $this->maybeNull(null === $value ? null : (string) $value);
+        parent::set($value);
+
+        $this->value = $this->maybeNull(null === $value ? null : (string)$value);
+
+        return $this;
     }
 
     public function toJson(): ?string

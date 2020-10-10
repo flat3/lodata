@@ -44,9 +44,13 @@ class Duration extends PrimitiveType
         return $r;
     }
 
-    public function set($value): void
+    public function set($value): self
     {
+        parent::set($value);
+
         $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this->duration_to_number($value)));
+
+        return $this;
     }
 
     protected function duration_to_number(string $duration): ?float
