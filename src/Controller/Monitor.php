@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Controller;
 
+use ErrorException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Illuminate\Routing\Controller;
 
@@ -12,7 +13,7 @@ class Monitor extends Controller
         $job = new Async($transactionId);
 
         if ($job->isPending()) {
-            $job->accepted();
+            throw $job->accepted();
         }
 
         if ($job->isDeleted()) {
@@ -25,7 +26,12 @@ class Monitor extends Controller
         $response->headers->replace($meta['headers']);
         $response->headers->set('asyncresult', $meta['status']);
         $response->setCallback(function () use ($job) {
-            fpassthru($job->getResultStream());
+            try {
+                $resultStream = $job->getResultStream();
+                fpassthru($resultStream);
+            } catch (ErrorException $e) {
+            }
+
             $job->destroy();
         });
 

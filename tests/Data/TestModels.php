@@ -134,7 +134,7 @@ trait TestModels
                 Model::entitytype('text')
                     ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
             ) extends EntitySet {
-                public function generate(): array
+                public function query(): array
                 {
                     return [
                         $this->makeEntity()

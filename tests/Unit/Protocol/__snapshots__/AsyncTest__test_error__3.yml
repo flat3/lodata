@@ -1,0 +1,3 @@
+headers:
+    cache-control: ['no-cache, private']
+status: 404

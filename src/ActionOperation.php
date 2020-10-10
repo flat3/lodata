@@ -35,7 +35,7 @@ class ActionOperation extends Operation
 
         $result = parent::invoke();
 
-        $returnPreference = $this->transaction->getPreference(Constants::RETURN);
+        $returnPreference = $this->transaction->getPreferenceValue(Constants::RETURN);
 
         if ($returnPreference === 'minimal') {
             throw NoContentException::factory()

@@ -136,7 +136,7 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
         $this->filterBuffer .= ' '.$s;
     }
 
-    protected function generate(): array
+    protected function query(): array
     {
         return [];
     }

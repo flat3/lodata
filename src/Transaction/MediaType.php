@@ -12,8 +12,8 @@ class MediaType
     protected $tree;
     protected $suffix;
 
-    /** @var ParameterList $parameters */
-    protected $parameters;
+    /** @var Parameter $parameter */
+    protected $parameter;
 
     public static function factory(): self
     {
@@ -104,7 +104,8 @@ class MediaType
         $this->subtype = $matches['subtype'] ?? '*';
         $this->tree = $matches['tree'] ?? '';
         $this->suffix = $matches['suffix'] ?? '';
-        $this->parameters = new ParameterList($matches['parameters'] ?? '', ';');
+        $this->parameter = new Parameter();
+        $this->parameter->parse($matches['parameters'] ?? '');
 
         return $this;
     }
@@ -116,12 +117,12 @@ class MediaType
 
     public function getParameter(string $key): ?string
     {
-        return $this->parameters->getParameter($key);
+        return $this->parameter->getParameter($key);
     }
 
     public function getParameterKeys()
     {
-        return array_keys($this->parameters->getParameters());
+        return array_keys($this->parameter->getParameters());
     }
 
     public function getSubtype()
@@ -131,13 +132,13 @@ class MediaType
 
     public function setParameter(string $key, string $value): self
     {
-        $this->parameters->addParameter($key, $value);
+        $this->parameter->addParameter($key, $value);
         return $this;
     }
 
     public function dropParameter(string $key): self
     {
-        $this->parameters->dropParameter($key);
+        $this->parameter->dropParameter($key);
         return $this;
     }
 
@@ -155,8 +156,8 @@ class MediaType
             $type .= '+'.$this->suffix;
         }
 
-        if ($this->parameters->getParameters()) {
-            $type .= ';'.$this->parameters;
+        if ($this->parameter->getParameters()) {
+            $type .= ';'.$this->parameter;
         }
 
         return $type;

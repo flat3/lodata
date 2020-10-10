@@ -17,7 +17,8 @@ class Expand extends Request
     public function __construct(NavigationProperty $navigationProperty, ?string $options = '')
     {
         $this->navigationProperty = $navigationProperty;
-        $this->options = new ParameterList($options, ';');
+        $this->options = new Parameter();
+        $this->options->parse($options);
     }
 
     public function getMethod(): string

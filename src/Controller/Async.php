@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use RuntimeException;
 
@@ -57,10 +58,10 @@ class Async implements ShouldQueue
         return $this->getDisk()->path($this->ns('meta'));
     }
 
-    public function handle()
+    public function handle(): void
     {
         if ($this->isDeleted()) {
-            return true;
+            return;
         }
 
         $disk = Storage::disk('odata');
@@ -68,44 +69,39 @@ class Async implements ShouldQueue
         $dataPath = $this->getDataPath();
         $metaPath = $this->getMetaPath();
 
-        if (!$disk->put($dataPath, '')) {
-            throw new RuntimeException();
-        }
-
-        $resource = fopen($dataPath, 'w');
-        if (false === $resource) {
-            throw new RuntimeException();
-        }
+        $error = false;
 
         try {
             $response = $this->transaction->execute()->response($this->transaction);
         } catch (ProtocolException $e) {
             $response = $e->toResponse();
-            $this->setStatus(self::STATUS_COMPLETE);
+            $error = true;
         }
 
         file_put_contents($metaPath, $response->toJson());
 
-        if ($this->isComplete()) {
-            return;
+        if (!$error) {
+            $resource = fopen($dataPath, 'w+b');
+
+            if (false === $resource) {
+                throw new RuntimeException();
+            }
+
+            ob_start(function ($buffer) use ($resource) {
+                fwrite($resource, $buffer);
+            });
+
+            $response->sendContent();
+            ob_end_flush();
+            fclose($resource);
         }
 
-        ob_start(function ($buffer) use ($resource) {
-            fwrite($resource, $buffer);
-        });
-
-        $response->sendContent();
-
-        ob_end_flush();
-
-        fclose($resource);
-
-        $this->setStatus(self::STATUS_COMPLETE);
+        $this->setComplete();
     }
 
     public function getMonitorUrl(): string
     {
-        return Transaction::getResourceUrl() . '_flat3/monitor/' . $this->jobId;
+        return Transaction::getResourceUrl().'_flat3/monitor/'.$this->jobId;
     }
 
     public function getTransactionId(): string
@@ -118,6 +114,25 @@ class Async implements ShouldQueue
         return Cache::get($this->ns('status'));
     }
 
+    public function setComplete(): self
+    {
+        $this->setStatus(self::STATUS_COMPLETE);
+
+        $callback = $this->transaction->getCallbackUrl();
+
+        if ($callback) {
+            Http::get($callback);
+        }
+
+        return $this;
+    }
+
+    public function setPending(): self
+    {
+        $this->setStatus(self::STATUS_PENDING);
+        return $this;
+    }
+
     public function setStatus(string $status): self
     {
         Cache::put($this->ns('status'), $status);
@@ -128,9 +143,16 @@ class Async implements ShouldQueue
     {
         /** @var Dispatcher $dispatcher */
         $dispatcher = app(Dispatcher::class);
-        $this->setStatus(self::STATUS_PENDING);
+        $this->setPending();
         $dispatcher->dispatch($this);
-        $this->accepted();
+
+        $accepted = $this->accepted();
+
+        if ($this->transaction->getPreferenceValue('callback')) {
+            $accepted->header('preference-applied', 'callback');
+        }
+
+        throw $accepted;
     }
 
     public function ns(string $prefix): string
@@ -170,8 +192,9 @@ class Async implements ShouldQueue
         Cache::forget($this->ns('status'));
     }
 
-    public function accepted()
+    public function accepted(): AcceptedException
     {
-        throw AcceptedException::factory()->header('location', $this->getMonitorUrl());
+        return AcceptedException::factory()
+            ->header('location', $this->getMonitorUrl());
     }
 }

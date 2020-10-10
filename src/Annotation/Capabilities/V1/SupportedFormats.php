@@ -8,6 +8,7 @@ use Flat3\OData\Transaction\Metadata;
 use Flat3\OData\Transaction\Metadata\Full;
 use Flat3\OData\Transaction\Metadata\Minimal;
 use Flat3\OData\Transaction\Metadata\None;
+use Flat3\OData\Transaction\Parameter;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Type\Collection;
 use Flat3\OData\Type\String_;
@@ -23,7 +24,7 @@ class SupportedFormats extends Annotation
         /** @var Metadata $attribute */
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
             $this->type->set(new String_(
-                'application/json;' . (new ParameterList())
+                'application/json;'.(new Parameter())
                     ->addParameter('odata.metadata', $attribute::name)
                     ->addParameter('IEEE754Compatible', Constants::TRUE)
                     ->addParameter('odata.streaming', Constants::TRUE)

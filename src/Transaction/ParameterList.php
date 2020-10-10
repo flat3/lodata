@@ -2,55 +2,55 @@
 
 namespace Flat3\OData\Transaction;
 
+use Flat3\OData\Exception\Internal\LexerException;
+use Flat3\OData\Exception\Protocol\InternalServerErrorException;
+use Flat3\OData\Expression\Lexer;
+use Flat3\OData\Helper\ObjectArray;
+
 class ParameterList
 {
-    private $parameters = [];
+    private $parameters;
 
-    public function __construct(string $value = null, string $delimiter = ',')
+    public function __construct()
     {
-        if (!$value) {
+        $this->parameters = new ObjectArray();
+    }
+
+    public function parse(string $text = null)
+    {
+        if (!$text) {
             return;
         }
 
-        $parameters = array_filter(array_map('trim', explode($delimiter, $value)));
+        try {
+            foreach (array_map('trim', array_filter(explode(',', $text))) as $text) {
+                $lexer = new Lexer($text);
 
-        foreach ($parameters as $parameter) {
-            if (strpos($parameter, '=') === false) {
-                $key = $parameter;
-                $value = '';
-            } else {
-                list($key, $value) = explode('=', $parameter);
+                $parameter = new Parameter();
+
+                $key = $lexer->expression('[^;=]+');
+                $this->parameters[$key] = $parameter;
+
+                if ($lexer->maybeChar('=')) {
+                    $parameter->setValue($lexer->maybeDoubleQuotedString());
+
+                    if (!$parameter->getValue()) {
+                        $parameter->setValue($lexer->expression('[^;]+'));
+                    }
+                }
+
+                $lexer->maybeWhitespace();
+                if ($lexer->maybeChar(';')) {
+                    $parameter->parse($lexer->remaining());
+                }
             }
-
-            $this->addParameter($key, $value);
+        } catch (LexerException $e) {
+            throw new InternalServerErrorException('invalid_parameterlist', 'An invalid parameter list was provided');
         }
     }
 
-    public function addParameter($key, $value): self
+    public function getParameter($key): ?Parameter
     {
-        $this->parameters[$key] = $value;
-
-        return $this;
-    }
-
-    public function dropParameter(string $key): self
-    {
-        unset($this->parameters[$key]);
-        return $this;
-    }
-
-    public function getParameter(string $key): ?string
-    {
-        return $this->parameters[$key] ?? null;
-    }
-
-    public function getParameters()
-    {
-        return $this->parameters;
-    }
-
-    public function __toString()
-    {
-        return http_build_query($this->parameters, '', ';');
+        return $this->parameters[$key];
     }
 }

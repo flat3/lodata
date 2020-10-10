@@ -148,14 +148,14 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         }
 
         if ($this->results === null) {
-            $this->results = $this->generate();
+            $this->results = $this->query();
             $this->topCounter = count($this->results);
         } elseif ($this->results && !current($this->results) && !$this instanceof PaginationInterface) {
             return false;
         } elseif (!current($this->results) && ($this->topCounter < $this->topLimit)) {
             $this->top = min($this->top, $this->topLimit - $this->topCounter);
             $this->skip += count($this->results);
-            $this->results = $this->generate();
+            $this->results = $this->query();
             $this->topCounter += count($this->results);
         }
 
@@ -253,7 +253,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
         $skip = $transaction->getSkip();
 
-        $maxPageSize = $transaction->getPreference(Constants::MAX_PAGE_SIZE);
+        $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
         $top = $transaction->getTop();
         if (!$top->hasValue() && $maxPageSize) {
             $transaction->preferenceApplied(Constants::MAX_PAGE_SIZE, $maxPageSize);
@@ -487,5 +487,5 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
     /**
      * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */
-    abstract protected function generate(): array;
+    abstract protected function query(): array;
 }

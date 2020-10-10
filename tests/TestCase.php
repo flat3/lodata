@@ -172,10 +172,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $this->assertResponseMetadata(new TestResponse($response));
     }
 
-    protected function assertMetadataResponse(Request $request)
+    protected function assertMetadataResponse(Request $request): TestResponse
     {
         $response = $this->req($request);
         $this->assertResponseMetadata($response);
+        return $response;
     }
 
     protected function assertJsonResponse(Request $request): TestResponse

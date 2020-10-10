@@ -59,7 +59,7 @@ class ErrorReportingTest extends TestCase
                     throw new NotImplementedException('not_implemented', 'Error during stream');
                 }
 
-                public function generate(): array
+                public function query(): array
                 {
                     return [];
                 }

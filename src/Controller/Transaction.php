@@ -35,6 +35,7 @@ use Flat3\OData\Transaction\Option\Search;
 use Flat3\OData\Transaction\Option\Select;
 use Flat3\OData\Transaction\Option\Skip;
 use Flat3\OData\Transaction\Option\Top;
+use Flat3\OData\Transaction\Parameter;
 use Flat3\OData\Transaction\ParameterList;
 use Flat3\OData\Transaction\Version;
 use Illuminate\Http\Request;
@@ -138,7 +139,8 @@ class Transaction implements ArgumentInterface
             $this->getRequestHeader(Version::maxVersionHeader)
         );
 
-        $this->preferences = new ParameterList($this->getRequestHeader('prefer'));
+        $this->preferences = new ParameterList();
+        $this->preferences->parse($this->getRequestHeader('prefer'));
 
         foreach ($this->request->query->keys() as $param) {
             if (Str::startsWith($param, '$') && !in_array($param, $this->getSystemQueryOptions())) {
@@ -152,7 +154,7 @@ class Transaction implements ArgumentInterface
         foreach (['compute', 'apply'] as $sqo) {
             if ($this->getSystemQueryOption($sqo)) {
                 throw new NotImplementedException(
-                    $sqo . '_not_implemented',
+                    $sqo.'_not_implemented',
                     "The \${$sqo} system query option is not implemented"
                 );
             }
@@ -213,7 +215,12 @@ class Transaction implements ArgumentInterface
 
     public function getRequestHeader($key): ?string
     {
-        return $this->request->header($key);
+        return $this->request->headers->get($key);
+    }
+
+    public function getRequestHeaders($key): array
+    {
+        return $this->request->headers->all($key);
     }
 
     public function getResponseHeader($key): ?string
@@ -226,7 +233,7 @@ class Transaction implements ArgumentInterface
         $key = strtolower($key);
         $params = array_change_key_case($this->getQueryParams(), CASE_LOWER);
 
-        return $params[$key] ?? ($params['$' . $key] ?? null);
+        return $params[$key] ?? ($params['$'.$key] ?? null);
     }
 
     public function getQueryParams(): array
@@ -327,9 +334,16 @@ class Transaction implements ArgumentInterface
         return $this->getPreference($preference) !== null;
     }
 
-    public function getPreference(string $preference): ?string
+    public function getPreference(string $preference): ?Parameter
     {
-        return $this->preferences->getParameter($preference) ?? $this->preferences->getParameter('odata.' . $preference);
+        return $this->preferences->getParameter($preference) ?? $this->preferences->getParameter('odata.'.$preference);
+    }
+
+    public function getPreferenceValue(string $preference): ?string
+    {
+        $pref = $this->getPreference($preference);
+
+        return $pref instanceof Parameter ? $pref->getValue() : null;
     }
 
     public function getCharset(): ?string
@@ -342,6 +356,17 @@ class Transaction implements ArgumentInterface
         return MediaType::factory()->parse($this->getRequestHeader('content-type'));
     }
 
+    public function getCallbackUrl(): ?string
+    {
+        $preference = $this->getPreference('callback');
+
+        if (null === $preference) {
+            return null;
+        }
+
+        return $preference->getParameter('url');
+    }
+
     public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
     {
         if (null === $primitive) {
@@ -350,7 +375,7 @@ class Transaction implements ArgumentInterface
 
         $property = $primitive->getProperty();
 
-        $omitNulls = $this->getPreference(Constants::OMIT_VALUES) === Constants::NULLS;
+        $omitNulls = $this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS;
 
         if ($omitNulls && $primitive->get() === null && $property->isNullable()) {
             return false;
@@ -365,7 +390,7 @@ class Transaction implements ArgumentInterface
         $selected = $select->getCommaSeparatedValues();
 
         if ($selected) {
-            if (!in_array((string)$property, $selected)) {
+            if (!in_array((string) $property, $selected)) {
                 return false;
             }
         }
@@ -398,7 +423,7 @@ class Transaction implements ArgumentInterface
                 );
             }
 
-            return 'application/' . $formatQueryOption;
+            return 'application/'.$formatQueryOption;
         }
 
         if ($formatQueryOption) {
@@ -485,7 +510,7 @@ class Transaction implements ArgumentInterface
                 ->setParameter('IEEE754Compatible', Constants::FALSE)
         );
 
-        if ($this->getPreference(Constants::OMIT_VALUES) === Constants::NULLS) {
+        if ($this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS) {
             $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
         }
 
@@ -511,7 +536,7 @@ class Transaction implements ArgumentInterface
         $path = $this->getRequestPath();
 
         foreach ($unreservedChars as $unreservedChar) {
-            $path = str_replace('%' . str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT), $unreservedChar,
+            $path = str_replace('%'.str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT), $unreservedChar,
                 $path);
         }
 
@@ -526,7 +551,7 @@ class Transaction implements ArgumentInterface
 
     public function getParameterAlias(string $key): ?string
     {
-        $value = $this->getQueryParam('@' . ltrim($key, '@'));
+        $value = $this->getQueryParam('@'.ltrim($key, '@'));
 
         if (null === $value) {
             throw new BadRequestException('reference_value_missing',
@@ -625,7 +650,7 @@ class Transaction implements ArgumentInterface
 
         if ($prefixed) {
             $options = array_map(function ($option) {
-                return '$' . $option;
+                return '$'.$option;
             }, $options);
         }
 
@@ -641,7 +666,7 @@ class Transaction implements ArgumentInterface
      */
     public static function getContextUrl(): string
     {
-        return ServiceProvider::restEndpoint() . '$metadata';
+        return ServiceProvider::restEndpoint().'$metadata';
     }
 
     /**
@@ -668,7 +693,7 @@ class Transaction implements ArgumentInterface
         $expand = $this->getExpand();
         if ($expand->hasValue()) {
             $properties = array_merge($properties, array_map(function ($property) {
-                return $property . '()';
+                return $property.'()';
             }, $expand->getCommaSeparatedValues()));
         }
 
@@ -681,7 +706,7 @@ class Transaction implements ArgumentInterface
 
         $select = $this->getSelect();
         if ($select->hasValue() && !$select->isStar()) {
-            $properties['$select'] = '(' . $select->getValue() . ')';
+            $properties['$select'] = '('.$select->getValue().')';
         }
 
         $expand = $this->getExpand();
@@ -741,7 +766,7 @@ class Transaction implements ArgumentInterface
 
     public function outputJsonKey($key)
     {
-        $this->sendOutput(json_encode((string)$key) . ':');
+        $this->sendOutput(json_encode((string) $key).':');
     }
 
     public function outputJsonValue($value)

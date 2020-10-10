@@ -418,7 +418,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
     }
 
-    protected function generate(): array
+    protected function query(): array
     {
         $stmt = $this->pdoQuery($this->getSetResultQueryString());
 

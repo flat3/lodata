@@ -14,7 +14,7 @@ class CallbackEntitySet extends EntitySet
         return $this;
     }
 
-    protected function generate(): array
+    protected function query(): array
     {
         return call_user_func($this->callback);
     }
