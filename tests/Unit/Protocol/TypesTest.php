@@ -2,7 +2,7 @@
 
 namespace Flat3\OData\Tests\Unit\Protocol;
 
-use use Flat3\OData\Tests\TestCase;
+use Flat3\OData\Tests\TestCase;
 use Flat3\OData\Type;
 
 class TypesTest extends TestCase
