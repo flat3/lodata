@@ -2,6 +2,7 @@
 
 namespace Flat3\OData\Drivers;
 
+use Flat3\OData\Entity;
 use Flat3\OData\EntitySet;
 use Flat3\OData\EntityType;
 use Flat3\OData\Exception\Protocol\BadRequestException;
@@ -38,6 +39,7 @@ use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
 use Flat3\OData\Interfaces\QueryOptions\OrderByInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
+use Flat3\OData\PrimitiveType;
 use Flat3\OData\Type\Property;
 use Illuminate\Support\Facades\DB;
 use PDO;
@@ -77,7 +79,9 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     public function getDbHandle(): PDO
     {
-        return DB::connection()->getPdo();
+        $dbh = DB::connection()->getPdo();
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $dbh;
     }
 
     public function search(Event $event): ?bool
@@ -313,7 +317,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $this->resetParameters();
 
-        $query = $this->pdoQuery($this->getRowCountQueryString());
+        $query = $this->pdoSelect($this->getRowCountQueryString());
         return $query->fetchColumn();
     }
 
@@ -322,10 +326,25 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->parameters = [];
     }
 
-    private function pdoQuery(string $query_string): PDOStatement
+    private function pdoUpdate(string $query_string): ?int
     {
         $dbh = $this->getDbHandle();
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        try {
+            $stmt = $dbh->prepare($query_string);
+            $this->bindParameters($stmt);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new InternalServerErrorException('query_error',
+                sprintf('The executed query returned an error: %s', $e->getMessage()));
+        }
+
+        return $dbh->lastInsertId();
+    }
+
+    private function pdoSelect(string $query_string): PDOStatement
+    {
+        $dbh = $this->getDbHandle();
 
         try {
             $stmt = $dbh->prepare($query_string);
@@ -420,7 +439,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     protected function query(): array
     {
-        $stmt = $this->pdoQuery($this->getSetResultQueryString());
+        $stmt = $this->pdoSelect($this->getSetResultQueryString());
 
         $results = [];
 
@@ -508,7 +527,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     /**
      * Apply casts based on property type
      *
-     * @param Property $property
+     * @param  Property  $property
      *
      * @return string
      */
@@ -538,5 +557,43 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->addParameter($this->skip);
 
         return $limits;
+    }
+
+    public function create(Entity $entity): Entity
+    {
+        $type = $this->getType();
+        $properties = $type->getDeclaredProperties()->pick($entity->getPrimitives()->keys());
+
+        $fields = [];
+
+        foreach ($properties as $property) {
+            $fields[] = $this->getPropertySourceName($property);
+        }
+        $fields = implode(',', $fields);
+
+        /** @var PrimitiveType $primitive */
+        foreach ($entity->getPrimitives() as $primitive) {
+            $this->addParameter($primitive->get());
+        }
+
+        $values = implode(',', array_fill(0, count($this->parameters), '?'));
+
+        $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->getTable(), $fields, $values);
+        $id = $this->pdoUpdate($query);
+        if ($id) {
+            $entity->setEntityId($id);
+        }
+
+        return $entity;
+    }
+
+    public function update(Entity $entity): Entity
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function delete(Entity $entity)
+    {
+        // TODO: Implement delete() method.
     }
 }

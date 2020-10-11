@@ -5,6 +5,7 @@ namespace Flat3\OData;
 use ArrayAccess;
 use Flat3\OData\Controller\Response;
 use Flat3\OData\Controller\Transaction;
+use Flat3\OData\Exception\Internal\ETagException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Helper\ObjectArray;
@@ -163,6 +164,17 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $this->primitives[$key];
     }
 
+    public function setEntityId($id): self
+    {
+        $key = $this->getType()->getKey();
+        /** @var PrimitiveType $type */
+        $type = clone $key->getType();
+        $type->set($id);
+        $type->setProperty($key);
+        $this->primitives[$key] = $type;
+        return $this;
+    }
+
     public function getEntitySet(): ?EntitySet
     {
         return $this->entitySet;
@@ -196,6 +208,11 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $this->primitives[$property] = $primitive;
 
         return $this;
+    }
+
+    public function getPrimitives(): ObjectArray
+    {
+        return $this->primitives;
     }
 
     public function getPrimitive(Property $property): ?PrimitiveType
@@ -279,14 +296,45 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         });
     }
 
-    public function fromJson(string $json): self
+    public function fromArray(array $array): self
     {
-        $entity = json_decode($json, true);
-
-        foreach ($entity as $key => $value) {
+        foreach ($array as $key => $value) {
             $this[$key] = $value;
         }
 
         return $this;
+    }
+
+    public function getETag(): string
+    {
+        $definition = $this->entitySet->getType()->getDeclaredProperties();
+        $instance = $this->primitives->sliceByClass(DeclaredProperty::class);
+
+        if (array_diff($definition->keys(), $instance->keys())) {
+            throw new ETagException();
+        }
+
+        return $instance->hash();
+    }
+
+    public function persist(): self
+    {
+        if (!$this->getEntityId()) {
+            $this->entitySet->create($this);
+        } else {
+            $this->entitySet->update($this);
+        }
+
+        return $this;
+    }
+
+    public function handleUpdate(Transaction $transaction): self
+    {
+        return $this->entitySet->update($this);
+    }
+
+    public function handleDelete()
+    {
+        $this->entitySet->delete($this);
     }
 }

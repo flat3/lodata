@@ -1,0 +1,5 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights/$entity",
+    "origin": "lhr",
+    "id": 3
+}

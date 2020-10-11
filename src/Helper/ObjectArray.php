@@ -144,7 +144,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         $result = new self();
 
         foreach ($this->array as $key => $value) {
-            if ($callback($value)) {
+            if ($callback($value, $key)) {
                 $result[$key] = $value;
             }
         }
@@ -163,5 +163,23 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         uasort($result->array, $callback);
 
         return $result;
+    }
+
+    public function hash(): string
+    {
+        ksort($this->array);
+        return hash('sha256', serialize($this->array));
+    }
+
+    public function keys(): array
+    {
+        return array_keys($this->array);
+    }
+
+    public function pick(array $keys): ObjectArray
+    {
+        return $this->filter(function ($obj, $key) use ($keys) {
+            return in_array($key, $keys);
+        });
     }
 }

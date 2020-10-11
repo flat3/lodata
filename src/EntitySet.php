@@ -9,6 +9,7 @@ use Flat3\OData\Exception\Internal\LexerException;
 use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
+use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
@@ -30,6 +31,7 @@ use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
 use Flat3\OData\Transaction\Option;
 use Flat3\OData\Type\Property;
+use Illuminate\Http\Request;
 use Iterator;
 
 abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
@@ -372,7 +374,15 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $entitySet = $entitySet->asInstance($transaction);
 
         if ($lexer->finished()) {
-            return $entitySet;
+            switch ($transaction->getMethod()) {
+                case Request::METHOD_GET:
+                    return $entitySet;
+
+                case Request::METHOD_POST:
+                    return $entitySet->handleCreate();
+            }
+
+            throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');
         }
 
         try {
@@ -435,6 +445,17 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
             throw new NotFoundException('not_found', 'Entity not found');
         }
 
+        switch ($transaction->getMethod()) {
+            case Request::METHOD_PATCH:
+            case Request::METHOD_PUT:
+                $entity->handleUpdate($transaction);
+                break;
+
+            case Request::METHOD_DELETE:
+                $entity->handleDelete();
+                break;
+        }
+
         return $entity;
     }
 
@@ -483,8 +504,39 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         return $this->transaction;
     }
 
+    public function handleCreate(): Entity
+    {
+        $entity = new Entity();
+        $entity->setEntitySet($this);
+        $entity->fromArray($this->transaction->getBody());
+        $this->create($entity);
+
+        return $entity;
+    }
+
     /**
      * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
      */
     abstract protected function query(): array;
+
+    /**
+     * Create a new Entity, returning the same Entity with its identifying key
+     */
+    public function create(Entity $entity): Entity {
+        throw new NotImplementedException('create_not_implemented', 'This entity set type does not support create');
+    }
+
+    /**
+     * Update the provided entity, returning the same Entity
+     */
+    public function update(Entity $entity): Entity {
+        throw new NotImplementedException('update_not_implemented', 'This entity set type does not support create');
+    }
+
+    /**
+     * Delete the provided entity
+     */
+    public function delete(Entity $entity) {
+        throw new NotImplementedException('delete_not_implemented', 'This entity set type does not support create');
+    }
 }
