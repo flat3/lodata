@@ -316,25 +316,4 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         return $instance->hash();
     }
-
-    public function persist(): self
-    {
-        if (!$this->getEntityId()) {
-            $this->entitySet->create($this);
-        } else {
-            $this->entitySet->update($this);
-        }
-
-        return $this;
-    }
-
-    public function handleUpdate(Transaction $transaction): self
-    {
-        return $this->entitySet->update($this);
-    }
-
-    public function handleDelete()
-    {
-        $this->entitySet->delete($this);
-    }
 }

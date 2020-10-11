@@ -17,4 +17,15 @@ class DeleteTest extends TestCase
                 ->delete()
         );
     }
+
+    public function test_delete_not_found()
+    {
+        $this->withFlightModel();
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/flights(999)')
+                ->delete()
+        );
+    }
 }
