@@ -136,12 +136,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 }
 
                 $properties = array_map(function ($property) use ($event) {
-                    $this->addParameter('%' . $event->getValue() . '%');
+                    $this->addParameter('%'.$event->getValue().'%');
 
-                    return $this->propertyToField($property) . ' LIKE ?';
+                    return $this->propertyToField($property).' LIKE ?';
                 }, $properties);
 
-                $this->addWhere('( ' . implode(' OR ', $properties) . ' )');
+                $this->addWhere('( '.implode(' OR ', $properties).' )');
 
                 return true;
         }
@@ -151,7 +151,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     protected function addWhere(string $where): void
     {
-        $this->where .= ' ' . $where;
+        $this->where .= ' '.$where;
     }
 
     /**
@@ -178,7 +178,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $this->resetParameters();
         $columns = $this->selectToColumns();
-        $query = sprintf('SELECT %s FROM %s WHERE %s=?', $columns, $this->getTable(), $this->propertyToField($key->getProperty()));
+        $query = sprintf('SELECT %s FROM %s WHERE %s=?', $columns, $this->getTable(),
+            $this->propertyToField($key->getProperty()));
         $this->addParameter($key->get());
         $stmt = $this->pdoSelect($query);
         $this->bindParameters($stmt);
@@ -225,7 +226,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
                 switch (true) {
                     case $event->getNode() instanceof Boolean:
-                        $this->addParameter(null === $event->getValue() ? null : (int)$event->getValue());
+                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue());
                         break;
 
                     default:
@@ -348,7 +349,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->parameters = [];
     }
 
-    private function pdoUpdate(string $query_string): ?int
+    private function pdoModify(string $query_string): ?int
     {
         $dbh = $this->getDbHandle();
 
@@ -416,7 +417,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->where = '';
 
         if ($this->key) {
-            $this->addWhere($this->propertyToField($this->key->getProperty()) . ' = ?');
+            $this->addWhere($this->propertyToField($this->key->getProperty()).' = ?');
             $this->addParameter($this->key->get());
             return;
         }
@@ -429,7 +430,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             /** @var Property $property */
             foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
-                    $validLiterals[] = (string)$property->getName();
+                    $validLiterals[] = (string) $property->getName();
                 }
             }
 
@@ -508,7 +509,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 return "$literal $direction";
             }, $orderby->getSortOrders($this)));
 
-            $query .= ' ORDER BY ' . $ob;
+            $query .= ' ORDER BY '.$ob;
         }
 
         $query .= $this->generateLimits();
@@ -554,7 +555,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     /**
      * Apply casts based on property type
      *
-     * @param Property $property
+     * @param  Property  $property
      *
      * @return string
      */
@@ -593,37 +594,77 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $type = $this->getType();
         $properties = $type->getDeclaredProperties()->pick($entity->getPrimitives()->keys());
+        $primitives = $entity->getPrimitives();
 
         $fields = [];
 
+        /** @var Property $property */
         foreach ($properties as $property) {
             $fields[] = $this->getPropertySourceName($property);
-        }
-        $fields = implode(',', $fields);
-
-        /** @var PrimitiveType $primitive */
-        foreach ($entity->getPrimitives() as $primitive) {
-            $this->addParameter($primitive->get());
+            $this->addParameter($primitives->get($property->getName())->get());
         }
 
-        $values = implode(',', array_fill(0, count($this->parameters), '?'));
+        $fieldsList = implode(',', $fields);
+        $valuesList = implode(',', array_fill(0, count($fields), '?'));
 
-        $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->getTable(), $fields, $values);
-        $id = $this->pdoUpdate($query);
+        $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->getTable(), $fieldsList, $valuesList);
+        $id = $this->pdoModify($query);
         if ($id) {
             $entity->setEntityId($id);
         }
 
-        return $entity;
+        $key = $entity->getEntityId();
+        $key->set($id);
+
+        return $this->read($key);
     }
 
-    public function update(): Entity
+    public function update(PrimitiveType $key): Entity
     {
-        // TODO: Implement update() method.
+        $this->resetParameters();
+        $entity = $this->newEntity();
+        $entity->fromArray($this->transaction->getBody());
+
+        $type = $this->getType();
+        $properties = $type->getDeclaredProperties()->pick($entity->getPrimitives()->keys());
+        $primitives = $entity->getPrimitives();
+
+        $fields = [];
+
+        /** @var Property $property */
+        foreach ($properties as $property) {
+            $fields[] = sprintf('%s=?', $this->getPropertySourceName($property));
+            $this->addParameter($primitives->get($property->getName())->get());
+        }
+        $fields = implode(',', $fields);
+
+        $this->addParameter($key->get());
+
+        $query = sprintf(
+            'UPDATE %s SET %s WHERE %s=?',
+            $this->getTable(),
+            $fields,
+            $this->propertyToField($type->getKey())
+        );
+
+        $this->pdoModify($query);
+
+        return $this->read($key);
     }
 
-    public function delete()
+    public function delete(PrimitiveType $key)
     {
-        // TODO: Implement delete() method.
+        $this->resetParameters();
+        $type = $this->getType();
+
+        $this->addParameter($key->get());
+
+        $query = sprintf(
+            'DELETE FROM %s WHERE %s=?',
+            $this->getTable(),
+            $this->getPropertySourceName($type->getKey())
+        );
+
+        $this->pdoModify($query);
     }
 }

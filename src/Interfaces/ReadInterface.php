@@ -7,5 +7,5 @@ use Flat3\OData\PrimitiveType;
 
 interface ReadInterface
 {
-    public function read(PrimitiveType $type): ?Entity;
+    public function read(PrimitiveType $key): ?Entity;
 }

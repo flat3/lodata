@@ -10,7 +10,6 @@ use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
-use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
@@ -478,14 +477,14 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
                     throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
                 }
 
-                return $entitySet->update();
+                return $entitySet->update($key);
 
             case Request::METHOD_DELETE:
                 if (!$entitySet instanceof DeleteInterface) {
                     throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
                 }
 
-                return $entitySet->delete();
+                return $entitySet->delete($key);
         }
 
         throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');

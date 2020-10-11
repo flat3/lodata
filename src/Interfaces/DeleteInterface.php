@@ -2,7 +2,9 @@
 
 namespace Flat3\OData\Interfaces;
 
+use Flat3\OData\PrimitiveType;
+
 interface DeleteInterface
 {
-    public function delete();
+    public function delete(PrimitiveType $key);
 }
