@@ -136,12 +136,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 }
 
                 $properties = array_map(function ($property) use ($event) {
-                    $this->addParameter('%'.$event->getValue().'%');
+                    $this->addParameter('%' . $event->getValue() . '%');
 
-                    return $this->propertyToField($property).' LIKE ?';
+                    return $this->propertyToField($property) . ' LIKE ?';
                 }, $properties);
 
-                $this->addWhere('( '.implode(' OR ', $properties).' )');
+                $this->addWhere('( ' . implode(' OR ', $properties) . ' )');
 
                 return true;
         }
@@ -151,7 +151,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     protected function addWhere(string $where): void
     {
-        $this->where .= ' '.$where;
+        $this->where .= ' ' . $where;
     }
 
     /**
@@ -176,8 +176,19 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     public function read(PrimitiveType $key): ?Entity
     {
-        $this->setKey($key);
-        return $this->current();
+        $this->resetParameters();
+        $columns = $this->selectToColumns();
+        $query = sprintf('SELECT %s FROM %s WHERE %s=?', $columns, $this->getTable(), $this->propertyToField($key->getProperty()));
+        $this->addParameter($key->get());
+        $stmt = $this->pdoSelect($query);
+        $this->bindParameters($stmt);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (false === $result) {
+            return null;
+        }
+
+        return $this->assocToEntity($result);
     }
 
     public function filter(Event $event): ?bool
@@ -214,7 +225,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
                 switch (true) {
                     case $event->getNode() instanceof Boolean:
-                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue());
+                        $this->addParameter(null === $event->getValue() ? null : (int)$event->getValue());
                         break;
 
                     default:
@@ -405,7 +416,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->where = '';
 
         if ($this->key) {
-            $this->addWhere($this->propertyToField($this->key->getProperty()).' = ?');
+            $this->addWhere($this->propertyToField($this->key->getProperty()) . ' = ?');
             $this->addParameter($this->key->get());
             return;
         }
@@ -418,7 +429,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             /** @var Property $property */
             foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
-                    $validLiterals[] = (string) $property->getName();
+                    $validLiterals[] = (string)$property->getName();
                 }
             }
 
@@ -448,6 +459,20 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
     }
 
+    public function assocToEntity(array $row): Entity
+    {
+        $entity = $this->newEntity();
+
+        $key = $this->getType()->getKey()->getName();
+        $entity->setPrimitive($key, $row[$key]);
+
+        foreach ($row as $id => $value) {
+            $entity[$id] = $value;
+        }
+
+        return $entity;
+    }
+
     public function query(): array
     {
         $stmt = $this->pdoSelect($this->getSetResultQueryString());
@@ -455,16 +480,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $results = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $entity = $this->newEntity();
-
-            $key = $this->getType()->getKey()->getName();
-            $entity->setPrimitive($key, $row[$key]);
-
-            foreach ($row as $id => $value) {
-                $entity[$id] = $value;
-            }
-
-            $results[] = $entity;
+            $results[] = $this->assocToEntity($row);
         }
 
         return $results;
@@ -492,7 +508,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 return "$literal $direction";
             }, $orderby->getSortOrders($this)));
 
-            $query .= ' ORDER BY '.$ob;
+            $query .= ' ORDER BY ' . $ob;
         }
 
         $query .= $this->generateLimits();
@@ -538,7 +554,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     /**
      * Apply casts based on property type
      *
-     * @param  Property  $property
+     * @param Property $property
      *
      * @return string
      */

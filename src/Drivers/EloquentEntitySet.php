@@ -1,16 +1,17 @@
 <?php
 
-namespace Flat3\OData\Drivers\Eloquent;
+namespace Flat3\OData\Drivers;
 
+use Flat3\OData\Traits\EloquentOData;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
-class Model
+class EloquentEntitySet extends SQLEntitySet
 {
     public static function attach()
     {
-        /** @var Model $model */
-        $model = resolve(Model::class);
+        /** @var EloquentEntitySet $model */
+        $model = resolve(EloquentEntitySet::class);
 
         $eloquentModels = self::getAllModels();
     }
@@ -34,7 +35,7 @@ class Model
                     $valid = false;
                     if (class_exists($class)) {
                         $reflection = new ReflectionClass($class);
-                        $valid = in_array(UsesOData::class, array_keys($reflection->getTraits())) &&
+                        $valid = in_array(EloquentOData::class, array_keys($reflection->getTraits())) &&
                             !$reflection->isAbstract();
                     }
                     return $valid;
