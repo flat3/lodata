@@ -184,7 +184,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         if (null === $value && !$property->isNullable()) {
             throw new InternalServerErrorException(
                 'cannot_add_null_property',
-                'The entity set provided a null value that cannot be added for this property type: ' . $property->getName()
+                'The entity set provided a null value that cannot be added for this property type: '.$property->getName()
             );
         }
 
@@ -228,8 +228,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface
-    {
+    ): ?PipeInterface {
         return $argument;
     }
 
@@ -238,7 +237,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         if ($this->entitySet) {
             $url = $this->entitySet->getContextUrl();
 
-            return $url . '/$entity';
+            return $url.'/$entity';
         }
 
         $url = $this->type->getContextUrl();

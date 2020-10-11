@@ -320,7 +320,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getContextUrl(): string
     {
-        $url = Transaction::getContextUrl() . '#' . $this->getName();
+        $url = Transaction::getContextUrl().'#'.$this->getName();
         $properties = $this->transaction->getContextUrlProperties();
 
         if ($properties) {
@@ -332,7 +332,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getResourceUrl(): string
     {
-        $url = Transaction::getResourceUrl() . $this->getName();
+        $url = Transaction::getResourceUrl().$this->getName();
         $properties = $this->transaction->getResourceUrlProperties();
 
         if ($properties) {
@@ -349,8 +349,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface
-    {
+    ): ?PipeInterface {
         $data_model = Model::get();
         $lexer = new Lexer($currentComponent);
         try {
