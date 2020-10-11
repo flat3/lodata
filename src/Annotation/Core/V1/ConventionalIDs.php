@@ -9,8 +9,9 @@ class ConventionalIDs extends Annotation
 {
     protected $name = 'Org.OData.Core.V1.ConventionalIDs';
 
-    public function __construct($value)
+    public function __construct()
     {
-        $this->type = new Boolean($value);
+        $this->type = new Boolean(true);
+        $this->type->seal();
     }
 }

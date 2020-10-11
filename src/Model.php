@@ -2,6 +2,8 @@
 
 namespace Flat3\OData;
 
+use Flat3\OData\Annotation\Capabilities\V1\AsynchronousRequestsSupported;
+use Flat3\OData\Annotation\Capabilities\V1\CallbackSupported;
 use Flat3\OData\Annotation\Capabilities\V1\ConformanceLevel;
 use Flat3\OData\Annotation\Capabilities\V1\SupportedFormats;
 use Flat3\OData\Annotation\Core\V1\ConventionalIDs;
@@ -25,12 +27,14 @@ class Model
     {
         $this->model = new ObjectArray();
 
-        $this->model[] = new ODataVersions(Version::version);
-        $this->model[] = new ConformanceLevel('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
-        $this->model[] = new ConventionalIDs(true);
-        $this->model[] = new DereferencableIDs(true);
-        $this->model[] = new DefaultNamespace(true);
+        $this->model[] = new ODataVersions();
+        $this->model[] = new ConformanceLevel();
+        $this->model[] = new ConventionalIDs();
+        $this->model[] = new DereferencableIDs();
+        $this->model[] = new DefaultNamespace();
         $this->model[] = new SupportedFormats();
+        $this->model[] = new AsynchronousRequestsSupported();
+        $this->model[] = new CallbackSupported();
     }
 
     public static function get(): self

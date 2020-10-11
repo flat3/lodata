@@ -148,7 +148,7 @@ class Async implements ShouldQueue
 
         $accepted = $this->accepted();
 
-        if ($this->transaction->getPreferenceValue('callback')) {
+        if ($this->transaction->getPreference('callback')) {
             $accepted->header('preference-applied', 'callback');
         }
 
