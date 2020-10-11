@@ -20,7 +20,8 @@ class ActionOperation extends Operation
         $body = $this->transaction->getBody();
 
         if ($body && !is_array($body)) {
-            throw new BadRequestException('invalid_action_arguments', 'The arguments to the action were not correctly formed as an array');
+            throw new BadRequestException('invalid_action_arguments',
+                'The arguments to the action were not correctly formed as an array');
         }
 
         return $body ?: [];
@@ -37,9 +38,9 @@ class ActionOperation extends Operation
 
         $returnPreference = $this->transaction->getPreferenceValue(Constants::RETURN);
 
-        if ($returnPreference === 'minimal') {
+        if ($returnPreference === Constants::MINIMAL) {
             throw NoContentException::factory()
-                ->header(Constants::PREFERENCE_APPLIED, 'return=minimal');
+                ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL);
         }
 
         return $result;

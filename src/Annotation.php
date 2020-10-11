@@ -15,10 +15,6 @@ class Annotation
 
     protected $name;
 
-    private function appendType(SimpleXMLElement $schema, PrimitiveType $type): self
-    {
-    }
-
     public function append(SimpleXMLElement $schema): self
     {
         $annotation = $schema->addChild('Annotation');

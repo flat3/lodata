@@ -13,4 +13,5 @@ class Constants
     const OMIT_VALUES = 'omit-values';
     const RETURN = 'return';
     const NULLS = 'nulls';
+    const MINIMAL = 'minimal';
 }
