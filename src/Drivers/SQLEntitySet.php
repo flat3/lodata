@@ -33,12 +33,17 @@ use Flat3\OData\Expression\Node\Operator\Logical\LessThan;
 use Flat3\OData\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\OData\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\OData\Helper\ObjectArray;
+use Flat3\OData\Interfaces\CreateInterface;
+use Flat3\OData\Interfaces\DeleteInterface;
+use Flat3\OData\Interfaces\QueryInterface;
 use Flat3\OData\Interfaces\QueryOptions\CountInterface;
 use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
 use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
 use Flat3\OData\Interfaces\QueryOptions\OrderByInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
+use Flat3\OData\Interfaces\ReadInterface;
+use Flat3\OData\Interfaces\UpdateInterface;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Type\Property;
 use Illuminate\Support\Facades\DB;
@@ -46,7 +51,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface
+class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface
 {
     /** @var string[] $parameters */
     protected $parameters = [];
@@ -167,6 +172,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     public function getPropertySourceName(Property $property): string
     {
         return $this->sourceMap[$property] ?? $property->getName();
+    }
+
+    public function read(PrimitiveType $key): ?Entity
+    {
+        $this->setKey($key);
+        return $this->current();
     }
 
     public function filter(Event $event): ?bool
@@ -437,14 +448,14 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
     }
 
-    protected function query(): array
+    public function query(): array
     {
         $stmt = $this->pdoSelect($this->getSetResultQueryString());
 
         $results = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $entity = $this->makeEntity();
+            $entity = $this->newEntity();
 
             $key = $this->getType()->getKey()->getName();
             $entity->setPrimitive($key, $row[$key]);
@@ -559,8 +570,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $limits;
     }
 
-    public function create(Entity $entity): Entity
+    public function create(): Entity
     {
+        $entity = $this->newEntity();
+        $entity->fromArray($this->transaction->getBody());
+
         $type = $this->getType();
         $properties = $type->getDeclaredProperties()->pick($entity->getPrimitives()->keys());
 
@@ -587,12 +601,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $entity;
     }
 
-    public function update(Entity $entity): Entity
+    public function update(): Entity
     {
         // TODO: Implement update() method.
     }
 
-    public function delete(Entity $entity)
+    public function delete()
     {
         // TODO: Implement delete() method.
     }

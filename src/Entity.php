@@ -133,7 +133,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
             if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
                 $expansionSet = $targetEntitySet->asInstance($transaction);
-                $entity = $expansionSet->getEntity($targetKey);
+                $entity = $expansionSet->read($targetKey);
                 $transaction->outputJsonKey($navigationProperty);
 
                 if ($entity) {

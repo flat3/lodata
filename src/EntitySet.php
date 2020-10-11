@@ -10,6 +10,7 @@ use Flat3\OData\Exception\Internal\PathNotHandledException;
 use Flat3\OData\Exception\Protocol\BadRequestException;
 use Flat3\OData\Exception\Protocol\InternalServerErrorException;
 use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
+use Flat3\OData\Exception\Protocol\NotAcceptableException;
 use Flat3\OData\Exception\Protocol\NotFoundException;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
 use Flat3\OData\Expression\Lexer;
@@ -18,14 +19,19 @@ use Flat3\OData\Helper\ObjectArray;
 use Flat3\OData\Helper\Url;
 use Flat3\OData\Interfaces\ArgumentInterface;
 use Flat3\OData\Interfaces\ContextInterface;
+use Flat3\OData\Interfaces\CreateInterface;
+use Flat3\OData\Interfaces\DeleteInterface;
 use Flat3\OData\Interfaces\EmitInterface;
 use Flat3\OData\Interfaces\EntityTypeInterface;
 use Flat3\OData\Interfaces\InstanceInterface;
 use Flat3\OData\Interfaces\NamedInterface;
 use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\OData\Interfaces\QueryInterface;
 use Flat3\OData\Interfaces\QueryOptions\PaginationInterface;
+use Flat3\OData\Interfaces\ReadInterface;
 use Flat3\OData\Interfaces\ResourceInterface;
 use Flat3\OData\Interfaces\ServiceInterface;
+use Flat3\OData\Interfaces\UpdateInterface;
 use Flat3\OData\Traits\HasEntityType;
 use Flat3\OData\Traits\HasName;
 use Flat3\OData\Traits\HasTitle;
@@ -169,12 +175,6 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $this->maxPageSize = $maxPageSize;
 
         return $this;
-    }
-
-    public function getEntity(PrimitiveType $key): ?Entity
-    {
-        $this->setKey($key);
-        return $this->current();
     }
 
     public function addNavigationBinding(NavigationBinding $binding): self
@@ -374,12 +374,30 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $entitySet = $entitySet->asInstance($transaction);
 
         if ($lexer->finished()) {
+            if ($nextComponent) {
+                return $entitySet;
+            }
+
             switch ($transaction->getMethod()) {
                 case Request::METHOD_GET:
+                    if (!$entitySet instanceof QueryInterface) {
+                        throw new NotImplementedException(
+                            'entityset_cannot_query',
+                            'This entity set cannot be queried',
+                        );
+                    }
+
                     return $entitySet;
 
                 case Request::METHOD_POST:
-                    return $entitySet->handleCreate();
+                    if (!$entitySet instanceof CreateInterface) {
+                        throw new NotImplementedException(
+                            'entityset_cannot_create',
+                            'This entity set cannot create entities'
+                        );
+                    }
+
+                    return $entitySet->create();
             }
 
             throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');
@@ -429,7 +447,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         }
 
         try {
-            $value = $lexer->type($keyProperty->getType());
+            $key = $lexer->type($keyProperty->getType());
         } catch (LexerException $e) {
             throw BadRequestException::factory(
                 'invalid_identifier_value',
@@ -437,29 +455,43 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
             )->lexer($lexer);
         }
 
-        $value->setProperty($keyProperty);
+        $key->setProperty($keyProperty);
 
-        $entity = $entitySet->getEntity($value);
+        if ($nextComponent || $transaction->getMethod() === Request::METHOD_GET) {
+            if (!$entitySet instanceof ReadInterface) {
+                throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
+            }
 
-        if (null === $entity) {
-            throw new NotFoundException('not_found', 'Entity not found');
+            $entity = $entitySet->read($key);
+
+            if (null === $entity) {
+                throw new NotFoundException('not_found', 'Entity not found');
+            }
+
+            return $entity;
         }
 
         switch ($transaction->getMethod()) {
             case Request::METHOD_PATCH:
             case Request::METHOD_PUT:
-                $entity->handleUpdate($transaction);
-                break;
+                if (!$entitySet instanceof UpdateInterface) {
+                    throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
+                }
+
+                return $entitySet->update();
 
             case Request::METHOD_DELETE:
-                $entity->handleDelete();
-                break;
+                if (!$entitySet instanceof DeleteInterface) {
+                    throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
+                }
+
+                return $entitySet->delete();
         }
 
-        return $entity;
+        throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');
     }
 
-    public function makeEntity(): Entity
+    public function newEntity(): Entity
     {
         $entity = new Entity();
         $entity->setEntitySet($this);
@@ -502,41 +534,5 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $this->ensureInstance();
 
         return $this->transaction;
-    }
-
-    public function handleCreate(): Entity
-    {
-        $entity = new Entity();
-        $entity->setEntitySet($this);
-        $entity->fromArray($this->transaction->getBody());
-        $this->create($entity);
-
-        return $entity;
-    }
-
-    /**
-     * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
-     */
-    abstract protected function query(): array;
-
-    /**
-     * Create a new Entity, returning the same Entity with its identifying key
-     */
-    public function create(Entity $entity): Entity {
-        throw new NotImplementedException('create_not_implemented', 'This entity set type does not support create');
-    }
-
-    /**
-     * Update the provided entity, returning the same Entity
-     */
-    public function update(Entity $entity): Entity {
-        throw new NotImplementedException('update_not_implemented', 'This entity set type does not support create');
-    }
-
-    /**
-     * Delete the provided entity
-     */
-    public function delete(Entity $entity) {
-        throw new NotImplementedException('delete_not_implemented', 'This entity set type does not support create');
     }
 }

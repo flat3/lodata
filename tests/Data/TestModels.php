@@ -6,6 +6,7 @@ use Exception;
 use Flat3\OData\DeclaredProperty;
 use Flat3\OData\Drivers\SQLEntitySet;
 use Flat3\OData\EntitySet;
+use Flat3\OData\Interfaces\QueryInterface;
 use Flat3\OData\Model;
 use Flat3\OData\NavigationBinding;
 use Flat3\OData\NavigationProperty;
@@ -133,11 +134,11 @@ trait TestModels
                 'texts',
                 Model::entitytype('text')
                     ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
-            ) extends EntitySet {
+            ) extends EntitySet implements QueryInterface {
                 public function query(): array
                 {
                     return [
-                        $this->makeEntity()
+                        $this->newEntity()
                             ->setPrimitive('a', 'a')
                     ];
                 }

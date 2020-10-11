@@ -6,6 +6,7 @@ use Flat3\OData\Controller\Transaction;
 use Flat3\OData\DeclaredProperty;
 use Flat3\OData\EntitySet;
 use Flat3\OData\Exception\Protocol\NotImplementedException;
+use Flat3\OData\Interfaces\QueryInterface;
 use Flat3\OData\Model;
 use Flat3\OData\PrimitiveType;
 use Flat3\OData\Tests\JsonDriver;
@@ -51,7 +52,7 @@ class ErrorReportingTest extends TestCase
                 'texts',
                 Model::entitytype('text')
                     ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
-            ) extends EntitySet {
+            ) extends EntitySet implements QueryInterface {
                 public function emit(Transaction $transaction): void
                 {
                     $transaction->outputJsonObjectStart();
