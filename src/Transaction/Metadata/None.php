@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Transaction\Metadata;
+namespace Flat3\Lodata\Transaction\Metadata;
 
-use Flat3\OData\Transaction\Metadata;
+use Flat3\Lodata\Transaction\Metadata;
 
 final class None extends Metadata
 {

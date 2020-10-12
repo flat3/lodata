@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Controller\Monitor;
-use Flat3\OData\Controller\OData;
-use Flat3\OData\Controller\ODCFF;
-use Flat3\OData\Controller\PBIDS;
-use Flat3\OData\Middleware\Authentication;
+use Flat3\Lodata\Controller\Monitor;
+use Flat3\Lodata\Controller\OData;
+use Flat3\Lodata\Controller\ODCFF;
+use Flat3\Lodata\Controller\PBIDS;
+use Flat3\Lodata\Middleware\Authentication;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 

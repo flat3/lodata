@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Annotation\Capabilities\V1;
+namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
-use Flat3\OData\Annotation;
-use Flat3\OData\Type\Enum;
+use Flat3\Lodata\Annotation;
+use Flat3\Lodata\Type\Enum;
 
 class ConformanceLevel extends Annotation
 {

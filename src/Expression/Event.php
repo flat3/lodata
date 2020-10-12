@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Expression;
+namespace Flat3\Lodata\Expression;
 
 abstract class Event
 {

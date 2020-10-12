@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Transaction;
+namespace Flat3\Lodata\Transaction;
 
-use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Expression\Lexer;
+use Flat3\Lodata\Exception\Internal\LexerException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Expression\Lexer;
 
 class Parameter
 {

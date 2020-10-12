@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\PathComponent;
+namespace Flat3\Lodata\PathComponent;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Internal\LexerException;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Interfaces\PipeInterface;
 
 class Filter implements PipeInterface
 {

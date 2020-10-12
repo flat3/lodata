@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
-use Flat3\OData\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Response extends StreamedResponse

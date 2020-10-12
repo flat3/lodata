@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Transaction\Option;
+namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\OData\Transaction\Option;
+use Flat3\Lodata\Transaction\Option;
 
 /**
  * Class Format

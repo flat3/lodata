@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Helper;
+namespace Flat3\Lodata\Helper;
 
 use ArrayAccess;
 use Countable;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Iterator;
 
 class ObjectArray implements Countable, Iterator, ArrayAccess

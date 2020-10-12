@@ -1,14 +1,14 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Interfaces\ServiceInterface;
-use Flat3\OData\Traits\HasName;
-use Flat3\OData\Traits\HasTitle;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\ServiceInterface;
+use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasTitle;
 
 class Singleton extends Entity implements ServiceInterface, NamedInterface
 {

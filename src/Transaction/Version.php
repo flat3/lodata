@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Transaction;
+namespace Flat3\Lodata\Transaction;
 
-use Flat3\OData\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 
 class Version
 {

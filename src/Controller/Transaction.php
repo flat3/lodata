@@ -1,43 +1,43 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
-use Flat3\OData\Exception\Protocol\NoContentException;
-use Flat3\OData\Exception\Protocol\NotAcceptableException;
-use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\Exception\Protocol\NotImplementedException;
-use Flat3\OData\Exception\Protocol\PreconditionFailedException;
-use Flat3\OData\Helper\Constants;
-use Flat3\OData\Interfaces\ArgumentInterface;
-use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Operation;
-use Flat3\OData\PathComponent\Service;
-use Flat3\OData\PathComponent\Value;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\ServiceProvider;
-use Flat3\OData\Singleton;
-use Flat3\OData\Transaction\IEEE754Compatible;
-use Flat3\OData\Transaction\MediaType;
-use Flat3\OData\Transaction\Metadata;
-use Flat3\OData\Transaction\Option\Count;
-use Flat3\OData\Transaction\Option\Expand;
-use Flat3\OData\Transaction\Option\Filter;
-use Flat3\OData\Transaction\Option\Format;
-use Flat3\OData\Transaction\Option\OrderBy;
-use Flat3\OData\Transaction\Option\SchemaVersion;
-use Flat3\OData\Transaction\Option\Search;
-use Flat3\OData\Transaction\Option\Select;
-use Flat3\OData\Transaction\Option\Skip;
-use Flat3\OData\Transaction\Option\Top;
-use Flat3\OData\Transaction\Parameter;
-use Flat3\OData\Transaction\ParameterList;
-use Flat3\OData\Transaction\Version;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
+use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Operation;
+use Flat3\Lodata\PathComponent\Service;
+use Flat3\Lodata\PathComponent\Value;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\ServiceProvider;
+use Flat3\Lodata\Singleton;
+use Flat3\Lodata\Transaction\IEEE754Compatible;
+use Flat3\Lodata\Transaction\MediaType;
+use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\Option\Count;
+use Flat3\Lodata\Transaction\Option\Expand;
+use Flat3\Lodata\Transaction\Option\Filter;
+use Flat3\Lodata\Transaction\Option\Format;
+use Flat3\Lodata\Transaction\Option\OrderBy;
+use Flat3\Lodata\Transaction\Option\SchemaVersion;
+use Flat3\Lodata\Transaction\Option\Search;
+use Flat3\Lodata\Transaction\Option\Select;
+use Flat3\Lodata\Transaction\Option\Skip;
+use Flat3\Lodata\Transaction\Option\Top;
+use Flat3\Lodata\Transaction\Parameter;
+use Flat3\Lodata\Transaction\ParameterList;
+use Flat3\Lodata\Transaction\Version;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use JsonException;
@@ -105,13 +105,13 @@ class Transaction implements ArgumentInterface
     /** @var PipeInterface[] $handlers */
     protected $handlers = [
         EntitySet::class,
-        \Flat3\OData\PathComponent\Metadata::class,
+        \Flat3\Lodata\PathComponent\Metadata::class,
         Value::class,
-        \Flat3\OData\PathComponent\Count::class,
+        \Flat3\Lodata\PathComponent\Count::class,
         Operation::class,
         PrimitiveType::class,
         Singleton::class,
-        \Flat3\OData\PathComponent\Filter::class,
+        \Flat3\Lodata\PathComponent\Filter::class,
     ];
 
     public function __construct()

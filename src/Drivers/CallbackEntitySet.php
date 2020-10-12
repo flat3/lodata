@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Drivers;
+namespace Flat3\Lodata\Drivers;
 
-use Flat3\OData\EntitySet;
+use Flat3\Lodata\EntitySet;
 
 class CallbackEntitySet extends EntitySet
 {

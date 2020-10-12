@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Transaction;
+namespace Flat3\Lodata\Transaction;
 
-use Flat3\OData\Controller\Transaction;
+use Flat3\Lodata\Controller\Transaction;
 
 abstract class Option
 {

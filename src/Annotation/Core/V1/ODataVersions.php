@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Annotation\Core\V1;
+namespace Flat3\Lodata\Annotation\Core\V1;
 
-use Flat3\OData\Annotation;
-use Flat3\OData\Transaction\Version;
-use Flat3\OData\Type\String_;
+use Flat3\Lodata\Annotation;
+use Flat3\Lodata\Transaction\Version;
+use Flat3\Lodata\Type\String_;
 
 class ODataVersions extends Annotation
 {

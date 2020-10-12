@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Tests;
+namespace Flat3\Lodata\Tests;
 
 use PHPUnit\Framework\Assert;
 use Spatie\Snapshots\Driver;

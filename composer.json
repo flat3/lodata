@@ -1,6 +1,9 @@
 {
-    "name": "flat3/odata",
+    "name": "flat3/lodata",
+    "type": "library",
     "description": "Flat3 OData for Laravel",
+    "keywords": ["odata", "laravel"],
+    "homepage": "https://github.com/flat3/lodata",
     "license": "MIT",
     "authors": [
         {
@@ -10,8 +13,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Flat3\\OData\\": "src/",
-            "Flat3\\OData\\Tests\\": "tests/"
+            "Flat3\\Lodata\\": "src/",
+            "Flat3\\Lodata\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -24,7 +27,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Flat3\\OData\\ServiceProvider"
+                "Flat3\\Lodata\\ServiceProvider"
             ]
         }
     },

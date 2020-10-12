@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Interfaces\QueryOptions;
+namespace Flat3\Lodata\Interfaces\QueryOptions;
 
-use Flat3\OData\Expression\Event;
+use Flat3\Lodata\Expression\Event;
 
 interface FilterInterface
 {

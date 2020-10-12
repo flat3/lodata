@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Operation;
+namespace Flat3\Lodata\Operation;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Interfaces\ArgumentInterface;
 
 class TransactionArgument extends Argument
 {

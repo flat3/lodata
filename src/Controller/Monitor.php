@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
 use ErrorException;
-use Flat3\OData\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Illuminate\Routing\Controller;
 
 class Monitor extends Controller

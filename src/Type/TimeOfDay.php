@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Type;
+namespace Flat3\Lodata\Type;
 
 use DateTime;
 

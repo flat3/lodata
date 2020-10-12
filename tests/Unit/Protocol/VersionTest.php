@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Protocol;
+namespace Flat3\Lodata\Tests\Unit\Protocol;
 
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Transaction\Version;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Version;
 
 class VersionTest extends TestCase
 {

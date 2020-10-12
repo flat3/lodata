@@ -1,17 +1,17 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Protocol;
+namespace Flat3\Lodata\Tests\Unit\Protocol;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\DeclaredProperty;
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Protocol\NotImplementedException;
-use Flat3\OData\Interfaces\QueryInterface;
-use Flat3\OData\Model;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Tests\JsonDriver;
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Interfaces\QueryInterface;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Tests\JsonDriver;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Testing\TestResponse;
 
 class ErrorReportingTest extends TestCase

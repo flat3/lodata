@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Operator\Arithmetic;
+namespace Flat3\Lodata\Expression\Node\Operator\Arithmetic;
 
-use Flat3\OData\Expression\Node\Operator\Arithmetic;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic;
 
 class Mul extends Arithmetic
 {

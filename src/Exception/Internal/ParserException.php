@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Exception\Internal;
+namespace Flat3\Lodata\Exception\Internal;
 
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Expression\Lexer;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Expression\Lexer;
 
 final class ParserException extends BadRequestException
 {

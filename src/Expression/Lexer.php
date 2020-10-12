@@ -1,21 +1,21 @@
 <?php
 
-namespace Flat3\OData\Expression;
+namespace Flat3\Lodata\Expression;
 
 use Exception;
-use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Helper\Constants;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Type\Binary;
-use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\Byte;
-use Flat3\OData\Type\Date;
-use Flat3\OData\Type\DateTimeOffset;
-use Flat3\OData\Type\Decimal;
-use Flat3\OData\Type\Duration;
-use Flat3\OData\Type\Guid;
-use Flat3\OData\Type\String_;
-use Flat3\OData\Type\TimeOfDay;
+use Flat3\Lodata\Exception\Internal\LexerException;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Type\Binary;
+use Flat3\Lodata\Type\Boolean;
+use Flat3\Lodata\Type\Byte;
+use Flat3\Lodata\Type\Date;
+use Flat3\Lodata\Type\DateTimeOffset;
+use Flat3\Lodata\Type\Decimal;
+use Flat3\Lodata\Type\Duration;
+use Flat3\Lodata\Type\Guid;
+use Flat3\Lodata\Type\String_;
+use Flat3\Lodata\Type\TimeOfDay;
 
 /**
  * Class Lexer

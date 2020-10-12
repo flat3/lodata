@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Func\DateTime;
+namespace Flat3\Lodata\Expression\Node\Func\DateTime;
 
-use Flat3\OData\Expression\Node\Func;
+use Flat3\Lodata\Expression\Node\Func;
 
 class Year extends Func
 {

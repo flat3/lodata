@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Transaction\Option;
+namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Helper\Constants;
-use Flat3\OData\Transaction\Option;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Transaction\Option;
 
 abstract class Boolean extends Option
 {
@@ -23,7 +23,7 @@ abstract class Boolean extends Option
             );
         }
 
-        $this->value = \Flat3\OData\Type\Boolean::factory($value)->get();
+        $this->value = \Flat3\Lodata\Type\Boolean::factory($value)->get();
     }
 
     public function getValue(): ?bool

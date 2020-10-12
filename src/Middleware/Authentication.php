@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Middleware;
+namespace Flat3\Lodata\Middleware;
 
 use Closure;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;

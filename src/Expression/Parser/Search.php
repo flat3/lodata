@@ -1,14 +1,14 @@
 <?php
 
-namespace Flat3\OData\Expression\Parser;
+namespace Flat3\Lodata\Expression\Parser;
 
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Internal\ParserException;
-use Flat3\OData\Expression\Event;
-use Flat3\OData\Expression\Node;
-use Flat3\OData\Expression\Operator;
-use Flat3\OData\Expression\Parser;
-use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Internal\ParserException;
+use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Node;
+use Flat3\Lodata\Expression\Operator;
+use Flat3\Lodata\Expression\Parser;
+use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
 
 class Search extends Parser
 {

@@ -1,28 +1,28 @@
 <?php
 
-namespace Flat3\OData\PathComponent;
+namespace Flat3\Lodata\PathComponent;
 
-use Flat3\OData\Annotation;
-use Flat3\OData\Controller\Response;
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\EntitySet;
-use Flat3\OData\EntityType;
-use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Helper\Constants;
-use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Model;
-use Flat3\OData\NavigationBinding;
-use Flat3\OData\NavigationProperty;
-use Flat3\OData\Operation;
-use Flat3\OData\Operation\Argument;
-use Flat3\OData\Operation\EntityArgument;
-use Flat3\OData\Operation\EntitySetArgument;
-use Flat3\OData\Operation\PrimitiveTypeArgument;
-use Flat3\OData\ReferentialConstraint;
-use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\Property;
+use Flat3\Lodata\Annotation;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\NavigationBinding;
+use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Operation;
+use Flat3\Lodata\Operation\Argument;
+use Flat3\Lodata\Operation\EntityArgument;
+use Flat3\Lodata\Operation\EntitySetArgument;
+use Flat3\Lodata\Operation\PrimitiveTypeArgument;
+use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Type\Boolean;
+use Flat3\Lodata\Type\Property;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
 

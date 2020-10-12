@@ -1,13 +1,15 @@
 <?php
 
-namespace Flat3\OData\Drivers;
+namespace Flat3\Lodata\Drivers;
 
-use Flat3\OData\Traits\EloquentOData;
+use Flat3\Lodata\Traits\EloquentOData;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
 class EloquentEntitySet extends SQLEntitySet
 {
+    protected $databaseEntitySet;
+
     public static function attach()
     {
         /** @var EloquentEntitySet $model */

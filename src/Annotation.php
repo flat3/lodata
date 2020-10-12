@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Traits\HasType;
-use Flat3\OData\Type\Boolean;
-use Flat3\OData\Type\Collection;
-use Flat3\OData\Type\Enum;
-use Flat3\OData\Type\String_;
+use Flat3\Lodata\Traits\HasType;
+use Flat3\Lodata\Type\Boolean;
+use Flat3\Lodata\Type\Collection;
+use Flat3\Lodata\Type\Enum;
+use Flat3\Lodata\Type\String_;
 use SimpleXMLElement;
 
 class Annotation

@@ -1,21 +1,21 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Annotation\Capabilities\V1\AsynchronousRequestsSupported;
-use Flat3\OData\Annotation\Capabilities\V1\CallbackSupported;
-use Flat3\OData\Annotation\Capabilities\V1\ConformanceLevel;
-use Flat3\OData\Annotation\Capabilities\V1\SupportedFormats;
-use Flat3\OData\Annotation\Core\V1\ConventionalIDs;
-use Flat3\OData\Annotation\Core\V1\DefaultNamespace;
-use Flat3\OData\Annotation\Core\V1\DereferencableIDs;
-use Flat3\OData\Annotation\Core\V1\ODataVersions;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\Interfaces\ResourceInterface;
-use Flat3\OData\Interfaces\ServiceInterface;
-use Flat3\OData\Transaction\Version;
+use Flat3\Lodata\Annotation\Capabilities\V1\AsynchronousRequestsSupported;
+use Flat3\Lodata\Annotation\Capabilities\V1\CallbackSupported;
+use Flat3\Lodata\Annotation\Capabilities\V1\ConformanceLevel;
+use Flat3\Lodata\Annotation\Capabilities\V1\SupportedFormats;
+use Flat3\Lodata\Annotation\Core\V1\ConventionalIDs;
+use Flat3\Lodata\Annotation\Core\V1\DefaultNamespace;
+use Flat3\Lodata\Annotation\Core\V1\DereferencableIDs;
+use Flat3\Lodata\Annotation\Core\V1\ODataVersions;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\ServiceInterface;
+use Flat3\Lodata\Transaction\Version;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Model

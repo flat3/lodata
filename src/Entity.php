@@ -1,23 +1,23 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
 use ArrayAccess;
-use Flat3\OData\Controller\Response;
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Exception\Internal\ETagException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\ArgumentInterface;
-use Flat3\OData\Interfaces\ContextInterface;
-use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\EntityTypeInterface;
-use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\Interfaces\ResourceInterface;
-use Flat3\OData\Traits\HasEntityType;
-use Flat3\OData\Transaction\Expand;
-use Flat3\OData\Type\Property;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Internal\ETagException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EntityTypeInterface;
+use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Traits\HasEntityType;
+use Flat3\Lodata\Transaction\Expand;
+use Flat3\Lodata\Type\Property;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {

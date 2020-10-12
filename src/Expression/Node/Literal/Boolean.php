@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Literal;
+namespace Flat3\Lodata\Expression\Node\Literal;
 
-use Flat3\OData\Expression\Node\Literal;
-use Flat3\OData\Helper\Constants;
+use Flat3\Lodata\Expression\Node\Literal;
+use Flat3\Lodata\Helper\Constants;
 
 class Boolean extends Literal
 {

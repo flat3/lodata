@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\PathComponent;
+namespace Flat3\Lodata\PathComponent;
 
-use Flat3\OData\Controller\Response;
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\ServiceInterface;
-use Flat3\OData\Model;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\ServiceInterface;
+use Flat3\Lodata\Model;
 use Illuminate\Http\Request;
 
 class Service implements EmitInterface

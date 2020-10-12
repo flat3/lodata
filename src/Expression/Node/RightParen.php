@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Expression\Node;
+namespace Flat3\Lodata\Expression\Node;
 
 class RightParen extends Group
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Flat3\OData\Type;
+namespace Flat3\Lodata\Type;
 
-use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Traits\HasName;
-use Flat3\OData\Traits\HasType;
+use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\TypeInterface;
+use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasType;
 
 abstract class Property implements TypeInterface, NamedInterface
 {

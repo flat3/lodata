@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Exception\Protocol;
+namespace Flat3\Lodata\Exception\Protocol;
 
-use Flat3\OData\Controller\Response;
+use Flat3\Lodata\Controller\Response;
 use Illuminate\Contracts\Support\Responsable;
 use RuntimeException;
 

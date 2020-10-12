@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\EntityPrimitive;
+namespace Flat3\Lodata\Tests\Unit\Queries\EntityPrimitive;
 
-use Flat3\OData\Tests\Models\Flight;
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Tests\Models\Flight;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 
 class EntityPrimitiveTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Func\Arithmetic;
+namespace Flat3\Lodata\Expression\Node\Func\Arithmetic;
 
-use Flat3\OData\Expression\Node\Func;
+use Flat3\Lodata\Expression\Node\Func;
 
 class Floor extends Func
 {

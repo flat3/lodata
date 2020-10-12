@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
-use Flat3\OData\ServiceProvider;
+use Flat3\Lodata\ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;

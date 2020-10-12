@@ -1,15 +1,15 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\ContextInterface;
-use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\Interfaces\ResourceInterface;
-use Flat3\OData\Interfaces\TypeInterface;
-use Flat3\OData\Traits\HasName;
-use Flat3\OData\Type\Property;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\TypeInterface;
+use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Type\Property;
 
 class ComplexType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface
 {

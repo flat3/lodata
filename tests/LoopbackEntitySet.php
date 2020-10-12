@@ -1,23 +1,23 @@
 <?php
 
-namespace Flat3\OData\Tests;
+namespace Flat3\Lodata\Tests;
 
-use Flat3\OData\EntitySet;
-use Flat3\OData\Expression\Event;
-use Flat3\OData\Expression\Event\ArgumentSeparator;
-use Flat3\OData\Expression\Event\EndFunction;
-use Flat3\OData\Expression\Event\EndGroup;
-use Flat3\OData\Expression\Event\Field;
-use Flat3\OData\Expression\Event\Literal;
-use Flat3\OData\Expression\Event\Operator;
-use Flat3\OData\Expression\Event\StartFunction;
-use Flat3\OData\Expression\Event\StartGroup;
-use Flat3\OData\Expression\Node\Literal\String_;
-use Flat3\OData\Expression\Node\Operator\Comparison\And_;
-use Flat3\OData\Expression\Node\Operator\Comparison\Not_;
-use Flat3\OData\Expression\Node\Operator\Comparison\Or_;
-use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
-use Flat3\OData\Interfaces\QueryOptions\SearchInterface;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Event\ArgumentSeparator;
+use Flat3\Lodata\Expression\Event\EndFunction;
+use Flat3\Lodata\Expression\Event\EndGroup;
+use Flat3\Lodata\Expression\Event\Field;
+use Flat3\Lodata\Expression\Event\Literal;
+use Flat3\Lodata\Expression\Event\Operator;
+use Flat3\Lodata\Expression\Event\StartFunction;
+use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node\Literal\String_;
+use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
+use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
+use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
+use Flat3\Lodata\Interfaces\QueryOptions\FilterInterface;
+use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
 
 class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
 {

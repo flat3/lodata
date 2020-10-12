@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Exception\Protocol;
+namespace Flat3\Lodata\Exception\Protocol;
 
 use Illuminate\Http\Response;
 

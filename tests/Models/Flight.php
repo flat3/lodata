@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Tests\Models;
+namespace Flat3\Lodata\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

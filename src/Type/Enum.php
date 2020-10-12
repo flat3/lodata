@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Type;
+namespace Flat3\Lodata\Type;
 
-use Flat3\OData\PrimitiveType;
+use Flat3\Lodata\PrimitiveType;
 
 class Enum extends PrimitiveType
 {

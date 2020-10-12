@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Helper;
+namespace Flat3\Lodata\Helper;
 
 class Constants
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Exception\Protocol;
+namespace Flat3\Lodata\Exception\Protocol;
 
-use Flat3\OData\Expression\Lexer;
+use Flat3\Lodata\Expression\Lexer;
 use Illuminate\Http\Response;
 
 class BadRequestException extends ProtocolException

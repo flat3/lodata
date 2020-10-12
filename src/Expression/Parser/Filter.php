@@ -1,16 +1,16 @@
 <?php
 
-namespace Flat3\OData\Expression\Parser;
+namespace Flat3\Lodata\Expression\Parser;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Internal\ParserException;
-use Flat3\OData\Expression\Event;
-use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Expression\Node;
-use Flat3\OData\Expression\Operator;
-use Flat3\OData\Expression\Parser;
-use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Internal\ParserException;
+use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Expression\Node;
+use Flat3\Lodata\Expression\Operator;
+use Flat3\Lodata\Expression\Parser;
+use Flat3\Lodata\Interfaces\QueryOptions\FilterInterface;
 
 class Filter extends Parser
 {

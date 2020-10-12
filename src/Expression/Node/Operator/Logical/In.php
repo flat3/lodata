@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Operator\Logical;
+namespace Flat3\Lodata\Expression\Node\Operator\Logical;
 
-use Flat3\OData\Exception\Internal\NodeHandledException;
-use Flat3\OData\Expression\Event\EndGroup;
-use Flat3\OData\Expression\Event\Operator;
-use Flat3\OData\Expression\Event\StartGroup;
-use Flat3\OData\Expression\Node\Operator\Logical;
+use Flat3\Lodata\Exception\Internal\NodeHandledException;
+use Flat3\Lodata\Expression\Event\EndGroup;
+use Flat3\Lodata\Expression\Event\Operator;
+use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node\Operator\Logical;
 
 class In extends Logical
 {

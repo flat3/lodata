@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Clients;
+namespace Flat3\Lodata\Tests\Unit\Clients;
 
-use Flat3\OData\Tests\Data\TestModels;
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Tests\Data\TestModels;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 
 class ODCFF extends TestCase
 {

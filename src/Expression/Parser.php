@@ -1,17 +1,17 @@
 <?php
 
-namespace Flat3\OData\Expression;
+namespace Flat3\Lodata\Expression;
 
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Internal\ParserException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Expression\Node\Field;
-use Flat3\OData\Expression\Node\Func;
-use Flat3\OData\Expression\Node\Group;
-use Flat3\OData\Expression\Node\LeftParen;
-use Flat3\OData\Expression\Node\Literal;
-use Flat3\OData\Expression\Node\Operator\Logical;
-use Flat3\OData\Expression\Node\RightParen;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Internal\ParserException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Expression\Node\Field;
+use Flat3\Lodata\Expression\Node\Func;
+use Flat3\Lodata\Expression\Node\Group;
+use Flat3\Lodata\Expression\Node\LeftParen;
+use Flat3\Lodata\Expression\Node\Literal;
+use Flat3\Lodata\Expression\Node\Operator\Logical;
+use Flat3\Lodata\Expression\Node\RightParen;
 
 /**
  * Class Parser
@@ -28,7 +28,7 @@ abstract class Parser
     /** @var Node[] $tokens */
     protected $tokens = [];
 
-    /** @var \Flat3\OData\PathComponent\EntitySet $entitySet */
+    /** @var \Flat3\Lodata\PathComponent\EntitySet $entitySet */
     protected $entitySet;
 
     /** @var string[] $validLiterals */

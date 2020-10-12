@@ -1,11 +1,11 @@
 <?php
 
-namespace Flat3\OData\Transaction;
+namespace Flat3\Lodata\Transaction;
 
-use Flat3\OData\Exception\Protocol\NotAcceptableException;
-use Flat3\OData\Transaction\Metadata\Full;
-use Flat3\OData\Transaction\Metadata\Minimal;
-use Flat3\OData\Transaction\Metadata\None;
+use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
+use Flat3\Lodata\Transaction\Metadata\Full;
+use Flat3\Lodata\Transaction\Metadata\Minimal;
+use Flat3\Lodata\Transaction\Metadata\None;
 
 /**
  * Class Metadata

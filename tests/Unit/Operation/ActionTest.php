@@ -1,13 +1,13 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Operation;
+namespace Flat3\Lodata\Tests\Unit\Operation;
 
-use Flat3\OData\Entity;
-use Flat3\OData\Model;
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Type\Int32;
-use Flat3\OData\Type\String_;
+use Flat3\Lodata\Entity;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type\Int32;
+use Flat3\Lodata\Type\String_;
 
 class ActionTest extends TestCase
 {

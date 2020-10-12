@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\Entity;
+namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 
 class EntityTest extends TestCase
 {

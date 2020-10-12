@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\Expression;
+namespace Flat3\Lodata\Expression;
 
-use Flat3\OData\Exception\Internal\NodeHandledException;
-use Flat3\OData\Expression\Event\ArgumentSeparator;
-use Flat3\OData\Expression\Event\EndGroup;
-use Flat3\OData\Expression\Event\Operator as OperatorEvent;
-use Flat3\OData\Expression\Event\StartGroup;
+use Flat3\Lodata\Exception\Internal\NodeHandledException;
+use Flat3\Lodata\Expression\Event\ArgumentSeparator;
+use Flat3\Lodata\Expression\Event\EndGroup;
+use Flat3\Lodata\Expression\Event\Operator as OperatorEvent;
+use Flat3\Lodata\Expression\Event\StartGroup;
 
 abstract class Operator extends Node
 {

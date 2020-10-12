@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Interfaces;
+namespace Flat3\Lodata\Interfaces;
 
-use Flat3\OData\EntityType;
+use Flat3\Lodata\EntityType;
 
 interface EntityTypeInterface
 {

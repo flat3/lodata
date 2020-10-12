@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Protocol;
+namespace Flat3\Lodata\Tests\Unit\Protocol;
 
-use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 
 class MethodTest extends TestCase
 {

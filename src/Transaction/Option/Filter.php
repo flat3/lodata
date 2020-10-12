@@ -1,11 +1,11 @@
 <?php
 
-namespace Flat3\OData\Transaction\Option;
+namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\OData\EntitySet;
-use Flat3\OData\Expression\Parser\Filter as Parser;
-use Flat3\OData\Interfaces\QueryOptions\FilterInterface;
-use Flat3\OData\Transaction\Option;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Expression\Parser\Filter as Parser;
+use Flat3\Lodata\Interfaces\QueryOptions\FilterInterface;
+use Flat3\Lodata\Transaction\Option;
 
 /**
  * Class Filter

@@ -1,21 +1,21 @@
 <?php
 
-namespace Flat3\OData\Tests\Data;
+namespace Flat3\Lodata\Tests\Data;
 
 use Exception;
-use Flat3\OData\DeclaredProperty;
-use Flat3\OData\Drivers\SQLEntitySet;
-use Flat3\OData\EntitySet;
-use Flat3\OData\Interfaces\QueryInterface;
-use Flat3\OData\Model;
-use Flat3\OData\NavigationBinding;
-use Flat3\OData\NavigationProperty;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\ReferentialConstraint;
-use Flat3\OData\Tests\Models\Airport as AirportEModel;
-use Flat3\OData\Tests\Models\Flight as FlightEModel;
-use Flat3\OData\Type\Decimal;
-use Flat3\OData\Type\Int32;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Interfaces\QueryInterface;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\NavigationBinding;
+use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
+use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
+use Flat3\Lodata\Type\Decimal;
+use Flat3\Lodata\Type\Int32;
 
 trait TestModels
 {

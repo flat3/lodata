@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\Types;
+namespace Flat3\Lodata\Tests\Unit\Queries\Types;
 
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Tests\TestCase;
 
 abstract class TypeTest extends TestCase
 {

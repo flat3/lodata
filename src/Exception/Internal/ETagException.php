@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Exception\Internal;
+namespace Flat3\Lodata\Exception\Internal;
 
 use RuntimeException;
 

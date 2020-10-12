@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\EntitySetFilter;
+namespace Flat3\Lodata\Tests\Unit\Queries\EntitySetFilter;
 
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 
 class EntitySetFilterTest extends TestCase
 {

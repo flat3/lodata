@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Transaction\Option;
+namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Transaction\Option;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Transaction\Option;
 
 abstract class Numeric extends Option
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
 use DOMDocument;
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\Helper\Constants;
-use Flat3\OData\Model;
-use Flat3\OData\ServiceProvider;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;

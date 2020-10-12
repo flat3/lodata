@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Expression;
+namespace Flat3\Lodata\Expression;
 
-use Flat3\OData\Exception\Protocol\NotImplementedException;
-use Flat3\OData\Expression\Node\Func;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Expression\Node\Func;
 
 abstract class Node
 {

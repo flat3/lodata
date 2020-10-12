@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Type\Property;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Type\Property;
 
 class NavigationProperty extends Property
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Helper;
+namespace Flat3\Lodata\Helper;
 
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Expression\Lexer;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Expression\Lexer;
 
 final class Name
 {

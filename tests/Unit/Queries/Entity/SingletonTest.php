@@ -1,14 +1,14 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Queries\Entity;
+namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
-use Flat3\OData\DeclaredProperty;
-use Flat3\OData\EntityType;
-use Flat3\OData\Model;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Singleton;
-use Flat3\OData\Tests\Request;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Singleton;
+use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\TestCase;
 
 class SingletonTest extends TestCase
 {

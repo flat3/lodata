@@ -1,34 +1,34 @@
 <?php
 
-namespace Flat3\OData\Drivers\Database;
+namespace Flat3\Lodata\Drivers\Database;
 
-use Flat3\OData\Drivers\SQLEntitySet;
-use Flat3\OData\Exception\Internal\NodeHandledException;
-use Flat3\OData\Expression\Event;
-use Flat3\OData\Expression\Event\StartFunction;
-use Flat3\OData\Expression\Node\Func\Arithmetic\Ceiling;
-use Flat3\OData\Expression\Node\Func\Arithmetic\Floor;
-use Flat3\OData\Expression\Node\Func\Arithmetic\Round;
-use Flat3\OData\Expression\Node\Func\DateTime\Date;
-use Flat3\OData\Expression\Node\Func\DateTime\Day;
-use Flat3\OData\Expression\Node\Func\DateTime\Hour;
-use Flat3\OData\Expression\Node\Func\DateTime\Minute;
-use Flat3\OData\Expression\Node\Func\DateTime\Month;
-use Flat3\OData\Expression\Node\Func\DateTime\Now;
-use Flat3\OData\Expression\Node\Func\DateTime\Second;
-use Flat3\OData\Expression\Node\Func\DateTime\Time;
-use Flat3\OData\Expression\Node\Func\DateTime\Year;
-use Flat3\OData\Expression\Node\Func\String\MatchesPattern;
-use Flat3\OData\Expression\Node\Func\String\ToLower;
-use Flat3\OData\Expression\Node\Func\String\ToUpper;
-use Flat3\OData\Expression\Node\Func\String\Trim;
-use Flat3\OData\Expression\Node\Func\StringCollection\Concat;
-use Flat3\OData\Expression\Node\Func\StringCollection\Contains;
-use Flat3\OData\Expression\Node\Func\StringCollection\EndsWith;
-use Flat3\OData\Expression\Node\Func\StringCollection\IndexOf;
-use Flat3\OData\Expression\Node\Func\StringCollection\Length;
-use Flat3\OData\Expression\Node\Func\StringCollection\StartsWith;
-use Flat3\OData\Expression\Node\Func\StringCollection\Substring;
+use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\Exception\Internal\NodeHandledException;
+use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Event\StartFunction;
+use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
+use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
+use Flat3\Lodata\Expression\Node\Func\Arithmetic\Round;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Date;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Day;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Hour;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Minute;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Month;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Now;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Second;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Time;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Year;
+use Flat3\Lodata\Expression\Node\Func\String\MatchesPattern;
+use Flat3\Lodata\Expression\Node\Func\String\ToLower;
+use Flat3\Lodata\Expression\Node\Func\String\ToUpper;
+use Flat3\Lodata\Expression\Node\Func\String\Trim;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\Concat;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\Contains;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\EndsWith;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\IndexOf;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 
 class MySQLEntitySet extends SQLEntitySet
 {

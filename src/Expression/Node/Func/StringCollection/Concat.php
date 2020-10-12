@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Func\StringCollection;
+namespace Flat3\Lodata\Expression\Node\Func\StringCollection;
 
-use Flat3\OData\Expression\Node\Func;
+use Flat3\Lodata\Expression\Node\Func;
 
 class Concat extends Func
 {

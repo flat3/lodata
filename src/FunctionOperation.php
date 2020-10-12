@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Interfaces\PipeInterface;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Interfaces\PipeInterface;
 use Illuminate\Http\Request;
 
 class FunctionOperation extends Operation

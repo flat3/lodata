@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Interfaces;
+namespace Flat3\Lodata\Interfaces;
 
 interface ResourceInterface
 {

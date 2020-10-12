@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Type;
+namespace Flat3\Lodata\Type;
 
-use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Helper\Constants;
-use Flat3\OData\PrimitiveType;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PrimitiveType;
 
 class Guid extends PrimitiveType
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Interfaces\QueryOptions;
+namespace Flat3\Lodata\Interfaces\QueryOptions;
 
 interface ExpandInterface
 {

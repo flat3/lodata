@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Traits;
+namespace Flat3\Lodata\Traits;
 
-use Flat3\OData\EntityType;
+use Flat3\Lodata\EntityType;
 
 trait HasEntityType
 {

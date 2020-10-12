@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\Operation;
+namespace Flat3\Lodata\Operation;
 
-use Flat3\OData\Exception\Internal\LexerException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Interfaces\ArgumentInterface;
-use Flat3\OData\PrimitiveType;
+use Flat3\Lodata\Exception\Internal\LexerException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\PrimitiveType;
 
 class PrimitiveTypeArgument extends Argument
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node;
+namespace Flat3\Lodata\Expression\Node;
 
-use Flat3\OData\Expression\Operator;
+use Flat3\Lodata\Expression\Operator;
 
 abstract class Group extends Operator
 {

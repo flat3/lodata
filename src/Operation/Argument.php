@@ -1,15 +1,15 @@
 <?php
 
-namespace Flat3\OData\Operation;
+namespace Flat3\Lodata\Operation;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Entity;
-use Flat3\OData\EntitySet;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Interfaces\ArgumentInterface;
-use Flat3\OData\Interfaces\NamedInterface;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Traits\HasName;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Entity;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Traits\HasName;
 use ReflectionParameter;
 
 abstract class Argument implements NamedInterface

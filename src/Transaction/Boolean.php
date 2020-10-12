@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Transaction;
+namespace Flat3\Lodata\Transaction;
 
-use Flat3\OData\Helper\Constants;
+use Flat3\Lodata\Helper\Constants;
 
 abstract class Boolean
 {

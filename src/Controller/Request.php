@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
 use Illuminate\Http\Request as IlluminateRequest;
 

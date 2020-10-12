@@ -1,9 +1,9 @@
 <?php
 
-namespace Flat3\OData\Interfaces;
+namespace Flat3\Lodata\Interfaces;
 
-use Flat3\OData\Entity;
-use Flat3\OData\PrimitiveType;
+use Flat3\Lodata\Entity;
+use Flat3\Lodata\PrimitiveType;
 
 interface ReadInterface
 {

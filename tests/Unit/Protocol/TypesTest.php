@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Protocol;
+namespace Flat3\Lodata\Tests\Unit\Protocol;
 
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Tests\TestCase;
-use Flat3\OData\Type;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 
 class TypesTest extends TestCase
 {

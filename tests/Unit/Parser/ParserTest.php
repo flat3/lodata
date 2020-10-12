@@ -1,16 +1,16 @@
 <?php
 
-namespace Flat3\OData\Tests\Unit\Parser;
+namespace Flat3\Lodata\Tests\Unit\Parser;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\DeclaredProperty;
-use Flat3\OData\EntityType;
-use Flat3\OData\Exception\Internal\ParserException;
-use Flat3\OData\Expression\Parser\Filter;
-use Flat3\OData\Expression\Parser\Search;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Tests\LoopbackEntitySet;
-use Flat3\OData\Tests\TestCase;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Internal\ParserException;
+use Flat3\Lodata\Expression\Parser\Filter;
+use Flat3\Lodata\Expression\Parser\Search;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Tests\LoopbackEntitySet;
+use Flat3\Lodata\Tests\TestCase;
 
 class ParserTest extends TestCase
 {

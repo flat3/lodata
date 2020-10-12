@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Controller;
+namespace Flat3\Lodata\Controller;
 
-use Flat3\OData\Helper\Constants;
+use Flat3\Lodata\Helper\Constants;
 use Illuminate\Routing\Controller;
 
 class OData extends Controller

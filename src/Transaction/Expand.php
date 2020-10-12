@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Transaction;
+namespace Flat3\Lodata\Transaction;
 
-use Flat3\OData\NavigationProperty;
+use Flat3\Lodata\NavigationProperty;
 use Illuminate\Http\Request;
 
 class Expand extends Request

@@ -1,14 +1,14 @@
 <?php
 
-namespace Flat3\OData\Transaction\Option;
+namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\OData\EntityType;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Expression\Lexer;
-use Flat3\OData\Helper\ObjectArray;
-use Flat3\OData\Interfaces\QueryOptions\ExpandInterface;
-use Flat3\OData\NavigationProperty;
-use Flat3\OData\Transaction\Option;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\QueryOptions\ExpandInterface;
+use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Transaction\Option;
 
 /**
  * Class Expand
@@ -60,7 +60,7 @@ class Expand extends Option
 
             $options = $lexer->maybeMatchingParenthesis();
 
-            $requests[] = new \Flat3\OData\Transaction\Expand($navigationProperty, $options);
+            $requests[] = new \Flat3\Lodata\Transaction\Expand($navigationProperty, $options);
 
             if (!$lexer->finished()) {
                 $lexer->char(',');

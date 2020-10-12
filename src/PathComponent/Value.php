@@ -1,16 +1,16 @@
 <?php
 
-namespace Flat3\OData\PathComponent;
+namespace Flat3\Lodata\PathComponent;
 
-use Flat3\OData\Controller\Response;
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\Exception\Internal\PathNotHandledException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\NoContentException;
-use Flat3\OData\Interfaces\EmitInterface;
-use Flat3\OData\Interfaces\PipeInterface;
-use Flat3\OData\PrimitiveType;
-use Flat3\OData\Transaction\MediaType;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Transaction\MediaType;
 
 class Value implements PipeInterface, EmitInterface
 {

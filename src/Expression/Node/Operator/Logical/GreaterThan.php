@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Operator\Logical;
+namespace Flat3\Lodata\Expression\Node\Operator\Logical;
 
-use Flat3\OData\Expression\Node\Operator\Logical;
+use Flat3\Lodata\Expression\Node\Operator\Logical;
 
 class GreaterThan extends Logical
 {

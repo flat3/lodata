@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Event;
+namespace Flat3\Lodata\Expression\Event;
 
-use Flat3\OData\Expression\Event;
+use Flat3\Lodata\Expression\Event;
 
 class Operator extends Event
 {

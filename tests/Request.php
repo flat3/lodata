@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Tests;
+namespace Flat3\Lodata\Tests;
 
-use Flat3\OData\Helper\Url;
+use Flat3\Lodata\Helper\Url;
 
 class Request
 {

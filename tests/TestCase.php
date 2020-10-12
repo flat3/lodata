@@ -1,20 +1,20 @@
 <?php
 
-namespace Flat3\OData\Tests;
+namespace Flat3\Lodata\Tests;
 
-use Flat3\OData\Controller\Response;
-use Flat3\OData\Exception\Protocol\AcceptedException;
-use Flat3\OData\Exception\Protocol\BadRequestException;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Exception\Protocol\MethodNotAllowedException;
-use Flat3\OData\Exception\Protocol\NoContentException;
-use Flat3\OData\Exception\Protocol\NotAcceptableException;
-use Flat3\OData\Exception\Protocol\NotFoundException;
-use Flat3\OData\Exception\Protocol\NotImplementedException;
-use Flat3\OData\Exception\Protocol\PreconditionFailedException;
-use Flat3\OData\Exception\Protocol\ProtocolException;
-use Flat3\OData\ServiceProvider;
-use Flat3\OData\Tests\Data\TestModels;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Exception\Protocol\AcceptedException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
+use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\ServiceProvider;
+use Flat3\Lodata\Tests\Data\TestModels;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;

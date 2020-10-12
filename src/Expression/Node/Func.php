@@ -1,12 +1,12 @@
 <?php
 
-namespace Flat3\OData\Expression\Node;
+namespace Flat3\Lodata\Expression\Node;
 
-use Flat3\OData\Exception\Internal\NodeHandledException;
-use Flat3\OData\Exception\Internal\ParserException;
-use Flat3\OData\Expression\Event\EndFunction;
-use Flat3\OData\Expression\Event\StartFunction;
-use Flat3\OData\Expression\Operator;
+use Flat3\Lodata\Exception\Internal\NodeHandledException;
+use Flat3\Lodata\Exception\Internal\ParserException;
+use Flat3\Lodata\Expression\Event\EndFunction;
+use Flat3\Lodata\Expression\Event\StartFunction;
+use Flat3\Lodata\Expression\Operator;
 
 class Func extends Operator
 {

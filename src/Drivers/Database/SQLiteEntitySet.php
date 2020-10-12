@@ -1,10 +1,10 @@
 <?php
 
-namespace Flat3\OData\Drivers\Database;
+namespace Flat3\Lodata\Drivers\Database;
 
-use Flat3\OData\Drivers\SQLEntitySet;
-use Flat3\OData\Expression\Event;
-use Flat3\OData\Interfaces\TransactionInterface;
+use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Interfaces\TransactionInterface;
 
 class SQLiteEntitySet extends SQLEntitySet implements TransactionInterface
 {

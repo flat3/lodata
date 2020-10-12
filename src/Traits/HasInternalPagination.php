@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\OData\Traits;
+namespace Flat3\Lodata\Traits;
 
 trait HasInternalPagination
 {

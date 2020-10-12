@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData;
+namespace Flat3\Lodata;
 
-use Flat3\OData\Type\Property;
+use Flat3\Lodata\Type\Property;
 
 class DynamicProperty extends Property
 {

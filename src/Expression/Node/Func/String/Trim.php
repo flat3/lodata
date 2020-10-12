@@ -1,8 +1,8 @@
 <?php
 
-namespace Flat3\OData\Expression\Node\Func\String;
+namespace Flat3\Lodata\Expression\Node\Func\String;
 
-use Flat3\OData\Expression\Node\Func;
+use Flat3\Lodata\Expression\Node\Func;
 
 class Trim extends Func
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Flat3\OData\Operation;
+namespace Flat3\Lodata\Operation;
 
-use Flat3\OData\Controller\Transaction;
-use Flat3\OData\EntitySet;
-use Flat3\OData\EntityType;
-use Flat3\OData\Exception\Protocol\InternalServerErrorException;
-use Flat3\OData\Interfaces\ArgumentInterface;
-use Flat3\OData\Model;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Model;
 
 class EntitySetArgument extends Argument
 {
