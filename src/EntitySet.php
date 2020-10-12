@@ -373,21 +373,18 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $entitySet = $entitySet->asInstance($transaction);
 
         if ($lexer->finished()) {
-            if ($nextComponent) {
+            if ($nextComponent || $transaction->getMethod() === Request::METHOD_GET) {
+                if (!$entitySet instanceof QueryInterface) {
+                    throw new NotImplementedException(
+                        'entityset_cannot_query',
+                        'This entity set cannot be queried',
+                    );
+                }
+
                 return $entitySet;
             }
 
             switch ($transaction->getMethod()) {
-                case Request::METHOD_GET:
-                    if (!$entitySet instanceof QueryInterface) {
-                        throw new NotImplementedException(
-                            'entityset_cannot_query',
-                            'This entity set cannot be queried',
-                        );
-                    }
-
-                    return $entitySet;
-
                 case Request::METHOD_POST:
                     if (!$entitySet instanceof CreateInterface) {
                         throw new NotImplementedException(
