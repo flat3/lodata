@@ -16,6 +16,7 @@ use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -27,6 +28,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use MatchesSnapshots;
     use RefreshDatabase;
     use TestModels;
+    use WithoutMiddleware;
 
     public function setUp(): void
     {
@@ -53,7 +55,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             throw new RuntimeException('Failed to throw exception');
         } catch (ProtocolException $e) {
             if (!$e instanceof $exceptionClass) {
-                throw new RuntimeException('Incorrect exception thrown: ' . get_class($e));
+                throw new RuntimeException('Incorrect exception thrown: '.get_class($e));
             }
 
             $this->assertMatchesObjectSnapshot($e->serialize());
@@ -122,7 +124,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * @param TestResponse $response
+     * @param  TestResponse  $response
      * @return stdClass
      */
     public function jsonResponse(TestResponse $response): stdClass
