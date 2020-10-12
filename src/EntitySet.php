@@ -8,6 +8,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -37,6 +38,7 @@ use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Type\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Iterator;
 
 abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
@@ -381,6 +383,10 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
                     );
                 }
 
+                if (Gate::denies('lodata-entityset-query', [$entitySet, $transaction])) {
+                    throw new ForbiddenException();
+                }
+
                 return $entitySet;
             }
 
@@ -391,6 +397,10 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
                             'entityset_cannot_create',
                             'This entity set cannot create entities'
                         );
+                    }
+
+                    if (Gate::denies('lodata-entityset-create', [$entitySet, $transaction])) {
+                        throw new ForbiddenException();
                     }
 
                     return $entitySet->create();

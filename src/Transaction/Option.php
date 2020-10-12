@@ -55,7 +55,7 @@ abstract class Option
      */
     public function hasValue(): bool
     {
-        return null !== $this->value;
+        return !!$this->value;
     }
 
     public function clearValue(): void

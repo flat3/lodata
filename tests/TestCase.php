@@ -17,6 +17,7 @@ use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -34,6 +35,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
         $this->withoutExceptionHandling();
+        Gate::shouldReceive('denies')->andReturn(false);
     }
 
     protected function getPackageProviders($app)
