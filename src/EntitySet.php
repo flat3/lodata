@@ -420,6 +420,11 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         // Get the default key property
         $keyProperty = $entitySet->getType()->getKey();
 
+        if (!$keyProperty) {
+            throw new InternalServerErrorException('invalid_key_property',
+                'The key property defined on this entity type is not valid');
+        }
+
         // Test for alternative key syntax
         $alternateKey = $lexer->maybeODataIdentifier();
         if ($alternateKey) {

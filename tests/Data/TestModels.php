@@ -19,6 +19,11 @@ use Flat3\Lodata\Type\Int32;
 
 trait TestModels
 {
+    public function withEloquentModel(): void {
+        $this->loadMigrationsFrom(__DIR__.'/Migrations');
+        $this->artisan('migrate')->run();
+    }
+
     public function withFlightModel(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/Migrations');

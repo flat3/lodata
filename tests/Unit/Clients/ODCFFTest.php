@@ -6,7 +6,7 @@ use Flat3\Lodata\Tests\Data\TestModels;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-class ODCFF extends TestCase
+class ODCFFTest extends TestCase
 {
     use TestModels;
 
@@ -15,7 +15,7 @@ class ODCFF extends TestCase
         $this->withFlightModel();
         $this->assertHtmlResponse(
             Request::factory()
-                ->path('/airports.odc')
+                ->path('/_lodata/airports.odc')
         );
     }
 
@@ -23,7 +23,7 @@ class ODCFF extends TestCase
     {
         $this->assertNotFound(
             Request::factory()
-                ->path('/missing.odc')
+                ->path('/_lodata/missing.odc')
         );
     }
 }

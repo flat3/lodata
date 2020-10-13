@@ -1,0 +1,13 @@
+{
+    "version": "0.1",
+    "connections": [
+        {
+            "details": {
+                "protocol": "odata",
+                "address": {
+                    "url": "http://localhost/odata/"
+                }
+            }
+        }
+    ]
+}
