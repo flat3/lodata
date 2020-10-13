@@ -101,7 +101,7 @@ class Async implements ShouldQueue
 
     public function getMonitorUrl(): string
     {
-        return Transaction::getResourceUrl().'_flat3/monitor/'.$this->jobId;
+        return Transaction::getResourceUrl().'_lodata/monitor/'.$this->jobId;
     }
 
     public function getTransactionId(): string

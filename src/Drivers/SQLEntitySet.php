@@ -178,8 +178,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $this->resetParameters();
         $columns = $this->selectToColumns();
-        $query = sprintf('SELECT %s FROM %s WHERE %s=?', $columns, $this->getTable(),
-            $this->propertyToField($key->getProperty()));
+        $query = sprintf(
+            'SELECT %s FROM %s WHERE %s=?',
+            $columns,
+            $this->getTable(),
+            $this->propertyToField($key->getProperty())
+        );
         $this->addParameter($key->get());
         $stmt = $this->pdoSelect($query);
         $this->bindParameters($stmt);

@@ -536,8 +536,11 @@ class Transaction implements ArgumentInterface
         $path = $this->getRequestPath();
 
         foreach ($unreservedChars as $unreservedChar) {
-            $path = str_replace('%'.str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT), $unreservedChar,
-                $path);
+            $path = str_replace(
+                '%'.str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT),
+                $unreservedChar,
+                $path
+            );
         }
 
         return $path;
