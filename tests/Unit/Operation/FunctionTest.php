@@ -177,6 +177,24 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_function_composition()
+    {
+        Model::fn('identity')
+            ->setCallback(function (Int32 $i): Int32 {
+                return Int32::factory($i->get());
+            });
+
+        Model::fn('increment')
+            ->setCallback(function (Int32 $i): Int32 {
+                return Int32::factory($i->get() + 1);
+            })->setBindingParameterName('i');
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/identity(i=1)/increment/increment')
+        );
+    }
+
     public function test_callback_modified_flight_entity_set()
     {
         $this->withFlightModel();
