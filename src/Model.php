@@ -133,7 +133,9 @@ class Model
     public static function discovery(): void
     {
         foreach (Traits::getClassesByTrait(Lodata::class) as $model) {
-            self::add(new EloquentEntitySet($model));
+            if (is_a($model, \Illuminate\Database\Eloquent\Model::class, true)) {
+                self::add(new EloquentEntitySet($model));
+            }
         }
     }
 }
