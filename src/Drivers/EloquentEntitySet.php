@@ -170,6 +170,12 @@ class EloquentEntitySet extends SQLEntitySet
         }
     }
 
+    public function propertyToField(Property $property): string
+    {
+        $model = new $this->model();
+        return $model->qualifyColumn($property->getName());
+    }
+
     public static function attach()
     {
         /** @var EloquentEntitySet $model */
