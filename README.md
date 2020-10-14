@@ -1,4 +1,4 @@
-# Flat3 OData 4.0 Producer for Laravel
+# Flat3 OData 4.01 Producer for Laravel
 
 ## What is OData? (from the OData spec)
 
