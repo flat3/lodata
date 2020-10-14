@@ -35,6 +35,11 @@ class EloquentEntitySet extends SQLEntitySet
             'code',
             PrimitiveType::string()
         ))->setKeyable());
+        $type->addProperty(new DeclaredProperty(
+            'name',
+            PrimitiveType::string()
+
+        ));
 
         parent::__construct($model->getTable(), $type);
     }
@@ -85,11 +90,11 @@ class EloquentEntitySet extends SQLEntitySet
     public function entityToModel(Entity $entity): Model
     {
         /** @var Model $model */
-        $model = new $this->model();
+        $model = $this->getModelByKey($entity->getEntityId());
 
         /** @var PrimitiveType $primitive */
         foreach ($entity->getPrimitives() as $primitive) {
-            $model[$primitive->getName()] = $primitive->get();
+            $model[$primitive->getProperty()->getName()] = $primitive->get();
         }
 
         return $model;
@@ -117,25 +122,43 @@ class EloquentEntitySet extends SQLEntitySet
 
     public function update(PrimitiveType $key): Entity
     {
-        $entity = $this->read($key);
-        $entity->fromArray($this->transaction->getBody());
+        $model = $this->getModelByKey($key);
 
-        $this->entityToModel($entity)->save();
+        $body = $this->transaction->getBody();
+
+        /** @var Property $property */
+        foreach ($this->getType()->getDeclaredProperties() as $property) {
+            if (array_key_exists($property->getName(), $body)) {
+                $model[$property->getName()] = $body[$property->getName()];
+            }
+        }
+
+        $model->save();
 
         return $this->read($key);
     }
 
     public function create(): Entity
     {
-        $entity = $this->newEntity();
-        $entity->fromArray($this->transaction->getBody());
+        $model = new $this->model();
 
-        $model = $this->entityToModel($entity);
-        $model->save();
+        $body = $this->transaction->getBody();
 
-        $entity->setEntityId($model->getKey());
+        /** @var Property $property */
+        foreach ($this->getType()->getDeclaredProperties() as $property) {
+            if (array_key_exists($property->getName(), $body)) {
+                $model[$property->getName()] = $body[$property->getName()];
+            }
+        }
 
-        return $this->read($entity->getEntityId());
+        $id = $model->save();
+
+        /** @var PrimitiveType $key */
+        $key = $this->getType()->getKey()->getType()->clone();
+        $key->setProperty($this->getType()->getKey());
+        $key->set($id);
+
+        return $this->read($key);
     }
 
     public function delete(PrimitiveType $key)

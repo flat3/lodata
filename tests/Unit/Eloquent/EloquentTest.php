@@ -42,4 +42,63 @@ class EloquentTest extends TestCase
                 ->path("/airports(code='elo')")
         );
     }
+
+    public function test_update()
+    {
+        $model = new Airport();
+        $model['name'] = 'Eloquent';
+        $model['code'] = 'elo';
+        $model->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->patch()
+                ->body([
+                    'code' => 'efo',
+                ])
+                ->path('/airports(1)')
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports(1)')
+        );
+    }
+
+    public function test_create()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->post()
+                ->body([
+                    'code' => 'efo',
+                    'name' => 'Eloquent',
+                ])
+                ->path('/airports')
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports(1)')
+        );
+    }
+
+    public function test_delete()
+    {
+        $model = new Airport();
+        $model['name'] = 'Eloquent';
+        $model['code'] = 'elo';
+        $model->save();
+
+        $this->assertNoContent(
+            Request::factory()
+                ->delete()
+                ->path('/airports(1)')
+        );
+
+        $this->assertNotFound(
+            Request::factory()
+                ->path('/airports(1)')
+        );
+    }
 }
