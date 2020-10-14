@@ -13,9 +13,26 @@ class EloquentTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->withEloquentModel();
-        Model::add(new EloquentEntitySet(Airport::class));
-        Model::getType('airport')->getProperty('code')->setKeyable();
+        $this->withFlightDatabase();
+
+        global $__PHPUNIT_CONFIGURATION_FILE;
+        $testBasePath = dirname($__PHPUNIT_CONFIGURATION_FILE);
+        $originalBasePath = app()->basePath();
+        app()->setBasePath($testBasePath);
+        EloquentEntitySet::autoDiscoverAll();
+        app()->setBasePath($originalBasePath);
+
+        $airport = Model::getType('Airport');
+        $airport->getProperty('code')->setAlternativeKey();
+    }
+
+    public function test_metadata()
+    {
+        $this->assertXmlResponse(
+            Request::factory()
+                ->path('/$metadata')
+                ->xml()
+        );
     }
 
     public function test_read()
@@ -27,7 +44,7 @@ class EloquentTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/airports(1)')
+                ->path('/Airports(1)')
         );
     }
 
@@ -40,7 +57,7 @@ class EloquentTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/airports(code='elo')")
+                ->path("/Airports(code='elo')")
         );
     }
 
@@ -57,12 +74,12 @@ class EloquentTest extends TestCase
                 ->body([
                     'code' => 'efo',
                 ])
-                ->path('/airports(1)')
+                ->path('/Airports(1)')
         );
 
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/airports(1)')
+                ->path('/Airports(1)')
         );
     }
 
@@ -75,12 +92,12 @@ class EloquentTest extends TestCase
                     'code' => 'efo',
                     'name' => 'Eloquent',
                 ])
-                ->path('/airports')
+                ->path('/Airports')
         );
 
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/airports(1)')
+                ->path('/Airports(1)')
         );
     }
 
@@ -94,12 +111,12 @@ class EloquentTest extends TestCase
         $this->assertNoContent(
             Request::factory()
                 ->delete()
-                ->path('/airports(1)')
+                ->path('/Airports(1)')
         );
 
         $this->assertNotFound(
             Request::factory()
-                ->path('/airports(1)')
+                ->path('/Airports(1)')
         );
     }
 
@@ -112,7 +129,7 @@ class EloquentTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/airports')
+                ->path('/Airports')
                 ->filter("code eq 'elo'")
         );
     }

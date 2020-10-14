@@ -1,10 +1,15 @@
 {
-    "@context": "http://localhost/odata/$metadata#airports",
+    "@context": "http://localhost/odata/$metadata#Airports",
     "value": [
         {
             "id": 1,
+            "name": "Eloquent",
             "code": "elo",
-            "name": "Eloquent"
+            "construction_date": null,
+            "sam_datetime": null,
+            "open_time": null,
+            "review_score": null,
+            "is_big": null
         }
     ]
 }

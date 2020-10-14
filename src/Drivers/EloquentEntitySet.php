@@ -7,10 +7,17 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Event\Literal;
+use Flat3\Lodata\Expression\Node\Literal\Date;
+use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
+use Flat3\Lodata\Model as LoModel;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Traits\EloquentOData;
+use Flat3\Lodata\Traits\Lodata;
 use Flat3\Lodata\Type\Property;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -20,13 +27,48 @@ class EloquentEntitySet extends SQLEntitySet
     /** @var Model $model */
     protected $model;
 
-    public function __construct(string $model)
+    public static function autoDiscover(string $model): void
+    {
+        $modelInstance = new $model();
+
+        $type = new EntityType(self::getTypeName($model));
+        $set = new static(self::getSetName($model), $type);
+        $set->setModel($model);
+        $set->setTable($modelInstance->getTable());
+        $set->discoverProperties();
+
+        LoModel::add($set);
+    }
+
+    public static function autoDiscoverAll(): void
+    {
+        foreach (self::getAllModels() as $model) {
+            self::autoDiscover($model);
+        }
+    }
+
+    public function setModel(string $model): self
     {
         $this->model = $model;
+        return $this;
+    }
 
+    public static function getTypeName(string $model): string
+    {
+        return Str::studly(class_basename($model));
+    }
+
+    public static function getSetName(string $model)
+    {
+        return Str::pluralStudly(class_basename($model));
+    }
+
+    public function discoverProperties(): void
+    {
         /** @var Model $model */
         $model = new $this->model();
-        $type = new EntityType(Str::singular($model->getTable()));
+
+        $type = $this->getType();
         $type->setKey(
             new DeclaredProperty(
                 $model->getKeyName(),
@@ -34,20 +76,28 @@ class EloquentEntitySet extends SQLEntitySet
             )
         );
 
-        foreach ($model->getCasts() as $name => $cast) {
-            if ($name === $model->getKeyName()) {
+        /** @var Connection $conn */
+        $conn = DB::connection();
+        $grammar = $conn->selectFromWriteConnection($conn->getSchemaGrammar()->compileColumnListing($this->getTable()));
+        $casts = $model->getCasts();
+
+        foreach ($grammar as $gram) {
+            if ($gram->name === $model->getKeyName()) {
                 continue;
+            }
+
+            $cast = $gram->type;
+            if (array_key_exists($gram->name, $casts)) {
+                $cast = $casts[$gram->name];
             }
 
             $type->addProperty(
                 new DeclaredProperty(
-                    $name,
-                    $this->eloquentTypeToPrimitive($cast)
+                    $gram->name,
+                    $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$gram->notnull)->seal()
                 )
             );
         }
-
-        parent::__construct($model->getTable(), $type);
     }
 
     public function eloquentTypeToPrimitive(string $type): PrimitiveType
@@ -58,8 +108,10 @@ class EloquentEntitySet extends SQLEntitySet
                 return PrimitiveType::boolean();
 
             case 'date':
+                return PrimitiveType::date();
+
             case 'datetime':
-                return PrimitiveType::timeofday();
+                return PrimitiveType::datetimeoffset();
 
             case 'decimal':
             case 'float':
@@ -73,11 +125,12 @@ class EloquentEntitySet extends SQLEntitySet
             case 'integer':
                 return PrimitiveType::int32();
 
+            case 'varchar':
             case 'string':
                 return PrimitiveType::string();
 
             case 'timestamp':
-                return PrimitiveType::datetimeoffset();
+                return PrimitiveType::timeofday();
         }
 
         return PrimitiveType::string();
@@ -176,14 +229,6 @@ class EloquentEntitySet extends SQLEntitySet
         return $model->qualifyColumn($property->getName());
     }
 
-    public static function attach()
-    {
-        /** @var EloquentEntitySet $model */
-        $model = resolve(EloquentEntitySet::class);
-
-        $eloquentModels = self::getAllModels();
-    }
-
     public static function getAllModels(): array
     {
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
@@ -203,8 +248,10 @@ class EloquentEntitySet extends SQLEntitySet
                     $valid = false;
                     if (class_exists($class)) {
                         $reflection = new ReflectionClass($class);
-                        $valid = in_array(EloquentOData::class, array_keys($reflection->getTraits())) &&
-                            !$reflection->isAbstract();
+                        $valid = in_array(
+                                Lodata::class,
+                                array_keys($reflection->getTraits())
+                            ) && !$reflection->isAbstract();
                     }
                     return $valid;
                 })

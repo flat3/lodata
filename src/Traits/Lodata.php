@@ -2,6 +2,6 @@
 
 namespace Flat3\Lodata\Traits;
 
-trait EloquentOData
+trait Lodata
 {
 }

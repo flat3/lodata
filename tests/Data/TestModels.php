@@ -16,18 +16,36 @@ use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 trait TestModels
 {
-    public function withEloquentModel(): void {
-        $this->loadMigrationsFrom(__DIR__.'/Migrations');
-        $this->artisan('migrate')->run();
+    public function withFlightDatabase(): void
+    {
+        Schema::create('flights', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('origin')->nullable();
+            $table->string('destination')->nullable();
+            $table->integer('gate')->nullable();
+        });
+
+        Schema::create('airports', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('code');
+            $table->date('construction_date')->nullable();
+            $table->dateTime('sam_datetime')->nullable();
+            $table->time('open_time')->nullable();
+            $table->float('review_score')->nullable();
+            $table->boolean('is_big')->nullable();
+        });
     }
 
     public function withFlightModel(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/Migrations');
-        $this->artisan('migrate')->run();
+        $this->withFlightDatabase();
 
         (new FlightEModel([
             'origin' => 'lhr',
@@ -47,6 +65,8 @@ trait TestModels
             'sam_datetime' => '2001-11-10T14:00:00+00:00',
             'is_big' => true,
         ]))->save();
+
+        $r = DB::select('select * from airports');
 
         (new AirportEModel([
             'code' => 'lax',

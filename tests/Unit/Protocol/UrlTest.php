@@ -26,8 +26,8 @@ class UrlTest extends TestCase
 
         /** @var EntityType $airportType */
         $airportType = Model::get()->getEntityTypes()->get('airport');
-        $airportType->getProperty('name')->setSearchable()->setKeyable();
-        $airportType->getProperty('code')->setSearchable()->setKeyable();
+        $airportType->getProperty('name')->setSearchable()->setAlternativeKey();
+        $airportType->getProperty('code')->setSearchable()->setAlternativeKey();
     }
 
     public function test_valid_1()

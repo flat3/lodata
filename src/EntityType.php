@@ -34,7 +34,7 @@ class EntityType extends ComplexType
         $key->setNullable(false);
 
         // Key property should be marked keyable
-        $key->setKeyable(true);
+        $key->setAlternativeKey(true);
 
         $this->key = $key;
 

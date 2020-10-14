@@ -441,7 +441,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
                 $keyProperty = $entitySet->getType()->getProperty($alternateKey);
 
-                if ($keyProperty instanceof Property && !$keyProperty->isKeyable()) {
+                if ($keyProperty instanceof Property && !$keyProperty->isAlternativeKey()) {
                     throw new BadRequestException(
                         'property_not_alternative_key',
                         sprintf(

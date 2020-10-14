@@ -16,6 +16,9 @@ use Flat3\Lodata\Expression\Event\Literal;
 use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartGroup;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
+use Flat3\Lodata\Expression\Node\Literal\Date;
+use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
+use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy;
@@ -228,9 +231,23 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             case $event instanceof Literal:
                 $this->addWhere('?');
 
+                $node = $event->getNode();
+
                 switch (true) {
-                    case $event->getNode() instanceof Boolean:
+                    case $node instanceof Boolean:
                         $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue());
+                        break;
+
+                    case $node instanceof Date:
+                        $this->addParameter($node->getValue()->format('Y-m-d 00:00:00'));
+                        break;
+
+                    case $node instanceof DateTimeOffset:
+                        $this->addParameter($node->getValue()->format('Y-m-d H:i:s'));
+                        break;
+
+                    case $node instanceof TimeOfDay:
+                        $this->addParameter($node->getValue()->format('H:i:s'));
                         break;
 
                     default:

@@ -21,8 +21,8 @@ abstract class Property implements TypeInterface, NamedInterface
     /** @var bool $filterable Whether this property can be used in a $filter expression */
     protected $filterable = true;
 
-    /** @var bool $keyable Whether this property can be used as an alternative key */
-    protected $keyable = false;
+    /** @var bool $alternativeKey Whether this property can be used as an alternative key */
+    protected $alternativeKey = false;
 
     public function __construct($name, TypeInterface $type)
     {
@@ -98,14 +98,14 @@ abstract class Property implements TypeInterface, NamedInterface
         return $this;
     }
 
-    public function isKeyable(): bool
+    public function isAlternativeKey(): bool
     {
-        return $this->keyable;
+        return $this->alternativeKey;
     }
 
-    public function setKeyable(bool $keyable = true): self
+    public function setAlternativeKey(bool $alternativeKey = true): self
     {
-        $this->keyable = $keyable;
+        $this->alternativeKey = $alternativeKey;
 
         return $this;
     }
