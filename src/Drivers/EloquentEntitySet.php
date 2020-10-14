@@ -2,9 +2,11 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Exception;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Traits\EloquentOData;
 use Flat3\Lodata\Type\Property;
@@ -81,9 +83,10 @@ class EloquentEntitySet extends SQLEntitySet
         return PrimitiveType::string();
     }
 
-    public function query(): array
+    public function assocToEntity(array $row): Entity
     {
-        return parent::query();
+        $id = $row['id'];
+        return $this->getEntityById($row['id']);
     }
 
     public function getModelByKey(PrimitiveType $key): ?Model
@@ -91,17 +94,13 @@ class EloquentEntitySet extends SQLEntitySet
         return $this->model::where($key->getProperty()->getName(), $key->get())->first();
     }
 
-    public function entityToModel(Entity $entity): Model
+    public function getEntityById($id): ?Entity
     {
-        /** @var Model $model */
-        $model = $this->getModelByKey($entity->getEntityId());
+        $key = $this->getType()->getKey()->getType()->clone();
+        $key->setProperty($this->getType()->getKey());
+        $key->set($id);
 
-        /** @var PrimitiveType $primitive */
-        foreach ($entity->getPrimitives() as $primitive) {
-            $model[$primitive->getProperty()->getName()] = $primitive->get();
-        }
-
-        return $model;
+        return $this->read($key);
     }
 
     public function read(PrimitiveType $key): ?Entity
@@ -157,18 +156,18 @@ class EloquentEntitySet extends SQLEntitySet
 
         $id = $model->save();
 
-        /** @var PrimitiveType $key */
-        $key = $this->getType()->getKey()->getType()->clone();
-        $key->setProperty($this->getType()->getKey());
-        $key->set($id);
-
-        return $this->read($key);
+        return $this->getEntityById($id);
     }
 
     public function delete(PrimitiveType $key)
     {
         $model = $this->getModelByKey($key);
-        $model->delete();
+
+        try {
+            $model->delete();
+        } catch (Exception $e) {
+            throw new InternalServerErrorException('deletion_error', $e->getMessage());
+        }
     }
 
     public static function attach()
@@ -177,21 +176,6 @@ class EloquentEntitySet extends SQLEntitySet
         $model = resolve(EloquentEntitySet::class);
 
         $eloquentModels = self::getAllModels();
-    }
-
-    public function test()
-    {
-        $this->getTable();
-        $this->getConnection();
-        $this->getKeyName();
-        $this->getKeyType();
-        $this->getPerPage();
-        $this->qualifyColumn($column);
-        // Insert - new Model and ->save()
-        $this->update($array);
-        $this->delete();
-        $this->save();
-        self::find([1, 2, 3]);
     }
 
     public static function getAllModels(): array

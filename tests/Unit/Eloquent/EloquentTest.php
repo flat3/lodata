@@ -102,4 +102,18 @@ class EloquentTest extends TestCase
                 ->path('/airports(1)')
         );
     }
+
+    public function test_query()
+    {
+        $model = new Airport();
+        $model['name'] = 'Eloquent';
+        $model['code'] = 'elo';
+        $model->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports')
+                ->filter("code eq 'elo'")
+        );
+    }
 }

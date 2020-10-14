@@ -177,7 +177,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     public function read(PrimitiveType $key): ?Entity
     {
         $this->resetParameters();
-        $columns = $this->selectToColumns();
+        $columns = $this->getColumnsToQuery();
         $query = sprintf(
             'SELECT %s FROM %s WHERE %s=?',
             $columns,
@@ -494,7 +494,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     public function getSetResultQueryString(): string
     {
         $this->resetParameters();
-        $columns = $this->selectToColumns();
+        $columns = $this->getColumnsToQuery();
 
         $query = sprintf('SELECT %s FROM %s', $columns, $this->getTable());
 
@@ -521,7 +521,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $query;
     }
 
-    protected function selectToColumns(): string
+    protected function getColumnsToQuery(): string
     {
         $select = $this->transaction->getSelect();
 
