@@ -70,6 +70,12 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
 
     protected $immutable = false;
 
+    /** @var Entity $entity */
+    private $entity;
+
+    /** @var Property $property */
+    private $property;
+
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
 
@@ -187,12 +193,6 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     {
         return '';
     }
-
-    /** @var Entity $entity */
-    private $entity;
-
-    /** @var Property $property */
-    private $property;
 
     public function setProperty(Property $property): self
     {
