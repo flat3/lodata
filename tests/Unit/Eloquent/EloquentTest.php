@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
-use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\Tests\Models\Airport;
 use Flat3\Lodata\Tests\Request;
@@ -19,7 +18,7 @@ class EloquentTest extends TestCase
         $testBasePath = dirname($__PHPUNIT_CONFIGURATION_FILE);
         $originalBasePath = app()->basePath();
         app()->setBasePath($testBasePath);
-        EloquentEntitySet::autoDiscoverAll();
+        Model::discovery();
         app()->setBasePath($originalBasePath);
 
         $airport = Model::getType('Airport');

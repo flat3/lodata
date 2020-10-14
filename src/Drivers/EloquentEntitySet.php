@@ -7,44 +7,31 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\Literal;
-use Flat3\Lodata\Expression\Node\Literal\Date;
-use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
-use Flat3\Lodata\Model as LoModel;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Traits\Lodata;
 use Flat3\Lodata\Type\Property;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use ReflectionClass;
 
 class EloquentEntitySet extends SQLEntitySet
 {
     /** @var Model $model */
     protected $model;
 
-    public static function autoDiscover(string $model): void
+    public function __construct(string $model)
     {
+        $this->model = $model;
+
         $modelInstance = new $model();
 
-        $type = new EntityType(self::getTypeName($model));
-        $set = new static(self::getSetName($model), $type);
-        $set->setModel($model);
-        $set->setTable($modelInstance->getTable());
-        $set->discoverProperties();
+        $name = EloquentEntitySet::getSetName($model);
+        $type = new EntityType(EloquentEntitySet::getTypeName($model));
 
-        LoModel::add($set);
-    }
+        parent::__construct($name, $type);
 
-    public static function autoDiscoverAll(): void
-    {
-        foreach (self::getAllModels() as $model) {
-            self::autoDiscover($model);
-        }
+        $this->setTable($modelInstance->getTable());
+        $this->discoverProperties();
     }
 
     public function setModel(string $model): self
@@ -227,38 +214,5 @@ class EloquentEntitySet extends SQLEntitySet
     {
         $model = new $this->model();
         return $model->qualifyColumn($property->getName());
-    }
-
-    public static function getAllModels(): array
-    {
-        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
-        $models = [];
-
-        foreach ((array) data_get($composer, 'autoload.psr-4') as $namespace => $path) {
-            $models = array_merge(collect(File::allFiles(base_path($path)))
-                ->map(function ($item) use ($namespace) {
-                    $path = $item->getRelativePathName();
-                    return sprintf(
-                        '\%s%s',
-                        $namespace,
-                        strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
-                    );
-                })
-                ->filter(function ($class) {
-                    $valid = false;
-                    if (class_exists($class)) {
-                        $reflection = new ReflectionClass($class);
-                        $valid = in_array(
-                                Lodata::class,
-                                array_keys($reflection->getTraits())
-                            ) && !$reflection->isAbstract();
-                    }
-                    return $valid;
-                })
-                ->values()
-                ->toArray(), $models);
-        }
-
-        return $models;
     }
 }

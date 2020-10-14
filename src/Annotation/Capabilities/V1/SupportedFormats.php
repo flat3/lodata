@@ -9,7 +9,6 @@ use Flat3\Lodata\Transaction\Metadata\Full;
 use Flat3\Lodata\Transaction\Metadata\Minimal;
 use Flat3\Lodata\Transaction\Metadata\None;
 use Flat3\Lodata\Transaction\Parameter;
-use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\String_;
 

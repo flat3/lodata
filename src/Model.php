@@ -10,12 +10,14 @@ use Flat3\Lodata\Annotation\Core\V1\ConventionalIDs;
 use Flat3\Lodata\Annotation\Core\V1\DefaultNamespace;
 use Flat3\Lodata\Annotation\Core\V1\DereferencableIDs;
 use Flat3\Lodata\Annotation\Core\V1\ODataVersions;
+use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\Traits;
 use Flat3\Lodata\Interfaces\NamedInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Flat3\Lodata\Transaction\Version;
+use Flat3\Lodata\Traits\Lodata;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Model
@@ -126,5 +128,12 @@ class Model
     public function getAnnotations(): ObjectArray
     {
         return $this->model->sliceByClass(Annotation::class);
+    }
+
+    public static function discovery(): void
+    {
+        foreach (Traits::getClassesByTrait(Lodata::class) as $model) {
+            self::add(new EloquentEntitySet($model));
+        }
     }
 }
