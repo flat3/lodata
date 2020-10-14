@@ -15,6 +15,7 @@ class EloquentTest extends TestCase
         parent::setUp();
         $this->withEloquentModel();
         Model::add(new EloquentEntitySet(Airport::class));
+        Model::getType('airport')->getProperty('code')->setKeyable();
     }
 
     public function test_read()

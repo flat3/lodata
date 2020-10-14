@@ -83,14 +83,14 @@ class Model
         return $type;
     }
 
-    public static function getType($name): EntityType
+    public static function getType($name): ?EntityType
     {
         $model = self::get();
 
         return $model->getEntityTypes()->get($name);
     }
 
-    public static function getResource($name): NamedInterface
+    public static function getResource($name): ?NamedInterface
     {
         $model = self::get();
 

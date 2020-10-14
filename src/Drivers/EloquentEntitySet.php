@@ -31,15 +31,19 @@ class EloquentEntitySet extends SQLEntitySet
                 $this->eloquentTypeToPrimitive($model->getKeyType())
             )
         );
-        $type->addProperty((new DeclaredProperty(
-            'code',
-            PrimitiveType::string()
-        ))->setKeyable());
-        $type->addProperty(new DeclaredProperty(
-            'name',
-            PrimitiveType::string()
 
-        ));
+        foreach ($model->getCasts() as $name => $cast) {
+            if ($name === $model->getKeyName()) {
+                continue;
+            }
+
+            $type->addProperty(
+                new DeclaredProperty(
+                    $name,
+                    $this->eloquentTypeToPrimitive($cast)
+                )
+            );
+        }
 
         parent::__construct($model->getTable(), $type);
     }

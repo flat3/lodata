@@ -79,6 +79,9 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $this->setName($name);
 
         $this->type = $entityType;
+        if (!Model::getType($this->type->getName())) {
+            Model::add($entityType);
+        }
         $this->navigationBindings = new ObjectArray();
     }
 

@@ -8,5 +8,9 @@ class Airport extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
+    protected $casts = [
+        'code' => 'string',
+        'name' => 'string',
+    ];
 }
 
