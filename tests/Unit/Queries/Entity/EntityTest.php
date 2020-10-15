@@ -2,8 +2,16 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
+use Flat3\Lodata\DynamicProperty;
+use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Entity;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Model;
+use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type\Int32;
+use Flat3\Lodata\Type\String_;
 
 class EntityTest extends TestCase
 {
@@ -117,5 +125,45 @@ class EntityTest extends TestCase
                 ->query('$expand', 'airports')
                 ->query('$select', 'origin')
         );
+    }
+
+    public function test_dynamic_property()
+    {
+        /** @var EntityType $airport */
+        $airport = Model::getType('airport');
+
+        $property = new DynamicProperty('cp', PrimitiveType::int32());
+
+        $property->setCallback(function (Entity $entity, Transaction $transaction) {
+            return new Int32(4);
+        });
+
+        $airport->addProperty($property);
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports(1)')
+        );
+    }
+
+    public function test_bad_dynamic_property()
+    {
+        /** @var EntityType $airport */
+        $airport = Model::getType('airport');
+
+        $property = new DynamicProperty('cp', PrimitiveType::int32());
+
+        $property->setCallback(function (Entity $entity, Transaction $transaction) {
+            return new String_(4);
+        });
+
+        $airport->addProperty($property);
+
+        ob_start();
+
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/airports(1)'));
+
+        $this->assertMatchesSnapshot(ob_get_clean());
     }
 }

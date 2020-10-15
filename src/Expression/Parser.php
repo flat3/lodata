@@ -28,7 +28,7 @@ abstract class Parser
     /** @var Node[] $tokens */
     protected $tokens = [];
 
-    /** @var \Flat3\Lodata\PathComponent\EntitySet $entitySet */
+    /** @var EntitySet $entitySet */
     protected $entitySet;
 
     /** @var string[] $validLiterals */

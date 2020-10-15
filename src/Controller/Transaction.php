@@ -38,6 +38,7 @@ use Flat3\Lodata\Transaction\Option\Top;
 use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Transaction\Version;
+use Flat3\Lodata\Type\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use JsonException;
@@ -367,20 +368,8 @@ class Transaction implements ArgumentInterface
         return $preference->getParameter('url');
     }
 
-    public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
+    public function shouldEmitProperty(Property $property): bool
     {
-        if (null === $primitive) {
-            return false;
-        }
-
-        $property = $primitive->getProperty();
-
-        $omitNulls = $this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS;
-
-        if ($omitNulls && $primitive->get() === null && $property->isNullable()) {
-            return false;
-        }
-
         $select = $this->getSelect();
 
         if ($select->isStar() || !$select->hasValue()) {
@@ -396,6 +385,23 @@ class Transaction implements ArgumentInterface
         }
 
         return true;
+    }
+
+    public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
+    {
+        if (null === $primitive) {
+            return false;
+        }
+
+        $property = $primitive->getProperty();
+
+        $omitNulls = $this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS;
+
+        if ($omitNulls && $primitive->get() === null && $property->isNullable()) {
+            return false;
+        }
+
+        return $this->shouldEmitProperty($property);
     }
 
     public function getMetadata(): ?Metadata

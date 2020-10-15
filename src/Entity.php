@@ -49,7 +49,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function emit(Transaction $transaction): void
     {
         $transaction->outputJsonObjectStart();
-
+        $dynamicProperties = $this->getType()->getDynamicProperties();
         $expand = $transaction->getExpand();
         $expansionRequests = $expand->getExpansionRequests($this->getType());
 
@@ -79,6 +79,29 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                     }
                 } else {
                     $this->primitives->next();
+                }
+            }
+
+            if ($dynamicProperties->hasEntries() || $expansionRequests->hasEntries()) {
+                $transaction->outputJsonSeparator();
+            }
+        }
+
+        if ($dynamicProperties->hasEntries()) {
+            $dynamicProperties->rewind();
+
+            while ($dynamicProperties->valid()) {
+                /** @var DynamicProperty $property */
+                $property = $dynamicProperties->current();
+                if ($transaction->shouldEmitProperty($property)) {
+                    $transaction->outputJsonKey($property->getName());
+                    $transaction->outputJsonValue($property->invoke($this, $transaction));
+                    $dynamicProperties->next();
+                    if ($dynamicProperties->valid() && $transaction->shouldEmitProperty($dynamicProperties->current())) {
+                        $transaction->outputJsonSeparator();
+                    }
+                } else {
+                    $dynamicProperties->next();
                 }
             }
 

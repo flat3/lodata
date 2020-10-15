@@ -27,7 +27,7 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
     /**
      * Add a property to the list
      *
-     * @param Property $property
+     * @param  Property  $property
      *
      * @return $this
      */
@@ -43,6 +43,11 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
         return $this->properties->sliceByClass(DeclaredProperty::class);
     }
 
+    public function getDynamicProperties(): ObjectArray
+    {
+        return $this->properties->sliceByClass(DynamicProperty::class);
+    }
+
     public function getProperty(string $property): ?Property
     {
         return $this->properties->get($property);
@@ -55,11 +60,11 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
 
     public function getContextUrl(): string
     {
-        return Transaction::getContextUrl() . '#' . $this->getName();
+        return Transaction::getContextUrl().'#'.$this->getName();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl() . $this->getName() . '()';
+        return Transaction::getResourceUrl().$this->getName().'()';
     }
 }
