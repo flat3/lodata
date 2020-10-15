@@ -60,7 +60,6 @@ class AsyncTest extends TestCase
     public function test_cancellation()
     {
         $queue = Queue::fake();
-        $disk = Storage::fake('odata');
 
         $acceptedException = $this->assertAccepted(
             Request::factory()

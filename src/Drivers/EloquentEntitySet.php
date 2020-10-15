@@ -125,7 +125,6 @@ class EloquentEntitySet extends SQLEntitySet
 
     public function assocToEntity(array $row): Entity
     {
-        $id = $row['id'];
         return $this->getEntityById($row['id']);
     }
 

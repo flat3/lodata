@@ -66,8 +66,6 @@ trait TestModels
             'is_big' => true,
         ]))->save();
 
-        $r = DB::select('select * from airports');
-
         (new AirportEModel([
             'code' => 'lax',
             'name' => 'Los Angeles',

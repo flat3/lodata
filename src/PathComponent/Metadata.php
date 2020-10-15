@@ -33,8 +33,7 @@ class Metadata implements PipeInterface, EmitInterface
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): PipeInterface
-    {
+    ): PipeInterface {
         if ($currentComponent !== '$metadata') {
             throw new PathNotHandledException();
         }
@@ -54,6 +53,11 @@ class Metadata implements PipeInterface, EmitInterface
         $root = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" />');
         $version = $transaction->getVersion();
         $root->addAttribute('Version', $version);
+
+        /** @var Annotation\Reference $reference */
+        foreach ($model->getModel()->sliceByClass(Annotation\Reference::class) as $reference) {
+            $reference->append($root);
+        }
 
         $dataServices = $root->addChild('DataServices');
 
@@ -103,9 +107,9 @@ class Metadata implements PipeInterface, EmitInterface
 
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getName());
-                $navigationPropertyType = $model->getNamespace() . '.' . $targetEntityType->getName();
+                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getName();
                 if ($navigationProperty->isCollection()) {
-                    $navigationPropertyType = 'Collection(' . $navigationPropertyType . ')';
+                    $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
 
                 $navigationPropertyPartner = $navigationProperty->getPartner();
@@ -142,7 +146,7 @@ class Metadata implements PipeInterface, EmitInterface
                     $entitySetElement->addAttribute('Name', $resource->getName());
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $model->getNamespace() . '.' . $resource->getType()->getName()
+                        $model->getNamespace().'.'.$resource->getType()->getName()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -207,7 +211,7 @@ class Metadata implements PipeInterface, EmitInterface
                         $returnTypeElement = $operationElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
-                            $returnTypeElement->addAttribute('Type', 'Collection(' . $returnType->getName() . ')');
+                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getName().')');
                         } else {
                             $returnTypeElement->addAttribute('Type', $returnType->getName());
                         }
@@ -218,21 +222,21 @@ class Metadata implements PipeInterface, EmitInterface
                         );
                     }
 
-                    $operationImport = $entityContainer->addChild($resource->getKind() . 'Import');
+                    $operationImport = $entityContainer->addChild($resource->getKind().'Import');
                     $operationImport->addAttribute('Name', $resource->getName());
                     $operationImport->addAttribute(
                         $resource->getKind(),
-                        $model->getNamespace() . '.' . $resource->getName()
+                        $model->getNamespace().'.'.$resource->getName()
                     );
                     break;
             }
         }
 
         $schemaAnnotations = $schema->addChild('Annotations');
-        $schemaAnnotations->addAttribute('Target', $model->getNamespace() . '.' . 'DefaultContainer');
+        $schemaAnnotations->addAttribute('Target', $model->getNamespace().'.'.'DefaultContainer');
 
         /** @var Annotation $annotation */
-        foreach ($model->getAnnotations() as $annotation) {
+        foreach ($model->getModel()->sliceByClass(Annotation::class) as $annotation) {
             $annotation->append($schemaAnnotations);
         }
 

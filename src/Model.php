@@ -2,14 +2,8 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Annotation\Capabilities\V1\AsynchronousRequestsSupported;
-use Flat3\Lodata\Annotation\Capabilities\V1\CallbackSupported;
-use Flat3\Lodata\Annotation\Capabilities\V1\ConformanceLevel;
-use Flat3\Lodata\Annotation\Capabilities\V1\SupportedFormats;
-use Flat3\Lodata\Annotation\Core\V1\ConventionalIDs;
-use Flat3\Lodata\Annotation\Core\V1\DefaultNamespace;
-use Flat3\Lodata\Annotation\Core\V1\DereferencableIDs;
-use Flat3\Lodata\Annotation\Core\V1\ODataVersions;
+use Flat3\Lodata\Annotation\Capabilities;
+use Flat3\Lodata\Annotation\Core;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
@@ -17,7 +11,6 @@ use Flat3\Lodata\Helper\Traits;
 use Flat3\Lodata\Interfaces\NamedInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Flat3\Lodata\Traits\UsesLodata;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Model
@@ -29,14 +22,17 @@ class Model
     {
         $this->model = new ObjectArray();
 
-        $this->model[] = new ODataVersions();
-        $this->model[] = new ConformanceLevel();
-        $this->model[] = new ConventionalIDs();
-        $this->model[] = new DereferencableIDs();
-        $this->model[] = new DefaultNamespace();
-        $this->model[] = new SupportedFormats();
-        $this->model[] = new AsynchronousRequestsSupported();
-        $this->model[] = new CallbackSupported();
+        $this->model[] = new Core\V1\Reference();
+        $this->model[] = new Core\V1\ConventionalIDs();
+        $this->model[] = new Core\V1\DefaultNamespace();
+        $this->model[] = new Core\V1\DereferencableIDs();
+        $this->model[] = new Core\V1\ODataVersions();
+
+        $this->model[] = new Capabilities\V1\Reference();
+        $this->model[] = new Capabilities\V1\AsynchronousRequestsSupported();
+        $this->model[] = new Capabilities\V1\CallbackSupported();
+        $this->model[] = new Capabilities\V1\ConformanceLevel();
+        $this->model[] = new Capabilities\V1\SupportedFormats();
     }
 
     public static function get(): self
@@ -125,9 +121,9 @@ class Model
         return $this->model->sliceByClass(ServiceInterface::class);
     }
 
-    public function getAnnotations(): ObjectArray
+    public function getModel(): ObjectArray
     {
-        return $this->model->sliceByClass(Annotation::class);
+        return $this->model;
     }
 
     public static function discovery(): void

@@ -64,8 +64,6 @@ class Async implements ShouldQueue
             return;
         }
 
-        $disk = Storage::disk('odata');
-
         $dataPath = $this->getDataPath();
         $metaPath = $this->getMetaPath();
 
