@@ -45,7 +45,7 @@ class Async implements ShouldQueue
 
     public function getDisk(): Filesystem
     {
-        return Storage::disk('odata');
+        return Storage::disk(config('lodata.disk'));
     }
 
     public function getDataPath(): string

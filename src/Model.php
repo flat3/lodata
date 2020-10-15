@@ -97,7 +97,7 @@ class Model
 
     public function getNamespace(): string
     {
-        return config('odata.namespace') ?: 'com.example.odata';
+        return config('lodata.namespace');
     }
 
     public function drop(string $key): self

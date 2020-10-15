@@ -25,7 +25,7 @@ class AsyncTest extends TestCase
     public function test_async()
     {
         $queue = Queue::fake();
-        $disk = Storage::fake('odata');
+        $disk = $this->getDisk();
 
         $acceptedException = $this->assertAccepted(
             Request::factory()
@@ -90,7 +90,7 @@ class AsyncTest extends TestCase
     public function test_error()
     {
         $queue = Queue::fake();
-        $disk = Storage::fake('odata');
+        $disk = $this->getDisk();
 
         $acceptedException = $this->assertAccepted(
             Request::factory()
@@ -127,7 +127,7 @@ class AsyncTest extends TestCase
     public function test_callback()
     {
         $queue = Queue::fake();
-        $disk = Storage::fake('odata');
+        $disk = $this->getDisk();
         Http::fake();
 
         $url = 'http://localhost/example';

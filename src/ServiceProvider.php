@@ -19,12 +19,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public static function route(): string
     {
-        return rtrim(config('odata.route') ?: 'odata', '/');
+        return rtrim(config('lodata.route'), '/');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config.php', 'odata');
+        $this->mergeConfigFrom(__DIR__.'/../config.php', 'lodata');
     }
 
     public function boot(Router $router)
@@ -35,8 +35,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         Model::discovery();
 
-        $authMiddleware = config('odata.authmiddleware');
-        $router->aliasMiddleware('odata.auth', AuthenticateWithBasicAuth::class);
+        $authMiddleware = config('lodata.authmiddleware');
+        $router->aliasMiddleware('lodata.auth', AuthenticateWithBasicAuth::class);
 
         Route::middleware([$authMiddleware])->group(function () {
             $route = self::route();

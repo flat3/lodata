@@ -15,9 +15,11 @@ use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -36,6 +38,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
         $this->withoutExceptionHandling();
         Gate::shouldReceive('denies')->andReturn(false);
+        $this->getDisk();
     }
 
     protected function getPackageProviders($app)
@@ -48,6 +51,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getEnvironmentSetUp($app)
     {
         // perform environment setup
+    }
+
+    protected function getDisk(): Filesystem
+    {
+        return Storage::fake(config('lodata.disk'));
     }
 
     protected function assertExceptionSnapshot(Request $request, string $exceptionClass): ProtocolException
