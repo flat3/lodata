@@ -2,12 +2,13 @@
 
 namespace Flat3\Lodata\Helper;
 
+use Flat3\Lodata\Traits\UsesLodata;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
 class Traits
 {
-    public static function getClassesByTrait(string $trait): array
+    public static function getClassesOfType(string $parent): array
     {
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
         $classes = [];
@@ -22,14 +23,14 @@ class Traits
                         strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
                     );
                 })
-                ->filter(function ($class) use ($trait) {
+                ->filter(function ($class) use ($parent) {
                     $valid = false;
                     if (class_exists($class)) {
                         $reflection = new ReflectionClass($class);
                         $valid = in_array(
-                                $trait,
+                                UsesLodata::class,
                                 array_keys($reflection->getTraits())
-                            ) && !$reflection->isAbstract();
+                            ) && !$reflection->isAbstract() && is_a($class, $parent, true);
                     }
                     return $valid;
                 })

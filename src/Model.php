@@ -17,7 +17,7 @@ use Flat3\Lodata\Helper\Traits;
 use Flat3\Lodata\Interfaces\NamedInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Flat3\Lodata\Traits\Lodata;
+use Flat3\Lodata\Traits\UsesLodata;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Model
@@ -132,10 +132,8 @@ class Model
 
     public static function discovery(): void
     {
-        foreach (Traits::getClassesByTrait(Lodata::class) as $model) {
-            if (is_a($model, \Illuminate\Database\Eloquent\Model::class, true)) {
-                self::add(new EloquentEntitySet($model));
-            }
+        foreach (Traits::getClassesOfType(\Illuminate\Database\Eloquent\Model::class) as $model) {
+            self::add(new EloquentEntitySet($model));
         }
     }
 }
