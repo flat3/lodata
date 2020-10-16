@@ -775,7 +775,7 @@ class Transaction implements ArgumentInterface
 
     public function outputJsonKey($key)
     {
-        $this->sendOutput(json_encode((string) $key).':');
+        $this->sendOutput(json_encode((string) $key, JSON_UNESCAPED_SLASHES).':');
     }
 
     public function outputJsonValue($value)
@@ -784,7 +784,7 @@ class Transaction implements ArgumentInterface
             $value = $this->ieee754compatible->isTrue() ? $value->toJsonIeee754() : $value->toJson();
         }
 
-        $this->sendOutput(json_encode($value));
+        $this->sendOutput(json_encode($value, JSON_UNESCAPED_SLASHES));
     }
 
     public function outputJsonSeparator()

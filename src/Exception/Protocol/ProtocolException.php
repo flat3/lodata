@@ -105,7 +105,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
                 'target' => $this->target,
                 'details' => $this->details,
                 'innererror' => $this->inner,
-            ]));
+            ]), JSON_UNESCAPED_SLASHES);
         });
 
         $response->setStatusCode($this->httpCode);

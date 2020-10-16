@@ -32,7 +32,7 @@ class PBIDS extends Controller
                     ],
                 ],
             ],
-        ]));
+        ], JSON_UNESCAPED_SLASHES));
 
         return $response;
     }

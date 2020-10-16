@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Tests\Unit\Setup;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\TestCase;
