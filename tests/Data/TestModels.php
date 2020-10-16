@@ -93,48 +93,45 @@ trait TestModels
             'is_big' => true,
         ]))->save();
 
-        try {
-            $flightType = Model::entitytype('flight');
-            $flightType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
-            $flightType->addProperty(DeclaredProperty::factory('origin', PrimitiveType::string()));
-            $flightType->addProperty(DeclaredProperty::factory('destination', PrimitiveType::string()));
-            $flightType->addProperty(DeclaredProperty::factory('gate', PrimitiveType::int32()));
-            $flightSet = new SQLEntitySet('flights', $flightType);
-            $flightSet->setTable('flights');
+        $flightType = Model::entitytype('flight');
+        $flightType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
+        $flightType->addProperty(DeclaredProperty::factory('origin', PrimitiveType::string()));
+        $flightType->addProperty(DeclaredProperty::factory('destination', PrimitiveType::string()));
+        $flightType->addProperty(DeclaredProperty::factory('gate', PrimitiveType::int32()));
+        $flightSet = new SQLEntitySet('flights', $flightType);
+        $flightSet->setTable('flights');
 
-            $airportType = Model::entitytype('airport');
-            $airportType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
-            $airportType->addProperty(DeclaredProperty::factory('name', PrimitiveType::string()));
-            $airportType->addProperty(DeclaredProperty::factory('code', PrimitiveType::string())->setSearchable());
-            $airportType->addProperty(DeclaredProperty::factory('construction_date', PrimitiveType::date()));
-            $airportType->addProperty(DeclaredProperty::factory('open_time', PrimitiveType::timeofday()));
-            $airportType->addProperty(DeclaredProperty::factory('sam_datetime', PrimitiveType::datetimeoffset()));
-            $airportType->addProperty(DeclaredProperty::factory('review_score', PrimitiveType::decimal()));
-            $airportType->addProperty(DeclaredProperty::factory('is_big', PrimitiveType::boolean()));
-            $airportSet = new SQLEntitySet('airports', $airportType);
-            $airportSet->setTable('airports');
+        $airportType = Model::entitytype('airport');
+        $airportType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
+        $airportType->addProperty(DeclaredProperty::factory('name', PrimitiveType::string()));
+        $airportType->addProperty(DeclaredProperty::factory('code', PrimitiveType::string())->setSearchable());
+        $airportType->addProperty(DeclaredProperty::factory('construction_date', PrimitiveType::date()));
+        $airportType->addProperty(DeclaredProperty::factory('open_time', PrimitiveType::timeofday()));
+        $airportType->addProperty(DeclaredProperty::factory('sam_datetime', PrimitiveType::datetimeoffset()));
+        $airportType->addProperty(DeclaredProperty::factory('review_score', PrimitiveType::decimal()));
+        $airportType->addProperty(DeclaredProperty::factory('is_big', PrimitiveType::boolean()));
+        $airportSet = new SQLEntitySet('airports', $airportType);
+        $airportSet->setTable('airports');
 
-            Model::add($flightSet);
-            Model::add($airportSet);
+        Model::add($flightSet);
+        Model::add($airportSet);
 
-            $nav = new NavigationProperty($airportSet, $airportType);
-            $nav->setCollection(true);
-            $nav->addConstraint(
-                new ReferentialConstraint(
-                    $flightType->getProperty('origin'),
-                    $airportType->getProperty('code')
-                )
-            );
-            $nav->addConstraint(
-                new ReferentialConstraint(
-                    $flightType->getProperty('destination'),
-                    $airportType->getProperty('code')
-                )
-            );
-            $flightType->addProperty($nav);
-            $flightSet->addNavigationBinding(new NavigationBinding($nav, $airportSet));
-        } catch (Exception $e) {
-        }
+        $nav = new NavigationProperty($airportSet, $airportType);
+        $nav->setCollection(true);
+        $nav->addConstraint(
+            new ReferentialConstraint(
+                $flightType->getProperty('origin'),
+                $airportType->getProperty('code')
+            )
+        );
+        $nav->addConstraint(
+            new ReferentialConstraint(
+                $flightType->getProperty('destination'),
+                $airportType->getProperty('code')
+            )
+        );
+        $flightType->addProperty($nav);
+        $flightSet->addNavigationBinding(new NavigationBinding($nav, $airportSet));
     }
 
     public function withMathFunctions()

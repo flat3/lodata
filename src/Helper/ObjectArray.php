@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Helper;
 use ArrayAccess;
 use Countable;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Iterator;
 
 class ObjectArray implements Countable, Iterator, ArrayAccess
@@ -95,7 +96,24 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     public function get($key)
     {
-        return $this->array[(string) $key] ?? null;
+        $key = (string) $key;
+        $result = $this->array[$key] ?? null;
+
+        if ($result) {
+            return $result;
+        }
+
+        foreach ($this->array as $k => $v) {
+            if (!$v instanceof IdentifierInterface) {
+                continue;
+            }
+
+            if ($v->getName() === $key) {
+                return $v;
+            }
+        }
+
+        return null;
     }
 
     public function offsetGet($offset)

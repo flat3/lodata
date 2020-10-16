@@ -2,7 +2,7 @@
     "@context": "http://localhost/odata/$metadata",
     "value": [
         {
-            "name": "exa1",
+            "name": "com.example.odata.exa1",
             "kind": "Action",
             "url": "exa1"
         }

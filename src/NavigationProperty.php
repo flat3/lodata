@@ -4,6 +4,7 @@ namespace Flat3\Lodata;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Type\Property;
 
 class NavigationProperty extends Property
@@ -27,6 +28,10 @@ class NavigationProperty extends Property
                 'missing_entity_type_key',
                 'The specified entity type must have a key defined'
             );
+        }
+
+        if ($name instanceof IdentifierInterface) {
+            $name = $name->getName();
         }
 
         parent::__construct($name, $type);

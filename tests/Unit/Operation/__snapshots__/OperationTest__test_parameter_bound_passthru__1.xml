@@ -9,11 +9,11 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="flights" EntityType="com.example.odata.flight">
+        <EntitySet Name="flights" EntityType="flight">
           <NavigationPropertyBinding Path="airports" Target="airports"/>
         </EntitySet>
-        <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
-        <FunctionImport Name="f1" Function="com.example.odata.f1"/>
+        <EntitySet Name="airports" EntityType="airport"/>
+        <FunctionImport Name="f1" Function="f1"/>
       </EntityContainer>
       <EntityType Name="flight">
         <Key>
@@ -23,7 +23,7 @@
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
         <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
-        <NavigationProperty Name="airports" Type="Collection(com.example.odata.airport)" Nullable="true">
+        <NavigationProperty Name="airports" Type="Collection(airport)" Nullable="true">
           <ReferentialConstraint Property="origin" ReferencedProperty="code"/>
           <ReferentialConstraint Property="destination" ReferencedProperty="code"/>
         </NavigationProperty>

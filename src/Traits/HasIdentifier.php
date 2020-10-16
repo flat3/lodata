@@ -19,6 +19,25 @@ trait HasIdentifier
         return (string) $this->identifier;
     }
 
+    public function getName(): string
+    {
+        return $this->identifier->getName();
+    }
+
+    public function getNamespace(): string
+    {
+        return $this->identifier->getNamespace();
+    }
+
+    public function getResolvedName(string $namespace): string
+    {
+        if ($this->identifier->getNamespace() === $namespace) {
+            return $this->getName();
+        }
+
+        return $this->getIdentifier();
+    }
+
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier instanceof Identifier ? $identifier : new Identifier($identifier);

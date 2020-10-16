@@ -56,7 +56,7 @@ class Service implements EmitInterface
             $resourceData = [
                 'name' => (string) $service->getIdentifier(),
                 'kind' => $service->getKind(),
-                'url' => (string) $service->getIdentifier(),
+                'url' => (string) $service->getResolvedName(config('lodata.namespace')),
             ];
 
             if ($service->getTitle()) {

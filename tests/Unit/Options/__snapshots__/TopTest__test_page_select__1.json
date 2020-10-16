@@ -1,6 +1,6 @@
 {
-    "@context": "http://localhost/odata/$metadata#airports(code)",
-    "@nextLink": "http://localhost/odata/airports?%24top=2&%24select=code&%24skip=2",
+    "@context": "http://localhost/odata/$metadata#com.example.odata.airports(code)",
+    "@nextLink": "http://localhost/odata/com.example.odata.airports?%24top=2&%24select=code&%24skip=2",
     "value": [
         {
             "code": "lhr"

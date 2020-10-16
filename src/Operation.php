@@ -190,7 +190,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
         /** @var Argument $argumentDefinition */
         foreach ($this->getArguments() as $argumentDefinition) {
-            $argumentName = $argumentDefinition->getIdentifier();
+            $argumentName = $argumentDefinition->getName();
             if ($bindingParameter === $argumentName) {
                 switch (true) {
                     case $argumentDefinition instanceof EntityArgument && !$this->boundParameter instanceof Entity:
@@ -295,13 +295,13 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             if (!$nextComponent) {
                 /** @var Argument $argument */
                 foreach ($operation->getArguments() as $argument) {
-                    $value = $transaction->getImplicitParameterAlias($argument->getIdentifier());
+                    $value = $transaction->getImplicitParameterAlias($argument->getName());
 
                     if (!$value) {
                         continue;
                     }
 
-                    $inlineParameters[$argument->getIdentifier()] = $value;
+                    $inlineParameters[$argument->getName()] = $value;
                 }
             }
         }

@@ -9,7 +9,7 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="Airports" EntityType="com.example.odata.Airport"/>
+        <EntitySet Name="Airports" EntityType="Airport"/>
       </EntityContainer>
       <EntityType Name="Airport">
         <Key>

@@ -38,6 +38,6 @@ class Expand extends Request
 
     public function getPath(): string
     {
-        return $this->navigationProperty->getIdentifier();
+        return $this->navigationProperty->getName();
     }
 }

@@ -69,7 +69,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                 $primitive = $this->primitives->current();
 
                 if ($transaction->shouldEmitPrimitive($primitive)) {
-                    $transaction->outputJsonKey($primitive->getProperty()->getIdentifier());
+                    $transaction->outputJsonKey($primitive->getProperty()->getName());
                     $transaction->outputJsonValue($primitive);
 
                     $this->primitives->next();
@@ -94,7 +94,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                 /** @var DynamicProperty $property */
                 $property = $dynamicProperties->current();
                 if ($transaction->shouldEmitProperty($property)) {
-                    $transaction->outputJsonKey($property->getIdentifier());
+                    $transaction->outputJsonKey($property->getName());
                     $transaction->outputJsonValue($property->invoke($this, $transaction));
                     $dynamicProperties->next();
                     if ($dynamicProperties->valid() && $transaction->shouldEmitProperty($dynamicProperties->current())) {
@@ -219,7 +219,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         if (null === $value && !$property->isNullable()) {
             throw new InternalServerErrorException(
                 'cannot_add_null_property',
-                'The entity set provided a null value that cannot be added for this property type: '.$property->getIdentifier()
+                'The entity set provided a null value that cannot be added for this property type: '.$property->getName()
             );
         }
 

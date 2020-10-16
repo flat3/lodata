@@ -7,14 +7,15 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
-use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Traits\HasIdentifier;
+use Flat3\Lodata\Traits\HasName;
 use ReflectionParameter;
 
-abstract class Argument implements IdentifierInterface
+abstract class Argument implements NameInterface
 {
-    use HasIdentifier;
+    use HasName;
 
     /** @var ReflectionParameter $parameter */
     protected $parameter;
@@ -22,7 +23,7 @@ abstract class Argument implements IdentifierInterface
     public function __construct(ReflectionParameter $parameter)
     {
         $this->parameter = $parameter;
-        $this->setIdentifier($parameter->getName());
+        $this->setName($parameter->getName());
     }
 
     public function isNullable(): bool

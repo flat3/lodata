@@ -1,4 +1,4 @@
 {
-    "@context": "http://localhost/odata/$metadata#airport",
+    "@context": "http://localhost/odata/$metadata#com.example.odata.airport",
     "code": "xyz"
 }

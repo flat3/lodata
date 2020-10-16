@@ -33,7 +33,7 @@ class ODCFF extends Controller
         }
 
         $resourceName = $entitySet->getTitle() ?: $entitySet->getIdentifier();
-        $resourceId = $entitySet->getIdentifier();
+        $resourceId = $entitySet->getName();
         $office = 'urn:schemas-microsoft-com:office:office';
         $odc = 'urn:schemas-microsoft-com:office:odc';
 
@@ -153,9 +153,10 @@ class ODCFF extends Controller
 
         $formula = $mashupDoc->createElement('Formula');
         $formulaContent = $mashupDoc->createCDATASection(sprintf(
-            'let Source = OData.Feed("%1$s", null, [Implementation="2.0"]), %2$s_table = Source{[Name="%2$s",Signature="table"]}[Data] in %2$s_table',
+            'let Source = OData.Feed("%1$s", null, [Implementation="2.0"]), %2$s_table = Source{[Name="%3$s",Signature="table"]}[Data] in %2$s_table',
             ServiceProvider::restEndpoint(),
-            $resourceId
+            $resourceId,
+            $entitySet->getIdentifier()
         ));
         $formula->appendChild($formulaContent);
 

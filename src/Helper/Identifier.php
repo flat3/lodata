@@ -4,23 +4,42 @@ namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Expression\Lexer;
+use Illuminate\Support\Str;
 
 final class Identifier
 {
-    /** @var string $identifier */
-    private $identifier;
+    /** @var string $name */
+    private $name;
+
+    /** @var string $namespace */
+    private $namespace;
 
     public function __construct(string $identifier)
     {
-        if (!Lexer::patternCheck(Lexer::IDENTIFIER, $identifier)) {
+        if (!Str::contains($identifier, '.')) {
+            $identifier = config('lodata.namespace').'.'.$identifier;
+        }
+
+        if (!Lexer::patternCheck(Lexer::QUALIFIED_IDENTIFIER, $identifier)) {
             throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$identifier);
         }
 
-        $this->identifier = $identifier;
+        $this->name = Str::afterLast($identifier, '.');
+        $this->namespace = Str::beforeLast($identifier, '.');
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getNamespace(): string
+    {
+        return $this->namespace;
     }
 
     public function __toString(): string
     {
-        return $this->identifier;
+        return $this->namespace.'.'.$this->name;
     }
 }

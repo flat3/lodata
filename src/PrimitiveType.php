@@ -37,6 +37,7 @@ use Flat3\Lodata\Type\Single;
 use Flat3\Lodata\Type\Stream;
 use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 /**
@@ -95,6 +96,25 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
     public function getIdentifier(): string
     {
         return $this->identifier;
+    }
+
+    public function getName(): string
+    {
+        return Str::afterLast($this->identifier, '.');
+    }
+
+    public function getNamespace(): string
+    {
+        return Str::beforeLast($this->identifier, '.');
+    }
+
+    public function getResolvedName(string $namespace): string
+    {
+        if ($this->getNamespace() === $namespace) {
+            return $this->getName();
+        }
+
+        return $this->getIdentifier();
     }
 
     /**

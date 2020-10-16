@@ -76,7 +76,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     public function getTable(): string
     {
-        return $this->table ?: $this->identifier;
+        return $this->table ?: $this->identifier->getName();
     }
 
     public function setTable(string $table): self
@@ -174,7 +174,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     public function getPropertySourceName(Property $property): string
     {
-        return $this->sourceMap[$property] ?? $property->getIdentifier();
+        return $this->sourceMap[$property] ?? $property->getName();
     }
 
     public function read(PrimitiveType $key): ?Entity
@@ -218,7 +218,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
                 if (!$property->isFilterable()) {
                     throw new BadRequestException(
-                        sprintf('The provided property (%s) is not filterable', $property->getIdentifier())
+                        sprintf('The provided property (%s) is not filterable', $property->getName())
                     );
                 }
 
@@ -451,7 +451,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             /** @var Property $property */
             foreach ($this->getType()->getDeclaredProperties() as $property) {
                 if ($property->isFilterable()) {
-                    $validLiterals[] = (string) $property->getIdentifier();
+                    $validLiterals[] = (string) $property->getName();
                 }
             }
 
@@ -485,7 +485,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $entity = $this->newEntity();
 
-        $key = $this->getType()->getKey()->getIdentifier();
+        $key = $this->getType()->getKey()->getName();
         $entity->setPrimitive($key, $row[$key]);
 
         foreach ($row as $id => $value) {
@@ -584,7 +584,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $column = $this->propertyToField($property);
 
-        return sprintf('%s AS %s', $column, $property->getIdentifier());
+        return sprintf('%s AS %s', $column, $property->getName());
     }
 
     public function generateLimits(): string
@@ -622,7 +622,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         /** @var Property $property */
         foreach ($properties as $property) {
             $fields[] = $this->getPropertySourceName($property);
-            $this->addParameter($primitives->get($property->getIdentifier())->get());
+            $this->addParameter($primitives->get($property->getName())->get());
         }
 
         $fieldsList = implode(',', $fields);
@@ -655,7 +655,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         /** @var Property $property */
         foreach ($properties as $property) {
             $fields[] = sprintf('%s=?', $this->getPropertySourceName($property));
-            $this->addParameter($primitives->get($property->getIdentifier())->get());
+            $this->addParameter($primitives->get($property->getName())->get());
         }
         $fields = implode(',', $fields);
 
