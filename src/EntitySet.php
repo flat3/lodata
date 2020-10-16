@@ -359,7 +359,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         $data_model = Model::get();
         $lexer = new Lexer($currentComponent);
         try {
-            $entitySet = $data_model->getResources()->get($lexer->odataIdentifier());
+            $entitySet = $data_model->getResources()->get($lexer->qualifiedIdentifier());
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
@@ -429,12 +429,12 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
         }
 
         // Test for alternative key syntax
-        $alternateKey = $lexer->maybeODataIdentifier();
+        $alternateKey = $lexer->maybeIdentifier();
         if ($alternateKey) {
             if ($lexer->maybeChar('=')) {
                 // Test for referenced value syntax
                 if ($lexer->maybeChar('@')) {
-                    $referencedKey = $lexer->odataIdentifier();
+                    $referencedKey = $lexer->identifier();
                     $referencedValue = $transaction->getParameterAlias($referencedKey);
                     $lexer = new Lexer($referencedValue);
                 }

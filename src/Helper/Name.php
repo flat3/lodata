@@ -12,7 +12,7 @@ final class Name
 
     public function __construct(string $name)
     {
-        if (!Lexer::patternCheck(Lexer::ODATA_IDENTIFIER, $name)) {
+        if (!Lexer::patternCheck(Lexer::IDENTIFIER, $name)) {
             throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$name);
         }
 

@@ -24,7 +24,8 @@ class Lexer
 {
     public const OPEN_PAREN = "(?:\(|%28)";
     public const PATH_SEPARATOR = '/';
-    public const ODATA_IDENTIFIER = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
+    public const IDENTIFIER = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
+    public const QUALIFIED_IDENTIFIER = '(?:'.self::IDENTIFIER.'\.?)*'.self::IDENTIFIER;
     public const ISO8601_DURATION = 'P(?:(?:(?P<d>[0-9]+)D)?)?(?:T(?:(?P<h>[0-9]+)H)?(?:(?P<m>[0-9]+)M)?(?:(?P<s>[0-9\.]+)S)?)?';
     public const DATETIMEOFFSET = self::DATE.'T'.self::TIMEOFDAY.'(Z[-+]'.self::HOUR.':'.self::MINUTE.')?';
     public const HOUR = '([0-1][0-9]|2[0-3])';
@@ -35,7 +36,7 @@ class Lexer
     public const CLOSE_PAREN = "(?:\)|%29)";
     public const DIGIT = '\d';
     public const BASE64 = '(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?';
-    public const PARAMETER_ALIAS = '\@'.self::ODATA_IDENTIFIER;
+    public const PARAMETER_ALIAS = '\@'.self::IDENTIFIER;
 
     private $text;
     private $pos = -1;
@@ -514,7 +515,7 @@ class Lexer
 
     public function remaining(): string
     {
-        return substr($this->text, $this->pos+1);
+        return substr($this->text, $this->pos + 1);
     }
 
     /**
@@ -607,18 +608,32 @@ class Lexer
         }
     }
 
-    public function maybeODataIdentifier(): ?string
+    public function maybeIdentifier(): ?string
     {
         try {
-            return $this->odataIdentifier();
+            return $this->identifier();
         } catch (LexerException $e) {
             return null;
         }
     }
 
-    public function odataIdentifier(): string
+    public function maybeQualifiedIdentifier(): ?string
     {
-        return $this->expression(self::ODATA_IDENTIFIER);
+        try {
+            return $this->qualifiedIdentifier();
+        } catch (LexerException $e) {
+            return null;
+        }
+    }
+
+    public function identifier(): string
+    {
+        return $this->expression(self::IDENTIFIER);
+    }
+
+    public function qualifiedIdentifier(): string
+    {
+        return $this->expression(self::QUALIFIED_IDENTIFIER);
     }
 
     public function maybeMatchingParenthesis(): ?string

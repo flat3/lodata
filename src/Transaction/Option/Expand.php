@@ -33,7 +33,7 @@ class Expand extends Option
         $lexer = new Lexer($expanded);
 
         while (!$lexer->finished()) {
-            $path = $lexer->maybeODataIdentifier();
+            $path = $lexer->maybeIdentifier();
 
             /** @var NavigationProperty $navigationProperty */
             $navigationProperty = $entityType->getNavigationProperties()->get($path);

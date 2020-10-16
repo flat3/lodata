@@ -238,7 +238,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         $lexer = new Lexer($currentComponent);
 
         try {
-            $operationIdentifier = $lexer->odataIdentifier();
+            $operationIdentifier = $lexer->identifier();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }

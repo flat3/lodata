@@ -148,7 +148,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
     {
         $value = $this->toJson();
 
-        return null === $value ? null : (string)$value;
+        return null === $value ? null : (string) $value;
     }
 
     /**
@@ -216,12 +216,11 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface
-    {
+    ): ?PipeInterface {
         $lexer = new Lexer($currentComponent);
 
         try {
-            $property = $lexer->odataIdentifier();
+            $property = $lexer->identifier();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
@@ -255,12 +254,12 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
             );
         }
 
-        return Transaction::getContextUrl() . '#' . $this->getName();
+        return Transaction::getContextUrl().'#'.$this->getName();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl() . $this->getName() . '()';
+        return Transaction::getResourceUrl().$this->getName().'()';
     }
 
     public function emit(Transaction $transaction): void
@@ -321,7 +320,7 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         ];
 
         if (!array_key_exists($name, $resolver)) {
-            throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: ' . $name);
+            throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: '.$name);
         }
 
         $clazz = $resolver[$name];
