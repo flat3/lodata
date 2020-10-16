@@ -51,9 +51,9 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     /** @var Transaction $transaction */
     protected $transaction;
 
-    public function __construct($name)
+    public function __construct($identifier)
     {
-        $this->setIdentifier($name);
+        $this->setIdentifier($identifier);
     }
 
     public function getReflectedReturnType(): string

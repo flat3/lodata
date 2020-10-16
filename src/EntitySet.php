@@ -74,9 +74,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var Transaction $transaction */
     protected $transaction;
 
-    public function __construct(string $name, EntityType $entityType)
+    public function __construct(string $identifier, EntityType $entityType)
     {
-        $this->setIdentifier($name);
+        $this->setIdentifier($identifier);
 
         $this->type = $entityType;
         if (!Model::getType($this->type->getIdentifier())) {

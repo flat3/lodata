@@ -15,10 +15,10 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
     use HasIdentifier;
     use HasTitle;
 
-    public function __construct(string $name, EntityType $type)
+    public function __construct(string $identifier, EntityType $type)
     {
         parent::__construct();
-        $this->setIdentifier($name);
+        $this->setIdentifier($identifier);
         $this->setType($type);
     }
 
