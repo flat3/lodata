@@ -8,7 +8,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Duration extends PrimitiveType
 {
-    protected $name = 'Edm.Duration';
+    protected $identifier = 'Edm.Duration';
 
     /** @var ?double $value */
     protected $value;

@@ -20,7 +20,7 @@ class PrimitiveTypeArgument extends Argument
             if (!$this->isNullable()) {
                 throw new BadRequestException(
                     'non_null_argument_missing',
-                    sprintf('A non-null argument (%s) is missing', $this->getName())
+                    sprintf('A non-null argument (%s) is missing', $this->getIdentifier())
                 );
             }
 
@@ -34,8 +34,8 @@ class PrimitiveTypeArgument extends Argument
                 'invalid_argument_type',
                 sprintf(
                     'The provided argument %s was not of type %s',
-                    $this->getName(),
-                    $type->getName()
+                    $this->getIdentifier(),
+                    $type->getIdentifier()
                 )
             );
         }

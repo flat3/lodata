@@ -14,7 +14,7 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
@@ -61,9 +61,9 @@ use RuntimeException;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface, ArgumentInterface
+abstract class PrimitiveType implements TypeInterface, IdentifierInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface, ArgumentInterface
 {
-    protected $name = 'Edm.None';
+    protected $identifier = 'Edm.None';
 
     /** @var bool $nullable Whether the value can be made null */
     protected $nullable = true;
@@ -92,9 +92,9 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
         return $this;
     }
 
-    public function getName(): string
+    public function getIdentifier(): string
     {
-        return $this->name;
+        return $this->identifier;
     }
 
     /**
@@ -254,12 +254,12 @@ abstract class PrimitiveType implements TypeInterface, NamedInterface, ContextIn
             );
         }
 
-        return Transaction::getContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl().'#'.$this->getIdentifier();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getName().'()';
+        return Transaction::getResourceUrl().$this->getIdentifier().'()';
     }
 
     public function emit(Transaction $transaction): void

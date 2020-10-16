@@ -11,7 +11,7 @@ use Flat3\Lodata\PrimitiveType;
  */
 class Boolean extends PrimitiveType
 {
-    protected $name = 'Edm.Boolean';
+    protected $identifier = 'Edm.Boolean';
 
     /** @var ?bool $value */
     protected $value;

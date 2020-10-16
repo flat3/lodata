@@ -9,7 +9,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class DateTimeOffset extends PrimitiveType
 {
-    protected $name = 'Edm.DateTimeOffset';
+    protected $identifier = 'Edm.DateTimeOffset';
     public const DATE_FORMAT = 'c';
 
     /** @var ?DateTime $value */

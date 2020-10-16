@@ -54,9 +54,9 @@ class Service implements EmitInterface
             $transaction->outputJsonObjectStart();
 
             $resourceData = [
-                'name' => (string) $service->getName(),
+                'name' => (string) $service->getIdentifier(),
                 'kind' => $service->getKind(),
-                'url' => (string) $service->getName(),
+                'url' => (string) $service->getIdentifier(),
             ];
 
             if ($service->getTitle()) {

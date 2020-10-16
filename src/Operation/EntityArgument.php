@@ -12,7 +12,7 @@ class EntityArgument extends Argument
 {
     public function generate($source = null): ArgumentInterface
     {
-        $entityType = Model::get()->getEntityTypes()->get($this->getName());
+        $entityType = Model::get()->getEntityTypes()->get($this->getIdentifier());
 
         if (!$entityType) {
             throw new InternalServerErrorException('invalid_entity_type', 'Entity of this type could not be generated');

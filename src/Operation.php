@@ -13,7 +13,7 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\InstanceInterface;
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
@@ -23,16 +23,16 @@ use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveTypeArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
-use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 
-abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, NamedInterface, PipeInterface, InstanceInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, IdentifierInterface, PipeInterface, InstanceInterface
 {
-    use HasName;
+    use HasIdentifier;
     use HasType;
     use HasTitle;
 
@@ -53,7 +53,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function __construct($name)
     {
-        $this->setName($name);
+        $this->setIdentifier($name);
     }
 
     public function getReflectedReturnType(): string
@@ -190,7 +190,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
         /** @var Argument $argumentDefinition */
         foreach ($this->getArguments() as $argumentDefinition) {
-            $argumentName = $argumentDefinition->getName();
+            $argumentName = $argumentDefinition->getIdentifier();
             if ($bindingParameter === $argumentName) {
                 switch (true) {
                     case $argumentDefinition instanceof EntityArgument && !$this->boundParameter instanceof Entity:
@@ -295,13 +295,13 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             if (!$nextComponent) {
                 /** @var Argument $argument */
                 foreach ($operation->getArguments() as $argument) {
-                    $value = $transaction->getImplicitParameterAlias($argument->getName());
+                    $value = $transaction->getImplicitParameterAlias($argument->getIdentifier());
 
                     if (!$value) {
                         continue;
                     }
 
-                    $inlineParameters[$argument->getName()] = $value;
+                    $inlineParameters[$argument->getIdentifier()] = $value;
                 }
             }
         }
@@ -327,7 +327,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl() . $this->getName();
+        return Transaction::getResourceUrl() . $this->getIdentifier();
     }
 
     public function asInstance(Transaction $transaction): self

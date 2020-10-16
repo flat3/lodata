@@ -4,21 +4,21 @@ namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 
-class Singleton extends Entity implements ServiceInterface, NamedInterface
+class Singleton extends Entity implements ServiceInterface, IdentifierInterface
 {
-    use HasName;
+    use HasIdentifier;
     use HasTitle;
 
     public function __construct(string $name, EntityType $type)
     {
         parent::__construct();
-        $this->setName($name);
+        $this->setIdentifier($name);
         $this->setType($type);
     }
 
@@ -29,12 +29,12 @@ class Singleton extends Entity implements ServiceInterface, NamedInterface
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getName();
+        return Transaction::getResourceUrl().$this->getIdentifier();
     }
 
     public function getContextUrl(): string
     {
-        return Transaction::getContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl().'#'.$this->getIdentifier();
     }
 
     public static function pipe(

@@ -73,7 +73,7 @@ class Metadata implements PipeInterface, EmitInterface
         /** @var EntityType $entityType */
         foreach ($model->getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
-            $entityTypeElement->addAttribute('Name', $entityType->getName());
+            $entityTypeElement->addAttribute('Name', $entityType->getIdentifier());
 
             // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
             $keyField = $entityType->getKey();
@@ -81,17 +81,17 @@ class Metadata implements PipeInterface, EmitInterface
             if ($keyField) {
                 $entityTypeKey = $entityTypeElement->addChild('Key');
                 $entityTypeKeyPropertyRef = $entityTypeKey->addChild('PropertyRef');
-                $entityTypeKeyPropertyRef->addAttribute('Name', $keyField->getName());
+                $entityTypeKeyPropertyRef->addAttribute('Name', $keyField->getIdentifier());
             }
 
             // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
             /** @var Property $property */
             foreach ($entityType->getDeclaredProperties() as $property) {
                 $entityTypeProperty = $entityTypeElement->addChild('Property');
-                $entityTypeProperty->addAttribute('Name', $property->getName());
+                $entityTypeProperty->addAttribute('Name', $property->getIdentifier());
 
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
-                $entityTypeProperty->addAttribute('Type', $property->getType()->getName());
+                $entityTypeProperty->addAttribute('Type', $property->getType()->getIdentifier());
 
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
@@ -106,8 +106,8 @@ class Metadata implements PipeInterface, EmitInterface
                 $targetEntityType = $navigationProperty->getType();
 
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
-                $navigationPropertyElement->addAttribute('Name', $navigationProperty->getName());
-                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getName();
+                $navigationPropertyElement->addAttribute('Name', $navigationProperty->getIdentifier());
+                $navigationPropertyType = $model->getNamespace().'.'.$targetEntityType->getIdentifier();
                 if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
@@ -116,7 +116,7 @@ class Metadata implements PipeInterface, EmitInterface
                 if ($navigationPropertyPartner) {
                     $navigationPropertyElement->addAttribute(
                         'Partner',
-                        $navigationPropertyPartner->getName()
+                        $navigationPropertyPartner->getIdentifier()
                     );
                 }
 
@@ -129,10 +129,10 @@ class Metadata implements PipeInterface, EmitInterface
                 /** @var ReferentialConstraint $constraint */
                 foreach ($navigationProperty->getConstraints() as $constraint) {
                     $referentialConstraint = $navigationPropertyElement->addChild('ReferentialConstraint');
-                    $referentialConstraint->addAttribute('Property', $constraint->getProperty()->getName());
+                    $referentialConstraint->addAttribute('Property', $constraint->getProperty()->getIdentifier());
                     $referentialConstraint->addAttribute(
                         'ReferencedProperty',
-                        $constraint->getReferencedProperty()->getName()
+                        $constraint->getReferencedProperty()->getIdentifier()
                     );
                 }
             }
@@ -143,10 +143,10 @@ class Metadata implements PipeInterface, EmitInterface
                 case $resource instanceof EntitySet:
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
                     $entitySetElement = $entityContainer->addChild('EntitySet');
-                    $entitySetElement->addAttribute('Name', $resource->getName());
+                    $entitySetElement->addAttribute('Name', $resource->getIdentifier());
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $model->getNamespace().'.'.$resource->getType()->getName()
+                        $model->getNamespace().'.'.$resource->getType()->getIdentifier()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -155,11 +155,11 @@ class Metadata implements PipeInterface, EmitInterface
                         $navigationPropertyBindingElement = $entitySetElement->addChild('NavigationPropertyBinding');
                         $navigationPropertyBindingElement->addAttribute(
                             'Path',
-                            $binding->getPath()->getName()
+                            $binding->getPath()->getIdentifier()
                         );
                         $navigationPropertyBindingElement->addAttribute(
                             'Target',
-                            $binding->getTarget()->getName()
+                            $binding->getTarget()->getIdentifier()
                         );
                     }
                     break;
@@ -167,18 +167,18 @@ class Metadata implements PipeInterface, EmitInterface
                 /** @var Operation $resource */
                 case $resource instanceof Operation:
                     $operationElement = $schema->addChild($resource->getKind());
-                    $operationElement->addAttribute('Name', $resource->getName());
+                    $operationElement->addAttribute('Name', $resource->getIdentifier());
                     if ($resource->getBindingParameterName()) {
                         $operationElement->addAttribute('IsBound', Constants::TRUE);
                     }
 
                     // Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
                     $arguments = $resource->getArguments()->sort(function (Argument $a, Argument $b) use ($resource) {
-                        if ($a->getName() === $resource->getBindingParameterName()) {
+                        if ($a->getIdentifier() === $resource->getBindingParameterName()) {
                             return -1;
                         }
 
-                        if ($b->getName() === $resource->getBindingParameterName()) {
+                        if ($b->getIdentifier() === $resource->getBindingParameterName()) {
                             return 1;
                         }
 
@@ -188,7 +188,7 @@ class Metadata implements PipeInterface, EmitInterface
                             return true;
                         }
 
-                        if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $resource->getBindingParameterName() === $argument->getName()) {
+                        if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $resource->getBindingParameterName() === $argument->getIdentifier()) {
                             return true;
                         }
 
@@ -198,8 +198,8 @@ class Metadata implements PipeInterface, EmitInterface
                     /** @var Argument $argument */
                     foreach ($arguments as $argument) {
                         $parameterElement = $operationElement->addChild('Parameter');
-                        $parameterElement->addAttribute('Name', $argument->getName());
-                        $parameterElement->addAttribute('Type', $argument->getType()->getName());
+                        $parameterElement->addAttribute('Name', $argument->getIdentifier());
+                        $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());
                         $parameterElement->addAttribute(
                             'Nullable',
                             Boolean::factory($argument->isNullable())->toUrl()
@@ -211,9 +211,9 @@ class Metadata implements PipeInterface, EmitInterface
                         $returnTypeElement = $operationElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
-                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getName().')');
+                            $returnTypeElement->addAttribute('Type', 'Collection('.$returnType->getIdentifier().')');
                         } else {
-                            $returnTypeElement->addAttribute('Type', $returnType->getName());
+                            $returnTypeElement->addAttribute('Type', $returnType->getIdentifier());
                         }
 
                         $returnTypeElement->addAttribute(
@@ -223,10 +223,10 @@ class Metadata implements PipeInterface, EmitInterface
                     }
 
                     $operationImport = $entityContainer->addChild($resource->getKind().'Import');
-                    $operationImport->addAttribute('Name', $resource->getName());
+                    $operationImport->addAttribute('Name', $resource->getIdentifier());
                     $operationImport->addAttribute(
                         $resource->getKind(),
-                        $model->getNamespace().'.'.$resource->getName()
+                        $model->getNamespace().'.'.$resource->getIdentifier()
                     );
                     break;
             }

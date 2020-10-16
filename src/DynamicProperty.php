@@ -28,7 +28,7 @@ class DynamicProperty extends Property
 
         if (!$result instanceof $this->type || $result === null && $this->type instanceof PrimitiveType && !$this->type->isNullable()) {
             throw new InternalServerErrorException('invalid_dynamic_property_type',
-                sprintf('The dynamic property %s did not return a value of its defined type', $this->getName()));
+                sprintf('The dynamic property %s did not return a value of its defined type', $this->getIdentifier()));
         }
 
         return $result;

@@ -7,7 +7,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Byte extends PrimitiveType
 {
-    protected $name = 'Edm.Byte';
+    protected $identifier = 'Edm.Byte';
     public const format = 'C';
 
     /** @var ?int $value */

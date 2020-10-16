@@ -7,7 +7,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Decimal extends PrimitiveType
 {
-    protected $name = 'Edm.Decimal';
+    protected $identifier = 'Edm.Decimal';
 
     /** @var ?double $value */
     protected $value;

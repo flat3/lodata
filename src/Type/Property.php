@@ -2,14 +2,14 @@
 
 namespace Flat3\Lodata\Type;
 
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
-use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasType;
 
-abstract class Property implements TypeInterface, NamedInterface
+abstract class Property implements TypeInterface, IdentifierInterface
 {
-    use HasName;
+    use HasIdentifier;
     use HasType;
 
     /** @var bool $nullable Whether this property is nullable */
@@ -26,7 +26,7 @@ abstract class Property implements TypeInterface, NamedInterface
 
     public function __construct($name, TypeInterface $type)
     {
-        $this->setName($name);
+        $this->setIdentifier($name);
         $this->type = $type;
     }
 

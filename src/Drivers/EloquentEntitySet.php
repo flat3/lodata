@@ -130,7 +130,7 @@ class EloquentEntitySet extends SQLEntitySet
 
     public function getModelByKey(PrimitiveType $key): ?Model
     {
-        return $this->model::where($key->getProperty()->getName(), $key->get())->first();
+        return $this->model::where($key->getProperty()->getIdentifier(), $key->get())->first();
     }
 
     public function getEntityById($id): ?Entity
@@ -154,7 +154,7 @@ class EloquentEntitySet extends SQLEntitySet
 
         /** @var Property $property */
         foreach ($this->getType()->getDeclaredProperties() as $property) {
-            $entity->setPrimitive($property, $model->{$property->getName()});
+            $entity->setPrimitive($property, $model->{$property->getIdentifier()});
         }
 
         $entity->setEntityId($model->getKey());
@@ -170,8 +170,8 @@ class EloquentEntitySet extends SQLEntitySet
 
         /** @var Property $property */
         foreach ($this->getType()->getDeclaredProperties() as $property) {
-            if (array_key_exists($property->getName(), $body)) {
-                $model[$property->getName()] = $body[$property->getName()];
+            if (array_key_exists($property->getIdentifier(), $body)) {
+                $model[$property->getIdentifier()] = $body[$property->getIdentifier()];
             }
         }
 
@@ -188,8 +188,8 @@ class EloquentEntitySet extends SQLEntitySet
 
         /** @var Property $property */
         foreach ($this->getType()->getDeclaredProperties() as $property) {
-            if (array_key_exists($property->getName(), $body)) {
-                $model[$property->getName()] = $body[$property->getName()];
+            if (array_key_exists($property->getIdentifier(), $body)) {
+                $model[$property->getIdentifier()] = $body[$property->getIdentifier()];
             }
         }
 
@@ -212,6 +212,6 @@ class EloquentEntitySet extends SQLEntitySet
     public function propertyToField(Property $property): string
     {
         $model = new $this->model();
-        return $model->qualifyColumn($property->getName());
+        return $model->qualifyColumn($property->getIdentifier());
     }
 }

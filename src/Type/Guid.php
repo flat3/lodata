@@ -8,7 +8,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Guid extends PrimitiveType
 {
-    protected $name = 'Edm.Guid';
+    protected $identifier = 'Edm.Guid';
 
     /** @var ?string $value */
     protected $value;

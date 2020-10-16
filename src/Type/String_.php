@@ -7,7 +7,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class String_ extends PrimitiveType
 {
-    protected $name = 'Edm.String';
+    protected $identifier = 'Edm.String';
 
     /** @var ?string $value */
     protected $value;

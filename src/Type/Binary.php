@@ -7,7 +7,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Binary extends PrimitiveType
 {
-    protected $name = 'Edm.Binary';
+    protected $identifier = 'Edm.Binary';
 
     /** @var ?string $value */
     protected $value;

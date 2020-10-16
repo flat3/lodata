@@ -24,7 +24,7 @@ use Flat3\Lodata\Interfaces\DeleteInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\InstanceInterface;
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\QueryInterface;
 use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
@@ -33,7 +33,7 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Interfaces\UpdateInterface;
 use Flat3\Lodata\Traits\HasEntityType;
-use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Type\Property;
@@ -41,9 +41,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Iterator;
 
-abstract class EntitySet implements EntityTypeInterface, NamedInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
 {
-    use HasName;
+    use HasIdentifier;
     use HasTitle;
     use HasEntityType;
 
@@ -76,10 +76,10 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function __construct(string $name, EntityType $entityType)
     {
-        $this->setName($name);
+        $this->setIdentifier($name);
 
         $this->type = $entityType;
-        if (!Model::getType($this->type->getName())) {
+        if (!Model::getType($this->type->getIdentifier())) {
             Model::add($entityType);
         }
         $this->navigationBindings = new ObjectArray();
@@ -326,7 +326,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getContextUrl(): string
     {
-        $url = Transaction::getContextUrl().'#'.$this->getName();
+        $url = Transaction::getContextUrl().'#'.$this->getIdentifier();
         $properties = $this->transaction->getContextUrlProperties();
 
         if ($properties) {
@@ -338,7 +338,7 @@ abstract class EntitySet implements EntityTypeInterface, NamedInterface, Resourc
 
     public function getResourceUrl(): string
     {
-        $url = Transaction::getResourceUrl().$this->getName();
+        $url = Transaction::getResourceUrl().$this->getIdentifier();
         $properties = $this->transaction->getResourceUrlProperties();
 
         if ($properties) {

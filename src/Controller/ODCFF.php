@@ -32,8 +32,8 @@ class ODCFF extends Controller
             )->target($name);
         }
 
-        $resourceName = $entitySet->getTitle() ?: $entitySet->getName();
-        $resourceId = $entitySet->getName();
+        $resourceName = $entitySet->getTitle() ?: $entitySet->getIdentifier();
+        $resourceId = $entitySet->getIdentifier();
         $office = 'urn:schemas-microsoft-com:office:office';
         $odc = 'urn:schemas-microsoft-com:office:odc';
 
@@ -185,7 +185,7 @@ class ODCFF extends Controller
 
         $disposition = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $entitySet->getName() . '.odc'
+            $entitySet->getIdentifier() . '.odc'
         );
         $response->headers->set('Content-Disposition', $disposition);
         $response->setContent($htmlDoc->saveHTML());

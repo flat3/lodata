@@ -5,22 +5,22 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
-use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Type\Property;
 
-class ComplexType implements TypeInterface, NamedInterface, ContextInterface, ResourceInterface
+class ComplexType implements TypeInterface, IdentifierInterface, ContextInterface, ResourceInterface
 {
-    use HasName;
+    use HasIdentifier;
 
     /** @var ObjectArray[Property] $properties Properties */
     protected $properties;
 
     public function __construct($name)
     {
-        $this->setName($name);
+        $this->setIdentifier($name);
         $this->properties = new ObjectArray();
     }
 
@@ -60,11 +60,11 @@ class ComplexType implements TypeInterface, NamedInterface, ContextInterface, Re
 
     public function getContextUrl(): string
     {
-        return Transaction::getContextUrl().'#'.$this->getName();
+        return Transaction::getContextUrl().'#'.$this->getIdentifier();
     }
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getName().'()';
+        return Transaction::getResourceUrl().$this->getIdentifier().'()';
     }
 }

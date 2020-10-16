@@ -28,6 +28,6 @@ class NavigationBinding
 
     public function __toString()
     {
-        return $this->path->getName().'/'.$this->target->getName();
+        return $this->path->getIdentifier().'/'.$this->target->getIdentifier();
     }
 }

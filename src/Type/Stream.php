@@ -7,7 +7,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Stream extends PrimitiveType
 {
-    protected $name = 'Edm.Stream';
+    protected $identifier = 'Edm.Stream';
 
     /** @var ?string $value */
     protected $value;

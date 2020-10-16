@@ -20,12 +20,12 @@ class EntitySetArgument extends Argument
             );
         }
 
-        $entitySet = Model::get()->getResources()->get($this->getName());
+        $entitySet = Model::get()->getResources()->get($this->getIdentifier());
 
         if (!$entitySet instanceof EntitySet) {
             throw new InternalServerErrorException(
                 'invalid_entity_set',
-                'Could not find entity set: '.$this->getName()
+                'Could not find entity set: '.$this->getIdentifier()
             );
         }
 

@@ -6,7 +6,7 @@ use Flat3\Lodata\PrimitiveType;
 
 class Enum extends PrimitiveType
 {
-    protected $name = 'Edm.Enum';
+    protected $identifier = 'Edm.Enum';
 
     /** @var ?int $value */
     protected $value;

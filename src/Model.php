@@ -8,7 +8,7 @@ use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\Traits;
-use Flat3\Lodata\Interfaces\NamedInterface;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -44,7 +44,7 @@ class Model
         }
     }
 
-    public static function add(NamedInterface $item): self
+    public static function add(IdentifierInterface $item): self
     {
         $model = self::get();
         $model->model->add($item);
@@ -88,7 +88,7 @@ class Model
         return $model->getEntityTypes()->get($name);
     }
 
-    public static function getResource($name): ?NamedInterface
+    public static function getResource($name): ?IdentifierInterface
     {
         $model = self::get();
 
