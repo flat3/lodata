@@ -29,6 +29,14 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_a_qualified_entity()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/com.example.odata.flights(1)')
+        );
+    }
+
     public function test_read_an_entity_with_referenced_key()
     {
         $this->assertJsonResponse(
