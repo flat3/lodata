@@ -24,8 +24,8 @@ final class Identifier
             throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$identifier);
         }
 
-        $this->name = Str::afterLast($identifier, '.');
-        $this->namespace = Str::beforeLast($identifier, '.');
+        $this->name = Laravel::afterLast($identifier, '.');
+        $this->namespace = Laravel::beforeLast($identifier, '.');
     }
 
     public function getName(): string

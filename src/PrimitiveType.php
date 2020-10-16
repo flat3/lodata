@@ -11,6 +11,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\Laravel;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
@@ -105,7 +106,7 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
 
     public function getNamespace(): string
     {
-        return Str::beforeLast($this->identifier, '.');
+        return Laravel::beforeLast($this->identifier, '.');
     }
 
     public function getResolvedName(string $namespace): string

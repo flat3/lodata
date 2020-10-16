@@ -65,6 +65,7 @@ class EloquentEntitySet extends SQLEntitySet
 
         /** @var Connection $conn */
         $conn = DB::connection();
+        $conn->getSchemaBuilder();
         $grammar = $conn->selectFromWriteConnection($conn->getSchemaGrammar()->compileColumnListing($this->getTable()));
         $casts = $model->getCasts();
 
