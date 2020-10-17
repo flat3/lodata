@@ -248,6 +248,11 @@ class Transaction implements ArgumentInterface
         return $this->request->query->get($key);
     }
 
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
     public function getResponse(): Response
     {
         return $this->response;

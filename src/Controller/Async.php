@@ -37,6 +37,7 @@ class Async implements ShouldQueue
 
     public function setTransaction(Transaction $transaction): self
     {
+        $transaction->getRequest()->headers->remove('content-type');
         $this->transaction = $transaction;
         $this->jobId = $transaction->getId();
 
