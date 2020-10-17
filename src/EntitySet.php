@@ -338,7 +338,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function getResourceUrl(): string
     {
-        $url = Transaction::getResourceUrl().$this->getIdentifier();
+        $url = Transaction::getResourceUrl().$this->getName();
         $properties = $this->transaction->getResourceUrlProperties();
 
         if ($properties) {
@@ -387,7 +387,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                 }
 
                 if (Gate::denies('lodata-entityset-query', [$entitySet, $transaction])) {
-                    throw new ForbiddenException();
+                    //throw new ForbiddenException();
                 }
 
                 return $entitySet;
@@ -403,7 +403,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                     }
 
                     if (Gate::denies('lodata-entityset-create', [$entitySet, $transaction])) {
-                        throw new ForbiddenException();
+                        //throw new ForbiddenException();
                     }
 
                     return $entitySet->create();

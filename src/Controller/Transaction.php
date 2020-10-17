@@ -43,7 +43,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use JsonException;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Class Transaction
@@ -240,7 +240,7 @@ class Transaction implements ArgumentInterface
     public function getQueryParams(): array
     {
         $query = $this->request->query;
-        return $query instanceof InputBag ? $query->all() : [];
+        return $query instanceof ParameterBag ? $query->all() : [];
     }
 
     public function getQueryParam(string $key): ?string

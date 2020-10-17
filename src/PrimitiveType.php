@@ -280,7 +280,7 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getIdentifier().'()';
+        return Transaction::getResourceUrl().$this->getName().'()';
     }
 
     public function emit(Transaction $transaction): void

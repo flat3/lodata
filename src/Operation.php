@@ -327,7 +327,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl() . $this->getIdentifier();
+        return Transaction::getResourceUrl() . $this->getName();
     }
 
     public function asInstance(Transaction $transaction): self

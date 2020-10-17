@@ -29,7 +29,7 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getIdentifier();
+        return Transaction::getResourceUrl().$this->getName();
     }
 
     public function getContextUrl(): string

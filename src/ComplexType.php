@@ -70,6 +70,6 @@ class ComplexType implements TypeInterface, IdentifierInterface, ContextInterfac
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl().$this->getIdentifier().'()';
+        return Transaction::getResourceUrl().$this->getName().'()';
     }
 }
