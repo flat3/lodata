@@ -54,9 +54,9 @@ class Service implements EmitInterface
             $transaction->outputJsonObjectStart();
 
             $resourceData = [
-                'name' => (string) $service->getIdentifier(),
+                'name' => (string) $service->getName(),
                 'kind' => $service->getKind(),
-                'url' => (string) $service->getResolvedName(config('lodata.namespace')),
+                'url' => (string) $service->getName(),
             ];
 
             if ($service->getTitle()) {

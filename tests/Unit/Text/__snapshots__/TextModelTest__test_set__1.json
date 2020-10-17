@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#com.example.odata.texts",
+    "@context": "http://localhost/odata/$metadata#texts",
     "value": [
         {
             "a": "a"

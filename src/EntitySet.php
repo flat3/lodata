@@ -326,7 +326,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function getContextUrl(): string
     {
-        $url = Transaction::getContextUrl().'#'.$this->getIdentifier();
+        $url = Transaction::getContextUrl().'#'.$this->getName();
         $properties = $this->transaction->getContextUrlProperties();
 
         if ($properties) {

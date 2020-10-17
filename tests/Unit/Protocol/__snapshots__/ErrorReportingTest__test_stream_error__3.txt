@@ -1,1 +1,1 @@
-{"@context":"http://localhost/odata/$metadata#com.example.odata.texts","value":{"key":"value"
+{"@context":"http://localhost/odata/$metadata#texts","value":{"key":"value"

@@ -9,10 +9,10 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="flights" EntityType="flight">
+        <EntitySet Name="flights" EntityType="com.example.odata.flight">
           <NavigationPropertyBinding Path="airports" Target="airports"/>
         </EntitySet>
-        <EntitySet Name="airports" EntityType="airport"/>
+        <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
         <FunctionImport Name="f1" Function="f1"/>
       </EntityContainer>
       <EntityType Name="flight">
@@ -42,9 +42,9 @@
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
       </EntityType>
       <Function Name="f1" IsBound="true">
-        <Parameter Name="flights" Type="flight" Nullable="false"/>
+        <Parameter Name="flights" Type="com.example.odata.flight" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Decimal" Nullable="true"/>
-        <ReturnType Type="Collection(flight)" Nullable="false"/>
+        <ReturnType Type="Collection(com.example.odata.flight)" Nullable="false"/>
       </Function>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

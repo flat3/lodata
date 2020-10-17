@@ -53,6 +53,11 @@ class ComplexType implements TypeInterface, IdentifierInterface, ContextInterfac
         return $this->properties->get($property);
     }
 
+    public function getProperties(): ObjectArray
+    {
+        return $this->properties;
+    }
+
     public function getNavigationProperties(): ObjectArray
     {
         return $this->properties->sliceByClass(NavigationProperty::class);

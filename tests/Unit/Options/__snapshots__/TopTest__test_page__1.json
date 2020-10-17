@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#com.example.odata.airports",
+    "@context": "http://localhost/odata/$metadata#airports",
     "@nextLink": "http://localhost/odata/com.example.odata.airports?%24top=2&%24skip=2",
     "value": [
         {

@@ -147,7 +147,7 @@ class Metadata implements PipeInterface, EmitInterface
                     $entitySetElement->addAttribute('Name', $resource->getResolvedName($namespace));
                     $entitySetElement->addAttribute(
                         'EntityType',
-                        $resource->getType()->getResolvedName($namespace)
+                        $resource->getType()->getIdentifier()
                     );
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -200,7 +200,7 @@ class Metadata implements PipeInterface, EmitInterface
                     foreach ($arguments as $argument) {
                         $parameterElement = $operationElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
-                        $parameterElement->addAttribute('Type', $argument->getType()->getResolvedName($namespace));
+                        $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());
                         $parameterElement->addAttribute(
                             'Nullable',
                             Boolean::factory($argument->isNullable())->toUrl()
@@ -213,9 +213,9 @@ class Metadata implements PipeInterface, EmitInterface
 
                         if ($resource->returnsCollection()) {
                             $returnTypeElement->addAttribute('Type',
-                                'Collection('.$returnType->getResolvedName($namespace).')');
+                                'Collection('.$returnType->getIdentifier().')');
                         } else {
-                            $returnTypeElement->addAttribute('Type', $returnType->getResolvedName($namespace));
+                            $returnTypeElement->addAttribute('Type', $returnType->getIdentifier());
                         }
 
                         $returnTypeElement->addAttribute(

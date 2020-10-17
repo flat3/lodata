@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#com.example.odata.airports(id,is_big)",
+    "@context": "http://localhost/odata/$metadata#airports(id,is_big)",
     "value": [
         {
             "id": 2,

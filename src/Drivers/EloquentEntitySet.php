@@ -126,7 +126,7 @@ class EloquentEntitySet extends SQLEntitySet
 
     public function assocToEntity(array $row): Entity
     {
-        return $this->getEntityById($row['id']);
+        return $this->getEntityById($row[$this->getType()->getKey()->getName()]);
     }
 
     public function getModelByKey(PrimitiveType $key): ?Model

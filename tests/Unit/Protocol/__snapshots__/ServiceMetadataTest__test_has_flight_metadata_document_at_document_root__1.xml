@@ -9,10 +9,10 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="flights" EntityType="flight">
+        <EntitySet Name="flights" EntityType="com.example.odata.flight">
           <NavigationPropertyBinding Path="airports" Target="airports"/>
         </EntitySet>
-        <EntitySet Name="airports" EntityType="airport"/>
+        <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
         <FunctionImport Name="add" Function="add"/>
         <FunctionImport Name="div" Function="div"/>
       </EntityContainer>

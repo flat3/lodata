@@ -2,7 +2,7 @@
     "@context": "http://localhost/odata/$metadata",
     "value": [
         {
-            "name": "com.example.odata.atest",
+            "name": "atest",
             "kind": "Singleton",
             "url": "atest"
         }
