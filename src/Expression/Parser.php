@@ -375,7 +375,7 @@ abstract class Parser
     {
         $token = $this->lexer->maybeSingleQuotedString();
 
-        if (!$token) {
+        if (null === $token) {
             return false;
         }
 
@@ -391,7 +391,7 @@ abstract class Parser
     {
         $token = $this->lexer->maybeDoubleQuotedString();
 
-        if (!$token) {
+        if (null === $token) {
             return false;
         }
 

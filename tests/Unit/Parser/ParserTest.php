@@ -64,6 +64,7 @@ class ParserTest extends TestCase
         "ceiling(title) eq 4" => "( ceiling( title ) eq 4 )",
         "floor(title) eq 4" => "( floor( title ) eq 4 )",
         "round(title) eq 4" => "( round( title ) eq 4 )",
+        "title eq ''" => "( title eq '' )",
     ];
 
     public $search_tests = [
@@ -77,6 +78,7 @@ class ParserTest extends TestCase
         '( t1 OR t2 ) AND t3' => '( ( "t1" OR "t2" ) AND "t3" )',
         '(t1 OR (t2 AND t3))' => '( "t1" OR ( "t2" AND "t3" ) )',
         '"t1"""' => '"t1"""',
+        '""' => '""',
     ];
 
     public function test_search_parser()
