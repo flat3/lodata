@@ -8,7 +8,6 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -16,6 +15,7 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
@@ -38,7 +38,6 @@ use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Iterator;
 
 abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
@@ -385,9 +384,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                     );
                 }
 
-                if (Gate::denies('lodata-entityset-query', [$entitySet, $transaction])) {
-                    throw new ForbiddenException();
-                }
+                Gate::check('entityset.query', $entitySet, $transaction);
 
                 return $entitySet;
             }
@@ -401,9 +398,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                         );
                     }
 
-                    if (Gate::denies('lodata-entityset-create', [$entitySet, $transaction])) {
-                        throw new ForbiddenException();
-                    }
+                    Gate::check('entityset.create', $entitySet, $transaction);
 
                     return $entitySet->create();
             }

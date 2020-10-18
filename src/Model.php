@@ -6,8 +6,8 @@ use Flat3\Lodata\Annotation\Capabilities;
 use Flat3\Lodata\Annotation\Core;
 use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
-use Flat3\Lodata\Helper\Traits;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
@@ -86,10 +86,14 @@ class Model
         return $this->model->sliceByClass(Reference::class);
     }
 
-    public function discover($class): void
+    public function discover($class): IdentifierInterface
     {
-        if (is_a($class, \Illuminate\Database\Eloquent\Model::class, true)) {
-            $this->add(new EloquentEntitySet($class));
+        switch (true) {
+            case is_a($class, \Illuminate\Database\Eloquent\Model::class, true):
+                return $this->add(new EloquentEntitySet($class));
         }
+
+        throw new InternalServerErrorException('discovery_failed',
+            'Could not understand the class passed for discovery');
     }
 }

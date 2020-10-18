@@ -27,6 +27,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config.php', 'lodata');
     }
 
+    public static function usingPreview(): bool
+    {
+        return env('LODATA_PREVIEW', false);
+    }
+
     public function boot(Router $router)
     {
         $this->app->singleton(Model::class, function () {
@@ -40,7 +45,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $authMiddleware = config('lodata.authmiddleware');
         $router->aliasMiddleware('lodata.auth', AuthenticateWithBasicAuth::class);
 
-        Route::middleware([$authMiddleware])->group(function () {
+        $middleware = [$authMiddleware];
+
+        if (self::usingPreview()) {
+            $middleware = [];
+        }
+
+        Route::middleware($middleware)->group(function () {
             $route = self::route();
 
             Route::get("{$route}/_lodata/odata.pbids", [PBIDS::class, 'get']);
