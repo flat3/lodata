@@ -26,6 +26,6 @@ class Lodata extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'lodata';
+        return 'lodata.model';
     }
 }

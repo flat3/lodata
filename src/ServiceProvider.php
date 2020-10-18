@@ -34,7 +34,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new Model();
         });
 
-        $this->app->bind('lodata', function ($app) {
+        $this->app->bind('lodata.model', function ($app) {
             return $app->make(Model::class);
         });
 
