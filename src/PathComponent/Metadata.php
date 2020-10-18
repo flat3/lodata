@@ -90,7 +90,7 @@ class Metadata implements PipeInterface, EmitInterface
                 $entityTypeProperty->addAttribute('Name', $property->getName());
 
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
-                $entityTypeProperty->addAttribute('Type', $property->getType()->getResolvedName($namespace));
+                $entityTypeProperty->addAttribute('Type', $property->getType()->getIdentifier());
 
                 // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
@@ -102,11 +102,12 @@ class Metadata implements PipeInterface, EmitInterface
             // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365
             /** @var NavigationProperty $navigationProperty */
             foreach ($entityType->getNavigationProperties() as $navigationProperty) {
+                /** @var EntityType $targetEntityType */
                 $targetEntityType = $navigationProperty->getType();
 
                 $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getName());
-                $navigationPropertyType = $targetEntityType->getResolvedName($namespace);
+                $navigationPropertyType = $targetEntityType->getIdentifier();
                 if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
