@@ -16,7 +16,7 @@ class MethodTest extends TestCase
                     ->method('PATCH')
             );
         } catch (MethodNotAllowedException $e) {
-            $this->assertProtocolException($e);
+            $this->assertProtocolExceptionSnapshot($e);
         }
     }
 }

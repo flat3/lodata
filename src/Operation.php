@@ -2,16 +2,18 @@
 
 namespace Flat3\Lodata;
 
-use Closure;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\ActionInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
+use Flat3\Lodata\Interfaces\FunctionInterface;
 use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -26,8 +28,9 @@ use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasType;
+use Illuminate\Http\Request;
 use ReflectionException;
-use ReflectionFunction;
+use ReflectionMethod;
 use ReflectionNamedType;
 
 abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, IdentifierInterface, PipeInterface, InstanceInterface
@@ -35,9 +38,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     use HasIdentifier;
     use HasType;
     use HasTitle;
-
-    /** @var callable $callback */
-    protected $callback;
 
     /** @var string $bindingParameterName */
     protected $bindingParameterName;
@@ -53,16 +53,32 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function __construct($identifier)
     {
+        if (!$this instanceof FunctionInterface && !$this instanceof ActionInterface) {
+            throw new InternalServerErrorException(
+                sprintf('An operation must implement either %s or %s', FunctionInterface::class, ActionInterface::class)
+            );
+        }
+
+        try {
+            new ReflectionMethod($this, 'invoke');
+        } catch (ReflectionException $e) {
+            throw new InternalServerErrorException('An operation must implement the invoke method');
+        }
+
         $this->setIdentifier($identifier);
     }
 
     public function getReflectedReturnType(): string
     {
         try {
-            $rfc = new ReflectionFunction($this->callback);
+            $rfc = new ReflectionMethod($this, 'invoke');
 
             /** @var ReflectionNamedType $rt */
             $rt = $rfc->getReturnType();
+
+            if ('void' === $rt && $this instanceof FunctionInterface) {
+                throw new InternalServerErrorException('missing_return_type', 'Functions must have a return type');
+            }
 
             if (null === $rt) {
                 return 'void';
@@ -94,7 +110,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     public function isNullable(): bool
     {
         try {
-            $rfn = new ReflectionFunction($this->callback);
+            $rfn = new ReflectionMethod($this, 'invoke');
             return !$rfn->hasReturnType() || $rfn->getReturnType()->allowsNull() || $rfn->getReturnType()->getName() === 'void';
         } catch (ReflectionException $e) {
             return false;
@@ -103,12 +119,8 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getArguments(): ObjectArray
     {
-        if (!$this->callback) {
-            throw new InternalServerErrorException('missing_callback', 'Missing callback for Operation');
-        }
-
         try {
-            $rfn = new ReflectionFunction($this->callback);
+            $rfn = new ReflectionMethod($this, 'invoke');
             $args = new ObjectArray();
 
             foreach ($rfn->getParameters() as $parameter) {
@@ -120,13 +132,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         }
 
         throw new InternalServerErrorException('invalid_arguments', 'Invalid arguments');
-    }
-
-    public function setCallback(callable $callback): self
-    {
-        $this->callback = $callback;
-
-        return $this;
     }
 
     public function getType(): ?TypeInterface
@@ -142,19 +147,12 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function setBindingParameterName(string $bindingParameterName): self
     {
-        if (!$this->callback) {
-            throw new InternalServerErrorException(
-                'no_callback',
-                'The callback must be defined before setting the binding parameter'
-            );
-        }
-
         $arguments = $this->getArguments();
 
         if (!$arguments->get($bindingParameterName)) {
             throw new InternalServerErrorException(
                 'cannot_find_binding_parameter',
-                'The requested binding parameter did not exist on the provided callback'
+                'The requested binding parameter did not exist on the invoke method'
             );
         }
 
@@ -180,57 +178,36 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         return $this;
     }
 
-    abstract public function getTransactionArguments(): array;
-
-    public function invoke(): ?PipeInterface
+    public function getKind(): string
     {
-        if (!$this->callback instanceof Closure) {
-            throw new NotImplementedException('no_callback', 'The requested operation has no implementation');
+        switch (true) {
+            case $this instanceof ActionInterface:
+                return 'Action';
+            case $this instanceof FunctionInterface:
+                return 'Function';
         }
 
-        $bindingParameter = $this->getBindingParameterName();
-        $transactionArguments = $this->getTransactionArguments();
+        throw new InternalServerErrorException('invalid_operation', 'Operations must implement as Function or Action');
+    }
 
-        $arguments = [];
+    public function getTransactionArguments(): array
+    {
+        switch (true) {
+            case $this instanceof ActionInterface:
+                $body = $this->transaction->getBody();
 
-        /** @var Argument $argumentDefinition */
-        foreach ($this->getArguments() as $argumentDefinition) {
-            $argumentName = $argumentDefinition->getName();
-            if ($bindingParameter === $argumentName) {
-                switch (true) {
-                    case $argumentDefinition instanceof EntityArgument && !$this->boundParameter instanceof Entity:
-                    case $argumentDefinition instanceof EntitySetArgument && !$this->boundParameter instanceof EntitySet:
-                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$this->boundParameter instanceof PrimitiveType:
-                        throw new BadRequestException(
-                            'invalid_bound_argument_type',
-                            'The provided bound argument was not of the correct type for this function'
-                        );
+                if ($body && !is_array($body)) {
+                    throw new BadRequestException('invalid_action_arguments',
+                        'The arguments to the action were not correctly formed as an array');
                 }
 
-                $arguments[] = $this->boundParameter;
-                continue;
-            }
+                return $body ?: [];
 
-            switch (true) {
-                case $argumentDefinition instanceof TransactionArgument:
-                    $arguments[] = $argumentDefinition->generate($this->transaction);
-                    break;
-
-                case $argumentDefinition instanceof EntitySetArgument:
-                    $arguments[] = $argumentDefinition->generate($this->transaction);
-                    break;
-
-                case $argumentDefinition instanceof EntityArgument:
-                    $arguments[] = $argumentDefinition->generate();
-                    break;
-
-                case $argumentDefinition instanceof PrimitiveTypeArgument:
-                    $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null);
-                    break;
-            }
+            case $this instanceof FunctionInterface:
+                return $this->inlineParameters;
         }
 
-        return call_user_func_array($this->callback, array_values($arguments));
+        throw new InternalServerErrorException('invalid_operation', 'Operations must implement as Function or Action');
     }
 
     public static function pipe(
@@ -255,7 +232,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             throw new PathNotHandledException();
         }
 
-        if ($nextComponent && $operation instanceof ActionOperation) {
+        if ($nextComponent && $operation instanceof ActionInterface) {
             throw new BadRequestException(
                 'cannot_compose_action',
                 'It is not permitted to further compose the result of an action'
@@ -312,7 +289,81 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
         $operation->setInlineParameters($inlineParameters);
 
-        $result = $operation->invoke();
+        if ($operation instanceof ActionInterface) {
+            $transaction->ensureMethod(Request::METHOD_POST,
+                'This operation must be addressed with a POST request');
+
+            if ($transaction->getBody()) {
+                $transaction->ensureContentTypeJson();
+            }
+        }
+
+        if ($operation instanceof FunctionInterface) {
+            $transaction->ensureMethod(Request::METHOD_GET,
+                'This operation must be addressed with a GET request');
+
+            $operation->getReflectedReturnType();
+        }
+
+        $bindingParameter = $operation->getBindingParameterName();
+        $transactionArguments = $operation->getTransactionArguments();
+
+        $arguments = [];
+
+        /** @var Argument $argumentDefinition */
+        foreach ($operation->getArguments() as $argumentDefinition) {
+            $argumentName = $argumentDefinition->getName();
+            if ($bindingParameter === $argumentName) {
+                switch (true) {
+                    case $argumentDefinition instanceof EntityArgument && !$operation->boundParameter instanceof Entity:
+                    case $argumentDefinition instanceof EntitySetArgument && !$operation->boundParameter instanceof EntitySet:
+                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$operation->boundParameter instanceof PrimitiveType:
+                        throw new BadRequestException(
+                            'invalid_bound_argument_type',
+                            'The provided bound argument was not of the correct type for this function'
+                        );
+                }
+
+                $arguments[] = $operation->boundParameter;
+                continue;
+            }
+
+            switch (true) {
+                case $argumentDefinition instanceof TransactionArgument:
+                    $arguments[] = $argumentDefinition->generate($transaction);
+                    break;
+
+                case $argumentDefinition instanceof EntitySetArgument:
+                    $arguments[] = $argumentDefinition->generate($transaction);
+                    break;
+
+                case $argumentDefinition instanceof EntityArgument:
+                    $arguments[] = $argumentDefinition->generate();
+                    break;
+
+                case $argumentDefinition instanceof PrimitiveTypeArgument:
+                    $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null);
+                    break;
+            }
+        }
+
+        $result = call_user_func_array([$operation, 'invoke'], array_values($arguments));
+
+        if ($operation instanceof ActionInterface) {
+            $returnPreference = $transaction->getPreferenceValue(Constants::RETURN);
+
+            if ($returnPreference === Constants::MINIMAL) {
+                throw NoContentException::factory()
+                    ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL);
+            }
+        }
+
+        if ($operation instanceof FunctionInterface && null === $result) {
+            throw new InternalServerErrorException(
+                'missing_function_result',
+                'Function is required to return a result'
+            );
+        }
 
         $returnType = $operation->getType();
 

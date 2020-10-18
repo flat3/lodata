@@ -6,7 +6,9 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Interfaces\FunctionInterface;
 use Flat3\Lodata\Model;
+use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Data\Airport;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -17,10 +19,12 @@ class FunctionTest extends TestCase
 {
     public function test_callback()
     {
-        Model::fn('exf1')
-            ->setCallback(function (): String_ {
+        Model::add(new class('exf1') extends Operation implements FunctionInterface {
+            function invoke(): String_
+            {
                 return String_::factory('hello');
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -30,10 +34,12 @@ class FunctionTest extends TestCase
 
     public function test_callback_no_parentheses()
     {
-        Model::fn('exf1')
-            ->setCallback(function (): String_ {
+        Model::add(new class('exf1') extends Operation implements FunctionInterface {
+            function invoke(): String_
+            {
                 return String_::factory('hello');
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -43,10 +49,12 @@ class FunctionTest extends TestCase
 
     public function test_service_document()
     {
-        Model::fn('exf1')
-            ->setCallback(function (): String_ {
+        Model::add(new class('exf1') extends Operation implements FunctionInterface {
+            function invoke(): String_
+            {
                 return String_::factory('hello');
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -57,16 +65,17 @@ class FunctionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('exf3')
-            ->setCallback(function (String_ $code): Entity {
+        Model::add((new class('exf3') extends Operation implements FunctionInterface {
+            function invoke(String_ $code): Entity
+            {
                 /** @var Model $model */
                 $model = app()->get(Model::class);
                 $airport = new Airport();
                 $airport->setType($model->getEntityTypes()->get('airport'));
                 $airport['code'] = $code->get();
                 return $airport;
-            })
-            ->setType(Model::getType('airport'));
+            }
+        })->setType(Model::getType('airport')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -78,11 +87,12 @@ class FunctionTest extends TestCase
     {
         $this->withTextModel();
 
-        Model::fn('textf1')
-            ->setCallback(function (EntitySet $texts): EntitySet {
+        Model::add((new class('textf1') extends Operation implements FunctionInterface {
+            public function invoke(EntitySet $texts): EntitySet
+            {
                 return $texts;
-            })
-            ->setType(Model::getType('text'));
+            }
+        })->setType(Model::getType('text')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -164,10 +174,12 @@ class FunctionTest extends TestCase
 
     public function test_with_implicit_parameter_alias_matching_system_query_option()
     {
-        Model::fn('add')
-            ->setCallback(function (Int32 $apply, Int32 $compute): Int32 {
+        Model::add(new class('add') extends Operation implements FunctionInterface {
+            public function invoke(Int32 $apply, Int32 $compute): Int32
+            {
                 return Int32::factory($apply->get() + $compute->get());
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -179,15 +191,19 @@ class FunctionTest extends TestCase
 
     public function test_function_composition()
     {
-        Model::fn('identity')
-            ->setCallback(function (Int32 $i): Int32 {
+        Model::add(new class('identity') extends Operation implements FunctionInterface {
+            public function invoke(Int32 $i): Int32
+            {
                 return Int32::factory($i->get());
-            });
+            }
+        });
 
-        Model::fn('increment')
-            ->setCallback(function (Int32 $i): Int32 {
+        Model::add((new class('increment') extends Operation implements FunctionInterface {
+            public function invoke(Int32 $i): Int32
+            {
                 return Int32::factory($i->get() + 1);
-            })->setBindingParameterName('i');
+            }
+        })->setBindingParameterName('i'));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -199,12 +215,13 @@ class FunctionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('ffn1')
-            ->setCallback(function (Transaction $transaction, EntitySet $flights): EntitySet {
+        Model::add((new class('ffn1') extends Operation implements FunctionInterface {
+            public function invoke(Transaction $transaction, EntitySet $flights): EntitySet
+            {
                 $transaction->getSelect()->setValue('origin');
                 return $flights;
-            })
-            ->setType(Model::getType('flight'));
+            }
+        })->setType(Model::getType('flight')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -216,12 +233,12 @@ class FunctionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('ffb1')
-            ->setCallback(function (EntitySet $flights): EntitySet {
+        Model::add((new class('ffb1') extends Operation implements FunctionInterface {
+            public function invoke(EntitySet $flights): EntitySet
+            {
                 return $flights;
-            })
-            ->setBindingParameterName('flights')
-            ->setType(Model::getType('flight'));
+            }
+        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -233,19 +250,33 @@ class FunctionTest extends TestCase
     {
         $this->withTextModel();
 
-        $this->expectException(InternalServerErrorException::class);
-        Model::fn('textv1')
-            ->setCallback(function (): void {
-            });
+        Model::add(new class('textv1') extends Operation implements FunctionInterface {
+            public function invoke(): void
+            {
+            }
+        });
+
+        $this->assertRequestExceptionSnapshot(
+            Request::factory()
+                ->path('/textv1()'),
+            InternalServerErrorException::class
+        );
     }
 
     public function test_default_null_callback()
     {
         $this->withTextModel();
 
-        $this->expectException(InternalServerErrorException::class);
-        Model::fn('textv1')
-            ->setCallback(function () {
-            });
+        Model::add(new class('textv1') extends Operation implements FunctionInterface {
+            public function invoke()
+            {
+            }
+        });
+
+        $this->assertRequestExceptionSnapshot(
+            Request::factory()
+                ->path('/textv1()'),
+            InternalServerErrorException::class
+        );
     }
 }

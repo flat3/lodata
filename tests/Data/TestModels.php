@@ -2,14 +2,16 @@
 
 namespace Flat3\Lodata\Tests\Data;
 
-use Exception;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Interfaces\FunctionInterface;
 use Flat3\Lodata\Interfaces\QueryInterface;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Operation;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
@@ -17,7 +19,6 @@ use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 trait TestModels
@@ -93,7 +94,8 @@ trait TestModels
             'is_big' => true,
         ]))->save();
 
-        $flightType = Model::entitytype('flight');
+        /** @var EntityType $flightType */
+        $flightType = Model::add(new EntityType('flight'));
         $flightType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
         $flightType->addProperty(DeclaredProperty::factory('origin', PrimitiveType::string()));
         $flightType->addProperty(DeclaredProperty::factory('destination', PrimitiveType::string()));
@@ -101,7 +103,8 @@ trait TestModels
         $flightSet = new SQLEntitySet('flights', $flightType);
         $flightSet->setTable('flights');
 
-        $airportType = Model::entitytype('airport');
+        /** @var EntityType $airportType */
+        $airportType = Model::add(new EntityType('airport'));
         $airportType->setKey(DeclaredProperty::factory('id', PrimitiveType::int32()));
         $airportType->addProperty(DeclaredProperty::factory('name', PrimitiveType::string()));
         $airportType->addProperty(DeclaredProperty::factory('code', PrimitiveType::string())->setSearchable());
@@ -136,15 +139,19 @@ trait TestModels
 
     public function withMathFunctions()
     {
-        Model::fn('add')
-            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+        Model::add(new class('add') extends Operation implements FunctionInterface {
+            public function invoke(Int32 $a, Int32 $b): Int32
+            {
                 return Int32::factory($a->get() + $b->get());
-            });
+            }
+        });
 
-        Model::fn('div')
-            ->setCallback(function (Int32 $a, Int32 $b): Decimal {
+        Model::add(new class('div') extends Operation implements FunctionInterface {
+            public function invoke(Int32 $a, Int32 $b): Decimal
+            {
                 return Decimal::factory($a->get() / $b->get());
-            });
+            }
+        });
     }
 
     public function withTextModel()
@@ -152,7 +159,7 @@ trait TestModels
         Model::add(
             new class(
                 'texts',
-                Model::entitytype('text')
+                Model::add(new EntityType('text'))
                     ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
             ) extends EntitySet implements QueryInterface {
                 public function query(): array

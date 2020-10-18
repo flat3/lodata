@@ -9,7 +9,6 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasName;
 use ReflectionParameter;
 

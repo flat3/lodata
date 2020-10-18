@@ -16,7 +16,7 @@ class SetupTest extends TestCase
         try {
             new SQLEntitySet('3a', new EntityType('a3'));
         } catch (ProtocolException $e) {
-            $this->assertProtocolException($e);
+            $this->assertProtocolExceptionSnapshot($e);
         }
     }
 
@@ -25,7 +25,7 @@ class SetupTest extends TestCase
         try {
             new SQLEntitySet('example.3a', new EntityType('a3'));
         } catch (ProtocolException $e) {
-            $this->assertProtocolException($e);
+            $this->assertProtocolExceptionSnapshot($e);
         }
     }
 
@@ -34,7 +34,7 @@ class SetupTest extends TestCase
         try {
             new DeclaredProperty('3a', PrimitiveType::int32());
         } catch (ProtocolException $e) {
-            $this->assertProtocolException($e);
+            $this->assertProtocolExceptionSnapshot($e);
         }
     }
 }

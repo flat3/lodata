@@ -44,41 +44,11 @@ class Model
         }
     }
 
-    public static function add(IdentifierInterface $item): self
+    public static function add(IdentifierInterface $item): IdentifierInterface
     {
         $model = self::get();
         $model->model->add($item);
-        return $model;
-    }
-
-    public static function fn($name): FunctionOperation
-    {
-        $model = self::get();
-
-        $fn = new FunctionOperation($name);
-
-        $model->model[] = $fn;
-        return $fn;
-    }
-
-    public static function action($name): ActionOperation
-    {
-        $model = self::get();
-
-        $action = new ActionOperation($name);
-
-        $model->model[] = $action;
-        return $action;
-    }
-
-    public static function entitytype($name): EntityType
-    {
-        $model = self::get();
-
-        $type = new EntityType($name);
-
-        $model->model[] = $type;
-        return $type;
+        return $item;
     }
 
     public static function getType($name): ?EntityType

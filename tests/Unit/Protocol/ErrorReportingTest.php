@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Protocol;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Interfaces\QueryInterface;
 use Flat3\Lodata\Model;
@@ -50,7 +51,7 @@ class ErrorReportingTest extends TestCase
         Model::add(
             new class(
                 'texts',
-                Model::entitytype('text')
+                Model::add(new EntityType('text'))
                     ->addProperty(DeclaredProperty::factory('a', PrimitiveType::string()))
             ) extends EntitySet implements QueryInterface {
                 public function emit(Transaction $transaction): void

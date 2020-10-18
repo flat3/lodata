@@ -8,7 +8,6 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;

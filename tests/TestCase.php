@@ -58,7 +58,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return Storage::fake(config('lodata.disk'));
     }
 
-    protected function assertExceptionSnapshot(Request $request, string $exceptionClass): ProtocolException
+    protected function assertRequestExceptionSnapshot(Request $request, string $exceptionClass): ProtocolException
     {
         try {
             $this->req($request);
@@ -75,47 +75,47 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function assertNotAcceptable(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, NotAcceptableException::class);
+        return $this->assertRequestExceptionSnapshot($request, NotAcceptableException::class);
     }
 
     protected function assertMethodNotAllowed(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, MethodNotAllowedException::class);
+        return $this->assertRequestExceptionSnapshot($request, MethodNotAllowedException::class);
     }
 
     protected function assertNotFound(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, NotFoundException::class);
+        return $this->assertRequestExceptionSnapshot($request, NotFoundException::class);
     }
 
     protected function assertNoContent(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, NoContentException::class);
+        return $this->assertRequestExceptionSnapshot($request, NoContentException::class);
     }
 
     protected function assertPreconditionFailed(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, PreconditionFailedException::class);
+        return $this->assertRequestExceptionSnapshot($request, PreconditionFailedException::class);
     }
 
     protected function assertNotImplemented(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, NotImplementedException::class);
+        return $this->assertRequestExceptionSnapshot($request, NotImplementedException::class);
     }
 
     protected function assertInternalServerError(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, InternalServerErrorException::class);
+        return $this->assertRequestExceptionSnapshot($request, InternalServerErrorException::class);
     }
 
     protected function assertBadRequest(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, BadRequestException::class);
+        return $this->assertRequestExceptionSnapshot($request, BadRequestException::class);
     }
 
     protected function assertAccepted(Request $request): ProtocolException
     {
-        return $this->assertExceptionSnapshot($request, AcceptedException::class);
+        return $this->assertRequestExceptionSnapshot($request, AcceptedException::class);
     }
 
     public function urlToReq(string $url): Request
@@ -212,7 +212,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $response;
     }
 
-    protected function assertProtocolException(ProtocolException $e)
+    protected function assertProtocolExceptionSnapshot(ProtocolException $e)
     {
         $this->assertMatchesSnapshot($e->serialize());
     }

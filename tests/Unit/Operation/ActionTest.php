@@ -3,7 +3,9 @@
 namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\Interfaces\ActionInterface;
 use Flat3\Lodata\Model;
+use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Int32;
@@ -13,10 +15,12 @@ class ActionTest extends TestCase
 {
     public function test_get_not_allowed()
     {
-        Model::action('exa1')
-            ->setCallback(function (): String_ {
+        Model::add(new class('exa1') extends Operation implements ActionInterface {
+            public function invoke(): String_
+            {
                 return String_::factory('hello');
-            });
+            }
+        });
 
         $this->assertMethodNotAllowed(
             Request::factory()
@@ -26,10 +30,12 @@ class ActionTest extends TestCase
 
     public function test_callback()
     {
-        Model::action('exa1')
-            ->setCallback(function (): String_ {
+        Model::add(new class('exa1') extends Operation implements ActionInterface {
+            public function invoke(): String_
+            {
                 return String_::factory('hello');
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -40,10 +46,12 @@ class ActionTest extends TestCase
 
     public function test_service_document()
     {
-        Model::action('exa1')
-            ->setCallback(function (): String_ {
+        Model::add(new class('exa1') extends Operation implements ActionInterface {
+            public function invoke(): String_
+            {
                 return String_::factory('hello');
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -60,10 +68,12 @@ class ActionTest extends TestCase
 
     public function test_no_composition()
     {
-        Model::action('textv1')
-            ->setCallback(function (): Int32 {
+        Model::add(new class('textv1') extends Operation implements ActionInterface {
+            public function invoke(): Int32
+            {
                 return new Int32(3);
-            });
+            }
+        });
 
         $this->assertBadRequest(
             Request::factory()
@@ -74,9 +84,12 @@ class ActionTest extends TestCase
 
     public function test_void_callback()
     {
-        Model::action('textv1')
-            ->setCallback(function (): void {
-            });
+        Model::add(new class('textv1') extends Operation implements ActionInterface {
+            public function invoke(): void
+            {
+
+            }
+        });
 
         $this->assertNoContent(
             Request::factory()
@@ -87,9 +100,13 @@ class ActionTest extends TestCase
 
     public function test_default_null_callback()
     {
-        Model::action('textv1')
-            ->setCallback(function () {
-            });
+        Model::add(new class('textv1') extends Operation implements ActionInterface {
+            public function invoke()
+            {
+
+            }
+        });
+
 
         $this->assertNoContent(
             Request::factory()
@@ -100,10 +117,12 @@ class ActionTest extends TestCase
 
     public function test_explicit_null_callback()
     {
-        Model::action('textv1')
-            ->setCallback(function () {
+        Model::add(new class('textv1') extends Operation implements ActionInterface {
+            public function invoke()
+            {
                 return null;
-            });
+            }
+        });
 
         $this->assertNoContent(
             Request::factory()
@@ -116,12 +135,12 @@ class ActionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::action('aa1')
-            ->setCallback(function (Entity $airport): Entity {
+        Model::add((new class('aa1') extends Operation implements ActionInterface {
+            public function invoke(Entity $airport): Entity
+            {
                 return $airport;
-            })
-            ->setBindingParameterName('airport')
-            ->setType(Model::getType('airport'));
+            }
+        })->setBindingParameterName('airport')->setType(Model::getType('airport')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -132,10 +151,12 @@ class ActionTest extends TestCase
 
     public function test_parameters()
     {
-        Model::action('aa1')
-            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+        Model::add(new class('aa1') extends Operation implements ActionInterface {
+            public function invoke(Int32 $a, Int32 $b): Int32
+            {
                 return new Int32($a->get() + $b->get());
-            });
+            }
+        });
 
         $this->assertJsonResponse(
             Request::factory()
@@ -150,10 +171,12 @@ class ActionTest extends TestCase
 
     public function test_prefers_no_results()
     {
-        Model::action('aa1')
-            ->setCallback(function (): Int32 {
+        Model::add(new class('aa1') extends Operation implements ActionInterface {
+            public function invoke(): Int32
+            {
                 return new Int32(99);
-            });
+            }
+        });
 
         $this->assertNoContent(
             Request::factory()
@@ -169,10 +192,12 @@ class ActionTest extends TestCase
 
     public function test_parameters_invalid_body_string()
     {
-        Model::action('aa1')
-            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+        Model::add(new class('aa1') extends Operation implements ActionInterface {
+            public function invoke(Int32 $a, Int32 $b): Int32
+            {
                 return new Int32($a->get() + $b->get());
-            });
+            }
+        });
 
         $this->assertNotAcceptable(
             Request::factory()
@@ -186,10 +211,12 @@ class ActionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::action('aa1')
-            ->setCallback(function (Int32 $a, Int32 $b): Int32 {
+        Model::add(new class('aa1') extends Operation implements ActionInterface {
+            public function invoke(Int32 $a, Int32 $b): Int32
+            {
                 return new Int32($a->get() + $b->get());
-            });
+            }
+        });
 
         $this->assertBadRequest(
             Request::factory()

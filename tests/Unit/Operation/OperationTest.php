@@ -3,8 +3,10 @@
 namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Interfaces\FunctionInterface;
 use Flat3\Lodata\Model;
+use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Decimal;
@@ -13,28 +15,37 @@ use Flat3\Lodata\Type\String_;
 
 class OperationTest extends TestCase
 {
-    public function test_missing_callback()
+    public function test_missing_invoke()
     {
-        $this->expectException(InternalServerErrorException::class);
-        Model::fn('f1')
-            ->setBindingParameterName('texts');
+        try {
+            Model::add((new class('f1') extends Operation implements FunctionInterface {
+            })->setBindingParameterName('texts'));
+        } catch (ProtocolException $e) {
+            $this->assertProtocolExceptionSnapshot($e);
+        }
     }
 
     public function test_binding_did_not_exist()
     {
-        $this->expectException(InternalServerErrorException::class);
-        Model::fn('f1')
-            ->setCallback(function (Int32 $taxts) {
-            })
-            ->setBindingParameterName('texts');
+        try {
+            Model::add((new class('f1') extends Operation implements FunctionInterface {
+                function invoke(Int32 $taxts)
+                {
+                }
+            })->setBindingParameterName('texts'));
+        } catch (ProtocolException $e) {
+            $this->assertProtocolExceptionSnapshot($e);
+        }
     }
 
     public function test_parameter_order_unbound()
     {
-        Model::fn('f1')
-            ->setCallback(function (Int32 $a, Decimal $b): Int32 {
+        Model::add((new class('f1') extends Operation implements FunctionInterface {
+            function invoke(Int32 $a, Decimal $b): Int32
+            {
                 return new Int32(0);
-            });
+            }
+        }));
 
         $this->assertXmlResponse(
             Request::factory()
@@ -45,11 +56,12 @@ class OperationTest extends TestCase
 
     public function test_parameter_order_bound()
     {
-        Model::fn('f1')
-            ->setCallback(function (Int32 $a, Decimal $b): Int32 {
+        Model::add((new class('f1') extends Operation implements FunctionInterface {
+            function invoke(Int32 $a, Decimal $b): Int32
+            {
                 return new Int32(0);
-            })
-            ->setBindingParameterName('b');
+            }
+        })->setBindingParameterName('b'));
 
         $this->assertXmlResponse(
             Request::factory()
@@ -62,12 +74,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('f1')
-            ->setCallback(function (?Decimal $b, EntitySet $flights): EntitySet {
+        Model::add((new class('f1') extends Operation implements FunctionInterface {
+            public function invoke(?Decimal $b, EntitySet $flights): EntitySet
+            {
                 return $flights;
-            })
-            ->setBindingParameterName('flights')
-            ->setType(Model::getType('flight'));
+            }
+        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
 
         $this->assertXmlResponse(
             Request::factory()
@@ -85,11 +97,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('f1')
-            ->setCallback(function (?Decimal $b, EntitySet $flights): Decimal {
+        Model::add((new class('f1') extends Operation implements FunctionInterface {
+            public function invoke(?Decimal $b, EntitySet $flights): Decimal
+            {
                 return new Decimal($flights->count());
-            })
-            ->setBindingParameterName('flights');
+            }
+        })->setBindingParameterName('flights'));
 
         $this->assertXmlResponse(
             Request::factory()
@@ -107,12 +120,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('f1')
-            ->setCallback(function (?Decimal $b, EntitySet $flights): EntitySet {
+        Model::add((new class('f1') extends Operation implements FunctionInterface {
+            public function invoke(?Decimal $b, EntitySet $flights)
+            {
                 return $flights;
-            })
-            ->setBindingParameterName('flights')
-            ->setType(Model::getType('flight'));
+            }
+        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
 
         $this->assertBadRequest(
             Request::factory()
@@ -124,12 +137,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::fn('f1')
-            ->setCallback(function (?Decimal $b, EntitySet $flights): EntitySet {
+        Model::add((new class('f1') extends Operation implements FunctionInterface {
+            public function invoke(?Decimal $b, EntitySet $flights): EntitySet
+            {
                 return $flights;
-            })
-            ->setBindingParameterName('flights')
-            ->setType(Model::getType('flight'));
+            }
+        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
 
         $this->assertBadRequest(
             Request::factory()
@@ -139,16 +152,19 @@ class OperationTest extends TestCase
 
     public function test_function_pipe()
     {
-        Model::fn('hello')
-            ->setCallback(function (): String_ {
+        Model::add(new class('hello') extends Operation implements FunctionInterface {
+            public function invoke(): String_
+            {
                 return new String_('hello');
-            });
+            }
+        });
 
-        Model::fn('world')
-            ->setCallback(function (String_ $second): String_ {
+        Model::add((new class('world') extends Operation implements FunctionInterface {
+            public function invoke(String_ $second): String_
+            {
                 return new String_($second->get().' world');
-            })
-            ->setBindingParameterName('second');
+            }
+        })->setBindingParameterName('second'));
 
         $this->assertJsonResponse(
             Request::factory()
