@@ -2,8 +2,6 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Interfaces\DynamicPropertyInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasName;
@@ -21,16 +19,6 @@ abstract class Property implements TypeInterface, NameInterface
     {
         $this->setName($name);
         $this->type = $type;
-
-        if (
-            !$this instanceof DeclaredProperty &&
-            !$this instanceof DynamicPropertyInterface &&
-            !$this instanceof NavigationProperty
-        ) {
-            throw new InternalServerErrorException(
-                sprintf('A dynamic property must implement %s', DynamicPropertyInterface::class)
-            );
-        }
     }
 
     public function isNullable(): bool

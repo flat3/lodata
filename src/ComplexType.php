@@ -5,7 +5,6 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\DynamicPropertyInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
@@ -45,7 +44,7 @@ class ComplexType implements TypeInterface, IdentifierInterface, ContextInterfac
 
     public function getDynamicProperties(): ObjectArray
     {
-        return $this->properties->sliceByClass(DynamicPropertyInterface::class);
+        return $this->properties->sliceByClass(DynamicProperty::class);
     }
 
     public function getProperty(string $property): ?Property
