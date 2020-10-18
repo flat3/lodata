@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static EntityType getEntityType($name)
  * @method static IdentifierInterface add(IdentifierInterface $item)
  * @method static string getNamespace()
- * @method static void discovery()
+ * @method static void discover(string $class)
  * @package Flat3\Lodata\Facades
  */
 class Lodata extends Facade

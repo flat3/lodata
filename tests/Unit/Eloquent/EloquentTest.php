@@ -14,12 +14,7 @@ class EloquentTest extends TestCase
         parent::setUp();
         $this->withFlightDatabase();
 
-        global $__PHPUNIT_CONFIGURATION_FILE;
-        $testBasePath = dirname($__PHPUNIT_CONFIGURATION_FILE);
-        $originalBasePath = app()->basePath();
-        app()->setBasePath($testBasePath);
-        Lodata::discovery();
-        app()->setBasePath($originalBasePath);
+        Lodata::discover(Airport::class);
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getProperty('code')->setAlternativeKey();

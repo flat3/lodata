@@ -86,10 +86,10 @@ class Model
         return $this->model->sliceByClass(Reference::class);
     }
 
-    public function discovery(): void
+    public function discover($class): void
     {
-        foreach (Traits::getClassesOfType(\Illuminate\Database\Eloquent\Model::class) as $model) {
-            $this->add(new EloquentEntitySet($model));
+        if (is_a($class, \Illuminate\Database\Eloquent\Model::class, true)) {
+            $this->add(new EloquentEntitySet($class));
         }
     }
 }
