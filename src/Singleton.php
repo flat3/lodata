@@ -44,7 +44,7 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
         ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $singleton = Lodata::getResources()->get($currentComponent);
+        $singleton = Lodata::getResource($currentComponent);
 
         if (null === $singleton || !$singleton instanceof Singleton) {
             throw new PathNotHandledException();

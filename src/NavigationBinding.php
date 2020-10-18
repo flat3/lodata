@@ -7,7 +7,7 @@ class NavigationBinding
     /** @var NavigationProperty $path */
     private $path;
 
-    /** @var \Flat3\Lodata\\Flat3\OData\EntitySet $target */
+    /** @var EntitySet $target */
     private $target;
 
     public function __construct(NavigationProperty $path, EntitySet $target)

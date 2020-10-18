@@ -9,7 +9,7 @@ use Flat3\Lodata\Type\Enum;
 use Flat3\Lodata\Type\String_;
 use SimpleXMLElement;
 
-class Annotation
+abstract class Annotation
 {
     use HasType;
 
