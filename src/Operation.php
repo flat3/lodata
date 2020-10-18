@@ -126,13 +126,18 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
     {
         $this->callback = $callback;
 
+        return $this;
+    }
+
+    public function getType(): ?TypeInterface
+    {
         $returnType = $this->getReflectedReturnType();
 
         if (is_a($returnType, PrimitiveType::class, true)) {
-            $this->setType($returnType::factory());
+            return $returnType::factory();
         }
 
-        return $this;
+        return $this->type;
     }
 
     public function setBindingParameterName(string $bindingParameterName): self
@@ -233,8 +238,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         string $currentComponent,
         ?string $nextComponent,
         ?PipeInterface $argument
-    ): ?PipeInterface
-    {
+    ): ?PipeInterface {
         $lexer = new Lexer($currentComponent);
 
         try {
@@ -327,7 +331,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     public function getResourceUrl(): string
     {
-        return Transaction::getResourceUrl() . $this->getName();
+        return Transaction::getResourceUrl().$this->getName();
     }
 
     public function asInstance(Transaction $transaction): self
