@@ -5,9 +5,9 @@ namespace Flat3\Lodata\Tests\Data;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\FunctionInterface;
 use Flat3\Lodata\Interfaces\QueryInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
@@ -95,7 +95,7 @@ trait TestModels
         ]))->save();
 
         /** @var EntityType $flightType */
-        $flightType = Model::add(new EntityType('flight'));
+        $flightType = Lodata::add(new EntityType('flight'));
         $flightType->setKey(Property::factory('id', PrimitiveType::int32()));
         $flightType->addProperty(Property::factory('origin', PrimitiveType::string()));
         $flightType->addProperty(Property::factory('destination', PrimitiveType::string()));
@@ -104,7 +104,7 @@ trait TestModels
         $flightSet->setTable('flights');
 
         /** @var EntityType $airportType */
-        $airportType = Model::add(new EntityType('airport'));
+        $airportType = Lodata::add(new EntityType('airport'));
         $airportType->setKey(Property::factory('id', PrimitiveType::int32()));
         $airportType->addProperty(Property::factory('name', PrimitiveType::string()));
         $airportType->addProperty(Property::factory('code', PrimitiveType::string())->setSearchable());
@@ -116,8 +116,8 @@ trait TestModels
         $airportSet = new SQLEntitySet('airports', $airportType);
         $airportSet->setTable('airports');
 
-        Model::add($flightSet);
-        Model::add($airportSet);
+        Lodata::add($flightSet);
+        Lodata::add($airportSet);
 
         $nav = new NavigationProperty($airportSet, $airportType);
         $nav->setCollection(true);
@@ -139,14 +139,14 @@ trait TestModels
 
     public function withMathFunctions()
     {
-        Model::add(new class('add') extends Operation implements FunctionInterface {
+        Lodata::add(new class('add') extends Operation implements FunctionInterface {
             public function invoke(Int32 $a, Int32 $b): Int32
             {
                 return Int32::factory($a->get() + $b->get());
             }
         });
 
-        Model::add(new class('div') extends Operation implements FunctionInterface {
+        Lodata::add(new class('div') extends Operation implements FunctionInterface {
             public function invoke(Int32 $a, Int32 $b): Decimal
             {
                 return Decimal::factory($a->get() / $b->get());
@@ -156,10 +156,10 @@ trait TestModels
 
     public function withTextModel()
     {
-        Model::add(
+        Lodata::add(
             new class(
                 'texts',
-                Model::add(new EntityType('text'))
+                Lodata::add(new EntityType('text'))
                     ->addProperty(Property::factory('a', PrimitiveType::string()))
             ) extends EntitySet implements QueryInterface {
                 public function query(): array

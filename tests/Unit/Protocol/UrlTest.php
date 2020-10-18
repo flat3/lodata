@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Model;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -25,7 +25,7 @@ class UrlTest extends TestCase
         ]))->save();
 
         /** @var EntityType $airportType */
-        $airportType = Model::get()->getEntityTypes()->get('airport');
+        $airportType = Lodata::getEntityTypes()->get('airport');
         $airportType->getProperty('name')->setSearchable()->setAlternativeKey();
         $airportType->getProperty('code')->setSearchable()->setAlternativeKey();
     }

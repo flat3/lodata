@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Options;
 
-use Flat3\Lodata\Model;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
@@ -25,7 +25,7 @@ class SearchTest extends TestCase
 
     public function test_search_no_searchable_properties()
     {
-        Model::get()->getEntityTypes()->get('airport')->getProperty('code')->setSearchable(false);
+        Lodata::getEntityTypes()->get('airport')->getProperty('code')->setSearchable(false);
 
         $this->assertInternalServerError(
             Request::factory()

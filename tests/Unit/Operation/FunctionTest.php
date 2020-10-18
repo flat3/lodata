@@ -6,8 +6,8 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\FunctionInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Data\Airport;
 use Flat3\Lodata\Tests\Request;
@@ -19,7 +19,7 @@ class FunctionTest extends TestCase
 {
     public function test_callback()
     {
-        Model::add(new class('exf1') extends Operation implements FunctionInterface {
+        Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): String_
             {
                 return String_::factory('hello');
@@ -34,7 +34,7 @@ class FunctionTest extends TestCase
 
     public function test_callback_no_parentheses()
     {
-        Model::add(new class('exf1') extends Operation implements FunctionInterface {
+        Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): String_
             {
                 return String_::factory('hello');
@@ -49,7 +49,7 @@ class FunctionTest extends TestCase
 
     public function test_service_document()
     {
-        Model::add(new class('exf1') extends Operation implements FunctionInterface {
+        Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): String_
             {
                 return String_::factory('hello');
@@ -65,17 +65,15 @@ class FunctionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('exf3') extends Operation implements FunctionInterface {
+        Lodata::add((new class('exf3') extends Operation implements FunctionInterface {
             function invoke(String_ $code): Entity
             {
-                /** @var Model $model */
-                $model = app()->get(Model::class);
                 $airport = new Airport();
-                $airport->setType($model->getEntityTypes()->get('airport'));
+                $airport->setType(Lodata::getEntityTypes()->get('airport'));
                 $airport['code'] = $code->get();
                 return $airport;
             }
-        })->setType(Model::getType('airport')));
+        })->setType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -87,12 +85,12 @@ class FunctionTest extends TestCase
     {
         $this->withTextModel();
 
-        Model::add((new class('textf1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('textf1') extends Operation implements FunctionInterface {
             public function invoke(EntitySet $texts): EntitySet
             {
                 return $texts;
             }
-        })->setType(Model::getType('text')));
+        })->setType(Lodata::getEntityType('text')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -174,7 +172,7 @@ class FunctionTest extends TestCase
 
     public function test_with_implicit_parameter_alias_matching_system_query_option()
     {
-        Model::add(new class('add') extends Operation implements FunctionInterface {
+        Lodata::add(new class('add') extends Operation implements FunctionInterface {
             public function invoke(Int32 $apply, Int32 $compute): Int32
             {
                 return Int32::factory($apply->get() + $compute->get());
@@ -191,14 +189,14 @@ class FunctionTest extends TestCase
 
     public function test_function_composition()
     {
-        Model::add(new class('identity') extends Operation implements FunctionInterface {
+        Lodata::add(new class('identity') extends Operation implements FunctionInterface {
             public function invoke(Int32 $i): Int32
             {
                 return Int32::factory($i->get());
             }
         });
 
-        Model::add((new class('increment') extends Operation implements FunctionInterface {
+        Lodata::add((new class('increment') extends Operation implements FunctionInterface {
             public function invoke(Int32 $i): Int32
             {
                 return Int32::factory($i->get() + 1);
@@ -215,13 +213,13 @@ class FunctionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('ffn1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('ffn1') extends Operation implements FunctionInterface {
             public function invoke(Transaction $transaction, EntitySet $flights): EntitySet
             {
                 $transaction->getSelect()->setValue('origin');
                 return $flights;
             }
-        })->setType(Model::getType('flight')));
+        })->setType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -233,12 +231,12 @@ class FunctionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('ffb1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('ffb1') extends Operation implements FunctionInterface {
             public function invoke(EntitySet $flights): EntitySet
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
+        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -250,7 +248,7 @@ class FunctionTest extends TestCase
     {
         $this->withTextModel();
 
-        Model::add(new class('textv1') extends Operation implements FunctionInterface {
+        Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
             public function invoke(): void
             {
             }
@@ -267,7 +265,7 @@ class FunctionTest extends TestCase
     {
         $this->withTextModel();
 
-        Model::add(new class('textv1') extends Operation implements FunctionInterface {
+        Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
             public function invoke()
             {
             }

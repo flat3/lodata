@@ -14,6 +14,7 @@ use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\Url;
@@ -78,8 +79,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $this->setIdentifier($identifier);
 
         $this->type = $entityType;
-        if (!Model::getType($this->type->getIdentifier())) {
-            Model::add($entityType);
+        if (!Lodata::getEntityType($this->type->getIdentifier())) {
+            Lodata::add($entityType);
         }
         $this->navigationBindings = new ObjectArray();
     }
@@ -355,10 +356,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $data_model = Model::get();
         $lexer = new Lexer($currentComponent);
         try {
-            $entitySet = $data_model->getResources()->get($lexer->qualifiedIdentifier());
+            $entitySet = Lodata::getResources()->get($lexer->qualifiedIdentifier());
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }

@@ -9,10 +9,10 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
@@ -47,20 +47,18 @@ class Metadata implements PipeInterface, EmitInterface
 
     public function emit(Transaction $transaction): void
     {
-        $model = Model::get();
-
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_CSDLXMLDocument
         $root = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" />');
         $version = $transaction->getVersion();
         $root->addAttribute('Version', $version);
 
         /** @var Annotation\Reference $reference */
-        foreach ($model->getModel()->sliceByClass(Annotation\Reference::class) as $reference) {
+        foreach (Lodata::getAnnotationReferences() as $reference) {
             $reference->append($root);
         }
 
         $dataServices = $root->addChild('DataServices');
-        $namespace = $model->getNamespace();
+        $namespace = Lodata::getNamespace();
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Schema
         $schema = $dataServices->addChild('Schema', null, 'http://docs.oasis-open.org/odata/ns/edm');
@@ -72,7 +70,7 @@ class Metadata implements PipeInterface, EmitInterface
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
         /** @var EntityType $entityType */
-        foreach ($model->getEntityTypes() as $entityType) {
+        foreach (Lodata::getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
             $entityTypeElement->addAttribute('Name', $entityType->getResolvedName($namespace));
 
@@ -139,7 +137,7 @@ class Metadata implements PipeInterface, EmitInterface
             }
         }
 
-        foreach ($model->getResources() as $resource) {
+        foreach (Lodata::getResources() as $resource) {
             switch (true) {
                 case $resource instanceof EntitySet:
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
@@ -238,7 +236,7 @@ class Metadata implements PipeInterface, EmitInterface
         $schemaAnnotations->addAttribute('Target', $namespace.'.'.'DefaultContainer');
 
         /** @var Annotation $annotation */
-        foreach ($model->getModel()->sliceByClass(Annotation::class) as $annotation) {
+        foreach (Lodata::getAnnotations() as $annotation) {
             $annotation->append($schemaAnnotations);
         }
 

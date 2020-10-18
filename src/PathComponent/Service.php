@@ -4,9 +4,9 @@ namespace Flat3\Lodata\PathComponent;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Flat3\Lodata\Model;
 use Illuminate\Http\Request;
 
 class Service implements EmitInterface
@@ -23,8 +23,6 @@ class Service implements EmitInterface
 
     public function emit(Transaction $transaction): void
     {
-        $model = Model::get();
-
         $transaction->outputJsonObjectStart();
 
         $metadata = [
@@ -41,7 +39,7 @@ class Service implements EmitInterface
         $transaction->outputJsonKey('value');
         $transaction->outputJsonArrayStart();
 
-        $serviceMap = $model->getServices();
+        $serviceMap = Lodata::getServices();
         $services = [];
         foreach ($serviceMap as $service) {
             $services[] = $service;

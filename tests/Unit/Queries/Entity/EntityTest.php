@@ -5,8 +5,8 @@ namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\DynamicPropertyInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\Tests\Request;
@@ -139,7 +139,7 @@ class EntityTest extends TestCase
     public function test_dynamic_property()
     {
         /** @var EntityType $airport */
-        $airport = Model::getType('airport');
+        $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', PrimitiveType::int32()) extends Property implements DynamicPropertyInterface {
             public function invoke(Entity $entity, Transaction $transaction)
@@ -158,7 +158,7 @@ class EntityTest extends TestCase
     public function test_bad_dynamic_property()
     {
         /** @var EntityType $airport */
-        $airport = Model::getType('airport');
+        $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', PrimitiveType::int32()) extends Property implements DynamicPropertyInterface {
             public function invoke(Entity $entity, Transaction $transaction)

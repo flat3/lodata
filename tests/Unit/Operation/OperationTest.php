@@ -4,8 +4,8 @@ namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\FunctionInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -18,7 +18,7 @@ class OperationTest extends TestCase
     public function test_missing_invoke()
     {
         try {
-            Model::add((new class('f1') extends Operation implements FunctionInterface {
+            Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             })->setBindingParameterName('texts'));
         } catch (ProtocolException $e) {
             $this->assertProtocolExceptionSnapshot($e);
@@ -28,7 +28,7 @@ class OperationTest extends TestCase
     public function test_binding_did_not_exist()
     {
         try {
-            Model::add((new class('f1') extends Operation implements FunctionInterface {
+            Lodata::add((new class('f1') extends Operation implements FunctionInterface {
                 function invoke(Int32 $taxts)
                 {
                 }
@@ -40,7 +40,7 @@ class OperationTest extends TestCase
 
     public function test_parameter_order_unbound()
     {
-        Model::add((new class('f1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             function invoke(Int32 $a, Decimal $b): Int32
             {
                 return new Int32(0);
@@ -56,7 +56,7 @@ class OperationTest extends TestCase
 
     public function test_parameter_order_bound()
     {
-        Model::add((new class('f1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             function invoke(Int32 $a, Decimal $b): Int32
             {
                 return new Int32(0);
@@ -74,12 +74,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('f1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             public function invoke(?Decimal $b, EntitySet $flights): EntitySet
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
+        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
 
         $this->assertXmlResponse(
             Request::factory()
@@ -97,7 +97,7 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('f1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             public function invoke(?Decimal $b, EntitySet $flights): Decimal
             {
                 return new Decimal($flights->count());
@@ -120,12 +120,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('f1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             public function invoke(?Decimal $b, EntitySet $flights)
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
+        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
 
         $this->assertBadRequest(
             Request::factory()
@@ -137,12 +137,12 @@ class OperationTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('f1') extends Operation implements FunctionInterface {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
             public function invoke(?Decimal $b, EntitySet $flights): EntitySet
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Model::getType('flight')));
+        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
 
         $this->assertBadRequest(
             Request::factory()
@@ -152,14 +152,14 @@ class OperationTest extends TestCase
 
     public function test_function_pipe()
     {
-        Model::add(new class('hello') extends Operation implements FunctionInterface {
+        Lodata::add(new class('hello') extends Operation implements FunctionInterface {
             public function invoke(): String_
             {
                 return new String_('hello');
             }
         });
 
-        Model::add((new class('world') extends Operation implements FunctionInterface {
+        Lodata::add((new class('world') extends Operation implements FunctionInterface {
             public function invoke(String_ $second): String_
             {
                 return new String_($second->get().' world');

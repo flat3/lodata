@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Model;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\Singleton;
@@ -16,15 +16,13 @@ class SingletonTest extends TestCase
     {
         parent::setUp();
 
-        $model = Model::get();
-
         $type = new EntityType('a');
         $type->addProperty(Property::factory('b', PrimitiveType::string()));
-        $model::add($type);
+        Lodata::add($type);
 
         $entity = new Singleton('atest', $type);
         $entity->setPrimitive('b', 'c');
-        $model::add($entity);
+        Lodata::add($entity);
     }
 
     public function test_service_document()

@@ -9,6 +9,7 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ActionInterface;
@@ -224,9 +225,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             throw new PathNotHandledException();
         }
 
-        $model = Model::get();
-
-        $operation = $model->getResources()->get($operationIdentifier);
+        $operation = Lodata::getResources()->get($operationIdentifier);
 
         if (!$operation instanceof Operation) {
             throw new PathNotHandledException();

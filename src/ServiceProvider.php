@@ -6,6 +6,7 @@ use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
 use Flat3\Lodata\Controller\ODCFF;
 use Flat3\Lodata\Controller\PBIDS;
+use Flat3\Lodata\Facades\Lodata;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new Model();
         });
 
-        Model::discovery();
+        $this->app->bind('lodata', function ($app) {
+            return $app->make(Model::class);
+        });
+
+        Lodata::discovery();
 
         $authMiddleware = config('lodata.authmiddleware');
         $router->aliasMiddleware('lodata.auth', AuthenticateWithBasicAuth::class);

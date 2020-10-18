@@ -28,7 +28,10 @@
         "laravel": {
             "providers": [
                 "Flat3\\Lodata\\ServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Lodata": "Flat3\\Lodata\\Facades\\Lodata"
+            }
         }
     },
     "require-dev": {

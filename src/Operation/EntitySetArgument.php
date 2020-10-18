@@ -6,8 +6,8 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
-use Flat3\Lodata\Model;
 
 class EntitySetArgument extends Argument
 {
@@ -20,7 +20,7 @@ class EntitySetArgument extends Argument
             );
         }
 
-        $entitySet = Model::get()->getResources()->get($this->getName());
+        $entitySet = Lodata::getResources()->get($this->getName());
 
         if (!$entitySet instanceof EntitySet) {
             throw new InternalServerErrorException(
@@ -35,6 +35,6 @@ class EntitySetArgument extends Argument
     public function getType(): EntityType
     {
         $reflectedSet = $this->parameter->getName();
-        return Model::getResource($reflectedSet)->getType();
+        return Lodata::getResource($reflectedSet)->getType();
     }
 }

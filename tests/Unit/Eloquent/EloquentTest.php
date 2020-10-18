@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
-use Flat3\Lodata\Model;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -18,10 +18,10 @@ class EloquentTest extends TestCase
         $testBasePath = dirname($__PHPUNIT_CONFIGURATION_FILE);
         $originalBasePath = app()->basePath();
         app()->setBasePath($testBasePath);
-        Model::discovery();
+        Lodata::discovery();
         app()->setBasePath($originalBasePath);
 
-        $airport = Model::getType('Airport');
+        $airport = Lodata::getEntityType('Airport');
         $airport->getProperty('code')->setAlternativeKey();
     }
 

@@ -4,14 +4,13 @@ namespace Flat3\Lodata;
 
 use Flat3\Lodata\Annotation\Capabilities;
 use Flat3\Lodata\Annotation\Core;
+use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\Traits;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Model
 {
@@ -35,34 +34,20 @@ class Model
         $this->model[] = new Capabilities\V1\SupportedFormats();
     }
 
-    public static function get(): self
+    public function add(IdentifierInterface $item): IdentifierInterface
     {
-        try {
-            return app()->make(self::class);
-        } catch (BindingResolutionException $e) {
-            throw new InternalServerErrorException('binding_resolution_error', $e->getMessage());
-        }
-    }
-
-    public static function add(IdentifierInterface $item): IdentifierInterface
-    {
-        $model = self::get();
-        $model->model->add($item);
+        $this->model->add($item);
         return $item;
     }
 
-    public static function getType($name): ?EntityType
+    public function getEntityType($name): ?EntityType
     {
-        $model = self::get();
-
-        return $model->getEntityTypes()->get($name);
+        return $this->getEntityTypes()->get($name);
     }
 
-    public static function getResource($name): ?IdentifierInterface
+    public function getResource($name): ?IdentifierInterface
     {
-        $model = self::get();
-
-        return $model->getResources()->get($name);
+        return $this->getResources()->get($name);
     }
 
     public function getNamespace(): string
@@ -91,15 +76,20 @@ class Model
         return $this->model->sliceByClass(ServiceInterface::class);
     }
 
-    public function getModel(): ObjectArray
+    public function getAnnotations(): ObjectArray
     {
-        return $this->model;
+        return $this->model->sliceByClass(Annotation::class);
     }
 
-    public static function discovery(): void
+    public function getAnnotationReferences(): ObjectArray
+    {
+        return $this->model->sliceByClass(Reference::class);
+    }
+
+    public function discovery(): void
     {
         foreach (Traits::getClassesOfType(\Illuminate\Database\Eloquent\Model::class) as $model) {
-            self::add(new EloquentEntitySet($model));
+            $this->add(new EloquentEntitySet($model));
         }
     }
 }

@@ -6,8 +6,8 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\QueryInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\Tests\JsonDriver;
@@ -48,10 +48,10 @@ class ErrorReportingTest extends TestCase
 
     public function test_stream_error()
     {
-        Model::add(
+        Lodata::add(
             new class(
                 'texts',
-                Model::add(new EntityType('text'))
+                Lodata::add(new EntityType('text'))
                     ->addProperty(Property::factory('a', PrimitiveType::string()))
             ) extends EntitySet implements QueryInterface {
                 public function emit(Transaction $transaction): void

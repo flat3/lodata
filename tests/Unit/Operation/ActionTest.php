@@ -3,8 +3,8 @@
 namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\ActionInterface;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -15,7 +15,7 @@ class ActionTest extends TestCase
 {
     public function test_get_not_allowed()
     {
-        Model::add(new class('exa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('exa1') extends Operation implements ActionInterface {
             public function invoke(): String_
             {
                 return String_::factory('hello');
@@ -30,7 +30,7 @@ class ActionTest extends TestCase
 
     public function test_callback()
     {
-        Model::add(new class('exa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('exa1') extends Operation implements ActionInterface {
             public function invoke(): String_
             {
                 return String_::factory('hello');
@@ -46,7 +46,7 @@ class ActionTest extends TestCase
 
     public function test_service_document()
     {
-        Model::add(new class('exa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('exa1') extends Operation implements ActionInterface {
             public function invoke(): String_
             {
                 return String_::factory('hello');
@@ -68,7 +68,7 @@ class ActionTest extends TestCase
 
     public function test_no_composition()
     {
-        Model::add(new class('textv1') extends Operation implements ActionInterface {
+        Lodata::add(new class('textv1') extends Operation implements ActionInterface {
             public function invoke(): Int32
             {
                 return new Int32(3);
@@ -84,7 +84,7 @@ class ActionTest extends TestCase
 
     public function test_void_callback()
     {
-        Model::add(new class('textv1') extends Operation implements ActionInterface {
+        Lodata::add(new class('textv1') extends Operation implements ActionInterface {
             public function invoke(): void
             {
 
@@ -100,7 +100,7 @@ class ActionTest extends TestCase
 
     public function test_default_null_callback()
     {
-        Model::add(new class('textv1') extends Operation implements ActionInterface {
+        Lodata::add(new class('textv1') extends Operation implements ActionInterface {
             public function invoke()
             {
 
@@ -117,7 +117,7 @@ class ActionTest extends TestCase
 
     public function test_explicit_null_callback()
     {
-        Model::add(new class('textv1') extends Operation implements ActionInterface {
+        Lodata::add(new class('textv1') extends Operation implements ActionInterface {
             public function invoke()
             {
                 return null;
@@ -135,12 +135,12 @@ class ActionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add((new class('aa1') extends Operation implements ActionInterface {
+        Lodata::add((new class('aa1') extends Operation implements ActionInterface {
             public function invoke(Entity $airport): Entity
             {
                 return $airport;
             }
-        })->setBindingParameterName('airport')->setType(Model::getType('airport')));
+        })->setBindingParameterName('airport')->setType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -151,7 +151,7 @@ class ActionTest extends TestCase
 
     public function test_parameters()
     {
-        Model::add(new class('aa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('aa1') extends Operation implements ActionInterface {
             public function invoke(Int32 $a, Int32 $b): Int32
             {
                 return new Int32($a->get() + $b->get());
@@ -171,7 +171,7 @@ class ActionTest extends TestCase
 
     public function test_prefers_no_results()
     {
-        Model::add(new class('aa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('aa1') extends Operation implements ActionInterface {
             public function invoke(): Int32
             {
                 return new Int32(99);
@@ -192,7 +192,7 @@ class ActionTest extends TestCase
 
     public function test_parameters_invalid_body_string()
     {
-        Model::add(new class('aa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('aa1') extends Operation implements ActionInterface {
             public function invoke(Int32 $a, Int32 $b): Int32
             {
                 return new Int32($a->get() + $b->get());
@@ -211,7 +211,7 @@ class ActionTest extends TestCase
     {
         $this->withFlightModel();
 
-        Model::add(new class('aa1') extends Operation implements ActionInterface {
+        Lodata::add(new class('aa1') extends Operation implements ActionInterface {
             public function invoke(Int32 $a, Int32 $b): Int32
             {
                 return new Int32($a->get() + $b->get());

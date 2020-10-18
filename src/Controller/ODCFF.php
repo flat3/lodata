@@ -5,8 +5,8 @@ namespace Flat3\Lodata\Controller;
 use DOMDocument;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Model;
 use Flat3\Lodata\ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -16,7 +16,7 @@ class ODCFF extends Controller
 {
     public const content_type = 'text/x-ms-odc; charset=utf-8';
 
-    public function get(Model $model, $name)
+    public function get($name)
     {
         $response = new Response();
         $response->header('content-type', self::content_type);
@@ -24,7 +24,7 @@ class ODCFF extends Controller
         $htmlDoc = new DOMDocument();
 
         /** @var EntitySet $entitySet */
-        $entitySet = $model->getResources()->sliceByClass(EntitySet::class)->get($name);
+        $entitySet = Lodata::getResources()->sliceByClass(EntitySet::class)->get($name);
         if (null === $entitySet) {
             throw NotFoundException::factory(
                 'resource_not_found',
