@@ -3,11 +3,11 @@
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\Database\MySQLEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Property;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Http\Request;
 
@@ -332,10 +332,10 @@ class ParserMySQLTest extends TestCase
             try {
                 $entity_type = new class('test') extends EntityType {
                 };
-                $id = Property::factory('id', PrimitiveType::int32());
+                $id = new DeclaredProperty('id', PrimitiveType::int32());
                 $id->setFilterable(true);
                 $entity_type->setKey($id);
-                $title = Property::factory('title', PrimitiveType::string());
+                $title = new DeclaredProperty('title', PrimitiveType::string());
                 $title->setFilterable(true);
                 $entity_type->addProperty($title);
                 $entitySet = new MySQLEntitySet('test', $entity_type);

@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Drivers;
 
 use Exception;
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
@@ -56,7 +57,7 @@ class EloquentEntitySet extends SQLEntitySet
 
         $type = $this->getType();
         $type->setKey(
-            Property::factory(
+            new DeclaredProperty(
                 $model->getKeyName(),
                 $this->eloquentTypeToPrimitive($model->getKeyType())
             )
@@ -79,7 +80,7 @@ class EloquentEntitySet extends SQLEntitySet
             }
 
             $type->addProperty(
-                Property::factory(
+                new DeclaredProperty(
                     $gram->name,
                     $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$gram->notnull)->seal()
                 )

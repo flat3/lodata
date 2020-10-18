@@ -3,7 +3,6 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Interfaces\DeclaredPropertyInterface;
 use Flat3\Lodata\Interfaces\DynamicPropertyInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
@@ -33,21 +32,14 @@ abstract class Property implements TypeInterface, NameInterface
         $this->type = $type;
 
         if (
-            !$this instanceof DeclaredPropertyInterface &&
+            !$this instanceof DeclaredProperty &&
             !$this instanceof DynamicPropertyInterface &&
             !$this instanceof NavigationProperty
         ) {
             throw new InternalServerErrorException(
-                sprintf('An property must implement either %s or %s', DeclaredPropertyInterface::class,
-                    DynamicPropertyInterface::class)
+                sprintf('A dynamic property must implement %s', DynamicPropertyInterface::class)
             );
         }
-    }
-
-    public static function factory($name, TypeInterface $type): self
-    {
-        return new class($name, $type) extends Property implements DeclaredPropertyInterface {
-        };
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Data;
 
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -12,7 +13,6 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
@@ -96,23 +96,23 @@ trait TestModels
 
         /** @var EntityType $flightType */
         $flightType = Lodata::add(new EntityType('flight'));
-        $flightType->setKey(Property::factory('id', PrimitiveType::int32()));
-        $flightType->addProperty(Property::factory('origin', PrimitiveType::string()));
-        $flightType->addProperty(Property::factory('destination', PrimitiveType::string()));
-        $flightType->addProperty(Property::factory('gate', PrimitiveType::int32()));
+        $flightType->setKey(new DeclaredProperty('id', PrimitiveType::int32()));
+        $flightType->addProperty(new DeclaredProperty('origin', PrimitiveType::string()));
+        $flightType->addProperty(new DeclaredProperty('destination', PrimitiveType::string()));
+        $flightType->addProperty(new DeclaredProperty('gate', PrimitiveType::int32()));
         $flightSet = new SQLEntitySet('flights', $flightType);
         $flightSet->setTable('flights');
 
         /** @var EntityType $airportType */
         $airportType = Lodata::add(new EntityType('airport'));
-        $airportType->setKey(Property::factory('id', PrimitiveType::int32()));
-        $airportType->addProperty(Property::factory('name', PrimitiveType::string()));
-        $airportType->addProperty(Property::factory('code', PrimitiveType::string())->setSearchable());
-        $airportType->addProperty(Property::factory('construction_date', PrimitiveType::date()));
-        $airportType->addProperty(Property::factory('open_time', PrimitiveType::timeofday()));
-        $airportType->addProperty(Property::factory('sam_datetime', PrimitiveType::datetimeoffset()));
-        $airportType->addProperty(Property::factory('review_score', PrimitiveType::decimal()));
-        $airportType->addProperty(Property::factory('is_big', PrimitiveType::boolean()));
+        $airportType->setKey(new DeclaredProperty('id', PrimitiveType::int32()));
+        $airportType->addProperty(new DeclaredProperty('name', PrimitiveType::string()));
+        $airportType->addProperty((new DeclaredProperty('code', PrimitiveType::string()))->setSearchable());
+        $airportType->addProperty(new DeclaredProperty('construction_date', PrimitiveType::date()));
+        $airportType->addProperty(new DeclaredProperty('open_time', PrimitiveType::timeofday()));
+        $airportType->addProperty(new DeclaredProperty('sam_datetime', PrimitiveType::datetimeoffset()));
+        $airportType->addProperty(new DeclaredProperty('review_score', PrimitiveType::decimal()));
+        $airportType->addProperty(new DeclaredProperty('is_big', PrimitiveType::boolean()));
         $airportSet = new SQLEntitySet('airports', $airportType);
         $airportSet->setTable('airports');
 
@@ -160,7 +160,7 @@ trait TestModels
             new class(
                 'texts',
                 Lodata::add(new EntityType('text'))
-                    ->addProperty(Property::factory('a', PrimitiveType::string()))
+                    ->addProperty(new DeclaredProperty('a', PrimitiveType::string()))
             ) extends EntitySet implements QueryInterface {
                 public function query(): array
                 {

@@ -3,13 +3,13 @@
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\QueryInterface;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Property;
 use Flat3\Lodata\Tests\JsonDriver;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -52,7 +52,7 @@ class ErrorReportingTest extends TestCase
             new class(
                 'texts',
                 Lodata::add(new EntityType('text'))
-                    ->addProperty(Property::factory('a', PrimitiveType::string()))
+                    ->addProperty(new DeclaredProperty('a', PrimitiveType::string()))
             ) extends EntitySet implements QueryInterface {
                 public function emit(Transaction $transaction): void
                 {

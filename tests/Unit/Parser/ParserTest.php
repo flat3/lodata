@@ -3,12 +3,12 @@
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Property;
 use Flat3\Lodata\Tests\LoopbackEntitySet;
 use Flat3\Lodata\Tests\TestCase;
 
@@ -87,7 +87,7 @@ class ParserTest extends TestCase
             try {
                 $type = new class('test') extends EntityType {
                 };
-                $k = Property::factory('id', PrimitiveType::int32());
+                $k = new DeclaredProperty('id', PrimitiveType::int32());
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $s = new LoopbackEntitySet('test', $type);
@@ -121,7 +121,7 @@ class ParserTest extends TestCase
             try {
                 $type = new class('test') extends EntityType {
                 };
-                $k = Property::factory('id', PrimitiveType::int32());
+                $k = new DeclaredProperty('id', PrimitiveType::int32());
                 $type->setKey($k);
                 $transaction = new Transaction();
                 $entitySet = new LoopbackEntitySet('test', $type);

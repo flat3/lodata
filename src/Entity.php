@@ -11,7 +11,6 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\DeclaredPropertyInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -343,7 +342,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function getETag(): string
     {
         $definition = $this->entitySet->getType()->getDeclaredProperties();
-        $instance = $this->primitives->sliceByClass(DeclaredPropertyInterface::class);
+        $instance = $this->primitives->sliceByClass(DeclaredProperty::class);
 
         if (array_diff($definition->keys(), $instance->keys())) {
             throw new ETagException();
