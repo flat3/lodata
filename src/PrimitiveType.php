@@ -32,7 +32,6 @@ use Flat3\Lodata\Type\Guid;
 use Flat3\Lodata\Type\Int16;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\Int64;
-use Flat3\Lodata\Type\Property;
 use Flat3\Lodata\Type\SByte;
 use Flat3\Lodata\Type\Single;
 use Flat3\Lodata\Type\Stream;

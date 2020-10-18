@@ -95,6 +95,12 @@ class Async implements ShouldQueue
             fclose($resource);
         }
 
+        $callback = $this->transaction->getCallbackUrl();
+
+        if ($callback) {
+            Http::get($callback);
+        }
+
         $this->setComplete();
     }
 
@@ -103,32 +109,20 @@ class Async implements ShouldQueue
         return Transaction::getResourceUrl().'_lodata/monitor/'.$this->jobId;
     }
 
-    public function getTransactionId(): string
-    {
-        return $this->transaction->getId();
-    }
-
     public function getStatus(): ?string
     {
         return Cache::get($this->ns('status'));
     }
 
-    public function setComplete(): self
-    {
-        $this->setStatus(self::STATUS_COMPLETE);
-
-        $callback = $this->transaction->getCallbackUrl();
-
-        if ($callback) {
-            Http::get($callback);
-        }
-
-        return $this;
-    }
-
     public function setPending(): self
     {
         $this->setStatus(self::STATUS_PENDING);
+        return $this;
+    }
+
+    public function setComplete(): self
+    {
+        $this->setStatus(self::STATUS_COMPLETE);
         return $this;
     }
 
@@ -172,11 +166,6 @@ class Async implements ShouldQueue
     public function isPending(): bool
     {
         return $this->getStatus() === self::STATUS_PENDING;
-    }
-
-    public function isComplete(): bool
-    {
-        return $this->getStatus() === self::STATUS_COMPLETE;
     }
 
     public function isDeleted(): bool

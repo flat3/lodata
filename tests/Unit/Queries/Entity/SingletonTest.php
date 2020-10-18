@@ -2,10 +2,10 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
-use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -19,7 +19,7 @@ class SingletonTest extends TestCase
         $model = Model::get();
 
         $type = new EntityType('a');
-        $type->addProperty(DeclaredProperty::factory('b', PrimitiveType::string()));
+        $type->addProperty(Property::factory('b', PrimitiveType::string()));
         $model::add($type);
 
         $entity = new Singleton('atest', $type);

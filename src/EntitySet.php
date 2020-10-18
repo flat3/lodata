@@ -8,6 +8,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -22,8 +23,8 @@ use Flat3\Lodata\Interfaces\CreateInterface;
 use Flat3\Lodata\Interfaces\DeleteInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
-use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\QueryInterface;
 use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
@@ -35,7 +36,6 @@ use Flat3\Lodata\Traits\HasEntityType;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Transaction\Option;
-use Flat3\Lodata\Type\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Iterator;
@@ -386,7 +386,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                 }
 
                 if (Gate::denies('lodata-entityset-query', [$entitySet, $transaction])) {
-                    //throw new ForbiddenException();
+                    throw new ForbiddenException();
                 }
 
                 return $entitySet;
@@ -402,7 +402,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                     }
 
                     if (Gate::denies('lodata-entityset-create', [$entitySet, $transaction])) {
-                        //throw new ForbiddenException();
+                        throw new ForbiddenException();
                     }
 
                     return $entitySet->create();

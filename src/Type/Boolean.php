@@ -52,7 +52,7 @@ class Boolean extends PrimitiveType
             return $this;
         }
 
-        $this->value = $this->maybeNull(null === $value ? null : (bool)$value);
+        $this->value = $this->maybeNull(null === $value ? null : (bool) $value);
 
         return $this;
     }

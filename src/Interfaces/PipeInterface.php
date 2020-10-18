@@ -6,5 +6,10 @@ use Flat3\Lodata\Controller\Transaction;
 
 interface PipeInterface
 {
-    public static function pipe(Transaction $transaction, string $currentComponent, ?string $nextComponent, ?PipeInterface $argument): ?PipeInterface;
+    public static function pipe(
+        Transaction $transaction,
+        string $currentComponent,
+        ?string $nextComponent,
+        ?PipeInterface $argument
+    ): ?PipeInterface;
 }

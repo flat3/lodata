@@ -2,8 +2,6 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Type\Property;
-
 class EntityType extends ComplexType
 {
     /** @var Property $key Primary key property */
@@ -22,7 +20,7 @@ class EntityType extends ComplexType
     /**
      * Set the key property by name
      *
-     * @param Property $key
+     * @param  Property  $key
      *
      * @return $this
      */

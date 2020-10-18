@@ -48,11 +48,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
-    {
-        // perform environment setup
-    }
-
     protected function getDisk(): Filesystem
     {
         return Storage::fake(config('lodata.disk'));

@@ -5,7 +5,6 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Type\Property;
 
 class NavigationProperty extends Property
 {

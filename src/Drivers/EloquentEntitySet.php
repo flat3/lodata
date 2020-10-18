@@ -3,12 +3,11 @@
 namespace Flat3\Lodata\Drivers;
 
 use Exception;
-use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Type\Property;
+use Flat3\Lodata\Property;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +56,7 @@ class EloquentEntitySet extends SQLEntitySet
 
         $type = $this->getType();
         $type->setKey(
-            new DeclaredProperty(
+            Property::factory(
                 $model->getKeyName(),
                 $this->eloquentTypeToPrimitive($model->getKeyType())
             )
@@ -80,7 +79,7 @@ class EloquentEntitySet extends SQLEntitySet
             }
 
             $type->addProperty(
-                new DeclaredProperty(
+                Property::factory(
                     $gram->name,
                     $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$gram->notnull)->seal()
                 )

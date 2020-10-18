@@ -33,13 +33,13 @@ class Request
 
     public function metadata($type)
     {
-        $this->accept('application/json;odata.metadata=' . $type);
+        $this->accept('application/json;odata.metadata='.$type);
         return $this;
     }
 
     public function preference($key, $value)
     {
-        $this->accept('application/json;' . $key . '=' . $value);
+        $this->accept('application/json;'.$key.'='.$value);
         return $this;
     }
 
@@ -48,7 +48,7 @@ class Request
         $this->path = $path;
 
         if ($withPrefix) {
-            $this->path = '/odata' . $this->path;
+            $this->path = '/odata'.$this->path;
         }
 
         return $this;

@@ -19,7 +19,7 @@ class Byte extends PrimitiveType
             return Constants::NULL;
         }
 
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     public function toJson(): ?int

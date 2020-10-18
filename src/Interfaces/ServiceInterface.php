@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Interfaces;
 
-interface ServiceInterface
+interface ServiceInterface extends NameInterface
 {
     public function getKind(): string;
 

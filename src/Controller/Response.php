@@ -15,7 +15,7 @@ class Response extends StreamedResponse
             flush();
             ob_flush();
 
-            printf('OData-Error: ' . json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
+            printf('OData-Error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
         }
 
         return $this;

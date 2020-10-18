@@ -20,7 +20,7 @@ class Count implements EmitInterface, PipeInterface
         $this->countable = $countable;
     }
 
-    public function emit(Transaction $transaction):void
+    public function emit(Transaction $transaction): void
     {
         $transaction->outputRaw($this->countable->count());
     }

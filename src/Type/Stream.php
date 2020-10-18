@@ -27,7 +27,7 @@ class Stream extends PrimitiveType
             return null;
         }
 
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     public function set($value): self

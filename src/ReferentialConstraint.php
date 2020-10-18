@@ -2,8 +2,6 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Type\Property;
-
 class ReferentialConstraint
 {
     /** @var Property $property */

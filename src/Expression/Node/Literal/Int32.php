@@ -8,6 +8,6 @@ class Int32 extends Literal
 {
     public function getValue(): int
     {
-        return (int)$this->value;
+        return (int) $this->value;
     }
 }

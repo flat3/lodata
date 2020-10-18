@@ -48,7 +48,7 @@ use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
 use Flat3\Lodata\Interfaces\ReadInterface;
 use Flat3\Lodata\Interfaces\UpdateInterface;
 use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Type\Property;
+use Flat3\Lodata\Property;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;

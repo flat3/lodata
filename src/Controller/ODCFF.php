@@ -59,7 +59,7 @@ class ODCFF extends Controller
         $head->appendChild($meta);
 
         $title = $htmlDoc->createElement('title');
-        $title->textContent = 'Query - ' . $resourceName;
+        $title->textContent = 'Query - '.$resourceName;
         $head->appendChild($title);
 
         $xml = $htmlDoc->createElement('xml');
@@ -185,7 +185,7 @@ class ODCFF extends Controller
 
         $disposition = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $entitySet->getIdentifier() . '.odc'
+            $entitySet->getIdentifier().'.odc'
         );
         $response->headers->set('Content-Disposition', $disposition);
         $response->setContent($htmlDoc->saveHTML());

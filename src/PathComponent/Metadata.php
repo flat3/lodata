@@ -20,9 +20,9 @@ use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveTypeArgument;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type\Boolean;
-use Flat3\Lodata\Type\Property;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
 

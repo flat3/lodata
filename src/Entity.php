@@ -11,13 +11,13 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\DeclaredPropertyInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Traits\HasEntityType;
 use Flat3\Lodata\Transaction\Expand;
-use Flat3\Lodata\Type\Property;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
@@ -91,12 +91,24 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             $dynamicProperties->rewind();
 
             while ($dynamicProperties->valid()) {
-                /** @var DynamicProperty $property */
+                /** @var Property $property */
                 $property = $dynamicProperties->current();
+                $propertyType = $property->getType();
                 if ($transaction->shouldEmitProperty($property)) {
                     $transaction->outputJsonKey($property->getName());
-                    $transaction->outputJsonValue($property->invoke($this, $transaction));
+
+                    $result = call_user_func_array([$property, 'invoke'], [$this, $transaction]);
+
+                    if (!$result instanceof $propertyType || $result === null && $propertyType instanceof PrimitiveType && !$propertyType->isNullable()) {
+                        throw new InternalServerErrorException('invalid_dynamic_property_type',
+                            sprintf('The dynamic property %s did not return a value of its defined type',
+                                $property->getName()));
+                    }
+
+                    $transaction->outputJsonValue($result);
+
                     $dynamicProperties->next();
+
                     if ($dynamicProperties->valid() && $transaction->shouldEmitProperty($dynamicProperties->current())) {
                         $transaction->outputJsonSeparator();
                     }
@@ -331,7 +343,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function getETag(): string
     {
         $definition = $this->entitySet->getType()->getDeclaredProperties();
-        $instance = $this->primitives->sliceByClass(DeclaredProperty::class);
+        $instance = $this->primitives->sliceByClass(DeclaredPropertyInterface::class);
 
         if (array_diff($definition->keys(), $instance->keys())) {
             throw new ETagException();

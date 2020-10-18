@@ -14,8 +14,8 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ActionInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\FunctionInterface;
-use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
@@ -330,9 +330,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
             switch (true) {
                 case $argumentDefinition instanceof TransactionArgument:
-                    $arguments[] = $argumentDefinition->generate($transaction);
-                    break;
-
                 case $argumentDefinition instanceof EntitySetArgument:
                     $arguments[] = $argumentDefinition->generate($transaction);
                     break;

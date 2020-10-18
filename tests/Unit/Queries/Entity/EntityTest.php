@@ -2,12 +2,13 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
-use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Interfaces\DynamicPropertyInterface;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Int32;
@@ -140,11 +141,12 @@ class EntityTest extends TestCase
         /** @var EntityType $airport */
         $airport = Model::getType('airport');
 
-        $property = new DynamicProperty('cp', PrimitiveType::int32());
-
-        $property->setCallback(function (Entity $entity, Transaction $transaction) {
-            return new Int32(4);
-        });
+        $property = new class('cp', PrimitiveType::int32()) extends Property implements DynamicPropertyInterface {
+            public function invoke(Entity $entity, Transaction $transaction)
+            {
+                return new Int32(4);
+            }
+        };
 
         $airport->addProperty($property);
         $this->assertJsonResponse(
@@ -158,11 +160,12 @@ class EntityTest extends TestCase
         /** @var EntityType $airport */
         $airport = Model::getType('airport');
 
-        $property = new DynamicProperty('cp', PrimitiveType::int32());
-
-        $property->setCallback(function (Entity $entity, Transaction $transaction) {
-            return new String_(4);
-        });
+        $property = new class('cp', PrimitiveType::int32()) extends Property implements DynamicPropertyInterface {
+            public function invoke(Entity $entity, Transaction $transaction)
+            {
+                return new String_(4);
+            }
+        };
 
         $airport->addProperty($property);
 

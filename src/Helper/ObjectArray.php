@@ -196,7 +196,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     public function pick(array $keys): ObjectArray
     {
-        return $this->filter(function ($obj, $key) use ($keys) {
+        return $this->filter(function ($_, $key) use ($keys) {
             return in_array($key, $keys);
         });
     }
