@@ -14,7 +14,7 @@ use Flat3\Lodata\Interfaces\ServiceInterface;
 
 class Model
 {
-    /** @var ObjectArray $resources */
+    /** @var ObjectArray $model */
     protected $model;
 
     public function __construct()
@@ -90,7 +90,11 @@ class Model
     {
         switch (true) {
             case is_a($class, \Illuminate\Database\Eloquent\Model::class, true):
-                return $this->add(new EloquentEntitySet($class));
+                /** @var EloquentEntitySet $set */
+                $set = $this->add(new EloquentEntitySet($class));
+                $set->discoverProperties();
+                $set->discoverRelationships();
+                return $set;
         }
 
         throw new InternalServerErrorException('discovery_failed',

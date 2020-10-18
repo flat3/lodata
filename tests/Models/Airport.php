@@ -15,5 +15,9 @@ class Airport extends Model
         'review_score' => 'float',
         'is_big' => 'boolean',
     ];
-}
 
+    public function flights()
+    {
+        return $this->hasMany(Flight::class, 'origin', 'code');
+    }
+}

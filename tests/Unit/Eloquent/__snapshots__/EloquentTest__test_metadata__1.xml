@@ -9,7 +9,10 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="Airports" EntityType="com.example.odata.Airport"/>
+        <EntitySet Name="Airports" EntityType="com.example.odata.Airport">
+          <NavigationPropertyBinding Path="Flights" Target="Flights"/>
+        </EntitySet>
+        <EntitySet Name="Flights" EntityType="com.example.odata.Flight"/>
       </EntityContainer>
       <EntityType Name="Airport">
         <Key>
@@ -23,6 +26,18 @@
         <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
         <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
+        <NavigationProperty Name="Flights" Type="Collection(Flight)" Nullable="true">
+          <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Flight">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="origin" Type="Edm.String" Nullable="true"/>
+        <Property Name="destination" Type="Edm.String" Nullable="true"/>
+        <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

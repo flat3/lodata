@@ -7,12 +7,18 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\NavigationBinding;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\ReferentialConstraint;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use ReflectionMethod;
 
 class EloquentEntitySet extends SQLEntitySet
 {
@@ -31,7 +37,6 @@ class EloquentEntitySet extends SQLEntitySet
         parent::__construct($name, $type);
 
         $this->setTable($modelInstance->getTable());
-        $this->discoverProperties();
     }
 
     public function setModel(string $model): self
@@ -50,7 +55,48 @@ class EloquentEntitySet extends SQLEntitySet
         return Str::pluralStudly(class_basename($model));
     }
 
-    public function discoverProperties(): void
+    public function discoverRelationships(): self
+    {
+        $sets = Lodata::getResources()->sliceByClass(EloquentEntitySet::class);
+
+        /** @var self $left */
+        foreach ($sets as $left) {
+            /** @var self $right */
+            foreach ($sets as $right) {
+                if ($left === $right) {
+                    continue;
+                }
+
+                $model = new $left->model;
+                $name = Str::lower($right->getName());
+
+                try {
+                    new ReflectionMethod($model, $name);
+                    /** @var HasOneOrMany $r */
+                    $r = $model->$name();
+
+                    $rc = new ReferentialConstraint(
+                        $left->getType()->getProperty($r->getLocalKeyName()),
+                        $right->getType()->getProperty($r->getForeignKeyName())
+                    );
+
+                    $nav = (new NavigationProperty($right, $right->getType()))
+                        ->setCollection(true)
+                        ->addConstraint($rc);
+
+                    $binding = new NavigationBinding($nav, $right);
+
+                    $left->getType()->addProperty($nav);
+                    $left->addNavigationBinding($binding);
+                } catch (\ReflectionException $e) {
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    public function discoverProperties(): self
     {
         /** @var Model $model */
         $model = new $this->model();
@@ -86,6 +132,8 @@ class EloquentEntitySet extends SQLEntitySet
                 )
             );
         }
+
+        return $this;
     }
 
     public function eloquentTypeToPrimitive(string $type): PrimitiveType

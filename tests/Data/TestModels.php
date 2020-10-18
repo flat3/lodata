@@ -119,22 +119,25 @@ trait TestModels
         Lodata::add($flightSet);
         Lodata::add($airportSet);
 
-        $nav = new NavigationProperty($airportSet, $airportType);
-        $nav->setCollection(true);
-        $nav->addConstraint(
-            new ReferentialConstraint(
-                $flightType->getProperty('origin'),
-                $airportType->getProperty('code')
-            )
+        $originCode = new ReferentialConstraint(
+            $flightType->getProperty('origin'),
+            $airportType->getProperty('code')
         );
-        $nav->addConstraint(
-            new ReferentialConstraint(
-                $flightType->getProperty('destination'),
-                $airportType->getProperty('code')
-            )
+
+        $destinationCode = new ReferentialConstraint(
+            $flightType->getProperty('destination'),
+            $airportType->getProperty('code')
         );
-        $flightType->addProperty($nav);
-        $flightSet->addNavigationBinding(new NavigationBinding($nav, $airportSet));
+
+        $toAirport = (new NavigationProperty($airportSet, $airportType))
+            ->setCollection(true)
+            ->addConstraint($originCode)
+            ->addConstraint($destinationCode);
+
+        $binding = new NavigationBinding($toAirport, $airportSet);
+
+        $flightType->addProperty($toAirport);
+        $flightSet->addNavigationBinding($binding);
     }
 
     public function withMathFunctions()

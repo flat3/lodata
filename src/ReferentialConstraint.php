@@ -10,6 +10,11 @@ class ReferentialConstraint
     /** @var Property $referenced_property */
     protected $referenced_property;
 
+    /**
+     * ReferentialConstraint constructor.
+     * @param  Property  $property  Source type property
+     * @param  Property  $referenced_property  Referenced type property
+     */
     public function __construct(Property $property, Property $referenced_property)
     {
         $this->property = $property;

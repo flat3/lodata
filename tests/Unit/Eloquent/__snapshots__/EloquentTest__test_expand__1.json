@@ -1,0 +1,47 @@
+{
+    "@context": "http://localhost/odata/$metadata#Airports(Flights())",
+    "value": [
+        {
+            "id": 1,
+            "name": "Eloquent",
+            "code": "elo",
+            "construction_date": null,
+            "sam_datetime": null,
+            "open_time": null,
+            "review_score": null,
+            "is_big": null,
+            "Flights": [
+                {
+                    "id": 1,
+                    "origin": "elo",
+                    "destination": null,
+                    "gate": null
+                },
+                {
+                    "id": 2,
+                    "origin": "elo",
+                    "destination": null,
+                    "gate": null
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Eloquint",
+            "code": "eli",
+            "construction_date": null,
+            "sam_datetime": null,
+            "open_time": null,
+            "review_score": null,
+            "is_big": null,
+            "Flights": [
+                {
+                    "id": 3,
+                    "origin": "eli",
+                    "destination": null,
+                    "gate": null
+                }
+            ]
+        }
+    ]
+}
