@@ -83,7 +83,7 @@ class SearchTest extends TestCase
         $parser = new Search($query);
 
         try {
-            $tree = $parser->generateTree(urldecode($input));
+            $tree = $parser->generateTree($input);
             $tree->compute();
 
             $this->assertMatchesSnapshot(trim($query->searchBuffer));

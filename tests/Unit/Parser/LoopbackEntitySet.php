@@ -12,7 +12,11 @@ use Flat3\Lodata\Expression\Event\Literal;
 use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node\Literal\Boolean;
+use Flat3\Lodata\Expression\Node\Literal\Date;
+use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
 use Flat3\Lodata\Expression\Node\Literal\String_;
+use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
@@ -92,10 +96,26 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
 
             case $event instanceof Literal:
                 $node = $event->getNode();
+
                 switch (true) {
+                    case $node instanceof Boolean:
+                        $this->addFilter($node->getValue() ? 'true' : 'false');
+                        return true;
+
+                    case $node instanceof Date:
+                        $this->addFilter($node->getValue()->format('Y-m-d'));
+                        return true;
+
+                    case $node instanceof DateTimeOffset:
+                        $this->addFilter($node->getValue()->format('Y-m-dTh:i:s\ZP'));
+                        return true;
+
+                    case $node instanceof TimeOfDay:
+                        $this->addFilter($node->getValue()->format('h:i:s'));
+                        return true;
+
                     case $node instanceof String_:
                         $this->addFilter("'".str_replace("'", "''", $event->getValue())."'");
-
                         return true;
                 }
 

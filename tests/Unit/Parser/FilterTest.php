@@ -320,6 +320,31 @@ class FilterTest extends TestCase
         $this->assertResult('title ne 4');
     }
 
+    public function test_3d()
+    {
+        $this->assertResult('title eq true');
+    }
+
+    public function test_3e()
+    {
+        $this->assertResult('title eq false');
+    }
+
+    public function test_3f()
+    {
+        $this->assertResult('title eq 2000-01-01');
+    }
+
+    public function test_40()
+    {
+        $this->assertResult('title eq 2000-01-01T12:34:59Z+00:00');
+    }
+
+    public function test_41()
+    {
+        $this->assertResult('title eq 04:11:12');
+    }
+
     public function assertLoopbackSet($input)
     {
         $type = new class('test') extends EntityType {
@@ -335,7 +360,7 @@ class FilterTest extends TestCase
         $parser->addValidLiteral('title');
 
         try {
-            $tree = $parser->generateTree(urldecode($input));
+            $tree = $parser->generateTree($input);
             $tree->compute();
 
             $this->assertMatchesSnapshot(trim($query->filterBuffer));
