@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
@@ -28,12 +29,24 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\IndexOf;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
 
 trait MySQLExpression
 {
     public function mysqlFilter(Event $event): ?bool
     {
         switch (true) {
+            case $event instanceof Operator:
+                $operator = $event->getNode();
+
+                switch (true) {
+                    case $operator instanceof Div:
+                        $this->addWhere('DIV');
+
+                        return true;
+                }
+                break;
+
             case $event instanceof StartFunction:
                 $func = $event->getNode();
 

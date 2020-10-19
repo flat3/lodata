@@ -24,7 +24,6 @@ use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
 use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mod;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mul;
@@ -272,11 +271,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 switch (true) {
                     case $operator instanceof Add:
                         $this->addWhere('+');
-
-                        return true;
-
-                    case $operator instanceof Div:
-                        $this->addWhere('DIV');
 
                         return true;
 
