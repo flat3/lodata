@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\Drivers\Database\MySQLExpression;
+use Flat3\Lodata\Drivers\Database\PostgreSQLExpression;
+use Flat3\Lodata\Drivers\Database\SQLiteExpression;
+use Flat3\Lodata\Drivers\Database\SQLServerExpression;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -56,6 +60,11 @@ use PDOStatement;
 
 class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface
 {
+    use MySQLExpression;
+    use SQLiteExpression;
+    use PostgreSQLExpression;
+    use SQLServerExpression;
+
     /** @var string[] $parameters */
     protected $parameters = [];
 
@@ -349,7 +358,26 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 return true;
         }
 
+        switch ($this->getDriver()) {
+            case 'mysql':
+                return $this->mysqlFilter($event);
+
+            case 'sqlite':
+                return $this->sqliteFilter($event);
+
+            case 'pgsql':
+                return $this->pgsqlFilter($event);
+
+            case 'sqlsrv':
+                return $this->sqlsrvFilter($event);
+        }
+
         return false;
+    }
+
+    public function getDriver(): string
+    {
+        return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
 
     public function getParameters(): array

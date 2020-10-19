@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Drivers\Database;
 
-use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Event\StartFunction;
@@ -30,16 +29,10 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 
-class MySQLEntitySet extends SQLEntitySet
+trait MySQLExpression
 {
-    public function filter(Event $event): ?bool
+    public function mysqlFilter(Event $event): ?bool
     {
-        $handled = parent::filter($event);
-
-        if ($handled) {
-            return $handled;
-        }
-
         switch (true) {
             case $event instanceof StartFunction:
                 $func = $event->getNode();
