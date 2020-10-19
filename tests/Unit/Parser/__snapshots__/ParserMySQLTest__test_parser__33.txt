@@ -1,8 +1,0 @@
-[
-    "id lt 4 or id gt 2",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( ( test.`id` < ? ) OR ( test.`id` > ? ) )",
-    [
-        4,
-        2
-    ]
-]

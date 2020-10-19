@@ -1,0 +1,1 @@
+( ( not contains( title , 'a' ) ) and ( ( title eq 'abcd' ) or ( title eq 'e' ) ) )

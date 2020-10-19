@@ -1,9 +1,0 @@
-[
-    "title in ('a', 'b', 'c')",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` IN ( ? , ? , ? )",
-    [
-        "a",
-        "b",
-        "c"
-    ]
-]

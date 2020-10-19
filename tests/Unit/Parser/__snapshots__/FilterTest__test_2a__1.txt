@@ -1,0 +1,1 @@
+matchesPattern( title , '^A.*e$' )

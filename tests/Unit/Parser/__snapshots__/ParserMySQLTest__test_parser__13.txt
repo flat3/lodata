@@ -1,7 +1,0 @@
-[
-    "concat(title, id) eq '123abc'",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( CONCAT( test.`title` , test.`id` ) = ? )",
-    [
-        "123abc"
-    ]
-]

@@ -1,0 +1,1 @@
+( substring( title , 1 , 4 ) eq 'abc123' )

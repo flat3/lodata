@@ -1,7 +1,0 @@
-[
-    "id le 4",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( test.`id` <= ? )",
-    [
-        4
-    ]
-]

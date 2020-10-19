@@ -1,8 +1,0 @@
-[
-    "indexof(title,'abc123') eq 1",
-    "SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( INSTR( test.`title` , ? ) = ? )",
-    [
-        "abc123",
-        1
-    ]
-]

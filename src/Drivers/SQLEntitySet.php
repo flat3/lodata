@@ -2,10 +2,10 @@
 
 namespace Flat3\Lodata\Drivers;
 
-use Flat3\Lodata\Drivers\Database\MySQLExpression;
-use Flat3\Lodata\Drivers\Database\PostgreSQLExpression;
-use Flat3\Lodata\Drivers\Database\SQLiteExpression;
-use Flat3\Lodata\Drivers\Database\SQLServerExpression;
+use Flat3\Lodata\Drivers\SQL\MySQLExpression;
+use Flat3\Lodata\Drivers\SQL\PostgreSQLExpression;
+use Flat3\Lodata\Drivers\SQL\SQLiteExpression;
+use Flat3\Lodata\Drivers\SQL\SQLServerExpression;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
