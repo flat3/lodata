@@ -1,1 +1,1 @@
-This entity set does not support the operator "toupper"
+SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( UPPER( test.`title` ) = ? )
