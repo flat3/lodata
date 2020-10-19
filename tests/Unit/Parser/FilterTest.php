@@ -37,8 +37,7 @@ class FilterTest extends TestCase
 
     public function test_4()
     {
-        $this->assertResult(
-            'id gt 4',);
+        $this->assertResult('id gt 4',);
     }
 
     public function test_5()
@@ -254,6 +253,71 @@ class FilterTest extends TestCase
     public function test_2f()
     {
         $this->assertResult('floor(title) eq 4',);
+    }
+
+    public function test_30()
+    {
+        $this->assertResult('title eq 4 div 3');
+    }
+
+    public function test_31()
+    {
+        $this->assertResult('title eq 4 divby 3');
+    }
+
+    public function test_32()
+    {
+        $this->assertResult('title eq 4 add 3');
+    }
+
+    public function test_33()
+    {
+        $this->assertResult('title eq 4 sub 3');
+    }
+
+    public function test_34()
+    {
+        $this->assertResult('title eq 4 mul 3');
+    }
+
+    public function test_35()
+    {
+        $this->assertResult('title eq 4 mod 3');
+    }
+
+    public function test_36()
+    {
+        $this->assertResult('title eq 4');
+    }
+
+    public function test_37()
+    {
+        $this->assertResult('title gt 4');
+    }
+
+    public function test_38()
+    {
+        $this->assertResult('title ge 4');
+    }
+
+    public function test_39()
+    {
+        $this->assertResult('title in (4,3)');
+    }
+
+    public function test_3a()
+    {
+        $this->assertResult('title lt 4');
+    }
+
+    public function test_3b()
+    {
+        $this->assertResult('title le 4');
+    }
+
+    public function test_3c()
+    {
+        $this->assertResult('title ne 4');
     }
 
     public function assertLoopbackSet($input)
