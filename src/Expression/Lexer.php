@@ -556,6 +556,15 @@ class Lexer
         }
     }
 
+    public function maybeDuration(): ?string
+    {
+        try {
+            return $this->duration();
+        } catch (LexerException $e) {
+            return null;
+        }
+    }
+
     /**
      * Maybe match a string
      *

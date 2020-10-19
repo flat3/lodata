@@ -345,6 +345,26 @@ class FilterTest extends TestCase
         $this->assertResult('title eq 04:11:12');
     }
 
+    public function test_42()
+    {
+        $this->assertResult('title eq 4AA33245-E2D1-470D-9433-01AAFCF0C83F');
+    }
+
+    public function test_43()
+    {
+        $this->assertResult('title eq PT1M');
+    }
+
+    public function test_44()
+    {
+        $this->assertResult('title eq PT36H');
+    }
+
+    public function test_45()
+    {
+        $this->assertREsult('title eq P10DT2H30M');
+    }
+
     public function assertLoopbackSet($input)
     {
         $type = new class('test') extends EntityType {

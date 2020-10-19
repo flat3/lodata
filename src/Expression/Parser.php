@@ -324,6 +324,20 @@ abstract class Parser
         return true;
     }
 
+    public function tokenizeDuration():bool {
+        $token = $this->lexer->maybeDuration();
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Literal\Duration($this);
+        $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
     public function tokenizeNull(): bool
     {
         $token = $this->lexer->maybeKeyword('null');

@@ -109,6 +109,7 @@ class Filter extends Parser
             $this->tokenizeTimeOfDay() ||
             $this->tokenizeSingleQuotedString() ||
             $this->tokenizeGuid() ||
+            $this->tokenizeDuration() ||
             $this->tokenizeNumber() ||
             $this->tokenizeBoolean();
     }

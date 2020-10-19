@@ -19,10 +19,10 @@ class Duration extends PrimitiveType
             return Constants::NULL;
         }
 
-        return sprintf("'%s'", $this->numberToDuration($this->value));
+        return sprintf("'%s'", $this::numberToDuration($this->value));
     }
 
-    protected function numberToDuration($seconds): string
+    public static function numberToDuration($seconds): string
     {
         $r = 'P';
 
@@ -48,12 +48,12 @@ class Duration extends PrimitiveType
     {
         parent::set($value);
 
-        $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this->duration_to_number($value)));
+        $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this::durationToNumber($value)));
 
         return $this;
     }
 
-    protected function duration_to_number(string $duration): ?float
+    public static function durationToNumber(string $duration): ?float
     {
         $matches = Lexer::patternMatch(Lexer::ISO8601_DURATION, $duration);
 
@@ -62,10 +62,10 @@ class Duration extends PrimitiveType
         }
 
         return (double) (
-            ((int) $matches['d'] ?? 0) * 86400 +
-            ((int) $matches['h'] ?? 0) * 3600 +
-            ((int) $matches['m'] ?? 0) * 60 +
-            ((float) $matches['s'] ?? 0)
+            ((int) ($matches['d'] ?? 0)) * 86400 +
+            ((int) ($matches['h'] ?? 0)) * 3600 +
+            ((int) ($matches['m'] ?? 0)) * 60 +
+            ((float) ($matches['s'] ?? 0))
         );
     }
 
@@ -75,7 +75,7 @@ class Duration extends PrimitiveType
             return null;
         }
 
-        return $this->numberToDuration($this->value);
+        return $this::numberToDuration($this->value);
     }
 
     protected function getEmpty()

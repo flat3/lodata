@@ -19,10 +19,10 @@ class Guid extends PrimitiveType
             return Constants::NULL;
         }
 
-        return $this->binaryToString($this->value);
+        return $this::binaryToString($this->value);
     }
 
-    public function binaryToString(string $value): string
+    public static function binaryToString(string $value): string
     {
         return strtoupper(join('-', unpack('H8time_low/H4time_mid/H4time_hi/H4clock_seq_hi/H12clock_seq_low', $value)));
     }
@@ -34,19 +34,19 @@ class Guid extends PrimitiveType
         $this->value = $this->maybeNull(Lexer::patternCheck(
             Lexer::GUID,
             $value
-        ) ? $this->stringToBinary($value) : (null === $value ? null : (string) $value));
+        ) ? $this::stringToBinary($value) : (null === $value ? null : (string) $value));
 
         return $this;
     }
 
-    public function stringToBinary(string $guid): string
+    public static function stringToBinary(string $guid): string
     {
         return pack('H*', str_replace('-', '', $guid));
     }
 
     public function getEmpty()
     {
-        return $this->stringToBinary('00000000-0000-0000-0000-000000000000');
+        return $this::stringToBinary('00000000-0000-0000-0000-000000000000');
     }
 
     public function toJson(): ?string
