@@ -362,7 +362,72 @@ class FilterTest extends TestCase
 
     public function test_45()
     {
-        $this->assertREsult('title eq P10DT2H30M');
+        $this->assertResult('title eq P10DT2H30M');
+    }
+
+    public function test_46()
+    {
+        $this->assertResult('round(title) eq 4',);
+    }
+
+    public function test_47()
+    {
+        $this->assertResult('date(title) eq 2001-01-01');
+    }
+
+    public function test_48()
+    {
+        $this->assertResult('day(title) eq 4');
+    }
+
+    public function test_49()
+    {
+        $this->assertResult('hour(title) eq 3');
+    }
+
+    public function test_4a()
+    {
+        $this->assertResult('minute(title) eq 33');
+    }
+
+    public function test_4b()
+    {
+        $this->assertResult('month(title) eq 11');
+    }
+
+    public function test_4c()
+    {
+        $this->assertResult('now() eq 10:00:00');
+    }
+
+    public function test_4d()
+    {
+        $this->assertResult('second(title) eq 44');
+    }
+
+    public function test_4e()
+    {
+        $this->assertResult('time(title) eq 10:00:00');
+    }
+
+    public function test_4f()
+    {
+        $this->assertResult('year(title) eq 1999');
+    }
+
+    public function test_50()
+    {
+        $this->assertResult("endswith(title,'a')");
+    }
+
+    public function test_51()
+    {
+        $this->assertResult("indexof(title,'a') eq 1");
+    }
+
+    public function test_52()
+    {
+        $this->assertResult("startswith(title,'a')");
     }
 
     public function assertLoopbackSet($input)

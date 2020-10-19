@@ -197,7 +197,7 @@ abstract class Parser
             if ($headOperator instanceof LeftParen) {
                 /** @var LeftParen $paren */
                 $paren = array_pop($this->operatorStack);
-                if ($headOperator->getFunc()) {
+                if ($headOperator->getFunc() && $this->operandStack) {
                     $paren->getFunc()->addArgument(array_pop($this->operandStack));
                 }
 

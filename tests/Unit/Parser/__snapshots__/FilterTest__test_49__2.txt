@@ -1,0 +1,1 @@
+SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( HOUR( test.`title` ) = ? )
