@@ -1,1 +1,1 @@
-This entity set does not support the operator "endswith"
+SELECT test.`id` AS id, test.`title` AS title FROM test WHERE test.`title` LIKE ?

@@ -1,1 +1,1 @@
-This entity set does not support the operator "floor"
+SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( FLOOR( test.`title` ) = ? )
