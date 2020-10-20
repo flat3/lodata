@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use ReflectionException;
 use ReflectionMethod;
 
 class EloquentEntitySet extends SQLEntitySet
@@ -88,7 +89,7 @@ class EloquentEntitySet extends SQLEntitySet
 
                     $left->getType()->addProperty($nav);
                     $left->addNavigationBinding($binding);
-                } catch (\ReflectionException $e) {
+                } catch (ReflectionException $e) {
                 }
             }
         }

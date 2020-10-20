@@ -324,7 +324,8 @@ abstract class Parser
         return true;
     }
 
-    public function tokenizeDuration():bool {
+    public function tokenizeDuration(): bool
+    {
         $token = $this->lexer->maybeDuration();
         if (!$token) {
             return false;
