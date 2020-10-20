@@ -13,10 +13,9 @@ use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
-use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
@@ -110,26 +109,28 @@ class EloquentEntitySet extends SQLEntitySet
             )
         );
 
-        /** @var Connection $conn */
-        $conn = DB::connection();
-        $conn->getSchemaBuilder();
-        $grammar = $conn->selectFromWriteConnection($conn->getSchemaGrammar()->compileColumnListing($this->getTable()));
+        $schema = Schema::connection(config('database.default'));
+        $columns = $schema->getColumnListing($this->getTable());
+
         $casts = $model->getCasts();
 
-        foreach ($grammar as $gram) {
-            if ($gram->name === $model->getKeyName()) {
+        foreach ($columns as $column) {
+            if ($column === $model->getKeyName()) {
                 continue;
             }
 
-            $cast = $gram->type;
-            if (array_key_exists($gram->name, $casts)) {
-                $cast = $casts[$gram->name];
+            $columnDef = $schema->getConnection()->getDoctrineColumn($this->getTable(), $column);
+            $cast = $columnDef->getType()->getName();
+            $notnull = $columnDef->getNotnull();
+
+            if (array_key_exists($column, $casts)) {
+                $cast = $casts[$column];
             }
 
             $type->addProperty(
                 new DeclaredProperty(
-                    $gram->name,
-                    $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$gram->notnull)->seal()
+                    $column,
+                    $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$notnull)->seal()
                 )
             );
         }
@@ -232,6 +233,7 @@ class EloquentEntitySet extends SQLEntitySet
 
     public function create(): Entity
     {
+        /** @var Model $model */
         $model = new $this->model();
 
         $body = $this->transaction->getBody();
