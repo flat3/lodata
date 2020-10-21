@@ -55,7 +55,7 @@ class EloquentEntitySet extends SQLEntitySet
         return Str::pluralStudly(class_basename($model));
     }
 
-    public function discoverRelationships(): self
+    public static function discoverRelationships()
     {
         $sets = Lodata::getResources()->sliceByClass(EloquentEntitySet::class);
 
@@ -92,8 +92,6 @@ class EloquentEntitySet extends SQLEntitySet
                 }
             }
         }
-
-        return $this;
     }
 
     public function discoverProperties(): self
@@ -110,26 +108,27 @@ class EloquentEntitySet extends SQLEntitySet
         );
 
         $schema = Schema::connection(config('database.default'));
-        $columns = $schema->getColumnListing($this->getTable());
-
+        $manager = $schema->getConnection()->getDoctrineSchemaManager();
+        $details = $manager->listTableDetails($this->getTable());
+        $columns = $details->getColumns();
         $casts = $model->getCasts();
 
         foreach ($columns as $column) {
-            if ($column === $model->getKeyName()) {
+            $name = $column->getName();
+            if ($name === $model->getKeyName()) {
                 continue;
             }
 
-            $columnDef = $schema->getConnection()->getDoctrineColumn($this->getTable(), $column);
-            $cast = $columnDef->getType()->getName();
-            $notnull = $columnDef->getNotnull();
+            $cast = $column->getType()->getName();
+            $notnull = $column->getNotnull();
 
-            if (array_key_exists($column, $casts)) {
-                $cast = $casts[$column];
+            if (array_key_exists($name, $casts)) {
+                $cast = $casts[$name];
             }
 
             $type->addProperty(
                 new DeclaredProperty(
-                    $column,
+                    $name,
                     $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$notnull)->seal()
                 )
             );
@@ -265,5 +264,16 @@ class EloquentEntitySet extends SQLEntitySet
     {
         $model = new $this->model();
         return $model->qualifyColumn($property->getName());
+    }
+
+    public static function discover($class): self
+    {
+        /** @var EloquentEntitySet $set */
+        $set = new EloquentEntitySet($class);
+        Lodata::add($set);
+        $set->discoverProperties();
+        self::discoverRelationships();
+
+        return $set;
     }
 }

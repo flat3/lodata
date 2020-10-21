@@ -90,11 +90,7 @@ class Model
     {
         switch (true) {
             case is_a($class, \Illuminate\Database\Eloquent\Model::class, true):
-                /** @var EloquentEntitySet $set */
-                $set = $this->add(new EloquentEntitySet($class));
-                $set->discoverProperties();
-                $set->discoverRelationships();
-                return $set;
+                return EloquentEntitySet::discover($class);
         }
 
         throw new InternalServerErrorException('discovery_failed',
