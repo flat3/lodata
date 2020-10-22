@@ -10,7 +10,8 @@ class Monitor extends Controller
 {
     public function show(string $transactionId)
     {
-        $job = new Async($transactionId);
+        $job = new Async();
+        $job->setId($transactionId);
 
         if ($job->isPending()) {
             throw $job->accepted();
@@ -40,7 +41,8 @@ class Monitor extends Controller
 
     public function destroy(string $transactionId)
     {
-        $job = new Async($transactionId);
+        $job = new Async();
+        $job->setId($transactionId);
         $job->destroy();
     }
 

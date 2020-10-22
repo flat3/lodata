@@ -30,9 +30,10 @@ class Async implements ShouldQueue
     /** @var Transaction $transaction */
     protected $transaction;
 
-    public function __construct(?string $jobId = null)
+    public function setId(string $jobId): self
     {
         $this->jobId = $jobId;
+        return $this;
     }
 
     public function setTransaction(Transaction $transaction): self
