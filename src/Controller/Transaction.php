@@ -17,8 +17,7 @@ use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Operation;
-use Flat3\Lodata\PathComponent\Service;
-use Flat3\Lodata\PathComponent\Value;
+use Flat3\Lodata\PathComponent;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ServiceProvider;
@@ -106,13 +105,13 @@ class Transaction implements ArgumentInterface
     /** @var PipeInterface[] $handlers */
     protected $handlers = [
         EntitySet::class,
-        \Flat3\Lodata\PathComponent\Metadata::class,
-        Value::class,
-        \Flat3\Lodata\PathComponent\Count::class,
+        PathComponent\Metadata::class,
+        PathComponent\Value::class,
+        PathComponent\Count::class,
         Operation::class,
         PrimitiveType::class,
         Singleton::class,
-        \Flat3\Lodata\PathComponent\Filter::class,
+        PathComponent\Filter::class,
     ];
 
     public function __construct()
@@ -197,21 +196,6 @@ class Transaction implements ArgumentInterface
     {
         $this->response = $response;
         return $this;
-    }
-
-    public function subTransaction(Request $request): self
-    {
-        if (!$this->request) {
-            throw new InternalServerErrorException(
-                'uninitialized_transaction',
-                'This transaction has not been initialised'
-            );
-        }
-
-        $transaction = clone $this;
-        $transaction->setRequest($request);
-
-        return $transaction;
     }
 
     public function getRequestHeader($key): ?string
@@ -810,7 +794,7 @@ class Transaction implements ArgumentInterface
         $result = null;
 
         if (!$pathComponents) {
-            return new Service();
+            return new PathComponent\Service();
         }
 
         while ($pathComponents) {

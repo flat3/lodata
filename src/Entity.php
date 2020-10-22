@@ -152,7 +152,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                 );
             }
 
-            $expansionTransaction = $transaction->subTransaction($expansionRequest);
+            $expansionTransaction = clone $transaction;
+            $expansionTransaction->setRequest($expansionRequest);
 
             /** @var PrimitiveType $keyPrimitive */
             $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());
