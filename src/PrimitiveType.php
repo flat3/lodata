@@ -18,7 +18,9 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\SealInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
+use Flat3\Lodata\Traits\HasSeal;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
@@ -62,14 +64,14 @@ use RuntimeException;
  * @method static TimeOfDay timeofday()
  * @package Flat3\OData
  */
-abstract class PrimitiveType implements TypeInterface, IdentifierInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface, ArgumentInterface
+abstract class PrimitiveType implements TypeInterface, IdentifierInterface, ContextInterface, ResourceInterface, EmitInterface, PipeInterface, ArgumentInterface, SealInterface
 {
+    use HasSeal;
+
     protected $identifier = 'Edm.None';
 
     /** @var bool $nullable Whether the value can be made null */
     protected $nullable = true;
-
-    protected $immutable = false;
 
     /** @var Entity $entity */
     private $entity;
@@ -84,13 +86,6 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
     {
         $this->nullable = $nullable;
         $this->set($value);
-    }
-
-    public function seal(): self
-    {
-        $this->immutable = true;
-
-        return $this;
     }
 
     public function getIdentifier(): string
@@ -126,7 +121,7 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
      */
     public function set($value)
     {
-        if ($this->immutable) {
+        if ($this->sealed()) {
             throw new RuntimeException('Primitive value is immutable');
         }
 
@@ -201,7 +196,7 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
 
     public function setNullable(bool $nullable): self
     {
-        if ($this->immutable) {
+        if ($this->sealed()) {
             throw new RuntimeException('Primitive type is immutable');
         }
 
@@ -346,14 +341,5 @@ abstract class PrimitiveType implements TypeInterface, IdentifierInterface, Cont
         $clazz = $resolver[$name];
         return (new $clazz())->seal();
     }
-
-    public function clone(): self
-    {
-        return clone $this;
-    }
-
-    public function __clone()
-    {
-        $this->immutable = false;
-    }
 }
+
