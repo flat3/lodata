@@ -6,7 +6,7 @@ use Flat3\Lodata\Interfaces\IdentifierInterface;
 use RuntimeException;
 
 /**
- * Class TypeDefinition
+ * Class PrimitiveType
  * @method static self binary()
  * @method static self boolean()
  * @method static self byte()
