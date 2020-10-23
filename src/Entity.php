@@ -98,7 +98,8 @@ class Entity implements ResourceInterface, IEntityTypeDefinition, ContextInterfa
 
                     $result = call_user_func_array([$property, 'invoke'], [$this, $transaction]);
 
-                    if (!is_a($result, $propertyType->getFactory(), true) || $result === null && $propertyType instanceof PrimitiveType && !$propertyType->isNullable()) {
+                    if (!is_a($result, $propertyType->getFactory(),
+                            true) || $result === null && $propertyType instanceof PrimitiveType && !$propertyType->isNullable()) {
                         throw new InternalServerErrorException('invalid_dynamic_property_type',
                             sprintf('The dynamic property %s did not return a value of its defined type',
                                 $property->getName()));

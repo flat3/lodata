@@ -14,6 +14,7 @@ use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Support\Facades\Schema;
@@ -143,35 +144,35 @@ class EloquentEntitySet extends SQLEntitySet
         switch ($type) {
             case 'bool':
             case 'boolean':
-                return PrimitiveType::boolean();
+                return Type::boolean();
 
             case 'date':
-                return PrimitiveType::date();
+                return Type::date();
 
             case 'datetime':
-                return PrimitiveType::datetimeoffset();
+                return Type::datetimeoffset();
 
             case 'decimal':
             case 'float':
             case 'real':
-                return PrimitiveType::decimal();
+                return Type::decimal();
 
             case 'double':
-                return PrimitiveType::double();
+                return Type::double();
 
             case 'int':
             case 'integer':
-                return PrimitiveType::int32();
+                return Type::int32();
 
             case 'varchar':
             case 'string':
-                return PrimitiveType::string();
+                return Type::string();
 
             case 'timestamp':
-                return PrimitiveType::timeofday();
+                return Type::timeofday();
         }
 
-        return PrimitiveType::string();
+        return Type::string();
     }
 
     public function assocToEntity(array $row): Entity

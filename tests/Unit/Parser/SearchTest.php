@@ -9,9 +9,8 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Parser\Search;
-use Flat3\Lodata\Primitive;
-use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 use Illuminate\Http\Request;
 
 class SearchTest extends TestCase
@@ -75,7 +74,7 @@ class SearchTest extends TestCase
     {
         $type = new class('test') extends EntityType {
         };
-        $k = new DeclaredProperty('id', PrimitiveType::int32());
+        $k = new DeclaredProperty('id', Type::int32());
         $type->setKey($k);
         $transaction = new Transaction();
         $s = new LoopbackEntitySet('test', $type);
@@ -105,10 +104,10 @@ class SearchTest extends TestCase
     {
         $entityType = new class('test') extends EntityType {
         };
-        $id = new DeclaredProperty('id', PrimitiveType::int32());
+        $id = new DeclaredProperty('id', Type::int32());
         $id->setFilterable(true)->setSearchable(true);
         $entityType->setKey($id);
-        $title = new DeclaredProperty('title', PrimitiveType::string());
+        $title = new DeclaredProperty('title', Type::string());
         $title->setFilterable(true)->setSearchable(true);
         $entityType->addProperty($title);
         return $entityType;

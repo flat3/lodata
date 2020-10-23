@@ -3,9 +3,6 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
@@ -27,29 +24,29 @@ use Flat3\Lodata\Type\TimeOfDay;
 
 /**
  * Class TypeDefinition
- * @method static self binary()
- * @method static self boolean()
- * @method static self byte()
- * @method static self date()
- * @method static self datetimeoffset()
- * @method static self decimal()
- * @method static self double()
- * @method static self duration()
- * @method static self enum()
- * @method static self guid()
- * @method static self int16()
- * @method static self int32()
- * @method static self int64()
- * @method static self sbyte()
- * @method static self single()
- * @method static self stream()
- * @method static self string()
- * @method static self timeofday()
+ * @method static PrimitiveType binary()
+ * @method static PrimitiveType boolean()
+ * @method static PrimitiveType byte()
+ * @method static PrimitiveType date()
+ * @method static PrimitiveType datetimeoffset()
+ * @method static PrimitiveType decimal()
+ * @method static PrimitiveType double()
+ * @method static PrimitiveType duration()
+ * @method static PrimitiveType enum()
+ * @method static PrimitiveType guid()
+ * @method static PrimitiveType int16()
+ * @method static PrimitiveType int32()
+ * @method static PrimitiveType int64()
+ * @method static PrimitiveType sbyte()
+ * @method static PrimitiveType single()
+ * @method static PrimitiveType stream()
+ * @method static PrimitiveType string()
+ * @method static PrimitiveType timeofday()
  * @package Flat3\OData
  */
 abstract class Type
 {
-    public static function __callStatic($name, $arguments): self
+    public static function __callStatic($name, $arguments): PrimitiveType
     {
         $resolver = [
             'binary' => Binary::class,

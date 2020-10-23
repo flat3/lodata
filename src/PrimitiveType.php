@@ -7,24 +7,6 @@ use RuntimeException;
 
 /**
  * Class PrimitiveType
- * @method static self binary()
- * @method static self boolean()
- * @method static self byte()
- * @method static self date()
- * @method static self datetimeoffset()
- * @method static self decimal()
- * @method static self double()
- * @method static self duration()
- * @method static self enum()
- * @method static self guid()
- * @method static self int16()
- * @method static self int32()
- * @method static self int64()
- * @method static self sbyte()
- * @method static self single()
- * @method static self stream()
- * @method static self string()
- * @method static self timeofday()
  * @package Flat3\OData
  */
 class PrimitiveType extends Type implements IdentifierInterface

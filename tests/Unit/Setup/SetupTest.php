@@ -6,9 +6,8 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
-use Flat3\Lodata\Primitive;
-use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 
 class SetupTest extends TestCase
 {
@@ -33,7 +32,7 @@ class SetupTest extends TestCase
     public function test_invalid_name()
     {
         try {
-            new DeclaredProperty('3a', PrimitiveType::int32());
+            new DeclaredProperty('3a', Type::int32());
         } catch (ProtocolException $e) {
             $this->assertProtocolExceptionSnapshot($e);
         }

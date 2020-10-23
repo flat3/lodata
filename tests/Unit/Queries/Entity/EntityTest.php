@@ -7,9 +7,9 @@ use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\String_;
 
@@ -140,7 +140,7 @@ class EntityTest extends TestCase
         /** @var EntityType $airport */
         $airport = Lodata::getEntityType('airport');
 
-        $property = new class('cp', PrimitiveType::int32()) extends DynamicProperty {
+        $property = new class('cp', Type::int32()) extends DynamicProperty {
             public function invoke(Entity $entity, Transaction $transaction)
             {
                 return new Int32(4);
@@ -159,7 +159,7 @@ class EntityTest extends TestCase
         /** @var EntityType $airport */
         $airport = Lodata::getEntityType('airport');
 
-        $property = new class('cp', PrimitiveType::int32()) extends DynamicProperty {
+        $property = new class('cp', Type::int32()) extends DynamicProperty {
             public function invoke(Entity $entity, Transaction $transaction)
             {
                 return new String_(4);

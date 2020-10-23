@@ -12,13 +12,12 @@ use Flat3\Lodata\Interfaces\QueryInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
-use Flat3\Lodata\Primitive;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
+use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
-use Flat3\Lodata\Type;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 

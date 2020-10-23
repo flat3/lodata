@@ -9,9 +9,8 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Parser\Filter;
-use Flat3\Lodata\Primitive;
-use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 use Illuminate\Http\Request;
 
 class FilterTest extends TestCase
@@ -435,7 +434,7 @@ class FilterTest extends TestCase
     {
         $type = new class('test') extends EntityType {
         };
-        $k = new DeclaredProperty('id', PrimitiveType::int32());
+        $k = new DeclaredProperty('id', Type::int32());
         $type->setKey($k);
         $transaction = new Transaction();
         $entitySet = new LoopbackEntitySet('test', $type);
@@ -507,10 +506,10 @@ class FilterTest extends TestCase
     {
         $entityType = new class('test') extends EntityType {
         };
-        $id = new DeclaredProperty('id', PrimitiveType::int32());
+        $id = new DeclaredProperty('id', Type::int32());
         $id->setFilterable(true);
         $entityType->setKey($id);
-        $title = new DeclaredProperty('title', PrimitiveType::string());
+        $title = new DeclaredProperty('title', Type::string());
         $title->setFilterable(true);
         $entityType->addProperty($title);
         return $entityType;
