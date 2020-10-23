@@ -11,10 +11,10 @@ class ConformanceLevel extends Annotation
 
     public function __construct()
     {
-        $this->type = new Enum();
-        $this->type->add('Org.OData.Capabilities.V1.ConformanceLevelType/Minimal');
-        $this->type->add('Org.OData.Capabilities.V1.ConformanceLevelType/Intermediate');
-        $this->type->add('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
-        $this->type->set('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced')->seal();
+        $this->value = new Enum();
+        $this->value->add('Org.OData.Capabilities.V1.ConformanceLevelType/Minimal');
+        $this->value->add('Org.OData.Capabilities.V1.ConformanceLevelType/Intermediate');
+        $this->value->add('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
+        $this->value->set('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
     }
 }

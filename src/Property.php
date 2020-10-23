@@ -2,20 +2,21 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Interfaces\ITypeDefinition;
 use Flat3\Lodata\Interfaces\NameInterface;
-use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasName;
-use Flat3\Lodata\Traits\HasType;
 
-abstract class Property implements TypeInterface, NameInterface
+abstract class Property implements NameInterface, ITypeDefinition
 {
     use HasName;
-    use HasType;
 
     /** @var bool $nullable Whether this property is nullable */
     protected $nullable = true;
 
-    public function __construct($name, TypeInterface $type)
+    /** @var Type $type */
+    protected $type;
+
+    public function __construct($name, Type $type)
     {
         $this->setName($name);
         $this->type = $type;
@@ -37,6 +38,17 @@ abstract class Property implements TypeInterface, NameInterface
     {
         $this->nullable = $nullable;
 
+        return $this;
+    }
+
+    public function getType(): Type
+    {
+        return $this->type;
+    }
+
+    public function setTypeDefinition(Type $definition)
+    {
+        $this->type = $definition;
         return $this;
     }
 }

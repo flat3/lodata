@@ -23,8 +23,8 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\CreateInterface;
 use Flat3\Lodata\Interfaces\DeleteInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
-use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Interfaces\IEntityTypeDefinition;
 use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\QueryInterface;
@@ -33,18 +33,16 @@ use Flat3\Lodata\Interfaces\ReadInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Interfaces\UpdateInterface;
-use Flat3\Lodata\Traits\HasEntityType;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Iterator;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
+abstract class EntitySet implements IEntityTypeDefinition, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
 {
     use HasIdentifier;
     use HasTitle;
-    use HasEntityType;
 
     /** @var ObjectArray $navigationBindings Navigation bindings */
     protected $navigationBindings;
@@ -67,11 +65,14 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var null|Entity[] $results Result set from the query */
     protected $results = null;
 
-    /** @var PrimitiveType $key */
+    /** @var Primitive $key */
     protected $key;
 
     /** @var Transaction $transaction */
     protected $transaction;
+
+    /** @var EntityType $type */
+    protected $type;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
@@ -89,7 +90,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return new static($name, $entityType);
     }
 
-    public function setKey(PrimitiveType $key): self
+    public function setKey(Primitive $key): self
     {
         $this->key = $key;
         return $this;
@@ -542,5 +543,16 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $this->ensureInstance();
 
         return $this->transaction;
+    }
+
+    public function getType(): EntityType
+    {
+        return $this->type;
+    }
+
+    public function setType(EntityType $type): self
+    {
+        $this->type = $type;
+        return $this;
     }
 }

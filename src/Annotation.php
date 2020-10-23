@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Traits\HasType;
+use Flat3\Lodata\Traits\HasTypeDefinition;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Enum;
@@ -11,9 +11,11 @@ use SimpleXMLElement;
 
 abstract class Annotation
 {
-    use HasType;
-
+    /** @var string $name */
     protected $name;
+
+    /** @var Primitive $value */
+    protected $value;
 
     public function append(SimpleXMLElement $schema): self
     {
@@ -21,21 +23,21 @@ abstract class Annotation
         $annotation->addAttribute('Term', $this->name);
 
         switch (true) {
-            case $this->type instanceof Boolean:
-                $annotation->addAttribute('Bool', $this->type->toUrl());
+            case $this->value instanceof Boolean:
+                $annotation->addAttribute('Bool', $this->value->toUrl());
                 break;
 
-            case $this->type instanceof String_:
-                $annotation->addAttribute('String', $this->type->get());
+            case $this->value instanceof String_:
+                $annotation->addAttribute('String', $this->value->get());
                 break;
 
-            case $this->type instanceof Enum:
-                $annotation->addAttribute('EnumMember', $this->type->toUrl());
+            case $this->value instanceof Enum:
+                $annotation->addAttribute('EnumMember', $this->value->toUrl());
                 break;
 
-            case $this->type instanceof Collection:
+            case $this->value instanceof Collection:
                 $collection = $annotation->addChild('Collection');
-                foreach ($this->type->get() as $member) {
+                foreach ($this->value->get() as $member) {
                     switch (true) {
                         case $member instanceof String_:
                             $collection->addChild('String', $member->get());

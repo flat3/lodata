@@ -12,7 +12,6 @@ class ODataVersions extends Annotation
 
     public function __construct()
     {
-        $this->type = new String_(Version::version);
-        $this->type->seal();
+        $this->value = new String_(Version::version);
     }
 }

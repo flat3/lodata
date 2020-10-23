@@ -11,7 +11,6 @@ class CallbackSupported extends Annotation
 
     public function __construct()
     {
-        $this->type = new Collection();
-        $this->type->seal();
+        $this->value = new Collection();
     }
 }

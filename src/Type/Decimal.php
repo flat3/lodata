@@ -3,11 +3,11 @@
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Decimal extends PrimitiveType
+class Decimal extends Primitive
 {
-    protected $identifier = 'Edm.Decimal';
+    const identifier = 'Edm.Decimal';
 
     /** @var ?double $value */
     protected $value;
@@ -63,8 +63,6 @@ class Decimal extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         if (is_float($value)) {
             $this->value = $value;
 

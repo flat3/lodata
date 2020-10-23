@@ -4,6 +4,6 @@ namespace Flat3\Lodata\Type;
 
 class SByte extends Byte
 {
-    protected $identifier = 'Edm.SByte';
+    const identifier = 'Edm.SByte';
     public const format = 'c';
 }

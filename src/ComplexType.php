@@ -7,10 +7,9 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
-use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
 
-class ComplexType implements TypeInterface, IdentifierInterface, ContextInterface, ResourceInterface
+class ComplexType extends Type implements ResourceInterface, ContextInterface, IdentifierInterface
 {
     use HasIdentifier;
 
@@ -70,5 +69,10 @@ class ComplexType implements TypeInterface, IdentifierInterface, ContextInterfac
     public function getResourceUrl(): string
     {
         return Transaction::getResourceUrl().$this->getName().'()';
+    }
+
+    public function instance($value = null)
+    {
+        return new Entity();
     }
 }

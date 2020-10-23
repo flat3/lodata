@@ -18,18 +18,16 @@ class SupportedFormats extends Annotation
 
     public function __construct()
     {
-        $this->type = new Collection();
+        $this->value = new Collection();
 
         /** @var Metadata $attribute */
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
-            $this->type->set(new String_(
+            $this->value->set(new String_(
                 'application/json;'.(new Parameter())
                     ->addParameter('odata.metadata', $attribute::name)
                     ->addParameter('IEEE754Compatible', Constants::TRUE)
                     ->addParameter('odata.streaming', Constants::TRUE)
             ));
         }
-
-        $this->type->seal();
     }
 }

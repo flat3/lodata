@@ -8,7 +8,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Traits\HasName;
 use ReflectionParameter;
 
@@ -44,7 +44,7 @@ abstract class Argument implements NameInterface
             case is_a($type, Entity::class, true):
                 return new EntityArgument($parameter);
 
-            case is_a($type, PrimitiveType::class, true):
+            case is_a($type, Primitive::class, true):
                 return new PrimitiveTypeArgument($parameter);
         }
 

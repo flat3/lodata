@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
@@ -103,7 +104,7 @@ class EloquentEntitySet extends SQLEntitySet
         $type->setKey(
             new DeclaredProperty(
                 $model->getKeyName(),
-                $this->eloquentTypeToPrimitive($model->getKeyType())
+                $this->eloquentTypeToTypeDefinition($model->getKeyType())
             )
         );
 
@@ -129,7 +130,7 @@ class EloquentEntitySet extends SQLEntitySet
             $type->addProperty(
                 new DeclaredProperty(
                     $name,
-                    $this->eloquentTypeToPrimitive($cast)->clone()->setNullable(!$notnull)->seal()
+                    $this->eloquentTypeToTypeDefinition($cast)->setNullable(!$notnull)
                 )
             );
         }
@@ -137,7 +138,7 @@ class EloquentEntitySet extends SQLEntitySet
         return $this;
     }
 
-    public function eloquentTypeToPrimitive(string $type): PrimitiveType
+    public function eloquentTypeToTypeDefinition(string $type): PrimitiveType
     {
         switch ($type) {
             case 'bool':
@@ -178,21 +179,21 @@ class EloquentEntitySet extends SQLEntitySet
         return $this->getEntityById($row[$this->getType()->getKey()->getName()]);
     }
 
-    public function getModelByKey(PrimitiveType $key): ?Model
+    public function getModelByKey(Primitive $key): ?Model
     {
         return $this->model::where($key->getProperty()->getName(), $key->get())->first();
     }
 
     public function getEntityById($id): ?Entity
     {
-        $key = $this->getType()->getKey()->getType()->clone();
+        $key = $this->getType()->getKey()->getType()->instance();
         $key->setProperty($this->getType()->getKey());
         $key->set($id);
 
         return $this->read($key);
     }
 
-    public function read(PrimitiveType $key): ?Entity
+    public function read(Primitive $key): ?Entity
     {
         $model = $this->getModelByKey($key);
 
@@ -212,7 +213,7 @@ class EloquentEntitySet extends SQLEntitySet
         return $entity;
     }
 
-    public function update(PrimitiveType $key): Entity
+    public function update(Primitive $key): Entity
     {
         $model = $this->getModelByKey($key);
 
@@ -249,7 +250,7 @@ class EloquentEntitySet extends SQLEntitySet
         return $this->getEntityById($id);
     }
 
-    public function delete(PrimitiveType $key)
+    public function delete(Primitive $key)
     {
         $model = $this->getModelByKey($key);
 

@@ -140,7 +140,7 @@ class ActionTest extends TestCase
             {
                 return $airport;
             }
-        })->setBindingParameterName('airport')->setType(Lodata::getEntityType('airport')));
+        })->setBindingParameterName('airport')->setReturnType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
             Request::factory()

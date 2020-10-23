@@ -73,7 +73,7 @@ class FunctionTest extends TestCase
                 $airport['code'] = $code->get();
                 return $airport;
             }
-        })->setType(Lodata::getEntityType('airport')));
+        })->setReturnType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -90,7 +90,7 @@ class FunctionTest extends TestCase
             {
                 return $texts;
             }
-        })->setType(Lodata::getEntityType('text')));
+        })->setReturnType(Lodata::getEntityType('text')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -219,7 +219,7 @@ class FunctionTest extends TestCase
                 $transaction->getSelect()->setValue('origin');
                 return $flights;
             }
-        })->setType(Lodata::getEntityType('flight')));
+        })->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
             Request::factory()
@@ -236,7 +236,7 @@ class FunctionTest extends TestCase
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
+        })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
             Request::factory()

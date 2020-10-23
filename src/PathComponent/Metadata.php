@@ -206,7 +206,7 @@ class Metadata implements PipeInterface, EmitInterface
                         );
                     }
 
-                    $returnType = $resource->getType();
+                    $returnType = $resource->getReturnType();
                     if (null !== $returnType) {
                         $returnTypeElement = $operationElement->addChild('ReturnType');
 

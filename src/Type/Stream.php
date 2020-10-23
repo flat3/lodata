@@ -3,11 +3,11 @@
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Stream extends PrimitiveType
+class Stream extends Primitive
 {
-    protected $identifier = 'Edm.Stream';
+    const identifier = 'Edm.Stream';
 
     /** @var ?string $value */
     protected $value;
@@ -32,8 +32,6 @@ class Stream extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         $this->value = $this->maybeNull(null === $value ? null : $value);
 
         return $this;

@@ -2,11 +2,11 @@
 
 namespace Flat3\Lodata\Type;
 
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Enum extends PrimitiveType
+class Enum extends Primitive
 {
-    protected $identifier = 'Edm.Enum';
+    const identifier = 'Edm.Enum';
 
     /** @var ?int $value */
     protected $value;
@@ -15,8 +15,6 @@ class Enum extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         $this->value = array_search($value, $this->values);
 
         return $this;

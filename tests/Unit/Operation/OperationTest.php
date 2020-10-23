@@ -79,7 +79,7 @@ class OperationTest extends TestCase
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
+        })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertXmlResponse(
             Request::factory()
@@ -125,7 +125,7 @@ class OperationTest extends TestCase
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
+        })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertBadRequest(
             Request::factory()
@@ -142,7 +142,7 @@ class OperationTest extends TestCase
             {
                 return $flights;
             }
-        })->setBindingParameterName('flights')->setType(Lodata::getEntityType('flight')));
+        })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertBadRequest(
             Request::factory()

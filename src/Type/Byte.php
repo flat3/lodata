@@ -3,11 +3,11 @@
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Byte extends PrimitiveType
+class Byte extends Primitive
 {
-    protected $identifier = 'Edm.Byte';
+    const identifier = 'Edm.Byte';
     public const format = 'C';
 
     /** @var ?int $value */
@@ -29,8 +29,6 @@ class Byte extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         $this->value = $this->maybeNull(null === $value ? null : $this->repack($value));
 
         return $this;

@@ -6,6 +6,7 @@ use Exception;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\TypeInterface;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
@@ -15,6 +16,9 @@ use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Duration;
 use Flat3\Lodata\Type\Guid;
+use Flat3\Lodata\Type\Int16;
+use Flat3\Lodata\Type\Int32;
+use Flat3\Lodata\Type\Int64;
 use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
 
@@ -140,46 +144,49 @@ class Lexer
         }
     }
 
-    public function type(TypeInterface $type): PrimitiveType
+    public function type(PrimitiveType $type): Primitive
     {
         $result = null;
 
-        switch (true) {
-            case $type instanceof Binary:
-                $result = $type::factory($this->base64());
+        switch ($type->getFactory()) {
+            case Binary::class:
+                $result = $type->instance($this->base64());
                 break;
 
-            case $type instanceof Boolean:
-                $result = $type::factory($this->boolean());
+            case Boolean::class:
+                $result = $type->instance($this->boolean());
                 break;
 
-            case $type instanceof Byte:
-            case $type instanceof Decimal:
-                $result = $type::factory($this->number());
+            case Byte::class:
+            case Int32::class:
+            case Int16::class:
+            case Int64::class:
+            case Decimal::class:
+                $result = $type->instance($this->number());
                 break;
 
-            case $type instanceof Date:
-                $result = $type::factory($this->date());
+            case Date::class:
+                $result = $type->instance($this->date());
                 break;
 
-            case $type instanceof TimeOfDay:
-                $result = $type::factory($this->timeOfDay());
+            case TimeOfDay::class:
+                $result = $type->instance($this->timeOfDay());
                 break;
 
-            case $type instanceof DateTimeOffset:
-                $result = $type::factory($this->datetimeoffset());
+            case DateTimeOffset::class:
+                $result = $type->instance($this->datetimeoffset());
                 break;
 
-            case $type instanceof Duration:
-                $result = $type::factory($this->duration());
+            case Duration::class:
+                $result = $type->instance($this->duration());
                 break;
 
-            case $type instanceof Guid:
-                $result = $type::factory($this->guid());
+            case Guid::class:
+                $result = $type->instance($this->guid());
                 break;
 
-            case $type instanceof String_:
-                $result = $type::factory($this->quotedString());
+            case String_::class:
+                $result = $type->instance($this->quotedString());
                 break;
         }
 
@@ -191,7 +198,7 @@ class Lexer
             throw new LexerException($this->pos + 1, 'Not complete');
         }
 
-        return $result->seal();
+        return $result;
     }
 
     public function base64()

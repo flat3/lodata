@@ -4,11 +4,11 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Guid extends PrimitiveType
+class Guid extends Primitive
 {
-    protected $identifier = 'Edm.Guid';
+    const identifier = 'Edm.Guid';
 
     /** @var ?string $value */
     protected $value;
@@ -29,8 +29,6 @@ class Guid extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         $this->value = $this->maybeNull(Lexer::patternCheck(
             Lexer::GUID,
             $value

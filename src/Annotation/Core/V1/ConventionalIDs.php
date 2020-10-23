@@ -11,7 +11,6 @@ class ConventionalIDs extends Annotation
 
     public function __construct()
     {
-        $this->type = new Boolean(true);
-        $this->type->seal();
+        $this->value = new Boolean(true);
     }
 }

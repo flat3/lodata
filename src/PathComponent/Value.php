@@ -9,15 +9,15 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Transaction\MediaType;
 
 class Value implements PipeInterface, EmitInterface
 {
-    /** @var PrimitiveType $primitive */
+    /** @var Primitive $primitive */
     protected $primitive;
 
-    public function __construct(PrimitiveType $primitive)
+    public function __construct(Primitive $primitive)
     {
         $this->primitive = $primitive;
     }
@@ -32,7 +32,7 @@ class Value implements PipeInterface, EmitInterface
             throw new PathNotHandledException();
         }
 
-        if (!$argument instanceof PrimitiveType) {
+        if (!$argument instanceof Primitive) {
             throw new BadRequestException('bad_value_argument',
                 '$value must be passed a primitive value');
         }

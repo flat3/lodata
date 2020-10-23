@@ -20,9 +20,9 @@ class NavigationProperty extends Property
     /** @var bool $expandable */
     protected $expandable = true;
 
-    public function __construct($name, EntityType $type)
+    public function __construct($name, EntityType $entityType)
     {
-        if (!$type->getKey()) {
+        if (!$entityType->getKey()) {
             throw new InternalServerErrorException(
                 'missing_entity_type_key',
                 'The specified entity type must have a key defined'
@@ -33,7 +33,7 @@ class NavigationProperty extends Property
             $name = $name->getName();
         }
 
-        parent::__construct($name, $type);
+        parent::__construct($name, $entityType);
 
         $this->constraints = new ObjectArray();
     }

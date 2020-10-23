@@ -3,16 +3,14 @@
 namespace Flat3\Lodata\Type;
 
 use ArrayAccess;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Collection extends PrimitiveType implements ArrayAccess
+class Collection extends Primitive implements ArrayAccess
 {
     protected $value = [];
 
     public function set($value): self
     {
-        parent::set($value);
-
         $this->value[] = $value;
 
         return $this;
@@ -20,14 +18,14 @@ class Collection extends PrimitiveType implements ArrayAccess
 
     public function toUrl(): string
     {
-        return implode(',', array_map(function (PrimitiveType $value) {
+        return implode(',', array_map(function (Primitive $value) {
             return $value->get();
         }, $this->value));
     }
 
     public function toJson()
     {
-        return array_map(function (PrimitiveType $value) {
+        return array_map(function (Primitive $value) {
             return $value->toJson();
         }, $this->value);
     }

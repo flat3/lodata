@@ -4,11 +4,11 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Duration extends PrimitiveType
+class Duration extends Primitive
 {
-    protected $identifier = 'Edm.Duration';
+    const identifier = 'Edm.Duration';
 
     /** @var ?double $value */
     protected $value;
@@ -46,8 +46,6 @@ class Duration extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this::durationToNumber($value)));
 
         return $this;

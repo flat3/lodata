@@ -9,6 +9,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\QueryInterface;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Tests\JsonDriver;
 use Flat3\Lodata\Tests\Request;

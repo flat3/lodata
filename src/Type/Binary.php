@@ -3,11 +3,11 @@
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class Binary extends PrimitiveType
+class Binary extends Primitive
 {
-    protected $identifier = 'Edm.Binary';
+    const identifier = 'Edm.Binary';
 
     /** @var ?string $value */
     protected $value;
@@ -28,8 +28,6 @@ class Binary extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         $result = base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
         if (false === $result) {
             $result = null;

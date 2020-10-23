@@ -3,15 +3,15 @@
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
 /**
  * Class Boolean
  * @package Flat3\OData\Type
  */
-class Boolean extends PrimitiveType
+class Boolean extends Primitive
 {
-    protected $identifier = 'Edm.Boolean';
+    const identifier = 'Edm.Boolean';
 
     /** @var ?bool $value */
     protected $value;
@@ -32,8 +32,6 @@ class Boolean extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         if (is_bool($value)) {
             $this->value = $value;
 

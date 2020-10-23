@@ -18,7 +18,7 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathComponent;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
@@ -109,7 +109,7 @@ class Transaction implements ArgumentInterface
         PathComponent\Value::class,
         PathComponent\Count::class,
         Operation::class,
-        PrimitiveType::class,
+        Primitive::class,
         Singleton::class,
         PathComponent\Filter::class,
     ];
@@ -376,7 +376,7 @@ class Transaction implements ArgumentInterface
         return true;
     }
 
-    public function shouldEmitPrimitive(?PrimitiveType $primitive = null): bool
+    public function shouldEmitPrimitive(?Primitive $primitive = null): bool
     {
         if (null === $primitive) {
             return false;
@@ -769,7 +769,7 @@ class Transaction implements ArgumentInterface
 
     public function outputJsonValue($value)
     {
-        if ($value instanceof PrimitiveType) {
+        if ($value instanceof Primitive) {
             $value = $this->ieee754compatible->isTrue() ? $value->toJsonIeee754() : $value->toJson();
         }
 

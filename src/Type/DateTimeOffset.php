@@ -5,11 +5,11 @@ namespace Flat3\Lodata\Type;
 use DateTime;
 use Exception;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class DateTimeOffset extends PrimitiveType
+class DateTimeOffset extends Primitive
 {
-    protected $identifier = 'Edm.DateTimeOffset';
+    const identifier = 'Edm.DateTimeOffset';
     public const DATE_FORMAT = 'c';
 
     /** @var ?DateTime $value */
@@ -17,8 +17,6 @@ class DateTimeOffset extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         if (is_bool($value)) {
             $value = $this->getEmpty();
         }

@@ -6,7 +6,7 @@ use DateTime;
 
 class Date extends DateTimeOffset
 {
-    protected $identifier = 'Edm.Date';
+    const identifier = 'Edm.Date';
     public const DATE_FORMAT = 'Y-m-d';
 
     protected function repack(DateTime $dt)

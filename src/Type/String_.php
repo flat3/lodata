@@ -5,11 +5,11 @@ namespace Flat3\Lodata\Type;
 use ErrorException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
-class String_ extends PrimitiveType
+class String_ extends Primitive
 {
-    protected $identifier = 'Edm.String';
+    const identifier = 'Edm.String';
 
     /** @var ?string $value */
     protected $value;
@@ -25,8 +25,6 @@ class String_ extends PrimitiveType
 
     public function set($value): self
     {
-        parent::set($value);
-
         try {
             $this->value = $this->maybeNull(null === $value ? null : (string) $value);
         } catch (ErrorException $e) {

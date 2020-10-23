@@ -50,7 +50,7 @@ use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
 use Flat3\Lodata\Interfaces\ReadInterface;
 use Flat3\Lodata\Interfaces\UpdateInterface;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
 use Illuminate\Support\Facades\DB;
 use PDO;
@@ -185,7 +185,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->sourceMap[$property] ?? $property->getName();
     }
 
-    public function read(PrimitiveType $key): ?Entity
+    public function read(Primitive $key): ?Entity
     {
         $this->resetParameters();
         $columns = $this->getColumnsToQuery();
@@ -662,7 +662,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->read($key);
     }
 
-    public function update(PrimitiveType $key): Entity
+    public function update(Primitive $key): Entity
     {
         $this->resetParameters();
         $entity = $this->newEntity();
@@ -695,7 +695,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->read($key);
     }
 
-    public function delete(PrimitiveType $key)
+    public function delete(Primitive $key)
     {
         $this->resetParameters();
         $type = $this->getType();

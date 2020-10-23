@@ -12,16 +12,13 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
-use Flat3\Lodata\Interfaces\EntityTypeInterface;
+use Flat3\Lodata\Interfaces\IEntityTypeDefinition;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
-use Flat3\Lodata\Traits\HasEntityType;
 use Flat3\Lodata\Transaction\Expand;
 
-class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
+class Entity implements ResourceInterface, IEntityTypeDefinition, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
-    use HasEntityType;
-
     /** @var ObjectArray $primitives */
     private $primitives;
 
@@ -30,6 +27,9 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     /** @var Transaction $transaction */
     private $transaction;
+
+    /** @var EntityType $type */
+    private $type;
 
     protected $metadata = [];
 
@@ -64,7 +64,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             $this->primitives->rewind();
 
             while ($this->primitives->valid()) {
-                /** @var PrimitiveType $primitive */
+                /** @var Primitive $primitive */
                 $primitive = $this->primitives->current();
 
                 if ($transaction->shouldEmitPrimitive($primitive)) {
@@ -98,7 +98,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
                     $result = call_user_func_array([$property, 'invoke'], [$this, $transaction]);
 
-                    if (!$result instanceof $propertyType || $result === null && $propertyType instanceof PrimitiveType && !$propertyType->isNullable()) {
+                    if (!is_a($result, $propertyType->getFactory(), true) || $result === null && $propertyType instanceof PrimitiveType && !$propertyType->isNullable()) {
                         throw new InternalServerErrorException('invalid_dynamic_property_type',
                             sprintf('The dynamic property %s did not return a value of its defined type',
                                 $property->getName()));
@@ -155,7 +155,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             $expansionTransaction = clone $transaction;
             $expansionTransaction->setRequest($expansionRequest);
 
-            /** @var PrimitiveType $keyPrimitive */
+            /** @var Primitive $keyPrimitive */
             $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());
             if ($keyPrimitive->get() === null) {
                 $expansionRequests->next();
@@ -193,7 +193,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $transaction->outputJsonObjectEnd();
     }
 
-    public function getEntityId(): ?PrimitiveType
+    public function getEntityId(): ?Primitive
     {
         $key = $this->getType()->getKey();
         return $this->primitives[$key];
@@ -202,11 +202,10 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function setEntityId($id): self
     {
         $key = $this->getType()->getKey();
-        /** @var PrimitiveType $type */
-        $type = clone $key->getType();
-        $type->set($id);
-        $type->setProperty($key);
-        $this->primitives[$key] = $type;
+        $type = $key->getType();
+        $value = $type->instance($id);
+        $value->setProperty($key);
+        $this->primitives[$key] = $value;
         return $this;
     }
 
@@ -236,7 +235,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         }
 
         $type = $property->getType();
-        $primitive = new $type($value);
+        $primitive = $type->instance($value);
         $primitive->setProperty($property);
         $primitive->setEntity($this);
 
@@ -250,7 +249,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $this->primitives;
     }
 
-    public function getPrimitive(Property $property): ?PrimitiveType
+    public function getPrimitive(Property $property): ?Primitive
     {
         return $this->primitives[$property];
     }
@@ -350,5 +349,16 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         }
 
         return $instance->hash();
+    }
+
+    public function getType(): EntityType
+    {
+        return $this->type;
+    }
+
+    public function setType(EntityType $type): self
+    {
+        $this->type = $type;
+        return $this;
     }
 }

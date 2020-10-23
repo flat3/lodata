@@ -2,9 +2,9 @@
 
 namespace Flat3\Lodata\Interfaces;
 
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Primitive;
 
 interface DeleteInterface
 {
-    public function delete(PrimitiveType $key);
+    public function delete(Primitive $key);
 }

@@ -13,14 +13,12 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ActionInterface;
-use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\FunctionInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
-use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
@@ -28,16 +26,14 @@ use Flat3\Lodata\Operation\PrimitiveTypeArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
-use Flat3\Lodata\Traits\HasType;
 use Illuminate\Http\Request;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 
-abstract class Operation implements ServiceInterface, ResourceInterface, TypeInterface, IdentifierInterface, PipeInterface, InstanceInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface, InstanceInterface
 {
     use HasIdentifier;
-    use HasType;
     use HasTitle;
 
     /** @var string $bindingParameterName */
@@ -51,6 +47,9 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
 
     /** @var Transaction $transaction */
     protected $transaction;
+
+    /** @var Type $returnType */
+    protected $returnType;
 
     public function __construct($identifier)
     {
@@ -67,6 +66,19 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         }
 
         $this->setIdentifier($identifier);
+    }
+
+    public function getReturnType(): ?Type
+    {
+        if ($this->returnType) {
+            return $this->returnType;
+        }
+
+        if (is_a($this->getReflectedReturnType(), Primitive::class, true)) {
+            return new PrimitiveType($this->getReflectedReturnType());
+        }
+
+        return null;
     }
 
     public function getReflectedReturnType(): string
@@ -101,7 +113,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
                 return true;
 
             case is_a($tn, Entity::class, true);
-            case is_a($tn, PrimitiveType::class, true);
+            case is_a($tn, Primitive::class, true);
                 return false;
         }
 
@@ -133,17 +145,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         }
 
         throw new InternalServerErrorException('invalid_arguments', 'Invalid arguments');
-    }
-
-    public function getType(): ?TypeInterface
-    {
-        $returnType = $this->getReflectedReturnType();
-
-        if (is_a($returnType, PrimitiveType::class, true)) {
-            return $returnType::factory();
-        }
-
-        return $this->type;
     }
 
     public function setBindingParameterName(string $bindingParameterName): self
@@ -316,7 +317,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
                 switch (true) {
                     case $argumentDefinition instanceof EntityArgument && !$operation->boundParameter instanceof Entity:
                     case $argumentDefinition instanceof EntitySetArgument && !$operation->boundParameter instanceof EntitySet:
-                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$operation->boundParameter instanceof PrimitiveType:
+                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$operation->boundParameter instanceof Primitive:
                         throw new BadRequestException(
                             'invalid_bound_argument_type',
                             'The provided bound argument was not of the correct type for this function'
@@ -361,12 +362,12 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
             );
         }
 
-        $returnType = $operation->getType();
+        $returnType = $operation->getReturnType();
 
         switch (true) {
             case $result === null && $operation->isNullable():
-            case $returnType instanceof EntityType && $result instanceof EntityTypeInterface && $result->getType() instanceof $returnType:
-            case $returnType instanceof PrimitiveType && $result instanceof $returnType:
+            case $returnType instanceof EntityType && $result->getType() instanceof $returnType:
+            case $returnType instanceof PrimitiveType && $result instanceof Primitive:
                 return $result;
         }
 
@@ -417,5 +418,11 @@ abstract class Operation implements ServiceInterface, ResourceInterface, TypeInt
         $this->ensureInstance();
 
         return $this->transaction;
+    }
+
+    public function setReturnType(Type $type): self
+    {
+        $this->returnType = $type;
+        return $this;
     }
 }
