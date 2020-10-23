@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Expression;
 use Exception;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Type\Binary;

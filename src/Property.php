@@ -45,10 +45,4 @@ abstract class Property implements NameInterface, TypeInterface
     {
         return $this->type;
     }
-
-    public function setTypeDefinition(Type $definition)
-    {
-        $this->type = $definition;
-        return $this;
-    }
 }
