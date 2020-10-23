@@ -23,8 +23,8 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\CreateInterface;
 use Flat3\Lodata\Interfaces\DeleteInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\IEntityTypeDefinition;
 use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\QueryInterface;
@@ -39,7 +39,7 @@ use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Iterator;
 
-abstract class EntitySet implements IEntityTypeDefinition, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
 {
     use HasIdentifier;
     use HasTitle;

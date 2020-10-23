@@ -2,11 +2,11 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Interfaces\ITypeDefinition;
 use Flat3\Lodata\Interfaces\NameInterface;
+use Flat3\Lodata\Interfaces\TypeDefinitionInterface;
 use Flat3\Lodata\Traits\HasName;
 
-abstract class Property implements NameInterface, ITypeDefinition
+abstract class Property implements NameInterface, TypeDefinitionInterface
 {
     use HasName;
 

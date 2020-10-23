@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Interfaces;
 
 use Flat3\Lodata\EntityType;
 
-interface IEntityTypeDefinition extends ITypeDefinition
+interface EntityTypeInterface extends TypeDefinitionInterface
 {
     public function getType(): EntityType;
 

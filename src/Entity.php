@@ -12,12 +12,12 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
-use Flat3\Lodata\Interfaces\IEntityTypeDefinition;
+use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\Expand;
 
-class Entity implements ResourceInterface, IEntityTypeDefinition, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
+class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
     /** @var ObjectArray $primitives */
     private $primitives;
