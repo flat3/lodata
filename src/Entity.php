@@ -7,7 +7,6 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\ETagException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
@@ -49,80 +48,15 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     {
         /** @var DynamicProperty $dynamicProperty */
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
-            $dynamicPropertyType = $dynamicProperty->getType();
-            $propertyValue = $this->newPropertyValue();
-            $propertyValue->setProperty($dynamicProperty);
-            $value = call_user_func([$dynamicProperty, 'invoke'], $this);
-
-            if (
-                !is_a($value, $dynamicPropertyType->getFactory(), true) ||
-                $value === null && $dynamicPropertyType instanceof PrimitiveType && !$dynamicPropertyType->isNullable()
-            ) {
-                throw new InternalServerErrorException(
-                    'invalid_dynamic_property_type',
-                    sprintf(
-                        'The dynamic property %s did not return a value of its defined type %s',
-                        $dynamicProperty->getName(),
-                        $dynamicPropertyType->getIdentifier()
-                    )
-                );
-            }
-
-            $propertyValue->setValue($value);
-            $this->addProperty($propertyValue);
+            $this->addProperty($dynamicProperty->resolve($this));
         }
 
         $expand = $this->transaction->getExpand();
         $expansionRequests = $expand->getExpansionRequests($this->getType());
-
         foreach ($expansionRequests as $expansionRequest) {
-            $propertyValue = $this->newPropertyValue();
+            /** @var NavigationProperty $navigationProperty */
             $navigationProperty = $expansionRequest->getNavigationProperty();
-            $propertyValue->setProperty($navigationProperty);
-
-            $binding = $this->entitySet->getBindingByNavigationProperty($navigationProperty);
-            $targetEntitySet = $binding->getTarget();
-            $targetEntitySetType = $targetEntitySet->getType();
-
-            $targetConstraint = null;
-            /** @var ReferentialConstraint $constraint */
-            foreach ($navigationProperty->getConstraints() as $constraint) {
-                if ($targetEntitySetType->getProperty($constraint->getReferencedProperty()) && $this->entitySet->getType()->getProperty($constraint->getProperty())) {
-                    $targetConstraint = $constraint;
-                    break;
-                }
-            }
-
-            if (!$targetConstraint) {
-                throw new BadRequestException(
-                    'no_expansion_constraint',
-                    sprintf(
-                        'No applicable constraint could be found between sets %s and %s for expansion',
-                        $this->entitySet->getIdentifier(),
-                        $targetEntitySet->getIdentifier()
-                    )
-                );
-            }
-
-            $expansionTransaction = clone $this->transaction;
-            $expansionTransaction->setRequest($expansionRequest);
-
-            /** @var PropertyValue $keyPrimitive */
-            $keyPrimitive = $this->properties->get($targetConstraint->getProperty());
-            if ($keyPrimitive->getValue()->get() === null) {
-                continue;
-            }
-
-            $referencedProperty = $targetConstraint->getReferencedProperty();
-            $targetKey = new PropertyValue();
-            $targetKey->setProperty($referencedProperty);
-            $targetKey->setValue($keyPrimitive->getValue());
-
-            $expansionSet = $targetEntitySet->asInstance($expansionTransaction);
-            $expansionSet->setKey($targetKey);
-            $propertyValue->setValue($expansionSet);
-
-            $this->addProperty($propertyValue);
+            $this->addProperty($navigationProperty->resolve($this, $expansionRequest));
         }
 
         $transaction = $this->transaction;
@@ -334,5 +268,10 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     {
         $this->type = $type;
         return $this;
+    }
+
+    public function getTransaction(): Transaction
+    {
+        return $this->transaction;
     }
 }
