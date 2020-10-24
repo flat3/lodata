@@ -21,7 +21,7 @@ class Expand extends Option
     public const param = 'expand';
     public const query_interface = ExpandInterface::class;
 
-    public function getExpansionRequests(EntityType $entityType): ObjectArray
+    public function getNavigationRequests(EntityType $entityType): ObjectArray
     {
         $expanded = $this->getValue();
 

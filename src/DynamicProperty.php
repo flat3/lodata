@@ -9,7 +9,7 @@ abstract class DynamicProperty extends Property
 {
     abstract public function invoke(Entity $entity);
 
-    public function resolve(Entity $entity): PropertyValue
+    public function generatePropertyValue(Entity $entity): PropertyValue
     {
         $type = $this->getType();
         $propertyValue = $entity->newPropertyValue();

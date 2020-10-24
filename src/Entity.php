@@ -47,20 +47,28 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public function emit(): void
     {
+        $transaction = $this->transaction;
+        $navigationRequests = $this->transaction->getExpand()->getNavigationRequests($this->getType());
+
         /** @var DynamicProperty $dynamicProperty */
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
-            $this->addProperty($dynamicProperty->resolve($this));
+            $this->addProperty($dynamicProperty->generatePropertyValue($this));
         }
 
-        $expand = $this->transaction->getExpand();
-        $expansionRequests = $expand->getExpansionRequests($this->getType());
-        foreach ($expansionRequests as $expansionRequest) {
-            /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $expansionRequest->getNavigationProperty();
-            $this->addProperty($navigationProperty->resolve($this, $expansionRequest));
+        /** @var NavigationProperty $navigationProperty */
+        foreach ($this->getType()->getNavigationProperties() as $navigationProperty) {
+            if (!$navigationRequests->exists($navigationProperty->getName())) {
+                continue;
+            }
+
+            $this->addProperty(
+                $navigationProperty->generatePropertyValue(
+                    $this,
+                    $navigationRequests[$navigationProperty]
+                )
+            );
         }
 
-        $transaction = $this->transaction;
         $transaction->outputJsonObjectStart();
 
         if ($this->metadata) {
@@ -71,29 +79,22 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             }
         }
 
-        if ($this->properties->hasEntries()) {
-            $this->properties->rewind();
+        while ($this->properties->valid()) {
+            /** @var PropertyValue $propertyValue */
+            $propertyValue = $this->properties->current();
 
-            while ($this->properties->valid()) {
-                /** @var PropertyValue $propertyValue */
-                $propertyValue = $this->properties->current();
+            if (!$propertyValue->shouldEmit($transaction)) {
+                $this->properties->next();
+                continue;
+            }
 
-                if ($propertyValue->shouldEmit($transaction)) {
-                    $key = $propertyValue->getProperty()->getName();
-                    $value = $propertyValue->getValue();
+            $transaction->outputJsonKey($propertyValue->getProperty()->getName());
+            $propertyValue->getValue()->setTransaction($transaction)->emit();
 
-                    $transaction->outputJsonKey($key);
-                    $value->setTransaction($transaction);
-                    $value->emit();
+            $this->properties->next();
 
-                    $this->properties->next();
-
-                    if ($this->properties->valid() && $this->properties->current()->shouldEmit($transaction)) {
-                        $transaction->outputJsonSeparator();
-                    }
-                } else {
-                    $this->properties->next();
-                }
+            if ($this->properties->valid() && $this->properties->current()->shouldEmit($transaction)) {
+                $transaction->outputJsonSeparator();
             }
         }
 

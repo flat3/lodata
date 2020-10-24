@@ -88,7 +88,7 @@ class NavigationProperty extends Property
         return $this->constraints;
     }
 
-    public function resolve(Entity $entity, NavigationRequest $navigationRequest): PropertyValue
+    public function generatePropertyValue(Entity $entity, NavigationRequest $navigationRequest): PropertyValue
     {
         $propertyValue = $entity->newPropertyValue();
         $propertyValue->setProperty($this);

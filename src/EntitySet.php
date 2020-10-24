@@ -251,7 +251,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         // Validate $expand
         $expand = $transaction->getExpand();
-        $expand->getExpansionRequests($this->getType());
+        $expand->getNavigationRequests($this->getType());
 
         // Validate $select
         $select = $transaction->getSelect();

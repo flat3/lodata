@@ -2,6 +2,8 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Helper\PropertyValue;
+
 class DeclaredProperty extends Property
 {
     /** @var bool $searchable Whether this property is included as part of $search requests */
@@ -68,5 +70,4 @@ class DeclaredProperty extends Property
 
         return $this;
     }
-
 }
