@@ -6,7 +6,7 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Transaction\Expand;
+use Flat3\Lodata\Transaction\ExpansionRequest;
 
 class NavigationProperty extends Property
 {
@@ -87,7 +87,7 @@ class NavigationProperty extends Property
         return $this->constraints;
     }
 
-    public function resolve(Entity $entity, Expand $expansionRequest): PropertyValue
+    public function resolve(Entity $entity, ExpansionRequest $expansionRequest): PropertyValue
     {
         $propertyValue = $entity->newPropertyValue();
         $propertyValue->setProperty($this);

@@ -60,7 +60,7 @@ class Expand extends Option
 
             $options = $lexer->maybeMatchingParenthesis();
 
-            $requests[] = new \Flat3\Lodata\Transaction\Expand($navigationProperty, $options);
+            $requests[] = new \Flat3\Lodata\Transaction\ExpansionRequest($navigationProperty, $options);
 
             if (!$lexer->finished()) {
                 $lexer->char(',');
