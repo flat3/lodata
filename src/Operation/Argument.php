@@ -45,7 +45,7 @@ abstract class Argument implements NameInterface
                 return new EntityArgument($parameter);
 
             case is_a($type, Primitive::class, true):
-                return new PrimitiveTypeArgument($parameter);
+                return new PrimitiveArgument($parameter);
         }
 
         throw new InternalServerErrorException(

@@ -19,7 +19,7 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
-use Flat3\Lodata\Operation\PrimitiveTypeArgument;
+use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type\Boolean;
@@ -187,7 +187,7 @@ class Metadata implements PipeInterface, EmitInterface
 
                         return 0;
                     })->filter(function ($argument) use ($resource) {
-                        if ($argument instanceof PrimitiveTypeArgument) {
+                        if ($argument instanceof PrimitiveArgument) {
                             return true;
                         }
 

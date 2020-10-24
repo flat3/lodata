@@ -22,7 +22,7 @@ use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
-use Flat3\Lodata\Operation\PrimitiveTypeArgument;
+use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
@@ -317,7 +317,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
                 switch (true) {
                     case $argumentDefinition instanceof EntityArgument && !$operation->boundParameter instanceof Entity:
                     case $argumentDefinition instanceof EntitySetArgument && !$operation->boundParameter instanceof EntitySet:
-                    case $argumentDefinition instanceof PrimitiveTypeArgument && !$operation->boundParameter instanceof Primitive:
+                    case $argumentDefinition instanceof PrimitiveArgument && !$operation->boundParameter instanceof Primitive:
                         throw new BadRequestException(
                             'invalid_bound_argument_type',
                             'The provided bound argument was not of the correct type for this function'
@@ -338,7 +338,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
                     $arguments[] = $argumentDefinition->generate();
                     break;
 
-                case $argumentDefinition instanceof PrimitiveTypeArgument:
+                case $argumentDefinition instanceof PrimitiveArgument:
                     $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null);
                     break;
             }

@@ -8,7 +8,7 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\PrimitiveType;
 
-class PrimitiveTypeArgument extends Argument
+class PrimitiveArgument extends Argument
 {
     public function generate($source = null): ArgumentInterface
     {
