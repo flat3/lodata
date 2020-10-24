@@ -1,19 +1,21 @@
 <?php
 
-namespace Flat3\Lodata;
+namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
-use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
 
 class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 {

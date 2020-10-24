@@ -5,7 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;

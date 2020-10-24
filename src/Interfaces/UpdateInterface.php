@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Interfaces;
 
 use Flat3\Lodata\Entity;
-use Flat3\Lodata\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValue;
 
 interface UpdateInterface
 {

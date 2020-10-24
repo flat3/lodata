@@ -3,6 +3,7 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\PropertyValue;
 
 abstract class DynamicProperty extends Property
 {
