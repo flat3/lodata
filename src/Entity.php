@@ -47,17 +47,24 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public function emit(): void
     {
+        /** @var DynamicProperty $dynamicProperty */
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
+            $dynamicPropertyType = $dynamicProperty->getType();
             $propertyValue = $this->newPropertyValue();
             $propertyValue->setProperty($dynamicProperty);
             $value = call_user_func([$dynamicProperty, 'invoke'], $this);
 
-            if (!is_a($value, $dynamicProperty->getType()->getFactory(),
-                    true) || $value === null && $value->getType() instanceof PrimitiveType && !$dynamicProperty->getType()->isNullable()) {
+            if (
+                !is_a($value, $dynamicPropertyType->getFactory(), true) ||
+                $value === null && $dynamicPropertyType instanceof PrimitiveType && !$dynamicPropertyType->isNullable()
+            ) {
                 throw new InternalServerErrorException(
                     'invalid_dynamic_property_type',
-                    sprintf('The dynamic property %s did not return a value of its defined type',
-                        $dynamicProperty->getName())
+                    sprintf(
+                        'The dynamic property %s did not return a value of its defined type %s',
+                        $dynamicProperty->getName(),
+                        $dynamicPropertyType->getIdentifier()
+                    )
                 );
             }
 
