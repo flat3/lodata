@@ -54,8 +54,9 @@ class ErrorReportingTest extends TestCase
                 Lodata::add(new EntityType('text'))
                     ->addProperty(new DeclaredProperty('a', Type::string()))
             ) extends EntitySet implements QueryInterface {
-                public function emit(Transaction $transaction): void
+                public function emit(): void
                 {
+                    $transaction = $this->transaction;
                     $transaction->outputJsonObjectStart();
                     $transaction->outputJsonKV(['key' => 'value']);
                     throw new NotImplementedException('not_implemented', 'Error during stream');

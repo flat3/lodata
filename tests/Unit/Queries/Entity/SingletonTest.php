@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\PropertyValue;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -21,7 +22,10 @@ class SingletonTest extends TestCase
         Lodata::add($type);
 
         $entity = new Singleton('atest', $type);
-        $entity->setPrimitive('b', 'c');
+        $pv = new PropertyValue();
+        $pv->setProperty($type->getProperty('b'));
+        $pv->setValue(new Type\String_('c'));
+        $entity->addProperty($pv);
         Lodata::add($entity);
     }
 

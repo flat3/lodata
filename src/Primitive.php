@@ -28,6 +28,9 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
 
+    /** @var Transaction $transaction */
+    protected $transaction;
+
     public function __construct($value = null, bool $nullable = true)
     {
         $this->nullable = $nullable;
@@ -147,13 +150,21 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return Transaction::getContextUrl().'#'.$this->getIdentifier();
     }
 
-    public function emit(Transaction $transaction): void
+    public function setTransaction(Transaction $transaction)
     {
-        $transaction->outputRaw($this);
+        $this->transaction = $transaction;
+        return $this;
     }
 
-    public function response(Transaction $transaction): Response
+    public function emit(): void
     {
+        $this->transaction->outputJsonValue($this);
+    }
+
+    public function response(): Response
+    {
+        $transaction = $this->transaction;
+
         if (null === $this->get()) {
             throw new NoContentException('null_value');
         }

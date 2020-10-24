@@ -7,7 +7,9 @@ use Flat3\Lodata\Controller\Transaction;
 
 interface EmitInterface
 {
-    public function emit(Transaction $transaction): void;
+    public function emit(): void;
 
-    public function response(Transaction $transaction): Response;
+    public function setTransaction(Transaction $transaction);
+
+    public function response(): Response;
 }

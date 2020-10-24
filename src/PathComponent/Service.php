@@ -11,18 +11,24 @@ use Illuminate\Http\Request;
 
 class Service implements EmitInterface
 {
-    public function response(Transaction $transaction): Response
+    /** @var Transaction $transaction */
+    protected $transaction;
+
+    public function response(): Response
     {
+        $transaction = $this->transaction;
         $transaction->ensureMethod(Request::METHOD_GET);
         $transaction->configureJsonResponse();
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+        return $transaction->getResponse()->setCallback(function () {
+            $this->emit();
         });
     }
 
-    public function emit(Transaction $transaction): void
+    public function emit(): void
     {
+        $transaction = $this->transaction;
+
         $transaction->outputJsonObjectStart();
 
         $metadata = [
@@ -72,5 +78,11 @@ class Service implements EmitInterface
 
         $transaction->outputJsonArrayEnd();
         $transaction->outputJsonObjectEnd();
+    }
+
+    public function setTransaction(Transaction $transaction):self
+    {
+        $this->transaction = $transaction;
+        return $this;
     }
 }

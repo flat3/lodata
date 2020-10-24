@@ -6,6 +6,7 @@ use ArrayAccess;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\ETagException;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
@@ -15,12 +16,11 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
-use Flat3\Lodata\Transaction\Expand;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
-    /** @var ObjectArray $propertyValues */
-    private $propertyValues;
+    /** @var ObjectArray $properties */
+    private $properties;
 
     /** @var EntitySet $entitySet */
     private $entitySet;
@@ -35,7 +35,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public function __construct()
     {
-        $this->propertyValues = new ObjectArray();
+        $this->properties = new ObjectArray();
     }
 
     public function setEntitySet(EntitySet $entitySet): self
@@ -45,89 +45,33 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $this;
     }
 
-    public function emit(Transaction $transaction): void
+    public function resolveDynamicProperties()
     {
-        $transaction->outputJsonObjectStart();
-        $dynamicProperties = $this->getType()->getDynamicProperties();
-        $expand = $transaction->getExpand();
+        foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
+            $propertyValue = $this->newPropertyValue();
+            $propertyValue->setProperty($dynamicProperty);
+            $value = call_user_func([$dynamicProperty, 'invoke'], $this);
+
+            if (!is_a($value, $dynamicProperty->getType()->getFactory(),
+                    true) || $value === null && $value->getType() instanceof PrimitiveType && !$dynamicProperty->getType()->isNullable()) {
+                throw new InternalServerErrorException(
+                    'invalid_dynamic_property_type',
+                    sprintf('The dynamic property %s did not return a value of its defined type',
+                        $dynamicProperty->getName())
+                );
+            }
+
+            $propertyValue->setValue($value);
+            $this->addProperty($propertyValue);
+        }
+
+        $expand = $this->transaction->getExpand();
         $expansionRequests = $expand->getExpansionRequests($this->getType());
 
-        if ($this->metadata) {
-            $transaction->outputJsonKV($this->metadata);
-
-            if ($this->propertyValues->hasEntries()) {
-                $transaction->outputJsonSeparator();
-            }
-        }
-
-        if ($this->propertyValues->hasEntries()) {
-            $this->propertyValues->rewind();
-
-            while ($this->propertyValues->valid()) {
-                /** @var PropertyValue $propertyValue */
-                $propertyValue = $this->propertyValues->current();
-
-                if ($propertyValue->shouldEmit($transaction)) {
-                    $transaction->outputJsonKey($propertyValue->getProperty()->getName());
-                    $transaction->outputJsonValue($propertyValue);
-
-                    $this->propertyValues->next();
-
-                    if ($this->propertyValues->valid() && $this->propertyValues->current()->shouldEmit($transaction)) {
-                        $transaction->outputJsonSeparator();
-                    }
-                } else {
-                    $this->propertyValues->next();
-                }
-            }
-
-            if ($dynamicProperties->hasEntries() || $expansionRequests->hasEntries()) {
-                $transaction->outputJsonSeparator();
-            }
-        }
-
-        if ($dynamicProperties->hasEntries()) {
-            $dynamicProperties->rewind();
-
-            while ($dynamicProperties->valid()) {
-                /** @var DynamicProperty $property */
-                $property = $dynamicProperties->current();
-
-                if ($propertyValue->shouldEmit($transaction)) {
-                    $transaction->outputJsonKey($property->getName());
-
-                    $result = call_user_func_array([$property, 'invoke'], [$this, $transaction]);
-
-                    if (!is_a($result, $property->getType()->getFactory(),
-                            true) || $result === null && $property->getType() instanceof PrimitiveType && !$property->getType()->isNullable()) {
-                        throw new InternalServerErrorException('invalid_dynamic_property_type',
-                            sprintf('The dynamic property %s did not return a value of its defined type',
-                                $property->getName()));
-                    }
-
-                    $transaction->outputJsonValue($result);
-
-                    $dynamicProperties->next();
-
-                    if ($dynamicProperties->valid() && $dynamicProperties->current()->shouldEmit($transaction)) {
-                        $transaction->outputJsonSeparator();
-                    }
-                } else {
-                    $dynamicProperties->next();
-                }
-            }
-
-            if ($expansionRequests->hasEntries()) {
-                $transaction->outputJsonSeparator();
-            }
-        }
-
-        /** @var Expand $expansionRequest */
-        $expansionRequests->rewind();
-        while ($expansionRequests->valid()) {
-            $expansionRequest = $expansionRequests->current();
-
+        foreach ($expansionRequests as $expansionRequest) {
+            $propertyValue = $this->newPropertyValue();
             $navigationProperty = $expansionRequest->getNavigationProperty();
+            $propertyValue->setProperty($navigationProperty);
 
             $binding = $this->entitySet->getBindingByNavigationProperty($navigationProperty);
             $targetEntitySet = $binding->getTarget();
@@ -153,13 +97,12 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                 );
             }
 
-            $expansionTransaction = clone $transaction;
+            $expansionTransaction = clone $this->transaction;
             $expansionTransaction->setRequest($expansionRequest);
 
             /** @var PropertyValue $keyPrimitive */
-            $keyPrimitive = $this->propertyValues->get($targetConstraint->getProperty());
+            $keyPrimitive = $this->properties->get($targetConstraint->getProperty());
             if ($keyPrimitive->getValue()->get() === null) {
-                $expansionRequests->next();
                 continue;
             }
 
@@ -168,27 +111,52 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             $targetKey->setProperty($referencedProperty);
             $targetKey->setValue($keyPrimitive->getValue());
 
-            if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
-                $expansionSet = $targetEntitySet->asInstance($transaction);
-                $entity = $expansionSet->read($targetKey);
-                $transaction->outputJsonKey($navigationProperty);
+            $expansionSet = $targetEntitySet->asInstance($expansionTransaction);
+            $expansionSet->setKey($targetKey);
+            $propertyValue->setValue($expansionSet);
 
-                if ($entity) {
-                    $transaction->outputJsonObjectStart();
-                    $entity->emit($expansionTransaction);
-                    $transaction->outputJsonObjectEnd();
-                } else {
-                    $transaction->outputJsonValue(null);
-                }
-            } else {
-                $transaction->outputJsonKey($navigationProperty);
-                $entitySet = $targetEntitySet->asInstance($expansionTransaction)->setKey($targetKey);
-                $entitySet->emit($expansionTransaction);
-            }
+            $this->addProperty($propertyValue);
+        }
+    }
 
-            $expansionRequests->next();
-            if ($expansionRequests->valid()) {
+    public function emit(): void
+    {
+        $this->resolveDynamicProperties();
+
+        $transaction = $this->transaction;
+        $transaction->outputJsonObjectStart();
+
+        if ($this->metadata) {
+            $transaction->outputJsonKV($this->metadata);
+
+            if ($this->properties->hasEntries()) {
                 $transaction->outputJsonSeparator();
+            }
+        }
+
+        if ($this->properties->hasEntries()) {
+            $this->properties->rewind();
+
+            while ($this->properties->valid()) {
+                /** @var PropertyValue $propertyValue */
+                $propertyValue = $this->properties->current();
+
+                if ($propertyValue->shouldEmit($transaction)) {
+                    $key = $propertyValue->getProperty()->getName();
+                    $value = $propertyValue->getValue();
+
+                    $transaction->outputJsonKey($key);
+                    $value->setTransaction($transaction);
+                    $value->emit();
+
+                    $this->properties->next();
+
+                    if ($this->properties->valid() && $this->properties->current()->shouldEmit($transaction)) {
+                        $transaction->outputJsonSeparator();
+                    }
+                } else {
+                    $this->properties->next();
+                }
             }
         }
 
@@ -198,7 +166,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function getEntityId(): ?PropertyValue
     {
         $key = $this->getType()->getKey();
-        return $this->propertyValues[$key];
+        return $this->properties[$key];
     }
 
     public function setEntityId($id): self
@@ -206,10 +174,10 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $key = $this->getType()->getKey();
         $type = $key->getType();
 
-        $propertyValue = new PropertyValue();
+        $propertyValue = $this->newPropertyValue();
         $propertyValue->setProperty($key);
         $propertyValue->setValue($type->instance($id));
-        $this->propertyValues[] = $propertyValue;
+        $this->properties[] = $propertyValue;
 
         return $this;
     }
@@ -219,64 +187,52 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $this->entitySet;
     }
 
-    public function setPrimitive($property, $value): self
+    public function addProperty($property): self
     {
-        if (is_string($property)) {
-            $property = $this->getType()->getProperty($property);
-        }
-
-        if (!$property instanceof Property) {
-            throw new InternalServerErrorException(
-                'undefined_property',
-                'The service attempted to access an undefined property'
-            );
-        }
-
-        if (null === $value && !$property->isNullable()) {
-            throw new InternalServerErrorException(
-                'cannot_add_null_property',
-                'The entity set provided a null value that cannot be added for this property type: '.$property->getName()
-            );
-        }
-
-        $propertyValue = new PropertyValue();
-        $propertyValue->setProperty($property);
-        $propertyValue->setEntity($this);
-        $propertyValue->setValue($property->getType()->instance($value));
-
-        $this->propertyValues[] = $propertyValue;
+        $this->properties[] = $property;
 
         return $this;
     }
 
-    public function getPropertyValues(): ObjectArray
+    public function newPropertyValue(): PropertyValue
     {
-        return $this->propertyValues;
+        $pv = new PropertyValue();
+        $pv->setEntity($this);
+        return $pv;
+    }
+
+    public function getProperties(): ObjectArray
+    {
+        return $this->properties;
     }
 
     public function getValue(Property $property): ?Primitive
     {
-        return $this->propertyValues[$property]->getValue();
+        return $this->properties[$property]->getValue();
     }
 
     public function offsetExists($offset)
     {
-        return $this->propertyValues->exists($offset);
+        return $this->properties->exists($offset);
     }
 
     public function offsetGet($offset)
     {
-        return $this->propertyValues->get($offset);
+        return $this->properties->get($offset);
     }
 
     public function offsetSet($offset, $value)
     {
-        $this->setPrimitive($offset, $value);
+        $property = $this->getType()->getProperty($offset);
+        $propertyValue = $this->newPropertyValue();
+        $propertyValue->setProperty($property);
+        $propertyValue->setValue($property->getType()->instance($value));
+        $this->addProperty($propertyValue);
     }
 
     public function offsetUnset($offset)
     {
-        $this->propertyValues->drop($offset);
+        $this->properties->drop($offset);
     }
 
     public static function pipe(
@@ -285,6 +241,10 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
+        if (!$argument instanceof Entity) {
+            throw new PathNotHandledException();
+        }
+
         return $argument;
     }
 
@@ -316,12 +276,19 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             );
         }
 
-        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->toUrl());
+        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->getValue()->toUrl());
     }
 
-    public function response(Transaction $transaction): Response
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
+        return $this;
+    }
+
+    public function response(): Response
+    {
+        $transaction = $this->transaction;
+
         $transaction->configureJsonResponse();
 
         $metadata = [
@@ -330,8 +297,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         $this->metadata = $transaction->getMetadata()->filter($metadata);
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
-            $this->emit($transaction);
+        return $transaction->getResponse()->setCallback(function () {
+            $this->emit();
         });
     }
 
@@ -347,7 +314,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function getETag(): string
     {
         $definition = $this->entitySet->getType()->getDeclaredProperties();
-        $instance = $this->propertyValues->sliceByClass(DeclaredProperty::class);
+        $instance = $this->properties->sliceByClass(DeclaredProperty::class);
 
         if (array_diff($definition->keys(), $instance->keys())) {
             throw new ETagException();

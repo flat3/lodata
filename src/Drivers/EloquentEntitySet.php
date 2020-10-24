@@ -191,7 +191,9 @@ class EloquentEntitySet extends SQLEntitySet
         $key->setProperty($this->getType()->getKey());
         $key->setValue($key->getProperty()->getType()->instance($id));
 
-        return $this->read($key);
+        $entity = $this->read($key);
+        $key->setEntity($entity);
+        return $entity;
     }
 
     public function read(PropertyValue $key): ?Entity
@@ -206,7 +208,10 @@ class EloquentEntitySet extends SQLEntitySet
 
         /** @var Property $property */
         foreach ($this->getType()->getDeclaredProperties() as $property) {
-            $entity->setPrimitive($property, $model->{$property->getName()});
+            $propertyValue = $entity->newPropertyValue();
+            $propertyValue->setProperty($property);
+            $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
+            $entity->addProperty($propertyValue);
         }
 
         $entity->setEntityId($model->getKey());

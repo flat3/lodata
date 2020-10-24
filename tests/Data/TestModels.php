@@ -167,9 +167,10 @@ trait TestModels
             ) extends EntitySet implements QueryInterface {
                 public function query(): array
                 {
+                    $entity = $this->newEntity();
+                    $entity['a'] = 'a';
                     return [
-                        $this->newEntity()
-                            ->setPrimitive('a', 'a')
+                        $entity,
                     ];
                 }
             });

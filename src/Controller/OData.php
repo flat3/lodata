@@ -16,7 +16,7 @@ class OData extends Controller
             $job->dispatch();
         }
 
-        return $transaction->execute()->response($transaction);
+        return $transaction->execute()->setTransaction($transaction)->response();
     }
 
     public function callAction($method, $parameters)

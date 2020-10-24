@@ -23,6 +23,8 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
     protected $value;
 
+    protected $transaction;
+
     public function setProperty(Property $property): self
     {
         $this->property = $property;
@@ -80,7 +82,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         $selected = $select->getCommaSeparatedValues();
 
         if ($selected) {
-            if (!in_array((string) $this->property, $selected)) {
+            if (!in_array($this->property->getName(), $selected)) {
                 return false;
             }
         }
@@ -127,16 +129,18 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
                 sprintf('The requested property (%s) was not known', $property));
         }
 
-        return $argument->getPropertyValues()->get($property);
+        return $argument->getProperties()->get($property);
     }
 
-    public function emit(Transaction $transaction): void
+    public function emit(): void
     {
-        $transaction->outputRaw($this);
+        $this->transaction->outputRaw($this);
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(): Response
     {
+        $transaction = $this->transaction;
+
         if (null === $this->value->get()) {
             throw new NoContentException('null_value');
         }
@@ -162,5 +166,11 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
             $transaction->outputJsonObjectEnd();
         });
+    }
+
+    public function setTransaction(Transaction $transaction):self
+    {
+        $this->transaction = $transaction;
+        return $this;
     }
 }

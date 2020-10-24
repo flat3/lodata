@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\MySQLExpression;
 use Flat3\Lodata\Drivers\SQL\PostgreSQLExpression;
 use Flat3\Lodata\Drivers\SQL\SQLiteExpression;
@@ -508,8 +509,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $entity = $this->newEntity();
 
-        $key = $this->getType()->getKey()->getName();
-        $entity->setPrimitive($key, $row[$key]);
+        $key = $this->getType()->getKey();
+        $propertyValue = $entity->newPropertyValue();
+        $propertyValue->setProperty($key);
+        $propertyValue->setValue($key->getType()->instance($row[$key->getName()]));
+        $entity->addProperty($propertyValue);
 
         foreach ($row as $id => $value) {
             $entity[$id] = $value;
@@ -565,7 +569,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $select = $this->transaction->getSelect();
 
-        $properties = $select->getSelectedProperties($this);
+        $properties = $select->getSelectedProperties($this)->sliceByClass(DeclaredProperty::class);
 
         $key = $this->getType()->getKey();
 
@@ -637,8 +641,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $entity->fromArray($this->transaction->getBody());
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
-        $propertyValues = $entity->getPropertyValues();
+        $properties = $type->getDeclaredProperties()->pick($entity->getProperties()->keys());
+        $propertyValues = $entity->getProperties();
 
         $fields = [];
 
@@ -670,8 +674,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $entity->fromArray($this->transaction->getBody());
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
-        $primitives = $entity->getPropertyValues();
+        $properties = $type->getDeclaredProperties()->pick($entity->getProperties()->keys());
+        $primitives = $entity->getProperties();
 
         $fields = [];
 

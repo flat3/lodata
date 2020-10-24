@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Controller;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
@@ -649,17 +648,19 @@ class Transaction implements ArgumentInterface
 
         $select = $this->getSelect();
         if ($select->hasValue() && !$select->isStar()) {
-            $properties = array_merge($properties, $select->getCommaSeparatedValues());
+            foreach ($select->getCommaSeparatedValues() as $value) {
+                $properties[$value] = $value;
+            }
         }
 
         $expand = $this->getExpand();
         if ($expand->hasValue()) {
-            $properties = array_merge($properties, array_map(function ($property) {
-                return $property.'()';
-            }, $expand->getCommaSeparatedValues()));
+            foreach ($expand->getCommaSeparatedValues() as $expandProperty) {
+                $properties[$expandProperty] = $expandProperty.'()';
+            }
         }
 
-        return $properties;
+        return array_values($properties);
     }
 
     public function getResourceUrlProperties(): array
@@ -783,13 +784,6 @@ class Transaction implements ArgumentInterface
 
         if (null === $result) {
             throw NoContentException::factory('no_content', 'No content');
-        }
-
-        if (!$result instanceof EmitInterface) {
-            throw new InternalServerErrorException(
-                'cannot_emit_handler',
-                'A handler returned something that could not be emitted'
-            );
         }
 
         return $result;

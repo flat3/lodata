@@ -18,6 +18,9 @@ class Value implements PipeInterface, EmitInterface
     /** @var Primitive $primitive */
     protected $primitive;
 
+    /** @var Transaction $transaction */
+    protected $transaction;
+
     public function __construct(Primitive $primitive)
     {
         $this->primitive = $primitive;
@@ -47,8 +50,9 @@ class Value implements PipeInterface, EmitInterface
         return new static($value);
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(): Response
     {
+        $transaction = $this->transaction;
         $requestedFormat = $transaction->getAcceptedContentType();
 
         if ($requestedFormat) {
@@ -61,13 +65,19 @@ class Value implements PipeInterface, EmitInterface
             throw new NoContentException('null_value');
         }
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+        return $transaction->getResponse()->setCallback(function () {
+            $this->emit();
         });
     }
 
-    public function emit(Transaction $transaction): void
+    public function emit(): void
     {
-        $transaction->outputRaw($this->primitive->get());
+        $this->transaction->outputRaw($this->primitive->get());
+    }
+
+    public function setTransaction(Transaction $transaction):self
+    {
+        $this->transaction = $transaction;
+        return $this;
     }
 }

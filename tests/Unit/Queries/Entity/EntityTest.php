@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
@@ -131,7 +130,7 @@ class EntityTest extends TestCase
             Request::factory()
                 ->path('/flights(1)')
                 ->query('$expand', 'airports')
-                ->query('$select', 'origin')
+                ->query('$select', 'origin,airports')
         );
     }
 
@@ -141,7 +140,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends DynamicProperty {
-            public function invoke(Entity $entity, Transaction $transaction)
+            public function invoke(Entity $entity)
             {
                 return new Int32(4);
             }
@@ -160,7 +159,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends DynamicProperty {
-            public function invoke(Entity $entity, Transaction $transaction)
+            public function invoke(Entity $entity)
             {
                 return new String_(4);
             }

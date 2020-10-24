@@ -205,13 +205,15 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return null;
     }
 
-    public function emit(Transaction $transaction): void
+    public function emit(): void
     {
+        $transaction = $this->transaction;
         $transaction->outputJsonArrayStart();
 
         while ($this->valid()) {
             $entity = $this->current();
-            $entity->emit($transaction);
+            $entity->setTransaction($transaction);
+            $entity->emit();
 
             $this->next();
 
@@ -225,8 +227,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $transaction->outputJsonArrayEnd();
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(): Response
     {
+        $transaction = $this->transaction;
         $transaction->configureJsonResponse();
 
         foreach (
@@ -319,7 +322,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             }
 
             $transaction->outputJsonKey('value');
-            $this->emit($transaction);
+            $this->emit();
             $transaction->outputJsonObjectEnd();
         });
     }
@@ -549,6 +552,14 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     public function getType(): EntityType
     {
         return $this->type;
+    }
+
+    public function setTransaction(Transaction $transaction): self
+    {
+        if (!$this->transaction) {
+            $this->transaction = $transaction;
+        }
+        return $this;
     }
 
     public function setType(EntityType $type): self
