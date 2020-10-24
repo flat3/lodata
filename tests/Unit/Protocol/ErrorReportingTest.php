@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;

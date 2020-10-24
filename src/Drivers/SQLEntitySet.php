@@ -51,7 +51,6 @@ use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
 use Flat3\Lodata\Interfaces\ReadInterface;
 use Flat3\Lodata\Interfaces\UpdateInterface;
-use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\PropertyValue;
 use Illuminate\Support\Facades\DB;

@@ -80,7 +80,7 @@ class Service implements EmitInterface
         $transaction->outputJsonObjectEnd();
     }
 
-    public function setTransaction(Transaction $transaction):self
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
         return $this;

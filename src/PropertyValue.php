@@ -169,7 +169,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         });
     }
 
-    public function setTransaction(Transaction $transaction):self
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
         return $this;

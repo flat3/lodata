@@ -75,7 +75,7 @@ class Value implements PipeInterface, EmitInterface
         $this->transaction->outputRaw($this->primitive->get());
     }
 
-    public function setTransaction(Transaction $transaction):self
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
         return $this;
