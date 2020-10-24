@@ -73,6 +73,6 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     public function instance($value = null)
     {
-        return new Entity();
+        return new ObjectArray();
     }
 }

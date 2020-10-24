@@ -4,15 +4,15 @@ namespace Flat3\Lodata;
 
 class EntityType extends ComplexType
 {
-    /** @var Property $key Primary key property */
+    /** @var DeclaredProperty $key Primary key property */
     protected $key;
 
     /**
      * Return the defined key
      *
-     * @return Property|null
+     * @return DeclaredProperty|null
      */
-    public function getKey(): ?Property
+    public function getKey(): ?DeclaredProperty
     {
         return $this->key;
     }
@@ -20,11 +20,11 @@ class EntityType extends ComplexType
     /**
      * Set the key property by name
      *
-     * @param  Property  $key
+     * @param  DeclaredProperty  $key
      *
      * @return $this
      */
-    public function setKey(Property $key): self
+    public function setKey(DeclaredProperty $key): self
     {
         $this->addProperty($key);
 

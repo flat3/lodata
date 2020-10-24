@@ -106,14 +106,14 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     public function returnsCollection(): bool
     {
-        $tn = $this->getReflectedReturnType();
+        $returnType = $this->getReflectedReturnType();
 
         switch (true) {
-            case is_a($tn, EntitySet::class, true);
+            case is_a($returnType, EntitySet::class, true);
                 return true;
 
-            case is_a($tn, Entity::class, true);
-            case is_a($tn, Primitive::class, true);
+            case is_a($returnType, Entity::class, true);
+            case is_a($returnType, Primitive::class, true);
                 return false;
         }
 

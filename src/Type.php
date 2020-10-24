@@ -21,6 +21,7 @@ use Flat3\Lodata\Type\Single;
 use Flat3\Lodata\Type\Stream;
 use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
+use TypeError;
 
 /**
  * Class TypeDefinition
@@ -74,6 +75,25 @@ abstract class Type
         }
 
         return new PrimitiveType($resolver[$name]);
+    }
+
+    public static function castInternalType(string $type, $value): Primitive
+    {
+        switch ($type) {
+            case 'boolean':
+                return new Boolean($value);
+
+            case 'integer':
+                return PHP_INT_SIZE === 8 ? new Int64($value) : new Int32($value);
+
+            case 'float':
+                return new Double($value);
+
+            case 'string':
+                return new String_($value);
+        }
+
+        throw new TypeError('Could not cast the provided internal type');
     }
 
     abstract public function instance($value = null);
