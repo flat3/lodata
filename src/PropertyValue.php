@@ -48,13 +48,13 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         return $this->entity;
     }
 
-    public function setValue($value): self
+    public function setValue(EmitInterface $value): self
     {
         $this->value = $value;
         return $this;
     }
 
-    public function getValue()
+    public function getValue(): EmitInterface
     {
         return $this->value;
     }
