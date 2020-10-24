@@ -249,14 +249,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             }
         }
 
-        // Validate $expand
-        $expand = $transaction->getExpand();
-        $expand->getNavigationRequests($this->getType());
-
-        // Validate $select
-        $select = $transaction->getSelect();
-        $select->getSelectedProperties($this);
-
         // Validate $orderby
         $orderby = $transaction->getOrderBy();
         $orderby->getSortOrders($this);
@@ -293,23 +285,21 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         $skip = $transaction->getSkip();
 
-        if ($top->hasValue()) {
-            if ($top->getValue() + ($skip->getValue() ?: 0) < $setCount) {
-                $np = $transaction->getQueryParams();
-                $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
-                $metadata['nextLink'] = Url::http_build_url(
-                    $this->getResourceUrl(),
-                    [
-                        'query' => http_build_query(
-                            $np,
-                            null,
-                            '&',
-                            PHP_QUERY_RFC3986
-                        ),
-                    ],
-                    Url::HTTP_URL_JOIN_QUERY
-                );
-            }
+        if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $setCount)) {
+            $np = $transaction->getQueryParams();
+            $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
+            $metadata['nextLink'] = Url::http_build_url(
+                $this->getResourceUrl(),
+                [
+                    'query' => http_build_query(
+                        $np,
+                        null,
+                        '&',
+                        PHP_QUERY_RFC3986
+                    ),
+                ],
+                Url::HTTP_URL_JOIN_QUERY
+            );
         }
 
         $metadata = $transaction->getMetadata()->filter($metadata);
