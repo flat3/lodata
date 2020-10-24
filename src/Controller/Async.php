@@ -72,7 +72,7 @@ class Async implements ShouldQueue
         $error = false;
 
         try {
-            $response = $this->transaction->execute()->setTransaction($this->transaction)->response();
+            $response = $this->transaction->execute()->response();
         } catch (ProtocolException $e) {
             $response = $e->toResponse();
             $error = true;

@@ -763,7 +763,7 @@ class Transaction implements ArgumentInterface
         $result = null;
 
         if (!$pathComponents) {
-            return new PathComponent\Service();
+            return (new PathComponent\Service())->setTransaction($this);
         }
 
         while ($pathComponents) {
@@ -785,6 +785,8 @@ class Transaction implements ArgumentInterface
         if (null === $result) {
             throw NoContentException::factory('no_content', 'No content');
         }
+
+        $result->setTransaction($this);
 
         return $result;
     }
