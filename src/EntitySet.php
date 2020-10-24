@@ -449,11 +449,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             throw new BadRequestException('invalid_key_property', 'The requested key property was not valid');
         }
 
-        $key = new PropertyValue();
-        $key->setProperty($keyProperty);
+        $keyValue = new PropertyValue();
+        $keyValue->setProperty($keyProperty);
 
         try {
-            $key->setValue($lexer->type($keyProperty->getType()));
+            $keyValue->setValue($lexer->type($keyProperty->getType()));
         } catch (LexerException $e) {
             throw BadRequestException::factory(
                 'invalid_identifier_value',
@@ -466,7 +466,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                 throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
             }
 
-            $entity = $entitySet->read($key);
+            $entity = $entitySet->read($keyValue);
 
             if (null === $entity) {
                 throw new NotFoundException('not_found', 'Entity not found');
@@ -482,14 +482,14 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                     throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
                 }
 
-                return $entitySet->update($key);
+                return $entitySet->update($keyValue);
 
             case Request::METHOD_DELETE:
                 if (!$entitySet instanceof DeleteInterface) {
                     throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
                 }
 
-                return $entitySet->delete($key);
+                return $entitySet->delete($keyValue);
         }
 
         throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');
