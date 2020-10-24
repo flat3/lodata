@@ -5,7 +5,7 @@ namespace Flat3\Lodata\Transaction;
 use Flat3\Lodata\NavigationProperty;
 use Illuminate\Http\Request;
 
-class ExpansionRequest extends Request
+class NavigationRequest extends Request
 {
     /** @var NavigationProperty $navigationProperty */
     protected $navigationProperty;

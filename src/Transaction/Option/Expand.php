@@ -8,6 +8,7 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\QueryOptions\ExpandInterface;
 use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option;
 
 /**
@@ -60,7 +61,7 @@ class Expand extends Option
 
             $options = $lexer->maybeMatchingParenthesis();
 
-            $requests[] = new \Flat3\Lodata\Transaction\ExpansionRequest($navigationProperty, $options);
+            $requests[] = new NavigationRequest($navigationProperty, $options);
 
             if (!$lexer->finished()) {
                 $lexer->char(',');
