@@ -155,7 +155,6 @@ class EntityTest extends TestCase
 
     public function test_bad_dynamic_property()
     {
-        /** @var EntityType $airport */
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends DynamicProperty {
