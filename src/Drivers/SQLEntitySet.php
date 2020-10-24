@@ -640,8 +640,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $entity->fromArray($this->transaction->getBody());
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getProperties()->keys());
-        $propertyValues = $entity->getProperties();
+        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
+        $propertyValues = $entity->getPropertyValues();
 
         $fields = [];
 
@@ -673,8 +673,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $entity->fromArray($this->transaction->getBody());
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getProperties()->keys());
-        $primitives = $entity->getProperties();
+        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
+        $primitives = $entity->getPropertyValues();
 
         $fields = [];
 

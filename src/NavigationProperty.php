@@ -121,7 +121,7 @@ class NavigationProperty extends Property
         $expansionTransaction->setRequest($navigationRequest);
 
         /** @var PropertyValue $keyPrimitive */
-        $keyPrimitive = $entity->getProperties()->get($targetConstraint->getProperty());
+        $keyPrimitive = $entity->getPropertyValues()->get($targetConstraint->getProperty());
         if ($keyPrimitive->getValue()->get() === null) {
             throw new InternalServerErrorException('missing_expansion_key', 'The target constraint key is missing');
         }

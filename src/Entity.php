@@ -139,12 +139,12 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $pv;
     }
 
-    public function getProperties(): ObjectArray
+    public function getPropertyValues(): ObjectArray
     {
         return $this->properties;
     }
 
-    public function getValue(Property $property): ?Primitive
+    public function getPropertyValue(Property $property): ?Primitive
     {
         return $this->properties[$property]->getValue();
     }
@@ -179,10 +179,6 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         ?string $nextComponent,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        if (!$argument instanceof Entity) {
-            throw new PathNotHandledException();
-        }
-
         return $argument;
     }
 

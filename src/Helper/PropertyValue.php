@@ -132,7 +132,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
                 sprintf('The requested property (%s) was not known', $property));
         }
 
-        return $argument->getProperties()->get($property);
+        return $argument->getPropertyValues()->get($property);
     }
 
     public function emit(): void
