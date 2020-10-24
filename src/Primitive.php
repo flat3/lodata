@@ -186,7 +186,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
             }
 
             $transaction->outputJsonKey('value');
-            $transaction->outputJsonValue($this);
+            $this->emit();
 
             $transaction->outputJsonObjectEnd();
         });
