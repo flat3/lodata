@@ -10,9 +10,9 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
-use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\PropertyValue;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Eloquent\Model;
@@ -180,21 +180,21 @@ class EloquentEntitySet extends SQLEntitySet
         return $this->getEntityById($row[$this->getType()->getKey()->getName()]);
     }
 
-    public function getModelByKey(Primitive $key): ?Model
+    public function getModelByKey(PropertyValue $key): ?Model
     {
-        return $this->model::where($key->getProperty()->getName(), $key->get())->first();
+        return $this->model::where($key->getProperty()->getName(), $key->getValue()->get())->first();
     }
 
     public function getEntityById($id): ?Entity
     {
-        $key = $this->getType()->getKey()->getType()->instance();
+        $key = new PropertyValue();
         $key->setProperty($this->getType()->getKey());
-        $key->set($id);
+        $key->setValue($key->getProperty()->getType()->instance($id));
 
         return $this->read($key);
     }
 
-    public function read(Primitive $key): ?Entity
+    public function read(PropertyValue $key): ?Entity
     {
         $model = $this->getModelByKey($key);
 
@@ -214,7 +214,7 @@ class EloquentEntitySet extends SQLEntitySet
         return $entity;
     }
 
-    public function update(Primitive $key): Entity
+    public function update(PropertyValue $key): Entity
     {
         $model = $this->getModelByKey($key);
 
@@ -251,7 +251,7 @@ class EloquentEntitySet extends SQLEntitySet
         return $this->getEntityById($id);
     }
 
-    public function delete(Primitive $key)
+    public function delete(PropertyValue $key)
     {
         $model = $this->getModelByKey($key);
 

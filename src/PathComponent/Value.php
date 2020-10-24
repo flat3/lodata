@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\PropertyValue;
 use Flat3\Lodata\Transaction\MediaType;
 
 class Value implements PipeInterface, EmitInterface
@@ -32,16 +33,18 @@ class Value implements PipeInterface, EmitInterface
             throw new PathNotHandledException();
         }
 
-        if (!$argument instanceof Primitive) {
+        if (!$argument instanceof PropertyValue) {
             throw new BadRequestException('bad_value_argument',
-                '$value must be passed a primitive value');
+                '$value must be passed a property value');
         }
 
-        if (null === $argument->get()) {
+        $value = $argument->getValue();
+
+        if (null === $value->get()) {
             throw new NoContentException('no_content', 'No content');
         }
 
-        return new static($argument);
+        return new static($value);
     }
 
     public function response(Transaction $transaction): Response

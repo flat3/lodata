@@ -19,8 +19,8 @@ use Flat3\Lodata\Transaction\Expand;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
-    /** @var ObjectArray $primitives */
-    private $primitives;
+    /** @var ObjectArray $propertyValues */
+    private $propertyValues;
 
     /** @var EntitySet $entitySet */
     private $entitySet;
@@ -35,7 +35,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public function __construct()
     {
-        $this->primitives = new ObjectArray();
+        $this->propertyValues = new ObjectArray();
     }
 
     public function setEntitySet(EntitySet $entitySet): self
@@ -55,29 +55,29 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         if ($this->metadata) {
             $transaction->outputJsonKV($this->metadata);
 
-            if ($this->primitives->hasEntries()) {
+            if ($this->propertyValues->hasEntries()) {
                 $transaction->outputJsonSeparator();
             }
         }
 
-        if ($this->primitives->hasEntries()) {
-            $this->primitives->rewind();
+        if ($this->propertyValues->hasEntries()) {
+            $this->propertyValues->rewind();
 
-            while ($this->primitives->valid()) {
-                /** @var Primitive $primitive */
-                $primitive = $this->primitives->current();
+            while ($this->propertyValues->valid()) {
+                /** @var PropertyValue $propertyValue */
+                $propertyValue = $this->propertyValues->current();
 
-                if ($transaction->shouldEmitPrimitive($primitive)) {
-                    $transaction->outputJsonKey($primitive->getProperty()->getName());
-                    $transaction->outputJsonValue($primitive);
+                if ($propertyValue->shouldEmit($transaction)) {
+                    $transaction->outputJsonKey($propertyValue->getProperty()->getName());
+                    $transaction->outputJsonValue($propertyValue);
 
-                    $this->primitives->next();
+                    $this->propertyValues->next();
 
-                    if ($this->primitives->valid() && $transaction->shouldEmitPrimitive($this->primitives->current())) {
+                    if ($this->propertyValues->valid() && $this->propertyValues->current()->shouldEmit($transaction)) {
                         $transaction->outputJsonSeparator();
                     }
                 } else {
-                    $this->primitives->next();
+                    $this->propertyValues->next();
                 }
             }
 
@@ -90,16 +90,16 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             $dynamicProperties->rewind();
 
             while ($dynamicProperties->valid()) {
-                /** @var Property $property */
+                /** @var DynamicProperty $property */
                 $property = $dynamicProperties->current();
-                $propertyType = $property->getType();
-                if ($transaction->shouldEmitProperty($property)) {
+
+                if ($propertyValue->shouldEmit($transaction)) {
                     $transaction->outputJsonKey($property->getName());
 
                     $result = call_user_func_array([$property, 'invoke'], [$this, $transaction]);
 
-                    if (!is_a($result, $propertyType->getFactory(),
-                            true) || $result === null && $propertyType instanceof PrimitiveType && !$propertyType->isNullable()) {
+                    if (!is_a($result, $property->getType()->getFactory(),
+                            true) || $result === null && $property->getType() instanceof PrimitiveType && !$property->getType()->isNullable()) {
                         throw new InternalServerErrorException('invalid_dynamic_property_type',
                             sprintf('The dynamic property %s did not return a value of its defined type',
                                 $property->getName()));
@@ -109,7 +109,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
                     $dynamicProperties->next();
 
-                    if ($dynamicProperties->valid() && $transaction->shouldEmitProperty($dynamicProperties->current())) {
+                    if ($dynamicProperties->valid() && $dynamicProperties->current()->shouldEmit($transaction)) {
                         $transaction->outputJsonSeparator();
                     }
                 } else {
@@ -156,16 +156,17 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             $expansionTransaction = clone $transaction;
             $expansionTransaction->setRequest($expansionRequest);
 
-            /** @var Primitive $keyPrimitive */
-            $keyPrimitive = $this->primitives->get($targetConstraint->getProperty());
-            if ($keyPrimitive->get() === null) {
+            /** @var PropertyValue $keyPrimitive */
+            $keyPrimitive = $this->propertyValues->get($targetConstraint->getProperty());
+            if ($keyPrimitive->getValue()->get() === null) {
                 $expansionRequests->next();
                 continue;
             }
 
             $referencedProperty = $targetConstraint->getReferencedProperty();
-            $targetKey = clone $keyPrimitive;
+            $targetKey = new PropertyValue();
             $targetKey->setProperty($referencedProperty);
+            $targetKey->setValue($keyPrimitive->getValue());
 
             if ($referencedProperty === $targetEntitySet->getType()->getKey()) {
                 $expansionSet = $targetEntitySet->asInstance($transaction);
@@ -194,19 +195,22 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $transaction->outputJsonObjectEnd();
     }
 
-    public function getEntityId(): ?Primitive
+    public function getEntityId(): ?PropertyValue
     {
         $key = $this->getType()->getKey();
-        return $this->primitives[$key];
+        return $this->propertyValues[$key];
     }
 
     public function setEntityId($id): self
     {
         $key = $this->getType()->getKey();
         $type = $key->getType();
-        $value = $type->instance($id);
-        $value->setProperty($key);
-        $this->primitives[$key] = $value;
+
+        $propertyValue = new PropertyValue();
+        $propertyValue->setProperty($key);
+        $propertyValue->setValue($type->instance($id));
+        $this->propertyValues[] = $propertyValue;
+
         return $this;
     }
 
@@ -235,34 +239,34 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             );
         }
 
-        $type = $property->getType();
-        $primitive = $type->instance($value);
-        $primitive->setProperty($property);
-        $primitive->setEntity($this);
+        $propertyValue = new PropertyValue();
+        $propertyValue->setProperty($property);
+        $propertyValue->setEntity($this);
+        $propertyValue->setValue($property->getType()->instance($value));
 
-        $this->primitives[$property] = $primitive;
+        $this->propertyValues[] = $propertyValue;
 
         return $this;
     }
 
-    public function getPrimitives(): ObjectArray
+    public function getPropertyValues(): ObjectArray
     {
-        return $this->primitives;
+        return $this->propertyValues;
     }
 
-    public function getPrimitive(Property $property): ?Primitive
+    public function getValue(Property $property): ?Primitive
     {
-        return $this->primitives[$property];
+        return $this->propertyValues[$property]->getValue();
     }
 
     public function offsetExists($offset)
     {
-        return $this->primitives->exists($offset);
+        return $this->propertyValues->exists($offset);
     }
 
     public function offsetGet($offset)
     {
-        return $this->primitives->get($offset);
+        return $this->propertyValues->get($offset);
     }
 
     public function offsetSet($offset, $value)
@@ -272,7 +276,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public function offsetUnset($offset)
     {
-        $this->primitives->drop($offset);
+        $this->propertyValues->drop($offset);
     }
 
     public static function pipe(
@@ -343,7 +347,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function getETag(): string
     {
         $definition = $this->entitySet->getType()->getDeclaredProperties();
-        $instance = $this->primitives->sliceByClass(DeclaredProperty::class);
+        $instance = $this->propertyValues->sliceByClass(DeclaredProperty::class);
 
         if (array_diff($definition->keys(), $instance->keys())) {
             throw new ETagException();

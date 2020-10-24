@@ -19,7 +19,7 @@ use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathComponent;
 use Flat3\Lodata\Primitive;
-use Flat3\Lodata\Property;
+use Flat3\Lodata\PropertyValue;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\IEEE754Compatible;
@@ -109,8 +109,8 @@ class Transaction implements ArgumentInterface
         PathComponent\Value::class,
         PathComponent\Count::class,
         Operation::class,
-        Primitive::class,
         Singleton::class,
+        PropertyValue::class,
         PathComponent\Filter::class,
     ];
 
@@ -355,42 +355,6 @@ class Transaction implements ArgumentInterface
         }
 
         return $preference->getParameter('url');
-    }
-
-    public function shouldEmitProperty(Property $property): bool
-    {
-        $select = $this->getSelect();
-
-        if ($select->isStar() || !$select->hasValue()) {
-            return true;
-        }
-
-        $selected = $select->getCommaSeparatedValues();
-
-        if ($selected) {
-            if (!in_array((string) $property, $selected)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function shouldEmitPrimitive(?Primitive $primitive = null): bool
-    {
-        if (null === $primitive) {
-            return false;
-        }
-
-        $property = $primitive->getProperty();
-
-        $omitNulls = $this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS;
-
-        if ($omitNulls && $primitive->get() === null && $property->isNullable()) {
-            return false;
-        }
-
-        return $this->shouldEmitProperty($property);
     }
 
     public function getMetadata(): ?Metadata
@@ -769,6 +733,10 @@ class Transaction implements ArgumentInterface
 
     public function outputJsonValue($value)
     {
+        if ($value instanceof PropertyValue) {
+            $value = $value->getValue();
+        }
+
         if ($value instanceof Primitive) {
             $value = $this->ieee754compatible->isTrue() ? $value->toJsonIeee754() : $value->toJson();
         }

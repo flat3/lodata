@@ -4,12 +4,7 @@ namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Exception\Internal\LexerException;
-use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
-use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Laravel;
 use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -23,18 +18,12 @@ use Illuminate\Support\Str;
  * Class PrimitiveType
  * @package Flat3\OData
  */
-abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, EmitInterface, PipeInterface, ArgumentInterface
+abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, EmitInterface, PipeInterface
 {
     const identifier = 'Edm.None';
 
     /** @var bool $nullable Whether the value can be made null */
     protected $nullable = true;
-
-    /** @var Entity $entity */
-    private $entity;
-
-    /** @var Property $property */
-    private $property;
 
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
@@ -124,55 +113,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return '';
     }
 
-    public function setProperty(Property $property): self
-    {
-        $this->property = $property;
-        return $this;
-    }
-
-    public function setEntity(Entity $entity): self
-    {
-        $this->entity = $entity;
-        return $this;
-    }
-
-    public function getProperty()
-    {
-        return $this->property;
-    }
-
-    public static function pipe(
-        Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
-        ?PipeInterface $argument
-    ): ?PipeInterface {
-        $lexer = new Lexer($currentComponent);
-
-        try {
-            $property = $lexer->identifier();
-        } catch (LexerException $e) {
-            throw new PathNotHandledException();
-        }
-
-        if (null === $argument) {
-            throw new PathNotHandledException();
-        }
-
-        if (!$argument instanceof Entity) {
-            throw new BadRequestException('bad_entity', 'Primitive must be passed an entity');
-        }
-
-        $property = $argument->getType()->getProperty($property);
-
-        if (null === $property) {
-            throw new NotFoundException('unknown_property',
-                sprintf('The requested property (%s) was not known', $property));
-        }
-
-        return $argument->getPrimitive($property);
-    }
-
     public function getName(): string
     {
         return Str::afterLast($this::identifier, '.');
@@ -204,15 +144,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     public function getContextUrl(): string
     {
-        if ($this->entity) {
-            return sprintf(
-                '%s(%s)/%s',
-                $this->entity->getEntitySet()->getContextUrl(),
-                $this->entity->getEntityId()->toUrl(),
-                $this->property
-            );
-        }
-
         return Transaction::getContextUrl().'#'.$this->getIdentifier();
     }
 
@@ -249,5 +180,13 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
             $transaction->outputJsonObjectEnd();
         });
     }
-}
 
+    public static function pipe(
+        Transaction $transaction,
+        string $currentComponent,
+        ?string $nextComponent,
+        ?PipeInterface $argument
+    ): ?PipeInterface {
+        return $argument;
+    }
+}

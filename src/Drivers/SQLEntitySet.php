@@ -52,6 +52,7 @@ use Flat3\Lodata\Interfaces\ReadInterface;
 use Flat3\Lodata\Interfaces\UpdateInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\PropertyValue;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
@@ -185,7 +186,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->sourceMap[$property] ?? $property->getName();
     }
 
-    public function read(Primitive $key): ?Entity
+    public function read(PropertyValue $key): ?Entity
     {
         $this->resetParameters();
         $columns = $this->getColumnsToQuery();
@@ -195,7 +196,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $this->getTable(),
             $this->propertyToField($key->getProperty())
         );
-        $this->addParameter($key->get());
+        $this->addParameter($key->getValue()->get());
         $stmt = $this->pdoSelect($query);
         $this->bindParameters($stmt);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -461,7 +462,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         if ($this->key) {
             $this->addWhere($this->propertyToField($this->key->getProperty()).' = ?');
-            $this->addParameter($this->key->get());
+            $this->addParameter($this->key->getValue()->get());
             return;
         }
 
@@ -636,15 +637,15 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $entity->fromArray($this->transaction->getBody());
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getPrimitives()->keys());
-        $primitives = $entity->getPrimitives();
+        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
+        $propertyValues = $entity->getPropertyValues();
 
         $fields = [];
 
         /** @var Property $property */
         foreach ($properties as $property) {
             $fields[] = $this->getPropertySourceName($property);
-            $this->addParameter($primitives->get($property->getName())->get());
+            $this->addParameter($propertyValues->get($property->getName())->getValue()->get());
         }
 
         $fieldsList = implode(',', $fields);
@@ -657,31 +658,31 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
 
         $key = $entity->getEntityId();
-        $key->set($id);
+        $key->getValue()->set($id);
 
         return $this->read($key);
     }
 
-    public function update(Primitive $key): Entity
+    public function update(PropertyValue $key): Entity
     {
         $this->resetParameters();
         $entity = $this->newEntity();
         $entity->fromArray($this->transaction->getBody());
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getPrimitives()->keys());
-        $primitives = $entity->getPrimitives();
+        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
+        $primitives = $entity->getPropertyValues();
 
         $fields = [];
 
         /** @var Property $property */
         foreach ($properties as $property) {
             $fields[] = sprintf('%s=?', $this->getPropertySourceName($property));
-            $this->addParameter($primitives->get($property->getName())->get());
+            $this->addParameter($primitives->get($property->getName())->getValue()->get());
         }
         $fields = implode(',', $fields);
 
-        $this->addParameter($key->get());
+        $this->addParameter($key->getValue()->get());
 
         $query = sprintf(
             'UPDATE %s SET %s WHERE %s=?',
@@ -695,12 +696,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->read($key);
     }
 
-    public function delete(Primitive $key)
+    public function delete(PropertyValue $key)
     {
         $this->resetParameters();
         $type = $this->getType();
 
-        $this->addParameter($key->get());
+        $this->addParameter($key->getValue()->get());
 
         $query = sprintf(
             'DELETE FROM %s WHERE %s=?',

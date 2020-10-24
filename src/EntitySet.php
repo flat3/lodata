@@ -65,7 +65,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var null|Entity[] $results Result set from the query */
     protected $results = null;
 
-    /** @var Primitive $key */
+    /** @var PropertyValue $key */
     protected $key;
 
     /** @var Transaction $transaction */
@@ -90,7 +90,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return new static($name, $entityType);
     }
 
-    public function setKey(Primitive $key): self
+    public function setKey(PropertyValue $key): self
     {
         $this->key = $key;
         return $this;
@@ -455,16 +455,17 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             throw new BadRequestException('invalid_key_property', 'The requested key property was not valid');
         }
 
+        $key = new PropertyValue();
+        $key->setProperty($keyProperty);
+
         try {
-            $key = $lexer->type($keyProperty->getType());
+            $key->setValue($lexer->type($keyProperty->getType()));
         } catch (LexerException $e) {
             throw BadRequestException::factory(
                 'invalid_identifier_value',
                 'The type of the provided identifier value was not valid for this entity type'
             )->lexer($lexer);
         }
-
-        $key->setProperty($keyProperty);
 
         if ($nextComponent || $transaction->getMethod() === Request::METHOD_GET) {
             if (!$entitySet instanceof ReadInterface) {

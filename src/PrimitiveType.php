@@ -32,6 +32,11 @@ class PrimitiveType extends Type implements IdentifierInterface
         return $this;
     }
 
+    public function isNullable(): bool
+    {
+        return $this->nullable;
+    }
+
     public function getFactory(): string
     {
         return $this->factory;
