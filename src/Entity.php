@@ -45,7 +45,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $this;
     }
 
-    public function resolveDynamicProperties()
+    public function emit(): void
     {
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
             $propertyValue = $this->newPropertyValue();
@@ -117,11 +117,6 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
             $this->addProperty($propertyValue);
         }
-    }
-
-    public function emit(): void
-    {
-        $this->resolveDynamicProperties();
 
         $transaction = $this->transaction;
         $transaction->outputJsonObjectStart();
