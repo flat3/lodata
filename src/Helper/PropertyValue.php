@@ -84,10 +84,8 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
         $selected = $select->getCommaSeparatedValues();
 
-        if ($selected) {
-            if (!in_array($this->property->getName(), $selected)) {
-                return false;
-            }
+        if ($selected && !in_array($this->property->getName(), $selected)) {
+            return false;
         }
 
         return true;
