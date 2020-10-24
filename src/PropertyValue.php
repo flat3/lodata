@@ -23,6 +23,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
     protected $value;
 
+    /** @var Transaction $transaction */
     protected $transaction;
 
     public function setProperty(Property $property): self
@@ -134,7 +135,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
     public function emit(): void
     {
-        $this->transaction->outputRaw($this);
+        $this->transaction->outputJsonValue($this);
     }
 
     public function response(): Response
@@ -162,7 +163,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             }
 
             $transaction->outputJsonKey('value');
-            $transaction->outputJsonValue($this);
+            $this->emit();
 
             $transaction->outputJsonObjectEnd();
         });
