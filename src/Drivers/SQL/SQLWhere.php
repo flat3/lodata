@@ -4,10 +4,11 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Property;
-use Flat3\Lodata\Transaction\NavigationRequest;
 
 trait SQLWhere
 {
+    use SQLParameters;
+
     /** @var string $where */
     protected $where = '';
 

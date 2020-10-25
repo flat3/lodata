@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasName;

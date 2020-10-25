@@ -4,11 +4,22 @@ namespace Flat3\Lodata\Drivers;
 
 use Exception;
 use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQL\SQLFilter;
+use Flat3\Lodata\Drivers\SQL\SQLLimits;
+use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
+use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
+use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
+use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
+use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
+use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\PrimitiveType;
@@ -22,8 +33,12 @@ use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
-class EloquentEntitySet extends SQLEntitySet
+class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface
 {
+    use SQLSearch;
+    use SQLLimits;
+    use SQLFilter;
+
     /** @var Model $model */
     protected $model;
 
@@ -31,14 +46,10 @@ class EloquentEntitySet extends SQLEntitySet
     {
         $this->model = $model;
 
-        $modelInstance = new $model();
-
         $name = EloquentEntitySet::getSetName($model);
         $type = new EntityType(EloquentEntitySet::getTypeName($model));
 
         parent::__construct($name, $type);
-
-        $this->setTable($modelInstance->getTable());
     }
 
     public function setModel(string $model): self
@@ -111,7 +122,7 @@ class EloquentEntitySet extends SQLEntitySet
 
         $schema = Schema::connection(config('database.default'));
         $manager = $schema->getConnection()->getDoctrineSchemaManager();
-        $details = $manager->listTableDetails($this->getTable());
+        $details = $manager->listTableDetails($model->getTable());
         $columns = $details->getColumns();
         $casts = $model->getCasts();
 
@@ -267,6 +278,68 @@ class EloquentEntitySet extends SQLEntitySet
         }
     }
 
+    public function query(): array
+    {
+        /** @var Model $instance */
+        $instance = new $this->model();
+        $builder = $instance->newQuery();
+
+        $this->resetParameters();
+
+        $select = $this->transaction->getSelect();
+        if ($select->hasValue()) {
+            $properties = $select->getSelectedProperties($this)->sliceByClass(DeclaredProperty::class);
+            /** @var DeclaredProperty $property */
+            foreach ($properties as $property) {
+                $builder->addSelect($property->getName());
+            }
+        }
+
+        $this->generateWhere();
+        if ($this->where) {
+            $builder->whereRaw($this->where, ...$this->parameters);
+        }
+
+        $orderby = $this->transaction->getOrderBy();
+        if ($orderby->hasValue()) {
+            $ob = implode(', ', array_map(function ($o) {
+                [$literal, $direction] = $o;
+
+                return "$literal $direction";
+            }, $orderby->getSortOrders($this)));
+            $builder->orderByRaw($ob);
+        }
+
+        if ($this->top !== PHP_INT_MAX) {
+            $builder->limit($this->top);
+
+            if ($this->skip) {
+                $builder->skip($this->skip);
+            }
+        }
+
+        $results = [];
+
+        foreach ($builder->getModels() as $model) {
+            $es = Lodata::getResource(self::getSetName(get_class($model)));
+            $entity = $es->newEntity();
+
+            /** @var Property $property */
+            foreach ($es->getType()->getDeclaredProperties() as $property) {
+                $propertyValue = $entity->newPropertyValue();
+                $propertyValue->setProperty($property);
+                $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
+                $entity->addProperty($propertyValue);
+            }
+
+            $entity->setEntityId($model->getKey());
+
+            $results[] = $entity;
+        }
+
+        return $results;
+    }
+
     public function propertyToField(Property $property): string
     {
         $model = new $this->model();
@@ -275,7 +348,6 @@ class EloquentEntitySet extends SQLEntitySet
 
     public static function discover($class): self
     {
-        /** @var EloquentEntitySet $set */
         $set = new EloquentEntitySet($class);
         Lodata::add($set);
         $set->discoverProperties();

@@ -132,6 +132,7 @@ class EloquentTest extends TestCase
 
     public function test_expand()
     {
+        $this->markTestIncomplete();
         $ap1 = new Airport();
         $ap1['name'] = 'Eloquent';
         $ap1['code'] = 'elo';

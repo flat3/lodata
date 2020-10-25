@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Transaction\Option;
 
 /**

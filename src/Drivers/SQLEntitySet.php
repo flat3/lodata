@@ -6,7 +6,6 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLLimits;
-use Flat3\Lodata\Drivers\SQL\SQLParameters;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -37,7 +36,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     use SQLFilter;
     use SQLSearch;
     use SQLLimits;
-    use SQLParameters;
 
     /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
     protected $sourceMap;
