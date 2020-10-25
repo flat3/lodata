@@ -2,12 +2,12 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Transaction\NavigationRequest;
 
 class NavigationProperty extends Property
 {
@@ -88,8 +88,14 @@ class NavigationProperty extends Property
         return $this->constraints;
     }
 
-    public function generatePropertyValue(Entity $entity, NavigationRequest $navigationRequest): PropertyValue
+    public function generatePropertyValue(Transaction $transaction, Entity $entity): ?PropertyValue
     {
+        $navigationRequest = $transaction->getNavigationRequests($entity->getType())->get($this->getName());
+
+        if (!$navigationRequest) {
+            return null;
+        }
+
         $propertyValue = $entity->newPropertyValue();
         $propertyValue->setProperty($this);
 
@@ -117,7 +123,7 @@ class NavigationProperty extends Property
             );
         }
 
-        $expansionTransaction = clone $entity->getTransaction();
+        $expansionTransaction = clone $transaction;
         $expansionTransaction->setRequest($navigationRequest);
 
         /** @var PropertyValue $keyPropertyValue */
@@ -131,7 +137,8 @@ class NavigationProperty extends Property
         $targetKey->setProperty($referencedProperty);
         $targetKey->setValue($keyPropertyValue->getValue());
 
-        $expansionSet = $targetEntitySet->asInstance($expansionTransaction);
+        $expansionSet = clone $targetEntitySet;
+        $expansionSet->setTransaction($expansionTransaction);
         $expansionSet->setKey($targetKey);
         $propertyValue->setValue($expansionSet);
 

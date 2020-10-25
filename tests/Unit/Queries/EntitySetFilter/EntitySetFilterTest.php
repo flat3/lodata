@@ -23,8 +23,6 @@ class EntitySetFilterTest extends TestCase
 
     public function test_path_query_filter()
     {
-        $this->markTestIncomplete();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path("/airports/\$filter(is_big eq true)")

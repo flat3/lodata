@@ -28,8 +28,6 @@ use SimpleXMLElement;
 
 class Metadata implements PipeInterface, EmitInterface
 {
-    protected $transaction;
-
     public static function pipe(
         Transaction $transaction,
         string $currentComponent,
@@ -47,9 +45,8 @@ class Metadata implements PipeInterface, EmitInterface
         return new static();
     }
 
-    public function emit(): void
+    public function emit(Transaction $transaction): void
     {
-        $transaction = $this->transaction;
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_CSDLXMLDocument
         $root = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" />');
         $version = $transaction->getVersion();
@@ -247,20 +244,13 @@ class Metadata implements PipeInterface, EmitInterface
         $transaction->outputRaw($root->asXML());
     }
 
-    public function response(): Response
+    public function response(Transaction $transaction): Response
     {
-        $transaction = $this->transaction;
         $transaction->ensureMethod(Request::METHOD_GET);
         $transaction->configureXmlResponse();
 
-        return $transaction->getResponse()->setCallback(function () {
-            $this->emit();
+        return $transaction->getResponse()->setCallback(function () use ($transaction) {
+            $this->emit($transaction);
         });
-    }
-
-    public function setTransaction(Transaction $transaction): self
-    {
-        $this->transaction = $transaction;
-        return $this;
     }
 }

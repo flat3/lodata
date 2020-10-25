@@ -4,9 +4,10 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLLimits;
-use Flat3\Lodata\Drivers\SQL\SQLConnection;
+use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -35,6 +36,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 {
     use SQLConnection;
     use SQLFilter;
+    use SQLOrderBy;
     use SQLSearch;
     use SQLLimits;
 
@@ -207,18 +209,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $query .= sprintf(' WHERE%s', $this->where);
         }
 
-        $orderby = $this->transaction->getOrderBy();
-
-        if ($orderby->hasValue()) {
-            $ob = implode(', ', array_map(function ($o) {
-                [$literal, $direction] = $o;
-
-                return "$literal $direction";
-            }, $orderby->getSortOrders($this)));
-
-            $query .= ' ORDER BY '.$ob;
-        }
-
+        $query .= $this->generateOrderBy();
         $query .= $this->generateLimits();
 
         return $query;
@@ -352,6 +343,14 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         );
 
         $this->pdoModify($query);
+    }
+
+    public function setTransaction(Transaction $transaction): EntitySet
+    {
+        parent::setTransaction($transaction);
+        $this->getSetResultQueryString();
+
+        return $this;
     }
 
     public function expand(Transaction $transaction, Entity $entity, NavigationProperty $navigationProperty): array

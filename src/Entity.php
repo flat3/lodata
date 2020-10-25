@@ -15,17 +15,17 @@ use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Traits\HasTransaction;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
+    use HasTransaction;
+
     /** @var ObjectArray $properties */
     private $properties;
 
     /** @var EntitySet $entitySet */
     private $entitySet;
-
-    /** @var Transaction $transaction */
-    private $transaction;
 
     /** @var EntityType $type */
     private $type;
@@ -44,10 +44,9 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $this;
     }
 
-    public function emit(): void
+    public function emit(Transaction $transaction): void
     {
-        $transaction = $this->transaction;
-        $navigationRequests = $this->transaction->getExpand()->getNavigationRequests($this->getType());
+        $transaction = $this->transaction ?: $transaction;
 
         /** @var DynamicProperty $dynamicProperty */
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
@@ -56,16 +55,11 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         /** @var NavigationProperty $navigationProperty */
         foreach ($this->getType()->getNavigationProperties() as $navigationProperty) {
-            if (!$navigationRequests->exists($navigationProperty->getName())) {
-                continue;
-            }
+            $navigationPropertyValue = $navigationProperty->generatePropertyValue($transaction, $this);
 
-            $this->addProperty(
-                $navigationProperty->generatePropertyValue(
-                    $this,
-                    $navigationRequests[$navigationProperty]
-                )
-            );
+            if ($navigationPropertyValue) {
+                $this->addProperty($navigationPropertyValue);
+            }
         }
 
         $transaction->outputJsonObjectStart();
@@ -88,7 +82,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             }
 
             $transaction->outputJsonKey($propertyValue->getProperty()->getName());
-            $propertyValue->getValue()->setTransaction($transaction)->emit();
+            $propertyValue->getValue()->emit($transaction);
 
             $this->properties->next();
 
@@ -181,17 +175,17 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $argument;
     }
 
-    public function getContextUrl(): string
+    public function getContextUrl(Transaction $transaction): string
     {
         if ($this->entitySet) {
-            $url = $this->entitySet->getContextUrl();
+            $url = $this->entitySet->getContextUrl($transaction);
 
             return $url.'/$entity';
         }
 
-        $url = $this->type->getContextUrl();
+        $url = $this->type->getContextUrl($transaction);
 
-        $properties = $this->transaction->getContextUrlProperties();
+        $properties = $transaction->getContextUrlProperties();
 
         if ($properties) {
             $url .= sprintf('(%s)', join(',', $properties));
@@ -209,29 +203,23 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             );
         }
 
-        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->getPrimitiveValue()->toUrl());
+        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(),
+            $this->getEntityId()->getPrimitiveValue()->toUrl());
     }
 
-    public function setTransaction(Transaction $transaction): self
+    public function response(Transaction $transaction): Response
     {
-        $this->transaction = $transaction;
-        return $this;
-    }
-
-    public function response(): Response
-    {
-        $transaction = $this->transaction;
-
+        $transaction = $this->transaction ?: $transaction;
         $transaction->configureJsonResponse();
 
         $metadata = [
-            'context' => $this->getContextUrl(),
+            'context' => $this->getContextUrl($transaction),
         ];
 
         $this->metadata = $transaction->getMetadata()->filter($metadata);
 
-        return $transaction->getResponse()->setCallback(function () {
-            $this->emit();
+        return $transaction->getResponse()->setCallback(function () use ($transaction) {
+            $this->emit($transaction);
         });
     }
 
@@ -265,10 +253,5 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     {
         $this->type = $type;
         return $this;
-    }
-
-    public function getTransaction(): Transaction
-    {
-        return $this->transaction;
     }
 }

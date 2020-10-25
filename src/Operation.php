@@ -13,7 +13,6 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -26,15 +25,17 @@ use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
+use Flat3\Lodata\Traits\HasTransaction;
 use Illuminate\Http\Request;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 
-abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface, InstanceInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface
 {
     use HasIdentifier;
     use HasTitle;
+    use HasTransaction;
 
     /** @var string $bindingParameterName */
     protected $bindingParameterName;
@@ -44,9 +45,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /** @var array $inlineParameters */
     protected $inlineParameters = [];
-
-    /** @var Transaction $transaction */
-    protected $transaction;
 
     /** @var Type $returnType */
     protected $returnType;
@@ -169,7 +167,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     public function setBoundParameter(?PipeInterface $parameter): self
     {
-        $this->ensureInstance();
+        $this->ensureTransaction();
         $this->boundParameter = $parameter;
         return $this;
     }
@@ -185,6 +183,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         switch (true) {
             case $this instanceof ActionInterface:
                 return 'Action';
+
             case $this instanceof FunctionInterface:
                 return 'Function';
         }
@@ -246,7 +245,8 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             );
         }
 
-        $operation = $operation->asInstance($transaction);
+        $operation = clone $operation;
+        $operation->setTransaction($transaction);
         $operation->setBoundParameter($argument);
 
         $inlineParameters = [];
@@ -380,44 +380,6 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     public function getResourceUrl(): string
     {
         return Transaction::getResourceUrl().$this->getName();
-    }
-
-    public function asInstance(Transaction $transaction): self
-    {
-        if ($this->transaction) {
-            throw new InternalServerErrorException(
-                'cannot_clone_entity_set_instance',
-                'Attempted to clone an instance of an entity set'
-            );
-        }
-
-        $instance = clone $this;
-        $instance->transaction = $transaction;
-        return $instance;
-    }
-
-    public function isInstance(): bool
-    {
-        return !!$this->transaction;
-    }
-
-    public function ensureInstance(): void
-    {
-        if ($this->isInstance()) {
-            return;
-        }
-
-        throw new InternalServerErrorException(
-            'not_an_instance',
-            'Attempted to invoke a method that can only be run on a resource instance'
-        );
-    }
-
-    public function getTransaction(): Transaction
-    {
-        $this->ensureInstance();
-
-        return $this->transaction;
     }
 
     public function setReturnType(Type $type): self

@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
-use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
 use PDO;

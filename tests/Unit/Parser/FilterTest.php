@@ -438,9 +438,8 @@ class FilterTest extends TestCase
         $type->setKey($k);
         $transaction = new Transaction();
         $entitySet = new LoopbackEntitySet('test', $type);
-        $query = $entitySet->asInstance($transaction);
 
-        $parser = new Filter($query, $transaction);
+        $parser = new Filter($entitySet, $transaction);
         $parser->addValidLiteral('id');
         $parser->addValidLiteral('title');
 
@@ -448,7 +447,7 @@ class FilterTest extends TestCase
             $tree = $parser->generateTree($input);
             $tree->compute();
 
-            $this->assertMatchesSnapshot(trim($query->filterBuffer));
+            $this->assertMatchesSnapshot(trim($entitySet->filterBuffer));
         } catch (ParserException $e) {
             $this->assertMatchesSnapshot($e->getMessage());
         }
@@ -532,7 +531,7 @@ class FilterTest extends TestCase
             $request->query->set('$filter', $input);
             $request->query->set('$select', 'id,title');
             $transaction->initialize($request);
-            $query = $set->asInstance($transaction);
+            $query = $set->setTransaction($transaction);
 
             $queryString = $query->getSetResultQueryString();
             $queryParameters = $query->getParameters();

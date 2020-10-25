@@ -29,7 +29,9 @@ class EntitySetArgument extends Argument
             );
         }
 
-        return $entitySet->asInstance($source);
+        $entitySet = clone $entitySet;
+        $entitySet->setTransaction($source);
+        return $entitySet;
     }
 
     public function getType(): EntityType

@@ -15,31 +15,22 @@ class Count implements EmitInterface, PipeInterface
     /** @var Countable */
     protected $countable;
 
-    protected $transaction;
-
     public function __construct(Countable $countable)
     {
         $this->countable = $countable;
     }
 
-    public function setTransaction(Transaction $transaction): self
+    public function emit(Transaction $transaction): void
     {
-        $this->transaction = $transaction;
-        return $this;
+        $transaction->outputRaw($this->countable->count());
     }
 
-    public function emit(): void
+    public function response(Transaction $transaction): Response
     {
-        $this->transaction->outputRaw($this->countable->count());
-    }
-
-    public function response(): Response
-    {
-        $transaction = $this->transaction;
         $transaction->configureTextResponse();
 
-        return $transaction->getResponse()->setCallback(function () {
-            $this->emit();
+        return $transaction->getResponse()->setCallback(function () use ($transaction) {
+            $this->emit($transaction);
         });
     }
 

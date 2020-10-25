@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Facades;
 
+use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static EntityType getEntityType($name)
  * @method static IdentifierInterface add(IdentifierInterface $item)
  * @method static string getNamespace()
- * @method static IdentifierInterface discover(string $class)
+ * @method static EloquentEntitySet discoverEloquentModel(string $class)
  * @package Flat3\Lodata\Facades
  */
 class Lodata extends Facade

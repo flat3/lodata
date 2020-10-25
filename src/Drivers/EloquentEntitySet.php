@@ -3,10 +3,10 @@
 namespace Flat3\Lodata\Drivers;
 
 use Exception;
+use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
-use Flat3\Lodata\Drivers\SQL\SQLLimits;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
@@ -17,6 +17,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
@@ -27,16 +28,17 @@ use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
-class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface
+class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface
 {
     use SQLConnection;
     use SQLSearch;
-    use SQLLimits;
     use SQLFilter;
     use SQLSchema;
 
@@ -45,6 +47,13 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
     public function __construct(string $model)
     {
+        if (!is_a($model, Model::class, true)) {
+            throw new InternalServerErrorException(
+                'not_eloquent_model',
+                'An eloquent model class name must be provided'
+            );
+        }
+
         $this->model = $model;
 
         $name = EloquentEntitySet::getSetName($model);
@@ -69,45 +78,6 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return Str::pluralStudly(class_basename($model));
     }
 
-    public static function discoverRelationships()
-    {
-        $sets = Lodata::getResources()->sliceByClass(EloquentEntitySet::class);
-
-        /** @var self $left */
-        foreach ($sets as $left) {
-            /** @var self $right */
-            foreach ($sets as $right) {
-                if ($left === $right) {
-                    continue;
-                }
-
-                $model = new $left->model;
-                $name = Str::lower($right->getName());
-
-                try {
-                    new ReflectionMethod($model, $name);
-                    /** @var HasOneOrMany $r */
-                    $r = $model->$name();
-
-                    $rc = new ReferentialConstraint(
-                        $left->getType()->getProperty($r->getLocalKeyName()),
-                        $right->getType()->getProperty($r->getForeignKeyName())
-                    );
-
-                    $nav = (new NavigationProperty($right, $right->getType()))
-                        ->setCollection(true)
-                        ->addConstraint($rc);
-
-                    $binding = new NavigationBinding($nav, $right);
-
-                    $left->getType()->addProperty($nav);
-                    $left->addNavigationBinding($binding);
-                } catch (ReflectionException $e) {
-                }
-            }
-        }
-    }
-
     public function getModelByKey(PropertyValue $key): ?Model
     {
         return $this->model::where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
@@ -125,17 +95,6 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         /** @var Model $model */
         $model = new $this->model();
         return $model->getCasts();
-    }
-
-    public function getEntityById($id): ?Entity
-    {
-        $key = new PropertyValue();
-        $key->setProperty($this->getType()->getKey());
-        $key->setValue($key->getProperty()->getType()->instance($id));
-
-        $entity = $this->read($key);
-        $key->setEntity($entity);
-        return $entity;
     }
 
     public function read(PropertyValue $key): ?Entity
@@ -195,7 +154,13 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
         $id = $model->save();
 
-        return $this->getEntityById($id);
+        $key = new PropertyValue();
+        $key->setProperty($this->getType()->getKey());
+        $key->setValue($key->getProperty()->getType()->instance($id));
+        $entity = $this->read($key);
+        $key->setEntity($entity);
+
+        return $entity;
     }
 
     public function delete(PropertyValue $key)
@@ -233,12 +198,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
         $orderby = $this->transaction->getOrderBy();
         if ($orderby->hasValue()) {
-            $ob = implode(', ', array_map(function ($o) {
-                [$literal, $direction] = $o;
-
-                return "$literal $direction";
-            }, $orderby->getSortOrders($this)));
-            $builder->orderByRaw($ob);
+            foreach ($orderby->getSortOrders() as $so) {
+                [$literal, $direction] = $so;
+                $builder->orderBy($literal, $direction);
+            }
         }
 
         if ($this->top !== PHP_INT_MAX) {
@@ -277,13 +240,53 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $model->qualifyColumn($property->getName());
     }
 
+    public function discoverRelationship(string $method): self
+    {
+        $model = new $this->model;
+
+        try {
+            new ReflectionMethod($model, $method);
+
+            /** @var Relation $r */
+            $r = $model->$method();
+            $right = Lodata::getResource(self::getSetName(get_class($r->getRelated())));
+            if (!$right) {
+                throw new InternalServerErrorException('no_related_set', 'Could not find the related set');
+            }
+
+            if ($r instanceof HasOne || $r instanceof HasOneOrMany) {
+                /** @var self $right */
+                $rc = new ReferentialConstraint(
+                    $this->getType()->getProperty($r->getLocalKeyName()),
+                    $right->getType()->getProperty($r->getForeignKeyName())
+                );
+            }
+
+            $nav = (new NavigationProperty($right, $right->getType()))
+                ->setCollection(true)
+                ->addConstraint($rc);
+
+            $binding = new NavigationBinding($nav, $right);
+
+            $this->getType()->addProperty($nav);
+            $this->addNavigationBinding($binding);
+        } catch (ReflectionException $e) {
+        }
+
+        return $this;
+    }
+
     public static function discover($class): self
     {
-        $set = new EloquentEntitySet($class);
+        $set = new self($class);
         Lodata::add($set);
         $set->discoverProperties();
-        self::discoverRelationships();
 
         return $set;
+    }
+
+    public function expand(Transaction $transaction, Entity $entity, NavigationProperty $navigationProperty): array
+    {
+        return [];
     }
 }

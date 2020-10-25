@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
+use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -53,9 +54,8 @@ class ErrorReportingTest extends TestCase
                 Lodata::add(new EntityType('text'))
                     ->addProperty(new DeclaredProperty('a', Type::string()))
             ) extends EntitySet implements QueryInterface {
-                public function emit(): void
+                public function emit(Transaction $transaction): void
                 {
-                    $transaction = $this->transaction;
                     $transaction->outputJsonObjectStart();
                     $transaction->outputJsonKV(['key' => 'value']);
                     throw new NotImplementedException('not_implemented', 'Error during stream');

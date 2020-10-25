@@ -13,7 +13,6 @@ abstract class Property implements NameInterface, TypeInterface
     /** @var bool $nullable Whether this property is nullable */
     protected $nullable = true;
 
-    /** @var Type $type */
     protected $type;
 
     public function __construct($name, Type $type)
@@ -39,6 +38,16 @@ abstract class Property implements NameInterface, TypeInterface
         $this->nullable = $nullable;
 
         return $this;
+    }
+
+    public function getEntityType(): EntityType
+    {
+        return $this->type;
+    }
+
+    public function getPrimitiveType(): PrimitiveType
+    {
+        return $this->type;
     }
 
     public function getType(): Type

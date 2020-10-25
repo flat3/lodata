@@ -20,14 +20,14 @@ use Flat3\Lodata\Property;
 
 class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 {
+    /** @var Entity $entity */
     protected $entity;
 
+    /** @var Property $property */
     protected $property;
 
+    /** @var mixed $value */
     protected $value;
-
-    /** @var Transaction $transaction */
-    protected $transaction;
 
     public function setProperty(Property $property): self
     {
@@ -107,11 +107,11 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         return true;
     }
 
-    public function getContextUrl(): string
+    public function getContextUrl(Transaction $transaction): string
     {
         return sprintf(
             '%s(%s)/%s',
-            $this->entity->getEntitySet()->getContextUrl(),
+            $this->entity->getEntitySet()->getContextUrl($transaction),
             $this->entity->getEntityId()->getValue()->toUrl(),
             $this->property
         );
@@ -149,15 +149,13 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         return $argument->getPropertyValues()->get($property);
     }
 
-    public function emit(): void
+    public function emit(Transaction $transaction): void
     {
-        $this->transaction->outputJsonValue($this);
+        $transaction->outputJsonValue($this);
     }
 
-    public function response(): Response
+    public function response(Transaction $transaction): Response
     {
-        $transaction = $this->transaction;
-
         if (null === $this->value->get()) {
             throw new NoContentException('null_value');
         }
@@ -165,7 +163,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         $transaction->configureJsonResponse();
 
         $metadata = [
-            'context' => $this->getContextUrl(),
+            'context' => $this->getContextUrl($transaction),
         ];
 
         $metadata = $transaction->getMetadata()->filter($metadata);
@@ -179,15 +177,9 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             }
 
             $transaction->outputJsonKey('value');
-            $this->emit();
+            $this->emit($transaction);
 
             $transaction->outputJsonObjectEnd();
         });
-    }
-
-    public function setTransaction(Transaction $transaction): self
-    {
-        $this->transaction = $transaction;
-        return $this;
     }
 }

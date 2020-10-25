@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Transaction\Option;
 
@@ -15,11 +14,9 @@ class OrderBy extends Option
 {
     public const param = 'orderby';
 
-    public function getSortOrders(EntitySet $entitySet): array
+    public function getSortOrders(): array
     {
         $orders = [];
-
-        $properties = $entitySet->getType()->getDeclaredProperties();
 
         foreach ($this->getCommaSeparatedValues() as $expression) {
             $pair = array_map('trim', explode(' ', $expression));
@@ -37,13 +34,6 @@ class OrderBy extends Option
                 throw new BadRequestException(
                     'invalid_orderby_direction',
                     'The orderby direction must be "asc" or "desc"'
-                );
-            }
-
-            if (!$properties->get($literal)) {
-                throw new BadRequestException(
-                    'invalid_orderby_property',
-                    sprintf('The provided property %s was not found in this entity type', $literal)
                 );
             }
 

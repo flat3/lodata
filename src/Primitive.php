@@ -28,9 +28,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     /** @var ?mixed $value Internal representation of the value */
     protected $value;
 
-    /** @var Transaction $transaction */
-    protected $transaction;
-
     public function __construct($value = null, bool $nullable = true)
     {
         $this->nullable = $nullable;
@@ -145,26 +142,18 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $this::identifier;
     }
 
-    public function getContextUrl(): string
+    public function getContextUrl(Transaction $transaction): string
     {
-        return Transaction::getContextUrl().'#'.$this->getIdentifier();
+        return $transaction->getContextUrl().'#'.$this->getIdentifier();
     }
 
-    public function setTransaction(Transaction $transaction)
+    public function emit(Transaction $transaction): void
     {
-        $this->transaction = $transaction;
-        return $this;
+        $transaction->outputJsonValue($this);
     }
 
-    public function emit(): void
+    public function response(Transaction $transaction): Response
     {
-        $this->transaction->outputJsonValue($this);
-    }
-
-    public function response(): Response
-    {
-        $transaction = $this->transaction;
-
         if (null === $this->get()) {
             throw new NoContentException('null_value');
         }
@@ -172,7 +161,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         $transaction->configureJsonResponse();
 
         $metadata = [
-            'context' => $this->getContextUrl(),
+            'context' => $this->getContextUrl($transaction),
         ];
 
         $metadata = $transaction->getMetadata()->filter($metadata);
@@ -186,7 +175,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
             }
 
             $transaction->outputJsonKey('value');
-            $this->emit();
+            $this->emit($transaction);
 
             $transaction->outputJsonObjectEnd();
         });

@@ -61,9 +61,9 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return $this->properties->sliceByClass(NavigationProperty::class);
     }
 
-    public function getContextUrl(): string
+    public function getContextUrl(Transaction $transaction): string
     {
-        return Transaction::getContextUrl().'#'.$this->getIdentifier();
+        return $transaction->getContextUrl().'#'.$this->getIdentifier();
     }
 
     public function getResourceUrl(): string

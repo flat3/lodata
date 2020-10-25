@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Parser;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
@@ -76,17 +77,15 @@ class SearchTest extends TestCase
         };
         $k = new DeclaredProperty('id', Type::int32());
         $type->setKey($k);
-        $transaction = new Transaction();
-        $s = new LoopbackEntitySet('test', $type);
-        $query = $s->asInstance($transaction);
+        $entitySet = new LoopbackEntitySet('test', $type);
 
-        $parser = new Search($query);
+        $parser = new Search($entitySet);
 
         try {
             $tree = $parser->generateTree($input);
             $tree->compute();
 
-            $this->assertMatchesSnapshot(trim($query->searchBuffer));
+            $this->assertMatchesSnapshot(trim($entitySet->searchBuffer));
         } catch (ParserException $e) {
             $this->assertMatchesSnapshot($e->getMessage());
         }
@@ -119,14 +118,14 @@ class SearchTest extends TestCase
         $this->assertSQLSet($input);
     }
 
-    public function assertResultSet($set, $input)
+    public function assertResultSet(SQLEntitySet $set, $input)
     {
         try {
             $transaction = new Transaction();
             $request = new Request();
             $request->query->set('$search', $input);
             $transaction->initialize($request);
-            $query = $set->asInstance($transaction);
+            $query = $set->setTransaction($transaction);
 
             $queryString = $query->getSetResultQueryString();
             $queryParameters = $query->getParameters();

@@ -15,8 +15,9 @@ class EloquentTest extends TestCase
         parent::setUp();
         $this->withFlightDatabase();
 
-        Lodata::discover(Airport::class);
-        Lodata::discover(Flight::class);
+        $airports = Lodata::discoverEloquentModel(Airport::class);
+        Lodata::discoverEloquentModel(Flight::class);
+        $airports->discoverRelationship('flights');
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getProperty('code')->setAlternativeKey();
@@ -132,7 +133,6 @@ class EloquentTest extends TestCase
 
     public function test_expand()
     {
-        $this->markTestIncomplete();
         $ap1 = new Airport();
         $ap1['name'] = 'Eloquent';
         $ap1['code'] = 'elo';

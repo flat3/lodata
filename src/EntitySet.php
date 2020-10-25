@@ -34,21 +34,22 @@ use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
+use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Iterator;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, InstanceInterface
+abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
 {
     use HasIdentifier;
     use HasTitle;
+    use HasTransaction;
 
     /** @var ObjectArray $navigationBindings Navigation bindings */
     protected $navigationBindings;
@@ -73,9 +74,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     /** @var PropertyValue $key */
     protected $key;
-
-    /** @var Transaction $transaction */
-    protected $transaction;
 
     /** @var EntityType $type */
     protected $type;
@@ -159,8 +157,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
      */
     public function valid(): bool
     {
-        $this->ensureInstance();
-
         if (0 === $this->top) {
             return false;
         }
@@ -211,15 +207,14 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return null;
     }
 
-    public function emit(): void
+    public function emit(Transaction $transaction): void
     {
-        $transaction = $this->transaction;
+        $transaction = $this->transaction ?: $transaction;
         $transaction->outputJsonArrayStart();
 
         while ($this->valid()) {
             $entity = $this->current();
-            $entity->setTransaction($transaction);
-            $entity->emit();
+            $entity->emit($transaction);
 
             $this->next();
 
@@ -233,9 +228,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $transaction->outputJsonArrayEnd();
     }
 
-    public function response(): Response
+    public function response(Transaction $transaction): Response
     {
-        $transaction = $this->transaction;
+        $transaction = $this->transaction ?: $transaction;
         $transaction->configureJsonResponse();
 
         foreach (
@@ -262,7 +257,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         // Validate $orderby
         $orderby = $transaction->getOrderBy();
-        $orderby->getSortOrders($this);
+        $orderby->getSortOrders();
 
         $skip = $transaction->getSkip();
 
@@ -286,7 +281,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $setCount = $this->count();
 
         $metadata = [
-            'context' => $this->getContextUrl(),
+            'context' => $this->getContextUrl($transaction),
         ];
 
         $count = $transaction->getCount();
@@ -316,6 +311,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $metadata = $transaction->getMetadata()->filter($metadata);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+            $transaction = $this->transaction;
             $transaction->outputJsonObjectStart();
 
             if ($metadata) {
@@ -324,15 +320,15 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             }
 
             $transaction->outputJsonKey('value');
-            $this->emit();
+            $this->emit($transaction);
             $transaction->outputJsonObjectEnd();
         });
     }
 
-    public function getContextUrl(): string
+    public function getContextUrl(Transaction $transaction): string
     {
-        $url = Transaction::getContextUrl().'#'.$this->getName();
-        $properties = $this->transaction->getContextUrlProperties();
+        $url = $transaction->getContextUrl().'#'.$this->getName();
+        $properties = $transaction->getContextUrlProperties();
 
         if ($properties) {
             $url .= sprintf('(%s)', join(',', $properties));
@@ -379,7 +375,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             );
         }
 
-        $entitySet = $entitySet->asInstance($transaction);
+        $entitySet = clone $entitySet;
+        $entitySet->setTransaction($transaction);
 
         if ($lexer->finished()) {
             if ($nextComponent || $transaction->getMethod() === Request::METHOD_GET) {
@@ -464,7 +461,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $keyValue->setProperty($keyProperty);
 
         try {
-            $keyValue->setValue($lexer->type($keyProperty->getType()));
+            $keyValue->setValue($lexer->type($keyProperty->getPrimitiveType()));
         } catch (LexerException $e) {
             throw BadRequestException::factory(
                 'invalid_identifier_value',
@@ -513,55 +510,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $entity;
     }
 
-    public function asInstance(Transaction $transaction): self
-    {
-        if ($this->transaction) {
-            throw new InternalServerErrorException(
-                'cannot_clone_entity_set_instance',
-                'Attempted to clone an instance of an entity set'
-            );
-        }
-
-        $instance = clone $this;
-        $instance->transaction = $transaction;
-        return $instance;
-    }
-
-    public function isInstance(): bool
-    {
-        return !!$this->transaction;
-    }
-
-    public function ensureInstance(): void
-    {
-        if ($this->isInstance()) {
-            return;
-        }
-
-        throw new InternalServerErrorException(
-            'not_an_instance',
-            'Attempted to invoke a method that can only be run on a resource instance'
-        );
-    }
-
-    public function getTransaction(): Transaction
-    {
-        $this->ensureInstance();
-
-        return $this->transaction;
-    }
-
     public function getType(): EntityType
     {
         return $this->type;
-    }
-
-    public function setTransaction(Transaction $transaction): self
-    {
-        if (!$this->transaction) {
-            $this->transaction = $transaction;
-        }
-        return $this;
     }
 
     public function setType(EntityType $type): self

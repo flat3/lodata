@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
@@ -11,11 +12,14 @@ use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathComponent;
 use Flat3\Lodata\Primitive;
@@ -24,6 +28,7 @@ use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\IEEE754Compatible;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option\Count;
 use Flat3\Lodata\Transaction\Option\Expand;
 use Flat3\Lodata\Transaction\Option\Filter;
@@ -625,7 +630,7 @@ class Transaction implements ArgumentInterface
      *
      * @return string
      */
-    public static function getContextUrl(): string
+    public function getContextUrl(): string
     {
         return ServiceProvider::restEndpoint().'$metadata';
     }
@@ -763,7 +768,7 @@ class Transaction implements ArgumentInterface
         $result = null;
 
         if (!$pathComponents) {
-            return (new PathComponent\Service())->setTransaction($this);
+            return new PathComponent\Service();
         }
 
         while ($pathComponents) {
@@ -786,8 +791,56 @@ class Transaction implements ArgumentInterface
             throw NoContentException::factory('no_content', 'No content');
         }
 
-        $result->setTransaction($this);
-
         return $result;
+    }
+
+    public function getNavigationRequests(EntityType $entityType): ObjectArray
+    {
+        $expanded = $this->getExpand()->getValue();
+
+        $requests = new ObjectArray();
+
+        if (!$expanded) {
+            return $requests;
+        }
+
+        $lexer = new Lexer($expanded);
+
+        while (!$lexer->finished()) {
+            $path = $lexer->maybeIdentifier();
+
+            /** @var NavigationProperty $navigationProperty */
+            $navigationProperty = $entityType->getNavigationProperties()->get($path);
+
+            if (null === $navigationProperty) {
+                throw new BadRequestException(
+                    'nonexistent_expand_path',
+                    sprintf(
+                        'The requested expand path "%s" does not exist on this entity type',
+                        $path
+                    )
+                );
+            }
+
+            if (!$navigationProperty->isExpandable()) {
+                throw new BadRequestException(
+                    'path_not_expandable',
+                    sprintf(
+                        'The requested path "%s" is not available for expansion on this entity type',
+                        $path
+                    )
+                );
+            }
+
+            $options = $lexer->maybeMatchingParenthesis();
+
+            $requests[] = new NavigationRequest($navigationProperty, $options);
+
+            if (!$lexer->finished()) {
+                $lexer->char(',');
+            }
+        }
+
+        return $requests;
     }
 }
