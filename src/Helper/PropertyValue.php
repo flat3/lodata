@@ -126,7 +126,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         $lexer = new Lexer($currentComponent);
 
         try {
-            $property = $lexer->identifier();
+            $propertyName = $lexer->identifier();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
@@ -139,11 +139,13 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             throw new BadRequestException('bad_entity', 'PropertyValue must be passed an entity');
         }
 
-        $property = $argument->getType()->getProperty($property);
+        $property = $argument->getType()->getProperty($propertyName);
 
         if (null === $property) {
-            throw new NotFoundException('unknown_property',
-                sprintf('The requested property (%s) was not known', $property));
+            throw new NotFoundException(
+                'unknown_property',
+                sprintf('The requested property (%s) was not known', $propertyName)
+            );
         }
 
         return $argument->getPropertyValues()->get($property);

@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Operation;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\PrimitiveType;
 

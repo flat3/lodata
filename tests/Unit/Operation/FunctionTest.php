@@ -244,6 +244,40 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_callback_bound_entity()
+    {
+        $this->withFlightModel();
+
+        Lodata::add((new class('ffb1') extends Operation implements FunctionInterface {
+            public function invoke(Entity $flight): Entity
+            {
+                return $flight;
+            }
+        })->setBindingParameterName('flight')->setReturnType(Lodata::getEntityType('flight')));
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)/ffb1()')
+        );
+    }
+
+    public function test_callback_bound_primitive()
+    {
+        $this->withFlightModel();
+
+        Lodata::add((new class('ffb1') extends Operation implements FunctionInterface {
+            public function invoke(String_ $origin): String_
+            {
+                return new String_(strtoupper($origin->get()));
+            }
+        })->setBindingParameterName('origin'));
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)/origin/ffb1()')
+        );
+    }
+
     public function test_void_callback()
     {
         $this->withTextModel();

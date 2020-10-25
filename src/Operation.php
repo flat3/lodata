@@ -12,6 +12,7 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
@@ -22,6 +23,7 @@ use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
+use Flat3\Lodata\Operation\PropertyValueArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
@@ -168,6 +170,11 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     public function setBoundParameter(?PipeInterface $parameter): self
     {
         $this->ensureTransaction();
+
+        if ($parameter instanceof PropertyValue) {
+            $parameter = $parameter->getValue();
+        }
+
         $this->boundParameter = $parameter;
         return $this;
     }
@@ -317,7 +324,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
                 switch (true) {
                     case $argumentDefinition instanceof EntityArgument && !$operation->boundParameter instanceof Entity:
                     case $argumentDefinition instanceof EntitySetArgument && !$operation->boundParameter instanceof EntitySet:
-                    case $argumentDefinition instanceof PrimitiveArgument && !$operation->boundParameter instanceof Primitive:
+                    case $argumentDefinition instanceof PrimitiveArgument && !$operation->boundParameter instanceof Primitive && !$operation->boundParameter instanceof PropertyValue:
                         throw new BadRequestException(
                             'invalid_bound_argument_type',
                             'The provided bound argument was not of the correct type for this function'
