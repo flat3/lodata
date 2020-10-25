@@ -24,7 +24,7 @@ class ODCFF extends Controller
         $htmlDoc = new DOMDocument();
 
         /** @var EntitySet $entitySet */
-        $entitySet = Lodata::getResources()->sliceByClass(EntitySet::class)->get($name);
+        $entitySet = Lodata::getEntitySet($name);
         if (null === $entitySet) {
             throw NotFoundException::factory(
                 'resource_not_found',

@@ -359,7 +359,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     ): ?PipeInterface {
         $lexer = new Lexer($currentComponent);
         try {
-            $entitySet = Lodata::getResources()->get($lexer->qualifiedIdentifier());
+            $entitySet = Lodata::getEntitySet($lexer->qualifiedIdentifier());
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }

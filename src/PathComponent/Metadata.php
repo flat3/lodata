@@ -52,7 +52,6 @@ class Metadata implements PipeInterface, EmitInterface
         $version = $transaction->getVersion();
         $root->addAttribute('Version', $version);
 
-        /** @var Annotation\Reference $reference */
         foreach (Lodata::getAnnotationReferences() as $reference) {
             $reference->append($root);
         }
@@ -69,7 +68,6 @@ class Metadata implements PipeInterface, EmitInterface
         $entityContainer->addAttribute('Name', 'DefaultContainer');
 
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
-        /** @var EntityType $entityType */
         foreach (Lodata::getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
             $entityTypeElement->addAttribute('Name', $entityType->getResolvedName($namespace));
@@ -236,7 +234,6 @@ class Metadata implements PipeInterface, EmitInterface
         $schemaAnnotations = $schema->addChild('Annotations');
         $schemaAnnotations->addAttribute('Target', $namespace.'.'.'DefaultContainer');
 
-        /** @var Annotation $annotation */
         foreach (Lodata::getAnnotations() as $annotation) {
             $annotation->append($schemaAnnotations);
         }

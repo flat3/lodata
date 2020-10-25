@@ -225,7 +225,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             throw new PathNotHandledException();
         }
 
-        $operation = Lodata::getResources()->get($operationIdentifier);
+        $operation = Lodata::getOperation($operationIdentifier);
 
         if (!$operation instanceof Operation) {
             throw new PathNotHandledException();

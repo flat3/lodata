@@ -216,7 +216,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $results = [];
 
         foreach ($builder->getModels() as $model) {
-            $es = Lodata::getResource(self::getSetName(get_class($model)));
+            $es = Lodata::getEntitySet(self::getSetName(get_class($model)));
             $entity = $es->newEntity();
 
             /** @var Property $property */
@@ -250,13 +250,12 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
             /** @var Relation $r */
             $r = $model->$method();
-            $right = Lodata::getResource(self::getSetName(get_class($r->getRelated())));
+            $right = Lodata::getEntitySet(self::getSetName(get_class($r->getRelated())));
             if (!$right) {
                 throw new InternalServerErrorException('no_related_set', 'Could not find the related set');
             }
 
             if ($r instanceof HasOne || $r instanceof HasOneOrMany) {
-                /** @var self $right */
                 $rc = new ReferentialConstraint(
                     $this->getType()->getProperty($r->getLocalKeyName()),
                     $right->getType()->getProperty($r->getForeignKeyName())

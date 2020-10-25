@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Traits\HasTypeDefinition;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Enum;

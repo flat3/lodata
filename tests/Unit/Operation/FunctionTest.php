@@ -69,7 +69,7 @@ class FunctionTest extends TestCase
             function invoke(String_ $code): Entity
             {
                 $airport = new Airport();
-                $airport->setType(Lodata::getEntityTypes()->get('airport'));
+                $airport->setType(Lodata::getEntityType('airport'));
                 $airport['code'] = $code->get();
                 return $airport;
             }

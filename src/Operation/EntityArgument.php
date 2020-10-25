@@ -12,7 +12,7 @@ class EntityArgument extends Argument
 {
     public function generate($source = null): ArgumentInterface
     {
-        $entityType = Lodata::getEntityTypes()->get($this->getName());
+        $entityType = Lodata::getEntityType($this->getName());
 
         if (!$entityType) {
             throw new InternalServerErrorException('invalid_entity_type', 'Entity of this type could not be generated');

@@ -8,6 +8,8 @@ use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Interfaces\Operation\ActionInterface;
+use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 
@@ -44,9 +46,39 @@ class Model
         return $this->getEntityTypes()->get($name);
     }
 
+    public function getSingleton($name): ?Singleton
+    {
+        $resource = $this->getResource($name);
+        return $resource instanceof Singleton ? $resource : null;
+    }
+
     public function getResource($name): ?IdentifierInterface
     {
         return $this->getResources()->get($name);
+    }
+
+    public function getEntitySet($name): ?EntitySet
+    {
+        $resource = $this->getResource($name);
+        return $resource instanceof EntitySet ? $resource : null;
+    }
+
+    public function getOperation($name): ?Operation
+    {
+        $resource = $this->getResource($name);
+        return $resource instanceof Operation ? $resource : null;
+    }
+
+    public function getFunction($name): ?FunctionInterface
+    {
+        $resource = $this->getResource($name);
+        return $resource instanceof FunctionInterface ? $resource : null;
+    }
+
+    public function getAction($name): ?ActionInterface
+    {
+        $resource = $this->getResource($name);
+        return $resource instanceof ActionInterface ? $resource : null;
     }
 
     public function getNamespace(): string

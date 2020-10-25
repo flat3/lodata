@@ -24,8 +24,7 @@ class UrlTest extends TestCase
             'is_big' => false,
         ]))->save();
 
-        /** @var EntityType $airportType */
-        $airportType = Lodata::getEntityTypes()->get('airport');
+        $airportType = Lodata::getEntityType('airport');
         $airportType->getProperty('name')->setSearchable()->setAlternativeKey();
         $airportType->getProperty('code')->setSearchable()->setAlternativeKey();
     }

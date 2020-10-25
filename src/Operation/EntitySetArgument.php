@@ -20,7 +20,7 @@ class EntitySetArgument extends Argument
             );
         }
 
-        $entitySet = Lodata::getResources()->get($this->getName());
+        $entitySet = Lodata::getEntitySet($this->getName());
 
         if (!$entitySet instanceof EntitySet) {
             throw new InternalServerErrorException(
@@ -37,6 +37,6 @@ class EntitySetArgument extends Argument
     public function getType(): EntityType
     {
         $reflectedSet = $this->parameter->getName();
-        return Lodata::getResource($reflectedSet)->getType();
+        return Lodata::getEntitySet($reflectedSet)->getType();
     }
 }
