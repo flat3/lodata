@@ -6,6 +6,7 @@ use Exception;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLLimits;
+use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -35,6 +36,7 @@ use ReflectionMethod;
 
 class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface
 {
+    use SQLConnection;
     use SQLSearch;
     use SQLLimits;
     use SQLFilter;
@@ -120,8 +122,8 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
             )
         );
 
-        $schema = Schema::connection(config('database.default'));
-        $manager = $schema->getConnection()->getDoctrineSchemaManager();
+        $builder = $this->getSchemaBuilder();
+        $manager = $builder->getConnection()->getDoctrineSchemaManager();
         $details = $manager->listTableDetails($model->getTable());
         $columns = $details->getColumns();
         $casts = $model->getCasts();

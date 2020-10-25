@@ -6,6 +6,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLLimits;
+use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -26,13 +27,13 @@ use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
-use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
 
 class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface
 {
+    use SQLConnection;
     use SQLFilter;
     use SQLSearch;
     use SQLLimits;
@@ -58,13 +59,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $this->table = $table;
         return $this;
-    }
-
-    public function getDbHandle(): PDO
-    {
-        $dbh = DB::connection()->getPdo();
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $dbh;
     }
 
     protected function propertyToField(Property $property): string
@@ -99,11 +93,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->assocToEntity($result);
     }
 
-    public function getDriver(): string
-    {
-        return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
-    }
-
     public function count(): int
     {
         $this->resetParameters();
@@ -114,7 +103,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     private function pdoModify(string $query_string): ?int
     {
-        $dbh = $this->getDbHandle();
+        $dbh = $this->getHandle();
 
         try {
             $stmt = $dbh->prepare($query_string);
@@ -130,7 +119,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     private function pdoSelect(string $query_string): PDOStatement
     {
-        $dbh = $this->getDbHandle();
+        $dbh = $this->getHandle();
 
         try {
             $stmt = $dbh->prepare($query_string);
