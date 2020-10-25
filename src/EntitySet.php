@@ -21,17 +21,22 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
+use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
+use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
+use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
+use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\InstanceInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
@@ -235,16 +240,22 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         foreach (
             [
-                $transaction->getCount(), $transaction->getFilter(), $transaction->getOrderBy(),
-                $transaction->getSearch(), $transaction->getSkip(), $transaction->getTop(),
-                $transaction->getExpand()
+                [CountInterface::class, $transaction->getCount()],
+                [FilterInterface::class, $transaction->getFilter()],
+                [OrderByInterface::class, $transaction->getOrderBy()],
+                [SearchInterface::class, $transaction->getSearch()],
+                [PaginationInterface::class, $transaction->getSkip()],
+                [PaginationInterface::class, $transaction->getTop()],
+                [ExpandInterface::class, $transaction->getExpand()]
             ] as $sqo
         ) {
-            /** @var Option $sqo */
-            if ($sqo->hasValue() && !is_a($this, $sqo::query_interface)) {
+            list ($class, $option) = $sqo;
+
+            /** @var Option $option */
+            if ($option->hasValue() && !is_a($this, $class, true)) {
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',
-                    sprintf('The %s system query option is not supported by this entity set', $sqo::param)
+                    sprintf('The %s system query option is not supported by this entity set', $option::param)
                 );
             }
         }

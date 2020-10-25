@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
+use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 
 /**
  * Class Skip
@@ -12,5 +12,4 @@ use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
 class Skip extends Numeric
 {
     public const param = 'skip';
-    public const query_interface = PaginationInterface::class;
 }

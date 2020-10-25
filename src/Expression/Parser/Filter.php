@@ -10,7 +10,7 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Operator;
 use Flat3\Lodata\Expression\Parser;
-use Flat3\Lodata\Interfaces\QueryOptions\FilterInterface;
+use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 
 class Filter extends Parser
 {

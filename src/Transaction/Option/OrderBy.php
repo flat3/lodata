@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Transaction\Option;
 
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Interfaces\QueryOptions\OrderByInterface;
+use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Transaction\Option;
 
 /**
@@ -15,7 +15,6 @@ use Flat3\Lodata\Transaction\Option;
 class OrderBy extends Option
 {
     public const param = 'orderby';
-    public const query_interface = OrderByInterface::class;
 
     public function getSortOrders(EntitySet $entitySet): array
     {

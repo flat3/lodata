@@ -6,7 +6,6 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\ObjectArray;
-use Flat3\Lodata\Interfaces\QueryOptions\ExpandInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option;
@@ -19,7 +18,6 @@ use Flat3\Lodata\Transaction\Option;
 class Expand extends Option
 {
     public const param = 'expand';
-    public const query_interface = ExpandInterface::class;
 
     public function getNavigationRequests(EntityType $entityType): ObjectArray
     {

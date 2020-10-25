@@ -8,7 +8,7 @@ use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Operator;
 use Flat3\Lodata\Expression\Parser;
-use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
+use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
 class Search extends Parser
 {

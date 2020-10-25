@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\Lodata\Interfaces\QueryOptions\CountInterface;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Transaction\Option;
 
 /**
@@ -13,5 +13,4 @@ use Flat3\Lodata\Transaction\Option;
 class Count extends Option\Boolean
 {
     public const param = 'count';
-    public const query_interface = CountInterface::class;
 }

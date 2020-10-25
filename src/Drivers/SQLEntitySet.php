@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\MySQLExpression;
 use Flat3\Lodata\Drivers\SQL\PostgreSQLExpression;
@@ -41,24 +42,25 @@ use Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
+use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
+use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
+use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
+use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\CountInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\ExpandInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\FilterInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\OrderByInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\PaginationInterface;
-use Flat3\Lodata\Interfaces\QueryOptions\SearchInterface;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
 
-class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, ExpandInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface
+class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface
 {
     use MySQLExpression;
     use SQLiteExpression;
@@ -713,5 +715,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         );
 
         $this->pdoModify($query);
+    }
+
+    public function expand(Transaction $transaction, Entity $entity, NavigationProperty $navigationProperty): array
+    {
+        return [];
     }
 }

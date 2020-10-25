@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\Interfaces\QueryOptions;
+namespace Flat3\Lodata\Interfaces\EntitySet;
 
 use Flat3\Lodata\Expression\Event;
 

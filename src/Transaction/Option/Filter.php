@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Transaction\Option;
 
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Expression\Parser\Filter as Parser;
-use Flat3\Lodata\Interfaces\QueryOptions\FilterInterface;
+use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Transaction\Option;
 
 /**
@@ -15,7 +15,6 @@ use Flat3\Lodata\Transaction\Option;
 class Filter extends Option
 {
     public const param = 'filter';
-    public const query_interface = FilterInterface::class;
 
     public function applyQuery(EntitySet $query, array $validLiterals = []): void
     {

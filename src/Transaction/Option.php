@@ -8,7 +8,6 @@ abstract class Option
 {
     public const param = null;
     public const type = 'string';
-    public const query_interface = null;
 
     /** @var mixed $value */
     protected $value = null;
