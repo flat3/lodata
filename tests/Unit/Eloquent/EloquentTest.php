@@ -131,6 +131,39 @@ class EloquentTest extends TestCase
         );
     }
 
+    public function test_select()
+    {
+        $model = new Airport();
+        $model['name'] = 'Eloquent';
+        $model['code'] = 'elo';
+        $model->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->select("code")
+        );
+    }
+
+    public function test_orderby()
+    {
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1->save();
+
+        $ap2 = new Airport();
+        $ap2['name'] = 'Eloquint';
+        $ap2['code'] = 'eli';
+        $ap2->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->query('$orderby', 'code asc')
+        );
+    }
+
     public function test_expand()
     {
         $ap1 = new Airport();

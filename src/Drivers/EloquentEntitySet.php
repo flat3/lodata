@@ -19,6 +19,7 @@ use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
+use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
@@ -35,7 +36,7 @@ use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
-class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface
+class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface, OrderByInterface
 {
     use SQLConnection;
     use SQLSearch;
