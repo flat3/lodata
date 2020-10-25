@@ -2,11 +2,9 @@
 
 namespace Flat3\Lodata\Interfaces;
 
-interface IdentifierInterface
+interface IdentifierInterface extends NameInterface
 {
     public function getIdentifier(): string;
-
-    public function getName(): string;
 
     public function getNamespace(): string;
 

@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Operation;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 
 class TransactionArgument extends Argument
 {

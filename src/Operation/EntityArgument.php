@@ -6,7 +6,7 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Interfaces\ArgumentInterface;
+use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 
 class EntityArgument extends Argument
 {

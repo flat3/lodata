@@ -9,10 +9,10 @@ use Flat3\Lodata\Exception\Internal\ETagException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Interfaces\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
+use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 

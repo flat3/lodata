@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Interfaces\ActionInterface;
+use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;

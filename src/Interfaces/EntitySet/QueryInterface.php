@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\Interfaces;
+namespace Flat3\Lodata\Interfaces\EntitySet;
 
 interface QueryInterface
 {

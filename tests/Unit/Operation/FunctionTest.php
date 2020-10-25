@@ -7,7 +7,7 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Interfaces\FunctionInterface;
+use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Data\Airport;
 use Flat3\Lodata\Tests\Request;
