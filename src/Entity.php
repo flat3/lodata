@@ -209,7 +209,7 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             );
         }
 
-        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->getValue()->toUrl());
+        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(), $this->getEntityId()->getPrimitiveValue()->toUrl());
     }
 
     public function setTransaction(Transaction $transaction): self

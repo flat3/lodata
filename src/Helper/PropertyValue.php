@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Helper;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -57,6 +58,21 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
     }
 
     public function getValue(): EmitInterface
+    {
+        return $this->value;
+    }
+
+    public function getPrimitiveValue(): Primitive
+    {
+        return $this->value;
+    }
+
+    public function getEntitySetValue(): EntitySet
+    {
+        return $this->value;
+    }
+
+    public function getEntityValue(): Entity
     {
         return $this->value;
     }

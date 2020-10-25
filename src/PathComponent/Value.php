@@ -41,7 +41,7 @@ class Value implements PipeInterface, EmitInterface
                 '$value must be passed a property value');
         }
 
-        $value = $argument->getValue();
+        $value = $argument->getPrimitiveValue();
 
         if (null === $value->get()) {
             throw new NoContentException('no_content', 'No content');

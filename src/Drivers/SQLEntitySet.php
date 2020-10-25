@@ -81,7 +81,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $this->getTable(),
             $this->propertyToField($key->getProperty())
         );
-        $this->addParameter($key->getValue()->get());
+        $this->addParameter($key->getPrimitiveValue()->get());
         $stmt = $this->pdoSelect($query);
         $this->bindParameters($stmt);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -300,7 +300,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
 
         $key = $entity->getEntityId();
-        $key->getValue()->set($id);
+        $key->getPrimitiveValue()->set($id);
 
         return $this->read($key);
     }
@@ -324,7 +324,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
         $fields = implode(',', $fields);
 
-        $this->addParameter($key->getValue()->get());
+        $this->addParameter($key->getPrimitiveValue()->get());
 
         $query = sprintf(
             'UPDATE %s SET %s WHERE %s=?',
@@ -343,7 +343,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->resetParameters();
         $type = $this->getType();
 
-        $this->addParameter($key->getValue()->get());
+        $this->addParameter($key->getPrimitiveValue()->get());
 
         $query = sprintf(
             'DELETE FROM %s WHERE %s=?',

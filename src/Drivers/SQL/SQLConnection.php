@@ -2,10 +2,9 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use PDO;
 
 trait SQLConnection
@@ -39,10 +38,5 @@ trait SQLConnection
     public function getDriver(): string
     {
         return $this->getHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
-    }
-
-    public function getSchemaBuilder(): Builder
-    {
-        return Schema::connection($this->getConnectionName());
     }
 }

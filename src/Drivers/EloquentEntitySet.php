@@ -4,9 +4,10 @@ namespace Flat3\Lodata\Drivers;
 
 use Exception;
 use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLLimits;
-use Flat3\Lodata\Drivers\SQL\SQLConnection;
+use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -23,13 +24,10 @@ use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
-use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
-use Flat3\Lodata\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
@@ -40,6 +38,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
     use SQLSearch;
     use SQLLimits;
     use SQLFilter;
+    use SQLSchema;
 
     /** @var Model $model */
     protected $model;
@@ -109,93 +108,23 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         }
     }
 
-    public function discoverProperties(): self
+    public function getModelByKey(PropertyValue $key): ?Model
+    {
+        return $this->model::where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
+    }
+
+    public function getTable(): string
     {
         /** @var Model $model */
         $model = new $this->model();
-
-        $type = $this->getType();
-        $type->setKey(
-            new DeclaredProperty(
-                $model->getKeyName(),
-                $this->eloquentTypeToTypeDefinition($model->getKeyType())
-            )
-        );
-
-        $builder = $this->getSchemaBuilder();
-        $manager = $builder->getConnection()->getDoctrineSchemaManager();
-        $details = $manager->listTableDetails($model->getTable());
-        $columns = $details->getColumns();
-        $casts = $model->getCasts();
-
-        foreach ($columns as $column) {
-            $name = $column->getName();
-            if ($name === $model->getKeyName()) {
-                continue;
-            }
-
-            $cast = $column->getType()->getName();
-            $notnull = $column->getNotnull();
-
-            if (array_key_exists($name, $casts)) {
-                $cast = $casts[$name];
-            }
-
-            $type->addProperty(
-                new DeclaredProperty(
-                    $name,
-                    $this->eloquentTypeToTypeDefinition($cast)->setNullable(!$notnull)
-                )
-            );
-        }
-
-        return $this;
+        return $model->getTable();
     }
 
-    public function eloquentTypeToTypeDefinition(string $type): PrimitiveType
+    public function getCasts(): array
     {
-        switch ($type) {
-            case 'bool':
-            case 'boolean':
-                return Type::boolean();
-
-            case 'date':
-                return Type::date();
-
-            case 'datetime':
-                return Type::datetimeoffset();
-
-            case 'decimal':
-            case 'float':
-            case 'real':
-                return Type::decimal();
-
-            case 'double':
-                return Type::double();
-
-            case 'int':
-            case 'integer':
-                return Type::int32();
-
-            case 'varchar':
-            case 'string':
-                return Type::string();
-
-            case 'timestamp':
-                return Type::timeofday();
-        }
-
-        return Type::string();
-    }
-
-    public function assocToEntity(array $row): Entity
-    {
-        return $this->getEntityById($row[$this->getType()->getKey()->getName()]);
-    }
-
-    public function getModelByKey(PropertyValue $key): ?Model
-    {
-        return $this->model::where($key->getProperty()->getName(), $key->getValue()->get())->first();
+        /** @var Model $model */
+        $model = new $this->model();
+        return $model->getCasts();
     }
 
     public function getEntityById($id): ?Entity
