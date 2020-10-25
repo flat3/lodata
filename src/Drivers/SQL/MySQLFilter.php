@@ -4,16 +4,19 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Round;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Date;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Day;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Hour;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Minute;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Month;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Now;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Second;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Time;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Year;
 use Flat3\Lodata\Expression\Node\Func\String\MatchesPattern;
 use Flat3\Lodata\Expression\Node\Func\String\ToLower;
@@ -26,12 +29,24 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\IndexOf;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
 
-trait PostgreSQLExpression
+trait MySQLFilter
 {
-    public function pgsqlFilter(Event $event): ?bool
+    public function mysqlFilter(Event $event): ?bool
     {
         switch (true) {
+            case $event instanceof Operator:
+                $operator = $event->getNode();
+
+                switch (true) {
+                    case $operator instanceof Div:
+                        $this->addWhere('DIV');
+
+                        return true;
+                }
+                break;
+
             case $event instanceof StartFunction:
                 $func = $event->getNode();
 
@@ -51,23 +66,28 @@ trait PostgreSQLExpression
 
                         return true;
 
+                    case $func instanceof Date:
+                        $this->addWhere('DATE(');
+
+                        return true;
+
                     case $func instanceof Day:
-                        $this->addWhere("DATE_PART('DAY',");
+                        $this->addWhere('DAY(');
 
                         return true;
 
                     case $func instanceof Hour:
-                        $this->addWhere("DATE_PART('HOUR',");
+                        $this->addWhere('HOUR(');
 
                         return true;
 
                     case $func instanceof Minute:
-                        $this->addWhere("DATE_PART('MINUTE',");
+                        $this->addWhere('MINUTE(');
 
                         return true;
 
                     case $func instanceof Month:
-                        $this->addWhere("DATE_PART('MONTH',");
+                        $this->addWhere('MONTH(');
 
                         return true;
 
@@ -77,12 +97,22 @@ trait PostgreSQLExpression
                         return true;
 
                     case $func instanceof Second:
-                        $this->addWhere("DATE_PART('SECOND',");
+                        $this->addWhere('SECOND(');
+
+                        return true;
+
+                    case $func instanceof Time:
+                        $this->addWhere('TIME(');
 
                         return true;
 
                     case $func instanceof Year:
-                        $this->addWhere("DATE_PART('ISOYEAR',");
+                        $this->addWhere('YEAR(');
+
+                        return true;
+
+                    case $func instanceof MatchesPattern:
+                        $this->addWhere('REGEXP_LIKE(');
 
                         return true;
 
@@ -105,14 +135,6 @@ trait PostgreSQLExpression
                         $this->addWhere('CONCAT(');
 
                         return true;
-
-                    case $func instanceof MatchesPattern:
-                        $arguments = $func->getArguments();
-                        list($arg1, $arg2) = $arguments;
-                        $arg1->compute();
-                        $this->addWhere('SIMILAR TO');
-                        $arg2->compute();
-                        throw new NodeHandledException();
 
                     case $func instanceof Contains:
                     case $func instanceof EndsWith:
@@ -137,14 +159,9 @@ trait PostgreSQLExpression
                         throw new NodeHandledException();
 
                     case $func instanceof IndexOf:
-                        $arguments = $func->getArguments();
-                        list($arg1, $arg2) = $arguments;
-                        $this->addWhere('POSITION(');
-                        $arg1->compute();
-                        $this->addWhere('IN');
-                        $arg2->compute();
-                        $this->addWhere(')');
-                        throw new NodeHandledException();
+                        $this->addWhere('INSTR(');
+
+                        return true;
 
                     case $func instanceof Length:
                         $this->addWhere('LENGTH(');
@@ -152,7 +169,7 @@ trait PostgreSQLExpression
                         return true;
 
                     case $func instanceof Substring:
-                        $this->addWhere('SUBSTR(');
+                        $this->addWhere('SUBSTRING(');
 
                         return true;
                 }

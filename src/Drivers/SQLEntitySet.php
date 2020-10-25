@@ -4,42 +4,14 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
-use Flat3\Lodata\Drivers\SQL\MySQLExpression;
-use Flat3\Lodata\Drivers\SQL\PostgreSQLExpression;
-use Flat3\Lodata\Drivers\SQL\SQLiteExpression;
-use Flat3\Lodata\Drivers\SQL\SQLServerExpression;
+use Flat3\Lodata\Drivers\SQL\SQLFilter;
+use Flat3\Lodata\Drivers\SQL\SQLLimits;
+use Flat3\Lodata\Drivers\SQL\SQLParameters;
+use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\ArgumentSeparator;
-use Flat3\Lodata\Expression\Event\EndFunction;
-use Flat3\Lodata\Expression\Event\EndGroup;
-use Flat3\Lodata\Expression\Event\Field;
-use Flat3\Lodata\Expression\Event\Literal;
-use Flat3\Lodata\Expression\Event\Operator;
-use Flat3\Lodata\Expression\Event\StartGroup;
-use Flat3\Lodata\Expression\Node\Literal\Boolean;
-use Flat3\Lodata\Expression\Node\Literal\Date;
-use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
-use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mod;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mul;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Sub;
-use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
-use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
-use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
-use Flat3\Lodata\Expression\Node\Operator\Logical\Equal;
-use Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThan;
-use Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThanOrEqual;
-use Flat3\Lodata\Expression\Node\Operator\Logical\In;
-use Flat3\Lodata\Expression\Node\Operator\Logical\LessThan;
-use Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual;
-use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
@@ -62,16 +34,10 @@ use PDOStatement;
 
 class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface
 {
-    use MySQLExpression;
-    use SQLiteExpression;
-    use PostgreSQLExpression;
-    use SQLServerExpression;
-
-    /** @var string[] $parameters */
-    protected $parameters = [];
-
-    /** @var string $where */
-    protected $where = '';
+    use SQLFilter;
+    use SQLSearch;
+    use SQLLimits;
+    use SQLParameters;
 
     /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
     protected $sourceMap;
@@ -101,81 +67,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $dbh = DB::connection()->getPdo();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $dbh;
-    }
-
-    public function search(Event $event): ?bool
-    {
-        switch (true) {
-            case $event instanceof StartGroup:
-                $this->addWhere('(');
-
-                return true;
-
-            case $event instanceof EndGroup:
-                $this->addWhere(')');
-
-                return true;
-
-            case $event instanceof Operator:
-                $node = $event->getNode();
-
-                switch (true) {
-                    case $node instanceof Or_:
-                        $this->addWhere('OR');
-
-                        return true;
-
-                    case $node instanceof And_:
-                        $this->addWhere('AND');
-
-                        return true;
-
-                    case $node instanceof Not_:
-                        $this->addWhere('NOT');
-
-                        return true;
-                }
-                break;
-
-            case $event instanceof Literal:
-                $properties = [];
-
-                /** @var Property $property */
-                foreach ($this->getType()->getDeclaredProperties() as $property) {
-                    if (!$property->isSearchable()) {
-                        continue;
-                    }
-
-                    $properties[] = $property;
-                }
-
-                $properties = array_map(function ($property) use ($event) {
-                    $this->addParameter('%'.$event->getValue().'%');
-
-                    return $this->propertyToField($property).' LIKE ?';
-                }, $properties);
-
-                $this->addWhere('( '.implode(' OR ', $properties).' )');
-
-                return true;
-        }
-
-        return false;
-    }
-
-    protected function addWhere(string $where): void
-    {
-        $this->where .= ' '.$where;
-    }
-
-    /**
-     * Add a parameter
-     *
-     * @param $parameter
-     */
-    protected function addParameter($parameter): void
-    {
-        $this->parameters[] = $parameter;
     }
 
     protected function propertyToField(Property $property): string
@@ -210,176 +101,9 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->assocToEntity($result);
     }
 
-    public function filter(Event $event): ?bool
-    {
-        switch (true) {
-            case $event instanceof ArgumentSeparator:
-                $this->addWhere(',');
-
-                return true;
-
-            case $event instanceof EndGroup:
-            case $event instanceof EndFunction:
-                $this->addWhere(')');
-
-                return true;
-
-            case $event instanceof Field:
-                $property = $this->getType()->getProperty($event->getValue());
-
-                if (!$property->isFilterable()) {
-                    throw new BadRequestException(
-                        sprintf('The provided property (%s) is not filterable', $property->getName())
-                    );
-                }
-
-                $column = $this->propertyToField($property);
-
-                $this->addWhere($column);
-
-                return true;
-
-            case $event instanceof Literal:
-                $this->addWhere('?');
-
-                $node = $event->getNode();
-
-                switch (true) {
-                    case $node instanceof Boolean:
-                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue());
-                        break;
-
-                    case $node instanceof Date:
-                        $this->addParameter($node->getValue()->format('Y-m-d 00:00:00'));
-                        break;
-
-                    case $node instanceof DateTimeOffset:
-                        $this->addParameter($node->getValue()->format('Y-m-d H:i:s'));
-                        break;
-
-                    case $node instanceof TimeOfDay:
-                        $this->addParameter($node->getValue()->format('H:i:s'));
-                        break;
-
-                    default:
-                        $this->addParameter($event->getValue());
-                        break;
-                }
-
-                return true;
-
-            case $event instanceof Operator:
-                $operator = $event->getNode();
-
-                switch (true) {
-                    case $operator instanceof Add:
-                        $this->addWhere('+');
-
-                        return true;
-
-                    case $operator instanceof DivBy:
-                        $this->addWhere('/');
-
-                        return true;
-
-                    case $operator instanceof Mod:
-                        $this->addWhere('%');
-
-                        return true;
-
-                    case $operator instanceof Mul:
-                        $this->addWhere('*');
-
-                        return true;
-
-                    case $operator instanceof Sub:
-                        $this->addWhere('-');
-
-                        return true;
-
-                    case $operator instanceof And_:
-                        $this->addWhere('AND');
-
-                        return true;
-
-                    case $operator instanceof Not_:
-                        $this->addWhere('NOT');
-
-                        return true;
-
-                    case $operator instanceof Or_:
-                        $this->addWhere('OR');
-
-                        return true;
-
-                    case $operator instanceof Equal:
-                        $this->addWhere('=');
-
-                        return true;
-
-                    case $operator instanceof GreaterThan:
-                        $this->addWhere('>');
-
-                        return true;
-
-                    case $operator instanceof GreaterThanOrEqual:
-                        $this->addWhere('>=');
-
-                        return true;
-
-                    case $operator instanceof In:
-                        $this->addWhere('IN');
-
-                        return true;
-
-                    case $operator instanceof LessThan:
-                        $this->addWhere('<');
-
-                        return true;
-
-                    case $operator instanceof LessThanOrEqual:
-                        $this->addWhere('<=');
-
-                        return true;
-
-                    case $operator instanceof NotEqual:
-                        $this->addWhere('!=');
-
-                        return true;
-                }
-                break;
-
-            case $event instanceof StartGroup:
-                $this->addWhere('(');
-
-                return true;
-        }
-
-        switch ($this->getDriver()) {
-            case 'mysql':
-                return $this->mysqlFilter($event);
-
-            case 'sqlite':
-                return $this->sqliteFilter($event);
-
-            case 'pgsql':
-                return $this->pgsqlFilter($event);
-
-            case 'sqlsrv':
-                return $this->sqlsrvFilter($event);
-        }
-
-        return false;
-    }
-
     public function getDriver(): string
     {
         return $this->getDbHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
-    }
-
-    public function getParameters(): array
-    {
-        return $this->parameters;
     }
 
     public function count(): int
@@ -388,11 +112,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $query = $this->pdoSelect($this->getRowCountQueryString());
         return $query->fetchColumn();
-    }
-
-    protected function resetParameters(): void
-    {
-        $this->parameters = [];
     }
 
     private function pdoModify(string $query_string): ?int
@@ -456,54 +175,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         }
 
         return $queryString;
-    }
-
-    protected function generateWhere(): void
-    {
-        $this->where = '';
-
-        if ($this->key) {
-            $this->addWhere($this->propertyToField($this->key->getProperty()).' = ?');
-            $this->addParameter($this->key->getValue()->get());
-            return;
-        }
-
-        $filter = $this->transaction->getFilter();
-        if ($filter->hasValue()) {
-            $this->whereMaybeAnd();
-            $validLiterals = [];
-
-            /** @var Property $property */
-            foreach ($this->getType()->getDeclaredProperties() as $property) {
-                if ($property->isFilterable()) {
-                    $validLiterals[] = (string) $property->getName();
-                }
-            }
-
-            $filter->applyQuery($this, $validLiterals);
-        }
-
-        $search = $this->transaction->getSearch();
-        if ($search->hasValue()) {
-            if (!$this->getType()->getDeclaredProperties()->filter(function ($property) {
-                return $property->isSearchable();
-            })->hasEntries()) {
-                throw new InternalServerErrorException(
-                    'query_no_searchable_properties',
-                    'The provided query had no properties marked searchable'
-                );
-            }
-
-            $this->whereMaybeAnd();
-            $search->applyQuery($this);
-        }
-    }
-
-    protected function whereMaybeAnd(): void
-    {
-        if ($this->where) {
-            $this->addWhere('AND');
-        }
     }
 
     public function assocToEntity(array $row): Entity
@@ -613,27 +284,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $column = $this->propertyToField($property);
 
         return sprintf('%s AS %s', $column, $property->getName());
-    }
-
-    public function generateLimits(): string
-    {
-        $limits = '';
-
-        if ($this->top === PHP_INT_MAX) {
-            return $limits;
-        }
-
-        $limits .= ' LIMIT ?';
-        $this->addParameter($this->top);
-
-        if (!$this->skip) {
-            return $limits;
-        }
-
-        $limits .= ' OFFSET ?';
-        $this->addParameter($this->skip);
-
-        return $limits;
     }
 
     public function create(): Entity

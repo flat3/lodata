@@ -4,19 +4,16 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Round;
-use Flat3\Lodata\Expression\Node\Func\DateTime\Date;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Day;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Hour;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Minute;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Month;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Now;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Second;
-use Flat3\Lodata\Expression\Node\Func\DateTime\Time;
 use Flat3\Lodata\Expression\Node\Func\DateTime\Year;
 use Flat3\Lodata\Expression\Node\Func\String\MatchesPattern;
 use Flat3\Lodata\Expression\Node\Func\String\ToLower;
@@ -29,24 +26,12 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\IndexOf;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
-use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
 
-trait MySQLExpression
+trait SQLServerFilter
 {
-    public function mysqlFilter(Event $event): ?bool
+    public function sqlsrvFilter(Event $event): ?bool
     {
         switch (true) {
-            case $event instanceof Operator:
-                $operator = $event->getNode();
-
-                switch (true) {
-                    case $operator instanceof Div:
-                        $this->addWhere('DIV');
-
-                        return true;
-                }
-                break;
-
             case $event instanceof StartFunction:
                 $func = $event->getNode();
 
@@ -66,55 +51,48 @@ trait MySQLExpression
 
                         return true;
 
-                    case $func instanceof Date:
-                        $this->addWhere('DATE(');
-
-                        return true;
-
                     case $func instanceof Day:
-                        $this->addWhere('DAY(');
+                        $this->addWhere('DATEPART(day, ');
 
                         return true;
 
                     case $func instanceof Hour:
-                        $this->addWhere('HOUR(');
+                        $this->addWhere('DATEPART(hour, ');
 
                         return true;
 
                     case $func instanceof Minute:
-                        $this->addWhere('MINUTE(');
+                        $this->addWhere('DATEPART(minute, ');
 
                         return true;
 
                     case $func instanceof Month:
-                        $this->addWhere('MONTH(');
+                        $this->addWhere('DATEPART(month, ');
 
                         return true;
 
                     case $func instanceof Now:
-                        $this->addWhere('NOW(');
+                        $this->addWhere('CURRENT_TIMESTAMP(');
 
                         return true;
 
                     case $func instanceof Second:
-                        $this->addWhere('SECOND(');
-
-                        return true;
-
-                    case $func instanceof Time:
-                        $this->addWhere('TIME(');
+                        $this->addWhere('DATEPART(second, ');
 
                         return true;
 
                     case $func instanceof Year:
-                        $this->addWhere('YEAR(');
+                        $this->addWhere('DATEPART(year, ');
 
                         return true;
 
                     case $func instanceof MatchesPattern:
-                        $this->addWhere('REGEXP_LIKE(');
-
-                        return true;
+                        $arguments = $func->getArguments();
+                        list($arg1, $arg2) = $arguments;
+                        $arg1->compute();
+                        $this->addWhere('LIKE');
+                        $arg2->compute();
+                        throw new NodeHandledException();
 
                     case $func instanceof ToLower:
                         $this->addWhere('LOWER(');
@@ -159,12 +137,12 @@ trait MySQLExpression
                         throw new NodeHandledException();
 
                     case $func instanceof IndexOf:
-                        $this->addWhere('INSTR(');
+                        $this->addWhere('CHARINDEX(');
 
                         return true;
 
                     case $func instanceof Length:
-                        $this->addWhere('LENGTH(');
+                        $this->addWhere('LEN(');
 
                         return true;
 

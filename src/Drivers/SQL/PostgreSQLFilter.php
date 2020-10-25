@@ -27,9 +27,9 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 
-trait SQLServerExpression
+trait PostgreSQLFilter
 {
-    public function sqlsrvFilter(Event $event): ?bool
+    public function pgsqlFilter(Event $event): ?bool
     {
         switch (true) {
             case $event instanceof StartFunction:
@@ -52,47 +52,39 @@ trait SQLServerExpression
                         return true;
 
                     case $func instanceof Day:
-                        $this->addWhere('DATEPART(day, ');
+                        $this->addWhere("DATE_PART('DAY',");
 
                         return true;
 
                     case $func instanceof Hour:
-                        $this->addWhere('DATEPART(hour, ');
+                        $this->addWhere("DATE_PART('HOUR',");
 
                         return true;
 
                     case $func instanceof Minute:
-                        $this->addWhere('DATEPART(minute, ');
+                        $this->addWhere("DATE_PART('MINUTE',");
 
                         return true;
 
                     case $func instanceof Month:
-                        $this->addWhere('DATEPART(month, ');
+                        $this->addWhere("DATE_PART('MONTH',");
 
                         return true;
 
                     case $func instanceof Now:
-                        $this->addWhere('CURRENT_TIMESTAMP(');
+                        $this->addWhere('NOW(');
 
                         return true;
 
                     case $func instanceof Second:
-                        $this->addWhere('DATEPART(second, ');
+                        $this->addWhere("DATE_PART('SECOND',");
 
                         return true;
 
                     case $func instanceof Year:
-                        $this->addWhere('DATEPART(year, ');
+                        $this->addWhere("DATE_PART('ISOYEAR',");
 
                         return true;
-
-                    case $func instanceof MatchesPattern:
-                        $arguments = $func->getArguments();
-                        list($arg1, $arg2) = $arguments;
-                        $arg1->compute();
-                        $this->addWhere('LIKE');
-                        $arg2->compute();
-                        throw new NodeHandledException();
 
                     case $func instanceof ToLower:
                         $this->addWhere('LOWER(');
@@ -113,6 +105,14 @@ trait SQLServerExpression
                         $this->addWhere('CONCAT(');
 
                         return true;
+
+                    case $func instanceof MatchesPattern:
+                        $arguments = $func->getArguments();
+                        list($arg1, $arg2) = $arguments;
+                        $arg1->compute();
+                        $this->addWhere('SIMILAR TO');
+                        $arg2->compute();
+                        throw new NodeHandledException();
 
                     case $func instanceof Contains:
                     case $func instanceof EndsWith:
@@ -137,17 +137,22 @@ trait SQLServerExpression
                         throw new NodeHandledException();
 
                     case $func instanceof IndexOf:
-                        $this->addWhere('CHARINDEX(');
-
-                        return true;
+                        $arguments = $func->getArguments();
+                        list($arg1, $arg2) = $arguments;
+                        $this->addWhere('POSITION(');
+                        $arg1->compute();
+                        $this->addWhere('IN');
+                        $arg2->compute();
+                        $this->addWhere(')');
+                        throw new NodeHandledException();
 
                     case $func instanceof Length:
-                        $this->addWhere('LEN(');
+                        $this->addWhere('LENGTH(');
 
                         return true;
 
                     case $func instanceof Substring:
-                        $this->addWhere('SUBSTRING(');
+                        $this->addWhere('SUBSTR(');
 
                         return true;
                 }
