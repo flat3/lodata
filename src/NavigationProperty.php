@@ -3,7 +3,6 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -104,43 +103,11 @@ class NavigationProperty extends Property
 
         $binding = $entity->getEntitySet()->getBindingByNavigationProperty($this);
         $targetEntitySet = $binding->getTarget();
-        $targetEntitySetType = $targetEntitySet->getType();
 
         $expansionSet = clone $targetEntitySet;
         $expansionSet->setTransaction($expansionTransaction);
         $propertyValue->setValue($expansionSet);
-
-        $targetConstraint = null;
-        /** @var ReferentialConstraint $constraint */
-        foreach ($this->getConstraints() as $constraint) {
-            if ($targetEntitySetType->getProperty($constraint->getReferencedProperty()) && $entity->getEntitySet()->getType()->getProperty($constraint->getProperty())) {
-                $targetConstraint = $constraint;
-                break;
-            }
-        }
-
-        if (!$targetConstraint) {
-            throw new BadRequestException(
-                'no_expansion_constraint',
-                sprintf(
-                    'No applicable constraint could be found between sets %s and %s for expansion',
-                    $entity->getEntitySet()->getIdentifier(),
-                    $targetEntitySet->getIdentifier()
-                )
-            );
-        }
-
-        /** @var PropertyValue $keyPropertyValue */
-        $keyPropertyValue = $entity->getPropertyValues()->get($targetConstraint->getProperty());
-        if ($keyPropertyValue->getPrimitiveValue()->get() === null) {
-            throw new InternalServerErrorException('missing_expansion_key', 'The target constraint key is missing');
-        }
-
-        $referencedProperty = $targetConstraint->getReferencedProperty();
-        $targetKey = new PropertyValue();
-        $targetKey->setProperty($referencedProperty);
-        $targetKey->setValue($keyPropertyValue->getValue());
-        $expansionSet->setKey($targetKey);
+        $expansionSet->setExpansionPropertyValue($propertyValue);
 
         return $propertyValue;
     }

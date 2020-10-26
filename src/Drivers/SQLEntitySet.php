@@ -205,6 +205,12 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $this->generateWhere();
 
+        if ($this->expansionPropertyValue) {
+            $key = $this->resolveExpansionKey();
+            $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
+            $this->addParameter($key->getPrimitiveValue()->get());
+        }
+
         if ($this->where) {
             $query .= sprintf(' WHERE%s', $this->where);
         }

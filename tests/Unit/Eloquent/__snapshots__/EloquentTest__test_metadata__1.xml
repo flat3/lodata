@@ -10,7 +10,7 @@
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="Airports" EntityType="com.example.odata.Airport">
-          <NavigationPropertyBinding Path="Flights" Target="Flights"/>
+          <NavigationPropertyBinding Path="flights" Target="Flights"/>
         </EntitySet>
         <EntitySet Name="Flights" EntityType="com.example.odata.Flight"/>
       </EntityContainer>
@@ -26,7 +26,7 @@
         <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
         <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
-        <NavigationProperty Name="Flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
+        <NavigationProperty Name="flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
           <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
         </NavigationProperty>
       </EntityType>

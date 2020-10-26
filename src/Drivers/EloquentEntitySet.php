@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Drivers;
 
 use Exception;
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
@@ -181,6 +180,13 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $instance = new $this->model();
         $builder = $instance->newQuery();
 
+        if ($this->expansionPropertyValue) {
+            $sourceEntity = $this->expansionPropertyValue->getEntity();
+            $expansionPropertyName = $this->expansionPropertyValue->getProperty()->getName();
+            $instance = $sourceEntity->getEntitySet()->getModelByKey($sourceEntity->getEntityId());
+            $builder = $instance->$expansionPropertyName();
+        }
+
         $this->resetParameters();
 
         $select = $this->transaction->getSelect();
@@ -193,6 +199,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         }
 
         $this->generateWhere();
+
         if ($this->where) {
             $builder->whereRaw($this->where, ...$this->parameters);
         }
@@ -255,22 +262,27 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
                 throw new InternalServerErrorException('no_related_set', 'Could not find the related set');
             }
 
+            $nav = (new NavigationProperty($method, $right->getType()))
+                ->setCollection(true);
+
             if ($r instanceof HasOne || $r instanceof HasOneOrMany) {
                 $rc = new ReferentialConstraint(
                     $this->getType()->getProperty($r->getLocalKeyName()),
                     $right->getType()->getProperty($r->getForeignKeyName())
                 );
-            }
 
-            $nav = (new NavigationProperty($right, $right->getType()))
-                ->setCollection(true)
-                ->addConstraint($rc);
+                $nav->addConstraint($rc);
+            }
 
             $binding = new NavigationBinding($nav, $right);
 
             $this->getType()->addProperty($nav);
             $this->addNavigationBinding($binding);
         } catch (ReflectionException $e) {
+            throw new InternalServerErrorException(
+                'cannot_add_constraint',
+                'The constraint method did not exist on the Model'
+            );
         }
 
         return $this;
@@ -283,10 +295,5 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $set->discoverProperties();
 
         return $set;
-    }
-
-    public function expand(Transaction $transaction, Entity $entity, NavigationProperty $navigationProperty): array
-    {
-        return [];
     }
 }

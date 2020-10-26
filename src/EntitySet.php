@@ -54,6 +54,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var ObjectArray $navigationBindings Navigation bindings */
     protected $navigationBindings;
 
+    /** @var EntityType $type */
+    protected $type;
+
     /** @var int $top Page size to return from the query */
     protected $top = PHP_INT_MAX;
 
@@ -72,11 +75,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     /** @var null|Entity[] $results Result set from the query */
     protected $results = null;
 
-    /** @var PropertyValue $key */
-    protected $key;
-
-    /** @var EntityType $type */
-    protected $type;
+    /** @var PropertyValue $expansionPropertyValue */
+    protected $expansionPropertyValue;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
@@ -92,12 +92,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     public static function factory(string $name, EntityType $entityType): self
     {
         return new static($name, $entityType);
-    }
-
-    public function setKey(PropertyValue $key): self
-    {
-        $this->key = $key;
-        return $this;
     }
 
     public function getKind(): string
@@ -348,6 +342,53 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         }
 
         return $url;
+    }
+
+    public function setExpansionPropertyValue(PropertyValue $property): self
+    {
+        $this->expansionPropertyValue = $property;
+        return $this;
+    }
+
+    public function resolveExpansionKey(): PropertyValue
+    {
+        /** @var NavigationProperty $navigationProperty */
+        $navigationProperty = $this->expansionPropertyValue->getProperty();
+        $sourceEntity = $this->expansionPropertyValue->getEntity();
+
+        $targetConstraint = null;
+        /** @var ReferentialConstraint $constraint */
+        foreach ($navigationProperty->getConstraints() as $constraint) {
+            if ($this->getType()->getProperty($constraint->getReferencedProperty()) && $sourceEntity->getEntitySet()->getType()->getProperty($constraint->getProperty())) {
+                $targetConstraint = $constraint;
+                break;
+            }
+        }
+
+        if (!$targetConstraint) {
+            throw new BadRequestException(
+                'no_expansion_constraint',
+                sprintf(
+                    'No applicable constraint could be found between sets %s and %s for expansion',
+                    $sourceEntity->getEntitySet()->getIdentifier(),
+                    $this->getIdentifier()
+                )
+            );
+        }
+
+        /** @var PropertyValue $keyPropertyValue */
+        $keyPropertyValue = $sourceEntity->getPropertyValues()->get($targetConstraint->getProperty());
+        if ($keyPropertyValue->getPrimitiveValue()->get() === null) {
+            throw new InternalServerErrorException('missing_expansion_key', 'The target constraint key is null');
+        }
+
+        $referencedProperty = $targetConstraint->getReferencedProperty();
+
+        $targetKey = new PropertyValue();
+        $targetKey->setProperty($referencedProperty);
+        $targetKey->setValue($keyPropertyValue->getValue());
+
+        return $targetKey;
     }
 
     public static function pipe(

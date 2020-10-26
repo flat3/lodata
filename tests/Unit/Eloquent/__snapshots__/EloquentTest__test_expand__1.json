@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#Airports(Flights())",
+    "@context": "http://localhost/odata/$metadata#Airports(flights())",
     "value": [
         {
             "id": 1,
@@ -10,7 +10,7 @@
             "open_time": null,
             "review_score": null,
             "is_big": null,
-            "Flights": [
+            "flights": [
                 {
                     "id": 1,
                     "origin": "elo",
@@ -34,7 +34,7 @@
             "open_time": null,
             "review_score": null,
             "is_big": null,
-            "Flights": [
+            "flights": [
                 {
                     "id": 3,
                     "origin": "eli",

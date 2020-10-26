@@ -191,7 +191,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Airports')
-                ->query('$expand', 'Flights')
+                ->query('$expand', 'flights')
         );
     }
 }

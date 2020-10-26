@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\PathComponent;
 
-use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;

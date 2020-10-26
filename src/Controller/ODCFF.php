@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Controller;
 
 use DOMDocument;
-use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
