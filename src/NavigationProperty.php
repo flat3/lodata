@@ -96,12 +96,19 @@ class NavigationProperty extends Property
             return null;
         }
 
+        $expansionTransaction = clone $transaction;
+        $expansionTransaction->setRequest($navigationRequest);
+
         $propertyValue = $entity->newPropertyValue();
         $propertyValue->setProperty($this);
 
         $binding = $entity->getEntitySet()->getBindingByNavigationProperty($this);
         $targetEntitySet = $binding->getTarget();
         $targetEntitySetType = $targetEntitySet->getType();
+
+        $expansionSet = clone $targetEntitySet;
+        $expansionSet->setTransaction($expansionTransaction);
+        $propertyValue->setValue($expansionSet);
 
         $targetConstraint = null;
         /** @var ReferentialConstraint $constraint */
@@ -123,9 +130,6 @@ class NavigationProperty extends Property
             );
         }
 
-        $expansionTransaction = clone $transaction;
-        $expansionTransaction->setRequest($navigationRequest);
-
         /** @var PropertyValue $keyPropertyValue */
         $keyPropertyValue = $entity->getPropertyValues()->get($targetConstraint->getProperty());
         if ($keyPropertyValue->getPrimitiveValue()->get() === null) {
@@ -136,11 +140,7 @@ class NavigationProperty extends Property
         $targetKey = new PropertyValue();
         $targetKey->setProperty($referencedProperty);
         $targetKey->setValue($keyPropertyValue->getValue());
-
-        $expansionSet = clone $targetEntitySet;
-        $expansionSet->setTransaction($expansionTransaction);
         $expansionSet->setKey($targetKey);
-        $propertyValue->setValue($expansionSet);
 
         return $propertyValue;
     }
