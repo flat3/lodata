@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
-use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Request;
