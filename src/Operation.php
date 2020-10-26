@@ -23,7 +23,6 @@ use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
-use Flat3\Lodata\Operation\PropertyValueArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;

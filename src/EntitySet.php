@@ -343,7 +343,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         if ($properties) {
             $url = Url::http_build_url($url, [
-                'query' => $this->transaction->getResourceUrlProperties(),
+                'query' => $properties,
             ]);
         }
 
