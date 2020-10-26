@@ -311,7 +311,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $metadata = $transaction->getMetadata()->filter($metadata);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
-            $transaction = $this->transaction;
             $transaction->outputJsonObjectStart();
 
             if ($metadata) {
