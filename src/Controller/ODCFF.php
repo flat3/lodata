@@ -16,20 +16,19 @@ class ODCFF extends Controller
 {
     public const content_type = 'text/x-ms-odc; charset=utf-8';
 
-    public function get($name)
+    public function get($identifier)
     {
         $response = new Response();
         $response->header('content-type', self::content_type);
 
         $htmlDoc = new DOMDocument();
 
-        /** @var EntitySet $entitySet */
-        $entitySet = Lodata::getEntitySet($name);
+        $entitySet = Lodata::getEntitySet($identifier);
         if (null === $entitySet) {
             throw NotFoundException::factory(
                 'resource_not_found',
                 'The requested resource did not exist'
-            )->target($name);
+            )->target($identifier);
         }
 
         $resourceName = $entitySet->getTitle() ?: $entitySet->getName();
