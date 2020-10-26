@@ -194,4 +194,65 @@ class EloquentTest extends TestCase
                 ->query('$expand', 'flights')
         );
     }
+
+    public function test_expand_entity()
+    {
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1->save();
+
+        $ap2 = new Airport();
+        $ap2['name'] = 'Eloquint';
+        $ap2['code'] = 'eli';
+        $ap2->save();
+
+        $fl1 = new Flight();
+        $fl1['origin'] = 'elo';
+        $fl1->save();
+
+        $fl2 = new Flight();
+        $fl2['origin'] = 'elo';
+        $fl2->save();
+
+        $fl3 = new Flight();
+        $fl3['origin'] = 'eli';
+        $fl3->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports(1)')
+                ->query('$expand', 'flights')
+        );
+    }
+
+    public function test_expand_property()
+    {
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1->save();
+
+        $ap2 = new Airport();
+        $ap2['name'] = 'Eloquint';
+        $ap2['code'] = 'eli';
+        $ap2->save();
+
+        $fl1 = new Flight();
+        $fl1['origin'] = 'elo';
+        $fl1->save();
+
+        $fl2 = new Flight();
+        $fl2['origin'] = 'elo';
+        $fl2->save();
+
+        $fl3 = new Flight();
+        $fl3['origin'] = 'eli';
+        $fl3->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports(1)/flights')
+        );
+    }
 }

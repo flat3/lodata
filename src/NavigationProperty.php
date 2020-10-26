@@ -7,6 +7,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Transaction\NavigationRequest;
 
 class NavigationProperty extends Property
 {
@@ -87,14 +88,11 @@ class NavigationProperty extends Property
         return $this->constraints;
     }
 
-    public function generatePropertyValue(Transaction $transaction, Entity $entity): ?PropertyValue
-    {
-        $navigationRequest = $transaction->getNavigationRequests($entity->getType())->get($this->getName());
-
-        if (!$navigationRequest) {
-            return null;
-        }
-
+    public function generatePropertyValue(
+        Transaction $transaction,
+        NavigationRequest $navigationRequest,
+        Entity $entity
+    ): ?PropertyValue {
         $expansionTransaction = clone $transaction;
         $expansionTransaction->setRequest($navigationRequest);
 
@@ -108,6 +106,8 @@ class NavigationProperty extends Property
         $expansionSet->setTransaction($expansionTransaction);
         $propertyValue->setValue($expansionSet);
         $expansionSet->setExpansionPropertyValue($propertyValue);
+
+        $entity->addProperty($propertyValue);
 
         return $propertyValue;
     }

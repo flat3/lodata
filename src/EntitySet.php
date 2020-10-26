@@ -225,7 +225,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     public function response(Transaction $transaction): Response
     {
         $transaction = $this->transaction ?: $transaction;
-        $transaction->configureJsonResponse();
 
         foreach (
             [

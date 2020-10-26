@@ -32,6 +32,8 @@ abstract class DynamicProperty extends Property
 
         $propertyValue->setValue($result);
 
+        $entity->addProperty($propertyValue);
+
         return $propertyValue;
     }
 }

@@ -4,19 +4,23 @@ namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\Transaction\NavigationRequest;
 
 class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 {
@@ -111,7 +115,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
     {
         return sprintf(
             '%s(%s)/%s',
-            $this->entity->getEntitySet()->getContextUrl($transaction),
+            $transaction->getContextUrl().'#'.$this->entity->getEntitySet()->getName(),
             $this->entity->getEntityId()->getValue()->toUrl(),
             $this->property
         );
@@ -148,21 +152,42 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             );
         }
 
+        if ($property instanceof NavigationProperty) {
+            $property->generatePropertyValue($transaction, new NavigationRequest($property), $argument);
+        }
+
+        if ($property instanceof DynamicProperty) {
+            $property->generatePropertyValue($argument);
+        }
+
         return $argument->getPropertyValues()->get($property);
     }
 
     public function emit(Transaction $transaction): void
     {
-        $transaction->outputJsonValue($this);
+        switch (true) {
+            case $this->value instanceof EntitySet:
+                $this->value->emit($transaction);
+                return;
+
+            case $this->value instanceof Primitive:
+                $transaction->outputJsonValue($this);
+                return;
+        }
+
+        throw new InternalServerErrorException(
+            'cannot_emit_property_value',
+            'Property value received an object it could not emit'
+        );
     }
 
     public function response(Transaction $transaction): Response
     {
-        if (null === $this->value->get()) {
+        $value = $this->value;
+
+        if ($value instanceof Primitive && null === $value->get()) {
             throw new NoContentException('null_value');
         }
-
-        $transaction->configureJsonResponse();
 
         $metadata = [
             'context' => $this->getContextUrl($transaction),

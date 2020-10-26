@@ -11,7 +11,6 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Primitive;
-use Flat3\Lodata\Transaction\MediaType;
 
 class Value implements PipeInterface, EmitInterface
 {
@@ -49,14 +48,6 @@ class Value implements PipeInterface, EmitInterface
 
     public function response(Transaction $transaction): Response
     {
-        $requestedFormat = $transaction->getAcceptedContentType();
-
-        if ($requestedFormat) {
-            $transaction->sendContentType(MediaType::factory()->parse($requestedFormat));
-        } else {
-            $transaction->configureTextResponse();
-        }
-
         if (null === $this->primitive->get()) {
             throw new NoContentException('null_value');
         }

@@ -14,7 +14,6 @@ class Service implements EmitInterface
     public function response(Transaction $transaction): Response
     {
         $transaction->ensureMethod(Request::METHOD_GET);
-        $transaction->configureJsonResponse();
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);

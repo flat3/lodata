@@ -158,8 +158,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
             throw new NoContentException('null_value');
         }
 
-        $transaction->configureJsonResponse();
-
         $metadata = [
             'context' => $this->getContextUrl($transaction),
         ];

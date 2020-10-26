@@ -50,15 +50,15 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         /** @var DynamicProperty $dynamicProperty */
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
-            $this->addProperty($dynamicProperty->generatePropertyValue($this));
+            $dynamicProperty->generatePropertyValue($this);
         }
 
         /** @var NavigationProperty $navigationProperty */
         foreach ($this->getType()->getNavigationProperties() as $navigationProperty) {
-            $navigationPropertyValue = $navigationProperty->generatePropertyValue($transaction, $this);
+            $navigationRequest = $transaction->getExpansionRequests($this->getType())->get($navigationProperty->getName());
 
-            if ($navigationPropertyValue) {
-                $this->addProperty($navigationPropertyValue);
+            if ($navigationRequest) {
+                $navigationProperty->generatePropertyValue($transaction, $navigationRequest, $this);
             }
         }
 
@@ -210,7 +210,6 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function response(Transaction $transaction): Response
     {
         $transaction = $this->transaction ?: $transaction;
-        $transaction->configureJsonResponse();
 
         $metadata = [
             'context' => $this->getContextUrl($transaction),

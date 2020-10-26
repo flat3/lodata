@@ -1,0 +1,17 @@
+{
+    "@context": "http://localhost/odata/$metadata#Airports(1)/flights",
+    "value": [
+        {
+            "id": 1,
+            "origin": "elo",
+            "destination": null,
+            "gate": null
+        },
+        {
+            "id": 2,
+            "origin": "elo",
+            "destination": null,
+            "gate": null
+        }
+    ]
+}

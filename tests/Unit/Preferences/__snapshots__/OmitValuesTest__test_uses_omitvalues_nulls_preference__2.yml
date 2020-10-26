@@ -1,7 +1,7 @@
 headers:
     cache-control: ['no-cache, private']
-    content-type: [application/json]
-    odata-version: ['4.01']
     preference-applied: [omit-values=nulls]
     vary: [prefer]
+    content-type: [application/json]
+    odata-version: ['4.01']
 status: 200

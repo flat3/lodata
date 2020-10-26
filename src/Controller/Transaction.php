@@ -43,6 +43,7 @@ use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Transaction\Version;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use JsonException;
 use Ramsey\Uuid\UuidInterface;
@@ -193,12 +194,6 @@ class Transaction implements ArgumentInterface
         $this->skip = Skip::factory($this);
         $this->top = Top::factory($this);
 
-        return $this;
-    }
-
-    public function setResponse(Response $response): self
-    {
-        $this->response = $response;
         return $this;
     }
 
@@ -366,14 +361,6 @@ class Transaction implements ArgumentInterface
         return $this->metadata;
     }
 
-    public function configureXmlResponse()
-    {
-        $this->configureResponse(
-            MediaType::factory()
-                ->parse('application/xml')
-        );
-    }
-
     public function getAcceptedContentType(): string
     {
         $formatQueryOption = $this->getFormat()->getValue();
@@ -400,21 +387,6 @@ class Transaction implements ArgumentInterface
         }
 
         return '*/*';
-    }
-
-    public function configureResponse(MediaType $requiredType): self
-    {
-        $requiredType->setParameter('charset', 'utf-8');
-        $contentType = $requiredType->negotiate($this->getAcceptedContentType());
-
-        $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
-        $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));
-
-        $this->sendContentType($contentType);
-        $this->sendHeader(Version::versionHeader, $this->getVersion());
-        $this->response->setStatusCode(Response::HTTP_OK);
-
-        return $this;
     }
 
     public function setContentEncoding($encoding): self
@@ -449,33 +421,6 @@ class Transaction implements ArgumentInterface
     public function sendHeader(string $key, string $value): self
     {
         $this->response->headers->set($key, $value);
-
-        return $this;
-    }
-
-    public function configureTextResponse(): self
-    {
-        $this->configureResponse(
-            MediaType::factory()
-                ->parse('text/plain')
-        );
-
-        return $this;
-    }
-
-    public function configureJsonResponse(): self
-    {
-        $this->configureResponse(
-            MediaType::factory()
-                ->parse('application/json')
-                ->setParameter('odata.streaming', Constants::TRUE)
-                ->setParameter('odata.metadata', Metadata\Minimal::name)
-                ->setParameter('IEEE754Compatible', Constants::FALSE)
-        );
-
-        if ($this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS) {
-            $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
-        }
 
         return $this;
     }
@@ -767,6 +712,48 @@ class Transaction implements ArgumentInterface
         /** @var PipeInterface|EmitInterface $result */
         $result = null;
 
+        $lastComponent = Arr::last($pathComponents);
+
+        $requiredType = MediaType::factory()
+            ->parse('application/json')
+            ->setParameter('odata.streaming', Constants::TRUE)
+            ->setParameter('odata.metadata', Metadata\Minimal::name)
+            ->setParameter('IEEE754Compatible', Constants::FALSE);
+
+        if ($this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS) {
+            $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
+        }
+
+        switch ($lastComponent) {
+            case '$metadata':
+                $requiredType = MediaType::factory()->parse('application/xml');
+                break;
+
+            case '$value':
+                $requestedFormat = $this->getAcceptedContentType();
+
+                if ($requestedFormat) {
+                    $requiredType = MediaType::factory()->parse($requestedFormat);
+                } else {
+                    $requiredType = MediaType::factory()->parse('text/plain');
+                }
+                break;
+
+            case '$count':
+                $requiredType = MediaType::factory()->parse('text/plain');
+                break;
+        }
+
+        $requiredType->setParameter('charset', 'utf-8');
+        $contentType = $requiredType->negotiate($this->getAcceptedContentType());
+
+        $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
+        $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));
+
+        $this->sendContentType($contentType);
+        $this->sendHeader(Version::versionHeader, $this->getVersion());
+        $this->response->setStatusCode(Response::HTTP_OK);
+
         if (!$pathComponents) {
             return new PathComponent\Service();
         }
@@ -794,7 +781,7 @@ class Transaction implements ArgumentInterface
         return $result;
     }
 
-    public function getNavigationRequests(EntityType $entityType): ObjectArray
+    public function getExpansionRequests(EntityType $entityType): ObjectArray
     {
         $expanded = $this->getExpand()->getValue();
 
