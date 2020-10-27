@@ -6,7 +6,6 @@ use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
 use Flat3\Lodata\Controller\ODCFF;
 use Flat3\Lodata\Controller\PBIDS;
-use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
@@ -43,12 +42,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         $authMiddleware = config('lodata.authmiddleware');
-        $router->aliasMiddleware('lodata.auth', AuthenticateWithBasicAuth::class);
 
-        $middleware = [$authMiddleware];
+        $middleware = [];
 
-        if (self::usingPreview()) {
-            $middleware = [];
+        if (!self::usingPreview()) {
+            $middleware = [$authMiddleware];
         }
 
         Route::middleware($middleware)->group(function () {

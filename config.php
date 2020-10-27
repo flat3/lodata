@@ -2,7 +2,7 @@
 
 return [
     'route' => 'odata',
-    'authmiddleware' => 'lodata.auth',
+    'authmiddleware' => 'auth.basic',
     'namespace' => 'com.example.odata',
     'disk' => 'local',
 ];
