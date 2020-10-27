@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
@@ -19,7 +18,6 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
-use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathComponent;
 use Flat3\Lodata\Primitive;
@@ -605,8 +603,20 @@ class Transaction implements ArgumentInterface
 
         $expand = $this->getExpand();
         if ($expand->hasValue()) {
-            foreach ($expand->getCommaSeparatedValues() as $expandProperty) {
-                $properties[$expandProperty] = $expandProperty.'()';
+            $navigationRequests = $this->getNavigationRequests();
+
+            /** @var NavigationRequest $navigationRequest */
+            foreach ($navigationRequests as $navigationRequest) {
+                $navigationTransaction = new Transaction();
+                $navigationTransaction->setRequest($navigationRequest);
+                $navigationProperties = [];
+                if ($navigationTransaction->getSelect()->hasValue()) {
+                    foreach ($navigationTransaction->getSelect()->getCommaSeparatedValues() as $navigationSelect) {
+                        $navigationProperties[] = $navigationSelect;
+                    }
+                }
+                $properties[$navigationRequest->getBasePath()] = $navigationRequest->getBasePath().'('.implode(',',
+                        $navigationProperties).')';
             }
         }
 
@@ -781,7 +791,7 @@ class Transaction implements ArgumentInterface
         return $result;
     }
 
-    public function getExpansionRequests(EntityType $entityType): ObjectArray
+    public function getNavigationRequests(): ObjectArray
     {
         $expanded = $this->getExpand()->getValue();
 
@@ -794,34 +804,16 @@ class Transaction implements ArgumentInterface
         $lexer = new Lexer($expanded);
 
         while (!$lexer->finished()) {
-            $path = $lexer->maybeIdentifier();
+            $path = $lexer->identifier();
 
-            /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $entityType->getNavigationProperties()->get($path);
-
-            if (null === $navigationProperty) {
-                throw new BadRequestException(
-                    'nonexistent_expand_path',
-                    sprintf(
-                        'The requested expand path "%s" does not exist on this entity type',
-                        $path
-                    )
-                );
+            $navigationRequest = new NavigationRequest();
+            $navigationRequest->setPath($path);
+            $queryParameters = $lexer->maybeMatchingParenthesis();
+            if ($queryParameters) {
+                $navigationRequest->parseQueryString($queryParameters);
             }
 
-            if (!$navigationProperty->isExpandable()) {
-                throw new BadRequestException(
-                    'path_not_expandable',
-                    sprintf(
-                        'The requested path "%s" is not available for expansion on this entity type',
-                        $path
-                    )
-                );
-            }
-
-            $options = $lexer->maybeMatchingParenthesis();
-
-            $requests[] = new NavigationRequest($navigationProperty, $options);
+            $requests[] = $navigationRequest;
 
             if (!$lexer->finished()) {
                 $lexer->char(',');

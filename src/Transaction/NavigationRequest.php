@@ -10,20 +10,30 @@ class NavigationRequest extends Request
     /** @var NavigationProperty $navigationProperty */
     protected $navigationProperty;
 
-    /** @var ParameterList $options */
-    protected $options;
-
-    /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct(NavigationProperty $navigationProperty, ?string $options = '')
+    public function parseQueryString(string $queryString): self
     {
-        $this->navigationProperty = $navigationProperty;
-        $this->options = new Parameter();
-        $this->options->parse($options);
+        parse_str($queryString, $queryParameters);
+        $this->query->replace($queryParameters);
+
+        return $this;
     }
 
     public function getMethod(): string
     {
         return Request::METHOD_GET;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->basePath = $path;
+        return $this;
+    }
+
+    public function setNavigationProperty(NavigationProperty $navigationProperty): self
+    {
+        $this->navigationProperty = $navigationProperty;
+
+        return $this;
     }
 
     public function getNavigationProperty(): NavigationProperty
@@ -33,11 +43,6 @@ class NavigationRequest extends Request
 
     public function __toString()
     {
-        return $this->getPath();
-    }
-
-    public function getPath(): string
-    {
-        return $this->navigationProperty->getName();
+        return $this->getBasePath();
     }
 }

@@ -153,7 +153,9 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         }
 
         if ($property instanceof NavigationProperty) {
-            $property->generatePropertyValue($transaction, new NavigationRequest($property), $argument);
+            $navigationRequest = new NavigationRequest();
+            $navigationRequest->setNavigationProperty($property);
+            $property->generatePropertyValue($transaction, $navigationRequest, $argument);
         }
 
         if ($property instanceof DynamicProperty) {

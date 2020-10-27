@@ -133,6 +133,16 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_select_within_expand()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'origin,destination,airports')
+                ->query('$expand', 'airports($select=code,is_big)')
+        );
+    }
+
     public function test_dynamic_property()
     {
         $airport = Lodata::getEntityType('airport');

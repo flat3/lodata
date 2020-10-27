@@ -9,6 +9,7 @@ use Flat3\Lodata\Helper\ObjectArray;
 
 class ParameterList
 {
+    /** @var ObjectArray $parameters */
     private $parameters;
 
     public function __construct()

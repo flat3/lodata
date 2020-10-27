@@ -6,6 +6,7 @@ use ArrayAccess;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\ETagException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -16,6 +17,7 @@ use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Traits\HasTransaction;
+use Flat3\Lodata\Transaction\NavigationRequest;
 
 class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
@@ -47,6 +49,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function emit(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
+        $entityType = $this->getType();
+        $navigationRequests = $transaction->getNavigationRequests();
 
         /** @var DynamicProperty $dynamicProperty */
         foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
@@ -55,11 +59,40 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         /** @var NavigationProperty $navigationProperty */
         foreach ($this->getType()->getNavigationProperties() as $navigationProperty) {
-            $navigationRequest = $transaction->getExpansionRequests($this->getType())->get($navigationProperty->getName());
+            /** @var NavigationRequest $navigationRequest */
+            $navigationRequest = $navigationRequests->get($navigationProperty->getName());
 
-            if ($navigationRequest) {
-                $navigationProperty->generatePropertyValue($transaction, $navigationRequest, $this);
+            if (!$navigationRequest) {
+                continue;
             }
+
+            $navigationPath = $navigationRequest->getBasePath();
+
+            /** @var NavigationProperty $navigationProperty */
+            $navigationProperty = $entityType->getNavigationProperties()->get($navigationPath);
+            $navigationRequest->setNavigationProperty($navigationProperty);
+
+            if (null === $navigationProperty) {
+                throw new BadRequestException(
+                    'nonexistent_expand_path',
+                    sprintf(
+                        'The requested expand path "%s" does not exist on this entity type',
+                        $navigationPath
+                    )
+                );
+            }
+
+            if (!$navigationProperty->isExpandable()) {
+                throw new BadRequestException(
+                    'path_not_expandable',
+                    sprintf(
+                        'The requested path "%s" is not available for expansion on this entity type',
+                        $navigationPath
+                    )
+                );
+            }
+
+            $navigationProperty->generatePropertyValue($transaction, $navigationRequest, $this);
         }
 
         $transaction->outputJsonObjectStart();
