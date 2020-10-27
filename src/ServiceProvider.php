@@ -6,7 +6,6 @@ use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
 use Flat3\Lodata\Controller\ODCFF;
 use Flat3\Lodata\Controller\PBIDS;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -31,7 +30,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         return env('LODATA_PREVIEW', false);
     }
 
-    public function boot(Router $router)
+    public function boot()
     {
         $this->app->singleton(Model::class, function () {
             return new Model();
@@ -41,12 +40,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return $app->make(Model::class);
         });
 
-        $authMiddleware = config('lodata.authmiddleware');
+        $middleware = config('lodata.middleware', []);
 
-        $middleware = [];
-
-        if (!self::usingPreview()) {
-            $middleware = [$authMiddleware];
+        if (self::usingPreview()) {
+            $middleware = [];
         }
 
         Route::middleware($middleware)->group(function () {

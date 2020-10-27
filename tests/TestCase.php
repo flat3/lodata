@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
@@ -21,6 +22,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
+use Mockery\Expectation;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
 use stdClass;
@@ -34,11 +36,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use TestModels;
     use WithoutMiddleware;
 
+    /** @var Expectation $gateMock */
+    protected $gateMock;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->withoutExceptionHandling();
-        Gate::shouldReceive('denies')->andReturn(false);
+        $this->gateMock = Gate::shouldReceive('denies');
+        $this->gateMock->andReturnFalse();
         $this->getDisk();
     }
 
@@ -98,6 +104,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         }
 
         throw new RuntimeException('Failed to throw exception');
+    }
+
+    protected function assertForbidden(Request $request): ProtocolException
+    {
+        return $this->assertRequestExceptionSnapshot($request, ForbiddenException::class);
     }
 
     protected function assertPreconditionFailed(Request $request): ProtocolException

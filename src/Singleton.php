@@ -5,6 +5,7 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
@@ -49,6 +50,8 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
         if (!$singleton instanceof Singleton) {
             throw new PathNotHandledException();
         }
+
+        Gate::check(Gate::READ, $singleton, $transaction);
 
         return $singleton;
     }

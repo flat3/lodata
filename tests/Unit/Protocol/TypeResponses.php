@@ -112,7 +112,7 @@ class TypeResponses extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): Int32
             {
-                return new Int32((2**31)-1);
+                return new Int32((2 ** 31) - 1);
             }
         });
 
@@ -127,7 +127,7 @@ class TypeResponses extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): Int16
             {
-                return new Int16((2**15)-1);
+                return new Int16((2 ** 15) - 1);
             }
         });
 
@@ -142,7 +142,7 @@ class TypeResponses extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): Int64
             {
-                return new Int64(PHP_INT_MAX+1);
+                return new Int64(PHP_INT_MAX + 1);
             }
         });
 
@@ -157,7 +157,7 @@ class TypeResponses extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): Int32
             {
-                return new Int32(2**31);
+                return new Int32(2 ** 31);
             }
         });
 
@@ -172,7 +172,7 @@ class TypeResponses extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): Int16
             {
-                return new Int16(2**15);
+                return new Int16(2 ** 15);
             }
         });
 

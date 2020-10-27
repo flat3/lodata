@@ -428,7 +428,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                     );
                 }
 
-                Gate::check('entityset.query', $entitySet, $transaction);
+                Gate::check(Gate::QUERY, $entitySet, $transaction);
 
                 return $entitySet;
             }
@@ -442,7 +442,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                         );
                     }
 
-                    Gate::check('entityset.create', $entitySet, $transaction);
+                    Gate::check(Gate::CREATE, $entitySet, $transaction);
 
                     return $entitySet->create();
             }
@@ -515,6 +515,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                 throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
             }
 
+            Gate::check(Gate::READ, $entitySet, $transaction);
+
             $entity = $entitySet->read($keyValue);
 
             if (null === $entity) {
@@ -531,12 +533,16 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
                     throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
                 }
 
+                Gate::check(Gate::UPDATE, $entitySet, $transaction);
+
                 return $entitySet->update($keyValue);
 
             case Request::METHOD_DELETE:
                 if (!$entitySet instanceof DeleteInterface) {
                     throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
                 }
+
+                Gate::check(Gate::DELETE, $entitySet, $transaction);
 
                 return $entitySet->delete($keyValue);
         }
