@@ -96,6 +96,10 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             }
         }
 
+        if ($this->property instanceof NavigationProperty) {
+            return true;
+        }
+
         $select = $transaction->getSelect();
 
         if ($select->isStar() || !$select->hasValue()) {

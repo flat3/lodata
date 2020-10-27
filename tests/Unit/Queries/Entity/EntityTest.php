@@ -129,7 +129,7 @@ class EntityTest extends TestCase
             Request::factory()
                 ->path('/flights(1)')
                 ->query('$expand', 'airports')
-                ->query('$select', 'origin,airports')
+                ->query('$select', 'origin')
         );
     }
 
@@ -138,7 +138,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
-                ->query('$select', 'origin,destination,airports')
+                ->query('$select', 'origin,destination')
                 ->query('$expand', 'airports($select=code,is_big)')
         );
     }
@@ -158,6 +158,44 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports(1)')
+        );
+    }
+
+    public function test_dynamic_property_selected()
+    {
+        $airport = Lodata::getEntityType('airport');
+
+        $property = new class('cp', Type::int32()) extends DynamicProperty {
+            public function invoke(Entity $entity)
+            {
+                return new Int32(4);
+            }
+        };
+
+        $airport->addProperty($property);
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports(1)')
+                ->query('$select', 'code,cp')
+        );
+    }
+
+    public function test_dynamic_property_not_selected()
+    {
+        $airport = Lodata::getEntityType('airport');
+
+        $property = new class('cp', Type::int32()) extends DynamicProperty {
+            public function invoke(Entity $entity)
+            {
+                return new Int32(4);
+            }
+        };
+
+        $airport->addProperty($property);
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/airports(1)')
+                ->query('$select', 'code')
         );
     }
 
