@@ -25,6 +25,7 @@ use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
 use stdClass;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -86,6 +87,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertNoContent(Request $request): ProtocolException
     {
         return $this->assertRequestExceptionSnapshot($request, NoContentException::class);
+    }
+
+    protected function assertNotAuthenticated(Request $request)
+    {
+        try {
+            $this->req($request);
+        } catch (UnauthorizedHttpException $e) {
+            return;
+        }
+
+        throw new RuntimeException('Failed to throw exception');
     }
 
     protected function assertPreconditionFailed(Request $request): ProtocolException
