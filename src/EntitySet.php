@@ -284,6 +284,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         $skip = $transaction->getSkip();
 
+        $metadata['readLink'] = $this->getResourceUrl($transaction);
+
         if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $setCount)) {
             $np = $transaction->getQueryParams();
             $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);

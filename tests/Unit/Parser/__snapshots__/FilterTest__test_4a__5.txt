@@ -1,1 +1,0 @@
-This entity set does not support the operator "minute"

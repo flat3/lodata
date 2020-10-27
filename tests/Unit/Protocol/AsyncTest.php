@@ -6,6 +6,7 @@ use Flat3\Lodata\Controller\Async;
 use Flat3\Lodata\Tests\JsonDriver;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Metadata\Full;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
@@ -16,19 +17,22 @@ class AsyncTest extends TestCase
     {
         parent::setUp();
 
+        $this->withFlightModel();
+
         Str::createUuidsUsing(function () {
             return '00000000-0000-0000-0000-000000000000';
         });
     }
 
-    public function test_async()
+    public function async_request(Request $request)
     {
         $queue = Queue::fake();
         $disk = $this->getDisk();
 
+        $request->header('prefer', 'respond-async');
+
         $acceptedException = $this->assertAccepted(
-            Request::factory()
-                ->header('prefer', 'respond-async')
+            $request
         );
 
         $location = parse_url($acceptedException->toResponse()->headers->get('location'), PHP_URL_PATH);
@@ -162,6 +166,30 @@ class AsyncTest extends TestCase
         $this->assertNotFound(
             Request::factory()
                 ->path($location, false)
+        );
+    }
+
+    public function test_async()
+    {
+        $this->async_request(
+            Request::factory()
+        );
+    }
+
+    public function test_async_entityset()
+    {
+        $this->async_request(
+            Request::factory()
+                ->path('/flights')
+        );
+    }
+
+    public function test_async_full_metadata()
+    {
+        $this->async_request(
+            Request::factory()
+                ->path('/flights')
+                ->metadata(Full::name)
         );
     }
 }

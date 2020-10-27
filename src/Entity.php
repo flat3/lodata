@@ -99,8 +99,11 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         $metadata = $this->metadata;
 
+        $metadata['type'] = '#'.$this->getType()->getIdentifier();
+
         if ($this->entitySet && $this->getEntityId()) {
             $metadata['id'] = $this->getResourceUrl($transaction);
+            $metadata['readLink'] = $metadata['id'];
         }
 
         $metadata = $transaction->getMetadata()->filter($metadata);
