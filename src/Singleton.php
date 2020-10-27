@@ -40,11 +40,11 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
 
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $singleton = Lodata::getSingleton($currentComponent);
+        $singleton = Lodata::getSingleton($currentSegment);
 
         if (!$singleton instanceof Singleton) {
             throw new PathNotHandledException();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\PathComponent;
+namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;

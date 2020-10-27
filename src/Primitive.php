@@ -181,8 +181,8 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
         return $argument;

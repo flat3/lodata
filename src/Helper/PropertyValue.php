@@ -127,11 +127,11 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $lexer = new Lexer($currentComponent);
+        $lexer = new Lexer($currentSegment);
 
         try {
             $propertyName = $lexer->identifier();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\PathComponent;
+namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
@@ -29,11 +29,11 @@ class Metadata implements PipeInterface, EmitInterface
 {
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): PipeInterface {
-        if ($currentComponent !== '$metadata') {
+        if ($currentSegment !== '$metadata') {
             throw new PathNotHandledException();
         }
 

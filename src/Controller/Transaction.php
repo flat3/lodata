@@ -19,7 +19,7 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Operation;
-use Flat3\Lodata\PathComponent;
+use Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
@@ -105,16 +105,17 @@ class Transaction implements ArgumentInterface
     /** @var SchemaVersion $schemaVersion */
     private $schemaVersion;
 
+    /* Correct handler evaluation order described in https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_KeyasSegmentConvention */
     /** @var PipeInterface[] $handlers */
     protected $handlers = [
         EntitySet::class,
-        PathComponent\Metadata::class,
-        PathComponent\Value::class,
-        PathComponent\Count::class,
+        PathSegment\Metadata::class,
+        PathSegment\Value::class,
+        PathSegment\Count::class,
+        PathSegment\Filter::class,
         Operation::class,
         Singleton::class,
         PropertyValue::class,
-        PathComponent\Filter::class,
     ];
 
     public function __construct()
@@ -423,7 +424,7 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
-    public function getPathComponents(): array
+    public function getPathSegments(): array
     {
         return array_map('rawurldecode', array_filter(explode('/', $this->getPath())));
     }
@@ -717,12 +718,12 @@ class Transaction implements ArgumentInterface
 
     public function execute(): EmitInterface
     {
-        $pathComponents = $this->getPathComponents();
+        $pathSegments = $this->getPathSegments();
 
         /** @var PipeInterface|EmitInterface $result */
         $result = null;
 
-        $lastComponent = Arr::last($pathComponents);
+        $lastSegment = Arr::last($pathSegments);
 
         $requiredType = MediaType::factory()
             ->parse('application/json')
@@ -734,7 +735,7 @@ class Transaction implements ArgumentInterface
             $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
         }
 
-        switch ($lastComponent) {
+        switch ($lastSegment) {
             case '$metadata':
                 $requiredType = MediaType::factory()->parse('application/xml');
                 break;
@@ -764,17 +765,17 @@ class Transaction implements ArgumentInterface
         $this->sendHeader(Version::versionHeader, $this->getVersion());
         $this->response->setStatusCode(Response::HTTP_OK);
 
-        if (!$pathComponents) {
-            return new PathComponent\Service();
+        if (!$pathSegments) {
+            return new PathSegment\Service();
         }
 
-        while ($pathComponents) {
-            $currentComponent = array_shift($pathComponents);
-            $nextComponent = $pathComponents[0] ?? null;
+        while ($pathSegments) {
+            $currentSegment = array_shift($pathSegments);
+            $nextSegment = $pathSegments[0] ?? null;
 
             foreach ($this->handlers as $handler) {
                 try {
-                    $result = $handler::pipe($this, $currentComponent, $nextComponent, $result);
+                    $result = $handler::pipe($this, $currentSegment, $nextSegment, $result);
                     continue 2;
                 } catch (PathNotHandledException $e) {
                     continue;

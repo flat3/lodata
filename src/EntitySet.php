@@ -392,11 +392,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $lexer = new Lexer($currentComponent);
+        $lexer = new Lexer($currentSegment);
         try {
             $entitySet = Lodata::getEntitySet($lexer->qualifiedIdentifier());
         } catch (LexerException $e) {
@@ -418,7 +418,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $entitySet->setTransaction($transaction);
 
         if ($lexer->finished()) {
-            if ($nextComponent || $transaction->getMethod() === Request::METHOD_GET) {
+            if ($nextSegment || $transaction->getMethod() === Request::METHOD_GET) {
                 if (!$entitySet instanceof QueryInterface) {
                     throw new NotImplementedException(
                         'entityset_cannot_query',
@@ -508,7 +508,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             )->lexer($lexer);
         }
 
-        if ($nextComponent || $transaction->getMethod() === Request::METHOD_GET) {
+        if ($nextSegment || $transaction->getMethod() === Request::METHOD_GET) {
             if (!$entitySet instanceof ReadInterface) {
                 throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
             }

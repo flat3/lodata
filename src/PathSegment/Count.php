@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\PathComponent;
+namespace Flat3\Lodata\PathSegment;
 
 use Countable;
 use Flat3\Lodata\Controller\Response;
@@ -34,11 +34,11 @@ class Count implements EmitInterface, PipeInterface
 
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        if ($currentComponent !== '$count') {
+        if ($currentSegment !== '$count') {
             throw new PathNotHandledException();
         }
 

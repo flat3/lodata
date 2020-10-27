@@ -219,11 +219,11 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $lexer = new Lexer($currentComponent);
+        $lexer = new Lexer($currentSegment);
 
         try {
             $operationIdentifier = $lexer->identifier();
@@ -237,7 +237,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             throw new PathNotHandledException();
         }
 
-        if ($nextComponent && $operation instanceof ActionInterface) {
+        if ($nextSegment && $operation instanceof ActionInterface) {
             throw new BadRequestException(
                 'cannot_compose_action',
                 'It is not permitted to further compose the result of an action'
@@ -279,7 +279,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
                 return [$key => $value];
             }, $inlineParameters));
         } catch (LexerException $e) {
-            if (!$nextComponent) {
+            if (!$nextSegment) {
                 /** @var Argument $argument */
                 foreach ($operation->getArguments() as $argument) {
                     $value = $transaction->getImplicitParameterAlias($argument->getName());

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\PathComponent;
+namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
@@ -12,11 +12,11 @@ class Filter implements PipeInterface
 {
     public static function pipe(
         Transaction $transaction,
-        string $currentComponent,
-        ?string $nextComponent,
+        string $currentSegment,
+        ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $lexer = new Lexer($currentComponent);
+        $lexer = new Lexer($currentSegment);
 
         try {
             $lexer->keyword('$filter');
