@@ -288,7 +288,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             $np = $transaction->getQueryParams();
             $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
             $metadata['nextLink'] = Url::http_build_url(
-                $this->getResourceUrl(),
+                $this->getResourceUrl($transaction),
                 [
                     'query' => http_build_query(
                         $np,
@@ -329,10 +329,10 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         return $url;
     }
 
-    public function getResourceUrl(): string
+    public function getResourceUrl(Transaction $transaction): string
     {
         $url = Transaction::getResourceUrl().$this->getName();
-        $properties = $this->transaction->getResourceUrlProperties();
+        $properties = $transaction->getResourceUrlProperties();
 
         if ($properties) {
             $url = Url::http_build_url($url, [

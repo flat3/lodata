@@ -97,8 +97,16 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         $transaction->outputJsonObjectStart();
 
-        if ($this->metadata) {
-            $transaction->outputJsonKV($this->metadata);
+        $metadata = $this->metadata;
+
+        if ($this->entitySet && $this->getEntityId()) {
+            $metadata['id'] = $this->getResourceUrl($transaction);
+        }
+
+        $metadata = $transaction->getMetadata()->filter($metadata);
+
+        if ($metadata) {
+            $transaction->outputJsonKV($metadata);
 
             if ($this->properties->hasEntries()) {
                 $transaction->outputJsonSeparator();
@@ -227,28 +235,36 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         return $url;
     }
 
-    public function getResourceUrl(): string
+    public function getResourceUrl(Transaction $transaction): string
     {
         if (!$this->entitySet) {
             throw new InternalServerErrorException(
-                'no_entity_resource',
+                'no_entity_set',
                 'Entity is only a resource as part of an entity set'
             );
         }
 
-        return sprintf('%s(%s)', $this->entitySet->getResourceUrl(),
-            $this->getEntityId()->getPrimitiveValue()->toUrl());
+        if (!$this->getEntityId()) {
+            throw new InternalServerErrorException(
+                'no_entity_id',
+                'Entity is only a resource if it has an ID',
+            );
+        }
+
+        return sprintf(
+            '%s(%s)',
+            $this->entitySet->getResourceUrl($transaction),
+            $this->getEntityId()->getPrimitiveValue()->toUrl()
+        );
     }
 
     public function response(Transaction $transaction): Response
     {
         $transaction = $this->transaction ?: $transaction;
 
-        $metadata = [
+        $this->metadata = [
             'context' => $this->getContextUrl($transaction),
         ];
-
-        $this->metadata = $transaction->getMetadata()->filter($metadata);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);

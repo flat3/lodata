@@ -7,6 +7,7 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Metadata;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\String_;
@@ -23,6 +24,24 @@ class EntityTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
+                ->path('/flights(1)')
+        );
+    }
+
+    public function test_read_an_entity_with_full_metadata()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->metadata(Metadata\Full::name)
+                ->path('/flights(1)')
+        );
+    }
+
+    public function test_read_an_entity_with_no_metadata()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->metadata(Metadata\None::name)
                 ->path('/flights(1)')
         );
     }

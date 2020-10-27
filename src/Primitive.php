@@ -132,9 +132,9 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $this->getIdentifier();
     }
 
-    public function getResourceUrl(): string
+    public function getResourceUrl(Transaction $transaction): string
     {
-        return Transaction::getResourceUrl().$this->getName().'()';
+        return $transaction->getResourceUrl().$this->getName().'()';
     }
 
     public function getIdentifier(): string
