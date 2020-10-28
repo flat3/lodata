@@ -207,6 +207,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         if ($this->expansionPropertyValue) {
             $key = $this->resolveExpansionKey();
+            $this->whereMaybeAnd();
             $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
             $this->addParameter($key->getPrimitiveValue()->get());
         }
@@ -357,10 +358,5 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->getSetResultQueryString();
 
         return $this;
-    }
-
-    public function expand(Transaction $transaction, Entity $entity, NavigationProperty $navigationProperty): array
-    {
-        return [];
     }
 }

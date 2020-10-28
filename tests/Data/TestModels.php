@@ -136,7 +136,7 @@ trait TestModels
         $passengerType = Lodata::add(
             EntityType::factory('passenger')
                 ->setKey(new DeclaredProperty('id', Type::int32()))
-                ->addDeclaredProperty('name', Type::string())
+                ->addProperty((new DeclaredProperty('name', Type::string()))->setSearchable())
                 ->addDeclaredProperty('flight_id', Type::int32())
         );
 

@@ -204,6 +204,29 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     public function emit(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
+
+        // Validate $orderby
+        $orderby = $transaction->getOrderBy();
+        $orderby->getSortOrders();
+
+        $top = $transaction->getTop();
+        $skip = $transaction->getSkip();
+
+        $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
+        if (!$top->hasValue() && $maxPageSize) {
+            $top->setValue($maxPageSize);
+        }
+
+        $this->top = $top->hasValue() && ($top->getValue() < $this->maxPageSize) ? $top->getValue() : $this->maxPageSize;
+
+        if ($skip->hasValue()) {
+            $this->skip = $skip->getValue();
+        }
+
+        if ($top->hasValue()) {
+            $this->topLimit = $top->getValue();
+        }
+
         $transaction->outputJsonArrayStart();
 
         while ($this->valid()) {
@@ -226,51 +249,6 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
     {
         $transaction = $this->transaction ?: $transaction;
 
-        foreach (
-            [
-                [CountInterface::class, $transaction->getCount()],
-                [FilterInterface::class, $transaction->getFilter()],
-                [OrderByInterface::class, $transaction->getOrderBy()],
-                [SearchInterface::class, $transaction->getSearch()],
-                [PaginationInterface::class, $transaction->getSkip()],
-                [PaginationInterface::class, $transaction->getTop()],
-                [ExpandInterface::class, $transaction->getExpand()]
-            ] as $sqo
-        ) {
-            list ($class, $option) = $sqo;
-
-            /** @var Option $option */
-            if ($option->hasValue() && !is_a($this, $class, true)) {
-                throw new NotImplementedException(
-                    'system_query_option_not_implemented',
-                    sprintf('The %s system query option is not supported by this entity set', $option::param)
-                );
-            }
-        }
-
-        // Validate $orderby
-        $orderby = $transaction->getOrderBy();
-        $orderby->getSortOrders();
-
-        $skip = $transaction->getSkip();
-
-        $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
-        $top = $transaction->getTop();
-        if (!$top->hasValue() && $maxPageSize) {
-            $transaction->preferenceApplied(Constants::MAX_PAGE_SIZE, $maxPageSize);
-            $top->setValue($maxPageSize);
-        }
-
-        $this->top = $top->hasValue() && ($top->getValue() < $this->maxPageSize) ? $top->getValue() : $this->maxPageSize;
-
-        if ($skip->hasValue()) {
-            $this->skip = $skip->getValue();
-        }
-
-        if ($top->hasValue()) {
-            $this->topLimit = $top->getValue();
-        }
-
         $setCount = $this->count();
 
         $metadata = [
@@ -282,7 +260,14 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             $metadata['count'] = $setCount;
         }
 
+        $top = $transaction->getTop();
         $skip = $transaction->getSkip();
+
+        $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
+        if (!$top->hasValue() && $maxPageSize) {
+            $transaction->preferenceApplied(Constants::MAX_PAGE_SIZE, $maxPageSize);
+            $top->setValue($maxPageSize);
+        }
 
         $metadata['readLink'] = $this->getResourceUrl($transaction);
 
@@ -390,6 +375,35 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $targetKey->setValue($keyPropertyValue->getValue());
 
         return $targetKey;
+    }
+
+    public function setTransaction(Transaction $transaction)
+    {
+        foreach (
+            [
+                [CountInterface::class, $transaction->getCount()],
+                [FilterInterface::class, $transaction->getFilter()],
+                [OrderByInterface::class, $transaction->getOrderBy()],
+                [SearchInterface::class, $transaction->getSearch()],
+                [PaginationInterface::class, $transaction->getSkip()],
+                [PaginationInterface::class, $transaction->getTop()],
+                [ExpandInterface::class, $transaction->getExpand()]
+            ] as $sqo
+        ) {
+            list ($class, $option) = $sqo;
+
+            /** @var Option $option */
+            if ($option->hasValue() && !is_a($this, $class, true)) {
+                throw new NotImplementedException(
+                    'system_query_option_not_implemented',
+                    sprintf('The %s system query option is not supported by this entity set', $option::param)
+                );
+            }
+        }
+
+        $this->transaction = $transaction;
+
+        return $this;
     }
 
     public static function pipe(
