@@ -142,6 +142,14 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_expand_property()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)/airports')
+        );
+    }
+
     public function test_expand_select()
     {
         $this->assertJsonResponse(

@@ -7,5 +7,6 @@
     "sam_datetime": null,
     "open_time": null,
     "review_score": null,
-    "is_big": null
+    "is_big": null,
+    "country_id": null
 }

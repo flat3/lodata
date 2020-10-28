@@ -28,6 +28,7 @@
         <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
         <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
+        <Property Name="country_id" Type="Edm.Int32" Nullable="true"/>
         <NavigationProperty Name="flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
           <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
         </NavigationProperty>

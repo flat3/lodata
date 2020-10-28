@@ -17,14 +17,14 @@ class EloquentTest extends TestCase
         $this->withFlightDatabase();
 
         $airports = Lodata::discoverEloquentModel(Airport::class);
-        $airports->getType()->dropProperty('country_id');
-        Lodata::discoverEloquentModel(Flight::class);
-        Lodata::discoverEloquentModel(Country::class);
+        $flights = Lodata::discoverEloquentModel(Flight::class);
+        $countries = Lodata::discoverEloquentModel(Country::class);
+
         $airports->discoverRelationship('flights');
         $airports->discoverRelationship('country');
 
         $airport = Lodata::getEntityType('Airport');
-        $airport->getProperty('code')->setAlternativeKey();
+        $airport->getDeclaredProperty('code')->setAlternativeKey();
     }
 
     public function test_metadata()

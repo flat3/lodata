@@ -8,6 +8,7 @@
     "open_time": null,
     "review_score": null,
     "is_big": null,
+    "country_id": null,
     "flights": [
         {
             "id": 1,

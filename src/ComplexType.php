@@ -69,6 +69,27 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return $this->properties->get($property);
     }
 
+    public function getDeclaredProperty(string $property): ?DeclaredProperty
+    {
+        $property = $this->properties->get($property);
+
+        return $property instanceof DeclaredProperty ? $property : null;
+    }
+
+    public function getNavigationProperty(string $property): ?NavigationProperty
+    {
+        $property = $this->properties->get($property);
+
+        return $property instanceof NavigationProperty ? $property : null;
+    }
+
+    public function getDynamicProperty(string $property): ?DynamicProperty
+    {
+        $property = $this->properties->get($property);
+
+        return $property instanceof DynamicProperty ? $property : null;
+    }
+
     public function getProperties(): ObjectArray
     {
         return $this->properties;

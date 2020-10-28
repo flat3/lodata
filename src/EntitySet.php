@@ -409,11 +409,8 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             throw new PathNotHandledException();
         }
 
-        if (null !== $argument) {
-            throw new BadRequestException(
-                'no_entity_set_receiver',
-                'EntitySet does not support composition from this type'
-            );
+        if ($argument instanceof Entity) {
+            throw new PathNotHandledException();
         }
 
         $entitySet = clone $entitySet;
