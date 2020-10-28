@@ -22,6 +22,11 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         $this->properties = new ObjectArray();
     }
 
+    public static function factory($identifier): self
+    {
+        return new static($identifier);
+    }
+
     /**
      * Add a property to the list
      *
@@ -33,6 +38,19 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     {
         $this->properties[] = $property;
 
+        return $this;
+    }
+
+    public function dropProperty($property): self
+    {
+        $this->properties->drop($property);
+
+        return $this;
+    }
+
+    public function addDeclaredProperty($name, Type $type): self
+    {
+        $this->addProperty(new DeclaredProperty($name, $type));
         return $this;
     }
 

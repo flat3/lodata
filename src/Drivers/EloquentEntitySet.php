@@ -223,23 +223,28 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $results = [];
 
         foreach ($builder->getModels() as $model) {
-            $es = Lodata::getEntitySet(self::getSetName(get_class($model)));
-            $entity = $es->newEntity();
-
-            /** @var Property $property */
-            foreach ($es->getType()->getDeclaredProperties() as $property) {
-                $propertyValue = $entity->newPropertyValue();
-                $propertyValue->setProperty($property);
-                $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
-                $entity->addProperty($propertyValue);
-            }
-
-            $entity->setEntityId($model->getKey());
-
-            $results[] = $entity;
+            $results[] = $this->modelToEntity($model);
         }
 
         return $results;
+    }
+
+    public function modelToEntity(Model $model): Entity
+    {
+        $set = Lodata::getEntitySet(self::getSetName(get_class($model)));
+        $entity = $set->newEntity();
+
+        /** @var Property $property */
+        foreach ($set->getType()->getDeclaredProperties() as $property) {
+            $propertyValue = $entity->newPropertyValue();
+            $propertyValue->setProperty($property);
+            $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
+            $entity->addProperty($propertyValue);
+        }
+
+        $entity->setEntityId($model->getKey());
+
+        return $entity;
     }
 
     public function propertyToField(Property $property): string
@@ -257,9 +262,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
             /** @var Relation $r */
             $r = $model->$method();
-            $right = Lodata::getEntitySet(self::getSetName(get_class($r->getRelated())));
+            $esn = self::getSetName(get_class($r->getRelated()));
+            $right = Lodata::getEntitySet($esn);
             if (!$right) {
-                throw new InternalServerErrorException('no_related_set', 'Could not find the related set');
+                throw new InternalServerErrorException('no_related_set', 'Could not find the related entity set '.$esn);
             }
 
             $nav = (new NavigationProperty($method, $right->getType()))

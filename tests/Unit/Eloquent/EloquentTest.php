@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport;
+use Flat3\Lodata\Tests\Models\Country;
 use Flat3\Lodata\Tests\Models\Flight;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -16,8 +17,11 @@ class EloquentTest extends TestCase
         $this->withFlightDatabase();
 
         $airports = Lodata::discoverEloquentModel(Airport::class);
+        $airports->getType()->dropProperty('country_id');
         Lodata::discoverEloquentModel(Flight::class);
+        Lodata::discoverEloquentModel(Country::class);
         $airports->discoverRelationship('flights');
+        $airports->discoverRelationship('country');
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getProperty('code')->setAlternativeKey();
@@ -223,6 +227,35 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Airports(1)')
                 ->query('$expand', 'flights')
+        );
+    }
+
+    public function test_expand_hasone_entity()
+    {
+        $co1 = new Country();
+        $co1['name'] = 'en';
+        $co1->save();
+
+        $co2 = new Country();
+        $co2['name'] = 'fr';
+        $co2->save();
+
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1['country_id'] = 1;
+        $ap1->save();
+
+        $ap2 = new Airport();
+        $ap2['name'] = 'Eloquint';
+        $ap2['code'] = 'eli';
+        $ap2['country_id'] = 2;
+        $ap2->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports(1)')
+                ->query('$expand', 'country')
         );
     }
 

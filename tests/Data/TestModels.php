@@ -14,6 +14,7 @@ use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
+use Flat3\Lodata\Tests\Models\Country as CountryEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
@@ -41,6 +42,12 @@ trait TestModels
             $table->time('open_time')->nullable();
             $table->float('review_score')->nullable();
             $table->boolean('is_big')->nullable();
+            $table->bigInteger('country_id')->nullable();
+        });
+
+        Schema::create('countries', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
         });
     }
 
@@ -95,26 +102,32 @@ trait TestModels
         ]))->save();
 
         /** @var EntityType $flightType */
-        $flightType = Lodata::add(new EntityType('flight'));
-        $flightType->setKey(new DeclaredProperty('id', Type::int32()));
-        $flightType->addProperty(new DeclaredProperty('origin', Type::string()));
-        $flightType->addProperty(new DeclaredProperty('destination', Type::string()));
-        $flightType->addProperty(new DeclaredProperty('gate', Type::int32()));
-        $flightSet = new SQLEntitySet('flights', $flightType);
-        $flightSet->setTable('flights');
+        $flightType = Lodata::add(
+            EntityType::factory('flight')
+                ->setKey(new DeclaredProperty('id', Type::int32()))
+                ->addDeclaredProperty('origin', Type::string())
+                ->addDeclaredProperty('destination', Type::string())
+                ->addDeclaredProperty('gate', Type::int32())
+        );
+
+        $flightSet = SQLEntitySet::factory('flights', $flightType)
+            ->setTable('flights');
 
         /** @var EntityType $airportType */
-        $airportType = Lodata::add(new EntityType('airport'));
-        $airportType->setKey(new DeclaredProperty('id', Type::int32()));
-        $airportType->addProperty(new DeclaredProperty('name', Type::string()));
-        $airportType->addProperty((new DeclaredProperty('code', Type::string()))->setSearchable());
-        $airportType->addProperty(new DeclaredProperty('construction_date', Type::date()));
-        $airportType->addProperty(new DeclaredProperty('open_time', Type::timeofday()));
-        $airportType->addProperty(new DeclaredProperty('sam_datetime', Type::datetimeoffset()));
-        $airportType->addProperty(new DeclaredProperty('review_score', Type::decimal()));
-        $airportType->addProperty(new DeclaredProperty('is_big', Type::boolean()));
-        $airportSet = new SQLEntitySet('airports', $airportType);
-        $airportSet->setTable('airports');
+        $airportType = Lodata::add(
+            EntityType::factory('airport')
+                ->setKey(new DeclaredProperty('id', Type::int32()))
+                ->addDeclaredProperty('name', Type::string())
+                ->addProperty((new DeclaredProperty('code', Type::string()))->setSearchable())
+                ->addDeclaredProperty('construction_date', Type::date())
+                ->addDeclaredProperty('open_time', Type::timeofday())
+                ->addDeclaredProperty('sam_datetime', Type::datetimeoffset())
+                ->addDeclaredProperty('review_score', Type::decimal())
+                ->addDeclaredProperty('is_big', Type::boolean())
+        );
+
+        $airportSet = SQLEntitySet::factory('airports', $airportType)
+            ->setTable('airports');
 
         Lodata::add($flightSet);
         Lodata::add($airportSet);
@@ -163,7 +176,7 @@ trait TestModels
             new class(
                 'texts',
                 Lodata::add(new EntityType('text'))
-                    ->addProperty(new DeclaredProperty('a', Type::string()))
+                    ->addDeclaredProperty('a', Type::string())
             ) extends EntitySet implements QueryInterface {
                 public function query(): array
                 {

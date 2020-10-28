@@ -11,8 +11,10 @@
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="Airports" EntityType="com.example.odata.Airport">
           <NavigationPropertyBinding Path="flights" Target="Flights"/>
+          <NavigationPropertyBinding Path="country" Target="Countries"/>
         </EntitySet>
         <EntitySet Name="Flights" EntityType="com.example.odata.Flight"/>
+        <EntitySet Name="Countries" EntityType="com.example.odata.Country"/>
       </EntityContainer>
       <EntityType Name="Airport">
         <Key>
@@ -29,6 +31,7 @@
         <NavigationProperty Name="flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
           <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
         </NavigationProperty>
+        <NavigationProperty Name="country" Type="Collection(com.example.odata.Country)" Nullable="true"/>
       </EntityType>
       <EntityType Name="Flight">
         <Key>
@@ -38,6 +41,13 @@
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
         <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="Country">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

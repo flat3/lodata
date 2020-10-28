@@ -16,6 +16,11 @@ class Airport extends Model
         'is_big' => 'boolean',
     ];
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
     public function flights()
     {
         return $this->hasMany(Flight::class, 'origin', 'code');
