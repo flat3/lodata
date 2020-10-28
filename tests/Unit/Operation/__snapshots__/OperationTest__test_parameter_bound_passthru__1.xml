@@ -9,12 +9,22 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
+        <EntitySet Name="passengers" EntityType="com.example.odata.passenger"/>
         <EntitySet Name="flights" EntityType="com.example.odata.flight">
           <NavigationPropertyBinding Path="airports" Target="airports"/>
+          <NavigationPropertyBinding Path="passengers" Target="passengers"/>
         </EntitySet>
         <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
         <FunctionImport Name="f1" Function="f1"/>
       </EntityContainer>
+      <EntityType Name="passenger">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="flight_id" Type="Edm.Int32" Nullable="true"/>
+      </EntityType>
       <EntityType Name="flight">
         <Key>
           <PropertyRef Name="id"/>
@@ -26,6 +36,9 @@
         <NavigationProperty Name="airports" Type="Collection(com.example.odata.airport)" Nullable="true">
           <ReferentialConstraint Property="origin" ReferencedProperty="code"/>
           <ReferentialConstraint Property="destination" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <NavigationProperty Name="passengers" Type="Collection(com.example.odata.passenger)" Nullable="true">
+          <ReferentialConstraint Property="id" ReferencedProperty="flight_id"/>
         </NavigationProperty>
       </EntityType>
       <EntityType Name="airport">

@@ -1,0 +1,18 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(passengers(name))/$entity",
+    "id": 1,
+    "origin": "lhr",
+    "destination": "lax",
+    "gate": null,
+    "passengers": [
+        {
+            "name": "Anne Arbor"
+        },
+        {
+            "name": "Bob Barry"
+        },
+        {
+            "name": "Charlie Carrot"
+        }
+    ]
+}

@@ -14,8 +14,8 @@ use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
-use Flat3\Lodata\Tests\Models\Country as CountryEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
+use Flat3\Lodata\Tests\Models\Passenger as PassengerEModel;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
@@ -45,6 +45,12 @@ trait TestModels
             $table->bigInteger('country_id')->nullable();
         });
 
+        Schema::create('passengers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('flight_id');
+            $table->string('name');
+        });
+
         Schema::create('countries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -63,6 +69,31 @@ trait TestModels
         (new FlightEModel([
             'origin' => 'sam',
             'destination' => 'rgr',
+        ]))->save();
+
+        (new PassengerEModel([
+            'name' => 'Anne Arbor',
+            'flight_id' => 1,
+        ]))->save();
+
+        (new PassengerEModel([
+            'name' => 'Bob Barry',
+            'flight_id' => 1,
+        ]))->save();
+
+        (new PassengerEModel([
+            'name' => 'Charlie Carrot',
+            'flight_id' => 1,
+        ]))->save();
+
+        (new PassengerEModel([
+            'name' => 'Fox Flipper',
+            'flight_id' => 2,
+        ]))->save();
+
+        (new PassengerEModel([
+            'name' => 'Grace Gumbo',
+            'flight_id' => 2,
         ]))->save();
 
         (new AirportEModel([
@@ -101,6 +132,17 @@ trait TestModels
             'is_big' => true,
         ]))->save();
 
+        /** @var EntityType $passengerType */
+        $passengerType = Lodata::add(
+            EntityType::factory('passenger')
+                ->setKey(new DeclaredProperty('id', Type::int32()))
+                ->addDeclaredProperty('name', Type::string())
+                ->addDeclaredProperty('flight_id', Type::int32())
+        );
+
+        $passengerSet = SQLEntitySet::factory('passengers', $passengerType)
+            ->setTable('passengers');
+
         /** @var EntityType $flightType */
         $flightType = Lodata::add(
             EntityType::factory('flight')
@@ -129,6 +171,7 @@ trait TestModels
         $airportSet = SQLEntitySet::factory('airports', $airportType)
             ->setTable('airports');
 
+        Lodata::add($passengerSet);
         Lodata::add($flightSet);
         Lodata::add($airportSet);
 
@@ -150,6 +193,20 @@ trait TestModels
         $binding = new NavigationBinding($toAirport, $airportSet);
 
         $flightType->addProperty($toAirport);
+        $flightSet->addNavigationBinding($binding);
+
+        $passengerFlight = new ReferentialConstraint(
+            $flightType->getProperty('id'),
+            $passengerType->getProperty('flight_id')
+        );
+
+        $toPassenger = (new NavigationProperty($passengerSet, $passengerType))
+            ->setCollection(true)
+            ->addConstraint($passengerFlight);
+
+        $binding = new NavigationBinding($toPassenger, $passengerSet);
+
+        $flightType->addProperty($toPassenger);
         $flightSet->addNavigationBinding($binding);
     }
 
