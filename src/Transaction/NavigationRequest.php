@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Transaction;
 
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\NavigationProperty;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,9 @@ class NavigationRequest extends Request
 
     public function parseQueryString(string $queryString): self
     {
-        parse_str($queryString, $queryParameters);
-        $this->query->replace($queryParameters);
+        $lexer = new Lexer($queryString);
+        $parameters = $lexer->splitCommaSeparatedQueryString();
+        $this->query->replace($parameters);
 
         return $this;
     }

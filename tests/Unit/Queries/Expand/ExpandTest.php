@@ -106,11 +106,19 @@ class ExpandTest extends TestCase
 
     public function test_expand_containing_orderby_select()
     {
-        $this->markTestIncomplete();
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
                 ->query('$expand', 'passengers($orderby=name desc,$select=name)')
+        );
+    }
+
+    public function test_expand_containing_function_filter_select()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$expand', 'passengers($filter=startswith(name, \'Bob\'),$select=name)')
         );
     }
 }

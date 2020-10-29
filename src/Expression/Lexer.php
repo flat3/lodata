@@ -687,4 +687,39 @@ class Lexer
 
         return implode('', $chars);
     }
+
+    public function splitCommaSeparatedQueryString(): array
+    {
+        $parameters = [];
+        $chars = [];
+
+        while (!$this->finished()) {
+            $char = $this->char();
+
+            switch ($char) {
+                case '(':
+                    $this->pos--;
+                    $chars[] = '(';
+                    $chars[] = $this->matchingParenthesis();
+                    $chars[] = ')';
+                    break;
+
+                case ',':
+                    $parameters[] = implode('', $chars);
+                    $chars = [];
+                    break;
+
+                default:
+                    $chars[] = $char;
+                    break;
+            }
+        }
+
+        $parameters[] = implode('', $chars);
+
+        return array_reduce($parameters, function ($acc, $parameter) {
+            parse_str($parameter, $result);
+            return array_merge($acc, $result);
+        }, []);
+    }
 }

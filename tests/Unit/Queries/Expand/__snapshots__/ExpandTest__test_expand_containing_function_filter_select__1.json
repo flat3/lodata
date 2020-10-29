@@ -6,13 +6,7 @@
     "gate": null,
     "passengers": [
         {
-            "name": "Charlie Carrot"
-        },
-        {
             "name": "Bob Barry"
-        },
-        {
-            "name": "Anne Arbor"
         }
     ]
 }
