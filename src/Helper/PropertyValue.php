@@ -195,6 +195,10 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             throw new NoContentException('null_value');
         }
 
+        if ($value instanceof Entity) {
+            return $value->response($transaction);
+        }
+
         $metadata = [
             'context' => $this->getContextUrl($transaction),
         ];

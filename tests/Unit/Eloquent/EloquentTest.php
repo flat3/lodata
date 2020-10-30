@@ -9,6 +9,7 @@ use Flat3\Lodata\Tests\Models\Flight;
 use Flat3\Lodata\Tests\Models\Passenger;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Metadata;
 
 class EloquentTest extends TestCase
 {
@@ -291,6 +292,17 @@ class EloquentTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
+                ->path('/Passengers(1)/flight')
+        );
+    }
+
+    public function test_expand_belongsto_property_full_metadata()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->metadata(Metadata\Full::name)
                 ->path('/Passengers(1)/flight')
         );
     }

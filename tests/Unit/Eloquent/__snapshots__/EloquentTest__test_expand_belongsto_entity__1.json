@@ -3,12 +3,10 @@
     "id": 1,
     "flight_id": 1,
     "name": "Anne Arbor",
-    "flight": [
-        {
-            "id": 1,
-            "origin": "lhr",
-            "destination": "lax",
-            "gate": null
-        }
-    ]
+    "flight": {
+        "id": 1,
+        "origin": "lhr",
+        "destination": "lax",
+        "gate": null
+    }
 }

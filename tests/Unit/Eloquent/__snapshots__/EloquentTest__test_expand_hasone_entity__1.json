@@ -9,10 +9,8 @@
     "review_score": null,
     "is_big": null,
     "country_id": 1,
-    "country": [
-        {
-            "id": 1,
-            "name": "en"
-        }
-    ]
+    "country": {
+        "id": 1,
+        "name": "en"
+    }
 }
