@@ -8,5 +8,10 @@ class Passenger extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
+
+    public function flight()
+    {
+        return $this->belongsTo(Flight::class);
+    }
 }
 

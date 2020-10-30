@@ -57,10 +57,8 @@ trait TestModels
         });
     }
 
-    public function withFlightModel(): void
+    public function withFlightData(): void
     {
-        $this->withFlightDatabase();
-
         (new FlightEModel([
             'origin' => 'lhr',
             'destination' => 'lax',
@@ -131,6 +129,12 @@ trait TestModels
             'sam_datetime' => '1999-11-10T14:00:01+00:00',
             'is_big' => true,
         ]))->save();
+    }
+
+    public function withFlightModel(): void
+    {
+        $this->withFlightDatabase();
+        $this->withFlightData();
 
         /** @var EntityType $passengerType */
         $passengerType = Lodata::add(

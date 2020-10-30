@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
@@ -125,6 +126,15 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                 continue;
             }
 
+            if ($propertyValue->getProperty() instanceof NavigationProperty) {
+                $propertyMetadata = $this->getExpansionMetadata($transaction, $propertyValue);
+
+                if ($propertyMetadata) {
+                    $transaction->outputJsonKV($propertyMetadata);
+                    $transaction->outputJsonSeparator();
+                }
+            }
+
             $transaction->outputJsonKey($propertyValue->getProperty()->getName());
             $propertyValue->getValue()->emit($transaction);
 
@@ -208,6 +218,51 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     public function offsetUnset($offset)
     {
         $this->properties->drop($offset);
+    }
+
+    public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue)
+    {
+        $propertyMetadata = [
+            'navigationLink' => $this->getResourceUrl($transaction).'/'.$propertyValue->getProperty()->getName(),
+        ];
+
+        if ($propertyValue->getValue() instanceof EntitySet) {
+            $set = $propertyValue->getEntitySetValue();
+            $transaction = $set->getTransaction();
+
+            $count = $set->count();
+
+            if ($transaction->getCount()->hasValue()) {
+                $propertyMetadata['count'] = $count;
+            }
+
+            $top = $transaction->getTop();
+            $skip = $transaction->getSkip();
+
+            if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $count)) {
+                $np = $transaction->getQueryParams();
+                $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
+                $propertyMetadata['nextLink'] = Url::http_build_url(
+                    $propertyMetadata['navigationLink'],
+                    [
+                        'query' => http_build_query(
+                            $np,
+                            null,
+                            '&',
+                            PHP_QUERY_RFC3986
+                        ),
+                    ],
+                    Url::HTTP_URL_JOIN_QUERY
+                );
+            }
+        }
+
+        $propertyMetadata = $transaction->getMetadata()->filter(
+            $propertyMetadata,
+            $propertyValue->getProperty()->getName()
+        );
+
+        return $propertyMetadata;
     }
 
     public static function pipe(

@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Queries\Expand;
 
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Metadata;
 
 class ExpandTest extends TestCase
 {
@@ -19,6 +20,36 @@ class ExpandTest extends TestCase
             Request::factory()
                 ->path('/flights')
                 ->query('$expand', 'passengers')
+        );
+    }
+
+    public function test_expand_full_metadata()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->metadata(Metadata\Full::name)
+                ->query('$expand', 'passengers')
+        );
+    }
+
+    public function test_expand_full_metadata_count()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->metadata(Metadata\Full::name)
+                ->query('$expand', 'passengers($count=true)')
+        );
+    }
+
+    public function test_expand_full_metadata_top()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->metadata(Metadata\Full::name)
+                ->query('$expand', 'passengers($count=true,$top=1)')
         );
     }
 

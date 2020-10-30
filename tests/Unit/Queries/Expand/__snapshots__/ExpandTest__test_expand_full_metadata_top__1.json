@@ -1,0 +1,50 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(passengers())",
+    "@readLink": "http://localhost/odata/flights",
+    "value": [
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(1)",
+            "@readLink": "http://localhost/odata/flights(1)",
+            "id": 1,
+            "origin": "lhr",
+            "destination": "lax",
+            "gate": null,
+            "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers",
+            "passengers@count": 5,
+            "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24count=true&%24top=1&%24skip=1",
+            "passengers": [
+                {
+                    "@type": "#com.example.odata.passenger",
+                    "@id": "http://localhost/odata/passengers(1)",
+                    "@readLink": "http://localhost/odata/passengers(1)",
+                    "id": 1,
+                    "name": "Anne Arbor",
+                    "flight_id": 1
+                }
+            ]
+        },
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(2)",
+            "@readLink": "http://localhost/odata/flights(2)",
+            "id": 2,
+            "origin": "sam",
+            "destination": "rgr",
+            "gate": null,
+            "passengers@navigationLink": "http://localhost/odata/flights(2)/passengers",
+            "passengers@count": 5,
+            "passengers@nextLink": "http://localhost/odata/flights(2)/passengers?%24count=true&%24top=1&%24skip=1",
+            "passengers": [
+                {
+                    "@type": "#com.example.odata.passenger",
+                    "@id": "http://localhost/odata/passengers(4)",
+                    "@readLink": "http://localhost/odata/passengers(4)",
+                    "id": 4,
+                    "name": "Fox Flipper",
+                    "flight_id": 2
+                }
+            ]
+        }
+    ]
+}

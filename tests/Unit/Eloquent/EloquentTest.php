@@ -6,6 +6,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport;
 use Flat3\Lodata\Tests\Models\Country;
 use Flat3\Lodata\Tests\Models\Flight;
+use Flat3\Lodata\Tests\Models\Passenger;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
@@ -19,9 +20,12 @@ class EloquentTest extends TestCase
         $airports = Lodata::discoverEloquentModel(Airport::class);
         $flights = Lodata::discoverEloquentModel(Flight::class);
         $countries = Lodata::discoverEloquentModel(Country::class);
+        $passengers = Lodata::discoverEloquentModel(Passenger::class);
 
         $airports->discoverRelationship('flights');
         $airports->discoverRelationship('country');
+        $flights->discoverRelationship('passengers');
+        $passengers->discoverRelationship('flight');
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getDeclaredProperty('code')->setAlternativeKey();
@@ -256,6 +260,38 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Airports(1)')
                 ->query('$expand', 'country')
+        );
+    }
+
+    public function test_expand_hasmany_entity()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(1)')
+                ->query('$expand', 'passengers')
+        );
+    }
+
+    public function test_expand_belongsto_entity()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Passengers(1)')
+                ->query('$expand', 'flight')
+        );
+    }
+
+    public function test_expand_belongsto_property()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Passengers(1)/flight')
         );
     }
 

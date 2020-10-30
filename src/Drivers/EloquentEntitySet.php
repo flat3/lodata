@@ -28,6 +28,7 @@ use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -278,6 +279,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
                 );
 
                 $nav->addConstraint($rc);
+            }
+
+            if ($r instanceof BelongsTo) {
+                $nav->setCollection(false);
             }
 
             $binding = new NavigationBinding($nav, $right);

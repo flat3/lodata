@@ -60,7 +60,7 @@ abstract class Metadata
      *
      * @return array
      */
-    public function filter(array $inputMetadata): array
+    public function filter(array $inputMetadata, string $prefix = ''): array
     {
         // Filter out metadata that should not be returned
         if ($this::required) {
@@ -72,9 +72,9 @@ abstract class Metadata
         $outputMetadata = [];
         foreach ($inputMetadata as $key => $value) {
             if (version_compare('4.0', $requestedODataVersion, '=')) {
-                $outputMetadata['@odata.'.$key] = $value;
+                $outputMetadata[$prefix.'@odata.'.$key] = $value;
             } else {
-                $outputMetadata['@'.$key] = $value;
+                $outputMetadata[$prefix.'@'.$key] = $value;
             }
         }
 

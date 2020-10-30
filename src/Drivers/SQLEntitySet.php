@@ -26,7 +26,6 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
-use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use PDO;
 use PDOException;

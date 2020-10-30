@@ -13,8 +13,13 @@
           <NavigationPropertyBinding Path="flights" Target="Flights"/>
           <NavigationPropertyBinding Path="country" Target="Countries"/>
         </EntitySet>
-        <EntitySet Name="Flights" EntityType="com.example.odata.Flight"/>
+        <EntitySet Name="Flights" EntityType="com.example.odata.Flight">
+          <NavigationPropertyBinding Path="passengers" Target="Passengers"/>
+        </EntitySet>
         <EntitySet Name="Countries" EntityType="com.example.odata.Country"/>
+        <EntitySet Name="Passengers" EntityType="com.example.odata.Passenger">
+          <NavigationPropertyBinding Path="flight" Target="Flights"/>
+        </EntitySet>
       </EntityContainer>
       <EntityType Name="Airport">
         <Key>
@@ -32,7 +37,7 @@
         <NavigationProperty Name="flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
           <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
         </NavigationProperty>
-        <NavigationProperty Name="country" Type="Collection(com.example.odata.Country)" Nullable="true"/>
+        <NavigationProperty Name="country" Type="com.example.odata.Country" Nullable="true"/>
       </EntityType>
       <EntityType Name="Flight">
         <Key>
@@ -42,6 +47,9 @@
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
         <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
+        <NavigationProperty Name="passengers" Type="Collection(com.example.odata.Passenger)" Nullable="true">
+          <ReferentialConstraint Property="id" ReferencedProperty="flight_id"/>
+        </NavigationProperty>
       </EntityType>
       <EntityType Name="Country">
         <Key>
@@ -49,6 +57,15 @@
         </Key>
         <Property Name="id" Type="Edm.Int32" Nullable="false"/>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="Passenger">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="flight_id" Type="Edm.Int32" Nullable="true"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
