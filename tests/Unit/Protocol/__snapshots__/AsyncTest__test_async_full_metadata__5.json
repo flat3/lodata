@@ -19,6 +19,15 @@
             "origin": "sam",
             "destination": "rgr",
             "gate": null
+        },
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(3)",
+            "@readLink": "http://localhost/odata/flights(3)",
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null
         }
     ]
 }

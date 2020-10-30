@@ -1,0 +1,22 @@
+{
+    "@context": "http://localhost/odata/$metadata#Countries(airports())",
+    "value": [
+        {
+            "id": 1,
+            "name": "en",
+            "airports": [
+                {
+                    "id": 1,
+                    "name": "Eloquent",
+                    "code": "elo",
+                    "construction_date": null,
+                    "sam_datetime": null,
+                    "open_time": null,
+                    "review_score": null,
+                    "is_big": null,
+                    "country_id": 1
+                }
+            ]
+        }
+    ]
+}

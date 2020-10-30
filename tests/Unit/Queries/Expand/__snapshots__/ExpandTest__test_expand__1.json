@@ -34,11 +34,19 @@
                     "id": 4,
                     "name": "Fox Flipper",
                     "flight_id": 2
-                },
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null,
+            "passengers": [
                 {
                     "id": 5,
                     "name": "Grace Gumbo",
-                    "flight_id": 2
+                    "flight_id": 3
                 }
             ]
         }

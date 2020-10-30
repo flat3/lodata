@@ -55,13 +55,13 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         return $this->entity;
     }
 
-    public function setValue(EmitInterface $value): self
+    public function setValue(?EmitInterface $value): self
     {
         $this->value = $value;
         return $this;
     }
 
-    public function getValue(): EmitInterface
+    public function getValue(): ?EmitInterface
     {
         return $this->value;
     }
@@ -144,7 +144,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         }
 
         if (!$argument instanceof Entity) {
-            throw new BadRequestException('bad_entity', 'PropertyValue must be passed an entity');
+            throw new BadRequestException('bad_entity', 'Only an entity can be piped into a property value');
         }
 
         $property = $argument->getType()->getProperty($propertyName);

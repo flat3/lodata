@@ -1,0 +1,132 @@
+{
+    "@context": "http://localhost/odata/$metadata#Flights(passengers())",
+    "@readLink": "http://localhost/odata/Flights",
+    "value": [
+        {
+            "@type": "#com.example.odata.Flight",
+            "@id": "http://localhost/odata/Flights(1)",
+            "@readLink": "http://localhost/odata/Flights(1)",
+            "id": 1,
+            "origin": "lhr",
+            "destination": "lax",
+            "gate": null,
+            "passengers@navigationLink": "http://localhost/odata/Flights(1)/passengers",
+            "passengers": [
+                {
+                    "@type": "#com.example.odata.Passenger",
+                    "@id": "http://localhost/odata/Passengers(1)",
+                    "@readLink": "http://localhost/odata/Passengers(1)",
+                    "id": 1,
+                    "flight_id": 1,
+                    "name": "Anne Arbor",
+                    "flight@navigationLink": "http://localhost/odata/Passengers(1)/flight",
+                    "flight": {
+                        "@type": "#com.example.odata.Flight",
+                        "@id": "http://localhost/odata/Flights(1)",
+                        "@readLink": "http://localhost/odata/Flights(1)",
+                        "id": 1,
+                        "origin": "lhr",
+                        "destination": "lax",
+                        "gate": null
+                    }
+                },
+                {
+                    "@type": "#com.example.odata.Passenger",
+                    "@id": "http://localhost/odata/Passengers(2)",
+                    "@readLink": "http://localhost/odata/Passengers(2)",
+                    "id": 2,
+                    "flight_id": 1,
+                    "name": "Bob Barry",
+                    "flight@navigationLink": "http://localhost/odata/Passengers(2)/flight",
+                    "flight": {
+                        "@type": "#com.example.odata.Flight",
+                        "@id": "http://localhost/odata/Flights(1)",
+                        "@readLink": "http://localhost/odata/Flights(1)",
+                        "id": 1,
+                        "origin": "lhr",
+                        "destination": "lax",
+                        "gate": null
+                    }
+                },
+                {
+                    "@type": "#com.example.odata.Passenger",
+                    "@id": "http://localhost/odata/Passengers(3)",
+                    "@readLink": "http://localhost/odata/Passengers(3)",
+                    "id": 3,
+                    "flight_id": 1,
+                    "name": "Charlie Carrot",
+                    "flight@navigationLink": "http://localhost/odata/Passengers(3)/flight",
+                    "flight": {
+                        "@type": "#com.example.odata.Flight",
+                        "@id": "http://localhost/odata/Flights(1)",
+                        "@readLink": "http://localhost/odata/Flights(1)",
+                        "id": 1,
+                        "origin": "lhr",
+                        "destination": "lax",
+                        "gate": null
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "#com.example.odata.Flight",
+            "@id": "http://localhost/odata/Flights(2)",
+            "@readLink": "http://localhost/odata/Flights(2)",
+            "id": 2,
+            "origin": "sam",
+            "destination": "rgr",
+            "gate": null,
+            "passengers@navigationLink": "http://localhost/odata/Flights(2)/passengers",
+            "passengers": [
+                {
+                    "@type": "#com.example.odata.Passenger",
+                    "@id": "http://localhost/odata/Passengers(4)",
+                    "@readLink": "http://localhost/odata/Passengers(4)",
+                    "id": 4,
+                    "flight_id": 2,
+                    "name": "Fox Flipper",
+                    "flight@navigationLink": "http://localhost/odata/Passengers(4)/flight",
+                    "flight": {
+                        "@type": "#com.example.odata.Flight",
+                        "@id": "http://localhost/odata/Flights(2)",
+                        "@readLink": "http://localhost/odata/Flights(2)",
+                        "id": 2,
+                        "origin": "sam",
+                        "destination": "rgr",
+                        "gate": null
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "#com.example.odata.Flight",
+            "@id": "http://localhost/odata/Flights(3)",
+            "@readLink": "http://localhost/odata/Flights(3)",
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null,
+            "passengers@navigationLink": "http://localhost/odata/Flights(3)/passengers",
+            "passengers": [
+                {
+                    "@type": "#com.example.odata.Passenger",
+                    "@id": "http://localhost/odata/Passengers(5)",
+                    "@readLink": "http://localhost/odata/Passengers(5)",
+                    "id": 5,
+                    "flight_id": 3,
+                    "name": "Grace Gumbo",
+                    "flight@navigationLink": "http://localhost/odata/Passengers(5)/flight",
+                    "flight": {
+                        "@type": "#com.example.odata.Flight",
+                        "@id": "http://localhost/odata/Flights(3)",
+                        "@readLink": "http://localhost/odata/Flights(3)",
+                        "id": 3,
+                        "origin": "sfo",
+                        "destination": "lax",
+                        "gate": null
+                    }
+                }
+            ]
+        }
+    ]
+}

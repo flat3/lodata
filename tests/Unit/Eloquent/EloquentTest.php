@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport;
 use Flat3\Lodata\Tests\Models\Country;
@@ -10,6 +11,7 @@ use Flat3\Lodata\Tests\Models\Passenger;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\Metadata;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class EloquentTest extends TestCase
 {
@@ -27,9 +29,23 @@ class EloquentTest extends TestCase
         $airports->discoverRelationship('country');
         $flights->discoverRelationship('passengers');
         $passengers->discoverRelationship('flight');
+        $countries->discoverRelationship('airports');
+        $passengers->discoverRelationship('originAirport');
+        $passengers->discoverRelationship('destinationAirport');
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getDeclaredProperty('code')->setAlternativeKey();
+    }
+
+    public function test_failed_relationship()
+    {
+        $countries = Lodata::getEntitySet('Countries');
+
+        try {
+            $countries->discoverRelationship('airport');
+        } catch (InternalServerErrorException $e) {
+            $this->assertProtocolExceptionSnapshot($e);
+        }
     }
 
     public function test_metadata()
@@ -241,9 +257,24 @@ class EloquentTest extends TestCase
         $co1['name'] = 'en';
         $co1->save();
 
-        $co2 = new Country();
-        $co2['name'] = 'fr';
-        $co2->save();
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1['country_id'] = 1;
+        $ap1->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports(1)')
+                ->query('$expand', 'country')
+        );
+    }
+
+    public function test_expand_hasone_entity_property()
+    {
+        $co1 = new Country();
+        $co1['name'] = 'en';
+        $co1->save();
 
         $ap1 = new Airport();
         $ap1['name'] = 'Eloquent';
@@ -251,16 +282,9 @@ class EloquentTest extends TestCase
         $ap1['country_id'] = 1;
         $ap1->save();
 
-        $ap2 = new Airport();
-        $ap2['name'] = 'Eloquint';
-        $ap2['code'] = 'eli';
-        $ap2['country_id'] = 2;
-        $ap2->save();
-
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/Airports(1)')
-                ->query('$expand', 'country')
+                ->path('/Airports(1)/country')
         );
     }
 
@@ -272,6 +296,40 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Flights(1)')
                 ->query('$expand', 'passengers')
+        );
+    }
+
+    public function test_expand_hasmany_entity2()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(2)')
+                ->query('$expand', 'passengers')
+        );
+    }
+
+    public function test_expand_hasmany_entity_expand()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(2)')
+                ->query('$expand', 'passengers($expand=flight)')
+        );
+    }
+
+    public function test_expand_hasmany_entity_expand_full_metadata()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights')
+                ->metadata(Metadata\Full::name)
+                ->query('$expand', 'passengers($expand=flight)')
         );
     }
 
@@ -304,6 +362,46 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->metadata(Metadata\Full::name)
                 ->path('/Passengers(1)/flight')
+        );
+    }
+
+    public function test_expand_property_invalid_entity()
+    {
+        $this->withFlightData();
+
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/Countries/airports')
+        );
+    }
+
+    public function test_expand_property_entity()
+    {
+        $co1 = new Country();
+        $co1['name'] = 'en';
+        $co1->save();
+
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1['country_id'] = 1;
+        $ap1->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Countries')
+                ->query('$expand', 'airports')
+        );
+    }
+
+    public function test_expand_hasonethrough()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Passengers')
+                ->query('$expand', 'originAirport,destinationAirport')
         );
     }
 

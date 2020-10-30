@@ -29,8 +29,10 @@ use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use ReflectionException;
@@ -186,6 +188,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
             $expansionPropertyName = $this->expansionPropertyValue->getProperty()->getName();
             $instance = $sourceEntity->getEntitySet()->getModelByKey($sourceEntity->getEntityId());
             $builder = $instance->$expansionPropertyName();
+
+            if ($builder instanceof HasManyThrough) {
+                $builder->select($builder->getRelated()->getTable().'.*');
+            }
         }
 
         $this->resetParameters();
@@ -256,6 +262,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
     public function discoverRelationship(string $method): self
     {
+        /** @var Model $model */
         $model = new $this->model;
 
         try {
@@ -281,7 +288,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
                 $nav->addConstraint($rc);
             }
 
-            if ($r instanceof BelongsTo) {
+            if ($r instanceof BelongsTo || $r instanceof HasOneThrough) {
                 $nav->setCollection(false);
             }
 
@@ -292,7 +299,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         } catch (ReflectionException $e) {
             throw new InternalServerErrorException(
                 'cannot_add_constraint',
-                'The constraint method did not exist on the Model'
+                'The constraint method did not exist on the model: '.get_class($model)
             );
         }
 

@@ -12,6 +12,12 @@
             "origin": "sam",
             "destination": "rgr",
             "gate": null
+        },
+        {
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null
         }
     ]
 }

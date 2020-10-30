@@ -104,10 +104,10 @@ class NavigationProperty extends Property
 
         $expansionSet = clone $targetEntitySet;
         $expansionSet->setTransaction($expansionTransaction);
+        $expansionSet->setExpansionPropertyValue($propertyValue);
 
         if ($this->isCollection()) {
             $propertyValue->setValue($expansionSet);
-            $expansionSet->setExpansionPropertyValue($propertyValue);
         } else {
             $expansionSingular = $expansionSet->current();
             $propertyValue->setValue($expansionSingular);

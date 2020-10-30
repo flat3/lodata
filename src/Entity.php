@@ -136,7 +136,13 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             }
 
             $transaction->outputJsonKey($propertyValue->getProperty()->getName());
-            $propertyValue->getValue()->emit($transaction);
+
+            $value = $propertyValue->getValue();
+            if ($value instanceof EmitInterface) {
+                $propertyValue->getValue()->emit($transaction);
+            } else {
+                $transaction->outputJsonValue($value);
+            }
 
             $this->properties->next();
 

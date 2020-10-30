@@ -69,6 +69,11 @@ trait TestModels
             'destination' => 'rgr',
         ]))->save();
 
+        (new FlightEModel([
+            'origin' => 'sfo',
+            'destination' => 'lax',
+        ]))->save();
+
         (new PassengerEModel([
             'name' => 'Anne Arbor',
             'flight_id' => 1,
@@ -91,7 +96,7 @@ trait TestModels
 
         (new PassengerEModel([
             'name' => 'Grace Gumbo',
-            'flight_id' => 2,
+            'flight_id' => 3,
         ]))->save();
 
         (new AirportEModel([

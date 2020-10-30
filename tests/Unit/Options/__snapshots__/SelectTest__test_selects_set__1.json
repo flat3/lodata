@@ -8,6 +8,10 @@
         {
             "origin": "sam",
             "destination": "rgr"
+        },
+        {
+            "origin": "sfo",
+            "destination": "lax"
         }
     ]
 }

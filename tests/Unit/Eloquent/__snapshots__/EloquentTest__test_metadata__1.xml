@@ -16,9 +16,13 @@
         <EntitySet Name="Flights" EntityType="com.example.odata.Flight">
           <NavigationPropertyBinding Path="passengers" Target="Passengers"/>
         </EntitySet>
-        <EntitySet Name="Countries" EntityType="com.example.odata.Country"/>
+        <EntitySet Name="Countries" EntityType="com.example.odata.Country">
+          <NavigationPropertyBinding Path="airports" Target="Airports"/>
+        </EntitySet>
         <EntitySet Name="Passengers" EntityType="com.example.odata.Passenger">
           <NavigationPropertyBinding Path="flight" Target="Flights"/>
+          <NavigationPropertyBinding Path="originAirport" Target="Airports"/>
+          <NavigationPropertyBinding Path="destinationAirport" Target="Airports"/>
         </EntitySet>
       </EntityContainer>
       <EntityType Name="Airport">
@@ -57,6 +61,9 @@
         </Key>
         <Property Name="id" Type="Edm.Int32" Nullable="false"/>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <NavigationProperty Name="airports" Type="Collection(com.example.odata.Airport)" Nullable="true">
+          <ReferentialConstraint Property="id" ReferencedProperty="country_id"/>
+        </NavigationProperty>
       </EntityType>
       <EntityType Name="Passenger">
         <Key>
@@ -66,6 +73,8 @@
         <Property Name="flight_id" Type="Edm.Int32" Nullable="true"/>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
         <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true"/>
+        <NavigationProperty Name="originAirport" Type="com.example.odata.Airport" Nullable="true"/>
+        <NavigationProperty Name="destinationAirport" Type="com.example.odata.Airport" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
