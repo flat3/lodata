@@ -5,13 +5,14 @@ namespace Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Illuminate\Http\Request;
 
 class Service implements EmitInterface
 {
-    public function response(Transaction $transaction): Response
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $transaction->ensureMethod(Request::METHOD_GET);
 

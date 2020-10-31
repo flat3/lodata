@@ -9,5 +9,5 @@ interface EmitInterface
 {
     public function emit(Transaction $transaction): void;
 
-    public function response(Transaction $transaction): Response;
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response;
 }

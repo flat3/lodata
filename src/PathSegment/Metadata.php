@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\NavigationBinding;
@@ -240,7 +241,7 @@ class Metadata implements PipeInterface, EmitInterface
         $transaction->outputRaw($root->asXML());
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $transaction->ensureMethod(Request::METHOD_GET);
 

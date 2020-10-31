@@ -245,14 +245,18 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
         $transaction->outputJsonArrayEnd();
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction = $this->transaction ?: $transaction;
+        if ($this->transaction) {
+            $transaction = $this->transaction->replaceQueryParams($transaction);
+        }
+
+        $context = $context ?: $this;
 
         $setCount = $this->count();
 
         $metadata = [
-            'context' => $this->getContextUrl($transaction),
+            'context' => $context->getContextUrl($transaction),
         ];
 
         $count = $transaction->getCount();

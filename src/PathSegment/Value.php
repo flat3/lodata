@@ -8,6 +8,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Primitive;
@@ -46,7 +47,7 @@ class Value implements PipeInterface, EmitInterface
         return new static($value);
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if (null === $this->primitive->get()) {
             throw new NoContentException('null_value');

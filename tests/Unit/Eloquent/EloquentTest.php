@@ -11,7 +11,6 @@ use Flat3\Lodata\Tests\Models\Passenger;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\Metadata;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class EloquentTest extends TestCase
 {
@@ -353,6 +352,28 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Passengers(1)/flight')
+        );
+    }
+
+    public function test_expand_belongsto_property_select_nonexistent_property()
+    {
+        $this->withFlightData();
+
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/Flights(1)/passengers')
+                ->query('$select', 'naame')
+        );
+    }
+
+    public function test_expand_belongsto_property_select_existent_property()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(1)/passengers')
+                ->query('$select', 'name')
         );
     }
 

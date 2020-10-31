@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#Airports/$entity",
+    "@context": "http://localhost/odata/$metadata#Flights(3)/destinationAirport",
     "id": 2,
     "name": "Los Angeles",
     "code": "lax",
