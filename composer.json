@@ -19,6 +19,12 @@
     },
     "require": {
         "php": "^7.3|^8.0",
+        "illuminate/bus": "^7.0|^8.0",
+        "illuminate/database": "^7.0|^8.0",
+        "illuminate/events": "^7.0|^8.0",
+        "illuminate/http": "^7.0|^8.0",
+        "illuminate/queue": "^7.0|^8.0",
+        "illuminate/routing": "^7.0|^8.0",
         "ext-simplexml": "*",
         "ext-json": "*",
         "ext-dom": "*",

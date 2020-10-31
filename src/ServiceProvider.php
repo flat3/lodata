@@ -17,7 +17,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public static function route(): string
     {
-        return rtrim(config('lodata.route'), '/');
+        return rtrim(config('lodata.prefix'), '/');
     }
 
     public function register()
