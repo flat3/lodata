@@ -39,7 +39,7 @@ class Request
 
     public function preference($key, $value)
     {
-        $this->accept('application/json;'.$key.'='.$value);
+        $this->header('prefer', $key.'='.$value);
         return $this;
     }
 
