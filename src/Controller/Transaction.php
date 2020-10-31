@@ -716,6 +716,15 @@ class Transaction implements ArgumentInterface
         return $this->id;
     }
 
+    public function replaceQueryParams(Transaction $incomingTransaction): self
+    {
+        foreach (['select'] as $param) {
+            $this->$param = $incomingTransaction->$param;
+        }
+
+        return $this;
+    }
+
     public function execute(): EmitInterface
     {
         $pathSegments = $this->getPathSegments();

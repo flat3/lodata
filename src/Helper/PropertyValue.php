@@ -190,20 +190,21 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         );
     }
 
-    public function response(Transaction $transaction): Response
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $value = $this->value;
+        $context = $context ?: $this;
 
         if ($value instanceof Primitive && null === $value->get() || $value === null) {
             throw new NoContentException('null_value');
         }
 
-        if ($value instanceof Entity) {
-            return $value->response($transaction);
+        if ($value instanceof Entity || $value instanceof EntitySet) {
+            return $value->response($transaction, $this);
         }
 
         $metadata = [
-            'context' => $this->getContextUrl($transaction),
+            'context' => $context->getContextUrl($transaction),
         ];
 
         $metadata = $transaction->getMetadata()->filter($metadata);

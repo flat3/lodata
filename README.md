@@ -1,8 +1,15 @@
 # Flat3 OData 4.01 Producer for Laravel
 
+<p align="center">
+<a href="https://github.com/flat3/lodata/actions"><img src="https://github.com/flat3/lodata/workflows/Tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/v/flat3/lodata" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
+</p>
+
 ## What is OData? (from the OData spec)
 
-The OData Protocol is an application-level protocol for interacting with data via RESTful interfaces. The protocol supports the description of data models and the editing and querying of data according to those models. It provides facilities for:
+The OData Protocol is an application-level protocol for interacting with data via RESTful interfaces. The protocol supports the
+description of data models and the editing and querying of data according to those models. It provides facilities for:
 
 - Metadata: a machine-readable description of the data model exposed by a particular service.
 - Data: sets of data entities and the relationships between them.
@@ -11,13 +18,34 @@ The OData Protocol is an application-level protocol for interacting with data vi
 - Operations: invoking custom logic
 - Vocabularies: attaching custom semantics
 
-The OData Protocol is different from other REST-based web service approaches in that it provides a uniform way to describe both the data and the data model. This improves semantic interoperability between systems and allows an ecosystem to emerge.
+The OData Protocol is different from other REST-based web service approaches in that it provides a uniform way to describe
+both the data and the data model. This improves semantic interoperability between systems and allows an ecosystem to emerge.
 Towards that end, the OData Protocol follows these design principles:
 - Prefer mechanisms that work on a variety of data sources. In particular, do not assume a relational data model.
 - Extensibility is important. Services should be able to support extended functionality without breaking clients unaware of those extensions.
 - Follow REST principles.
 - OData should build incrementally. A very basic, compliant service should be easy to build, with additional work necessary only to support additional capabilities.
 - Keep it simple. Address the common cases and provide extensibility where necessary.
+
+## Getting started
+
+First require lodata inside your existing Laravel application:
+
+```
+composer require flat3/lodata
+```
+
+Now start your app, the OData API endpoint will now be available at: http://127.0.0.1:8000/odata (or whichever port your application normally runs on).
+
+If you access that URL you'll see an "unauthorized" message. By default the endpoint is wrapped in HTTP Basic Authentication.
+You can either provide basic auth credentials of an existing user, or you can temporarily disable authentication by including this in your
+Laravel .env file:
+
+```
+LODATA_DISABLE_AUTH=1
+```
+
+Access the URL again, you'll see the Service Document. The Metadata Document will also be available at: http://127.0.0.1:8000/odata/$metadata
 
 ## Specification
 
