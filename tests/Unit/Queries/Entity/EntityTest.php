@@ -106,6 +106,15 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_with_multiple_select_non_adjacent()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'origin,gate')
+        );
+    }
+
     public function test_rejects_invalid_select()
     {
         $this->assertBadRequest(

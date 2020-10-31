@@ -117,13 +117,23 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             }
         }
 
-        while ($this->properties->valid()) {
+        $requiresSeparator = false;
+
+        while (true) {
+            if (!$this->properties->valid()) {
+                break;
+            }
+
             /** @var PropertyValue $propertyValue */
             $propertyValue = $this->properties->current();
 
             if (!$propertyValue->shouldEmit($transaction)) {
                 $this->properties->next();
                 continue;
+            }
+
+            if ($requiresSeparator) {
+                $transaction->outputJsonSeparator();
             }
 
             if ($propertyValue->getProperty() instanceof NavigationProperty) {
@@ -144,11 +154,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
                 $transaction->outputJsonValue($value);
             }
 
+            $requiresSeparator = true;
             $this->properties->next();
-
-            if ($this->properties->valid() && $this->properties->current()->shouldEmit($transaction)) {
-                $transaction->outputJsonSeparator();
-            }
         }
 
         $transaction->outputJsonObjectEnd();
