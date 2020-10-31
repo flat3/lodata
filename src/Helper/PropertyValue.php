@@ -116,12 +116,20 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
     public function getContextUrl(Transaction $transaction): string
     {
-        return sprintf(
+        $url = sprintf(
             '%s(%s)/%s',
             $transaction->getContextUrl().'#'.$this->entity->getEntitySet()->getName(),
             $this->entity->getEntityId()->getValue()->toUrl(),
             $this->property
         );
+
+        $properties = $transaction->getContextUrlProperties();
+
+        if ($properties) {
+            $url .= sprintf('(%s)', join(',', $properties));
+        }
+
+        return $url;
     }
 
     public static function pipe(
