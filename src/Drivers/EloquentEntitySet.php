@@ -208,7 +208,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $this->generateWhere();
 
         if ($this->where) {
-            $builder->whereRaw($this->where, ...$this->parameters);
+            $builder->whereRaw($this->where, $this->parameters);
         }
 
         $orderby = $this->transaction->getOrderBy();

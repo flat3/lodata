@@ -499,4 +499,15 @@ class EloquentTest extends TestCase
                 ->path('/Airports(1)/flights')
         );
     }
+
+    public function test_compound_filter()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->filter("startswith(code, 'l') and is_big eq true")
+        );
+    }
 }
