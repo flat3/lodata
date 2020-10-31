@@ -39,4 +39,14 @@ class EntitySetTest extends TestCase
                 ->path('/flights')
         );
     }
+
+    public function test_read_with_select_and_metadata()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights')
+                ->metadata(Metadata\Full::name)
+                ->query('$select', 'destination')
+        );
+    }
 }

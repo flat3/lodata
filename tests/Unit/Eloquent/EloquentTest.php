@@ -510,4 +510,16 @@ class EloquentTest extends TestCase
                 ->filter("startswith(code, 'l') and is_big eq true")
         );
     }
+
+    public function test_read_with_select_and_metadata()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights')
+                ->metadata(Metadata\Full::name)
+                ->query('$select', 'destination')
+        );
+    }
 }
