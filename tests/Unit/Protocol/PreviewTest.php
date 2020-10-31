@@ -10,7 +10,7 @@ class PreviewTest extends TestCase
 {
     public function setUp(): void
     {
-        Env::getRepository()->set('LODATA_PREVIEW', 1);
+        Env::getRepository()->set('LODATA_DISABLE_AUTH', 1);
         parent::setUp();
         $this->gateMock->andReturnFalse();
         $this->withFlightModel();
@@ -19,7 +19,7 @@ class PreviewTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        Env::getRepository()->clear('LODATA_PREVIEW');
+        Env::getRepository()->clear('LODATA_DISABLE_AUTH');
     }
 
     public function test_disables_auth()

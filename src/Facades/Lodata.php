@@ -13,6 +13,7 @@ use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
+use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Singleton;
 use Illuminate\Support\Facades\Facade;
@@ -40,6 +41,6 @@ class Lodata extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'lodata.model';
+        return Model::class;
     }
 }

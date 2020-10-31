@@ -55,7 +55,7 @@ class Gate
         $gate->transaction = $transaction;
         $gate->arguments = $arguments;
 
-        if (ServiceProvider::usingPreview()) {
+        if (ServiceProvider::hasDisabledAuth()) {
             return;
         }
 

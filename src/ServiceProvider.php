@@ -25,13 +25,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config.php', 'lodata');
     }
 
-    public static function usingPreview(): bool
+    public static function hasDisabledAuth(): bool
     {
-        return env('LODATA_PREVIEW', false);
+        return env('LODATA_DISABLE_AUTH', false);
     }
 
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__.'/../config.php' => config_path('lodata.php')], 'config');
+        }
+
         $this->app->singleton(Model::class, function () {
             return new Model();
         });
@@ -42,7 +46,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $middleware = config('lodata.middleware', []);
 
-        if (self::usingPreview()) {
+        if (self::hasDisabledAuth()) {
             $middleware = [];
         }
 
