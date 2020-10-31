@@ -43,10 +43,16 @@ trait SQLSchema
             );
         }
 
+        $blacklist = config('lodata.discovery.blacklist', []);
+
         foreach ($columns as $column) {
             $name = $column->getName();
 
             if ($name === $type->getKey()->getName()) {
+                continue;
+            }
+
+            if (in_array($name, $blacklist)) {
                 continue;
             }
 

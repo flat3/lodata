@@ -5,4 +5,7 @@ return [
     'middleware' => ['auth.basic'],
     'namespace' => 'com.example.odata',
     'disk' => 'local',
+    'discovery' => [
+        'blacklist' => ['password']
+    ]
 ];
