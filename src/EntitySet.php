@@ -423,7 +423,7 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             throw new PathNotHandledException();
         }
 
-        if ($argument instanceof Entity) {
+        if ($argument instanceof Entity || $argument instanceof EntitySet) {
             throw new PathNotHandledException();
         }
 
