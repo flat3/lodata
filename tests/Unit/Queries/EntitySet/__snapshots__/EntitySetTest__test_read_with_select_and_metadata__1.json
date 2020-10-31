@@ -1,0 +1,24 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(destination)",
+    "@readLink": "http://localhost/odata/flights",
+    "value": [
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(1)",
+            "@readLink": "http://localhost/odata/flights(1)",
+            "destination": "lax"
+        },
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(2)",
+            "@readLink": "http://localhost/odata/flights(2)",
+            "destination": "rgr"
+        },
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(3)",
+            "@readLink": "http://localhost/odata/flights(3)",
+            "destination": "lax"
+        }
+    ]
+}

@@ -195,16 +195,6 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         }
 
         $this->resetParameters();
-
-        $select = $this->transaction->getSelect();
-        if ($select->hasValue()) {
-            $properties = $select->getSelectedProperties($this)->sliceByClass(DeclaredProperty::class);
-            /** @var DeclaredProperty $property */
-            foreach ($properties as $property) {
-                $builder->addSelect($property->getName());
-            }
-        }
-
         $this->generateWhere();
 
         if ($this->where) {
