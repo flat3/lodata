@@ -359,7 +359,7 @@ class EloquentTest extends TestCase
     {
         $this->withFlightData();
 
-        $this->assertBadRequest(
+        $this->assertJsonResponse(
             Request::factory()
                 ->path('/Flights(1)/passengers')
                 ->query('$select', 'naame')
@@ -374,6 +374,19 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Flights(1)/passengers')
                 ->query('$select', 'name')
+        );
+    }
+
+    public function test_select_existent_property_full_metadata_ignoring_nulls()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights')
+                ->metadata(Metadata\Full::name)
+                ->preference('omit-values', 'nulls')
+                ->query('$select', 'gate')
         );
     }
 

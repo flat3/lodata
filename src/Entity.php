@@ -109,15 +109,12 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         $metadata = $transaction->getMetadata()->filter($metadata);
 
+        $requiresSeparator = false;
+
         if ($metadata) {
             $transaction->outputJsonKV($metadata);
-
-            if ($this->properties->hasEntries()) {
-                $transaction->outputJsonSeparator();
-            }
+            $requiresSeparator = true;
         }
-
-        $requiresSeparator = false;
 
         while (true) {
             if (!$this->properties->valid()) {
