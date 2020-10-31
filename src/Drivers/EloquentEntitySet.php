@@ -280,15 +280,21 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
                 ->setCollection(true);
 
             if ($r instanceof HasOne || $r instanceof HasOneOrMany) {
-                $rc = new ReferentialConstraint(
-                    $this->getType()->getProperty($r->getLocalKeyName()),
-                    $right->getType()->getProperty($r->getForeignKeyName())
-                );
+                $localProperty = $this->getType()->getProperty($r->getLocalKeyName());
+                $foreignProperty = $right->getType()->getProperty($r->getForeignKeyName());
 
+                if (!$localProperty || !$foreignProperty) {
+                    throw new InternalServerErrorException(
+                        'missing_properties',
+                        'The properties referenced for the relationship could not be found on the models'
+                    );
+                }
+
+                $rc = new ReferentialConstraint($localProperty, $foreignProperty);
                 $nav->addConstraint($rc);
             }
 
-            if ($r instanceof BelongsTo || $r instanceof HasOneThrough) {
+            if ($r instanceof BelongsTo || $r instanceof HasOneThrough || $r instanceof HasOne) {
                 $nav->setCollection(false);
             }
 

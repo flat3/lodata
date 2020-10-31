@@ -9,7 +9,6 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -143,8 +142,12 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             throw new PathNotHandledException();
         }
 
+        if ($argument instanceof self && $argument->getValue() instanceof Entity) {
+            $argument = $argument->getEntityValue();
+        }
+
         if (!$argument instanceof Entity) {
-            throw new BadRequestException('bad_entity', 'Only an entity can be piped into a property value');
+            throw new PathNotHandledException();
         }
 
         $property = $argument->getType()->getProperty($propertyName);
@@ -191,7 +194,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
     {
         $value = $this->value;
 
-        if ($value instanceof Primitive && null === $value->get()) {
+        if ($value instanceof Primitive && null === $value->get() || $value === null) {
             throw new NoContentException('null_value');
         }
 

@@ -13,5 +13,15 @@ class Flight extends Model
     {
         return $this->hasMany(Passenger::class);
     }
+
+    public function originAirport()
+    {
+        return $this->hasOne(Airport::class, 'code', 'origin');
+    }
+
+    public function destinationAirport()
+    {
+        return $this->hasOne(Airport::class, 'code', 'destination');
+    }
 }
 

@@ -32,6 +32,8 @@ class EloquentTest extends TestCase
         $countries->discoverRelationship('airports');
         $passengers->discoverRelationship('originAirport');
         $passengers->discoverRelationship('destinationAirport');
+        $flights->discoverRelationship('originAirport');
+        $flights->discoverRelationship('destinationAirport');
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getDeclaredProperty('code')->setAlternativeKey();
@@ -369,7 +371,7 @@ class EloquentTest extends TestCase
     {
         $this->withFlightData();
 
-        $this->assertBadRequest(
+        $this->assertNotFound(
             Request::factory()
                 ->path('/Countries/airports')
         );
@@ -402,6 +404,48 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Passengers')
                 ->query('$expand', 'originAirport,destinationAirport')
+        );
+    }
+
+    public function test_expand_hasone()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(1)')
+                ->query('$expand', 'originAirport,destinationAirport')
+        );
+    }
+
+    public function test_expand_hasone_property()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(1)/originAirport')
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(3)/destinationAirport')
+        );
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/Flights(2)/destinationAirport')
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(3)/destinationAirport/code')
+        );
+
+        $this->assertTextResponse(
+            Request::factory()
+                ->text()
+                ->path('/Flights(3)/destinationAirport/code/$value')
         );
     }
 
