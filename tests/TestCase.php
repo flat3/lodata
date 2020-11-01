@@ -46,6 +46,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->gateMock = Gate::shouldReceive('denies');
         $this->gateMock->andReturnFalse();
         $this->getDisk();
+
+        config(['lodata.readonly' => false]);
     }
 
     protected function getPackageProviders($app)

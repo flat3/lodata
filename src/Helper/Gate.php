@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Helper;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Interfaces\ResourceInterface;
-use Flat3\Lodata\ServiceProvider;
 use Illuminate\Support\Facades\Gate as LaravelGate;
 
 class Gate
@@ -55,7 +54,11 @@ class Gate
         $gate->transaction = $transaction;
         $gate->arguments = $arguments;
 
-        if (ServiceProvider::hasDisabledAuth()) {
+        if (!in_array($access, [self::READ, self::QUERY]) && config('lodata.readonly') === true) {
+            throw new ForbiddenException('forbidden', 'This service is read-only');
+        }
+
+        if (config('lodata.authorization') === false) {
             return;
         }
 

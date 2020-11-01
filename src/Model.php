@@ -121,4 +121,19 @@ class Model
     {
         return EloquentEntitySet::discover($class);
     }
+
+    public function getEndpoint(): string
+    {
+        return ServiceProvider::endpoint();
+    }
+
+    public function getPbidsUrl(): string
+    {
+        return ServiceProvider::endpoint().'_lodata/odata.pbids';
+    }
+
+    public function getOdcUrl(string $set): string
+    {
+        return sprintf("%s_lodata/%s.odc", ServiceProvider::endpoint(), $set);
+    }
 }

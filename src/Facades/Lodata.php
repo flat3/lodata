@@ -35,6 +35,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static IdentifierInterface add(IdentifierInterface $item)
  * @method static string getNamespace()
  * @method static EloquentEntitySet discoverEloquentModel(string $class)
+ * @method static string getEndpoint()
+ * @method static string getOdcUrl(string $set)
+ * @method static string getPbidsUrl()
  * @package Flat3\Lodata\Facades
  */
 class Lodata extends Facade
