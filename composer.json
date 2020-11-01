@@ -17,6 +17,7 @@
         }
     },
     "require": {
+        "doctrine/dbal": "^2.12",
         "php": "^7.3|^8.0",
         "illuminate/bus": "^6.0|^7.0|^8.0",
         "illuminate/database": "^6.0|^7.0|^8.0",
@@ -27,7 +28,8 @@
         "ext-simplexml": "*",
         "ext-json": "*",
         "ext-dom": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "^6.5.5|^7.0.1"
     },
     "extra": {
         "laravel": {
@@ -42,9 +44,7 @@
     "require-dev": {
         "phpunit/phpunit": "^8.4|^9.0",
         "orchestra/testbench": "^6.0",
-        "spatie/phpunit-snapshot-assertions": "^4.2",
-        "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
-        "doctrine/dbal": "^2.12"
+        "spatie/phpunit-snapshot-assertions": "^4.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
