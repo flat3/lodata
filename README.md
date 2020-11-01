@@ -7,7 +7,6 @@
    * [Background](#background)
    * [Getting started](#getting-started)
    * [Usage](#usage)
-   * [Q&A](#qa)
    * [Specification](#specification)
    * [License](#license)
 
@@ -83,17 +82,104 @@ guides below!
 
 ## Usage
 
+To make changes from this point, you should install Lodata's configuration into your
+Laravel application:
+
+```
+php artisan vendor:publish --provider="Flat3\Lodata\ServiceProvider" --tag="config"
+```
+
+It is recommended to refer to the OData [Data Model](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_DataModel)
+description, as many descriptors used here are from the OData protocol.
+
 ### Authentication
+
+Out of the box Lodata does not wrap the API in authentication. The only authentication type in the OData
+standard is HTTP Basic, but many consumers support additional types. To add basic authentication to all Lodata
+endpoints modify `config/lodata.php` to include `auth.basic` in the array of middleware.
 
 ### Authorization
 
+Lodata supports authorization via [Laravel gates](https://laravel.com/docs/8.x/authorization#gates). Each
+API request will be checked via a gate tagged `lodata`. The
+gate will receive the standard user argument, and a `Flat3\Lodata\Helper\Gate` object. This object contains
+the type of request being made, the Lodata object it is being made against, the Lodata 'transaction' and in the
+case of an operation the arguments array will be provided. This is all the information needed for a gate
+policy to decide whether to allow the request.
+
+At install time, Lodata runs in a readonly mode. To enable updates, change the value of the `readonly` property
+in `config/lodata.php`.
+
 ### Discovery
+
+Lodata can 'discover' Eloquent models, and the relationships between the models. This metadata is presented to
+the client, so it can understand how the entity sets are related and navigate between them.
+
+Discovery is
+performed first using [DBAL](https://www.doctrine-project.org/projects/doctrine-dbal/en/2.12/index.html) to
+introspect the database table, then [Eloquent casts](https://laravel.com/docs/8.x/eloquent-mutators#custom-casts)
+are used for further type specification. During requests, the Eloquent model getter/setter functions are used
+to refer to the properties, so any additional field processing being performed by the model will be preserved.
+
+To discover a model the `Lodata` facade that exists in the root namespace can be used. For example to discover
+two models:
+
+```
+\Lodata::discoverEloquentModel(\App\Models\Flight::class);
+\Lodata::discoverEloquentModel(\App\Models\Passenger::class);
+```
+
+If model `Flight` has a method `passengers` that returns a [hasMany](https://laravel.com/docs/8.x/eloquent-relationships#one-to-many)
+relationship to `Passenger`, this can be discovered by Lodata as a navigation property on the `Flights` entity set. Note that
+similar to Laravel itself, Lodata typically refers to 'entity types' in the singular form and 'entity sets' in
+the plural form.
+
+```
+\Lodata::getEntitySet('Flights')
+  ->discoverRelationship('passengers')
+```
+
+A navigation property now exists in the Flight entity set for Passengers. This enables the client to
+navigate by using the navigation property in a URL similar to `http://127.0.0.1:8000/odata/Flights(1)/passengers`
+to choose the flight with ID 1, and to get the passengers related to this flight. This navigation property can
+also be used in `$expand` requests.
+
+If Lodata is able to determine the relationship cardinality it will be represented in the service metadata
+document.
 
 ### Using Lodata with Excel
 
+[Excel 2019](https://www.microsoft.com/en-gb/microsoft-365/excel) (and some earlier versions) support [OData Feeds](https://docs.microsoft.com/en-us/power-query/connectors/odatafeed)
+natively using Power Query.
+
+As well as being able to create a connection in Excel using the UI, Lodata provides an easy to add an
+"Open in Excel" button in your application. The URL provided for this button will be for a specific entity
+set, for example for the `Flights` entity set:
+
+```
+\Lodata::getOdcUrl('Flights')
+```
+
 ### Using Lodata with PowerBI
 
-## Q&A
+Microsoft [PowerBI](https://powerbi.microsoft.com) supports the autoloading of a data source via a [PBIDS](https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources#using-pbids-files-to-get-data)
+URL. This can be used in a "Open in PowerBI" feature button. Unlike Excel which works on a single
+entity set, this button provides PowerBI with access to the whole model:
+
+```
+\Lodata::getPbidsUrl()
+```
+
+### Using Lodata with PowerApps
+
+Microsoft [PowerApps](https://powerapps.microsoft.com) also support importing OData Feeds. Using a [dataflow](https://docs.microsoft.com/en-us/powerapps/maker/common-data-service/create-and-use-dataflows)
+the data exposed by Lodata can be imported into the Common Data Service. When creating an OData data source
+the UI will request the 'OData Endpoint', which can be programatically generated and presented by your app
+using:
+
+```
+\Lodata::getEndpoint()
+```
 
 ## Specification
 

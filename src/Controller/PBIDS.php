@@ -27,7 +27,7 @@ class PBIDS extends Controller
                     'details' => [
                         'protocol' => 'odata',
                         'address' => [
-                            'url' => ServiceProvider::restEndpoint(),
+                            'url' => ServiceProvider::endpoint(),
                         ],
                     ],
                 ],

@@ -576,7 +576,7 @@ class Transaction implements ArgumentInterface
      */
     public function getContextUrl(): string
     {
-        return ServiceProvider::restEndpoint().'$metadata';
+        return ServiceProvider::endpoint().'$metadata';
     }
 
     /**
@@ -588,7 +588,7 @@ class Transaction implements ArgumentInterface
      */
     public static function getResourceUrl(): string
     {
-        return ServiceProvider::restEndpoint();
+        return ServiceProvider::endpoint();
     }
 
     public function getContextUrlProperties(): array

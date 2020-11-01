@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    public static function restEndpoint(): string
+    public static function endpoint(): string
     {
         return url(self::route()).'/';
     }
