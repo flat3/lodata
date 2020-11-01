@@ -1,10 +1,15 @@
 # Flat3 OData 4.01 Producer for Laravel
 
-<p align="center">
 <a href="https://github.com/flat3/lodata/actions"><img src="https://github.com/flat3/lodata/workflows/Tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/v/flat3/lodata" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
-</p>
+
+<!--ts-->
+   * [What is OData](#what-is-odata)
+   * [Getting started](#getting-started)
+   * [Specification](#specification)
+   * [License](#license)
+<!--te-->
 
 ## What is OData? (from the OData spec)
 
@@ -46,6 +51,8 @@ LODATA_DISABLE_AUTH=1
 ```
 
 Access the URL again, you'll see the Service Document. The Metadata Document will also be available at: http://127.0.0.1:8000/odata/$metadata
+
+So far there's no data exposed in the service, the next step is to create a Laravel service provider to handle this.
 
 ## Specification
 

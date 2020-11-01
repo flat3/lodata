@@ -25,11 +25,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config.php', 'lodata');
     }
 
-    public static function hasDisabledAuth(): bool
-    {
-        return env('LODATA_DISABLE_AUTH', false);
-    }
-
     public function boot()
     {
         if ($this->app->runningInConsole()) {
@@ -44,21 +39,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return $app->make(Model::class);
         });
 
+        $route = self::route();
         $middleware = config('lodata.middleware', []);
 
-        if (self::hasDisabledAuth()) {
-            $middleware = [];
-        }
-
-        Route::middleware($middleware)->group(function () {
-            $route = self::route();
-
-            Route::get("{$route}/_lodata/odata.pbids", [PBIDS::class, 'get']);
-            Route::get("{$route}/_lodata/{identifier}.odc", [ODCFF::class, 'get']);
-            Route::resource("${route}/_lodata/monitor", Monitor::class);
-
-            Route::any("{$route}{path}", [OData::class, 'handle'])
-                ->where('path', '(.*)');
-        });
+        Route::get("{$route}/_lodata/odata.pbids", [PBIDS::class, 'get']);
+        Route::get("{$route}/_lodata/{identifier}.odc", [ODCFF::class, 'get']);
+        Route::resource("${route}/_lodata/monitor", Monitor::class);
+        Route::middleware($middleware)->any("{$route}{path}", [OData::class, 'handle'])->where('path', '(.*)');
     }
 }

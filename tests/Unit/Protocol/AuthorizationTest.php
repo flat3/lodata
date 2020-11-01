@@ -6,12 +6,24 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-class GateTest extends TestCase
+class AuthorizationTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
         $this->withFlightModel();
+        config(['lodata.authorization' => true]);
+        config(['lodata.readonly' => false]);
+    }
+
+    public function test_no_authorization()
+    {
+        config(['lodata.authorization' => false]);
+
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->path('/flights')
+        );
     }
 
     public function gateAssertion()
