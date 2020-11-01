@@ -1,20 +1,19 @@
-# Flat3 OData 4.01 Producer for Laravel
+# Lodata - The OData 4.01 Producer for Laravel
 
 <a href="https://github.com/flat3/lodata/actions"><img src="https://github.com/flat3/lodata/workflows/Tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/v/flat3/lodata" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
 
-<!--ts-->
-   * [What is OData](#what-is-odata)
-   * [Why OData for Laravel](#why-odata-for-laravel)
+   * [Background](#background)
    * [Getting started](#getting-started)
    * [Usage](#usage)
    * [Q&A](#qa)
    * [Specification](#specification)
    * [License](#license)
-<!--te-->
 
-## What is OData?
+## Background
+
+### What is OData?
 
 The [OData Protocol](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_Overview)
 is an application-level protocol for interacting with data via RESTful interfaces. The protocol supports the
@@ -27,28 +26,40 @@ description of data models and the editing and querying of data according to tho
 - Operations: invoking custom logic
 - Vocabularies: attaching custom semantics
 
-## Why OData for Laravel?
+OData consumer support exists in a wide variety of applications, particularly those from Microsoft, SAP and SalesForce.
+
+### Why OData for Laravel?
 
 Many Laravel applications are used in a business context that has these requirements:
-- Enabling other services to query the database and run operations via a REST API
-- Enabling the customer to pull data into their environment using applications such as Excel, PowerBI, Tableau and
+- Enable other services to query the database and run operations via a REST API
+- Enable the customer to pull data into their environment using applications such as Excel, PowerBI, Tableau and
 other business intelligence tools that support OData natively.
 
-Lodata is ideal for both these use cases.
+Lodata is easy to integrate into existing Laravel projects, provides an out-of-the-box discoverable API for third-party
+developers and a straightforward data workflow for line-of-business customers.
 
-## Getting started
+## Get started
 
-First require lodata inside your existing Laravel application:
+Step 1: Install Lodata into your Laravel app using [Composer](https://getcomposer.org)
 
 ```
 composer require flat3/lodata
 ```
 
-Now start your app. The OData API endpoint will now be available at: http://127.0.0.1:8000/odata/ (or whichever port your application normally runs on).
-Accessing that endpoint should show you the [Service Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ServiceDocumentRequest).
-The [Metadata Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_MetadataDocumentRequest) will be available at http://127.0.0.1:8000/odata/$metadata
+Now start your app. The OData API endpoint will now be available at: `http://127.0.0.1:8000/odata/` (or whichever port your application normally runs on).
+Accessing that endpoint will show you the [Service Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ServiceDocumentRequest).
 
-So far there's no data exposed in the service, the next step is to create a Laravel service provider to handle this.
+Step 2: Discover your first model edit a service provider such as `app/Providers/AppServiceProvider.php` to add the following to the `boot()` method: (using your own Model instead of `Example`)
+
+```
+\Lodata::discoverEloquentModel(\App\Models\Example::class)
+```
+
+Restart the app, and you should be able to navigate to `http://127.0.0.1:8000/odata/Example` and see the data in your database stored by that model.
+
+Accessing the metadata document at `http://127.0.0.1:8000/odata/$metadata` will show the auto-discovered metadata about the model.
+
+That's all you need to get started, for additional configuration see the guides below!
 
 ## Usage
 
@@ -108,4 +119,4 @@ Lodata supports many sections of the OData specification, these are the major ar
 
 Copyright © Chris Lloyd
 
-Flat3 OData is open-sourced software licensed under the [MIT license](LICENSE.md).
+Flat3 Lodata is open-sourced software licensed under the [MIT license](LICENSE.md).
