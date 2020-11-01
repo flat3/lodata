@@ -67,10 +67,11 @@ You can now access `http://127.0.0.1:8000/odata/Example` and see the data in you
 
 **Step 3: Load your data into an application**
 
-Lodata has specific support for Excel and PowerBI service discovery.
+Lodata has specific support for Excel and PowerBI service discovery. Use one of the following URLs in
+a browser to prompt Windows to open the feed in the relevant application:
 
-To load the `Example` model in Excel use `http://127.0.0.1:8000/odata/_lodata/Example.odc` or for PowerBI
-use `http://127.0.0.1:8000/odata/_lodata/odata.pbids`.
+- To load the `Example` model in Excel use `http://127.0.0.1:8000/odata/_lodata/Example.odc`
+- For PowerBI use `http://127.0.0.1:8000/odata/_lodata/odata.pbids`.
 
 Both Excel and PowerBI can now refresh the data source themselves using the Refresh buttons in those interfaces.
 
@@ -129,10 +130,11 @@ two models:
 \Lodata::discoverEloquentModel(\App\Models\Passenger::class);
 ```
 
-If model `Flight` has a method `passengers` that returns a [hasMany](https://laravel.com/docs/8.x/eloquent-relationships#one-to-many)
-relationship to `Passenger`, this can be discovered by Lodata as a navigation property on the `Flights` entity set. Note that
+If model `Flight` has a method `passengers` that returns a [relationship](https://laravel.com/docs/8.x/eloquent-relationships)
+to `Passenger` such as hasOne, hasMany, hasManyThrough, this can be discovered by Lodata as a navigation property on the `Flights` entity set. Note that
 similar to Laravel itself, Lodata typically refers to 'entity types' in the singular form and 'entity sets' in
-the plural form.
+the plural form. An entity set and its related entity set must both be defined through discovery before a
+relationship can be created.
 
 ```
 \Lodata::getEntitySet('Flights')
@@ -214,6 +216,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * Declared, dynamic and navigation properties
 * Referential constraints
 * Entity singletons
+* IEEE754 number-as-string support
 * Full, minimal and no metadata requests
 * Function and Action operations, including bound operations and inline parameters
 * Automatic discovery of PDO or Eloquent model tables, and relationships between Eloquent models
