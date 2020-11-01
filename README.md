@@ -30,44 +30,64 @@ OData consumer support exists in a wide variety of applications, particularly th
 
 ### Why OData for Laravel?
 
-Many Laravel applications are used in a business context that has these requirements:
-- Enable other services to query the database and run operations via a REST API
-- Enable the customer to pull data into their environment using applications such as Excel, PowerBI, Tableau and
-other business intelligence tools that support OData natively.
+Many Laravel applications are used in an agency/customer context that have these kinds of requirements:
+- Our customer wants to access our data using applications such as Excel, PowerBI and Tableau to generate reports
+and dashboards, but doesn't like the complexity of logging in and performing manual, error-prone CSV/XLSX downloads to
+fetch their data
+- Our customer requires authorized third party developers to query our application's database, possibly modifying the data
+and running internal functions and we want to manage how these processes work in Laravel
+- Our customer has internal stakeholders (non-expert data users) that need access to different sets of data that we hold,
+based on their role, but do not need or desire administrative access to our application
 
 Lodata is easy to integrate into existing Laravel projects, provides an out-of-the-box discoverable API for third-party
-developers and a straightforward data workflow for line-of-business customers.
+developers and a straightforward data workflow for business users.
 
 ## Get started
 
-Step 1: Install Lodata into your Laravel app using [Composer](https://getcomposer.org)
+**Step 1: Install Lodata into your Laravel app using [Composer](https://getcomposer.org)**
 
 ```
 composer require flat3/lodata
 ```
 
-Now start your app. The OData API endpoint will now be available at: `http://127.0.0.1:8000/odata/` (or whichever port your application normally runs on).
-Accessing that endpoint will show you the [Service Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ServiceDocumentRequest).
+Now start your app. The OData API endpoint will now be available at: `http://127.0.0.1:8000/odata/`
+(or whichever URL prefix your application normally runs on).
+Accessing that endpoint in an API client such as [Postman](https://www.postman.com/product/api-client/) will show you
+the [Service Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ServiceDocumentRequest).
 
-Step 2: Discover your first model edit a service provider such as `app/Providers/AppServiceProvider.php` to add the following to the `boot()` method: (using your own Model instead of `Example`)
+**Step 2: Discover your first model**
+
+Edit a service provider such as `app/Providers/AppServiceProvider.php` to add the
+following to the `boot()` method: (using your own Model instead of `Example`)
 
 ```
 \Lodata::discoverEloquentModel(\App\Models\Example::class)
 ```
 
-Restart the app, and you should be able to navigate to `http://127.0.0.1:8000/odata/Example` and see the data in your database stored by that model.
+You can now access `http://127.0.0.1:8000/odata/Example` and see the data in your database stored by that model.
 
-Accessing the metadata document at `http://127.0.0.1:8000/odata/$metadata` will show the auto-discovered metadata about the model.
+**Step 3: Load your data into an application**
 
-That's all you need to get started, for additional configuration see the guides below!
+Lodata has specific support for Excel and PowerBI service discovery.
+
+To load the `Example` model in Excel use `http://127.0.0.1:8000/odata/_lodata/Example.odc` or for PowerBI
+use `http://127.0.0.1:8000/odata/_lodata/odata.pbids`.
+
+Both Excel and PowerBI can now refresh the data source themselves using the Refresh buttons in those interfaces.
+
+Any other consumer service requesting your "OData Endpoint" should accept the service document at
+`http://127.0.0.1:8000/odata/`
+
+That's all you need to get started, for configuration such as authentication and authorization see the
+guides below!
 
 ## Usage
-
-### Discovery
 
 ### Authentication
 
 ### Authorization
+
+### Discovery
 
 ### Using Lodata with Excel
 
