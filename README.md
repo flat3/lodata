@@ -130,10 +130,10 @@ Lodata supports many sections of the OData specification, these are the major ar
 * Full, minimal and no metadata requests
 * Function and Action operations, including bound operations and inline parameters
 * Automatic discovery of PDO or Eloquent model tables, and relationships between Eloquent models
-* All database backends that Laravel supports (MySQL, PostgreSQL, SQLite and MSSQL) including all possible $filter expressions
-* Automatic discovery of OData feeds by PowerBI (using PBIDS) and Excel (using ODCFF)
+* All database backends that Laravel supports (MySQL, PostgreSQL, SQLite and Microsoft SQL Server) including all possible $filter expressions
+* Automatic discovery of OData feeds by PowerBI (using [PBIDS](https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources#using-pbids-files-to-get-data)) and Excel (using [ODCFF](https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e))
 * Custom entity type, primitive type and entity set support
-* Extensible driver model enabling the use of data stores such as Redis and third party REST APIs
+* Extensible driver model enabling the integration of data stores such as Redis, local files and third party REST APIs
 
 ## License
 
