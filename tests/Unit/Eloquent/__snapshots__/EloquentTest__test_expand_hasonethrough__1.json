@@ -11,7 +11,7 @@
                 "code": "lhr",
                 "construction_date": "1946-03-25",
                 "sam_datetime": "2001-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "09:00:00.000000",
                 "review_score": null,
                 "is_big": true,
                 "country_id": null
@@ -22,7 +22,7 @@
                 "code": "lax",
                 "construction_date": "1930-01-01",
                 "sam_datetime": "2000-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "08:00:00.000000",
                 "review_score": null,
                 "is_big": false,
                 "country_id": null
@@ -38,7 +38,7 @@
                 "code": "lhr",
                 "construction_date": "1946-03-25",
                 "sam_datetime": "2001-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "09:00:00.000000",
                 "review_score": null,
                 "is_big": true,
                 "country_id": null
@@ -49,7 +49,7 @@
                 "code": "lax",
                 "construction_date": "1930-01-01",
                 "sam_datetime": "2000-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "08:00:00.000000",
                 "review_score": null,
                 "is_big": false,
                 "country_id": null
@@ -65,7 +65,7 @@
                 "code": "lhr",
                 "construction_date": "1946-03-25",
                 "sam_datetime": "2001-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "09:00:00.000000",
                 "review_score": null,
                 "is_big": true,
                 "country_id": null
@@ -76,7 +76,7 @@
                 "code": "lax",
                 "construction_date": "1930-01-01",
                 "sam_datetime": "2000-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "08:00:00.000000",
                 "review_score": null,
                 "is_big": false,
                 "country_id": null
@@ -99,7 +99,7 @@
                 "code": "sfo",
                 "construction_date": "1930-01-01",
                 "sam_datetime": "2001-11-10T14:00:01+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "15:00:00.000000",
                 "review_score": null,
                 "is_big": null,
                 "country_id": null
@@ -110,7 +110,7 @@
                 "code": "lax",
                 "construction_date": "1930-01-01",
                 "sam_datetime": "2000-11-10T14:00:00+00:00",
-                "open_time": "00:00:00.000000",
+                "open_time": "08:00:00.000000",
                 "review_score": null,
                 "is_big": false,
                 "country_id": null
