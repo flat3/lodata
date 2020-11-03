@@ -28,7 +28,13 @@ class DateTimeOffset extends Primitive
         }
 
         try {
-            $dt = new DateTime(rawurldecode($value));
+            $decodedValue = rawurldecode($value);
+
+            if (is_numeric($decodedValue)) {
+                $decodedValue = '@'.$decodedValue;
+            }
+
+            $dt = new DateTime($decodedValue);
             $this->value = $this->maybeNull(null === $value ? null : $this->repack($dt));
         } catch (Exception $e) {
             $this->value = $this->getEmpty();
