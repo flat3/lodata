@@ -11,7 +11,6 @@
    1. [Why OData for Laravel?](#why-odata-for-laravel)
 1. Basic usage
    1. [Getting started](#getting-started)
-   1. [Making requests](#making-requests)
    1. [Authentication](#authentication)
    1. [Authorization](#authorization)
    1. [Discovery](#discovery)
@@ -113,8 +112,6 @@ Laravel application:
 ```
 php artisan vendor:publish --provider="Flat3\Lodata\ServiceProvider" --tag="config"
 ```
-
-### Making requests
 
 ### Authentication
 
