@@ -5,7 +5,7 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\PropertyValue;
 
-abstract class DynamicProperty extends Property
+abstract class GeneratedProperty extends Property
 {
     abstract public function invoke(Entity $entity);
 
@@ -21,9 +21,9 @@ abstract class DynamicProperty extends Property
             $result === null && $type instanceof PrimitiveType && !$type->isNullable()
         ) {
             throw new InternalServerErrorException(
-                'invalid_dynamic_property_type',
+                'invalid_generated_property_type',
                 sprintf(
-                    'The dynamic property %s did not return a value of its defined type %s',
+                    'The generated property %s did not return a value of its defined type %s',
                     $this->getName(),
                     $type->getIdentifier()
                 )

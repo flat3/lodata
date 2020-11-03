@@ -1,1 +1,0 @@
-OData-Error: {"code":"invalid_dynamic_property_type","message":"The dynamic property cp did not return a value of its defined type Edm.Int32"}

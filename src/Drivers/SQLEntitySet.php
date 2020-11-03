@@ -8,6 +8,7 @@ use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLLimits;
 use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
+use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -38,6 +39,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     use SQLOrderBy;
     use SQLSearch;
     use SQLLimits;
+    use SQLSchema;
 
     /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
     protected $sourceMap;

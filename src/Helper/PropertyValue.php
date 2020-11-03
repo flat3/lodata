@@ -4,7 +4,6 @@ namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
@@ -13,6 +12,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -173,7 +173,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             $property->generatePropertyValue($transaction, $navigationRequest, $argument);
         }
 
-        if ($property instanceof DynamicProperty) {
+        if ($property instanceof GeneratedProperty) {
             $property->generatePropertyValue($argument);
         }
 
