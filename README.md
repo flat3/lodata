@@ -4,13 +4,35 @@
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/v/flat3/lodata" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
 
-   * [Background](#background)
-   * [Getting started](#getting-started)
-   * [Usage](#usage)
-   * [Specification](#specification)
-   * [License](#license)
+## Contents
 
-## Background
+1. Introduction
+   1. [What is OData?](#what-is-odata)
+   1. [Why OData for Laravel?](#why-odata-for-laravel)
+1. Basic usage
+   1. [Getting started](#getting-started)
+   1. [Authentication](#authentication)
+   1. [Authorization](#authorization)
+   1. [Discovery](#discovery)
+   1. [Applications](#applications)
+1. Advanced usage
+   1. [Database](#database)
+   1. [Annotations](#annotations)
+   1. [Generated properties](#generated-properties)
+   1. [Asynchronous Requests](#asynchronous-requests)
+   1. [Filter expressions](#filter-expressions)
+   1. [Alternative keys](#alternative-keys)
+   1. [Function composition](#function-composition)
+   1. [Operations](#operations)
+1. Internals
+   1. [Transactions](#transactions)
+   1. [Streaming JSON](#streaming-json)
+   1. [Drivers](#drivers)
+   1. [Types](#types)
+1. [Specification compliance](#specification-compliance)
+1. [License](#license)
+
+## Introduction
 
 ### What is OData?
 
@@ -27,6 +49,10 @@ description of data models and the editing and querying of data according to tho
 
 OData consumer support exists in a wide variety of applications, particularly those from Microsoft, SAP and SalesForce.
 
+If you're new to OData it is recommended to refer to the description of the
+[Data Model](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_DataModel)
+as the terminology used here is OData-specific.
+
 ### Why OData for Laravel?
 
 Many Laravel applications are used in an agency/customer context that have these kinds of requirements:
@@ -41,7 +67,9 @@ based on their role, but do not need or desire administrative access to our appl
 Lodata is easy to integrate into existing Laravel projects, provides an out-of-the-box discoverable API for third-party
 developers and a straightforward data workflow for business users.
 
-## Get started
+## Basic usage
+
+### Getting started
 
 **Step 1: Install Lodata into your Laravel app using [Composer](https://getcomposer.org)**
 
@@ -78,20 +106,12 @@ Both Excel and PowerBI can now refresh the data source themselves using the Refr
 Any other consumer service requesting your "OData Endpoint" should accept the service document at
 `http://127.0.0.1:8000/odata/`
 
-That's all you need to get started, for configuration such as authentication and authorization see the
-guides below!
-
-## Usage
-
 To make changes from this point, you should install Lodata's configuration into your
 Laravel application:
 
 ```
 php artisan vendor:publish --provider="Flat3\Lodata\ServiceProvider" --tag="config"
 ```
-
-It is recommended to refer to the OData [Data Model](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_DataModel)
-description, as many descriptors used here are from the OData protocol.
 
 ### Authentication
 
@@ -149,7 +169,9 @@ also be used in `$expand` requests.
 If Lodata is able to determine the relationship cardinality it will be represented in the service metadata
 document.
 
-### Using Lodata with Excel
+### Applications
+
+#### Using Lodata with Excel
 
 [Excel 2019](https://www.microsoft.com/en-gb/microsoft-365/excel) (and some earlier versions) support [OData Feeds](https://docs.microsoft.com/en-us/power-query/connectors/odatafeed)
 natively using Power Query.
@@ -162,7 +184,7 @@ set, for example for the `Flights` entity set:
 \Lodata::getOdcUrl('Flights')
 ```
 
-### Using Lodata with PowerBI
+#### Using Lodata with PowerBI
 
 Microsoft [PowerBI](https://powerbi.microsoft.com) supports the autoloading of a data source via a [PBIDS](https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources#using-pbids-files-to-get-data)
 URL. This can be used in a "Open in PowerBI" feature button. Unlike Excel which works on a single
@@ -172,7 +194,7 @@ entity set, this button provides PowerBI with access to the whole model:
 \Lodata::getPbidsUrl()
 ```
 
-### Using Lodata with PowerApps
+#### Using Lodata with PowerApps
 
 Microsoft [PowerApps](https://powerapps.microsoft.com) also support importing OData Feeds. Using a [dataflow](https://docs.microsoft.com/en-us/powerapps/maker/common-data-service/create-and-use-dataflows)
 the data exposed by Lodata can be imported into the Common Data Service. When creating an OData data source
@@ -183,7 +205,281 @@ using:
 \Lodata::getEndpoint()
 ```
 
-## Specification
+## Advanced usage
+
+### Database
+
+In addition to Eloquent models, Lodata can discover database tables directly. This can be used to expose tables through OData that are
+not used in Eloquent sets, such as through tables for many-to-many relationships. This is required for applications that treat OData
+Feeds as relational database models such as PowerBI and Tableau. It can also be used to expose databases that are not even used in the
+Laravel application, or to use Lodata as simply an OData endpoint for an existing database.
+
+SQL database tables can be discovered using this syntax:
+
+```
+$passengerType = \Flat3\Lodata\EntityType::factory('passenger');
+$passengerSet = \Flat3\Lodata\Drivers\SQLEntitySet::factory('passengers', $passengerType)
+    ->setTable('passengers')
+    ->discoverProperties();
+\Lodata::add($passengerSet);
+```
+
+First an empty entity type is defined with the name `passenger`, and used to generate the entity set.
+Then a table `passengers` is assigned. When `discoverProperties` is run, `passengerType` will be filled with field
+types discovered by the entity set.
+
+### Annotations
+
+OData allows the creation of annotations on the schema. Annotations are classes that extend `\Flat3\Lodata\Annotation`
+and are added to the model with `Lodata::add($annotation)`. Examples are in the `\Flat3\Lodata\Annotation` namespace.
+
+### Generated properties
+
+As well as the "static" data retrieved from the database, Lodata can add properties to an entity that are generated at
+runtime.
+Lodata provides the `\Flat3\Lodata\GeneratedProperty` class which must be extended and provided with an `invoke()` method
+which will receive the `\Flat3\Lodata\Entity` currently being generated. The generated property must return an instance
+of a primitive type. The resulting instance of the custom generated property can then be added to the entity type.
+
+This example creates and attaches a generated property named `cp` with the type `int32` on the `airport` entity type
+as an anonymous class. This property will be represented in the metadata alongside the other declared properties.
+
+```
+$airport = Lodata::getEntityType('airport');
+
+$property = new class('cp', Type::int32()) extends GeneratedProperty {
+    public function invoke(Entity $entity)
+    {
+        return new Int32(4);
+    }
+};
+
+$airport->addProperty($property);
+```
+
+### Asynchronous requests
+
+The OData specification defines [asynchronous requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31359016)
+where the client indicates that it prefers the server to respond asynchronously via the `respond-async` Prefer header. This is helpful
+for long-running [operations](#operations).
+
+Lodata handles this by generating a Laravel [job](https://laravel.com/docs/8.x/queues#creating-jobs) which is then processed by
+Laravel in the same way it handles any other queued job. For this to work your Laravel installation must have a working job queue.
+
+When the client sends a request in this way, the server dispatches the job and returns to the client a monitoring URL. The client
+can use this URL to retrieve the job output, or its status if not completed or failed.
+
+The job runner will execute the OData request in the normal way, but will write the output to a Laravel [disk](https://laravel.com/docs/8.x/filesystem#obtaining-disk-instances)
+for it to be picked up later. The name of this disk is set in the `disk` option in `config/lodata.php`. In a multi-server environment
+this should be some type of shared storage such as NFS or AWS S3. The storage does not need to be client-facing, when the job output
+is retrieved it is streamed to the client by the Laravel application.
+
+### Filter expressions
+
+Lodata contains an expression parser in `\Flat3\Lodata\Expression` that handles both `$search` and `$filter` expressions. The
+parser decodes the incoming expression into an [abstract syntax tree](https://en.m.wikipedia.org/wiki/Abstract_syntax_tree). During
+entity set query processing the entity set driver will be passed every element of the tree in the correct parsing order, enabling it
+to convert the OData query into a native query such as an SQL query.
+
+Because not every possible OData function or operation is supported by every Laravel database driver, or the internal semantics of the
+underlying database do not support the required data types, then a "Not Supported" exception may be thrown by some database drivers
+and not others.
+
+The OData specification describes that the behaviour of the `$search` system query parameter is application-specific. Simple support
+for converting `$search` to a series of `field LIKE %param%` requests is available.
+
+The properties that should be used in search queries can be "tagged" using this example. Here the entity type 'airport' is retrieved,
+which may have been generated via autodiscovery. The 'name' property is also retrieved, and its 'searchable' property is updated.
+
+```
+$airportType = Lodata::getEntityType('airport');
+$airportType->getProperty('name')->setSearchable();
+```
+
+Any property marked in this way is added to the query by the SQL driver.
+
+The behaviour of both the `$search` and `$filter` parameters can be overridden by extending the driver class, and the relevant methods.
+
+### Alternative keys
+
+In addition to the standard 'id' key that is typical in a database table, any other unique field can be added as an
+[alternative key](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360936). This can then
+be used to reference an entity.
+
+The properties that should be used as alternative keys can be "tagged" using this example. Here the entity type 'airport' is retrieved,
+which may have been generated via autodiscovery. The 'name' property is also retrieved, and its 'alternativeKey' property is updated.
+
+```
+$airportType = Lodata::getEntityType('airport');
+$airportType->getProperty('code')->setAlternativeKey();
+```
+
+With this in place, an airport can be queried with its code using the request style `http://localhost/odata/Airports(code='elo')`
+
+### Operations
+
+Lodata supports both [Functions](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31359009)
+and [Actions](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31359013]). By OData
+convention operations that define themselves as Functions MUST return data and MUST have no observable side effects, and Actions
+MAY have side effects when invoked and MAY return data. Lodata does not enforce the side-effect restriction, but does enforce the return
+data requirement.
+
+Operations extend the `\Flat3\Lodata\Operation` class, and implement one of the `\Flat3\Lodata\Interfaces\Operation\ActionInterface` or
+`\Flat3\Lodata\Interfaces\Operation\FunctionInterface` interfaces. The class must also implement an `invoke()` method, which takes
+primitive type parameters. These parameter types and names will be read through [PHP reflection](https://www.php.net/manual/en/book.reflection.php)
+and added to the metadata document.
+
+The class can optionally define the name to use for the binding parameter using the `bindingParameterName` property
+and the returnType using the `returnType` property during construction. A primitive return type will be resolved through reflection
+on the invoke() method. When returning an entity the entity type must be attached using the setReturnType method, and the invoke method
+should return Entity.
+
+This Function defined as an anonymous class instance does not receive any parameters, and has a primitive return type of Edm.String
+resolved through reflection. This function can be invoked via `http://localhost/odata/helloworld()`
+
+```
+Lodata::add((new class('helloworld') extends Operation implements FunctionInterface {
+    public function invoke(): String_
+    {
+        return new String_('Hello world!');
+    }
+});
+```
+
+This Function receives two Edm.String parameters, and returns an Edm.String that concatenates them. The names of the parameters
+and their types are resolved through reflection. This function can be invoked via `http://localhost/odata/helloworld(one='hello',two='world)`
+
+```
+Lodata::add((new class('concat') extends Operation implements FunctionInterface {
+    public function invoke(String_ $one, String_ $two): String_
+    {
+        return new String_($one->get().$two->get());
+    }
+})
+```
+
+This Function requests that the bound parameter be provided as the 'code' parameter to the method, and sends it back unmodified.
+This can be invoked via a URL for example `http://localhost/odata/Airports(1)/code/identity()`.
+
+```
+Lodata::add((new class('identity') extends Operation implements FunctionInterface {
+    public function invoke(String_ $code): String_
+    {
+      return $code;
+    }
+})->setBoundParameter('code');
+```
+
+This Function requests the bound parameter be provided as the 'entity' parameter to the method, and additionally defines a provided
+parameter 'prefix' and then returns an Edm.String.
+This can be invoked via a URL for example `http://localhost/odata/Airports(1)/codeprefix(prefix='example')`.
+
+```
+Lodata::add((new class('code') extends Operation implements FunctionInterface {
+    public function invoke(Entity $entity, String_ $prefix): String_
+    {
+      return $prefix->get() . $entity->code->get();
+    }
+})->setBoundParameter('entity');
+```
+
+Finally, entities can themselves be generated and returned. This Function requests the bound parameter be provided as the `text`s
+parameter, and indicates that it returns an Entity. Because the entity type cannot be determined through reflection, it must be
+explicitly pulled from the model and provided to the operation.
+This can be invoked using a URL for example `http://localhost/odata/Airports/egen()` which would provide the `Airports` entity set
+to the `egen` function as the bound parameter.
+
+```
+Lodata::add((new class('egen') extends Operation implements FunctionInterface {
+    public function invoke(EntitySet $texts): Entity
+    {
+        $entity = $texts->makeEntity();
+        $entity['code'] = new String_('example');
+        return $entity;
+    }
+})->setBindingParameterName('texts')->setReturnType(Lodata::getEntityType('text')));
+```
+
+To provide additional context to a Function that may require it, the Function can ask for the current Transaction by adding that
+argument to the invoke method. In this example the invoke method would receive the Transaction on the `$transaction` method
+parameter. The transaction contains all of the available context for the request, and can provide items such as the current system
+query options.
+
+```
+Lodata::add((new class('hello') extends Operation implements FunctionInterface {
+    public function invoke(Transaction $transaction): String_
+    {
+      return new String_('hello');
+    }
+});
+```
+
+All of the above techniques also apply to Action operations.
+
+### Function composition
+
+OData URLs are parsed using composition, with each path segment being piped to the next using a static `pipe()` method on path
+segment classes, with the final segment in the chain being responsible for handling the system query options and generating
+the response via the `response()` method.
+
+Operations can therefore act on path segments that precede them as [bound parameters](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_BindinganOperationtoaResource), and the output of one operation can be piped
+into the next. The output can therefore pass through several functions before being output.
+
+## Internals
+
+### Transactions
+
+A `\Flat3\Lodata\Controller\Transaction` object is a representation of both the request (`\Flat3\Lodata\Controller\Request`) and
+response (`\Flat3\Lodata\Controller\Response`) objects, handles piping the request from one path segment to the next, and provides
+a variety of helper methods to generate context and get aspects of the request. Transaction also implements the streaming JSON encoder.
+
+The OData `$expand` system query option, which can itself take system query parameters, creates a new transaction that represents
+a sub-request within the main request, with a subclass of the Request object as a NavigationRequest. These can be further nested in
+subrequests of `$expand` requests.
+
+Transactions are also serializable for the purposes of async requests, and can therefore be handled offline, replayed, retried etc.
+
+### Streaming JSON
+
+Responses to OData requests can be of unlimited size. The request for an entity set without server-side pagination, of a database
+table of many gigabytes, would generate a JSON document of at least that size. In order to process this efficiently, and without
+running out of memory, Lodata implements a streaming JSON encoder. Through this method the memory usage of the responding PHP process
+will stay very low.
+
+Even if the request for the entity set is made with no pagination parameters, internally `\Flat3\Lodata\EntitySet` will implement
+pagination against the database or other storage system so that that system is not overloaded. This process is invisible to the client.
+
+When a path segment refers to an entity set, the initialization of that path segment sets up the query including all the filtering
+options, but it is not executed to receive data from the data source until the content is actually emitted or an operation requests
+data from it. For example in the SQL driver, the path segment generates the query, prepares and executes the query, but not until
+the data is emitted does PDO start drawing data from the server and outputting it.
+
+### Drivers
+
+A Lodata 'driver' represents any storage system that could implement one or more of the `\Flat3\Lodata\Interfaces\EntitySet` interfaces
+including `QueryInterface`, `ReadInterface`, `UpdateInterface`, `DeleteInterface`, and `CreateInterface`. In addition to the query
+interface the driver may implement `SearchInterface` and `FilterInterface` to support `$search` and `$filter`, and other system
+query parameters can be supported through `ExpandInterface`, `PaginationInterface` and `OrderByInterface`. Implementation of any
+of these interfaces is optional, and Lodata will detect support and return a 'Not Implemented' exception to a client trying to use
+an interface that is not available.
+
+A wide variety of different services can support these interfaces in whatever way makes sense to that service. Services could be
+other databases, NoSQL services, other REST APIs or simple on-disk text files.
+
+### Types
+
+OData specifies many [primitive types](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_PrimitiveValue)
+that can be used in Lodata. PHP's type system is less specific than OData, so type conversion and coercion is implemented by each type
+to marshal between PHP and OData types. Lodata will force PHP data into the specified type, for example converting a PHP `int` to 
+an OData `Edm.Int16` may cause truncation or overflow, but will ensure the type is in the correct format when a client receives it.
+
+PHP supports higher precision floating point types than JSON itself, so Lodata implements IEEE754 compatibility in OData by returning
+Edm.Double (and similar) types as strings if requested to do so by the client.
+
+Lodata implements Edm.Date, Edm.DateTimeOffset and Edm.TimeOfDay using [DateTime](https://www.php.net/manual/en/book.datetime.php)
+objects, and retrieving the value of (eg) a `\Flat3\Lodata\Type\DateTimeOffset` using its get() method will return a DateTime.
+
+## Specification compliance
 
 The relevant parts of the specification used for Lodata are:
 
@@ -213,7 +509,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * [Asynchronous requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_AsynchronousRequests) using Laravel jobs, with monitoring, cancellation and callbacks
 * Edit links, and POST/PATCH/DELETE requests for new or existing entities
 * Composable URLs
-* Declared, dynamic and navigation properties
+* Declared and navigation properties
 * Referential constraints
 * Entity singletons
 * IEEE754 number-as-string support

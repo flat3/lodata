@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Drivers;
 
 use Exception;
-use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;

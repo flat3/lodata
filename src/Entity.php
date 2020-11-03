@@ -53,9 +53,9 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $entityType = $this->getType();
         $navigationRequests = $transaction->getNavigationRequests();
 
-        /** @var DynamicProperty $dynamicProperty */
-        foreach ($this->getType()->getDynamicProperties() as $dynamicProperty) {
-            $dynamicProperty->generatePropertyValue($this);
+        /** @var GeneratedProperty $generatedProperty */
+        foreach ($this->getType()->getGeneratedProperties() as $generatedProperty) {
+            $generatedProperty->generatePropertyValue($this);
         }
 
         /** @var NavigationProperty $navigationProperty */

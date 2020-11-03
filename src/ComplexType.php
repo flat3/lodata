@@ -59,9 +59,9 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return $this->properties->sliceByClass(DeclaredProperty::class);
     }
 
-    public function getDynamicProperties(): ObjectArray
+    public function getGeneratedProperties(): ObjectArray
     {
-        return $this->properties->sliceByClass(DynamicProperty::class);
+        return $this->properties->sliceByClass(GeneratedProperty::class);
     }
 
     public function getProperty(string $property): ?Property
@@ -83,11 +83,11 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return $property instanceof NavigationProperty ? $property : null;
     }
 
-    public function getDynamicProperty(string $property): ?DynamicProperty
+    public function getGeneratedProperty(string $property): ?GeneratedProperty
     {
         $property = $this->properties->get($property);
 
-        return $property instanceof DynamicProperty ? $property : null;
+        return $property instanceof GeneratedProperty ? $property : null;
     }
 
     public function getProperties(): ObjectArray
