@@ -15,7 +15,7 @@ use Flat3\Lodata\Transaction\Metadata\None;
 abstract class Metadata
 {
     public const name = '';
-    public const required = [];
+    protected $requiredProperties = [];
 
     /** @var Version $version */
     private $version;
@@ -42,8 +42,10 @@ abstract class Metadata
                 return new Full($version);
         }
 
-        throw new NotAcceptableException('invalid_metadata_format',
-            sprintf('An invalid metadata format (%s) was specified', $type));
+        throw new NotAcceptableException(
+            'invalid_metadata_format',
+            sprintf('An invalid metadata format (%s) was specified', $type)
+        );
     }
 
     public function __toString()
@@ -51,33 +53,18 @@ abstract class Metadata
         return $this::name;
     }
 
-    /**
-     * Filter the response metadata based on the requested metadata type
-     *
-     * https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
-     *
-     * @param  array  $inputMetadata
-     *
-     * @return array
-     */
-    public function filter(array $inputMetadata, string $prefix = ''): array
+    public function getContainer(): MetadataContainer
     {
-        // Filter out metadata that should not be returned
-        if ($this::required) {
-            $inputMetadata = array_intersect_key($inputMetadata, array_flip($this::required));
-        }
+        return new MetadataContainer($this);
+    }
 
-        // Append the control information prefix to the metadata keys
-        $requestedODataVersion = (string) $this->version;
-        $outputMetadata = [];
-        foreach ($inputMetadata as $key => $value) {
-            if (version_compare('4.0', $requestedODataVersion, '=')) {
-                $outputMetadata[$prefix.'@odata.'.$key] = $value;
-            } else {
-                $outputMetadata[$prefix.'@'.$key] = $value;
-            }
-        }
+    public function getRequiredProperties(): array
+    {
+        return $this->requiredProperties;
+    }
 
-        return $outputMetadata;
+    public function getVersion(): Version
+    {
+        return $this->version;
     }
 }

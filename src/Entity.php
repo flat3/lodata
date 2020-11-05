@@ -16,12 +16,16 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Traits\HasTransaction;
+use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 
-class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
+class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
+    use UseReferences;
     use HasTransaction;
 
     /** @var ObjectArray $properties */
@@ -33,7 +37,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
     /** @var EntityType $type */
     private $type;
 
-    protected $metadata = [];
+    /** @var MetadataContainer $metadata */
+    protected $metadata = null;
 
     public function __construct()
     {
@@ -98,25 +103,37 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         $transaction->outputJsonObjectStart();
 
-        $metadata = $this->metadata;
-
+        $metadata = $this->metadata ?: $transaction->getMetadata()->getContainer();
         $metadata['type'] = '#'.$this->getType()->getIdentifier();
 
         if ($this->entitySet && $this->getEntityId()) {
             $metadata['id'] = $this->getResourceUrl($transaction);
+
+            if ($this->usesReferences()) {
+                $metadata['id'] = sprintf(
+                    "%s(%s)",
+                    $this->entitySet->getName(),
+                    $this->getEntityId()->getValue()->get()
+                );
+
+                $metadata->addRequiredProperty('id');
+            }
+
             $metadata['readLink'] = $metadata['id'];
         }
 
-        $metadata = $transaction->getMetadata()->filter($metadata);
-
         $requiresSeparator = false;
 
-        if ($metadata) {
-            $transaction->outputJsonKV($metadata);
+        if ($metadata->hasMetadata()) {
+            $transaction->outputJsonKV($metadata->getMetadata());
             $requiresSeparator = true;
         }
 
         while (true) {
+            if ($this->usesReferences()) {
+                break;
+            }
+
             if (!$this->properties->valid()) {
                 break;
             }
@@ -136,8 +153,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             if ($propertyValue->getProperty() instanceof NavigationProperty) {
                 $propertyMetadata = $this->getExpansionMetadata($transaction, $propertyValue);
 
-                if ($propertyMetadata) {
-                    $transaction->outputJsonKV($propertyMetadata);
+                if ($propertyMetadata->hasMetadata()) {
+                    $transaction->outputJsonKV($propertyMetadata->getMetadata());
                     $transaction->outputJsonSeparator();
                 }
             }
@@ -230,11 +247,11 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
         $this->properties->drop($offset);
     }
 
-    public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue)
+    public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue): MetadataContainer
     {
-        $propertyMetadata = [
-            'navigationLink' => $this->getResourceUrl($transaction).'/'.$propertyValue->getProperty()->getName(),
-        ];
+        $propertyMetadata = $transaction->getMetadata()->getContainer();
+        $propertyMetadata->setPrefix($propertyValue->getProperty()->getName());
+        $propertyMetadata['navigationLink'] = $this->getResourceUrl($transaction).'/'.$propertyValue->getProperty()->getName();
 
         if ($propertyValue->getValue() instanceof EntitySet) {
             $set = $propertyValue->getEntitySetValue();
@@ -267,11 +284,6 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
             }
         }
 
-        $propertyMetadata = $transaction->getMetadata()->filter(
-            $propertyMetadata,
-            $propertyValue->getProperty()->getName()
-        );
-
         return $propertyMetadata;
     }
 
@@ -286,6 +298,10 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
     public function getContextUrl(Transaction $transaction): string
     {
+        if ($this->usesReferences()) {
+            return $transaction->getContextUrl().'#$ref';
+        }
+
         if ($this->entitySet) {
             $url = $this->entitySet->getContextUrl($transaction);
 
@@ -334,9 +350,8 @@ class Entity implements ResourceInterface, EntityTypeInterface, ContextInterface
 
         $context = $context ?: $this;
 
-        $this->metadata = [
-            'context' => $context->getContextUrl($transaction),
-        ];
+        $this->metadata = $transaction->getMetadata()->getContainer();
+        $this->metadata['context'] = $context->getContextUrl($transaction);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);
