@@ -211,17 +211,15 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
             return $value->response($transaction, $this);
         }
 
-        $metadata = [
-            'context' => $context->getContextUrl($transaction),
-        ];
+        $metadata = $transaction->getMetadata()->getContainer();
 
-        $metadata = $transaction->getMetadata()->filter($metadata);
+        $metadata['context'] = $context->getContextUrl($transaction);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
-            if ($metadata) {
-                $transaction->outputJsonKV($metadata);
+            if ($metadata->hasMetadata()) {
+                $transaction->outputJsonKV($metadata->getMetadata());
                 $transaction->outputJsonSeparator();
             }
 

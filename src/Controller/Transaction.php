@@ -113,6 +113,7 @@ class Transaction implements ArgumentInterface
         PathSegment\Value::class,
         PathSegment\Count::class,
         PathSegment\Filter::class,
+        PathSegment\Reference::class,
         Operation::class,
         Singleton::class,
         PropertyValue::class,

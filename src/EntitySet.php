@@ -36,18 +36,21 @@ use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
+use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Iterator;
 
-abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
 {
     use HasIdentifier;
+    use UseReferences;
     use HasTitle;
     use HasTransaction;
 
@@ -231,6 +234,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         while ($this->valid()) {
             $entity = $this->current();
+
+            if ($this->usesReferences()) {
+                $entity->useReferences();
+            }
+
             $entity->emit($transaction);
 
             $this->next();
@@ -255,9 +263,9 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
         $setCount = $this->count();
 
-        $metadata = [
-            'context' => $context->getContextUrl($transaction),
-        ];
+        $metadata = $transaction->getMetadata()->getContainer();
+
+        $metadata['context'] = $context->getContextUrl($transaction);
 
         $count = $transaction->getCount();
         if (true === $count->getValue()) {
@@ -292,13 +300,11 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
             );
         }
 
-        $metadata = $transaction->getMetadata()->filter($metadata);
-
         return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
-            if ($metadata) {
-                $transaction->outputJsonKV($metadata);
+            if ($metadata->hasMetadata()) {
+                $transaction->outputJsonKV($metadata->getMetadata());
                 $transaction->outputJsonSeparator();
             }
 
@@ -310,6 +316,10 @@ abstract class EntitySet implements EntityTypeInterface, IdentifierInterface, Re
 
     public function getContextUrl(Transaction $transaction): string
     {
+        if ($this->usesReferences()) {
+            return $transaction->getContextUrl().'#Collection($ref)';
+        }
+
         $url = $transaction->getContextUrl().'#'.$this->getName();
         $properties = $transaction->getContextUrlProperties();
 

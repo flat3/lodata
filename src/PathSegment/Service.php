@@ -25,14 +25,11 @@ class Service implements EmitInterface
     {
         $transaction->outputJsonObjectStart();
 
-        $metadata = [
-            'context' => $transaction->getContextUrl(),
-        ];
+        $metadata = $transaction->getMetadata()->getContainer();
+        $metadata['context'] = $transaction->getContextUrl();
 
-        $metadata = $transaction->getMetadata()->filter($metadata);
-
-        if ($metadata) {
-            $transaction->outputJsonKV($metadata);
+        if ($metadata->hasMetadata()) {
+            $transaction->outputJsonKV($metadata->getMetadata());
             $transaction->outputJsonSeparator();
         }
 
