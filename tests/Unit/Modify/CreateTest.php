@@ -39,4 +39,18 @@ class CreateTest extends TestCase
                 ->path('/flights(1)/passengers')
         );
     }
+
+    public function test_create_ref()
+    {
+        $this->withFlightModel();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights/$ref')
+                ->post()
+                ->body([
+                    'origin' => 'lhr',
+                ])
+        );
+    }
 }
