@@ -11,7 +11,6 @@ use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Double;
 use Flat3\Lodata\Type\Duration;
-use Flat3\Lodata\Type\Enum;
 use Flat3\Lodata\Type\Guid;
 use Flat3\Lodata\Type\Int16;
 use Flat3\Lodata\Type\Int32;
@@ -33,7 +32,6 @@ use TypeError;
  * @method static PrimitiveType decimal()
  * @method static PrimitiveType double()
  * @method static PrimitiveType duration()
- * @method static PrimitiveType enum()
  * @method static PrimitiveType guid()
  * @method static PrimitiveType int16()
  * @method static PrimitiveType int32()
@@ -58,7 +56,6 @@ abstract class Type
             'decimal' => Decimal::class,
             'double' => Double::class,
             'duration' => Duration::class,
-            'enum' => Enum::class,
             'guid' => Guid::class,
             'int16' => Int16::class,
             'int32' => Int32::class,

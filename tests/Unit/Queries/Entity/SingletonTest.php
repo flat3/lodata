@@ -43,4 +43,12 @@ class SingletonTest extends TestCase
                 ->path('atest')
         );
     }
+
+    public function test_singleton_property()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('atest/b')
+        );
+    }
 }

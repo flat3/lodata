@@ -1,0 +1,5 @@
+{
+    "@context": "http://localhost/odata/$metadata#com.example.odata.example",
+    "@type": "#com.example.odata.outer",
+    "inner": "aaa,bbb"
+}

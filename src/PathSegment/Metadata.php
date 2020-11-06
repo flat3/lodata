@@ -23,6 +23,7 @@ use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type\Boolean;
+use Flat3\Lodata\Type\EnumMember;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
 
@@ -133,6 +134,23 @@ class Metadata implements PipeInterface, EmitInterface
                         $constraint->getReferencedProperty()->getName()
                     );
                 }
+            }
+        }
+
+        foreach (Lodata::getEnumerationTypes() as $enumerationType) {
+            $enumerationTypeElement = $schema->addChild('EnumType');
+            $enumerationTypeElement->addAttribute('Name', $enumerationType->getResolvedName($namespace));
+            $enumerationTypeElement->addAttribute(
+                'UnderlyingType',
+                $enumerationType->getUnderlyingType()->getResolvedName($namespace)
+            );
+            $enumerationTypeElement->addAttribute('IsFlags', Boolean::factory($enumerationType->getIsFlags())->toUrl());
+
+            /** @var EnumMember $memberValue */
+            foreach ($enumerationType->getMembers() as $memberName => $memberValue) {
+                $memberElement = $enumerationTypeElement->addChild('Member');
+                $memberElement->addAttribute('Name', $memberName);
+                $memberElement->addAttribute('Value', $memberValue->getValue());
             }
         }
 

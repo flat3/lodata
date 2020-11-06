@@ -200,4 +200,10 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
             return in_array($key, $keys);
         });
     }
+
+    public function clear(): self
+    {
+        $this->array = [];
+        return $this;
+    }
 }

@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
-use Flat3\Lodata\Type\Enum;
+use Flat3\Lodata\EnumerationType;
 
 class ConformanceLevel extends Annotation
 {
@@ -11,10 +11,12 @@ class ConformanceLevel extends Annotation
 
     public function __construct()
     {
-        $this->value = new Enum();
-        $this->value->add('Org.OData.Capabilities.V1.ConformanceLevelType/Minimal');
-        $this->value->add('Org.OData.Capabilities.V1.ConformanceLevelType/Intermediate');
-        $this->value->add('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
-        $this->value->set('Org.OData.Capabilities.V1.ConformanceLevelType/Advanced');
+        $type = new EnumerationType('Org.OData.Capabilities.V1.ConformanceLevelType');
+
+        $type[] = 'Minimal';
+        $type[] = 'Intermediate';
+        $type[] = 'Advanced';
+
+        $this->value = $type->instance('Advanced');
     }
 }

@@ -2,42 +2,104 @@
 
 namespace Flat3\Lodata\Type;
 
+use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Primitive;
 
 class Enum extends Primitive
 {
-    const identifier = 'Edm.Enum';
+    /** @var EnumerationType $type */
+    protected $type;
 
-    /** @var ?int $value */
+    /** @var ObjectArray[Primitive] $value */
     protected $value;
 
-    protected $values = [];
+    protected $nullable = false;
+
+    public function __construct(EnumerationType $type, $value = null)
+    {
+        $this->value = new ObjectArray();
+        $this->type = $type;
+        parent::__construct($value);
+    }
+
+    public function toUrl(): string
+    {
+        return $this->getEnumerationValue();
+    }
+
+    public function getEnumerationValue(): string
+    {
+        $result = [];
+
+        foreach ($this->value as $key => $value) {
+            $result[] = $key;
+        }
+
+        return join(',', $result);
+    }
+
+    public function toJson(): string
+    {
+        return $this->getEnumerationValue();
+    }
 
     public function set($value): self
     {
-        $this->value = array_search($value, $this->values);
-
-        return $this;
+        $this->clear();
+        return $this->add($value);
     }
 
-    public function add($value, ?int $position = null): self
+    public function add($value): self
     {
-        if ($position) {
-            $this->values[$position] = $value;
-        } else {
-            $this->values[] = $value;
+        $values = is_string($value) ? explode(',', $value) : [$value];
+
+        foreach ($values as $value) {
+            if (!$this->type->getIsFlags()) {
+                $this->value->clear();
+            }
+
+            /** @var EnumMember $member */
+            $member = $this->type[$value];
+
+            if ($member) {
+                $this->value->add($member);
+                continue;
+            }
+
+            foreach ($this->type->getMembers() as $member) {
+                if ($member->getValue()->get() === $value) {
+                    $this->value->add($member);
+                    continue;
+                }
+            }
+
+            throw new InternalServerErrorException(
+                'invalid_enumeration_value',
+                'Could not find the enumeration member for the provided value: '.$value
+            );
         }
 
         return $this;
     }
 
-    public function toUrl(): string
+    public function drop($value): self
     {
-        return $this->values[$this->value];
+        $this->value->drop($value);
+
+        return $this;
     }
 
-    public function toJson()
+    public function clear(): self
     {
-        return $this->values[$this->value];
+        $this->value->clear();
+
+        return $this;
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->type->getIdentifier();
     }
 }

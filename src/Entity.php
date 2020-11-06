@@ -18,8 +18,8 @@ use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
-use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Traits\HasTransaction;
+use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 
@@ -201,6 +201,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     public function addProperty($property): self
     {
+        $property->setEntity($this);
         $this->properties[] = $property;
 
         return $this;

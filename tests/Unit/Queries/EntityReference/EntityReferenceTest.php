@@ -2,9 +2,9 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\EntityReference;
 
-use Flat3\Lodata\Transaction\Metadata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Metadata;
 
 class EntityReferenceTest extends TestCase
 {
