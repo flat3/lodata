@@ -28,6 +28,14 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_an_entity_etag()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->path('/flights(1)')
+        );
+    }
+
     public function test_read_an_entity_with_full_metadata()
     {
         $this->assertJsonResponse(

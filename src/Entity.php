@@ -5,12 +5,12 @@ namespace Flat3\Lodata;
 use ArrayAccess;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Exception\Internal\ETagException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -135,6 +135,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             $transaction->outputJsonKV($metadata->getMetadata());
             $requiresSeparator = true;
         }
+
+        $this->properties->rewind();
 
         while (true) {
             if ($this->usesReferences()) {
@@ -389,7 +391,11 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $this->metadata = $transaction->getMetadata()->getContainer();
         $this->metadata['context'] = $context->getContextUrl($transaction);
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction) {
+        $response = $transaction->getResponse();
+
+        $response->headers->set('etag', $this->getETag());
+
+        return $response->setCallback(function () use ($transaction) {
             $this->emit($transaction);
         });
     }
@@ -426,14 +432,18 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     public function getETag(): string
     {
-        $definition = $this->entitySet->getType()->getDeclaredProperties();
-        $instance = $this->properties->sliceByClass(DeclaredProperty::class);
+        $input = [];
 
-        if (array_diff($definition->keys(), $instance->keys())) {
-            throw new ETagException();
+        /** @var PropertyValue $propertyValue */
+        foreach ($this->properties as $propertyValue) {
+            $property = $propertyValue->getProperty();
+
+            if ($property instanceof DeclaredProperty) {
+                $input[$property->getName()] = $propertyValue->getPrimitiveValue();
+            }
         }
 
-        return $instance->hash();
+        return ETag::hash($input);
     }
 
     public function getType(): EntityType

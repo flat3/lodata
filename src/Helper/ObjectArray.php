@@ -183,12 +183,6 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         return $result;
     }
 
-    public function hash(): string
-    {
-        ksort($this->array);
-        return hash('sha256', serialize($this->array));
-    }
-
     public function keys(): array
     {
         return array_keys($this->array);

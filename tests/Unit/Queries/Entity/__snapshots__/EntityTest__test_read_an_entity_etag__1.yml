@@ -1,6 +1,6 @@
 headers:
     cache-control: ['no-cache, private']
-    content-type: [application/json;IEEE754Compatible=true]
+    content-type: [application/json]
     odata-version: ['4.01']
     etag: [b6a42bfcba65b22c2fcff47cc54acf3d4181d36b23fdc22e866d84878094c6ed]
 status: 200
