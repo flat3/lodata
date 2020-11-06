@@ -124,6 +124,24 @@ class EloquentTest extends TestCase
         );
     }
 
+    public function test_create_navigation_property()
+    {
+        $this->withFlightData();
+        $this->assertJsonResponse(
+            Request::factory()
+                ->post()
+                ->body([
+                    'name' => 'Harry Horse',
+                ])
+                ->path('/Flights(1)/passengers')
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights(1)/passengers')
+        );
+    }
+
     public function test_delete()
     {
         $model = new Airport();

@@ -23,7 +23,6 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
-use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
@@ -31,7 +30,6 @@ use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
-use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
@@ -253,11 +251,9 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $transaction->outputJsonArrayEnd();
     }
 
-    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
+    public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        if ($this->transaction) {
-            $transaction = $this->transaction->replaceQueryParams($transaction);
-        }
+        Gate::check(Gate::QUERY, $this, $transaction);
 
         $context = $context ?: $this;
 
@@ -312,6 +308,39 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $this->emit($transaction);
             $transaction->outputJsonObjectEnd();
         });
+    }
+
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if ($this->transaction) {
+            $transaction = $this->transaction->replaceQueryParams($transaction);
+        }
+
+        switch ($transaction->getMethod()) {
+            case Request::METHOD_GET:
+                if (!$this instanceof QueryInterface) {
+                    throw new NotImplementedException(
+                        'entityset_cannot_query',
+                        'This entity set cannot be queried',
+                    );
+                }
+
+                return $this->get($transaction, $context);
+
+            case Request::METHOD_POST:
+                if (!$this instanceof CreateInterface) {
+                    throw new NotImplementedException(
+                        'entityset_cannot_create',
+                        'This entity set cannot create entities'
+                    );
+                }
+
+                Gate::check(Gate::CREATE, $this, $transaction);
+
+                return $this->create()->get($transaction, $context);
+        }
+
+        throw new MethodNotAllowedException();
     }
 
     public function getContextUrl(Transaction $transaction): string
@@ -445,34 +474,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $entitySet->setTransaction($transaction);
 
         if ($lexer->finished()) {
-            if ($nextSegment || $transaction->getMethod() === Request::METHOD_GET) {
-                if (!$entitySet instanceof QueryInterface) {
-                    throw new NotImplementedException(
-                        'entityset_cannot_query',
-                        'This entity set cannot be queried',
-                    );
-                }
-
-                Gate::check(Gate::QUERY, $entitySet, $transaction);
-
-                return $entitySet;
-            }
-
-            switch ($transaction->getMethod()) {
-                case Request::METHOD_POST:
-                    if (!$entitySet instanceof CreateInterface) {
-                        throw new NotImplementedException(
-                            'entityset_cannot_create',
-                            'This entity set cannot create entities'
-                        );
-                    }
-
-                    Gate::check(Gate::CREATE, $entitySet, $transaction);
-
-                    return $entitySet->create();
-            }
-
-            throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');
+            return $entitySet;
         }
 
         try {
@@ -535,44 +537,17 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             )->lexer($lexer);
         }
 
-        if ($nextSegment || $transaction->getMethod() === Request::METHOD_GET) {
-            if (!$entitySet instanceof ReadInterface) {
-                throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
-            }
-
-            Gate::check(Gate::READ, $entitySet, $transaction);
-
-            $entity = $entitySet->read($keyValue);
-
-            if (null === $entity) {
-                throw new NotFoundException('not_found', 'Entity not found');
-            }
-
-            return $entity;
+        if (!$entitySet instanceof ReadInterface) {
+            throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
         }
 
-        switch ($transaction->getMethod()) {
-            case Request::METHOD_PATCH:
-            case Request::METHOD_PUT:
-                if (!$entitySet instanceof UpdateInterface) {
-                    throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
-                }
+        $entity = $entitySet->read($keyValue);
 
-                Gate::check(Gate::UPDATE, $entitySet, $transaction);
-
-                return $entitySet->update($keyValue);
-
-            case Request::METHOD_DELETE:
-                if (!$entitySet instanceof DeleteInterface) {
-                    throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
-                }
-
-                Gate::check(Gate::DELETE, $entitySet, $transaction);
-
-                return $entitySet->delete($keyValue);
+        if (null === $entity) {
+            throw new NotFoundException('not_found', 'Entity not found');
         }
 
-        throw new MethodNotAllowedException('invalid_method', 'An invalid method was invoked on this entity set');
+        return $entity;
     }
 
     public function newEntity(): Entity

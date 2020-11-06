@@ -2,9 +2,10 @@
 
 namespace Flat3\Lodata\Controller;
 
+use Flat3\Lodata\Interfaces\RequestInterface;
 use Illuminate\Http\Request as IlluminateRequest;
 
-class Request extends IlluminateRequest
+class Request extends IlluminateRequest implements RequestInterface
 {
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(IlluminateRequest $request)

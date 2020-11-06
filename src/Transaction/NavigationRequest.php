@@ -3,31 +3,50 @@
 namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\NavigationProperty;
 use Illuminate\Http\Request;
 
-class NavigationRequest extends Request
+class NavigationRequest implements RequestInterface
 {
     /** @var NavigationProperty $navigationProperty */
     protected $navigationProperty;
 
-    public function parseQueryString(string $queryString): self
+    /** @var Request $request */
+    public $request;
+
+    protected $basePath;
+
+    public function __construct()
     {
-        $lexer = new Lexer($queryString);
-        $parameters = $lexer->splitCommaSeparatedQueryString();
-        $this->query->replace($parameters);
+        $this->request = new Request();
+    }
+
+    public function setOuterRequest(Request $request): self
+    {
+        $this->request = $request;
 
         return $this;
     }
 
-    public function getMethod(): string
+    public function setQueryString(string $queryString): self
     {
-        return Request::METHOD_GET;
+        $lexer = new Lexer($queryString);
+        $parameters = $lexer->splitCommaSeparatedQueryString();
+        $this->request->query->replace($parameters);
+
+        return $this;
+    }
+
+    public function path()
+    {
+        return $this->basePath;
     }
 
     public function setPath(string $path): self
     {
         $this->basePath = $path;
+
         return $this;
     }
 
@@ -45,6 +64,16 @@ class NavigationRequest extends Request
 
     public function __toString()
     {
-        return $this->getBasePath();
+        return $this->path();
+    }
+
+    public function __get($parameter)
+    {
+        return $this->request->$parameter;
+    }
+
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->request, $method], $parameters);
     }
 }

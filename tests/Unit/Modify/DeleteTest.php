@@ -22,7 +22,7 @@ class DeleteTest extends TestCase
     {
         $this->withFlightModel();
 
-        $this->assertNoContent(
+        $this->assertNotFound(
             Request::factory()
                 ->path('/flights(999)')
                 ->delete()

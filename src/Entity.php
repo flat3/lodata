@@ -8,11 +8,17 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\ETagException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
+use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -22,6 +28,7 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
+use Illuminate\Http\Request;
 
 class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
@@ -72,7 +79,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
                 continue;
             }
 
-            $navigationPath = $navigationRequest->getBasePath();
+            $navigationPath = $navigationRequest->path();
 
             /** @var NavigationProperty $navigationProperty */
             $navigationProperty = $entityType->getNavigationProperties()->get($navigationPath);
@@ -343,11 +350,39 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         );
     }
 
-    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
+    public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        if ($this->transaction) {
-            $transaction = $this->transaction->replaceQueryParams($transaction);
+        $entitySet = $this->entitySet;
+
+        if (!$entitySet instanceof DeleteInterface) {
+            throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
         }
+
+        Gate::check(Gate::DELETE, $this, $transaction);
+
+        $entitySet->delete($this->getEntityId());
+
+        throw new NoContentException('deleted', 'Content was deleted');
+    }
+
+    public function patch(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        $entitySet = $this->entitySet;
+
+        if (!$entitySet instanceof UpdateInterface) {
+            throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
+        }
+
+        Gate::check(Gate::UPDATE, $this, $transaction);
+
+        $entity = $entitySet->update($this->getEntityId());
+
+        return $entity->get($transaction, $context);
+    }
+
+    public function get(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        Gate::check(Gate::READ, $this, $transaction);
 
         $context = $context ?: $this;
 
@@ -357,6 +392,27 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);
         });
+    }
+
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if ($this->transaction) {
+            $transaction = $this->transaction->replaceQueryParams($transaction);
+        }
+
+        switch ($transaction->getMethod()) {
+            case Request::METHOD_PATCH:
+            case Request::METHOD_PUT:
+                return $this->patch($transaction, $context);
+
+            case Request::METHOD_DELETE:
+                return $this->delete($transaction, $context);
+
+            case Request::METHOD_GET:
+                return $this->get($transaction, $context);
+        }
+
+        throw new MethodNotAllowedException();
     }
 
     public function fromArray(array $array): self

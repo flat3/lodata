@@ -27,7 +27,9 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\ReferentialConstraint;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -282,6 +284,18 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $propertyValues = $entity->getPropertyValues();
 
         $fields = [];
+
+        if ($this->expansionPropertyValue) {
+            /** @var NavigationProperty $navigationProperty */
+            $navigationProperty = $this->expansionPropertyValue->getProperty();
+
+            /** @var ReferentialConstraint $constraint */
+            foreach ($navigationProperty->getConstraints() as $constraint) {
+                $referencedProperty = $constraint->getReferencedProperty();
+                $fields[] = $this->getPropertySourceName($referencedProperty);
+                $this->addParameter($this->expansionPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+            }
+        }
 
         /** @var Property $property */
         foreach ($properties as $property) {
