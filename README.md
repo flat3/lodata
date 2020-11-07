@@ -25,6 +25,7 @@
    1. [Function composition](#function-composition)
    1. [Operations](#operations)
 1. Internals
+   1. [Class documentation](https://flat3.github.io/lodata/)
    1. [Transactions](#transactions)
    1. [Streaming JSON](#streaming-json)
    1. [Drivers](#drivers)
