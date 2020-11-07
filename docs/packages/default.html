@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Lodata</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <link rel="icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+            <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
+                <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/js/all.min.js" integrity="sha256-0vuk8LXoyrmCjp1f0O300qo1M75ZQyhH9X3J6d+scmk=" crossorigin="anonymous"></script>
+        <script src="js/search.js"></script>
+        <script defer src="js/searchIndex.js"></script>
+    </head>
+<body id="top">
+    <header class="phpdocumentor-header phpdocumentor-section">
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">Lodata</a></h1>
+    <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
+    <label class="phpdocumentor-header__menu-icon" for="menu-button">
+        <i class="fas fa-bars"></i>
+    </label>
+    <section data-search-form class="phpdocumentor-search">
+    <label>
+        <span class="visually-hidden">Search for</span>
+        <svg class="phpdocumentor-search__icon" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+            <line x1="12.4892" y1="12.2727" x2="19.1559" y2="18.9393" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <input type="search" class="phpdocumentor-field phpdocumentor-search__field" placeholder="Loading .." disabled />
+    </label>
+</section>
+
+    <nav class="phpdocumentor-topnav">
+    <ul class="phpdocumentor-topnav__menu">
+        </ul>
+</nav>
+</header>
+
+    <main class="phpdocumentor">
+        <div class="phpdocumentor-section">
+            <input class="phpdocumentor-sidebar__menu-button" type="checkbox" id="sidebar-button" name="sidebar-button" />
+<label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
+    Menu
+</label>
+<aside class="phpdocumentor-column -four phpdocumentor-sidebar">
+        <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Documentation</h2>
+        <h2 class="phpdocumentor-sidebar__root-package">
+    <a href="guide/index.html"></a>
+</h2>
+
+
+    </section>
+    
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                                <h4 class="phpdocumentor-sidebar__root-namespace"><a href="namespaces/flat3.html"><abbr title="\Flat3">Flat3</abbr></a></h4>
+                <ul class="phpdocumentor-list">
+                                            <li><a href="namespaces/flat3-lodata.html"><abbr title="\Flat3\Lodata">Lodata</abbr></a></li>
+                                    </ul>
+                        </section>
+
+        <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
+                    <h3 class="phpdocumentor-sidebar__root-package"><a href="packages/Default.html"><abbr title="\Default">Default</abbr></a></h3>
+                                <h3 class="phpdocumentor-sidebar__root-package"><a href="packages/Flat3.html"><abbr title="\Flat3">Flat3</abbr></a></h3>
+                        <ul class="phpdocumentor-list">
+                                    <li><a href="packages/Flat3-Lodata.html"><abbr title="\Flat3\Lodata">Lodata</abbr></a></li>
+                            </ul>
+                        </section>
+    
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
+                <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
+    </section>
+
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
+    </section>
+</aside>
+
+            <div class="phpdocumentor-column -eight phpdocumentor-content">
+                    <ul class="phpdocumentor-breadcrumbs">
+    </ul>
+
+    <article class="phpdocumentor-element -package">
+        <h2 class="phpdocumentor-content__title">Default</h2>
+
+        
+
+<h3 id="interfaces_class_traits">
+    Interfaces, Classes and Traits
+    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
+</h3>
+
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-CountInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\CountInterface">CountInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-CreateInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\CreateInterface">CreateInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-DeleteInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\DeleteInterface">DeleteInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-ExpandInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\ExpandInterface">ExpandInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-FilterInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\FilterInterface">FilterInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-OrderByInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\OrderByInterface">OrderByInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-PaginationInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\PaginationInterface">PaginationInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-QueryInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\QueryInterface">QueryInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-ReadInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\ReadInterface">ReadInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-SearchInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\SearchInterface">SearchInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntitySet-UpdateInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntitySet\UpdateInterface">UpdateInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EntityTypeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EntityTypeInterface">EntityTypeInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-NameInterface.html"><abbr title="\Flat3\Lodata\Interfaces\NameInterface">NameInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-Operation-ActionInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\ActionInterface">ActionInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-Operation-ArgumentInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\ArgumentInterface">ArgumentInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-Operation-FunctionInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\FunctionInterface">FunctionInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-ReferenceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ReferenceInterface">ReferenceInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-RequestInterface.html"><abbr title="\Flat3\Lodata\Interfaces\RequestInterface">RequestInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-ResourceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResourceInterface">ResourceInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-ServiceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ServiceInterface">ServiceInterface</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-TypeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\TypeInterface">TypeInterface</abbr></a></dt>
+        <dd></dd>
+    
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Capabilities-V1-AsynchronousRequestsSupported.html"><abbr title="\Flat3\Lodata\Annotation\Capabilities\V1\AsynchronousRequestsSupported">AsynchronousRequestsSupported</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Capabilities-V1-CallbackSupported.html"><abbr title="\Flat3\Lodata\Annotation\Capabilities\V1\CallbackSupported">CallbackSupported</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Capabilities-V1-ConformanceLevel.html"><abbr title="\Flat3\Lodata\Annotation\Capabilities\V1\ConformanceLevel">ConformanceLevel</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Capabilities-V1-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Capabilities\V1\Reference">Reference</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedFormats.html"><abbr title="\Flat3\Lodata\Annotation\Capabilities\V1\SupportedFormats">SupportedFormats</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html"><abbr title="\Flat3\Lodata\Annotation\Core\V1\ConventionalIDs">ConventionalIDs</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Core-V1-DefaultNamespace.html"><abbr title="\Flat3\Lodata\Annotation\Core\V1\DefaultNamespace">DefaultNamespace</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Core-V1-DereferencableIDs.html"><abbr title="\Flat3\Lodata\Annotation\Core\V1\DereferencableIDs">DereferencableIDs</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Core-V1-ODataVersions.html"><abbr title="\Flat3\Lodata\Annotation\Core\V1\ODataVersions">ODataVersions</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Core-V1-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Core\V1\Reference">Reference</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-ComplexType.html"><abbr title="\Flat3\Lodata\ComplexType">ComplexType</abbr></a></dt>
+        <dd>Class Type</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-Async.html"><abbr title="\Flat3\Lodata\Controller\Async">Async</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-Monitor.html"><abbr title="\Flat3\Lodata\Controller\Monitor">Monitor</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-OData.html"><abbr title="\Flat3\Lodata\Controller\OData">OData</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-ODCFF.html"><abbr title="\Flat3\Lodata\Controller\ODCFF">ODCFF</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-PBIDS.html"><abbr title="\Flat3\Lodata\Controller\PBIDS">PBIDS</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-Request.html"><abbr title="\Flat3\Lodata\Controller\Request">Request</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-DeclaredProperty.html"><abbr title="\Flat3\Lodata\DeclaredProperty">DeclaredProperty</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html"><abbr title="\Flat3\Lodata\Drivers\EloquentEntitySet">EloquentEntitySet</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Drivers-SQLEntitySet.html"><abbr title="\Flat3\Lodata\Drivers\SQLEntitySet">SQLEntitySet</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-EntitySet.html"><abbr title="\Flat3\Lodata\EntitySet">EntitySet</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-EntityType.html"><abbr title="\Flat3\Lodata\EntityType">EntityType</abbr></a></dt>
+        <dd>Class Type</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-EnumerationType.html"><abbr title="\Flat3\Lodata\EnumerationType">EnumerationType</abbr></a></dt>
+        <dd>Class PrimitiveType</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Internal-ETagException.html"><abbr title="\Flat3\Lodata\Exception\Internal\ETagException">ETagException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Internal-LexerException.html"><abbr title="\Flat3\Lodata\Exception\Internal\LexerException">LexerException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Internal-NodeHandledException.html"><abbr title="\Flat3\Lodata\Exception\Internal\NodeHandledException">NodeHandledException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Internal-ParserException.html"><abbr title="\Flat3\Lodata\Exception\Internal\ParserException">ParserException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Internal-PathNotHandledException.html"><abbr title="\Flat3\Lodata\Exception\Internal\PathNotHandledException">PathNotHandledException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-AcceptedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\AcceptedException">AcceptedException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-BadRequestException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\BadRequestException">BadRequestException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-ForbiddenException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\ForbiddenException">ForbiddenException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-InternalServerErrorException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\InternalServerErrorException">InternalServerErrorException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-MethodNotAllowedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\MethodNotAllowedException">MethodNotAllowedException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-NoContentException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\NoContentException">NoContentException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-NotAcceptableException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\NotAcceptableException">NotAcceptableException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-NotFoundException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\NotFoundException">NotFoundException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-NotImplementedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\NotImplementedException">NotImplementedException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-PreconditionFailedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\PreconditionFailedException">PreconditionFailedException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\ProtocolException">ProtocolException</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-ArgumentSeparator.html"><abbr title="\Flat3\Lodata\Expression\Event\ArgumentSeparator">ArgumentSeparator</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-EndFunction.html"><abbr title="\Flat3\Lodata\Expression\Event\EndFunction">EndFunction</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-EndGroup.html"><abbr title="\Flat3\Lodata\Expression\Event\EndGroup">EndGroup</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-Field.html"><abbr title="\Flat3\Lodata\Expression\Event\Field">Field</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-Literal.html"><abbr title="\Flat3\Lodata\Expression\Event\Literal">Literal</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-Operator.html"><abbr title="\Flat3\Lodata\Expression\Event\Operator">Operator</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-StartFunction.html"><abbr title="\Flat3\Lodata\Expression\Event\StartFunction">StartFunction</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event-StartGroup.html"><abbr title="\Flat3\Lodata\Expression\Event\StartGroup">StartGroup</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Event.html"><abbr title="\Flat3\Lodata\Expression\Event">Event</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Lexer.html"><abbr title="\Flat3\Lodata\Expression\Lexer">Lexer</abbr></a></dt>
+        <dd>Class Lexer</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Field.html"><abbr title="\Flat3\Lodata\Expression\Node\Field">Field</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-Arithmetic-Ceiling.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling">Ceiling</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-Arithmetic-Floor.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor">Floor</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-Arithmetic-Round.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\Arithmetic\Round">Round</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Date.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Date">Date</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Day.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Day">Day</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Hour.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Hour">Hour</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Minute.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Minute">Minute</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Month.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Month">Month</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Now.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Now">Now</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Second.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Second">Second</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Time.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Time">Time</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-DateTime-Year.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\DateTime\Year">Year</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-String-MatchesPattern.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\String\MatchesPattern">MatchesPattern</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-String-ToLower.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\String\ToLower">ToLower</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-String-ToUpper.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\String\ToUpper">ToUpper</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-String-Trim.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\String\Trim">Trim</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-Concat.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\Concat">Concat</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-Contains.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\Contains">Contains</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-EndsWith.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\EndsWith">EndsWith</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-IndexOf.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\IndexOf">IndexOf</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-Length.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\Length">Length</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-StartsWith.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith">StartsWith</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func-StringCollection-Substring.html"><abbr title="\Flat3\Lodata\Expression\Node\Func\StringCollection\Substring">Substring</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Func.html"><abbr title="\Flat3\Lodata\Expression\Node\Func">Func</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Group.html"><abbr title="\Flat3\Lodata\Expression\Node\Group">Group</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-LeftParen.html"><abbr title="\Flat3\Lodata\Expression\Node\LeftParen">LeftParen</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Boolean.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Boolean">Boolean</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Date.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Date">Date</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-DateTimeOffset.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\DateTimeOffset">DateTimeOffset</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Double.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Double">Double</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Duration.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Duration">Duration</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Guid.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Guid">Guid</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Identifier.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Identifier">Identifier</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Int32.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Int32">Int32</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-Null.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\Null_">Null_</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-String.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\String_">String_</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal-TimeOfDay.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal\TimeOfDay">TimeOfDay</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Literal.html"><abbr title="\Flat3\Lodata\Expression\Node\Literal">Literal</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic-Add.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add">Add</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic-Div.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div">Div</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic-DivBy.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy">DivBy</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic-Mod.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mod">Mod</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic-Mul.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mul">Mul</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic-Sub.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic\Sub">Sub</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Arithmetic.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Arithmetic">Arithmetic</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Comparison-And.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Comparison\And_">And_</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Comparison-Not.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Comparison\Not_">Not_</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Comparison-Or.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Comparison\Or_">Or_</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Comparison.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Comparison">Comparison</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-Equal.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\Equal">Equal</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-GreaterThan.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThan">GreaterThan</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-GreaterThanOrEqual.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThanOrEqual">GreaterThanOrEqual</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-In.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\In">In</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-LessThan.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\LessThan">LessThan</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-LessThanOrEqual.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual">LessThanOrEqual</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical-NotEqual.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual">NotEqual</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-Operator-Logical.html"><abbr title="\Flat3\Lodata\Expression\Node\Operator\Logical">Logical</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node-RightParen.html"><abbr title="\Flat3\Lodata\Expression\Node\RightParen">RightParen</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Node.html"><abbr title="\Flat3\Lodata\Expression\Node">Node</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Operator.html"><abbr title="\Flat3\Lodata\Expression\Operator">Operator</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Parser-Filter.html"><abbr title="\Flat3\Lodata\Expression\Parser\Filter">Filter</abbr></a></dt>
+        <dd>Class Parser</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Parser-Search.html"><abbr title="\Flat3\Lodata\Expression\Parser\Search">Search</abbr></a></dt>
+        <dd>Class Parser</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Expression-Parser.html"><abbr title="\Flat3\Lodata\Expression\Parser">Parser</abbr></a></dt>
+        <dd>Class Parser</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-GeneratedProperty.html"><abbr title="\Flat3\Lodata\GeneratedProperty">GeneratedProperty</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-Constants.html"><abbr title="\Flat3\Lodata\Helper\Constants">Constants</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-ETag.html"><abbr title="\Flat3\Lodata\Helper\ETag">ETag</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-Gate.html"><abbr title="\Flat3\Lodata\Helper\Gate">Gate</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-Identifier.html"><abbr title="\Flat3\Lodata\Helper\Identifier">Identifier</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-Laravel.html"><abbr title="\Flat3\Lodata\Helper\Laravel">Laravel</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-Name.html"><abbr title="\Flat3\Lodata\Helper\Name">Name</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-PropertyValue.html"><abbr title="\Flat3\Lodata\Helper\PropertyValue">PropertyValue</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Helper-Url.html"><abbr title="\Flat3\Lodata\Helper\Url">Url</abbr></a></dt>
+        <dd>URL constants as defined in the PHP Manual under &quot;Constants usable with
+http_build_url()&quot;.</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Model.html"><abbr title="\Flat3\Lodata\Model">Model</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-NavigationBinding.html"><abbr title="\Flat3\Lodata\NavigationBinding">NavigationBinding</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Operation-EntityArgument.html"><abbr title="\Flat3\Lodata\Operation\EntityArgument">EntityArgument</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Operation-EntitySetArgument.html"><abbr title="\Flat3\Lodata\Operation\EntitySetArgument">EntitySetArgument</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Operation-PrimitiveArgument.html"><abbr title="\Flat3\Lodata\Operation\PrimitiveArgument">PrimitiveArgument</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Operation-TransactionArgument.html"><abbr title="\Flat3\Lodata\Operation\TransactionArgument">TransactionArgument</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Operation.html"><abbr title="\Flat3\Lodata\Operation">Operation</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-PathSegment-Count.html"><abbr title="\Flat3\Lodata\PathSegment\Count">Count</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-PathSegment-Filter.html"><abbr title="\Flat3\Lodata\PathSegment\Filter">Filter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-PathSegment-Metadata.html"><abbr title="\Flat3\Lodata\PathSegment\Metadata">Metadata</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-PathSegment-Reference.html"><abbr title="\Flat3\Lodata\PathSegment\Reference">Reference</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-PathSegment-Service.html"><abbr title="\Flat3\Lodata\PathSegment\Service">Service</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-PathSegment-Value.html"><abbr title="\Flat3\Lodata\PathSegment\Value">Value</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Property.html"><abbr title="\Flat3\Lodata\Property">Property</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-ReferentialConstraint.html"><abbr title="\Flat3\Lodata\ReferentialConstraint">ReferentialConstraint</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-ServiceProvider.html"><abbr title="\Flat3\Lodata\ServiceProvider">ServiceProvider</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Singleton.html"><abbr title="\Flat3\Lodata\Singleton">Singleton</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Boolean.html"><abbr title="\Flat3\Lodata\Transaction\Boolean">Boolean</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-IEEE754Compatible.html"><abbr title="\Flat3\Lodata\Transaction\IEEE754Compatible">IEEE754Compatible</abbr></a></dt>
+        <dd>Class IEEE754Compatible</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Metadata-Full.html"><abbr title="\Flat3\Lodata\Transaction\Metadata\Full">Full</abbr></a></dt>
+        <dd>Class Metadata</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Metadata-Minimal.html"><abbr title="\Flat3\Lodata\Transaction\Metadata\Minimal">Minimal</abbr></a></dt>
+        <dd>Class Metadata</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Metadata-None.html"><abbr title="\Flat3\Lodata\Transaction\Metadata\None">None</abbr></a></dt>
+        <dd>Class Metadata</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Metadata.html"><abbr title="\Flat3\Lodata\Transaction\Metadata">Metadata</abbr></a></dt>
+        <dd>Class Metadata</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html"><abbr title="\Flat3\Lodata\Transaction\MetadataContainer">MetadataContainer</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html"><abbr title="\Flat3\Lodata\Transaction\NavigationRequest">NavigationRequest</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Boolean.html"><abbr title="\Flat3\Lodata\Transaction\Option\Boolean">Boolean</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Count.html"><abbr title="\Flat3\Lodata\Transaction\Option\Count">Count</abbr></a></dt>
+        <dd>Class Count</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Expand.html"><abbr title="\Flat3\Lodata\Transaction\Option\Expand">Expand</abbr></a></dt>
+        <dd>Class Expand</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Filter.html"><abbr title="\Flat3\Lodata\Transaction\Option\Filter">Filter</abbr></a></dt>
+        <dd>Class Filter</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Format.html"><abbr title="\Flat3\Lodata\Transaction\Option\Format">Format</abbr></a></dt>
+        <dd>Class Format</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Numeric.html"><abbr title="\Flat3\Lodata\Transaction\Option\Numeric">Numeric</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-OrderBy.html"><abbr title="\Flat3\Lodata\Transaction\Option\OrderBy">OrderBy</abbr></a></dt>
+        <dd>Class OrderBy</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-SchemaVersion.html"><abbr title="\Flat3\Lodata\Transaction\Option\SchemaVersion">SchemaVersion</abbr></a></dt>
+        <dd>Class SchemaVersion</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Search.html"><abbr title="\Flat3\Lodata\Transaction\Option\Search">Search</abbr></a></dt>
+        <dd>Class Search</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Select.html"><abbr title="\Flat3\Lodata\Transaction\Option\Select">Select</abbr></a></dt>
+        <dd>Class Select</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Skip.html"><abbr title="\Flat3\Lodata\Transaction\Option\Skip">Skip</abbr></a></dt>
+        <dd>Class Skip</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option-Top.html"><abbr title="\Flat3\Lodata\Transaction\Option\Top">Top</abbr></a></dt>
+        <dd>Class Top</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Option.html"><abbr title="\Flat3\Lodata\Transaction\Option">Option</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Parameter.html"><abbr title="\Flat3\Lodata\Transaction\Parameter">Parameter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-ParameterList.html"><abbr title="\Flat3\Lodata\Transaction\ParameterList">ParameterList</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Transaction-Version.html"><abbr title="\Flat3\Lodata\Transaction\Version">Version</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Binary.html"><abbr title="\Flat3\Lodata\Type\Binary">Binary</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Byte.html"><abbr title="\Flat3\Lodata\Type\Byte">Byte</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Collection.html"><abbr title="\Flat3\Lodata\Type\Collection">Collection</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Date.html"><abbr title="\Flat3\Lodata\Type\Date">Date</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-DateTimeOffset.html"><abbr title="\Flat3\Lodata\Type\DateTimeOffset">DateTimeOffset</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Decimal.html"><abbr title="\Flat3\Lodata\Type\Decimal">Decimal</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Double.html"><abbr title="\Flat3\Lodata\Type\Double">Double</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Duration.html"><abbr title="\Flat3\Lodata\Type\Duration">Duration</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Enum.html"><abbr title="\Flat3\Lodata\Type\Enum">Enum</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-EnumMember.html"><abbr title="\Flat3\Lodata\Type\EnumMember">EnumMember</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Guid.html"><abbr title="\Flat3\Lodata\Type\Guid">Guid</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Int16.html"><abbr title="\Flat3\Lodata\Type\Int16">Int16</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Int32.html"><abbr title="\Flat3\Lodata\Type\Int32">Int32</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Int64.html"><abbr title="\Flat3\Lodata\Type\Int64">Int64</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-SByte.html"><abbr title="\Flat3\Lodata\Type\SByte">SByte</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Single.html"><abbr title="\Flat3\Lodata\Type\Single">Single</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-Stream.html"><abbr title="\Flat3\Lodata\Type\Stream">Stream</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-String.html"><abbr title="\Flat3\Lodata\Type\String_">String_</abbr></a></dt>
+        <dd>Class Primitive</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Flat3-Lodata-Type-TimeOfDay.html"><abbr title="\Flat3\Lodata\Type\TimeOfDay">TimeOfDay</abbr></a></dt>
+        <dd>Class Primitive</dd>
+    
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-MySQLFilter.html"><abbr title="\Flat3\Lodata\Drivers\SQL\MySQLFilter">MySQLFilter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-PostgreSQLFilter.html"><abbr title="\Flat3\Lodata\Drivers\SQL\PostgreSQLFilter">PostgreSQLFilter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLConnection.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLConnection">SQLConnection</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLFilter.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLFilter">SQLFilter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLiteFilter.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLiteFilter">SQLiteFilter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLLimits.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLLimits">SQLLimits</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLOrderBy.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLOrderBy">SQLOrderBy</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLParameters.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLParameters">SQLParameters</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLSchema">SQLSchema</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLSearch.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLSearch">SQLSearch</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLServerFilter.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLServerFilter">SQLServerFilter</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Drivers-SQL-SQLWhere.html"><abbr title="\Flat3\Lodata\Drivers\SQL\SQLWhere">SQLWhere</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-HasComplexType.html"><abbr title="\Flat3\Lodata\Traits\HasComplexType">HasComplexType</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-HasIdentifier.html"><abbr title="\Flat3\Lodata\Traits\HasIdentifier">HasIdentifier</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-HasInternalPagination.html"><abbr title="\Flat3\Lodata\Traits\HasInternalPagination">HasInternalPagination</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-HasName.html"><abbr title="\Flat3\Lodata\Traits\HasName">HasName</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-HasTitle.html"><abbr title="\Flat3\Lodata\Traits\HasTitle">HasTitle</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-HasTransaction.html"><abbr title="\Flat3\Lodata\Traits\HasTransaction">HasTransaction</abbr></a></dt>
+        <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Flat3-Lodata-Traits-UseReferences.html"><abbr title="\Flat3\Lodata\Traits\UseReferences">UseReferences</abbr></a></dt>
+        <dd></dd>
+    </dl>
+
+
+
+        
+
+        
+    </article>
+                <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+    <section class="phpdocumentor-search-results__dialog">
+        <header class="phpdocumentor-search-results__header">
+            <h2 class="phpdocumentor-search-results__title">Search results</h2>
+            <button class="phpdocumentor-search-results__close"><i class="fas fa-times"></i></button>
+        </header>
+        <section class="phpdocumentor-search-results__body">
+            <ul class="phpdocumentor-search-results__entries"></ul>
+        </section>
+    </section>
+</section>
+            </div>
+        </div>
+        <a href="packages/Default.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+
+    </main>
+
+    <script>
+        cssVars({});
+    </script>
+</body>
+</html>

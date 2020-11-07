@@ -51,7 +51,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 /**
  * Class Transaction
  *
- * @package Flat3\OData
+ * @package Flat3\Lodata
  */
 class Transaction implements ArgumentInterface
 {

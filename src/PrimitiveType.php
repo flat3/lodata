@@ -7,7 +7,7 @@ use RuntimeException;
 
 /**
  * Class PrimitiveType
- * @package Flat3\OData
+ * @package Flat3\Lodata
  */
 class PrimitiveType extends Type implements IdentifierInterface
 {

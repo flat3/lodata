@@ -23,7 +23,7 @@ use Flat3\Lodata\Type\TimeOfDay;
 use TypeError;
 
 /**
- * Class TypeDefinition
+ * Class Type
  * @method static PrimitiveType binary()
  * @method static PrimitiveType boolean()
  * @method static PrimitiveType byte()
@@ -41,7 +41,7 @@ use TypeError;
  * @method static PrimitiveType stream()
  * @method static PrimitiveType string()
  * @method static PrimitiveType timeofday()
- * @package Flat3\OData
+ * @package Flat3\Lodata
  */
 abstract class Type
 {

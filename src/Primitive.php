@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 /**
  * Class Primitive
- * @package Flat3\OData
+ * @package Flat3\Lodata
  */
 abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, EmitInterface, PipeInterface
 {
