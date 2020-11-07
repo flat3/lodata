@@ -58,6 +58,17 @@ class EloquentTest extends TestCase
         );
     }
 
+    public function test_set()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->text()
+                ->path('/Airports/$count')
+        );
+    }
+
     public function test_read()
     {
         $model = new Airport();
@@ -171,6 +182,21 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Airports')
+                ->filter("code eq 'elo'")
+        );
+    }
+
+    public function test_query_count()
+    {
+        $model = new Airport();
+        $model['name'] = 'Eloquent';
+        $model['code'] = 'elo';
+        $model->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports/$count')
+                ->text()
                 ->filter("code eq 'elo'")
         );
     }
@@ -528,6 +554,37 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Airports(1)/flights')
+        );
+    }
+
+    public function test_expand_property_count()
+    {
+        $ap1 = new Airport();
+        $ap1['name'] = 'Eloquent';
+        $ap1['code'] = 'elo';
+        $ap1->save();
+
+        $ap2 = new Airport();
+        $ap2['name'] = 'Eloquint';
+        $ap2['code'] = 'eli';
+        $ap2->save();
+
+        $fl1 = new Flight();
+        $fl1['origin'] = 'elo';
+        $fl1->save();
+
+        $fl2 = new Flight();
+        $fl2['origin'] = 'elo';
+        $fl2->save();
+
+        $fl3 = new Flight();
+        $fl3['origin'] = 'eli';
+        $fl3->save();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->text()
+                ->path('/Airports(1)/flights/$count')
         );
     }
 
