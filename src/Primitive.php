@@ -15,17 +15,29 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Illuminate\Support\Str;
 
 /**
- * Class Primitive
+ * Primitive
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530338
  * @package Flat3\Lodata
  */
 abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, EmitInterface, PipeInterface
 {
+    /**
+     * The OData type name of this primitive
+     */
     const identifier = 'Edm.None';
 
-    /** @var bool $nullable Whether the value can be made null */
+    /**
+     * Whether the value can be made null
+     * @var bool $nullable
+     * @internal
+     */
     protected $nullable = true;
 
-    /** @var ?mixed $value Internal representation of the value */
+    /**
+     * Internal representation of the value
+     * @var ?mixed $value
+     * @internal
+     */
     protected $value;
 
     public function __construct($value = null, bool $nullable = true)
@@ -34,8 +46,19 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         $this->set($value);
     }
 
+    /**
+     * Set the value of this primitive
+     * @param mixed $value Value
+     * @return Primitive
+     */
     abstract public function set($value);
 
+    /**
+     * Generate a new primitive of this type
+     * @param  mixed|null  $value Value
+     * @param  bool|null  $nullable Whether this instance of the primitive supports null
+     * @return Primitive
+     */
     public static function factory($value = null, ?bool $nullable = true): self
     {
         if ($value instanceof Primitive) {
@@ -47,7 +70,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     /**
      * Get the internal representation of the value
-     *
      * @return mixed
      */
     public function get()
@@ -56,15 +78,13 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Get the value as OData URL encoded
-     *
+     * Get the value in a format suitable for an OData URL
      * @return string
      */
     abstract public function toUrl(): string;
 
     /**
-     * Get the value as suitable for IEEE754 JSON encoding
-     *
+     * Get the value in a format suitable for JSON encoding in IEEE754 mode
      * @return string
      */
     public function toJsonIeee754(): ?string
@@ -75,18 +95,15 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Get the value as suitable for JSON encoding
-     *
+     * Get the value in a format suitable for JSON encoding
      * @return mixed
      */
     abstract public function toJson();
 
     /**
-     * Return null or an empty value if this type cannot be made null
-     *
-     * @param $value
-     *
-     * @return mixed
+     * Return null or an "empty" value if this type cannot be made null
+     * @param mixed $value The input value
+     * @return mixed The coerced value
      */
     public function maybeNull($value)
     {
@@ -97,32 +114,58 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $value;
     }
 
+    /**
+     * Get whether this value can be made null
+     * @return bool
+     */
     public function isNullable(): bool
     {
         return $this->nullable;
     }
 
+    /**
+     * Set whether this value can be made null
+     * @param  bool  $nullable
+     * @return $this
+     */
     public function setNullable(bool $nullable): self
     {
         $this->nullable = $nullable;
         return $this;
     }
 
+    /**
+     * Get the "empty" representation of this type if it cannot be made null
+     * @return mixed Empty value
+     */
     protected function getEmpty()
     {
         return '';
     }
 
+    /**
+     * Get the name of this primitive type
+     * @return string Name
+     */
     public function getName(): string
     {
         return Str::afterLast($this->getIdentifier(), '.');
     }
 
+    /**
+     * Get the namespace of this primitive type
+     * @return string Namespace
+     */
     public function getNamespace(): string
     {
         return Laravel::beforeLast($this->getIdentifier(), '.');
     }
 
+    /**
+     * Get the resolved name of this primitive type
+     * @param  string  $namespace Namespace
+     * @return string Name
+     */
     public function getResolvedName(string $namespace): string
     {
         if ($this->getNamespace() === $namespace) {
@@ -132,26 +175,50 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $this->getIdentifier();
     }
 
+    /**
+     * Get the Resource URL of this primitive type
+     * @param  Transaction  $transaction Related transaction
+     * @return string Resource URL
+     */
     public function getResourceUrl(Transaction $transaction): string
     {
         return $transaction->getResourceUrl().$this->getName().'()';
     }
 
+    /**
+     * Get the fully qualified identifier of this primitive type
+     * @return string Identifier
+     */
     public function getIdentifier(): string
     {
         return $this::identifier;
     }
 
+    /**
+     * Get the Context URL of this primitive type
+     * @param  Transaction  $transaction Related transaction
+     * @return string Context URL
+     */
     public function getContextUrl(Transaction $transaction): string
     {
         return $transaction->getContextUrl().'#'.$this->getIdentifier();
     }
 
+    /**
+     * Emit this primitive
+     * @param  Transaction  $transaction Related transaction
+     */
     public function emit(Transaction $transaction): void
     {
         $transaction->outputJsonValue($this);
     }
 
+    /*
+     * Determine the process for the client response for this primitive type
+     * @param  Transaction  $transaction Related transaction
+     * @param  ContextInterface|null  $context Current context
+     * @return Response Client response
+     */
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if (null === $this->get()) {
@@ -188,6 +255,10 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $argument;
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString()
     {
         return (string) $this->value;

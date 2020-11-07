@@ -9,6 +9,10 @@ trait HasName
     /** @var Name $name Resource identifier */
     protected $name;
 
+    /**
+     * Get the name of this nominal item
+     * @return string Name
+     */
     public function getName(): string
     {
         return $this->name;

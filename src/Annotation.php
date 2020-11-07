@@ -8,14 +8,30 @@ use Flat3\Lodata\Type\Enum;
 use Flat3\Lodata\Type\String_;
 use SimpleXMLElement;
 
+/**
+ * Annotation
+ * @package Flat3\Lodata
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530341
+ */
 abstract class Annotation
 {
-    /** @var string $name */
+    /**
+     * @var string $name Annotation name
+     * @internal
+     */
     protected $name;
 
-    /** @var Primitive $value */
+    /**
+     * @var Primitive $value Annotation value
+     * @internal
+     */
     protected $value;
 
+    /**
+     * Append the annotation to the provided schema element
+     * @param  SimpleXMLElement  $schema
+     * @return $this
+     */
     public function append(SimpleXMLElement $schema): self
     {
         $annotation = $schema->addChild('Annotation');
@@ -49,6 +65,10 @@ abstract class Annotation
         return $this;
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString()
     {
         return $this->name;

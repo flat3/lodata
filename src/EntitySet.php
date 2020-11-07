@@ -45,6 +45,11 @@ use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Iterator;
 
+/**
+ * Entity Set
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
+ * @package Flat3\Lodata
+ */
 abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
 {
     use HasIdentifier;
@@ -52,31 +57,67 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     use HasTitle;
     use HasTransaction;
 
-    /** @var ObjectArray $navigationBindings Navigation bindings */
+    /**
+     * Navigation bindings of this entity set
+     * @var ObjectArray $navigationBindings
+     * @internal
+     */
     protected $navigationBindings;
 
-    /** @var EntityType $type */
+    /**
+     * Entity type of this entity set
+     * @var EntityType $type
+     * @internal
+     */
     protected $type;
 
-    /** @var int $top Page size to return from the query */
+    /**
+     * Page size to return from the query
+     * @var int $top
+     * @internal
+     */
     protected $top = PHP_INT_MAX;
 
-    /** @var int $skip Skip value to use in the query */
+    /**
+     * Page size to return from the query
+     * @var int $skip
+     * @internal
+     */
     protected $skip = 0;
 
-    /** @var int $topCounter Total number of records fetched for internal pagination */
+    /**
+     * Total number of records fetched for internal pagination
+     * @var int $topCounter
+     * @internal
+     */
     private $topCounter = 0;
 
-    /** @var int Limit of number of records to evaluate from the source */
+    /**
+     * Limit of number of records to evaluate from the source
+     * @var int $topLimit
+     * @internal
+     */
     protected $topLimit = PHP_INT_MAX;
 
-    /** @var int $maxPageSize Maximum pagination size allowed for this entity set */
+    /**
+     * Maximum pagination size allowed for this entity set
+     * @var int $maxPageSize
+     * @internal
+     */
     protected $maxPageSize = 500;
 
-    /** @var null|Entity[] $results Result set from the query */
+    /**
+     * Result set buffer from the query
+     * @var null|Entity[] $results
+     * @internal
+     */
     protected $results = null;
 
-    /** @var PropertyValue $expansionPropertyValue */
+    /**
+     * The expansion property value that generated this entity set instance
+     * @var PropertyValue $expansionPropertyValue
+     * @internal
+     */
     protected $expansionPropertyValue;
 
     public function __construct(string $identifier, EntityType $entityType)
@@ -90,20 +131,29 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $this->navigationBindings = new ObjectArray();
     }
 
+    /**
+     * Generate a new entity set definition
+     * @param  string  $name  Entity set name
+     * @param  EntityType  $entityType  Entity type
+     * @return static Entity set definition
+     */
     public static function factory(string $name, EntityType $entityType): self
     {
         return new static($name, $entityType);
     }
 
+    /**
+     * Get the OData kind of this resource
+     * @return string Kind
+     */
     public function getKind(): string
     {
         return 'EntitySet';
     }
 
     /**
-     * The current entity
-     *
-     * @return Entity
+     * The current entity in the results buffer
+     * @return null|Entity Current entity
      */
     public function current(): ?Entity
     {
@@ -115,13 +165,17 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
-     * Move to the next result
+     * Move to the next entity in the results buffer
      */
     public function next(): void
     {
         next($this->results);
     }
 
+    /**
+     * Get the entity ID of the current entity in the results buffer
+     * @return PropertyValue Entity ID
+     */
     public function key()
     {
         $entity = $this->current();
@@ -133,11 +187,18 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $entity->getEntityId();
     }
 
+    /**
+     * Rewind the results buffer
+     */
     public function rewind()
     {
         throw new InternalServerErrorException('no_rewind', 'Entity sets cannot be rewound');
     }
 
+    /**
+     * Count the number of results in the result buffer
+     * @return int|null
+     */
     public function count()
     {
         $this->valid();
@@ -145,10 +206,9 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
-     * Whether there is a current entity in the result set
+     * Whether there is a current entity in the results buffer
      * Implements internal pagination
-     *
-     * @return bool
+     * @return bool Whether there is a valid entity in the current position of the buffer
      */
     public function valid(): bool
     {
@@ -171,6 +231,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return !!current($this->results);
     }
 
+    /**
+     * Set the maximum pagination size to use with the service providing results into the buffer
+     * @param  int  $maxPageSize  Maximum page size
+     * @return $this
+     */
     public function setMaxPageSize(int $maxPageSize): self
     {
         $this->maxPageSize = $maxPageSize;
@@ -178,6 +243,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $this;
     }
 
+    /**
+     * Add a navigation binding to this entity set
+     * @param  NavigationBinding  $binding  Navigation binding
+     * @return $this
+     */
     public function addNavigationBinding(NavigationBinding $binding): self
     {
         $this->navigationBindings[] = $binding;
@@ -185,11 +255,20 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $this;
     }
 
+    /**
+     * Get the navigation bindings attached to this entity set
+     * @return ObjectArray
+     */
     public function getNavigationBindings(): ObjectArray
     {
         return $this->navigationBindings;
     }
 
+    /**
+     * Get the navigation binding for the provided navigation property on this entity set
+     * @param  NavigationProperty  $property  Navigation property
+     * @return NavigationBinding|null Navigation binding
+     */
     public function getBindingByNavigationProperty(NavigationProperty $property): ?NavigationBinding
     {
         /** @var NavigationBinding $navigationBinding */
@@ -202,6 +281,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return null;
     }
 
+    /**
+     * Emit this entity set
+     * @param  Transaction  $transaction  Related transaction
+     */
     public function emit(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
@@ -251,6 +334,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $transaction->outputJsonArrayEnd();
     }
 
+    /**
+     * Read this entity set
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
+     * @return Response Client response
+     */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         Gate::check(Gate::QUERY, $this, $transaction);
@@ -310,6 +399,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         });
     }
 
+    /*
+     * Determine the process for the client response for this entity set transaction
+     * @param  Transaction  $transaction Related transaction
+     * @param  ContextInterface|null  $context Current context
+     * @return Response Client response
+     */
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if ($this->transaction) {
@@ -343,6 +438,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         throw new MethodNotAllowedException();
     }
 
+    /**
+     * Get the Context URL for this entity set instance
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Context URL
+     */
     public function getContextUrl(Transaction $transaction): string
     {
         if ($this->usesReferences()) {
@@ -359,6 +459,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $url;
     }
 
+    /**
+     * Get the Resource URL for this entity set instance
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Resource URL
+     */
     public function getResourceUrl(Transaction $transaction): string
     {
         $url = Transaction::getResourceUrl().$this->getName();
@@ -373,12 +478,21 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $url;
     }
 
+    /**
+     * Get the expansion property value that generated this entity set instance
+     * @param  PropertyValue  $property  Expansion property
+     * @return $this
+     */
     public function setExpansionPropertyValue(PropertyValue $property): self
     {
         $this->expansionPropertyValue = $property;
         return $this;
     }
 
+    /**
+     * Get the entity ID of the entity this set was generated from using the attached expansion property value
+     * @return PropertyValue Entity ID
+     */
     public function resolveExpansionKey(): PropertyValue
     {
         /** @var NavigationProperty $navigationProperty */
@@ -420,6 +534,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $targetKey;
     }
 
+    /**
+     * Set the context transaction this entity set instance should use
+     * @param  Transaction  $transaction  Related transaction
+     * @return $this
+     */
     public function setTransaction(Transaction $transaction)
     {
         foreach (
@@ -550,21 +669,36 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $entity;
     }
 
+    /**
+     * Generate a new entity attached to this entity set instance
+     * @return Entity Entity
+     */
     public function newEntity(): Entity
     {
         $entity = new Entity();
         $entity->setEntitySet($this);
+
         return $entity;
     }
 
+    /**
+     * Get the entity type of this entity set
+     * @return EntityType Entity type
+     */
     public function getType(): EntityType
     {
         return $this->type;
     }
 
+    /**
+     * Set the entity type of this entity set
+     * @param  EntityType  $type  Entity type
+     * @return $this
+     */
     public function setType(EntityType $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 }
