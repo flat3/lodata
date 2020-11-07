@@ -10,6 +10,7 @@ use Flat3\Lodata\Drivers\SQL\SQLLimits;
 use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
+use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -42,6 +43,9 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     use SQLSearch;
     use SQLLimits;
     use SQLSchema;
+    use SQLWhere {
+        generateWhere as protected sqlGenerateWhere;
+    }
 
     /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
     protected $sourceMap;
@@ -199,6 +203,20 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $results;
     }
 
+    public function generateWhere(): void
+    {
+        $this->sqlGenerateWhere();
+
+        if (!$this->expansionPropertyValue) {
+            return;
+        }
+
+        $key = $this->resolveExpansionKey();
+        $this->whereMaybeAnd();
+        $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
+        $this->addParameter($key->getPrimitiveValue()->get());
+    }
+
     public function getSetResultQueryString(): string
     {
         $this->resetParameters();
@@ -207,13 +225,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $query = sprintf('SELECT %s FROM %s', $columns, $this->getTable());
 
         $this->generateWhere();
-
-        if ($this->expansionPropertyValue) {
-            $key = $this->resolveExpansionKey();
-            $this->whereMaybeAnd();
-            $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
-            $this->addParameter($key->getPrimitiveValue()->get());
-        }
 
         if ($this->where) {
             $query .= sprintf(' WHERE%s', $this->where);

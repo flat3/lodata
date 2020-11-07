@@ -7,6 +7,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -41,6 +42,10 @@ class Count implements EmitInterface, PipeInterface
     ): ?PipeInterface {
         if ($currentSegment !== '$count') {
             throw new PathNotHandledException();
+        }
+
+        if ($argument instanceof PropertyValue) {
+            $argument = $argument->getValue();
         }
 
         if (!$argument instanceof Countable) {
