@@ -18,6 +18,7 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Primitive;
@@ -50,7 +51,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 /**
  * Class Transaction
  *
- * @package Flat3\OData
+ * @package Flat3\Lodata
  */
 class Transaction implements ArgumentInterface
 {
@@ -179,7 +180,7 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
-    public function setRequest(Request $request): self
+    public function setRequest(RequestInterface $request): self
     {
         $this->request = $request;
 
@@ -612,13 +613,18 @@ class Transaction implements ArgumentInterface
                 $navigationTransaction = new Transaction();
                 $navigationTransaction->setRequest($navigationRequest);
                 $navigationProperties = [];
+
                 if ($navigationTransaction->getSelect()->hasValue()) {
                     foreach ($navigationTransaction->getSelect()->getCommaSeparatedValues() as $navigationSelect) {
                         $navigationProperties[] = $navigationSelect;
                     }
                 }
-                $properties[$navigationRequest->getBasePath()] = $navigationRequest->getBasePath().'('.implode(',',
-                        $navigationProperties).')';
+
+                $properties[$navigationRequest->path()] = sprintf(
+                    "%s(%s)",
+                    $navigationRequest->path(),
+                    implode(',', $navigationProperties)
+                );
             }
         }
 
@@ -821,7 +827,7 @@ class Transaction implements ArgumentInterface
             $navigationRequest->setPath($path);
             $queryParameters = $lexer->maybeMatchingParenthesis();
             if ($queryParameters) {
-                $navigationRequest->parseQueryString($queryParameters);
+                $navigationRequest->setQueryString($queryParameters);
             }
 
             $requests[] = $navigationRequest;

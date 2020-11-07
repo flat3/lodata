@@ -1,6 +1,7 @@
 vendor/
 .php_cs.cache
 .phpunit.result.cache
+.phpdoc/
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries

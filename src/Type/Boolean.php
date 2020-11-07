@@ -7,7 +7,7 @@ use Flat3\Lodata\Primitive;
 
 /**
  * Class Boolean
- * @package Flat3\OData\Type
+ * @package Flat3\Lodata\Type
  */
 class Boolean extends Primitive
 {

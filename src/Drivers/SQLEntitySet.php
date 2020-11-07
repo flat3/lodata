@@ -10,6 +10,7 @@ use Flat3\Lodata\Drivers\SQL\SQLLimits;
 use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
+use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -27,7 +28,9 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\ReferentialConstraint;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -40,6 +43,9 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     use SQLSearch;
     use SQLLimits;
     use SQLSchema;
+    use SQLWhere {
+        generateWhere as protected sqlGenerateWhere;
+    }
 
     /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
     protected $sourceMap;
@@ -197,6 +203,20 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $results;
     }
 
+    public function generateWhere(): void
+    {
+        $this->sqlGenerateWhere();
+
+        if (!$this->expansionPropertyValue) {
+            return;
+        }
+
+        $key = $this->resolveExpansionKey();
+        $this->whereMaybeAnd();
+        $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
+        $this->addParameter($key->getPrimitiveValue()->get());
+    }
+
     public function getSetResultQueryString(): string
     {
         $this->resetParameters();
@@ -205,13 +225,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $query = sprintf('SELECT %s FROM %s', $columns, $this->getTable());
 
         $this->generateWhere();
-
-        if ($this->expansionPropertyValue) {
-            $key = $this->resolveExpansionKey();
-            $this->whereMaybeAnd();
-            $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
-            $this->addParameter($key->getPrimitiveValue()->get());
-        }
 
         if ($this->where) {
             $query .= sprintf(' WHERE%s', $this->where);
@@ -282,6 +295,18 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $propertyValues = $entity->getPropertyValues();
 
         $fields = [];
+
+        if ($this->expansionPropertyValue) {
+            /** @var NavigationProperty $navigationProperty */
+            $navigationProperty = $this->expansionPropertyValue->getProperty();
+
+            /** @var ReferentialConstraint $constraint */
+            foreach ($navigationProperty->getConstraints() as $constraint) {
+                $referencedProperty = $constraint->getReferencedProperty();
+                $fields[] = $this->getPropertySourceName($referencedProperty);
+                $this->addParameter($this->expansionPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+            }
+        }
 
         /** @var Property $property */
         foreach ($properties as $property) {

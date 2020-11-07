@@ -10,7 +10,7 @@ class Request
     public $path = '/odata';
     public $query = [];
     public $body = null;
-    public $method = 'GET';
+    public $method = \Illuminate\Http\Request::METHOD_GET;
 
     public static function factory()
     {
@@ -87,7 +87,7 @@ class Request
 
     public function post(): self
     {
-        return $this->method('POST');
+        return $this->method(\Illuminate\Http\Request::METHOD_POST);
     }
 
     public function body($body): self
@@ -103,12 +103,17 @@ class Request
 
     public function patch(): self
     {
-        return $this->method('PATCH');
+        return $this->method(\Illuminate\Http\Request::METHOD_PATCH);
+    }
+
+    public function put(): self
+    {
+        return $this->method(\Illuminate\Http\Request::METHOD_PUT);
     }
 
     public function delete(): self
     {
-        return $this->method('DELETE');
+        return $this->method(\Illuminate\Http\Request::METHOD_DELETE);
     }
 
     public function xml()

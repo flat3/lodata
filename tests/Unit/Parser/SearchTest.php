@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
+use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
@@ -11,7 +12,6 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
-use Illuminate\Http\Request;
 
 class SearchTest extends TestCase
 {
@@ -121,7 +121,7 @@ class SearchTest extends TestCase
     {
         try {
             $transaction = new Transaction();
-            $request = new Request();
+            $request = new Request(new \Illuminate\Http\Request());
             $request->query->set('$search', $input);
             $transaction->initialize($request);
             $query = $set->setTransaction($transaction);

@@ -372,6 +372,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         }
 
         $returnType = $operation->getReturnType();
+        $transaction->getRequest()->setMethod(Request::METHOD_GET);
 
         switch (true) {
             case $result === null && $operation->isNullable():

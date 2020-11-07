@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
+use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
@@ -11,7 +12,6 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
-use Illuminate\Http\Request;
 
 class FilterTest extends TestCase
 {
@@ -527,7 +527,7 @@ class FilterTest extends TestCase
     {
         try {
             $transaction = new Transaction();
-            $request = new Request();
+            $request = new Request(new \Illuminate\Http\Request());
             $request->query->set('$filter', $input);
             $request->query->set('$select', 'id,title');
             $transaction->initialize($request);

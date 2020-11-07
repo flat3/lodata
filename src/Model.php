@@ -97,6 +97,11 @@ class Model
         return $this->model->sliceByClass(EntityType::class);
     }
 
+    public function getEnumerationTypes(): ObjectArray
+    {
+        return $this->model->sliceByClass(EnumerationType::class);
+    }
+
     public function getResources(): ObjectArray
     {
         return $this->model->sliceByClass(ResourceInterface::class);

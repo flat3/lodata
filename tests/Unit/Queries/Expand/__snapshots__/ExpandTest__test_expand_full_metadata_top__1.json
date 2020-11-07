@@ -11,7 +11,7 @@
             "destination": "lax",
             "gate": null,
             "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers",
-            "passengers@count": 5,
+            "passengers@count": 3,
             "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24count=true&%24top=1&%24skip=1",
             "passengers": [
                 {
@@ -33,8 +33,7 @@
             "destination": "rgr",
             "gate": null,
             "passengers@navigationLink": "http://localhost/odata/flights(2)/passengers",
-            "passengers@count": 5,
-            "passengers@nextLink": "http://localhost/odata/flights(2)/passengers?%24count=true&%24top=1&%24skip=1",
+            "passengers@count": 1,
             "passengers": [
                 {
                     "@type": "#com.example.odata.passenger",
@@ -55,8 +54,7 @@
             "destination": "lax",
             "gate": null,
             "passengers@navigationLink": "http://localhost/odata/flights(3)/passengers",
-            "passengers@count": 5,
-            "passengers@nextLink": "http://localhost/odata/flights(3)/passengers?%24count=true&%24top=1&%24skip=1",
+            "passengers@count": 1,
             "passengers": [
                 {
                     "@type": "#com.example.odata.passenger",

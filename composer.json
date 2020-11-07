@@ -49,6 +49,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true"
     }
 }

@@ -116,10 +116,16 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
     public function getContextUrl(Transaction $transaction): string
     {
+        $entity = $this->entity;
+
+        if (!$entity->getEntitySet()) {
+            return $entity->getContextUrl($transaction);
+        }
+
         $url = sprintf(
             '%s(%s)/%s',
-            $transaction->getContextUrl().'#'.$this->entity->getEntitySet()->getName(),
-            $this->entity->getEntityId()->getValue()->toUrl(),
+            $transaction->getContextUrl().'#'.$entity->getEntitySet()->getName(),
+            $entity->getEntityId()->getValue()->toUrl(),
             $this->property
         );
 
@@ -169,6 +175,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
         if ($property instanceof NavigationProperty) {
             $navigationRequest = new NavigationRequest();
+            $navigationRequest->setOuterRequest($transaction->getRequest());
             $navigationRequest->setNavigationProperty($property);
             $property->generatePropertyValue($transaction, $navigationRequest, $argument);
         }

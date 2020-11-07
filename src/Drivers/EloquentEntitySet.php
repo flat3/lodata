@@ -154,11 +154,24 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
             }
         }
 
-        $id = $model->save();
+        if ($this->expansionPropertyValue) {
+            /** @var NavigationProperty $navigationProperty */
+            $navigationProperty = $this->expansionPropertyValue->getProperty();
+
+            /** @var ReferentialConstraint $constraint */
+            foreach ($navigationProperty->getConstraints() as $constraint) {
+                $referencedProperty = $constraint->getReferencedProperty();
+                $model[$referencedProperty->getName()] = $this->expansionPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get();
+            }
+        }
+
+        if (!$model->save()) {
+            throw new InternalServerErrorException('commit_failure', 'Could not commit the data');
+        }
 
         $key = new PropertyValue();
         $key->setProperty($this->getType()->getKey());
-        $key->setValue($key->getProperty()->getType()->instance($id));
+        $key->setValue($key->getProperty()->getType()->instance($model->id));
         $entity = $this->read($key);
         $key->setEntity($entity);
 

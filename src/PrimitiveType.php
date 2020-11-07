@@ -7,7 +7,7 @@ use RuntimeException;
 
 /**
  * Class PrimitiveType
- * @package Flat3\OData
+ * @package Flat3\Lodata
  */
 class PrimitiveType extends Type implements IdentifierInterface
 {
@@ -17,7 +17,7 @@ class PrimitiveType extends Type implements IdentifierInterface
     /** @var bool $nullable */
     private $nullable = true;
 
-    public function __construct($class)
+    public function __construct(string $class)
     {
         if (!is_a($class, Primitive::class, true)) {
             throw new RuntimeException('Invalid source for type definition');
@@ -42,7 +42,7 @@ class PrimitiveType extends Type implements IdentifierInterface
         return $this->factory;
     }
 
-    public function is(string $class): string
+    public function is(string $class): bool
     {
         return is_a($this->factory, $class, true);
     }

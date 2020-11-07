@@ -7,6 +7,7 @@ use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static ObjectArray|ServiceInterface[] getServices()
  * @method static ObjectArray|Reference[] getAnnotationReferences()
  * @method static ObjectArray|Annotation[] getAnnotations()
+ * @method static ObjectArray|EnumerationType[] getEnumerationTypes()
  * @method static ResourceInterface getResource($name)
  * @method static EntitySet getEntitySet($name)
  * @method static Operation getOperation($name)

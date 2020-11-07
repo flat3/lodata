@@ -15,8 +15,8 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Illuminate\Support\Str;
 
 /**
- * Class PrimitiveType
- * @package Flat3\OData
+ * Class Primitive
+ * @package Flat3\Lodata
  */
 abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, EmitInterface, PipeInterface
 {
@@ -115,12 +115,12 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     public function getName(): string
     {
-        return Str::afterLast($this::identifier, '.');
+        return Str::afterLast($this->getIdentifier(), '.');
     }
 
     public function getNamespace(): string
     {
-        return Laravel::beforeLast($this::identifier, '.');
+        return Laravel::beforeLast($this->getIdentifier(), '.');
     }
 
     public function getResolvedName(string $namespace): string
@@ -186,5 +186,10 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         ?PipeInterface $argument
     ): ?PipeInterface {
         return $argument;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->value;
     }
 }

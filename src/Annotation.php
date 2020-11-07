@@ -31,7 +31,7 @@ abstract class Annotation
                 break;
 
             case $this->value instanceof Enum:
-                $annotation->addAttribute('EnumMember', $this->value->toUrl());
+                $annotation->addAttribute('EnumMember', $this->value->getIdentifier().'/'.$this->value->toUrl());
                 break;
 
             case $this->value instanceof Collection:

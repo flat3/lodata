@@ -61,4 +61,13 @@ class EntitySetCountTest extends TestCase
                 ->query('$search', 'sfo')
         );
     }
+
+    public function test_count_navigation_property()
+    {
+        $this->assertTextResponse(
+            Request::factory()
+                ->path('/flights(1)/passengers/$count')
+                ->text()
+        );
+    }
 }

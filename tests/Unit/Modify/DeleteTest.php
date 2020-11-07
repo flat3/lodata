@@ -18,11 +18,22 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function test_delete_not_found()
+    public function test_delete_ref()
     {
         $this->withFlightModel();
 
         $this->assertNoContent(
+            Request::factory()
+                ->path('/flights(1)/$ref')
+                ->delete()
+        );
+    }
+
+    public function test_delete_not_found()
+    {
+        $this->withFlightModel();
+
+        $this->assertNotFound(
             Request::factory()
                 ->path('/flights(999)')
                 ->delete()
