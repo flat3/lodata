@@ -3,7 +3,7 @@ Search.appendIndex(
                 {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\AsynchronousRequestsSupported",
             "name": "AsynchronousRequestsSupported",
-            "summary": "Annotation",
+            "summary": "Asynchronous\u0020Requests\u0020Supported",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-AsynchronousRequestsSupported.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\AsynchronousRequestsSupported\u003A\u003A__construct\u0028\u0029",
@@ -18,7 +18,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CallbackSupported",
             "name": "CallbackSupported",
-            "summary": "Annotation",
+            "summary": "Callback\u0020Supported",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-CallbackSupported.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CallbackSupported\u003A\u003A__construct\u0028\u0029",
@@ -33,7 +33,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ConformanceLevel",
             "name": "ConformanceLevel",
-            "summary": "Annotation",
+            "summary": "Conformance\u0020Level",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ConformanceLevel.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ConformanceLevel\u003A\u003A__construct\u0028\u0029",
@@ -48,7 +48,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference",
             "name": "Reference",
-            "summary": "",
+            "summary": "Class\u0020Reference",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-Reference.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference\u003A\u003A\u0024uri",
@@ -63,7 +63,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SupportedFormats",
             "name": "SupportedFormats",
-            "summary": "Annotation",
+            "summary": "Supported\u0020Formats",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedFormats.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SupportedFormats\u003A\u003A__construct\u0028\u0029",
@@ -78,7 +78,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\ConventionalIDs",
             "name": "ConventionalIDs",
-            "summary": "Annotation",
+            "summary": "Conventional\u0020IDs",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\ConventionalIDs\u003A\u003A__construct\u0028\u0029",
@@ -93,7 +93,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\DefaultNamespace",
             "name": "DefaultNamespace",
-            "summary": "Annotation",
+            "summary": "Default\u0020Namespace",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-DefaultNamespace.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\DefaultNamespace\u003A\u003A__construct\u0028\u0029",
@@ -108,7 +108,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\DereferencableIDs",
             "name": "DereferencableIDs",
-            "summary": "Annotation",
+            "summary": "Dereferencable\u0020IDs",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-DereferencableIDs.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\DereferencableIDs\u003A\u003A__construct\u0028\u0029",
@@ -123,7 +123,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\ODataVersions",
             "name": "ODataVersions",
-            "summary": "Annotation",
+            "summary": "OData\u0020Versions",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-ODataVersions.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\ODataVersions\u003A\u003A__construct\u0028\u0029",
@@ -138,7 +138,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Reference",
             "name": "Reference",
-            "summary": "",
+            "summary": "Reference",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-Reference.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Reference\u003A\u003A\u0024uri",
@@ -153,28 +153,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference",
             "name": "Reference",
-            "summary": "",
+            "summary": "Reference",
             "url": "classes/Flat3-Lodata-Annotation-Reference.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003Aappend\u0028\u0029",
             "name": "append",
-            "summary": "",
+            "summary": "Append\u0020this\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
             "url": "classes/Flat3-Lodata-Annotation-Reference.html#method_append"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003A__toString\u0028\u0029",
-            "name": "__toString",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Annotation-Reference.html#method___toString"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003A\u0024uri",
-            "name": "uri",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Annotation-Reference.html#property_uri"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003A\u0024namespace",
-            "name": "namespace",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Annotation-Reference.html#property_namespace"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation",
             "name": "Annotation",
@@ -268,102 +253,102 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async",
             "name": "Async",
-            "summary": "",
+            "summary": "Async",
             "url": "classes/Flat3-Lodata-Controller-Async.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AsetId\u0028\u0029",
             "name": "setId",
-            "summary": "",
+            "summary": "Set\u0020the\u0020job\u0020ID",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_setId"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AsetTransaction\u0028\u0029",
             "name": "setTransaction",
-            "summary": "",
+            "summary": "Set\u0020the\u0020related\u0020transaction",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_setTransaction"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetDisk\u0028\u0029",
             "name": "getDisk",
-            "summary": "",
+            "summary": "Get\u0020the\u0020Laravel\u0020disk\u0020used\u0020to\u0020store\u0020results\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getDisk"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetDataPath\u0028\u0029",
             "name": "getDataPath",
-            "summary": "",
+            "summary": "Get\u0020the\u0020Laravel\u0020disk\u0020path\u0020to\u0020use\u0020to\u0020store\u0020the\u0020data\u0020result\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getDataPath"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetMetaPath\u0028\u0029",
             "name": "getMetaPath",
-            "summary": "",
+            "summary": "Get\u0020the\u0020Laravel\u0020disk\u0020path\u0020to\u0020use\u0020to\u0020store\u0020the\u0020metadata\u0020result\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getMetaPath"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003Ahandle\u0028\u0029",
             "name": "handle",
-            "summary": "",
+            "summary": "Job\u0020handle\u0020method",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_handle"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetMonitorUrl\u0028\u0029",
             "name": "getMonitorUrl",
-            "summary": "",
+            "summary": "Get\u0020the\u0020monitoring\u0020URL\u0020to\u0020determine\u0020the\u0020state\u0020of\u0020this\u0020job\u0020by\u0020an\u0020OData\u0020client",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getMonitorUrl"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetStatus\u0028\u0029",
             "name": "getStatus",
-            "summary": "",
+            "summary": "Get\u0020the\u0020OData\u0020status\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getStatus"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AsetPending\u0028\u0029",
             "name": "setPending",
-            "summary": "",
+            "summary": "Set\u0020that\u0020this\u0020job\u0020is\u0020pending",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_setPending"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AsetComplete\u0028\u0029",
             "name": "setComplete",
-            "summary": "",
+            "summary": "Set\u0020that\u0020this\u0020job\u0020is\u0020complete",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_setComplete"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AsetStatus\u0028\u0029",
             "name": "setStatus",
-            "summary": "",
+            "summary": "Set\u0020the\u0020status\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_setStatus"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003Adispatch\u0028\u0029",
             "name": "dispatch",
-            "summary": "",
+            "summary": "Dispatch\u0020this\u0020job\u0020to\u0020the\u0020queue",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_dispatch"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003Ans\u0028\u0029",
             "name": "ns",
-            "summary": "",
+            "summary": "Get\u0020the\u0020namespace\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_ns"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetResultMetadata\u0028\u0029",
             "name": "getResultMetadata",
-            "summary": "",
+            "summary": "Get\u0020the\u0020result\u0020metadata\u0020of\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getResultMetadata"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetResultStream\u0028\u0029",
             "name": "getResultStream",
-            "summary": "",
+            "summary": "Get\u0020a\u0020stream\u0020resource\u0020representing\u0020the\u0020data\u0020generated\u0020by\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_getResultStream"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AisPending\u0028\u0029",
             "name": "isPending",
-            "summary": "",
+            "summary": "Get\u0020whether\u0020the\u0020results\u0020of\u0020this\u0020job\u0020are\u0020pending",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_isPending"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AisDeleted\u0028\u0029",
             "name": "isDeleted",
-            "summary": "",
+            "summary": "Get\u0020whether\u0020this\u0020job\u0020was\u0020deleted",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_isDeleted"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003Adestroy\u0028\u0029",
             "name": "destroy",
-            "summary": "",
+            "summary": "Delete\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_destroy"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003Aaccepted\u0028\u0029",
             "name": "accepted",
-            "summary": "",
+            "summary": "Generate\u0020an\u0020Accepted\u0020result\u0020for\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_accepted"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003ASTATUS_PENDING",
@@ -376,59 +361,44 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Controller-Async.html#constant_STATUS_COMPLETE"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003A\u0024jobId",
-            "name": "jobId",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-Async.html#property_jobId"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003A\u0024transaction",
             "name": "transaction",
-            "summary": "",
+            "summary": "Transaction\u0020related\u0020to\u0020this\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Async.html#property_transaction"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Monitor",
             "name": "Monitor",
-            "summary": "",
+            "summary": "Monitor",
             "url": "classes/Flat3-Lodata-Controller-Monitor.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Monitor\u003A\u003Ashow\u0028\u0029",
             "name": "show",
-            "summary": "",
+            "summary": "Show\u0020the\u0020current\u0020status\u0020or\u0020results\u0020of\u0020the\u0020requested\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Monitor.html#method_show"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Monitor\u003A\u003Adestroy\u0028\u0029",
             "name": "destroy",
-            "summary": "",
+            "summary": "Delete\u0020the\u0020requested\u0020job",
             "url": "classes/Flat3-Lodata-Controller-Monitor.html#method_destroy"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Monitor\u003A\u003AcallAction\u0028\u0029",
-            "name": "callAction",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-Monitor.html#method_callAction"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\OData",
             "name": "OData",
-            "summary": "",
+            "summary": "Class\u0020OData",
             "url": "classes/Flat3-Lodata-Controller-OData.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\OData\u003A\u003Ahandle\u0028\u0029",
             "name": "handle",
-            "summary": "",
+            "summary": "Handle\u0020an\u0020OData\u0020request",
             "url": "classes/Flat3-Lodata-Controller-OData.html#method_handle"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\OData\u003A\u003AcallAction\u0028\u0029",
-            "name": "callAction",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-OData.html#method_callAction"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\ODCFF",
             "name": "ODCFF",
-            "summary": "",
+            "summary": "Class\u0020ODCFF",
             "url": "classes/Flat3-Lodata-Controller-ODCFF.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\ODCFF\u003A\u003Aget\u0028\u0029",
             "name": "get",
-            "summary": "",
+            "summary": "Generate\u0020an\u0020ODCFF\u0020response\u0020for\u0020the\u0020provided\u0020entity\u0020set\u0020identifier",
             "url": "classes/Flat3-Lodata-Controller-ODCFF.html#method_get"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\ODCFF\u003A\u003Acontent_type",
@@ -438,17 +408,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\PBIDS",
             "name": "PBIDS",
-            "summary": "",
+            "summary": "Class\u0020PBIDS",
             "url": "classes/Flat3-Lodata-Controller-PBIDS.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\PBIDS\u003A\u003Aget\u0028\u0029",
             "name": "get",
-            "summary": "",
+            "summary": "Generate\u0020a\u0020PowerBI\u0020data\u0020source\u0020discovery\u0020file",
             "url": "classes/Flat3-Lodata-Controller-PBIDS.html#method_get"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Request",
             "name": "Request",
-            "summary": "",
+            "summary": "Request",
             "url": "classes/Flat3-Lodata-Controller-Request.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003A__construct\u0028\u0029",
@@ -458,22 +428,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Response",
             "name": "Response",
-            "summary": "",
+            "summary": "Response",
             "url": "classes/Flat3-Lodata-Controller-Response.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AsendContent\u0028\u0029",
             "name": "sendContent",
-            "summary": "",
+            "summary": "Send\u0020the\u0020results\u0020to\u0020the\u0020client,\u0020implementing\u0020OData\u0020error\u0020handling",
             "url": "classes/Flat3-Lodata-Controller-Response.html#method_sendContent"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AtoJson\u0028\u0029",
-            "name": "toJson",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-Response.html#method_toJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction",
             "name": "Transaction",
-            "summary": "Class\u0020Transaction",
+            "summary": "Transaction",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003A__construct\u0028\u0029",

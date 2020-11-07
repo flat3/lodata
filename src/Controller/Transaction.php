@@ -49,8 +49,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
- * Class Transaction
- *
+ * Transaction
  * @package Flat3\Lodata
  */
 class Transaction implements ArgumentInterface

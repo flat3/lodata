@@ -11,10 +11,20 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+/**
+ * Class ODCFF
+ * @link https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e
+ * @package Flat3\Lodata\Controller
+ */
 class ODCFF extends Controller
 {
     public const content_type = 'text/x-ms-odc; charset=utf-8';
 
+    /**
+     * Generate an ODCFF response for the provided entity set identifier
+     * @param string $identifier Identifier
+     * @return Response Client response
+     */
     public function get($identifier)
     {
         $response = new Response();

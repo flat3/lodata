@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\EnumerationType;
 
+/**
+ * Conformance Level
+ * @package Flat3\Lodata\Annotation\Capabilities\V1
+ */
 class ConformanceLevel extends Annotation
 {
     protected $name = 'Org.OData.Capabilities.V1.ConformanceLevel';

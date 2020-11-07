@@ -6,8 +6,18 @@ use ErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Illuminate\Routing\Controller;
 
+/**
+ * Monitor
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_AsynchronousRequests
+ * @package Flat3\Lodata\Controller
+ */
 class Monitor extends Controller
 {
+    /**
+     * Show the current status or results of the requested job
+     * @param  string  $transactionId Transaction ID
+     * @return Response Client response
+     */
     public function show(string $transactionId)
     {
         $job = new Async();
@@ -39,6 +49,10 @@ class Monitor extends Controller
         return $response;
     }
 
+    /**
+     * Delete the requested job
+     * @param  string  $transactionId Transaction ID
+     */
     public function destroy(string $transactionId)
     {
         $job = new Async();
@@ -46,6 +60,13 @@ class Monitor extends Controller
         $job->destroy();
     }
 
+    /**
+     * PHP 8
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @internal
+     */
     public function callAction($method, $parameters)
     {
         return parent::callAction($method, array_values($parameters));
