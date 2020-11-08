@@ -65,6 +65,6 @@ class Reference implements EmitInterface, PipeInterface
         /** @var ReferenceInterface $argument */
         $argument->useReferences();
 
-        return new static($argument);
+        return new self($argument);
     }
 }

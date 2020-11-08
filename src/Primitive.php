@@ -65,6 +65,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
             return $value;
         }
 
+        /** @phpstan-ignore-next-line */
         return new static($value, $nullable);
     }
 

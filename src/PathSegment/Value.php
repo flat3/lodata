@@ -51,7 +51,7 @@ class Value implements PipeInterface, EmitInterface
             throw new NoContentException('no_content', 'No content');
         }
 
-        return new static($value);
+        return new self($value);
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response

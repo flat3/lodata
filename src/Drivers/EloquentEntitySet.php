@@ -121,7 +121,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function getTable(): string
     {
-        /** @var Model $model */
+        /**
+         * @var Model $model
+         * @phpstan-ignore-next-line
+         */
         $model = new $this->model();
         return $model->getTable();
     }
@@ -132,7 +135,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function getCasts(): array
     {
-        /** @var Model $model */
+        /**
+         * @var Model $model
+         * @phpstan-ignore-next-line
+         */
         $model = new $this->model();
         return $model->getCasts();
     }
@@ -194,7 +200,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function create(): Entity
     {
-        /** @var Model $model */
+        /**
+         * @var Model $model
+         * @phpstan-ignore-next-line
+         */
         $model = new $this->model();
 
         $body = $this->transaction->getBody();
@@ -251,7 +260,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function query(): array
     {
-        /** @var Model $instance */
+        /**
+         * @var Model $instance
+         * @phpstan-ignore-next-line
+         */
         $instance = new $this->model();
         $builder = $instance->newQuery();
 
@@ -328,6 +340,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function propertyToField(Property $property): string
     {
+        /**
+         * @var Model $model
+         * @phpstan-ignore-next-line
+         */
         $model = new $this->model();
         return $model->qualifyColumn($property->getName());
     }
@@ -339,7 +355,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function discoverRelationship(string $method): self
     {
-        /** @var Model $model */
+        /**
+         * @var Model $model
+         * @phpstan-ignore-next-line
+         */
         $model = new $this->model;
 
         try {

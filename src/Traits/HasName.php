@@ -13,6 +13,7 @@ trait HasName
     /**
      * Resource identifier
      * @var Name $name
+     * @internal
      */
     protected $name;
 

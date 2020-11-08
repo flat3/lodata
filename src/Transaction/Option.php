@@ -90,6 +90,7 @@ abstract class Option
      */
     public static function factory(Transaction $transaction): self
     {
+        /** @phpstan-ignore-next-line */
         $option = new static();
         $option->transaction($transaction);
         return $option;

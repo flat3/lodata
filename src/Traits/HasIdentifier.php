@@ -69,7 +69,7 @@ trait HasIdentifier
 
     /**
      * Set the identifier
-     * @param $identifier Identifier
+     * @param  string|Identifier  $identifier  Identifier
      * @return $this
      */
     public function setIdentifier($identifier)

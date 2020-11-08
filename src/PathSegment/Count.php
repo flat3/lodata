@@ -65,6 +65,6 @@ class Count implements EmitInterface, PipeInterface
         $transaction->getOrderBy()->clearValue();
         $transaction->getExpand()->clearValue();
 
-        return new static($argument);
+        return new self($argument);
     }
 }

@@ -47,7 +47,7 @@ class Metadata implements PipeInterface, EmitInterface
             throw new BadRequestException('metadata_argument', 'Metadata must be the first argument in the path');
         }
 
-        return new static();
+        return new self();
     }
 
     /**

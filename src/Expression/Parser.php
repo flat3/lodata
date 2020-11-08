@@ -293,7 +293,10 @@ abstract class Parser
          *
          * When processing a unary operator, it’s only allowed to pop-and-apply other unary operators—never any binary ones, regardless of precedence.
          */
-        /** @var Operator $o1 */
+        /**
+         * @var Operator $o1
+         * @phpstan-ignore-next-line
+         */
         $o1 = new $this->operators[$token]($this);
         $o1->setValue($token);
         $this->tokens[] = $o1;

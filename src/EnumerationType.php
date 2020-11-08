@@ -53,7 +53,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      */
     public static function factory($identifier): self
     {
-        return new static($identifier);
+        return new self($identifier);
     }
 
     /**
