@@ -37,7 +37,6 @@ use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
  */
 trait SQLFilter
 {
-    use SQLWhere;
     use MySQLFilter;
     use PostgreSQLFilter;
     use SQLiteFilter;

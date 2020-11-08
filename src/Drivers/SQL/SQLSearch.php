@@ -18,8 +18,6 @@ use Flat3\Lodata\Property;
  */
 trait SQLSearch
 {
-    use SQLWhere;
-
     /**
      * Generate SQL clauses for the search query option
      * @param  Event  $event  Search event
