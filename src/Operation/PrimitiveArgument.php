@@ -8,6 +8,10 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\PrimitiveType;
 
+/**
+ * Primitive Argument
+ * @package Flat3\Lodata\Operation
+ */
 class PrimitiveArgument extends Argument
 {
     /**

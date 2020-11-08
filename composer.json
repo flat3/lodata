@@ -50,6 +50,6 @@
     "prefer-stable": true,
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true"
+        "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true --defaultpackagename=Flat3\\\\Lodata"
     }
 }
