@@ -4293,7 +4293,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\EntitySetArgument",
             "name": "EntitySetArgument",
-            "summary": "Argument",
+            "summary": "Entity\u0020Set\u0020Argument",
             "url": "classes/Flat3-Lodata-Operation-EntitySetArgument.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\EntitySetArgument\u003A\u003Agenerate\u0028\u0029",
@@ -4308,7 +4308,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\PrimitiveArgument",
             "name": "PrimitiveArgument",
-            "summary": "Argument",
+            "summary": "Primitive\u0020Argument",
             "url": "classes/Flat3-Lodata-Operation-PrimitiveArgument.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\PrimitiveArgument\u003A\u003Agenerate\u0028\u0029",

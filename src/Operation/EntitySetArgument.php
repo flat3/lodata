@@ -9,6 +9,10 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 
+/**
+ * Entity Set Argument
+ * @package Flat3\Lodata\Operation
+ */
 class EntitySetArgument extends Argument
 {
     /**
