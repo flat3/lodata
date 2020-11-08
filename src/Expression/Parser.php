@@ -14,7 +14,7 @@ use Flat3\Lodata\Expression\Node\Operator\Logical;
 use Flat3\Lodata\Expression\Node\RightParen;
 
 /**
- * Class Parser
+ * Parser
  * @link http://www.reedbeta.com/blog/the-shunting-yard-algorithm/
  * @package Flat3\Lodata\Expression
  */

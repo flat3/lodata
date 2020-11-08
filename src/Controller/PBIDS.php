@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
- * Class PBIDS
+ * PBIDS
  * @link https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources#using-pbids-files-to-get-data
  * @package Flat3\Lodata\Controller
  */

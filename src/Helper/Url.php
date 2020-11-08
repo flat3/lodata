@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Helper;
 
 /**
- * Class Url
+ * Url
  * @link http://us2.php.net/manual/en/http.constants.php#http.constants.url
  * @link https://github.com/jakeasmith/http_build_url
  * @package Flat3\Lodata\Helper

@@ -9,7 +9,7 @@ use Flat3\Lodata\Expression\Event\Operator as OperatorEvent;
 use Flat3\Lodata\Expression\Event\StartGroup;
 
 /**
- * Class Operator
+ * Operator
  * @link http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_OperatorPrecedence
  * @package Flat3\Lodata\Expression
  */

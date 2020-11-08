@@ -48,7 +48,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference",
             "name": "Reference",
-            "summary": "Class\u0020Reference",
+            "summary": "Reference",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-Reference.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference\u003A\u003A\u0024uri",
@@ -383,7 +383,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\OData",
             "name": "OData",
-            "summary": "Class\u0020OData",
+            "summary": "OData",
             "url": "classes/Flat3-Lodata-Controller-OData.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\OData\u003A\u003Ahandle\u0028\u0029",
@@ -393,7 +393,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\ODCFF",
             "name": "ODCFF",
-            "summary": "Class\u0020ODCFF",
+            "summary": "ODCFF",
             "url": "classes/Flat3-Lodata-Controller-ODCFF.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\ODCFF\u003A\u003Aget\u0028\u0029",
@@ -408,7 +408,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\PBIDS",
             "name": "PBIDS",
-            "summary": "Class\u0020PBIDS",
+            "summary": "PBIDS",
             "url": "classes/Flat3-Lodata-Controller-PBIDS.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\PBIDS\u003A\u003Aget\u0028\u0029",
@@ -3088,7 +3088,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Operator",
             "name": "Operator",
-            "summary": "Class\u0020Operator",
+            "summary": "Operator",
             "url": "classes/Flat3-Lodata-Expression-Operator.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Operator\u003A\u003AisRightAssociative\u0028\u0029",
@@ -3208,7 +3208,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Parser",
             "name": "Parser",
-            "summary": "Class\u0020Parser",
+            "summary": "Parser",
             "url": "classes/Flat3-Lodata-Expression-Parser.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Parser\u003A\u003A__construct\u0028\u0029",
@@ -3753,7 +3753,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\Url",
             "name": "Url",
-            "summary": "Class\u0020Url",
+            "summary": "Url",
             "url": "classes/Flat3-Lodata-Helper-Url.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\Url\u003A\u003Ahttp_build_url\u0028\u0029",
