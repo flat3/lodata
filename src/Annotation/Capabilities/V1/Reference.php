@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 /**
- * Class Reference
+ * Reference
  * @package Flat3\Lodata\Annotation\Capabilities\V1
  */
 class Reference extends \Flat3\Lodata\Annotation\Reference

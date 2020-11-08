@@ -6,7 +6,7 @@ use Flat3\Lodata\Helper\Constants;
 use Illuminate\Routing\Controller;
 
 /**
- * Class OData
+ * OData
  * @package Flat3\Lodata\Controller
  */
 class OData extends Controller

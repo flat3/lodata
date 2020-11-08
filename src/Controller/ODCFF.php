@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
- * Class ODCFF
+ * ODCFF
  * @link https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e
  * @package Flat3\Lodata\Controller
  */
