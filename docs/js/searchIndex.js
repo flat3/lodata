@@ -4891,11 +4891,6 @@ Search.appendIndex(
             "summary": "Set\u0020name",
             "url": "classes/Flat3-Lodata-Traits-HasName.html#method_setName"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Traits\\HasName\u003A\u003A\u0024name",
-            "name": "name",
-            "summary": "Resource\u0020identifier",
-            "url": "classes/Flat3-Lodata-Traits-HasName.html#property_name"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Traits\\HasTitle",
             "name": "HasTitle",
             "summary": "Has\u0020Title",
@@ -4910,11 +4905,6 @@ Search.appendIndex(
             "name": "setTitle",
             "summary": "Set\u0020the\u0020title",
             "url": "classes/Flat3-Lodata-Traits-HasTitle.html#method_setTitle"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Traits\\HasTitle\u003A\u003A\u0024title",
-            "name": "title",
-            "summary": "The\u0020title",
-            "url": "classes/Flat3-Lodata-Traits-HasTitle.html#property_title"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Traits\\HasTransaction",
             "name": "HasTransaction",
