@@ -11,6 +11,7 @@ trait HasTitle
     /**
      * The title
      * @var string $title
+     * @internal
      */
     protected $title;
 

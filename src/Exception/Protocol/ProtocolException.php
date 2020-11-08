@@ -42,6 +42,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
      */
     public static function factory(string $code = null, string $message = null): self
     {
+        /** @phpstan-ignore-next-line */
         return new static($code, $message);
     }
 

@@ -41,6 +41,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      */
     public static function factory($identifier): self
     {
+        /** @phpstan-ignore-next-line */
         return new static($identifier);
     }
 

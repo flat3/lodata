@@ -139,6 +139,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public static function factory(string $name, EntityType $entityType): self
     {
+        /** @phpstan-ignore-next-line */
         return new static($name, $entityType);
     }
 
@@ -212,6 +213,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function valid(): bool
     {
+        if (!$this instanceof QueryInterface) {
+            throw new NotImplementedException(
+                'query_not_implemented',
+                'Query not implemented for this entity set driver'
+            );
+        }
+
         if (0 === $this->top) {
             return false;
         }
