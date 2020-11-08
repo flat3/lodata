@@ -147,9 +147,9 @@ class NavigationProperty extends Property
 
     /**
      * Generate a property value from this property
-     * @param  Transaction  $transaction Related transaction
-     * @param  NavigationRequest  $navigationRequest Navigation request
-     * @param  Entity  $entity Entity this property is attached to
+     * @param  Transaction  $transaction  Related transaction
+     * @param  NavigationRequest  $navigationRequest  Navigation request
+     * @param  Entity  $entity  Entity this property is attached to
      * @return PropertyValue|null Property value
      */
     public function generatePropertyValue(

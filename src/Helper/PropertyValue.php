@@ -21,70 +21,134 @@ use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\Transaction\NavigationRequest;
 
+/**
+ * Property Value
+ * @package Flat3\Lodata\Helper
+ */
 class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 {
-    /** @var Entity $entity */
+    /**
+     * The entity that contains this property value
+     * @var Entity $entity Entity
+     * @internal
+     */
     protected $entity;
 
-    /** @var Property $property */
+    /**
+     * The entity type property
+     * @var Property $property Property
+     * @internal
+     */
     protected $property;
 
-    /** @var mixed $value */
+    /**
+     * The value of this property
+     * @var mixed $value Value
+     * @internal
+     */
     protected $value;
 
+    /**
+     * Set the property
+     * @param  Property  $property  Property
+     * @return $this
+     */
     public function setProperty(Property $property): self
     {
         $this->property = $property;
         return $this;
     }
 
+    /**
+     * Get the property
+     * @return Property Property
+     */
     public function getProperty(): Property
     {
         return $this->property;
     }
 
+    /**
+     * Set the attached entity
+     * @param  Entity  $entity  Entity
+     * @return $this
+     */
     public function setEntity(Entity $entity): self
     {
         $this->entity = $entity;
         return $this;
     }
 
+    /**
+     * Get the attached entity
+     * @return Entity Entity
+     */
     public function getEntity(): Entity
     {
         return $this->entity;
     }
 
+    /**
+     * Set the attached value
+     * @param  EmitInterface|null  $value  Value
+     * @return $this
+     */
     public function setValue(?EmitInterface $value): self
     {
         $this->value = $value;
         return $this;
     }
 
+    /**
+     * Get the attached value
+     * @return EmitInterface|null Value
+     */
     public function getValue(): ?EmitInterface
     {
         return $this->value;
     }
 
+    /**
+     * Get the attached primitive value
+     * @return Primitive Value
+     */
     public function getPrimitiveValue(): Primitive
     {
         return $this->value;
     }
 
+    /**
+     * Get the attached entity set value
+     * @return EntitySet Value
+     */
     public function getEntitySetValue(): EntitySet
     {
         return $this->value;
     }
 
+    /**
+     * Get the attached entity value
+     * @return Entity Value
+     */
     public function getEntityValue(): Entity
     {
         return $this->value;
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString()
     {
         return (string) $this->property;
     }
 
+    /**
+     * Whether this property value should be emitted based on the provided transaction
+     * @param  Transaction  $transaction  Transaction
+     * @return bool
+     */
     public function shouldEmit(Transaction $transaction): bool
     {
         if ($this->value instanceof Primitive) {
@@ -114,6 +178,11 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         return true;
     }
 
+    /**
+     * Get the context URL for this property value
+     * @param  Transaction  $transaction  Transaction
+     * @return string Context URL
+     */
     public function getContextUrl(Transaction $transaction): string
     {
         $entity = $this->entity;

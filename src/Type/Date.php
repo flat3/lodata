@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Type;
 
 use DateTime;
 
+/**
+ * Date
+ * @package Flat3\Lodata\Type
+ */
 class Date extends DateTimeOffset
 {
     const identifier = 'Edm.Date';

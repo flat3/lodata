@@ -8,19 +8,22 @@ use Flat3\Lodata\Expression\Event\EndGroup;
 use Flat3\Lodata\Expression\Event\Operator as OperatorEvent;
 use Flat3\Lodata\Expression\Event\StartGroup;
 
+/**
+ * Class Operator
+ * @link http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_OperatorPrecedence
+ * @package Flat3\Lodata\Expression
+ */
 abstract class Operator extends Node
 {
     public const symbol = null;
     public const unary = false;
     public const rightAssociative = false;
 
-    // http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_OperatorPrecedence
     public const precedence = 0;
     public const operator = null;
 
     /**
      * Return whether the operator is right-associative
-     *
      * @return bool
      */
     public static function isRightAssociative(): bool
@@ -30,7 +33,6 @@ abstract class Operator extends Node
 
     /**
      * Return the precedence of the operator
-     *
      * @return int
      */
     public static function getPrecedence(): int
@@ -40,7 +42,6 @@ abstract class Operator extends Node
 
     /**
      * Return the symbol for this operator
-     *
      * @return string
      */
     public static function getSymbol(): string
@@ -50,7 +51,6 @@ abstract class Operator extends Node
 
     /**
      * Return whether this operator is unary
-     *
      * @return bool
      */
     public static function isUnary(): bool
@@ -58,6 +58,9 @@ abstract class Operator extends Node
         return static::unary;
     }
 
+    /**
+     * Compute the value of this operator
+     */
     public function compute(): void
     {
         try {
@@ -71,6 +74,9 @@ abstract class Operator extends Node
         }
     }
 
+    /**
+     * Compute the comma separated arguments provided to this operator
+     */
     protected function computeCommaSeparatedArguments(): void
     {
         $arguments = $this->getArguments();

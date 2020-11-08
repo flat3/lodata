@@ -15,7 +15,7 @@ class Monitor extends Controller
 {
     /**
      * Show the current status or results of the requested job
-     * @param  string  $transactionId Transaction ID
+     * @param  string  $transactionId  Transaction ID
      * @return Response Client response
      */
     public function show(string $transactionId)
@@ -51,7 +51,7 @@ class Monitor extends Controller
 
     /**
      * Delete the requested job
-     * @param  string  $transactionId Transaction ID
+     * @param  string  $transactionId  Transaction ID
      */
     public function destroy(string $transactionId)
     {

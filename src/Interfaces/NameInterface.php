@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Interfaces;
 
+/**
+ * Name Interface
+ * @package Flat3\Lodata\Interfaces
+ */
 interface NameInterface
 {
     /**

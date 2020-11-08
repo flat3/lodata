@@ -6,9 +6,9 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Transaction\Option;
 
 /**
- * Class OrderBy
- *
- * http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionorderby
+ * OrderBy
+ * @link http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionorderby
+ * @package Flat3\Lodata\Transaction\Option
  */
 class OrderBy extends Option
 {

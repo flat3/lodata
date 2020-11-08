@@ -27,8 +27,18 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 
+/**
+ * SQLServer Filter
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLServerFilter
 {
+    /**
+     * Microsoft SQL Server-specific SQL filter generation
+     * @param  Event  $event  Filter event
+     * @return bool|null
+     * @throws NodeHandledException
+     */
     public function sqlsrvFilter(Event $event): ?bool
     {
         switch (true) {

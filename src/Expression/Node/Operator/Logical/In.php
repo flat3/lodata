@@ -8,6 +8,10 @@ use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartGroup;
 use Flat3\Lodata\Expression\Node\Operator\Logical;
 
+/**
+ * In
+ * @package Flat3\Lodata\Expression\Node\Operator\Logical
+ */
 class In extends Logical
 {
     public const symbol = 'in';

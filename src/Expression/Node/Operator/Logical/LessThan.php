@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Expression\Node\Operator\Logical;
 
 use Flat3\Lodata\Expression\Node\Operator\Logical;
 
+/**
+ * Less Than
+ * @package Flat3\Lodata\Expression\Node\Operator\Logical
+ */
 class LessThan extends Logical
 {
     public const symbol = 'lt';

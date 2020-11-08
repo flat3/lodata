@@ -39,8 +39,8 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
     }
 
     /**
-     * Get the Resource URL of this singleton
-     * @param  Transaction  $transaction Related transaction
+     * Get the resource URL of this singleton
+     * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
      */
     public function getResourceUrl(Transaction $transaction): string
@@ -49,8 +49,8 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
     }
 
     /**
-     * Get the Context URL of this singleton
-     * @param  Transaction  $transaction Related transaction
+     * Get the context URL of this singleton
+     * @param  Transaction  $transaction  Related transaction
      * @return string Context URL
      */
     public function getContextUrl(Transaction $transaction): string

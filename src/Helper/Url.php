@@ -3,12 +3,10 @@
 namespace Flat3\Lodata\Helper;
 
 /**
- * URL constants as defined in the PHP Manual under "Constants usable with
- * http_build_url()".
- *
- * Converted to a class from https://github.com/jakeasmith/http_build_url
- *
- * @see http://us2.php.net/manual/en/http.constants.php#http.constants.url
+ * Class Url
+ * @link http://us2.php.net/manual/en/http.constants.php#http.constants.url
+ * @link https://github.com/jakeasmith/http_build_url
+ * @package Flat3\Lodata\Helper
  */
 class Url
 {
@@ -26,10 +24,8 @@ class Url
 
     /**
      * Build a URL.
-     *
      * The parts of the second URL will be merged into the first according to
      * the flags argument.
-     *
      * @param  mixed  $url  (part(s) of) an URL in form of a string or
      *                       associative array like parse_url() returns
      * @param  mixed  $parts  same as the first argument

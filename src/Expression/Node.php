@@ -5,24 +5,52 @@ namespace Flat3\Lodata\Expression;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Node\Func;
 
+/**
+ * Node
+ * @package Flat3\Lodata\Expression
+ */
 abstract class Node
 {
-    /** @var string */
+    /**
+     * Captured symbol
+     * @var string
+     * @internal
+     */
     public const symbol = '';
 
-    /** @var mixed $value */
+    /**
+     * Captured value
+     * @var mixed $value
+     * @internal
+     */
     protected $value = null;
 
-    /** @var Parser $parser */
+    /**
+     * Parser that generated this node
+     * @var Parser $parser
+     * @internal
+     */
     protected $parser = null;
 
-    /** @var self[] */
+    /**
+     * List of arguments for this node
+     * @var self[]
+     * @internal
+     */
     private $args = [];
 
-    /** @var self $arg1 */
+    /**
+     * Left-hand argument for this node
+     * @var self $arg1
+     * @internal
+     */
     private $arg1 = null;
 
-    /** @var self $arg2 */
+    /**
+     * Right-hand argument for this node
+     * @var self $arg2
+     * @internal
+     */
     private $arg2 = null;
 
     public function __construct(Parser $parser)
@@ -32,7 +60,6 @@ abstract class Node
 
     /**
      * Set the left node
-     *
      * @param  Node  $arg
      */
     public function setLeftNode(Node $arg): void
@@ -42,7 +69,6 @@ abstract class Node
 
     /**
      * Set the right node
-     *
      * @param  Node  $arg
      */
     public function setRightNode(Node $arg): void
@@ -52,7 +78,6 @@ abstract class Node
 
     /**
      * Add an argument to the argument list
-     *
      * @param  Node  $arg
      */
     public function addArgument(Node $arg): void
@@ -62,7 +87,6 @@ abstract class Node
 
     /**
      * Return the value of this node
-     *
      * @return mixed|null
      */
     public function getValue()
@@ -72,7 +96,6 @@ abstract class Node
 
     /**
      * Set the value of this node
-     *
      * @param  mixed  $value
      */
     public function setValue(string $value): void
@@ -82,13 +105,13 @@ abstract class Node
 
     /**
      * Compute the value of this node
-     *
      * @return void
      */
     abstract public function compute(): void;
 
     /**
-     * @return self The left node, or <code>null</code> if there isn't one
+     * Get the left node
+     * @return self
      */
     public function getLeftNode(): ?Node
     {
@@ -96,13 +119,18 @@ abstract class Node
     }
 
     /**
-     * @return self The right node, or <code>null</code> if there isn't one
+     * Get the right node
+     * @return self
      */
     public function getRightNode(): ?Node
     {
         return $this->arg2;
     }
 
+    /**
+     * Convert this node to a string representation
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;
@@ -110,7 +138,6 @@ abstract class Node
 
     /**
      * Get the arguments list for this operator
-     *
      * @return Node[]
      */
     public function getArguments(): array
@@ -118,6 +145,11 @@ abstract class Node
         return $this->args;
     }
 
+    /**
+     * Handle an expression event
+     * @param  Event  $event  Event
+     * @throws NotImplementedException
+     */
     protected function expressionEvent(Event $event): void
     {
         if ($this->parser->expressionEvent($event) === true) {

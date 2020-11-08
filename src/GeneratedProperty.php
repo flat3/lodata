@@ -13,14 +13,14 @@ abstract class GeneratedProperty extends Property
 {
     /**
      * Generate the property value for this property on the provided entity
-     * @param  Entity  $entity Entity this property is generated on
+     * @param  Entity  $entity  Entity this property is generated on
      * @return PropertyValue
      */
     abstract public function invoke(Entity $entity);
 
     /**
      * Generate a property value for this entity
-     * @param  Entity  $entity Entity
+     * @param  Entity  $entity  Entity
      * @return PropertyValue Property value
      */
     public function generatePropertyValue(Entity $entity): PropertyValue

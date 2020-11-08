@@ -281,10 +281,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return null;
     }
 
-    /**
-     * Emit this entity set
-     * @param  Transaction  $transaction  Related transaction
-     */
     public function emit(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
@@ -399,12 +395,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         });
     }
 
-    /*
-     * Determine the process for the client response for this entity set transaction
-     * @param  Transaction  $transaction Related transaction
-     * @param  ContextInterface|null  $context Current context
-     * @return Response Client response
-     */
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if ($this->transaction) {
@@ -439,7 +429,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
-     * Get the Context URL for this entity set instance
+     * Get the context URL for this entity set instance
      * @param  Transaction  $transaction  Related transaction
      * @return string Context URL
      */
@@ -460,7 +450,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
-     * Get the Resource URL for this entity set instance
+     * Get the resource URL for this entity set instance
      * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
      */

@@ -8,6 +8,10 @@ use Flat3\Lodata\Expression\Event\EndFunction;
 use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Operator;
 
+/**
+ * Function
+ * @package Flat3\Lodata\Expression\Node
+ */
 class Func extends Operator
 {
     public const precedence = 8;

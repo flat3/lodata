@@ -103,10 +103,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLSchema.php"><a href="files/src-drivers-sql-sqlschema.html"><abbr title="src/Drivers/SQL/SQLSchema.php">SQLSchema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">SQL Schema</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
 
@@ -124,23 +126,23 @@
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_discoverProperties">discoverProperties()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Discover SQL fields on this entity set as OData properties</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_getCasts">getCasts()</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
-<dd></dd>
+<dd>Get list of defined type casts</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_sqlTypeToPrimitiveType">sqlTypeToPrimitiveType()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-PrimitiveType.html"><abbr title="\Flat3\Lodata\PrimitiveType">PrimitiveType</abbr></a>    </span>
 </dt>
-<dd></dd>
+<dd>Convert an SQL type to an OData primitive type</dd>
 
         </dl>
 
@@ -166,20 +168,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLSchema.php"><a href="files/src-drivers-sql-sqlschema.html"><abbr title="src/Drivers/SQL/SQLSchema.php">SQLSchema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Discover SQL fields on this entity set as OData properties</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">discoverProperties</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">discoverProperties</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -198,22 +202,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLSchema.php"><a href="files/src-drivers-sql-sqlschema.html"><abbr title="src/Drivers/SQL/SQLSchema.php">SQLSchema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get list of defined type casts</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getCasts</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Type casts</p>
+</section>
 
     
 </article>
@@ -230,15 +237,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLSchema.php"><a href="files/src-drivers-sql-sqlschema.html"><abbr title="src/Drivers/SQL/SQLSchema.php">SQLSchema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Convert an SQL type to an OData primitive type</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">sqlTypeToPrimitiveType</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-PrimitiveType.html"><abbr title="\Flat3\Lodata\PrimitiveType">PrimitiveType</abbr></a></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -246,7 +255,9 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>SQL type</p>
+</section>
+
             </dd>
             </dl>
 
@@ -255,7 +266,8 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-PrimitiveType.html"><abbr title="\Flat3\Lodata\PrimitiveType">PrimitiveType</abbr></a></span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>OData type</p>
+</section>
 
     
 </article>

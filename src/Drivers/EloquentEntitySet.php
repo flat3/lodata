@@ -37,6 +37,10 @@ use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
+/**
+ * Eloquent Entity Set
+ * @package Flat3\Lodata\Drivers
+ */
 class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface, OrderByInterface
 {
     use SQLConnection;
@@ -44,7 +48,11 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
     use SQLFilter;
     use SQLSchema;
 
-    /** @var Model $model */
+    /**
+     * Eloquent model class name
+     * @var Model $model
+     * @internal
+     */
     protected $model;
 
     public function __construct(string $model)
@@ -64,27 +72,51 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         parent::__construct($name, $type);
     }
 
+    /**
+     * Set the Eloquent model class name
+     * @param  string  $model  Eloquent model class name
+     * @return $this
+     */
     public function setModel(string $model): self
     {
         $this->model = $model;
         return $this;
     }
 
+    /**
+     * Get the OData entity type name for this Eloquent model
+     * @param  string  $model  Eloquent model class name
+     * @return string OData identifier
+     */
     public static function getTypeName(string $model): string
     {
         return Str::studly(class_basename($model));
     }
 
+    /**
+     * Get the OData entity set name for this Eloquent model
+     * @param  string  $model  Eloquent model class name
+     * @return string OData identifier
+     */
     public static function getSetName(string $model)
     {
         return Str::pluralStudly(class_basename($model));
     }
 
+    /**
+     * Return an instance of the Eloquent model using the provided key
+     * @param  PropertyValue  $key  Key
+     * @return Model|null Eloquent model
+     */
     public function getModelByKey(PropertyValue $key): ?Model
     {
         return $this->model::where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
     }
 
+    /**
+     * Get the database table name used by the model
+     * @return string Table name
+     */
     public function getTable(): string
     {
         /** @var Model $model */
@@ -92,6 +124,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $model->getTable();
     }
 
+    /**
+     * Get the SQL type casts defined on this Eloquent model
+     * @return array Casts
+     */
     public function getCasts(): array
     {
         /** @var Model $model */
@@ -99,6 +135,11 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $model->getCasts();
     }
 
+    /**
+     * Read an Eloquent model
+     * @param  PropertyValue  $key  Model key
+     * @return Entity|null Entity
+     */
     public function read(PropertyValue $key): ?Entity
     {
         $model = $this->getModelByKey($key);
@@ -122,6 +163,11 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $entity;
     }
 
+    /**
+     * Update an Eloquent model
+     * @param  PropertyValue  $key  Model key
+     * @return Entity Entity
+     */
     public function update(PropertyValue $key): Entity
     {
         $model = $this->getModelByKey($key);
@@ -140,6 +186,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $this->read($key);
     }
 
+    /**
+     * Create an Eloquent model
+     * @return Entity Entity
+     */
     public function create(): Entity
     {
         /** @var Model $model */
@@ -178,6 +228,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $entity;
     }
 
+    /**
+     * Delete an Eloquent model
+     * @param  PropertyValue  $key  Key
+     */
     public function delete(PropertyValue $key)
     {
         $model = $this->getModelByKey($key);
@@ -189,6 +243,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         }
     }
 
+    /**
+     * Query eloquent models
+     * @return array Entity buffer
+     */
     public function query(): array
     {
         /** @var Model $instance */
@@ -238,6 +296,11 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $results;
     }
 
+    /**
+     * Convert an Eloquent model instance to an OData Entity
+     * @param  Model  $model  Eloquent model
+     * @return Entity Entity
+     */
     public function modelToEntity(Model $model): Entity
     {
         $set = Lodata::getEntitySet(self::getSetName(get_class($model)));
@@ -256,12 +319,22 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $entity;
     }
 
+    /**
+     * Convert an entity type property to a database field
+     * @param  Property  $property  Property
+     * @return string Field
+     */
     public function propertyToField(Property $property): string
     {
         $model = new $this->model();
         return $model->qualifyColumn($property->getName());
     }
 
+    /**
+     * Discover an Eloquent relationship method and add it to the model
+     * @param  string  $method  Relationship method name
+     * @return $this
+     */
     public function discoverRelationship(string $method): self
     {
         /** @var Model $model */
@@ -314,7 +387,12 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         return $this;
     }
 
-    public static function discover($class): self
+    /**
+     * Create an entity set from the provided Eloquent model class and add it to the model
+     * @param  string  $class  Eloquent model class
+     * @return static
+     */
+    public static function discover(string $class): self
     {
         $set = new self($class);
         Lodata::add($set);

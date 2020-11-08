@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Type;
 
+/**
+ * Int32
+ * @package Flat3\Lodata\Type
+ */
 class Int32 extends Byte
 {
     const identifier = 'Edm.Int32';

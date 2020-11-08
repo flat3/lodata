@@ -75,7 +75,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Set the entity set that contains this entity
-     * @param  EntitySet  $entitySet Entity set
+     * @param  EntitySet  $entitySet  Entity set
      * @return $this
      */
     public function setEntitySet(EntitySet $entitySet): self
@@ -85,10 +85,6 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $this;
     }
 
-    /**
-     * Emit this entity
-     * @param  Transaction  $transaction Related transaction
-     */
     public function emit(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
@@ -226,7 +222,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Set the ID of this entity
-     * @param mixed $id ID
+     * @param  mixed  $id  ID
      * @return $this
      */
     public function setEntityId($id): self
@@ -253,7 +249,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Add a property value to this entity
-     * @param PropertyValue $propertyValue Property value
+     * @param  PropertyValue  $propertyValue  Property value
      * @return $this
      */
     public function addProperty(PropertyValue $propertyValue): self
@@ -286,7 +282,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Get a property value attached to this entity
-     * @param  Property  $property Property
+     * @param  Property  $property  Property
      * @return Primitive|null Property value
      */
     public function getPropertyValue(Property $property): ?Primitive
@@ -296,7 +292,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Whether the provided property value exists on this entity
-     * @param  mixed  $offset Property name
+     * @param  mixed  $offset  Property name
      * @return bool
      */
     public function offsetExists($offset)
@@ -306,7 +302,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Get a property value from this entity
-     * @param  mixed  $offset Property name
+     * @param  mixed  $offset  Property name
      * @return PropertyValue Property value
      */
     public function offsetGet($offset)
@@ -316,8 +312,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Create a new property value on this entity
-     * @param  mixed  $offset Property name
-     * @param  mixed  $value Property value
+     * @param  mixed  $offset  Property name
+     * @param  mixed  $value  Property value
      */
     public function offsetSet($offset, $value)
     {
@@ -330,7 +326,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Remove a property value from this entity
-     * @param  mixed  $offset Property name
+     * @param  mixed  $offset  Property name
      */
     public function offsetUnset($offset)
     {
@@ -339,8 +335,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Get the metadata for this expanded entity
-     * @param  Transaction  $transaction Related transaction
-     * @param  PropertyValue  $propertyValue Navigation property value
+     * @param  Transaction  $transaction  Related transaction
+     * @param  PropertyValue  $propertyValue  Navigation property value
      * @return MetadataContainer Metadata container
      */
     public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue): MetadataContainer
@@ -393,8 +389,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     }
 
     /**
-     * Get the Context URL for this entity
-     * @param  Transaction  $transaction Related transaction
+     * Get the context URL for this entity
+     * @param  Transaction  $transaction  Related transaction
      * @return string Context URL
      */
     public function getContextUrl(Transaction $transaction): string
@@ -421,8 +417,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     }
 
     /**
-     * Get the Resource URL for this entity
-     * @param  Transaction  $transaction Related transaction
+     * Get the resource URL for this entity
+     * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
      */
     public function getResourceUrl(Transaction $transaction): string
@@ -450,8 +446,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Delete this entity
-     * @param  Transaction  $transaction Related transaction
-     * @param  ContextInterface|null  $context Current context
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
      * @return Response Client response
      */
     public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -471,8 +467,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Update this entity
-     * @param  Transaction  $transaction Related transaction
-     * @param  ContextInterface|null  $context Current context
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
      * @return Response Client response
      */
     public function patch(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -492,8 +488,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Read this entity
-     * @param  Transaction  $transaction Related transaction
-     * @param  ContextInterface|null  $context Current context
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
      * @return Response Client response
      */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -514,12 +510,6 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         });
     }
 
-    /**
-     * Determine the process for the client response for this entity transaction
-     * @param  Transaction  $transaction Related transaction
-     * @param  ContextInterface|null  $context Current context
-     * @return Response Client response
-     */
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if ($this->transaction) {
@@ -543,7 +533,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Generate an entity from an array of key/values
-     * @param  array  $array Key/value array
+     * @param  array  $array  Key/value array
      * @return $this
      */
     public function fromArray(array $array): self
@@ -586,7 +576,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Set the entity type of this entity
-     * @param  EntityType  $type Entity type
+     * @param  EntityType  $type  Entity type
      * @return $this
      */
     public function setType(EntityType $type): self

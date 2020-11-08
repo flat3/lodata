@@ -12,11 +12,13 @@ use Flat3\Lodata\Expression\Operator;
 use Flat3\Lodata\Expression\Parser;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 
+/**
+ * Filter
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BuiltinQueryFunctions
+ * @package Flat3\Lodata\Expression\Parser
+ */
 class Filter extends Parser
 {
-    /**
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BuiltinQueryFunctions
-     */
     public const operators = [
         // Primary
         Node\Operator\Logical\In::class,
@@ -78,7 +80,10 @@ class Filter extends Parser
         Node\Operator\Comparison\Or_::class,
     ];
 
-    /** @var Transaction $transaction */
+    /**
+     * @var Transaction $transaction
+     * @internal
+     */
     protected $transaction;
 
     public function __construct(EntitySet $entitySet, Transaction $transaction)
@@ -93,6 +98,11 @@ class Filter extends Parser
         }
     }
 
+    /**
+     * Handle an expression event
+     * @param  Event  $event  Event
+     * @return bool|null
+     */
     public function expressionEvent(Event $event): ?bool
     {
         if ($this->entitySet instanceof FilterInterface) {
@@ -102,6 +112,10 @@ class Filter extends Parser
         return false;
     }
 
+    /**
+     * Tokenize a literal
+     * @return bool
+     */
     public function findLiteral(): bool
     {
         return $this->tokenizeDateTimeOffset() ||
@@ -116,7 +130,6 @@ class Filter extends Parser
 
     /**
      * Valid token types for this expression
-     *
      * @return bool
      * @throws ParserException
      */
@@ -133,6 +146,11 @@ class Filter extends Parser
             $this->findLiteral();
     }
 
+    /**
+     * Tokenize a parameter alias
+     * @param  Transaction  $transaction  Transaction
+     * @return bool
+     */
     public function tokenizeParameterAlias(Transaction $transaction): bool
     {
         $token = $this->lexer->maybeParameterAlias();

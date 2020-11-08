@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Exception\Protocol;
 
 use Illuminate\Http\Response;
 
+/**
+ * Forbidden Exception
+ * @package Flat3\Lodata\Exception\Protocol
+ */
 class ForbiddenException extends ProtocolException
 {
     protected $httpCode = Response::HTTP_FORBIDDEN;

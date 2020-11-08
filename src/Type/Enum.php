@@ -7,6 +7,10 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Primitive;
 
+/**
+ * Enum
+ * @package Flat3\Lodata\Type
+ */
 class Enum extends Primitive
 {
     /** @var EnumerationType $type */

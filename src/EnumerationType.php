@@ -67,7 +67,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Set the underlying type of this enumerated type
-     * @param  Type  $type Underlying type
+     * @param  Type  $type  Underlying type
      * @return $this
      */
     public function setUnderlyingType(Type $type): self
@@ -109,7 +109,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Whether a member exists on this type with the given name
-     * @param  mixed  $offset Member name
+     * @param  mixed  $offset  Member name
      * @return bool
      */
     public function offsetExists($offset)
@@ -119,7 +119,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Get the member identified by the given name
-     * @param  mixed  $offset Member name
+     * @param  mixed  $offset  Member name
      * @return EnumMember|null
      */
     public function offsetGet($offset)
@@ -129,8 +129,8 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Add a new member of this enumerated type
-     * @param  mixed  $offset Member name
-     * @param  mixed  $member Member value
+     * @param  mixed  $offset  Member name
+     * @param  mixed  $member  Member value
      */
     public function offsetSet($offset, $member)
     {
@@ -147,7 +147,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Remove a member of the enumerated type
-     * @param  mixed  $offset Member name
+     * @param  mixed  $offset  Member name
      */
     public function offsetUnset($offset)
     {
@@ -156,7 +156,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Create a new instance of the enumerated type
-     * @param  null  $value Member name
+     * @param  null  $value  Member name
      * @return Enum
      */
     public function instance($value = null): Primitive

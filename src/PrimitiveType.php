@@ -113,7 +113,7 @@ class PrimitiveType extends Type implements IdentifierInterface
 
     /**
      * Get the resolved name of this primitive type based on the provided namespace
-     * @param  string  $namespace Namespace
+     * @param  string  $namespace  Namespace
      * @return string Name
      */
     public function getResolvedName(string $namespace): string

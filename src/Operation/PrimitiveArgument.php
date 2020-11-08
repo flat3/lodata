@@ -10,6 +10,11 @@ use Flat3\Lodata\PrimitiveType;
 
 class PrimitiveArgument extends Argument
 {
+    /**
+     * Generate a primitive argument
+     * @param  null  $source
+     * @return ArgumentInterface
+     */
     public function generate($source = null): ArgumentInterface
     {
         $lexer = new Lexer($source);
@@ -41,11 +46,19 @@ class PrimitiveArgument extends Argument
         }
     }
 
+    /**
+     * Whether this primitive can represent a null value
+     * @return bool
+     */
     public function isNullable(): bool
     {
         return $this->parameter->allowsNull();
     }
 
+    /**
+     * Get the type of this primitive
+     * @return PrimitiveType
+     */
     public function getType()
     {
         return new PrimitiveType($this->parameter->getType()->getName());

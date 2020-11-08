@@ -102,7 +102,9 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Operation.html">Operation</a></li>
                             </ul>
         </div>
     
@@ -118,10 +120,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation/Argument.php"><a href="files/src-operation-argument.html"><abbr title="src/Operation/Argument.php">Argument.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Argument</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
 
@@ -135,7 +139,7 @@
 
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-NameInterface.html"><abbr title="\Flat3\Lodata\Interfaces\NameInterface">NameInterface</abbr></a></dt>
-        <dd></dd>
+        <dd>Name Interface</dd>
     
     
     </dl>
@@ -152,14 +156,14 @@
     <span>
                 &nbsp;: <a href="classes/Flat3-Lodata-Helper-Name.html"><abbr title="\Flat3\Lodata\Helper\Name">Name</abbr></a>            </span>
 </dt>
-<dd></dd>
+<dd>Resource identifier</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Operation-Argument.html#property_parameter">$parameter</a>
     <span>
                 &nbsp;: <abbr title="\ReflectionParameter">ReflectionParameter</abbr>            </span>
 </dt>
-<dd></dd>
+<dd>The reflection parameter on the operations invocation method</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Operation-Argument.html#method___construct">__construct()</a>
@@ -169,25 +173,18 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Traits-HasName.html#method___toString">__toString()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Operation-Argument.html#method_factory">factory()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: static    </span>
 </dt>
-<dd></dd>
+<dd>Generate an instance of the correct type to provide to this argument</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Operation-Argument.html#method_generate">generate()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-Operation-ArgumentInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\ArgumentInterface">ArgumentInterface</abbr></a>    </span>
 </dt>
-<dd></dd>
+<dd>Generate an instance of this argument with the value of the provided source</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Traits-HasName.html#method_getName">getName()</a>
@@ -201,14 +198,14 @@
     <span>
                         &nbsp;: bool    </span>
 </dt>
-<dd></dd>
+<dd>Whether this argument can be null</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Traits-HasName.html#method_setName">setName()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set name</dd>
 
         </dl>
 
@@ -238,10 +235,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasName.php"><a href="files/src-traits-hasname.html"><abbr title="src/Traits/HasName.php">HasName.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Resource identifier</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Helper-Name.html"><abbr title="\Flat3\Lodata\Helper\Name">Name</abbr></a></span>
@@ -269,10 +267,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation/Argument.php"><a href="files/src-operation-argument.html"><abbr title="src/Operation/Argument.php">Argument.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">The reflection parameter on the operations invocation method</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><abbr title="\ReflectionParameter">ReflectionParameter</abbr></span>
@@ -304,7 +303,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation/Argument.php"><a href="files/src-operation-argument.html"><abbr title="src/Operation/Argument.php">Argument.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 </aside>
 
     
@@ -337,38 +336,6 @@
         class="phpdocumentor-element
             -method
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___toString">
-        __toString()
-        <a href="classes/Flat3-Lodata-Traits-HasName.html#method___toString" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasName.php"><a href="files/src-traits-hasname.html"><abbr title="src/Traits/HasName.php">HasName.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">21</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__toString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_factory">
@@ -378,15 +345,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation/Argument.php"><a href="files/src-operation-argument.html"><abbr title="src/Operation/Argument.php">Argument.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Generate an instance of the correct type to provide to this argument</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">factory</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\ReflectionParameter">ReflectionParameter</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameter</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">factory</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\ReflectionParameter">ReflectionParameter</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameter</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -394,14 +363,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\ReflectionParameter">ReflectionParameter</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Parameter</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">static</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -420,23 +391,26 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation/Argument.php"><a href="files/src-operation-argument.html"><abbr title="src/Operation/Argument.php">Argument.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Generate an instance of this argument with the value of the provided source</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__abstract">abstract</span>            <span class="phpdocumentor-signature__name">generate</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-Operation-ArgumentInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\ArgumentInterface">ArgumentInterface</abbr></a></span></code>
+    <span class="phpdocumentor-signature__abstract">abstract</span>            <span class="phpdocumentor-signature__name">generate</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-Operation-ArgumentInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\ArgumentInterface">ArgumentInterface</abbr></a></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$source</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
@@ -462,7 +436,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasName.php"><a href="files/src-traits-hasname.html"><abbr title="src/Traits/HasName.php">HasName.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the name of this nominal item</p>
@@ -497,15 +471,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation/Argument.php"><a href="files/src-operation-argument.html"><abbr title="src/Operation/Argument.php">Argument.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Whether this argument can be null</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">isNullable</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -529,30 +505,33 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasName.php"><a href="files/src-traits-hasname.html"><abbr title="src/Traits/HasName.php">HasName.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set name</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setName</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">setName</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr title=""></abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$name</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr title=""></abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 

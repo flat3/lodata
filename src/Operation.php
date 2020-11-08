@@ -190,7 +190,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /**
      * Set the name of the invocation method parameter used to receive the binding parameter
-     * @param  string  $bindingParameterName Binding parameter name
+     * @param  string  $bindingParameterName  Binding parameter name
      * @return $this
      */
     public function setBindingParameterName(string $bindingParameterName): self
@@ -219,7 +219,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /**
      * Set the bound parameter on an instance of this operation
-     * @param  PipeInterface|null  $parameter Binding parameter
+     * @param  PipeInterface|null  $parameter  Binding parameter
      * @return $this
      */
     public function setBoundParameter(?PipeInterface $parameter): self
@@ -236,7 +236,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /**
      * Set the URL inline parameters on an instance of this operation
-     * @param  array  $inlineParameters Inline parameters
+     * @param  array  $inlineParameters  Inline parameters
      * @return $this
      */
     public function setInlineParameters(array $inlineParameters): self
@@ -456,8 +456,8 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     }
 
     /**
-     * Get the Resource URL of this operation instance
-     * @param  Transaction  $transaction Related transaction
+     * Get the resource URL of this operation instance
+     * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
      */
     public function getResourceUrl(Transaction $transaction): string
@@ -467,7 +467,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /**
      * Set the OData type that will be returned by this operation
-     * @param  Type  $type Return type
+     * @param  Type  $type  Return type
      * @return $this
      */
     public function setReturnType(Type $type): self

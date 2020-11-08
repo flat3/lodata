@@ -46,7 +46,7 @@ class Model
 
     /**
      * Add a named resource or type to the OData model
-     * @param  IdentifierInterface  $item Resource or type
+     * @param  IdentifierInterface  $item  Resource or type
      * @return IdentifierInterface Resource or type
      */
     public function add(IdentifierInterface $item): IdentifierInterface
@@ -57,7 +57,7 @@ class Model
 
     /**
      * Get an entity type from the model
-     * @param string $name Entity type name
+     * @param  string  $name  Entity type name
      * @return EntityType|null Entity type
      */
     public function getEntityType(string $name): ?EntityType
@@ -67,7 +67,7 @@ class Model
 
     /**
      * Get a singleton from the model
-     * @param string $name Singleton name
+     * @param  string  $name  Singleton name
      * @return Singleton|null Singleton
      */
     public function getSingleton(string $name): ?Singleton
@@ -78,7 +78,7 @@ class Model
 
     /**
      * Get a resource from the model
-     * @param  string  $name Resource name
+     * @param  string  $name  Resource name
      * @return IdentifierInterface|null Resource
      */
     public function getResource(string $name): ?IdentifierInterface
@@ -88,7 +88,7 @@ class Model
 
     /**
      * Get an entity set from the model
-     * @param string $name Entity set name
+     * @param  string  $name  Entity set name
      * @return EntitySet|null Entity set
      */
     public function getEntitySet(string $name): ?EntitySet
@@ -99,7 +99,7 @@ class Model
 
     /**
      * Get an operation from the model
-     * @param string $name Operation name
+     * @param  string  $name  Operation name
      * @return Operation|null Operation
      */
     public function getOperation(string $name): ?Operation
@@ -110,7 +110,7 @@ class Model
 
     /**
      * Get a function from the model
-     * @param string $name Function name
+     * @param  string  $name  Function name
      * @return FunctionInterface|null Function
      */
     public function getFunction(string $name): ?FunctionInterface
@@ -121,7 +121,7 @@ class Model
 
     /**
      * Get an action from the model
-     * @param  string  $name Action name
+     * @param  string  $name  Action name
      * @return ActionInterface|null Action
      */
     public function getAction(string $name): ?ActionInterface
@@ -141,7 +141,7 @@ class Model
 
     /**
      * Drop a named resource or type from the model
-     * @param  string  $key Resource or type
+     * @param  string  $key  Resource or type
      * @return $this
      */
     public function drop(string $key): self
@@ -206,7 +206,7 @@ class Model
 
     /**
      * Discover the Eloquent model provided as a class name
-     * @param string $class Eloquent model class name
+     * @param  string  $class  Eloquent model class name
      * @return EloquentEntitySet Eloquent entity set
      */
     public function discoverEloquentModel(string $class): EloquentEntitySet
@@ -234,7 +234,7 @@ class Model
 
     /**
      * Get the Office Data Connection URL of the provided entity set
-     * @param  string  $set Entity set name
+     * @param  string  $set  Entity set name
      * @return string URL
      */
     public function getOdcUrl(string $set): string

@@ -48,15 +48,15 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     /**
      * Set the value of this primitive
-     * @param mixed $value Value
+     * @param  mixed  $value  Value
      * @return Primitive
      */
     abstract public function set($value);
 
     /**
      * Generate a new primitive of this type
-     * @param  mixed|null  $value Value
-     * @param  bool|null  $nullable Whether this instance of the primitive supports null
+     * @param  mixed|null  $value  Value
+     * @param  bool|null  $nullable  Whether this instance of the primitive supports null
      * @return Primitive
      */
     public static function factory($value = null, ?bool $nullable = true): self
@@ -102,7 +102,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     /**
      * Return null or an "empty" value if this type cannot be made null
-     * @param mixed $value The input value
+     * @param  mixed  $value  The input value
      * @return mixed The coerced value
      */
     public function maybeNull($value)
@@ -163,7 +163,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     /**
      * Get the resolved name of this primitive type
-     * @param  string  $namespace Namespace
+     * @param  string  $namespace  Namespace
      * @return string Name
      */
     public function getResolvedName(string $namespace): string
@@ -176,8 +176,8 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Get the Resource URL of this primitive type
-     * @param  Transaction  $transaction Related transaction
+     * Get the resource URL of this primitive type
+     * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
      */
     public function getResourceUrl(Transaction $transaction): string
@@ -195,8 +195,8 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Get the Context URL of this primitive type
-     * @param  Transaction  $transaction Related transaction
+     * Get the context URL of this primitive type
+     * @param  Transaction  $transaction  Related transaction
      * @return string Context URL
      */
     public function getContextUrl(Transaction $transaction): string
@@ -204,21 +204,11 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $transaction->getContextUrl().'#'.$this->getIdentifier();
     }
 
-    /**
-     * Emit this primitive
-     * @param  Transaction  $transaction Related transaction
-     */
     public function emit(Transaction $transaction): void
     {
         $transaction->outputJsonValue($this);
     }
 
-    /*
-     * Determine the process for the client response for this primitive type
-     * @param  Transaction  $transaction Related transaction
-     * @param  ContextInterface|null  $context Current context
-     * @return Response Client response
-     */
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if (null === $this->get()) {

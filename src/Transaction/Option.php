@@ -4,17 +4,34 @@ namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Controller\Transaction;
 
+/**
+ * System query option
+ * @package Flat3\Lodata\Transaction
+ */
 abstract class Option
 {
     public const param = null;
     public const type = 'string';
 
-    /** @var mixed $value */
+    /**
+     * Option value
+     * @var mixed $value
+     * @internal
+     */
     protected $value = null;
 
-    /** @var Transaction $transaction */
+    /**
+     * Transaction
+     * @var Transaction $transaction
+     * @internal
+     */
     protected $transaction;
 
+    /**
+     * Generate this option from the provided transaction
+     * @param  Transaction  $transaction  Transaction
+     * @return $this Option
+     */
     public function transaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
@@ -24,7 +41,6 @@ abstract class Option
 
     /**
      * Get comma separated array values
-     *
      * @return array
      */
     public function getCommaSeparatedValues(): array
@@ -34,7 +50,6 @@ abstract class Option
 
     /**
      * Get the option value
-     *
      * @return mixed
      */
     public function getValue()
@@ -42,6 +57,10 @@ abstract class Option
         return $this->value;
     }
 
+    /**
+     * Set the option value
+     * @param  string|null  $value
+     */
     public function setValue(?string $value): void
     {
         $this->value = $value;
@@ -49,7 +68,6 @@ abstract class Option
 
     /**
      * Return whether this option is defined
-     *
      * @return bool
      */
     public function hasValue(): bool
@@ -57,11 +75,19 @@ abstract class Option
         return !!$this->value;
     }
 
+    /**
+     * Clear the value of this option
+     */
     public function clearValue(): void
     {
         $this->value = null;
     }
 
+    /**
+     * Generate a new instance of this option type from the supplied transaction
+     * @param  Transaction  $transaction  Transaction
+     * @return static Option
+     */
     public static function factory(Transaction $transaction): self
     {
         $option = new static();

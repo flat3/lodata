@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Helper;
 
+/**
+ * Constants
+ * @package Flat3\Lodata\Helper
+ */
 class Constants
 {
     const TRUE = 'true';

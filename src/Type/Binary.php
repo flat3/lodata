@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Type;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
+/**
+ * Binary
+ * @package Flat3\Lodata\Type
+ */
 class Binary extends Primitive
 {
     const identifier = 'Edm.Binary';

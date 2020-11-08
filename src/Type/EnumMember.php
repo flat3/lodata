@@ -6,6 +6,10 @@ use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Traits\HasName;
 
+/**
+ * Enum Member
+ * @package Flat3\Lodata\Type
+ */
 class EnumMember implements NameInterface
 {
     use HasName;

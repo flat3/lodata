@@ -22,7 +22,7 @@ class ODCFF extends Controller
 
     /**
      * Generate an ODCFF response for the provided entity set identifier
-     * @param string $identifier Identifier
+     * @param  string  $identifier  Identifier
      * @return Response Client response
      */
     public function get($identifier)

@@ -14,9 +14,16 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 
+/**
+ * Reference
+ * @package Flat3\Lodata\PathSegment
+ */
 class Reference implements EmitInterface, PipeInterface
 {
-    /** @var Entity|EntitySet $referencable */
+    /**
+     * The referencable item passed to this path segment
+     * @var Entity|EntitySet $referencable
+     */
     protected $referencable;
 
     public function __construct($countable)

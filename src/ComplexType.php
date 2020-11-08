@@ -70,7 +70,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Create and add a declared property
-     * @param mixed $name Property name
+     * @param  mixed  $name  Property name
      * @param  Type  $type  Property type
      * @return $this
      */
@@ -163,8 +163,8 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     }
 
     /**
-     * Get the Context URL for this type
-     * @param  Transaction  $transaction Related transaction
+     * Get the context URL for this type
+     * @param  Transaction  $transaction  Related transaction
      * @return string Context URL
      */
     public function getContextUrl(Transaction $transaction): string
@@ -173,8 +173,8 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     }
 
     /**
-     * Get the Resource URL for this type
-     * @param  Transaction  $transaction Related transaction
+     * Get the resource URL for this type
+     * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
      */
     public function getResourceUrl(Transaction $transaction): string

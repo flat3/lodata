@@ -24,7 +24,7 @@ class Reference
 
     /**
      * Append this annotation to the provided schema element
-     * @param  SimpleXMLElement  $schema Schema
+     * @param  SimpleXMLElement  $schema  Schema
      * @return $this
      */
     public function append(SimpleXMLElement $schema): self

@@ -54,59 +54,130 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class Transaction implements ArgumentInterface
 {
-    /** @var UuidInterface $id */
+    /**
+     * Transaction ID
+     * @var UuidInterface $id
+     * @internal
+     */
     protected $id;
 
-    /** @var Request $request */
+    /**
+     * Request object
+     * @var Request $request
+     * @internal
+     */
     private $request;
 
-    /** @var Response $response */
+    /**
+     * Response object
+     * @var Response $response
+     * @internal
+     */
     private $response;
 
-    /** @var Version $version */
+    /**
+     * Version object
+     * @var Version $version
+     * @internal
+     */
     private $version;
 
-    /** @var ParameterList $preferences */
+    /**
+     * Prefer header
+     * @var ParameterList $preferences
+     * @internal
+     */
     private $preferences;
 
-    /** @var Metadata $metadata */
+    /**
+     * Metadata type
+     * @var Metadata $metadata
+     * @internal
+     */
     private $metadata;
 
-    /** @var IEEE754Compatible $ieee754compatible */
+    /**
+     * IEEE 754 requirement
+     * @var IEEE754Compatible $ieee754compatible
+     * @internal
+     */
     private $ieee754compatible;
 
-    /** @var Count $count */
+    /**
+     * Count system query option
+     * @var Count $count
+     * @internal
+     */
     private $count;
 
-    /** @var Expand $expand */
+    /**
+     * Expand system query option
+     * @var Expand $expand
+     * @internal
+     */
     private $expand;
 
-    /** @var Filter $filter */
+    /**
+     * Filter system query optioon
+     * @var Filter $filter
+     * @internal
+     */
     private $filter;
 
-    /** @var OrderBy $orderby */
+    /**
+     * OrderBy system query option
+     * @var OrderBy $orderby
+     * @internal
+     */
     private $orderby;
 
-    /** @var Search $search */
+    /**
+     * Search system query option
+     * @var Search $search
+     * @internal
+     */
     private $search;
 
-    /** @var Select $select */
+    /**
+     * Select system query option
+     * @var Select $select
+     * @internal
+     */
     private $select;
 
-    /** @var Format $format */
+    /**
+     * Requested response format
+     * @var Format $format
+     * @internal
+     */
     private $format;
 
-    /** @var Skip $skip */
+    /**
+     * Skip system query option
+     * @var Skip $skip
+     * @internal
+     */
     private $skip;
 
-    /** @var Top $top */
+    /**
+     * Top system query option
+     * @var Top $top
+     * @internal
+     */
     private $top;
 
-    /** @var SchemaVersion $schemaVersion */
+    /**
+     * Schema version system query option
+     * @var SchemaVersion $schemaVersion
+     * @internal
+     */
     private $schemaVersion;
 
-    /* Correct handler evaluation order described in https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_KeyasSegmentConvention */
-    /** @var PipeInterface[] $handlers */
+    /**
+     * List of path segment handlers
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_KeyasSegmentConvention
+     * @var PipeInterface[] $handlers
+     */
     protected $handlers = [
         EntitySet::class,
         PathSegment\Metadata::class,
@@ -134,7 +205,12 @@ class Transaction implements ArgumentInterface
         $this->top = new Top();
     }
 
-    public function initialize(Request $request): self
+    /**
+     * Initialize this transaction using the provided request object
+     * @param  RequestInterface  $request  Request
+     * @return $this
+     */
+    public function initialize(RequestInterface $request): self
     {
         $this->setRequest($request);
         $this->response = new Response();
@@ -179,6 +255,11 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
+    /**
+     * Update this transaction based on the provided request object
+     * @param  RequestInterface  $request  Request
+     * @return $this
+     */
     public function setRequest(RequestInterface $request): self
     {
         $this->request = $request;
@@ -197,21 +278,41 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
-    public function getRequestHeader($key): ?string
+    /**
+     * Get the first request header of the provided key
+     * @param  string  $key  Key
+     * @return string|null Header
+     */
+    public function getRequestHeader(string $key): ?string
     {
         return $this->request->headers->get($key);
     }
 
-    public function getRequestHeaders($key): array
+    /**
+     * Get all request headers of the provided key
+     * @param  string  $key  Key
+     * @return array Headers
+     */
+    public function getRequestHeaders(string $key): array
     {
         return $this->request->headers->all($key);
     }
 
-    public function getResponseHeader($key): ?string
+    /**
+     * Get the first response header of the provided key
+     * @param  string  $key  Key
+     * @return string|null Header
+     */
+    public function getResponseHeader(string $key): ?string
     {
         return $this->response->headers->get($key);
     }
 
+    /**
+     * Get a system query option
+     * @param  string  $key  Key
+     * @return string|null Option
+     */
     public function getSystemQueryOption(string $key): ?string
     {
         $key = strtolower($key);
@@ -220,34 +321,56 @@ class Transaction implements ArgumentInterface
         return $params[$key] ?? ($params['$'.$key] ?? null);
     }
 
+    /**
+     * Get all query parameters
+     * @return array Query parameters
+     */
     public function getQueryParams(): array
     {
         $query = $this->request->query;
         return $query instanceof ParameterBag ? $query->all() : [];
     }
 
+    /**
+     * Get a single query parameter
+     * @param  string  $key  Key
+     * @return string|null Parameter
+     */
     public function getQueryParam(string $key): ?string
     {
         return $this->request->query->get($key);
     }
 
+    /**
+     * Get the request object
+     * @return Request Request
+     */
     public function getRequest(): Request
     {
         return $this->request;
     }
 
+    /**
+     * Get the response object
+     * @return Response Response
+     */
     public function getResponse(): Response
     {
         return $this->response;
     }
 
+    /**
+     * Get the negotiated version as a string
+     * @return string Version
+     */
     public function getVersion(): string
     {
         return $this->version->getVersion();
     }
 
     /**
-     * @return Count
+     * Get the $count system query option
+     * @return Count Count
      */
     public function getCount(): Count
     {
@@ -255,7 +378,8 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Expand
+     * Get the $expand system query option
+     * @return Expand Expand
      */
     public function getExpand(): Expand
     {
@@ -263,7 +387,8 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Filter
+     * Get the $filter system query option
+     * @return Filter Filter
      */
     public function getFilter(): Filter
     {
@@ -271,7 +396,8 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return OrderBy
+     * Get the $orderby system query option
+     * @return OrderBy OrderBy
      */
     public function getOrderBy(): OrderBy
     {
@@ -279,7 +405,8 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Search
+     * Get the $search system query option
+     * @return Search Search
      */
     public function getSearch(): Search
     {
@@ -287,7 +414,8 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Select
+     * Get the $select system query option
+     * @return Select Select
      */
     public function getSelect(): Select
     {
@@ -295,7 +423,8 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Skip
+     * Get the $skip system query option
+     * @return Skip Skip
      */
     public function getSkip(): Skip
     {
@@ -303,14 +432,21 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Top
+     * Get the $top system query option
+     * @return Top Top
      */
     public function getTop(): Top
     {
         return $this->top;
     }
 
-    public function preferenceApplied($key, $value): self
+    /**
+     * Mark as requested preference as having been applied to the response object
+     * @param  string  $key  Preference
+     * @param  string  $value  Value
+     * @return $this
+     */
+    public function preferenceApplied(string $key, string $value): self
     {
         $this->response->headers->set('preference-applied', sprintf('%s=%s', $key, $value));
         $this->response->headers->set('vary', 'prefer', true);
@@ -318,16 +454,31 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
+    /**
+     * Return whether the provided preference was requested
+     * @param  string  $preference  Preference
+     * @return bool
+     */
     public function hasPreference(string $preference): bool
     {
         return $this->getPreference($preference) !== null;
     }
 
+    /**
+     * Get a requested preference as a Parameter object
+     * @param  string  $preference  Preference
+     * @return Parameter|null
+     */
     public function getPreference(string $preference): ?Parameter
     {
         return $this->preferences->getParameter($preference) ?? $this->preferences->getParameter('odata.'.$preference);
     }
 
+    /**
+     * Get the string value of a requested preference
+     * @param  string  $preference
+     * @return string|null
+     */
     public function getPreferenceValue(string $preference): ?string
     {
         $pref = $this->getPreference($preference);
@@ -335,16 +486,28 @@ class Transaction implements ArgumentInterface
         return $pref instanceof Parameter ? $pref->getValue() : null;
     }
 
+    /**
+     * Get the requested charset
+     * @return string|null
+     */
     public function getCharset(): ?string
     {
         return $this->getRequestHeader('accept-charset') ?: MediaType::factory()->parse($this->getResponseHeader('content-type'))->getParameter('charset');
     }
 
+    /**
+     * Get the content type provided by the client
+     * @return MediaType
+     */
     public function getProvidedContentType(): MediaType
     {
         return MediaType::factory()->parse($this->getRequestHeader('content-type'));
     }
 
+    /**
+     * Get the callback preference URL
+     * @return string|null Callback URL
+     */
     public function getCallbackUrl(): ?string
     {
         $preference = $this->getPreference('callback');
@@ -356,11 +519,19 @@ class Transaction implements ArgumentInterface
         return $preference->getParameter('url');
     }
 
+    /**
+     * Get the negotiated metadata type
+     * @return Metadata|null Metadata
+     */
     public function getMetadata(): ?Metadata
     {
         return $this->metadata;
     }
 
+    /**
+     * Get the content type requested by the client
+     * @return string
+     */
     public function getAcceptedContentType(): string
     {
         $formatQueryOption = $this->getFormat()->getValue();
@@ -389,14 +560,24 @@ class Transaction implements ArgumentInterface
         return '*/*';
     }
 
-    public function setContentEncoding($encoding): self
+    /**
+     * Set the content encoding response header
+     * @param  string  $encoding  Encoding
+     * @return $this
+     */
+    public function setContentEncoding(string $encoding): self
     {
         $this->sendHeader('content-encoding', $encoding);
 
         return $this;
     }
 
-    public function setContentLanguage($language): self
+    /**
+     * Set the content language response header
+     * @param  string  $language  Language
+     * @return $this
+     */
+    public function setContentLanguage(string $language): self
     {
         $this->sendHeader('content-language', $language);
 
@@ -404,13 +585,19 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * @return Format
+     * Get the requested content format
+     * @return Format Format
      */
     public function getFormat(): Format
     {
         return $this->format;
     }
 
+    /**
+     * Send the negotiated content type response header
+     * @param  MediaType  $contentType  Content type
+     * @return $this
+     */
     public function sendContentType(MediaType $contentType): self
     {
         $this->sendHeader('content-type', $contentType->toString());
@@ -418,6 +605,12 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
+    /**
+     * Send a response header
+     * @param  string  $key  Header
+     * @param  string  $value  Value
+     * @return $this
+     */
     public function sendHeader(string $key, string $value): self
     {
         $this->response->headers->set($key, $value);
@@ -425,15 +618,22 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
+    /**
+     * Get the list of URL-decoded path segments in the request
+     * @return array Path segments
+     */
     public function getPathSegments(): array
     {
         return array_map('rawurldecode', array_filter(explode('/', $this->getPath())));
     }
 
+    /**
+     * Get the request path with normalization decoding
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_URLSyntax
+     * @return string Path
+     */
     public function getPath(): string
     {
-        // Percent encoding normalization
-        // https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_URLSyntax
         $unreservedChars = array_merge(
             range('A', 'Z'),
             range('a', 'z'),
@@ -454,12 +654,22 @@ class Transaction implements ArgumentInterface
         return $path;
     }
 
+    /**
+     * Get the request path without any REST prefix
+     * @return string Path
+     */
     public function getRequestPath(): string
     {
         $route = ServiceProvider::route();
         return Str::substr($this->request->path(), strlen($route));
     }
 
+    /**
+     * Get a URL parameter alias
+     * @param  string  $key  Key
+     * @return string|null Parameter
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358951
+     */
     public function getParameterAlias(string $key): ?string
     {
         $value = $this->getQueryParam('@'.ltrim($key, '@'));
@@ -472,6 +682,11 @@ class Transaction implements ArgumentInterface
         return $value;
     }
 
+    /**
+     * Get implicit parameter aliases
+     * @param  string  $key  Key
+     * @return string|null Parameter
+     */
     public function getImplicitParameterAlias(string $key): ?string
     {
         if (in_array($key, $this->getSystemQueryOptions(false))) {
@@ -481,11 +696,19 @@ class Transaction implements ArgumentInterface
         return $this->getQueryParam($key);
     }
 
+    /**
+     * Get the request method
+     * @return string Method
+     */
     public function getMethod(): string
     {
         return $this->request->method();
     }
 
+    /**
+     * Get the request body, decoded if JSON is being provided
+     * @return string|array Body
+     */
     public function getBody()
     {
         $content = $this->request->getContent();
@@ -501,6 +724,13 @@ class Transaction implements ArgumentInterface
         return $content;
     }
 
+    /**
+     * Ensure the request method is one of the provided list or throw an exception
+     * @param  string|array  $permitted  List of permitted methods
+     * @param  string|null  $message  Error message
+     * @param  string|null  $code  Error code
+     * @throws MethodNotAllowedException
+     */
     public function ensureMethod($permitted, ?string $message = null, ?string $code = null): void
     {
         $permitted = is_array($permitted) ? $permitted : [$permitted];
@@ -532,6 +762,10 @@ class Transaction implements ArgumentInterface
         throw $exception;
     }
 
+    /**
+     * Ensure that the request content type is JSON
+     * @throws NotAcceptableException
+     */
     public function ensureContentTypeJson(): void
     {
         $subtype = $this->getProvidedContentType()->getSubtype();
@@ -548,10 +782,17 @@ class Transaction implements ArgumentInterface
             return;
         }
 
-        throw new NotAcceptableException('not_json',
-            'Content provided to this request must be supplied with a JSON content type');
+        throw new NotAcceptableException(
+            'not_json',
+            'Content provided to this request must be supplied with a JSON content type'
+        );
     }
 
+    /**
+     * Get all system query options from the request, optionally returning them with the $ prefix
+     * @param  bool  $prefixed  Use $ prefix
+     * @return string[] System query options
+     */
     private function getSystemQueryOptions(bool $prefixed = true): array
     {
         $options = [
@@ -570,10 +811,8 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get the service document context URL
-     *
      * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServiceDocument
-     *
-     * @return string
+     * @return string Context URL
      */
     public function getContextUrl(): string
     {
@@ -581,17 +820,19 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * Get the service document URL
-     *
+     * Get the service document resource URL
      * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServiceDocument
-     *
-     * @return string
+     * @return string Resource URL
      */
     public static function getResourceUrl(): string
     {
         return ServiceProvider::endpoint();
     }
 
+    /**
+     * Get request properties to expose in the context URL
+     * @return array Properties
+     */
     public function getContextUrlProperties(): array
     {
         $properties = [];
@@ -630,6 +871,10 @@ class Transaction implements ArgumentInterface
         return array_values($properties);
     }
 
+    /**
+     * Get request properties to expose in the resource URL
+     * @return array Properties
+     */
     public function getResourceUrlProperties(): array
     {
         $properties = [];
@@ -647,37 +892,61 @@ class Transaction implements ArgumentInterface
         return $properties;
     }
 
+    /**
+     * Output the start of a JSON object
+     */
     public function outputJsonObjectStart()
     {
         $this->sendOutput('{');
     }
 
+    /**
+     * Output the provided string
+     * @param  string  $string  Data
+     */
     public function sendOutput(string $string): void
     {
         echo $string;
     }
 
+    /**
+     * Output the end of a JSON object
+     */
     public function outputJsonObjectEnd()
     {
         $this->sendOutput('}');
     }
 
+    /**
+     * Output the start of a JSON array
+     */
     public function outputJsonArrayStart()
     {
         $this->sendOutput('[');
     }
 
+    /**
+     * Output the end of a JSON array
+     */
     public function outputJsonArrayEnd()
     {
         $this->sendOutput(']');
     }
 
+    /**
+     * Output a raw text value
+     * @param  string  $text  Data
+     */
     public function outputRaw(string $text)
     {
         $this->sendOutput($text);
     }
 
-    public function outputJsonKV($kv)
+    /**
+     * Output the provided associative array as a set of JSON key/values
+     * @param  array  $kv  Array
+     */
+    public function outputJsonKV(array $kv)
     {
         $keys = array_keys($kv);
 
@@ -694,11 +963,19 @@ class Transaction implements ArgumentInterface
         }
     }
 
-    public function outputJsonKey($key)
+    /**
+     * Output a JSON object key
+     * @param  string  $key  Key
+     */
+    public function outputJsonKey(string $key)
     {
         $this->sendOutput(json_encode((string) $key, JSON_UNESCAPED_SLASHES).':');
     }
 
+    /**
+     * Encode and output a JSON value
+     * @param  mixed  $value  Value
+     */
     public function outputJsonValue($value)
     {
         if ($value instanceof PropertyValue) {
@@ -712,16 +989,28 @@ class Transaction implements ArgumentInterface
         $this->sendOutput(json_encode($value, JSON_UNESCAPED_SLASHES));
     }
 
+    /**
+     * Output a JSON property separator
+     */
     public function outputJsonSeparator()
     {
         $this->sendOutput(',');
     }
 
+    /**
+     * Get the transaction ID
+     * @return string Transaction ID
+     */
     public function getId(): string
     {
         return $this->id;
     }
 
+    /**
+     * Replace the query parameters in this transaction with the ones from the provided transaction
+     * @param  Transaction  $incomingTransaction  Transaction
+     * @return $this
+     */
     public function replaceQueryParams(Transaction $incomingTransaction): self
     {
         foreach (['select'] as $param) {
@@ -731,6 +1020,12 @@ class Transaction implements ArgumentInterface
         return $this;
     }
 
+    /**
+     * Process the request represented by this transaction
+     * @return EmitInterface
+     * @throws NotFoundException
+     * @throws NoContentException
+     */
     public function execute(): EmitInterface
     {
         $pathSegments = $this->getPathSegments();
@@ -807,6 +1102,10 @@ class Transaction implements ArgumentInterface
         return $result;
     }
 
+    /**
+     * Get the navigation requests embedded in this transaction
+     * @return ObjectArray Navigation requests
+     */
     public function getNavigationRequests(): ObjectArray
     {
         $expanded = $this->getExpand()->getValue();

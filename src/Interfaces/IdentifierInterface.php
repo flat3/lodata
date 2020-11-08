@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Interfaces;
 
+/**
+ * Identifier Interface
+ * @package Flat3\Lodata\Interfaces
+ */
 interface IdentifierInterface extends NameInterface
 {
     /**
@@ -18,7 +22,7 @@ interface IdentifierInterface extends NameInterface
 
     /**
      * Get the name of this item, qualified if required based on the provided namespace
-     * @param  string  $namespace Namespace
+     * @param  string  $namespace  Namespace
      * @return string Name
      */
     public function getResolvedName(string $namespace): string;

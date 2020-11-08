@@ -4,6 +4,11 @@ namespace Flat3\Lodata\Helper;
 
 use Illuminate\Support\Str;
 
+/**
+ * Laravel
+ * Backwards compatibility functions
+ * @package Flat3\Lodata\Helper
+ */
 class Laravel
 {
     public static function afterLast($subject, $search)

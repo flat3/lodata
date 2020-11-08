@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Expression\Node\Literal;
 use DateTime;
 use Flat3\Lodata\Expression\Node\Literal;
 
+/**
+ * Time Of Day
+ * @package Flat3\Lodata\Expression\Node\Literal
+ */
 class TimeOfDay extends Literal
 {
     public function getValue(): DateTime

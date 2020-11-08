@@ -27,8 +27,18 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 
+/**
+ * PostgreSQL Filter
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait PostgreSQLFilter
 {
+    /**
+     * PostgreSQL-specific SQL filter generation
+     * @param  Event  $event  Filter event
+     * @return bool|null
+     * @throws NodeHandledException
+     */
     public function pgsqlFilter(Event $event): ?bool
     {
         switch (true) {

@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Exception\Protocol;
 
 use Illuminate\Http\Response;
 
+/**
+ * Not Found Exception
+ * @package Flat3\Lodata\Exception\Protocol
+ */
 class NotFoundException extends ProtocolException
 {
     protected $httpCode = Response::HTTP_NOT_FOUND;

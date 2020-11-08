@@ -2,14 +2,21 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+/**
+ * SQL Parameters
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLParameters
 {
-    /** @var string[] $parameters */
+    /**
+     * Prepared statement parameters
+     * @var string[] $parameters
+     * @internal
+     */
     protected $parameters = [];
 
     /**
      * Add a parameter
-     *
      * @param $parameter
      */
     protected function addParameter($parameter): void
@@ -17,11 +24,18 @@ trait SQLParameters
         $this->parameters[] = $parameter;
     }
 
+    /**
+     * Get all parameters
+     * @return array Parameters
+     */
     public function getParameters(): array
     {
         return $this->parameters;
     }
 
+    /**
+     * Clear all parameters
+     */
     protected function resetParameters(): void
     {
         $this->parameters = [];

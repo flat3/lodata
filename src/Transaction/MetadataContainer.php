@@ -5,18 +5,34 @@ namespace Flat3\Lodata\Transaction;
 use ArrayAccess;
 use Illuminate\Support\Arr;
 
+/**
+ * Metadata Container
+ * @package Flat3\Lodata\Transaction
+ */
 class MetadataContainer implements ArrayAccess
 {
-    /** @var Metadata $metadata */
+    /**
+     * The metadata type in use by this container
+     * @var Metadata $metadata
+     */
     protected $metadata;
 
-    /** @var array $values */
+    /**
+     * The metadata values in this container
+     * @var array $values
+     */
     protected $values = [];
 
-    /** @var array $requiredProperties */
+    /**
+     * The additional required properties for this metadata container
+     * @var array $requiredProperties
+     */
     protected $requiredProperties = [];
 
-    /** @var string $prefix */
+    /**
+     * The prefix applied to properties in this container
+     * @var string $prefix
+     */
     protected $prefix = '';
 
     public function __construct(Metadata $metadata)
@@ -24,24 +40,45 @@ class MetadataContainer implements ArrayAccess
         $this->metadata = $metadata;
     }
 
+    /**
+     * Set a metadata property
+     * @param $key
+     * @param $value
+     * @return $this
+     */
     public function set($key, $value): self
     {
         $this->values[$key] = $value;
         return $this;
     }
 
+    /**
+     * Set the prefix applied to these properties
+     * @param  string  $prefix
+     * @return $this
+     */
     public function setPrefix(string $prefix): self
     {
         $this->prefix = $prefix;
         return $this;
     }
 
+    /**
+     * Add a required property on this container
+     * @param  string  $property
+     * @return $this
+     */
     public function addRequiredProperty(string $property): self
     {
         $this->requiredProperties[] = $property;
         return $this;
     }
 
+    /**
+     * Remove a required property from this container
+     * @param  string  $property
+     * @return $this
+     */
     public function dropRequiredProperty(string $property): self
     {
         Arr::forget($this->requiredProperties, $property);
@@ -49,10 +86,8 @@ class MetadataContainer implements ArrayAccess
     }
 
     /**
-     * Filter the response metadata based on the requested metadata type
-     *
-     * https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
-     *
+     * Get the metadata properties, filtered according to the type and list of required properties
+     * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
      * @return array
      */
     public function getMetadata(): array
@@ -84,6 +119,10 @@ class MetadataContainer implements ArrayAccess
         return $result;
     }
 
+    /**
+     * Whether this container will contain any properties after processing
+     * @return bool
+     */
     public function hasMetadata(): bool
     {
         return !!$this->getMetadata();

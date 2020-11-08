@@ -35,6 +35,10 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
+/**
+ * SQL Entity Set
+ * @package Flat3\Lodata\Drivers
+ */
 class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface
 {
     use SQLConnection;
@@ -47,10 +51,18 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         generateWhere as protected sqlGenerateWhere;
     }
 
-    /** @var ObjectArray $sourceMap Mapping of OData properties to source identifiers */
+    /**
+     * Mapping of OData properties to source identifiers
+     * @var ObjectArray $sourceMap
+     * @internal
+     */
     protected $sourceMap;
 
-    /** @var string $table */
+    /**
+     * Database table for this entity sett
+     * @var string $table
+     * @internal
+     */
     private $table;
 
     public function __construct(string $name, EntityType $entityType)
@@ -59,27 +71,51 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->sourceMap = new ObjectArray();
     }
 
+    /**
+     * Get the table name used by this entity set
+     * @return string Table name
+     */
     public function getTable(): string
     {
         return $this->table ?: $this->identifier->getName();
     }
 
+    /**
+     * Set the table name used by this entity set
+     * @param  string  $table  Table name
+     * @return $this
+     */
     public function setTable(string $table): self
     {
         $this->table = $table;
         return $this;
     }
 
+    /**
+     * Convert the provided entity type property to a qualified database field
+     * @param  Property  $property  Property
+     * @return string Qualified field name
+     */
     protected function propertyToField(Property $property): string
     {
         return sprintf('%s.`%s`', $this->getTable(), $this->getPropertySourceName($property));
     }
 
+    /**
+     * Get the underlying database field name for the given entity type property
+     * @param  Property  $property  Property
+     * @return string Field name
+     */
     public function getPropertySourceName(Property $property): string
     {
         return $this->sourceMap[$property] ?? $property->getName();
     }
 
+    /**
+     * Read an SQL record
+     * @param  PropertyValue  $key  Key
+     * @return Entity|null Entity
+     */
     public function read(PropertyValue $key): ?Entity
     {
         $this->resetParameters();
@@ -102,6 +138,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->assocToEntity($result);
     }
 
+    /**
+     * Count the number of records matching the query
+     * @return int Count
+     */
     public function count(): int
     {
         $this->resetParameters();
@@ -110,12 +150,17 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $query->fetchColumn();
     }
 
-    private function pdoModify(string $query_string): ?int
+    /**
+     * Generate a PDO-compatible SQL query that modifies the database
+     * @param  string  $queryString  Query string
+     * @return int|null Affected row ID
+     */
+    private function pdoModify(string $queryString): ?int
     {
         $dbh = $this->getHandle();
 
         try {
-            $stmt = $dbh->prepare($query_string);
+            $stmt = $dbh->prepare($queryString);
             $this->bindParameters($stmt);
             $stmt->execute();
         } catch (PDOException $e) {
@@ -126,22 +171,33 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $dbh->lastInsertId();
     }
 
-    private function pdoSelect(string $query_string): PDOStatement
+    /**
+     * Generate a PDO-compatible SQL query that selects from the database
+     * @param  string  $queryString  Query string
+     * @return PDOStatement PDO statement handle
+     */
+    private function pdoSelect(string $queryString): PDOStatement
     {
         $dbh = $this->getHandle();
 
         try {
-            $stmt = $dbh->prepare($query_string);
+            $stmt = $dbh->prepare($queryString);
             $this->bindParameters($stmt);
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new InternalServerErrorException('query_error',
-                sprintf('The executed query returned an error: %s', $e->getMessage()));
+            throw new InternalServerErrorException(
+                'query_error',
+                sprintf('The executed query returned an error: %s', $e->getMessage())
+            );
         }
 
         return $stmt;
     }
 
+    /**
+     * Apply the generated bind parameters to the provided PDO statement
+     * @param  PDOStatement  $stmt  PDO statement handle
+     */
     protected function bindParameters(PDOStatement $stmt)
     {
         $parameters = $this->parameters;
@@ -156,8 +212,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     /**
      * Get a version of the query string that counts the total number of rows in the collection
-     *
-     * @return string
+     * @return string Query string
      */
     public function getRowCountQueryString(): string
     {
@@ -173,6 +228,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $queryString;
     }
 
+    /**
+     * Convert an associative array record to an OData entity
+     * @param  array  $row  Record
+     * @return Entity Entity
+     */
     public function assocToEntity(array $row): Entity
     {
         $entity = $this->newEntity();
@@ -190,6 +250,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $entity;
     }
 
+    /**
+     * Run a PDO query and return the results
+     * @return array Result buffer
+     */
     public function query(): array
     {
         $stmt = $this->pdoSelect($this->getSetResultQueryString());
@@ -203,6 +267,9 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $results;
     }
 
+    /**
+     * Generate the where clause for this query
+     */
     public function generateWhere(): void
     {
         $this->sqlGenerateWhere();
@@ -217,6 +284,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->addParameter($key->getPrimitiveValue()->get());
     }
 
+    /**
+     * Get the query string representing the query result
+     * @return string Query string
+     */
     public function getSetResultQueryString(): string
     {
         $this->resetParameters();
@@ -236,6 +307,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $query;
     }
 
+    /**
+     * Determine the list of columns to include in the query result
+     * @return string Columns
+     */
     protected function getColumnsToQuery(): string
     {
         $select = $this->transaction->getSelect();
@@ -251,6 +326,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->propertiesToColumns($properties);
     }
 
+    /**
+     * Convert the provided entity type property list to a list of SQL fields
+     * @param  ObjectArray  $properties  Properties
+     * @return string SQL fields
+     */
     protected function propertiesToColumns(ObjectArray $properties): string
     {
         $columns = [];
@@ -272,11 +352,9 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     }
 
     /**
-     * Apply casts based on property type
-     *
-     * @param  Property  $property
-     *
-     * @return string
+     * Apply an SQL cast based on the provided property type
+     * @param  Property  $property  Property
+     * @return string SQL field with cast
      */
     protected function propertyToColumn(Property $property): string
     {
@@ -285,6 +363,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return sprintf('%s AS %s', $column, $property->getName());
     }
 
+    /**
+     * Create a new record
+     * @return Entity Entity
+     */
     public function create(): Entity
     {
         $entity = $this->newEntity();
@@ -329,6 +411,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->read($key);
     }
 
+    /**
+     * Update an existing record
+     * @param  PropertyValue  $key  Key
+     * @return Entity Entity
+     */
     public function update(PropertyValue $key): Entity
     {
         $this->resetParameters();
@@ -362,6 +449,10 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         return $this->read($key);
     }
 
+    /**
+     * Delete a record
+     * @param  PropertyValue  $key  Key
+     */
     public function delete(PropertyValue $key)
     {
         $this->resetParameters();
@@ -378,6 +469,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->pdoModify($query);
     }
 
+    /**
+     * Set the transaction that applies to this entity set instance, and validate the transaction request
+     * @param  Transaction  $transaction  Transaction
+     * @return $this
+     */
     public function setTransaction(Transaction $transaction): EntitySet
     {
         parent::setTransaction($transaction);

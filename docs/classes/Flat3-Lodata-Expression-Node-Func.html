@@ -106,7 +106,10 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Expression.html">Expression</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Expression-Node.html">Node</a></li>
                             </ul>
         </div>
     
@@ -116,10 +119,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node/Func.php"><a href="files/src-expression-node-func.html"><abbr title="src/Expression/Node/Func.php">Func.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Function</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
 
@@ -163,9 +168,9 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Node.html#constant_symbol">symbol</a>
+    <a href="classes/Flat3-Lodata-Expression-Operator.html#constant_symbol">symbol</a>
     <span>
-        &nbsp;= &#039;&#039;                    </span>
+        &nbsp;= null                    </span>
 </dt>
 <dd></dd>
 
@@ -176,42 +181,7 @@
 </dt>
 <dd></dd>
 
-                <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Expression-Node.html#property_parser">$parser</a>
-    <span>
-                &nbsp;: <a href="classes/Flat3-Lodata-Expression-Parser.html"><abbr title="\Flat3\Lodata\Expression\Parser">Parser</abbr></a>            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Expression-Node.html#property_value">$value</a>
-    <span>
-                &nbsp;: mixed            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/Flat3-Lodata-Expression-Node.html#property_arg1">$arg1</a>
-    <span>
-                &nbsp;: self            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/Flat3-Lodata-Expression-Node.html#property_arg2">$arg2</a>
-    <span>
-                &nbsp;: self            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/Flat3-Lodata-Expression-Node.html#property_args">$args</a>
-    <span>
-                &nbsp;: array&lt;string|int, self&gt;            </span>
-</dt>
-<dd></dd>
-
-                <dt class="phpdocumentor-table-of-contents__entry -method -public">
+                    <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Node.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
@@ -221,9 +191,9 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Node.html#method___toString">__toString()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Convert this node to a string representation</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Node.html#method_addArgument">addArgument()</a>
@@ -237,7 +207,7 @@
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd>Compute the value of this node</dd>
+<dd>Compute the value of this operator</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Node.html#method_getArguments">getArguments()</a>
@@ -251,7 +221,7 @@
     <span>
                         &nbsp;: self    </span>
 </dt>
-<dd></dd>
+<dd>Get the left node</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Operator.html#method_getPrecedence">getPrecedence()</a>
@@ -265,7 +235,7 @@
     <span>
                         &nbsp;: self    </span>
 </dt>
-<dd></dd>
+<dd>Get the right node</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Operator.html#method_getSymbol">getSymbol()</a>
@@ -321,14 +291,14 @@
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd></dd>
+<dd>Compute the comma separated arguments provided to this operator</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/Flat3-Lodata-Expression-Node.html#method_expressionEvent">expressionEvent()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd></dd>
+<dd>Handle an expression event</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/Flat3-Lodata-Expression-Node-Func.html#method_validateArguments">validateArguments()</a>
@@ -356,7 +326,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node/Func.php"><a href="files/src-expression-node-func.html"><abbr title="src/Expression/Node/Func.php">Func.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 </aside>
 
     
@@ -382,7 +352,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
     
@@ -407,7 +377,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node/Func.php"><a href="files/src-expression-node-func.html"><abbr title="src/Expression/Node/Func.php">Func.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 </aside>
 
     
@@ -432,7 +402,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 </aside>
 
     
@@ -451,26 +421,25 @@
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_symbol">
         symbol
-        <a href="classes/Flat3-Lodata-Expression-Node.html#constant_symbol" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Expression-Operator.html#constant_symbol" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">symbol</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">null</span>
 </code>
 
 
-        <section class="phpdocumentor-description"></section>
-
+    
     
 
 </article>
@@ -483,7 +452,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node/Func.php"><a href="files/src-expression-node-func.html"><abbr title="src/Expression/Node/Func.php">Func.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
     
@@ -502,167 +471,6 @@
             </section>
 
         
-    <section class="phpdocumentor-properties">
-        <h3 class="phpdocumentor-elements__header" id="properties">
-            Properties
-            <a href="classes/Flat3-Lodata-Expression-Node-Func.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
-        </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_parser">
-        $parser
-        <a href="classes/Flat3-Lodata-Expression-Node.html#property_parser" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">17</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Expression-Parser.html"><abbr title="\Flat3\Lodata\Expression\Parser">Parser</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$parser</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_value">
-        $value
-        <a href="classes/Flat3-Lodata-Expression-Node.html#property_value" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">14</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$value</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_arg1">
-        $arg1
-        <a href="classes/Flat3-Lodata-Expression-Node.html#property_arg1" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">23</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">self</span>
-    <span class="phpdocumentor-signature__name">$arg1</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_arg2">
-        $arg2
-        <a href="classes/Flat3-Lodata-Expression-Node.html#property_arg2" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">26</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">self</span>
-    <span class="phpdocumentor-signature__name">$arg2</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_args">
-        $args
-        <a href="classes/Flat3-Lodata-Expression-Node.html#property_args" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">20</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, self&gt;</span>
-    <span class="phpdocumentor-signature__name">$args</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
@@ -682,7 +490,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 </aside>
 
     
@@ -724,20 +532,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">106</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Convert this node to a string representation</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__toString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__toString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -756,7 +566,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add an argument to the argument list</p>
@@ -801,10 +611,10 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node/Func.php"><a href="files/src-expression-node-func.html"><abbr title="src/Expression/Node/Func.php">Func.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Compute the value of this node</p>
+        <p class="phpdocumentor-summary">Compute the value of this operator</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -835,7 +645,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">143</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the arguments list for this operator</p>
@@ -869,10 +679,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">93</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the left node</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getLeftNode</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
@@ -885,8 +696,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">self</span>
             &mdash;
-            <section class="phpdocumentor-description"><p>The left node, or <code class="prettyprint">null</code> if there isn't one</p>
-</section>
+            <section class="phpdocumentor-description"></section>
 
     
 </article>
@@ -903,7 +713,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the precedence of the operator</p>
@@ -937,10 +747,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">125</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the right node</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getRightNode</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
@@ -953,8 +764,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">self</span>
             &mdash;
-            <section class="phpdocumentor-description"><p>The right node, or <code class="prettyprint">null</code> if there isn't one</p>
-</section>
+            <section class="phpdocumentor-description"></section>
 
     
 </article>
@@ -971,7 +781,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the symbol for this operator</p>
@@ -1005,7 +815,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the value of this node</p>
@@ -1039,7 +849,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return whether the operator is right-associative</p>
@@ -1107,7 +917,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the left node</p>
@@ -1152,7 +962,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">74</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the right node</p>
@@ -1197,7 +1007,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">101</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the value of this node</p>
@@ -1242,15 +1052,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Operator.php"><a href="files/src-expression-operator.html"><abbr title="src/Expression/Operator.php">Operator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Compute the comma separated arguments provided to this operator</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
                 <span class="phpdocumentor-signature__name">computeCommaSeparatedArguments</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -1274,15 +1086,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node.php"><a href="files/src-expression-node.html"><abbr title="src/Expression/Node.php">Node.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">153</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Handle an expression event</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
                 <span class="phpdocumentor-signature__name">expressionEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Expression-Event.html"><abbr title="\Flat3\Lodata\Expression\Event">Event</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1290,11 +1104,28 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Expression-Event.html"><abbr title="\Flat3\Lodata\Expression\Event">Event</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Event</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Flat3-Lodata-Exception-Protocol-NotImplementedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\NotImplementedException">NotImplementedException</abbr></a></span>
+                                                            
+                                                 <section class="phpdocumentor-description"></section>
+
+                                    </dd>
+                        </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">void</span>
@@ -1316,7 +1147,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Node/Func.php"><a href="files/src-expression-node-func.html"><abbr title="src/Expression/Node/Func.php">Func.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 </aside>
 
         <p class="phpdocumentor-summary">Validate the arguments for this function are syntactically correct</p>

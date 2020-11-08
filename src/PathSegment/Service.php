@@ -10,6 +10,10 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Illuminate\Http\Request;
 
+/**
+ * Service
+ * @package Flat3\Lodata\PathSegment
+ */
 class Service implements EmitInterface
 {
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -21,6 +25,10 @@ class Service implements EmitInterface
         });
     }
 
+    /**
+     * Emit the service document
+     * @param  Transaction  $transaction  Transaction
+     */
     public function emit(Transaction $transaction): void
     {
         $transaction->outputJsonObjectStart();

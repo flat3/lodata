@@ -13,9 +13,9 @@ class OData extends Controller
 {
     /**
      * Handle an OData request
-     * @param  Request  $request The request
-     * @param  Transaction  $transaction Injected transaction
-     * @param  Async  $job Injected job
+     * @param  Request  $request  The request
+     * @param  Transaction  $transaction  Injected transaction
+     * @param  Async  $job  Injected job
      * @return Response Client response
      */
     public function handle(Request $request, Transaction $transaction, Async $job)

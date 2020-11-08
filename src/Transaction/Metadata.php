@@ -8,16 +8,19 @@ use Flat3\Lodata\Transaction\Metadata\Minimal;
 use Flat3\Lodata\Transaction\Metadata\None;
 
 /**
- * Class Metadata
- *
- * https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
+ * Metadata
+ * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
+ * @package Flat3\Lodata\Transaction
  */
 abstract class Metadata
 {
     public const name = '';
     protected $requiredProperties = [];
 
-    /** @var Version $version */
+    /**
+     * OData version
+     * @var Version $version
+     */
     private $version;
 
     public function __construct(Version $version)
@@ -25,6 +28,12 @@ abstract class Metadata
         $this->version = $version;
     }
 
+    /**
+     * Generate a new metadata object
+     * @param  string|null  $type
+     * @param  Version  $version
+     * @return static
+     */
     public static function factory(?string $type, Version $version): self
     {
         if (!$type) {
@@ -48,21 +57,37 @@ abstract class Metadata
         );
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString()
     {
         return $this::name;
     }
 
+    /**
+     * Get a new metadata container from this metadata object
+     * @return MetadataContainer
+     */
     public function getContainer(): MetadataContainer
     {
         return new MetadataContainer($this);
     }
 
+    /**
+     * Get the list of properties required by this metadata type
+     * @return array
+     */
     public function getRequiredProperties(): array
     {
         return $this->requiredProperties;
     }
 
+    /**
+     * Get the OData version attached to this metadata type
+     * @return Version
+     */
     public function getVersion(): Version
     {
         return $this->version;

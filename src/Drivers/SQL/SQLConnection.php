@@ -6,8 +6,17 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
 use PDO;
 
+/**
+ * SQL Connection
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLConnection
 {
+    /**
+     * Database connection name
+     * @var string $connection
+     * @internal
+     */
     protected $connection = null;
 
     public function getConnectionName(): string

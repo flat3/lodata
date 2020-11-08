@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Type;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
+/**
+ * Decimal
+ * @package Flat3\Lodata\Type
+ */
 class Decimal extends Primitive
 {
     const identifier = 'Edm.Decimal';

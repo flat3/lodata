@@ -27,7 +27,7 @@ class EntityType extends ComplexType
 
     /**
      * Set the entity type key property
-     * @param  DeclaredProperty  $key Key property
+     * @param  DeclaredProperty  $key  Key property
      * @return $this
      */
     public function setKey(DeclaredProperty $key): self

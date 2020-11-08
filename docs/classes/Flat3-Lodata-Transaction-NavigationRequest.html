@@ -102,7 +102,9 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Transaction.html">Transaction</a></li>
                             </ul>
         </div>
     
@@ -115,10 +117,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Navigation Request</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
 
@@ -132,7 +136,7 @@
 
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-RequestInterface.html"><abbr title="\Flat3\Lodata\Interfaces\RequestInterface">RequestInterface</abbr></a></dt>
-        <dd></dd>
+        <dd>Request Interface</dd>
     
     
     </dl>
@@ -149,21 +153,21 @@
     <span>
                 &nbsp;: <abbr title="\Illuminate\Http\Request">Request</abbr>            </span>
 </dt>
-<dd></dd>
+<dd>Base request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#property_basePath">$basePath</a>
     <span>
-                &nbsp;: mixed            </span>
+                &nbsp;: string            </span>
 </dt>
-<dd></dd>
+<dd>Navigation path of this request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#property_navigationProperty">$navigationProperty</a>
     <span>
                 &nbsp;: <a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a>            </span>
 </dt>
-<dd></dd>
+<dd>Navigation property attached to this request</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method___call">__call()</a>
@@ -187,53 +191,46 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method___toString">__toString()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_getNavigationProperty">getNavigationProperty()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a>    </span>
 </dt>
-<dd></dd>
+<dd>Get the navigation property for this request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_path">path()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the path of this request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_setNavigationProperty">setNavigationProperty()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the navigation property for this request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_setOuterRequest">setOuterRequest()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the outer request that generated this request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_setPath">setPath()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the path of this request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_setQueryString">setQueryString()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the query string on this request</dd>
 
         </dl>
 
@@ -263,10 +260,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Base request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type"><abbr title="\Illuminate\Http\Request">Request</abbr></span>
@@ -294,17 +292,19 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Navigation path of this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$basePath</span>
     </code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
 
 </article>
@@ -324,10 +324,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Navigation property attached to this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a></span>
@@ -359,7 +360,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">121</span>
 </aside>
 
     
@@ -408,7 +409,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 </aside>
 
     
@@ -440,7 +441,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 </aside>
 
     
@@ -475,38 +476,6 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___toString">
-        __toString()
-        <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method___toString" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">65</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__toString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getNavigationProperty">
         getNavigationProperty()
         <a href="classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_getNavigationProperty" class="headerlink"><i class="fas fa-link"></i></a>
@@ -514,15 +483,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the navigation property for this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getNavigationProperty</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -546,22 +517,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the path of this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">path</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">path</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Path</p>
+</section>
 
     
 </article>
@@ -578,15 +552,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">91</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the navigation property for this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setNavigationProperty</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$navigationProperty</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setNavigationProperty</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$navigationProperty</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -594,14 +570,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-NavigationProperty.html"><abbr title="\Flat3\Lodata\NavigationProperty">NavigationProperty</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Navigation property</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -620,15 +598,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the outer request that generated this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setOuterRequest</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Illuminate\Http\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setOuterRequest</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Illuminate\Http\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -636,14 +616,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Illuminate\Http\Request">Request</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Request</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -662,15 +644,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">79</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the path of this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -678,14 +662,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Path</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -704,15 +690,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/NavigationRequest.php"><a href="files/src-transaction-navigationrequest.html"><abbr title="src/Transaction/NavigationRequest.php">NavigationRequest.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the query string on this request</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setQueryString</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$queryString</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setQueryString</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$queryString</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -720,14 +708,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Query string</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 

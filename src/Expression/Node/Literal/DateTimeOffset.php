@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Expression\Node\Literal;
 use DateTime;
 use Flat3\Lodata\Expression\Node\Literal;
 
+/**
+ * DateTimeOffset
+ * @package Flat3\Lodata\Expression\Node\Literal
+ */
 class DateTimeOffset extends Literal
 {
     public function getValue(): DateTime
