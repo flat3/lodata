@@ -8,13 +8,25 @@ use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Connection;
 
+/**
+ * SQL Schema
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLSchema
 {
+    /**
+     * Get list of defined type casts
+     * @return array Type casts
+     */
     public function getCasts(): array
     {
         return [];
     }
 
+    /**
+     * Discover SQL fields on this entity set as OData properties
+     * @return $this
+     */
     public function discoverProperties()
     {
         /** @var Connection $connection */
@@ -74,6 +86,11 @@ trait SQLSchema
         return $this;
     }
 
+    /**
+     * Convert an SQL type to an OData primitive type
+     * @param  string  $type  SQL type
+     * @return PrimitiveType OData type
+     */
     public function sqlTypeToPrimitiveType(string $type): PrimitiveType
     {
         switch ($type) {

@@ -8,23 +8,42 @@ use Flat3\Lodata\Controller\ODCFF;
 use Flat3\Lodata\Controller\PBIDS;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Service Provider
+ * @link https://laravel.com/docs/8.x/providers
+ * @package Flat3\Lodata
+ */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    /**
+     * Get the endpoint of the OData service document
+     * @return string
+     */
     public static function endpoint(): string
     {
         return url(self::route()).'/';
     }
 
+    /**
+     * Get the configured route prefix
+     * @return string
+     */
     public static function route(): string
     {
         return rtrim(config('lodata.prefix'), '/');
     }
 
+    /**
+     * Service provider registration method
+     */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config.php', 'lodata');
     }
 
+    /**
+     * Service provider boot method
+     */
     public function boot()
     {
         if ($this->app->runningInConsole()) {

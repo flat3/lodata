@@ -8,9 +8,9 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Transaction\Option;
 
 /**
- * Class Select
- *
- * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionselect
+ * Select
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionselect
+ * @package Flat3\Lodata\Transaction\Option
  */
 class Select extends Option
 {

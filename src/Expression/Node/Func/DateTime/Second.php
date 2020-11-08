@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Expression\Node\Func\DateTime;
 
 use Flat3\Lodata\Expression\Node\Func;
 
+/**
+ * Second
+ * @package Flat3\Lodata\Expression\Node\Func\DateTime
+ */
 class Second extends Func
 {
     public const symbol = 'second';

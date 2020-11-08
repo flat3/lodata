@@ -23,7 +23,7 @@ use Flat3\Lodata\Type\TimeOfDay;
 use TypeError;
 
 /**
- * Class Type
+ * Type
  * @method static PrimitiveType binary()
  * @method static PrimitiveType boolean()
  * @method static PrimitiveType byte()
@@ -45,6 +45,11 @@ use TypeError;
  */
 abstract class Type
 {
+    /**
+     * Generate a new type container
+     * @param  string  $name  Type name
+     * @return PrimitiveType OData primitive type
+     */
     public static function __callStatic($name, $arguments): PrimitiveType
     {
         $resolver = [
@@ -74,6 +79,13 @@ abstract class Type
         return new PrimitiveType($resolver[$name]);
     }
 
+    /**
+     * Cast a PHP type to an OData primitive
+     * @param  string  $type  PHP type
+     * @param  mixed  $value  Value
+     * @return Primitive Primitive representation of type
+     * @internal
+     */
     public static function castInternalType(string $type, $value): Primitive
     {
         switch ($type) {
@@ -93,5 +105,10 @@ abstract class Type
         throw new TypeError('Could not cast the provided internal type');
     }
 
+    /**
+     * Generate a new primitive instance of this type from the provided value
+     * @param  mixed|null  $value  Value
+     * @return Primitive OData primitive
+     */
     abstract public function instance($value = null);
 }

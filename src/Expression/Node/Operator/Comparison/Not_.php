@@ -8,6 +8,10 @@ use Flat3\Lodata\Expression\Event\Operator;
 use Flat3\Lodata\Expression\Event\StartGroup;
 use Flat3\Lodata\Expression\Node\Operator\Comparison;
 
+/**
+ * Not
+ * @package Flat3\Lodata\Expression\Node\Operator\Comparison
+ */
 class Not_ extends Comparison
 {
     public const symbol = 'not';

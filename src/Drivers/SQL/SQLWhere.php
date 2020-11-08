@@ -7,18 +7,33 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
+/**
+ * SQL Where
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLWhere
 {
     use SQLParameters;
 
-    /** @var string $where */
+    /**
+     * The where clause
+     * @var string $where
+     * @internal
+     */
     protected $where = '';
 
+    /**
+     * Add a statement to the where clause
+     * @param  string  $where  Where clause
+     */
     protected function addWhere(string $where): void
     {
         $this->where .= ' '.$where;
     }
 
+    /**
+     * Generate where clauses for filter and search parameters
+     */
     protected function generateWhere(): void
     {
         $this->where = '';
@@ -58,6 +73,9 @@ trait SQLWhere
         }
     }
 
+    /**
+     * Attach an AND statement to the where clause if required
+     */
     protected function whereMaybeAnd(): void
     {
         if ($this->where) {

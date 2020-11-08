@@ -7,14 +7,28 @@ use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\NavigationProperty;
 use Illuminate\Http\Request;
 
+/**
+ * Navigation Request
+ * @package Flat3\Lodata\Transaction
+ */
 class NavigationRequest implements RequestInterface
 {
-    /** @var NavigationProperty $navigationProperty */
+    /**
+     * Navigation property attached to this request
+     * @var NavigationProperty $navigationProperty
+     */
     protected $navigationProperty;
 
-    /** @var Request $request */
+    /**
+     * Base request
+     * @var Request $request
+     */
     public $request;
 
+    /**
+     * Navigation path of this request
+     * @var string $basePath
+     */
     protected $basePath;
 
     public function __construct()
@@ -22,6 +36,11 @@ class NavigationRequest implements RequestInterface
         $this->request = new Request();
     }
 
+    /**
+     * Set the outer request that generated this request
+     * @param  Request  $request  Request
+     * @return $this
+     */
     public function setOuterRequest(Request $request): self
     {
         $this->request = $request;
@@ -29,6 +48,11 @@ class NavigationRequest implements RequestInterface
         return $this;
     }
 
+    /**
+     * Set the query string on this request
+     * @param  string  $queryString  Query string
+     * @return $this
+     */
     public function setQueryString(string $queryString): self
     {
         $lexer = new Lexer($queryString);
@@ -38,11 +62,20 @@ class NavigationRequest implements RequestInterface
         return $this;
     }
 
+    /**
+     * Get the path of this request
+     * @return string Path
+     */
     public function path()
     {
         return $this->basePath;
     }
 
+    /**
+     * Set the path of this request
+     * @param  string  $path  Path
+     * @return $this
+     */
     public function setPath(string $path): self
     {
         $this->basePath = $path;
@@ -50,6 +83,11 @@ class NavigationRequest implements RequestInterface
         return $this;
     }
 
+    /**
+     * Set the navigation property for this request
+     * @param  NavigationProperty  $navigationProperty  Navigation property
+     * @return $this
+     */
     public function setNavigationProperty(NavigationProperty $navigationProperty): self
     {
         $this->navigationProperty = $navigationProperty;
@@ -57,11 +95,19 @@ class NavigationRequest implements RequestInterface
         return $this;
     }
 
+    /**
+     * Get the navigation property for this request
+     * @return NavigationProperty
+     */
     public function getNavigationProperty(): NavigationProperty
     {
         return $this->navigationProperty;
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString()
     {
         return $this->path();

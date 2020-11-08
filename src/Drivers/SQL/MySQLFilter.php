@@ -31,8 +31,18 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
 
+/**
+ * MySQL Filter
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait MySQLFilter
 {
+    /**
+     * MySQL-specific SQL filter generation
+     * @param  Event  $event  Filter event
+     * @return bool|null
+     * @throws NodeHandledException
+     */
     public function mysqlFilter(Event $event): ?bool
     {
         switch (true) {

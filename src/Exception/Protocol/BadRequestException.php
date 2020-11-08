@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Exception\Protocol;
 use Flat3\Lodata\Expression\Lexer;
 use Illuminate\Http\Response;
 
+/**
+ * Bad Request Exception
+ * @package Flat3\Lodata\Exception\Protocol
+ */
 class BadRequestException extends ProtocolException
 {
     protected $httpCode = Response::HTTP_BAD_REQUEST;

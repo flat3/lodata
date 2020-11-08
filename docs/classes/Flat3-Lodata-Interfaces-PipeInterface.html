@@ -100,7 +100,9 @@
                 <div class="phpdocumentor-element__package">
             in
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li><a href="packages/Default.html">Default</a></li>
+                                    <li><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li><a href="packages/Flat3-Lodata-Interfaces.html">Interfaces</a></li>
                             </ul>
         </div>
     </h2>
@@ -108,10 +110,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Interfaces/PipeInterface.php"><a href="files/src-interfaces-pipeinterface.html"><abbr title="src/Interfaces/PipeInterface.php">PipeInterface.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">12</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Pipe Interface</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
 
@@ -131,7 +135,7 @@
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null    </span>
 </dt>
-<dd></dd>
+<dd>Path component handler</dd>
 
         </dl>
 
@@ -157,15 +161,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Interfaces/PipeInterface.php"><a href="files/src-interfaces-pipeinterface.html"><abbr title="src/Interfaces/PipeInterface.php">PipeInterface.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">9</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Path component handler</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">pipe</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$currentSegment</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$nextSegment</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$argument</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -173,37 +179,62 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Related transaction</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$currentSegment</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The current path segment</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$nextSegment</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The next path segment</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$argument</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The previous path segment</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Flat3-Lodata-Exception-Internal-PathNotHandledException.html"><abbr title="\Flat3\Lodata\Exception\Internal\PathNotHandledException">PathNotHandledException</abbr></a></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the path is not handled by this implementation</p>
+</section>
+
+                                    </dd>
+                        </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>The processed path segment if handled by this implementation</p>
+</section>
 
     
 </article>

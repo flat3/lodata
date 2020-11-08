@@ -106,7 +106,10 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Expression.html">Expression</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Expression-Event.html">Event</a></li>
                             </ul>
         </div>
     
@@ -116,10 +119,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Event/Field.php"><a href="files/src-expression-event-field.html"><abbr title="src/Expression/Event/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">11</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Field</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
 
@@ -134,14 +139,7 @@
 </h3>
 
 <dl class="phpdocumentor-table-of-contents">
-                <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/Flat3-Lodata-Expression-Event.html#property_node">$node</a>
-    <span>
-                &nbsp;: <a href="classes/Flat3-Lodata-Expression-Node.html"><abbr title="\Flat3\Lodata\Expression\Node">Node</abbr></a>            </span>
-</dt>
-<dd></dd>
-
-                <dt class="phpdocumentor-table-of-contents__entry -method -public">
+                    <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Event.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
@@ -151,16 +149,16 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Event.html#method_getNode">getNode()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Expression-Node.html"><abbr title="\Flat3\Lodata\Expression\Node">Node</abbr></a>|null    </span>
 </dt>
-<dd></dd>
+<dd>Get the attached AST node</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Expression-Event.html#method_getValue">getValue()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: mixed|null    </span>
 </dt>
-<dd></dd>
+<dd>Get the value of the attached AST node</dd>
 
         </dl>
 
@@ -169,43 +167,6 @@
         
 
         
-    <section class="phpdocumentor-properties">
-        <h3 class="phpdocumentor-elements__header" id="properties">
-            Properties
-            <a href="classes/Flat3-Lodata-Expression-Event-Field.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
-        </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_node">
-        $node
-        <a href="classes/Flat3-Lodata-Expression-Event.html#property_node" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Event.php"><a href="files/src-expression-event.html"><abbr title="src/Expression/Event.php">Event.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">8</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Expression-Node.html"><abbr title="\Flat3\Lodata\Expression\Node">Node</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$node</span>
-    </code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
@@ -225,7 +186,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Event.php"><a href="files/src-expression-event.html"><abbr title="src/Expression/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
     
@@ -267,22 +228,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Event.php"><a href="files/src-expression-event.html"><abbr title="src/Expression/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the attached AST node</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getNode</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">getNode</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Expression-Node.html"><abbr title="\Flat3\Lodata\Expression\Node">Node</abbr></a>|null</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Expression-Node.html"><abbr title="\Flat3\Lodata\Expression\Node">Node</abbr></a>|null</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Node</p>
+</section>
 
     
 </article>
@@ -299,22 +263,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Event.php"><a href="files/src-expression-event.html"><abbr title="src/Expression/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the value of the attached AST node</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getValue</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">getValue</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed|null</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">mixed|null</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Value</p>
+</section>
 
     
 </article>

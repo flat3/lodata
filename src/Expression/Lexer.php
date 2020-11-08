@@ -22,7 +22,9 @@ use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
 
 /**
- * Class Lexer
+ * Lexer
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/os/abnf/odata-abnf-construction-rules.txt
+ * @package Flat3\Lodata\Expression
  */
 class Lexer
 {
@@ -42,8 +44,25 @@ class Lexer
     public const BASE64 = '(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?';
     public const PARAMETER_ALIAS = '\@'.self::IDENTIFIER;
 
+    /**
+     * The text passed to the Lexer
+     * @var string|null
+     * @internal
+     */
     private $text;
+
+    /**
+     * The position of the pointer
+     * @var int
+     * @internal
+     */
     private $pos = -1;
+
+    /**
+     * The length of the buffer
+     * @var int
+     * @internal
+     */
     private $len;
 
     public function __construct(?string $expression)
@@ -52,12 +71,24 @@ class Lexer
         $this->len = strlen($expression) - 1;
     }
 
-    public static function patternCheck($expression, $value): bool
+    /**
+     * Check the provided pattern against the value
+     * @param  string  $expression  Expression
+     * @param ?string  $value  Value
+     * @return bool
+     */
+    public static function patternCheck(string $expression, ?string $value): bool
     {
         return preg_match('@^'.$expression.'$@', $value) === 1;
     }
 
-    public static function patternMatch($expression, $value): ?array
+    /**
+     * Match the provided pattern against the value
+     * @param  string  $expression  Expression
+     * @param  ?string  $value  Value
+     * @return array|null
+     */
+    public static function patternMatch(string $expression, ?string $value): ?array
     {
         $result = preg_match('@^'.$expression.'$@', $value, $matches);
 
@@ -66,8 +97,7 @@ class Lexer
 
     /**
      * Provide the current state of the lexer to report in errors
-     *
-     * @return string
+     * @return string State
      */
     public function errorContext(): string
     {
@@ -92,9 +122,7 @@ class Lexer
 
     /**
      * Match one of the provided rules
-     *
      * @param  mixed  ...$rules
-     *
      * @return mixed
      * @throws LexerException
      * @throws Exception
@@ -143,6 +171,12 @@ class Lexer
         }
     }
 
+    /**
+     * Match the provided type and return a primitive of that type
+     * @param  PrimitiveType  $type  Type
+     * @return Primitive Primitive
+     * @throws LexerException
+     */
     public function type(PrimitiveType $type): Primitive
     {
         $result = null;
@@ -200,11 +234,20 @@ class Lexer
         return $result;
     }
 
+    /**
+     * Match a base64 value
+     * @return string
+     * @throws LexerException
+     */
     public function base64()
     {
         return $this->expression(self::BASE64);
     }
 
+    /**
+     * Maybe match whitespace
+     * @return string|null
+     */
     public function maybeWhitespace()
     {
         try {
@@ -214,11 +257,22 @@ class Lexer
         }
     }
 
+    /**
+     * Match whitespace
+     * @return string
+     */
     public function whitespace()
     {
         return $this->expression('\s+');
     }
 
+    /**
+     * Parse the provided regular expression
+     * @param  string  $pattern  Expression
+     * @param  bool  $wrapped  Whether the expression needs to be wrapped in escape characters
+     * @return string
+     * @throws LexerException
+     */
     public function expression(string $pattern, bool $wrapped = false): string
     {
         if ($this->pos >= $this->len) {
@@ -247,7 +301,6 @@ class Lexer
 
     /**
      * Match a boolean
-     *
      * @return string
      * @throws LexerException
      */
@@ -258,9 +311,7 @@ class Lexer
 
     /**
      * Match a keyword, case insensitively
-     *
      * @param  mixed  ...$keywords
-     *
      * @return mixed
      * @throws LexerException
      */
@@ -289,6 +340,10 @@ class Lexer
         );
     }
 
+    /**
+     * Sort the provided array by value length
+     * @param $array
+     */
     public static function sortArrayByLength(&$array)
     {
         usort($array, function ($a, $b) {
@@ -298,7 +353,6 @@ class Lexer
 
     /**
      * Match a float
-     *
      * @return float
      * @throws LexerException
      */
@@ -341,9 +395,7 @@ class Lexer
 
     /**
      * Maybe match a keyword
-     *
      * @param  mixed  ...$args
-     *
      * @return mixed|null
      */
     public function maybeKeyword(...$args): ?string
@@ -355,6 +407,11 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match an expression
+     * @param  mixed  ...$args
+     * @return string|null
+     */
     public function maybeExpression(...$args): ?string
     {
         try {
@@ -366,9 +423,7 @@ class Lexer
 
     /**
      * Maybe match from a character list
-     *
      * @param  mixed  ...$args
-     *
      * @return string|null
      */
     public function maybeChar(...$args): ?string
@@ -380,6 +435,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a parameter alias
+     * @return string|null
+     */
     public function maybeParameterAlias(): ?string
     {
         try {
@@ -389,6 +448,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a date time offset
+     * @return string|null
+     */
     public function maybeDateTimeOffset(): ?string
     {
         try {
@@ -398,6 +461,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a date
+     * @return string|null
+     */
     public function maybeDate(): ?string
     {
         try {
@@ -407,6 +474,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a time of day
+     * @return string|null
+     */
     public function maybeTimeOfDay(): ?string
     {
         try {
@@ -418,9 +489,7 @@ class Lexer
 
     /**
      * Match one of the provided chars
-     *
      * @param  string  $char
-     *
      * @return string
      * @throws LexerException
      */
@@ -449,31 +518,61 @@ class Lexer
         throw new LexerException($this->pos + 1, 'Expected %s but got %s', $char, $next_char);
     }
 
+    /**
+     * Match a parameter alias
+     * @return string
+     * @throws LexerException
+     */
     public function parameterAlias()
     {
         return $this->expression(self::PARAMETER_ALIAS);
     }
 
+    /**
+     * Match a date time offset
+     * @return string
+     * @throws LexerException
+     */
     public function datetimeoffset()
     {
         return $this->expression(self::DATETIMEOFFSET);
     }
 
+    /**
+     * Match a date
+     * @return string
+     * @throws LexerException
+     */
     public function date()
     {
         return $this->expression(self::DATE);
     }
 
+    /**
+     * Match a time of day
+     * @return string
+     * @throws LexerException
+     */
     public function timeOfDay()
     {
         return $this->expression(self::TIMEOFDAY);
     }
 
+    /**
+     * Match a duration
+     * @return string
+     * @throws LexerException
+     */
     public function duration()
     {
         return $this->expression(self::ISO8601_DURATION);
     }
 
+    /**
+     * Match a GUID
+     * @return string
+     * @throws LexerException
+     */
     public function guid(): string
     {
         return $this->expression(self::GUID);
@@ -481,9 +580,9 @@ class Lexer
 
     /**
      * Match a quoted string
-     *
      * @param  string  $quoteChar
      * @return string|null
+     * @throws LexerException
      */
     public function quotedString($quoteChar = "'"): string
     {
@@ -512,7 +611,6 @@ class Lexer
 
     /**
      * Return whether the lexer is at the end of the string
-     *
      * @return bool
      */
     public function finished(): bool
@@ -520,14 +618,17 @@ class Lexer
         return $this->pos === $this->len;
     }
 
+    /**
+     * Return the remaining text in the buffer
+     * @return string
+     */
     public function remaining(): string
     {
         return substr($this->text, $this->pos + 1);
     }
 
     /**
-     * Maybe match a quoted string
-     *
+     * Maybe match a single quoted string
      * @return string|null
      */
     public function maybeSingleQuotedString(): ?string
@@ -540,8 +641,7 @@ class Lexer
     }
 
     /**
-     * Maybe match a quoted string
-     *
+     * Maybe match a double quoted string
      * @return string|null
      */
     public function maybeDoubleQuotedString(): ?string
@@ -553,6 +653,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a GUID
+     * @return string|null
+     */
     public function maybeGuid(): ?string
     {
         try {
@@ -562,6 +666,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a duration
+     * @return string|null
+     */
     public function maybeDuration(): ?string
     {
         try {
@@ -573,7 +681,6 @@ class Lexer
 
     /**
      * Maybe match a string
-     *
      * @return string|null
      */
     public function maybeString(): ?string
@@ -587,7 +694,6 @@ class Lexer
 
     /**
      * Match a string
-     *
      * @return string
      * @throws LexerException
      */
@@ -598,7 +704,6 @@ class Lexer
 
     /**
      * Maybe match a boolean
-     *
      * @return string|null
      */
     public function maybeBoolean(): ?string
@@ -612,7 +717,6 @@ class Lexer
 
     /**
      * Maybe match a number
-     *
      * @return float|null
      */
     public function maybeNumber(): ?float
@@ -624,6 +728,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match an identifier
+     * @return string|null
+     */
     public function maybeIdentifier(): ?string
     {
         try {
@@ -633,6 +741,10 @@ class Lexer
         }
     }
 
+    /**
+     * Maybe match a qualified identifier
+     * @return string|null
+     */
     public function maybeQualifiedIdentifier(): ?string
     {
         try {
@@ -642,16 +754,30 @@ class Lexer
         }
     }
 
+    /**
+     * Match an identifier
+     * @return string
+     * @throws LexerException
+     */
     public function identifier(): string
     {
         return $this->expression(self::IDENTIFIER);
     }
 
+    /**
+     * Match a qualified identifier
+     * @return string
+     * @throws LexerException
+     */
     public function qualifiedIdentifier(): string
     {
         return $this->expression(self::QUALIFIED_IDENTIFIER);
     }
 
+    /**
+     * Maybe match a string enclosed in matching parentheses
+     * @return string|null
+     */
     public function maybeMatchingParenthesis(): ?string
     {
         try {
@@ -661,6 +787,11 @@ class Lexer
         }
     }
 
+    /**
+     * Match a string enclosed in matching parentheses
+     * @return string
+     * @throws LexerException
+     */
     public function matchingParenthesis(): string
     {
         $this->char('(');
@@ -688,6 +819,11 @@ class Lexer
         return implode('', $chars);
     }
 
+    /**
+     * Split a comma separated query string
+     * @return array
+     * @throws LexerException
+     */
     public function splitCommaSeparatedQueryString(): array
     {
         $parameters = [];

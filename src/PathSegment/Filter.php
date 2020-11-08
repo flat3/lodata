@@ -8,6 +8,10 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\PipeInterface;
 
+/**
+ * Filter
+ * @package Flat3\Lodata\PathSegment
+ */
 class Filter implements PipeInterface
 {
     public static function pipe(

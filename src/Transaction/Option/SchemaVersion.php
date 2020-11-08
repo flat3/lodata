@@ -5,7 +5,8 @@ namespace Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Transaction\Option;
 
 /**
- * Class SchemaVersion
+ * Schema Version
+ * @package Flat3\Lodata\Transaction\Option
  */
 class SchemaVersion extends Option
 {

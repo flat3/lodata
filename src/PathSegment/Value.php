@@ -13,9 +13,16 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Primitive;
 
+/**
+ * Value
+ * @package Flat3\Lodata\PathSegment
+ */
 class Value implements PipeInterface, EmitInterface
 {
-    /** @var Primitive $primitive */
+    /**
+     * The primitive provided to this path segment
+     * @var Primitive $primitive
+     */
     protected $primitive;
 
     public function __construct(Primitive $primitive)

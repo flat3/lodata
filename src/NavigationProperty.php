@@ -9,18 +9,39 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Transaction\NavigationRequest;
 
+/**
+ * Navigation Property
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365
+ * @package Flat3\Lodata
+ */
 class NavigationProperty extends Property
 {
-    /** @var self $partner */
+    /**
+     * The partner property referring back to this property
+     * @var self $partner
+     * @internal
+     */
     protected $partner;
 
-    /** @var ObjectArray $constraints */
+    /**
+     * The referential constraints attached to this property
+     * @var ObjectArray $constraints
+     * @internal
+     */
     protected $constraints;
 
-    /** @var bool $collection */
+    /**
+     * Whether the target of this navigation property refers to a collection
+     * @var bool $collection
+     * @internal
+     */
     protected $collection = false;
 
-    /** @var bool $expandable */
+    /**
+     * Whether this navigation property can be used as an expand request
+     * @var bool $expandable
+     * @internal
+     */
     protected $expandable = true;
 
     public function __construct($name, EntityType $entityType)
@@ -41,22 +62,40 @@ class NavigationProperty extends Property
         $this->constraints = new ObjectArray();
     }
 
+    /**
+     * Get whether this navigation property represents a collection
+     * @return bool
+     */
     public function isCollection(): bool
     {
         return $this->collection;
     }
 
+    /**
+     * Set whether this navigation property represents a collection
+     * @param $collection
+     * @return $this
+     */
     public function setCollection($collection): self
     {
         $this->collection = $collection;
         return $this;
     }
 
+    /**
+     * Get whether this property can be expanded
+     * @return bool
+     */
     public function isExpandable(): bool
     {
         return $this->expandable;
     }
 
+    /**
+     * Set whether this property can be expanded
+     * @param  bool  $expandable
+     * @return $this
+     */
     public function setExpandable(bool $expandable): self
     {
         $this->expandable = $expandable;
@@ -64,11 +103,20 @@ class NavigationProperty extends Property
         return $this;
     }
 
+    /**
+     * Get the partner navigation property of this property
+     * @return $this|null
+     */
     public function getPartner(): ?self
     {
         return $this->partner;
     }
 
+    /**
+     * Set the partner navigation property of this property
+     * @param  NavigationProperty  $partner  Partner
+     * @return $this
+     */
     public function setPartner(self $partner): self
     {
         $this->partner = $partner;
@@ -76,6 +124,11 @@ class NavigationProperty extends Property
         return $this;
     }
 
+    /**
+     * Add a referential constraint of this property
+     * @param  ReferentialConstraint  $constraint  Referential constraint
+     * @return $this
+     */
     public function addConstraint(ReferentialConstraint $constraint): self
     {
         $this->constraints[] = $constraint;
@@ -83,11 +136,22 @@ class NavigationProperty extends Property
         return $this;
     }
 
+    /**
+     * Get the referential constraints attached to this property
+     * @return ObjectArray Referential constraints
+     */
     public function getConstraints(): ObjectArray
     {
         return $this->constraints;
     }
 
+    /**
+     * Generate a property value from this property
+     * @param  Transaction  $transaction  Related transaction
+     * @param  NavigationRequest  $navigationRequest  Navigation request
+     * @param  Entity  $entity  Entity this property is attached to
+     * @return PropertyValue|null Property value
+     */
     public function generatePropertyValue(
         Transaction $transaction,
         NavigationRequest $navigationRequest,

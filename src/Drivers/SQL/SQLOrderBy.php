@@ -4,8 +4,16 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 
+/**
+ * SQL OrderBy
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLOrderBy
 {
+    /**
+     * Generate SQL order by clauses
+     * @return string SQL fragment
+     */
     public function generateOrderBy(): string
     {
         $orderby = $this->transaction->getOrderBy();

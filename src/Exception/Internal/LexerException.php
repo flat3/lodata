@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Exception\Internal;
 
 use RuntimeException;
 
+/**
+ * Lexer Exception
+ * @package Flat3\Lodata\Exception\Internal
+ */
 final class LexerException extends RuntimeException
 {
     public $pos;

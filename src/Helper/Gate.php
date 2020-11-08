@@ -7,6 +7,10 @@ use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Illuminate\Support\Facades\Gate as LaravelGate;
 
+/**
+ * Gate
+ * @package Flat3\Lodata\Helper
+ */
 class Gate
 {
     const READ = 'read';
@@ -21,26 +25,49 @@ class Gate
     protected $arguments;
     protected $transaction;
 
+    /**
+     * Get the transaction attached to this gate
+     * @return Transaction
+     */
     public function getTransaction(): Transaction
     {
         return $this->transaction;
     }
 
+    /**
+     * Get the resource attached to this gate
+     * @return ResourceInterface
+     */
     public function getResource(): ResourceInterface
     {
         return $this->resource;
     }
 
+    /**
+     * Get the type of access this gate represents
+     * @return string
+     */
     public function getAccess(): string
     {
         return $this->access;
     }
 
+    /**
+     * Get the operation arguments attached to this gate
+     * @return array
+     */
     public function getArguments(): array
     {
         return $this->arguments;
     }
 
+    /**
+     * Check whether this gate is allowed
+     * @param  string  $access  Access type
+     * @param  ResourceInterface  $resource  Resource
+     * @param  Transaction  $transaction  Transaction
+     * @param  array  $arguments  Operation arguments
+     */
     public static function check(
         string $access,
         ResourceInterface $resource,

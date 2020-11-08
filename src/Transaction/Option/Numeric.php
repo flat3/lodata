@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Transaction\Option;
 
+/**
+ * Numeric
+ * @package Flat3\Lodata\Transaction\Option
+ */
 abstract class Numeric extends Option
 {
     public function setValue(?string $value): void

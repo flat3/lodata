@@ -10,11 +10,13 @@ use Flat3\Lodata\Expression\Operator;
 use Flat3\Lodata\Expression\Parser;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
+/**
+ * Search
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BuiltinQueryFunctions
+ * @package Flat3\Lodata\Expression\Parser
+ */
 class Search extends Parser
 {
-    /**
-     * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BuiltinQueryFunctions
-     */
     public const operators = [
         Node\Operator\Comparison\Not_::class,
         Node\Operator\Comparison\And_::class,
@@ -31,6 +33,11 @@ class Search extends Parser
         }
     }
 
+    /**
+     * Handle an expression event
+     * @param  Event  $event  Event
+     * @return bool|null
+     */
     public function expressionEvent(Event $event): ?bool
     {
         if ($this->entitySet instanceof SearchInterface) {
@@ -42,7 +49,6 @@ class Search extends Parser
 
     /**
      * Valid token types for this expression
-     *
      * @return bool
      * @throws ParserException
      */

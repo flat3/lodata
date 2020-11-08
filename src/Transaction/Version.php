@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 
+/**
+ * Version
+ * @package Flat3\Lodata\Transaction
+ */
 class Version
 {
     public const version = '4.01';
@@ -28,11 +32,19 @@ class Version
         $this->version = ($maxVersion ?: $version) ?: self::version;
     }
 
+    /**
+     * Get version
+     * @return string
+     */
     public function getVersion(): string
     {
         return $this->version;
     }
 
+    /**
+     * @return mixed|string
+     * @internal
+     */
     public function __toString()
     {
         return $this->version;

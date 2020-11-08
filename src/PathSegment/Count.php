@@ -12,9 +12,17 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 
+/**
+ * Count
+ * @package Flat3\Lodata\PathSegment
+ */
 class Count implements EmitInterface, PipeInterface
 {
-    /** @var Countable */
+    /**
+     * The countable value passed to this segment
+     * @var Countable Countable
+     * @internal
+     */
     protected $countable;
 
     public function __construct(Countable $countable)

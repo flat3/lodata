@@ -102,7 +102,9 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Transaction.html">Transaction</a></li>
                             </ul>
         </div>
     
@@ -112,12 +114,27 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">12</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Media Type</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">link</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                                        <a class="phpdocumentor-tag-link" href="https://tools.ietf.org/html/rfc2045"> https://tools.ietf.org/html/rfc2045 </a>
+                    
+                                    </dd>
+                        </dl>
 
 
 
@@ -142,7 +159,7 @@
     <span>
                 &nbsp;: <a href="classes/Flat3-Lodata-Transaction-Parameter.html"><abbr title="\Flat3\Lodata\Transaction\Parameter">Parameter</abbr></a>            </span>
 </dt>
-<dd></dd>
+<dd>Parameters attached to this media type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#property_subtype">$subtype</a>
@@ -175,72 +192,65 @@
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_dropParameter">dropParameter()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Drop a parameter</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_factory">factory()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: static    </span>
 </dt>
-<dd></dd>
+<dd>Generate a new media type instance</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_getOriginal">getOriginal()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the original type string</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_getParameter">getParameter()</a>
     <span>
                         &nbsp;: string|null    </span>
 </dt>
-<dd></dd>
+<dd>Get a parameter from the media type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_getParameterKeys">getParameterKeys()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
-<dd></dd>
+<dd>Get all parameter keys in the media type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_getSubtype">getSubtype()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
-<dd></dd>
+<dd>Get the subtype</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_negotiate">negotiate()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a>    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Negotiate the value of the type based on the provided options</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_parse">parse()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Parse media type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_setParameter">setParameter()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_toString">toString()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd></dd>
+<dd>Set a parameter on the type</dd>
 
         </dl>
 
@@ -270,7 +280,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">9</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 </aside>
 
     
@@ -300,10 +310,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Parameters attached to this media type</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Transaction-Parameter.html"><abbr title="\Flat3\Lodata\Transaction\Parameter">Parameter</abbr></a></span>
@@ -331,7 +342,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">16</span>
 </aside>
 
     
@@ -361,7 +372,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
     
@@ -391,7 +402,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 </aside>
 
     
@@ -421,7 +432,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 </aside>
 
     
@@ -455,15 +466,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">139</span>
+    <span class="phpdocumentor-element-found-in__line">189</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Drop a parameter</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">dropParameter</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">dropParameter</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -471,14 +484,15 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -497,20 +511,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Generate a new media type instance</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">factory</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">factory</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">static</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -529,15 +545,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">113</span>
+    <span class="phpdocumentor-element-found-in__line">139</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the original type string</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getOriginal</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -561,15 +579,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">118</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get a parameter from the media type</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getParameter</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -577,7 +597,8 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
@@ -603,20 +624,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">158</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get all parameter keys in the media type</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getParameterKeys</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">getParameterKeys</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -635,15 +658,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">128</span>
+    <span class="phpdocumentor-element-found-in__line">167</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the subtype</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getSubtype</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -667,15 +692,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Negotiate the value of the type based on the provided options</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">negotiate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$requestedTypes</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">negotiate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$requestedTypes</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -683,14 +710,15 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -709,30 +737,33 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">71</span>
+    <span class="phpdocumentor-element-found-in__line">93</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Parse media type</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">parse</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">parse</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr title=""></abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$type</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr title=""></abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -751,15 +782,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">133</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set a parameter on the type</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setParameter</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setParameter</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -767,53 +800,23 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$value</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_toString">
-        toString()
-        <a href="classes/Flat3-Lodata-Transaction-MediaType.html#method_toString" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MediaType.php"><a href="files/src-transaction-mediatype.html"><abbr title="src/Transaction/MediaType.php">MediaType.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">145</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">toString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 

@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Expression\Node\Func\StringCollection;
 
 use Flat3\Lodata\Expression\Node\Func;
 
+/**
+ * Concat
+ * @package Flat3\Lodata\Expression\Node\Func\StringCollection
+ */
 class Concat extends Func
 {
     public const symbol = 'concat';

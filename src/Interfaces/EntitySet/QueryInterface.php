@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Interfaces\EntitySet;
 
+/**
+ * Query Interface
+ * @package Flat3\Lodata\Interfaces\EntitySet
+ */
 interface QueryInterface
 {
     /**

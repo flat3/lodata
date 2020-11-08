@@ -7,6 +7,10 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
+/**
+ * String
+ * @package Flat3\Lodata\Type
+ */
 class String_ extends Primitive
 {
     const identifier = 'Edm.String';

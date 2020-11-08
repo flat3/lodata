@@ -102,7 +102,9 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Controller.html">Controller</a></li>
                             </ul>
         </div>
     
@@ -118,12 +120,27 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Async</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">link</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31359016"> https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31359016 </a>
+                    
+                                    </dd>
+                        </dl>
 
 
 
@@ -162,151 +179,144 @@
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Controller-Async.html#property_jobId">$jobId</a>
-    <span>
-                &nbsp;: string            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Controller-Async.html#property_transaction">$transaction</a>
     <span>
                 &nbsp;: <a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>            </span>
 </dt>
-<dd></dd>
+<dd>Transaction related to this job</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_accepted">accepted()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Exception-Protocol-AcceptedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\AcceptedException">AcceptedException</abbr></a>    </span>
 </dt>
-<dd></dd>
+<dd>Generate an Accepted result for this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_destroy">destroy()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
-<dd></dd>
+<dd>Delete this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_dispatch">dispatch()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
-<dd></dd>
+<dd>Dispatch this job to the queue</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getDataPath">getDataPath()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the Laravel disk path to use to store the data result of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getDisk">getDisk()</a>
     <span>
                         &nbsp;: <abbr title="\Illuminate\Contracts\Filesystem\Filesystem">Filesystem</abbr>    </span>
 </dt>
-<dd></dd>
+<dd>Get the Laravel disk used to store results of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getMetaPath">getMetaPath()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the Laravel disk path to use to store the metadata result of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getMonitorUrl">getMonitorUrl()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the monitoring URL to determine the state of this job by an OData client</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getResultMetadata">getResultMetadata()</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
-<dd></dd>
+<dd>Get the result metadata of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getResultStream">getResultStream()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: false|resource    </span>
 </dt>
-<dd></dd>
+<dd>Get a stream resource representing the data generated by this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_getStatus">getStatus()</a>
     <span>
                         &nbsp;: string|null    </span>
 </dt>
-<dd></dd>
+<dd>Get the OData status of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_handle">handle()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd></dd>
+<dd>Job handle method</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_isDeleted">isDeleted()</a>
     <span>
                         &nbsp;: bool    </span>
 </dt>
-<dd></dd>
+<dd>Get whether this job was deleted</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_isPending">isPending()</a>
     <span>
                         &nbsp;: bool    </span>
 </dt>
-<dd></dd>
+<dd>Get whether the results of this job are pending</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_ns">ns()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the namespace of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_setComplete">setComplete()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set that this job is complete</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_setId">setId()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the job ID</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_setPending">setPending()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set that this job is pending</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_setStatus">setStatus()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the status of this job</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Async.html#method_setTransaction">setTransaction()</a>
     <span>
-                        &nbsp;: self    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the related transaction</dd>
 
         </dl>
 
@@ -327,7 +337,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 </aside>
 
     
@@ -352,7 +362,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 </aside>
 
     
@@ -383,37 +393,6 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_jobId">
-        $jobId
-        <a href="classes/Flat3-Lodata-Controller-Async.html#property_jobId" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">26</span>
-</aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$jobId</span>
-    </code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="property_transaction">
         $transaction
         <a href="classes/Flat3-Lodata-Controller-Async.html#property_transaction" class="headerlink"><i class="fas fa-link"></i></a>
@@ -423,10 +402,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Transaction related to this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
@@ -458,15 +438,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">182</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Generate an Accepted result for this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">accepted</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Exception-Protocol-AcceptedException.html"><abbr title="\Flat3\Lodata\Exception\Protocol\AcceptedException">AcceptedException</abbr></a></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -490,15 +472,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">175</span>
+    <span class="phpdocumentor-element-found-in__line">260</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Delete this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">destroy</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -522,15 +506,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">195</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Dispatch this job to the queue</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">dispatch</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -554,22 +540,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the Laravel disk path to use to store the data result of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getDataPath</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Path</p>
+</section>
 
     
 </article>
@@ -586,22 +575,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the Laravel disk used to store results of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getDisk</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Contracts\Filesystem\Filesystem">Filesystem</abbr></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Contracts\Filesystem\Filesystem">Filesystem</abbr></span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Filesystem</p>
+</section>
 
     
 </article>
@@ -618,22 +610,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the Laravel disk path to use to store the metadata result of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getMetaPath</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Path</p>
+</section>
 
     
 </article>
@@ -650,22 +645,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">106</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the monitoring URL to determine the state of this job by an OData client</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getMonitorUrl</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Monitoring URL</p>
+</section>
 
     
 </article>
@@ -682,22 +680,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">225</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the result metadata of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getResultMetadata</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Result metadata</p>
+</section>
 
     
 </article>
@@ -714,22 +715,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">160</span>
+    <span class="phpdocumentor-element-found-in__line">234</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get a stream resource representing the data generated by this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getResultStream</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">getResultStream</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">false|resource</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">false|resource</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Job result stream</p>
+</section>
 
     
 </article>
@@ -746,22 +750,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">111</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the OData status of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getStatus</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string|null</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Status</p>
+</section>
 
     
 </article>
@@ -778,15 +785,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Job handle method</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">handle</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -810,15 +819,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">170</span>
+    <span class="phpdocumentor-element-found-in__line">252</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get whether this job was deleted</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">isDeleted</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -842,15 +853,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">165</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get whether the results of this job are pending</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">isPending</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
@@ -874,15 +887,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">150</span>
+    <span class="phpdocumentor-element-found-in__line">216</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the namespace of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">ns</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefix</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -890,7 +905,9 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Prefix</p>
+</section>
+
             </dd>
             </dl>
 
@@ -899,7 +916,8 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Namespace</p>
+</section>
 
     
 </article>
@@ -916,20 +934,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">122</span>
+    <span class="phpdocumentor-element-found-in__line">175</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set that this job is complete</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setComplete</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setComplete</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -948,15 +968,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the job ID</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$jobId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$jobId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -964,14 +986,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Job ID</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -990,20 +1014,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">165</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set that this job is pending</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setPending</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setPending</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -1022,15 +1048,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">128</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the status of this job</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setStatus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$status</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setStatus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$status</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1038,14 +1066,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Status</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -1064,15 +1094,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Async.php"><a href="files/src-controller-async.html"><abbr title="src/Controller/Async.php">Async.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the related transaction</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setTransaction</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                <span class="phpdocumentor-signature__name">setTransaction</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1080,14 +1112,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Transaction</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">self</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 

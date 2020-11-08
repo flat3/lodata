@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Expression\Node;
 
 use Flat3\Lodata\Expression\Operator;
 
+/**
+ * Group
+ * @package Flat3\Lodata\Expression\Node
+ */
 abstract class Group extends Operator
 {
     /**

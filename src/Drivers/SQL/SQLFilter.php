@@ -31,6 +31,10 @@ use Flat3\Lodata\Expression\Node\Operator\Logical\LessThan;
 use Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
 
+/**
+ * SQL Filter
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLFilter
 {
     use SQLWhere;
@@ -39,6 +43,11 @@ trait SQLFilter
     use SQLiteFilter;
     use SQLServerFilter;
 
+    /**
+     * Generate SQL fragments for filters
+     * @param  Event  $event  Filter event
+     * @return bool|null
+     */
     public function filter(Event $event): ?bool
     {
         switch (true) {

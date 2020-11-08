@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Helper\Constants;
 
+/**
+ * Boolean
+ * @package Flat3\Lodata\Transaction
+ */
 abstract class Boolean
 {
     protected $value = false;

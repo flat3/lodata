@@ -6,7 +6,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
 /**
- * Class Boolean
+ * Boolean
  * @package Flat3\Lodata\Type
  */
 class Boolean extends Primitive

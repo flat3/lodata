@@ -6,6 +6,10 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
+/**
+ * Duration
+ * @package Flat3\Lodata\Type
+ */
 class Duration extends Primitive
 {
     const identifier = 'Edm.Duration';

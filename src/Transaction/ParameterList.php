@@ -7,6 +7,10 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\ObjectArray;
 
+/**
+ * Parameter List
+ * @package Flat3\Lodata\Transaction
+ */
 class ParameterList
 {
     /** @var ObjectArray $parameters */
@@ -17,6 +21,10 @@ class ParameterList
         $this->parameters = new ObjectArray();
     }
 
+    /**
+     * Parse a string into separate parameters
+     * @param  string|null  $text
+     */
     public function parse(string $text = null)
     {
         if (!$text) {
@@ -50,6 +58,11 @@ class ParameterList
         }
     }
 
+    /**
+     * Get a parameter by key
+     * @param $key
+     * @return Parameter|null
+     */
     public function getParameter($key): ?Parameter
     {
         return $this->parameters[$key];

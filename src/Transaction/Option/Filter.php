@@ -7,9 +7,9 @@ use Flat3\Lodata\Expression\Parser\Filter as Parser;
 use Flat3\Lodata\Transaction\Option;
 
 /**
- * Class Filter
- *
- * http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionfilter
+ * Filter
+ * @link http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionfilter
+ * @package Flat3\Lodata\Transaction\Option
  */
 class Filter extends Option
 {

@@ -30,28 +30,54 @@ use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Illuminate\Http\Request;
 
+/**
+ * Entity
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358838
+ * @package Flat3\Lodata
+ */
 class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
 {
     use UseReferences;
     use HasTransaction;
 
-    /** @var ObjectArray $properties */
-    private $properties;
+    /**
+     * Property values on this entity instance
+     * @var ObjectArray $propertyValues
+     * @internal
+     */
+    private $propertyValues;
 
-    /** @var EntitySet $entitySet */
+    /**
+     * The entity set this entity belongs to
+     * @var EntitySet $entitySet
+     * @internal
+     */
     private $entitySet;
 
-    /** @var EntityType $type */
+    /**
+     * The entity type of this entity
+     * @var EntityType $type
+     * @internal
+     */
     private $type;
 
-    /** @var MetadataContainer $metadata */
+    /**
+     * The metadata about this entity
+     * @var MetadataContainer $metadata
+     * @internal
+     */
     protected $metadata = null;
 
     public function __construct()
     {
-        $this->properties = new ObjectArray();
+        $this->propertyValues = new ObjectArray();
     }
 
+    /**
+     * Set the entity set that contains this entity
+     * @param  EntitySet  $entitySet  Entity set
+     * @return $this
+     */
     public function setEntitySet(EntitySet $entitySet): self
     {
         $this->entitySet = $entitySet;
@@ -136,22 +162,22 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             $requiresSeparator = true;
         }
 
-        $this->properties->rewind();
+        $this->propertyValues->rewind();
 
         while (true) {
             if ($this->usesReferences()) {
                 break;
             }
 
-            if (!$this->properties->valid()) {
+            if (!$this->propertyValues->valid()) {
                 break;
             }
 
             /** @var PropertyValue $propertyValue */
-            $propertyValue = $this->properties->current();
+            $propertyValue = $this->propertyValues->current();
 
             if (!$propertyValue->shouldEmit($transaction)) {
-                $this->properties->next();
+                $this->propertyValues->next();
                 continue;
             }
 
@@ -178,18 +204,27 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             }
 
             $requiresSeparator = true;
-            $this->properties->next();
+            $this->propertyValues->next();
         }
 
         $transaction->outputJsonObjectEnd();
     }
 
+    /**
+     * Get the ID of this entity
+     * @return PropertyValue|null PropertyValue representing the entity ID
+     */
     public function getEntityId(): ?PropertyValue
     {
         $key = $this->getType()->getKey();
-        return $this->properties[$key];
+        return $this->propertyValues[$key];
     }
 
+    /**
+     * Set the ID of this entity
+     * @param  mixed  $id  ID
+     * @return $this
+     */
     public function setEntityId($id): self
     {
         $key = $this->getType()->getKey();
@@ -198,24 +233,37 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $propertyValue = $this->newPropertyValue();
         $propertyValue->setProperty($key);
         $propertyValue->setValue($type->instance($id));
-        $this->properties[] = $propertyValue;
+        $this->propertyValues[] = $propertyValue;
 
         return $this;
     }
 
+    /**
+     * Get the entity set that contains this entity
+     * @return EntitySet|null
+     */
     public function getEntitySet(): ?EntitySet
     {
         return $this->entitySet;
     }
 
-    public function addProperty($property): self
+    /**
+     * Add a property value to this entity
+     * @param  PropertyValue  $propertyValue  Property value
+     * @return $this
+     */
+    public function addProperty(PropertyValue $propertyValue): self
     {
-        $property->setEntity($this);
-        $this->properties[] = $property;
+        $propertyValue->setEntity($this);
+        $this->propertyValues[] = $propertyValue;
 
         return $this;
     }
 
+    /**
+     * Generate a new property value attached to this entity
+     * @return PropertyValue Property value
+     */
     public function newPropertyValue(): PropertyValue
     {
         $pv = new PropertyValue();
@@ -223,26 +271,50 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $pv;
     }
 
+    /**
+     * Get all property values attached to this entity
+     * @return ObjectArray Property values
+     */
     public function getPropertyValues(): ObjectArray
     {
-        return $this->properties;
+        return $this->propertyValues;
     }
 
+    /**
+     * Get a property value attached to this entity
+     * @param  Property  $property  Property
+     * @return Primitive|null Property value
+     */
     public function getPropertyValue(Property $property): ?Primitive
     {
-        return $this->properties[$property]->getValue();
+        return $this->propertyValues[$property]->getValue();
     }
 
+    /**
+     * Whether the provided property value exists on this entity
+     * @param  mixed  $offset  Property name
+     * @return bool
+     */
     public function offsetExists($offset)
     {
-        return $this->properties->exists($offset);
+        return $this->propertyValues->exists($offset);
     }
 
+    /**
+     * Get a property value from this entity
+     * @param  mixed  $offset  Property name
+     * @return PropertyValue Property value
+     */
     public function offsetGet($offset)
     {
-        return $this->properties->get($offset);
+        return $this->propertyValues->get($offset);
     }
 
+    /**
+     * Create a new property value on this entity
+     * @param  mixed  $offset  Property name
+     * @param  mixed  $value  Property value
+     */
     public function offsetSet($offset, $value)
     {
         $property = $this->getType()->getProperty($offset);
@@ -252,11 +324,21 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $this->addProperty($propertyValue);
     }
 
+    /**
+     * Remove a property value from this entity
+     * @param  mixed  $offset  Property name
+     */
     public function offsetUnset($offset)
     {
-        $this->properties->drop($offset);
+        $this->propertyValues->drop($offset);
     }
 
+    /**
+     * Get the metadata for this expanded entity
+     * @param  Transaction  $transaction  Related transaction
+     * @param  PropertyValue  $propertyValue  Navigation property value
+     * @return MetadataContainer Metadata container
+     */
     public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue): MetadataContainer
     {
         $propertyMetadata = $transaction->getMetadata()->getContainer();
@@ -306,6 +388,11 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $argument;
     }
 
+    /**
+     * Get the context URL for this entity
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Context URL
+     */
     public function getContextUrl(Transaction $transaction): string
     {
         if ($this->usesReferences()) {
@@ -329,6 +416,11 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $url;
     }
 
+    /**
+     * Get the resource URL for this entity
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Resource URL
+     */
     public function getResourceUrl(Transaction $transaction): string
     {
         if (!$this->entitySet) {
@@ -352,6 +444,12 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         );
     }
 
+    /**
+     * Delete this entity
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
+     * @return Response Client response
+     */
     public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $entitySet = $this->entitySet;
@@ -367,6 +465,12 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         throw new NoContentException('deleted', 'Content was deleted');
     }
 
+    /**
+     * Update this entity
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
+     * @return Response Client response
+     */
     public function patch(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $entitySet = $this->entitySet;
@@ -382,6 +486,12 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $entity->get($transaction, $context);
     }
 
+    /**
+     * Read this entity
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
+     * @return Response Client response
+     */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         Gate::check(Gate::READ, $this, $transaction);
@@ -421,6 +531,11 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         throw new MethodNotAllowedException();
     }
 
+    /**
+     * Generate an entity from an array of key/values
+     * @param  array  $array  Key/value array
+     * @return $this
+     */
     public function fromArray(array $array): self
     {
         foreach ($array as $key => $value) {
@@ -430,12 +545,16 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $this;
     }
 
+    /**
+     * Get the ETag for this entity
+     * @return string ETag
+     */
     public function getETag(): string
     {
         $input = [];
 
         /** @var PropertyValue $propertyValue */
-        foreach ($this->properties as $propertyValue) {
+        foreach ($this->propertyValues as $propertyValue) {
             $property = $propertyValue->getProperty();
 
             if ($property instanceof DeclaredProperty) {
@@ -446,11 +565,20 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return ETag::hash($input);
     }
 
+    /**
+     * Get the entity type of this entity
+     * @return EntityType Entity type
+     */
     public function getType(): EntityType
     {
         return $this->type;
     }
 
+    /**
+     * Set the entity type of this entity
+     * @param  EntityType  $type  Entity type
+     * @return $this
+     */
     public function setType(EntityType $type): self
     {
         $this->type = $type;

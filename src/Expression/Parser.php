@@ -15,32 +15,58 @@ use Flat3\Lodata\Expression\Node\RightParen;
 
 /**
  * Class Parser
- *
- * http://www.reedbeta.com/blog/the-shunting-yard-algorithm/
+ * @link http://www.reedbeta.com/blog/the-shunting-yard-algorithm/
+ * @package Flat3\Lodata\Expression
  */
 abstract class Parser
 {
-    public const operators = [];
-
-    /** @var Operator[] $operators */
+    /**
+     * The list of operators understood by this parser
+     * @var Operator[] $operators
+     * @internal
+     */
     protected $operators = [];
 
-    /** @var Node[] $tokens */
+    /**
+     * The list of tokens discovered by this parser
+     * @var Node[] $tokens
+     * @internal
+     */
     protected $tokens = [];
 
-    /** @var EntitySet $entitySet */
+    /**
+     * The entity set this parser is being run on behalf of
+     * @var EntitySet $entitySet
+     * @internal
+     */
     protected $entitySet;
 
-    /** @var string[] $validLiterals */
+    /**
+     * The list of valid literal strings that can be captured by this parser
+     * @var string[] $validLiterals
+     * @internal
+     */
     private $validLiterals = [];
 
-    /** @var Operator[] $operatorStack */
+    /**
+     * The operator stack
+     * @var Operator[] $operatorStack
+     * @internal
+     */
     private $operatorStack = [];
 
-    /** @var Node[] $operandStack */
+    /**
+     * The operand stack
+     * @var Node[] $operandStack
+     * @internal
+     */
     private $operandStack = [];
 
-    /** @var Lexer $lexer */
+    /**
+     * The lexer instance
+     * @var Lexer $lexer
+     * @internal
+     */
     protected $lexer;
 
     public function __construct(EntitySet $entitySet)
@@ -50,7 +76,6 @@ abstract class Parser
 
     /**
      * Set the list of valid field literals
-     *
      * @param  string  $literal
      * @return self
      */
@@ -63,14 +88,11 @@ abstract class Parser
 
     /**
      * Convert an expression to an abstract syntax tree.
-     *
      * @param  string  $expression  The expression, in infix notation.
-     *
      * @return Node that serves as the root of the AST.
      */
     public function generateTree(string $expression): Node
     {
-        /** @var string[] $chars */
         $this->lexer = new Lexer($expression);
 
         while (!$this->lexer->finished()) {
@@ -96,16 +118,13 @@ abstract class Parser
 
     /**
      * A function that returns whether a valid token was found
-     *
      * @return bool
      */
     abstract protected function findToken(): bool;
 
     /**
      * Add the provided operator as an AST node
-     *
-     * @param  Operator  $operator
-     *
+     * @param  Operator  $operator  Operator
      * @throws ParserException
      */
     private function applyOperator(Operator $operator): void
@@ -145,6 +164,10 @@ abstract class Parser
         $this->operandStack[] = $operator;
     }
 
+    /**
+     * Tokenize spaces in the expression
+     * @return bool
+     */
     public function tokenizeSpace(): bool
     {
         return !!$this->lexer->maybeChar(' ');
@@ -173,7 +196,6 @@ abstract class Parser
 
     /**
      * Get the token that was discovered before the current token
-     *
      * @return Node|null
      */
     public function getLastToken(): ?Node
@@ -217,7 +239,6 @@ abstract class Parser
 
     /**
      * Return the node at the top of the operator stack
-     *
      * @return Node
      */
     public function getOperatorStackHead(): ?Node
@@ -309,6 +330,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a GUID
+     * @return bool
+     */
     public function tokenizeGuid(): bool
     {
         $token = $this->lexer->maybeGuid();
@@ -324,6 +349,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a duration
+     * @return bool
+     */
     public function tokenizeDuration(): bool
     {
         $token = $this->lexer->maybeDuration();
@@ -339,6 +368,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize literal null
+     * @return bool
+     */
     public function tokenizeNull(): bool
     {
         $token = $this->lexer->maybeKeyword('null');
@@ -353,6 +386,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a number
+     * @return bool
+     */
     public function tokenizeNumber(): bool
     {
         $token = $this->lexer->maybeNumber();
@@ -370,6 +407,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a boolean
+     * @return bool
+     */
     public function tokenizeBoolean(): bool
     {
         $token = $this->lexer->maybeBoolean();
@@ -386,6 +427,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a single quoted string
+     * @return bool
+     */
     public function tokenizeSingleQuotedString(): bool
     {
         $token = $this->lexer->maybeSingleQuotedString();
@@ -402,6 +447,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a double quoted string
+     * @return bool
+     */
     public function tokenizeDoubleQuotedString(): bool
     {
         $token = $this->lexer->maybeDoubleQuotedString();
@@ -418,6 +467,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a date time offset
+     * @return bool
+     */
     public function tokenizeDateTimeOffset(): bool
     {
         $token = $this->lexer->maybeDateTimeOffset();
@@ -434,6 +487,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a date
+     * @return bool
+     */
     public function tokenizeDate(): bool
     {
         $token = $this->lexer->maybeDate();
@@ -450,6 +507,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a time of day
+     * @return bool
+     */
     public function tokenizeTimeOfDay(): bool
     {
         $token = $this->lexer->maybeTimeOfDay();
@@ -466,6 +527,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a registered literal keyword
+     * @return bool
+     */
     public function tokenizeKeyword(): bool
     {
         $token = $this->lexer->maybeKeyword(...$this->validLiterals);
@@ -482,6 +547,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a string
+     * @return bool
+     */
     public function tokenizeString(): bool
     {
         $token = $this->lexer->maybeString();
@@ -498,5 +567,10 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Dispatch an expression event
+     * @param  Event  $event  Event
+     * @return bool|null
+     */
     abstract public function expressionEvent(Event $event): ?bool;
 }

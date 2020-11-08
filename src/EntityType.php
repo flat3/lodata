@@ -2,14 +2,22 @@
 
 namespace Flat3\Lodata;
 
+/**
+ * Entity Type
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530349
+ * @package Flat3\Lodata
+ */
 class EntityType extends ComplexType
 {
-    /** @var DeclaredProperty $key Primary key property */
+    /**
+     * Primary key property
+     * @var DeclaredProperty $key
+     * @internal
+     */
     protected $key;
 
     /**
-     * Return the defined key
-     *
+     * Return the defined key of this entity type
      * @return DeclaredProperty|null
      */
     public function getKey(): ?DeclaredProperty
@@ -18,10 +26,8 @@ class EntityType extends ComplexType
     }
 
     /**
-     * Set the key property by name
-     *
-     * @param  DeclaredProperty  $key
-     *
+     * Set the entity type key property
+     * @param  DeclaredProperty  $key  Key property
      * @return $this
      */
     public function setKey(DeclaredProperty $key): self

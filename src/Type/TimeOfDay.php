@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Type;
 
 use DateTime;
 
+/**
+ * Time Of Day
+ * @package Flat3\Lodata\Type
+ */
 class TimeOfDay extends DateTimeOffset
 {
     const identifier = 'Edm.TimeOfDay';

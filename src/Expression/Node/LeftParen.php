@@ -4,6 +4,10 @@ namespace Flat3\Lodata\Expression\Node;
 
 use Flat3\Lodata\Expression\Operator;
 
+/**
+ * Left Parenthesis
+ * @package Flat3\Lodata\Expression\Node
+ */
 class LeftParen extends Group
 {
     public const symbol = '(';

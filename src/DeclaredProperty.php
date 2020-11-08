@@ -2,22 +2,48 @@
 
 namespace Flat3\Lodata;
 
+/**
+ * Declared Property
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530355
+ * @package Flat3\Lodata
+ */
 class DeclaredProperty extends Property
 {
-    /** @var bool $searchable Whether this property is included as part of $search requests */
+    /**
+     * Whether this property is included as part of $search requests
+     * @var bool $searchable
+     * @internal
+     */
     protected $searchable = false;
 
-    /** @var bool $filterable Whether this property can be used in a $filter expression */
+    /**
+     * Whether this property can be used in a $filter expression
+     * @var bool $filterable
+     * @internal
+     */
     protected $filterable = true;
 
-    /** @var bool $alternativeKey Whether this property can be used as an alternative key */
+    /**
+     * Whether this property can be used as an alternative key
+     * @var bool $alternativeKey
+     * @internal
+     */
     protected $alternativeKey = false;
 
+    /**
+     * Whether this property can be used as an alternative key
+     * @return bool
+     */
     public function isAlternativeKey(): bool
     {
         return $this->alternativeKey;
     }
 
+    /**
+     * Make this property available as an alternative key
+     * @param  bool  $alternativeKey
+     * @return $this
+     */
     public function setAlternativeKey(bool $alternativeKey = true): self
     {
         $this->alternativeKey = $alternativeKey;
@@ -27,7 +53,6 @@ class DeclaredProperty extends Property
 
     /**
      * Get whether this property is included in search
-     *
      * @return bool
      */
     public function isSearchable(): bool
@@ -37,9 +62,7 @@ class DeclaredProperty extends Property
 
     /**
      * Set whether this property is included in search
-     *
      * @param  bool  $searchable
-     *
      * @return $this
      */
     public function setSearchable(bool $searchable = true): self
@@ -50,6 +73,7 @@ class DeclaredProperty extends Property
     }
 
     /**
+     * Return whether this property can be used in a filter query
      * @return bool
      */
     public function isFilterable(): bool
@@ -58,9 +82,9 @@ class DeclaredProperty extends Property
     }
 
     /**
+     * Set whether this property can be used in a filter query
      * @param  bool  $filterable
-     *
-     * @return Property
+     * @return $this
      */
     public function setFilterable(bool $filterable): Property
     {

@@ -6,6 +6,10 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Transaction\Option;
 
+/**
+ * Boolean
+ * @package Flat3\Lodata\Transaction\Option
+ */
 abstract class Boolean extends Option
 {
     public function setValue(?string $value): void

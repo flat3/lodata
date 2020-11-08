@@ -5,9 +5,17 @@ namespace Flat3\Lodata\Helper;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Expression\Lexer;
 
+/**
+ * Name
+ * @package Flat3\Lodata\Helper
+ */
 final class Name
 {
-    /** @var string $name */
+    /**
+     * Name
+     * @var string $name
+     * @internal
+     */
     private $name;
 
     public function __construct(string $name)
@@ -19,11 +27,19 @@ final class Name
         $this->name = $name;
     }
 
+    /**
+     * Get the name
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString(): string
     {
         return $this->name;

@@ -27,6 +27,10 @@ use Flat3\Lodata\Type\EnumMember;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
 
+/**
+ * Metadata
+ * @package Flat3\Lodata\PathSegment
+ */
 class Metadata implements PipeInterface, EmitInterface
 {
     public static function pipe(
@@ -46,6 +50,10 @@ class Metadata implements PipeInterface, EmitInterface
         return new static();
     }
 
+    /**
+     * Emit the service metadata document
+     * @param  Transaction  $transaction  Transaction
+     */
     public function emit(Transaction $transaction): void
     {
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_CSDLXMLDocument

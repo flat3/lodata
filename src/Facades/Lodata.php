@@ -20,7 +20,7 @@ use Flat3\Lodata\Singleton;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Lodata
+ * Lodata
  * @method static ObjectArray|EntityType[] getEntityTypes()
  * @method static ObjectArray|ResourceInterface[] getResources()
  * @method static ObjectArray|ServiceInterface[] getServices()

@@ -12,6 +12,11 @@ use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 
+/**
+ * Singleton
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530395
+ * @package Flat3\Lodata
+ */
 class Singleton extends Entity implements ServiceInterface, IdentifierInterface
 {
     use HasIdentifier;
@@ -24,16 +29,30 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface
         $this->setType($type);
     }
 
+    /**
+     * Get the OData kind of this resource
+     * @return string Kind
+     */
     public function getKind(): string
     {
         return 'Singleton';
     }
 
+    /**
+     * Get the resource URL of this singleton
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Resource URL
+     */
     public function getResourceUrl(Transaction $transaction): string
     {
         return $transaction->getResourceUrl().$this->getName();
     }
 
+    /**
+     * Get the context URL of this singleton
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Context URL
+     */
     public function getContextUrl(Transaction $transaction): string
     {
         return $transaction->getContextUrl().'#'.$this->getIdentifier();

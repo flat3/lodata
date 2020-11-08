@@ -5,6 +5,10 @@ namespace Flat3\Lodata\Type;
 use ArrayAccess;
 use Flat3\Lodata\Primitive;
 
+/**
+ * Collection
+ * @package Flat3\Lodata\Type
+ */
 class Collection extends Primitive implements ArrayAccess
 {
     protected $value = [];

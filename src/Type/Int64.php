@@ -2,6 +2,10 @@
 
 namespace Flat3\Lodata\Type;
 
+/**
+ * Int64
+ * @package Flat3\Lodata\Type
+ */
 class Int64 extends Byte
 {
     const identifier = 'Edm.Int64';

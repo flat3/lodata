@@ -6,12 +6,24 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Expression\Lexer;
 use Illuminate\Support\Str;
 
+/**
+ * Identifier
+ * @package Flat3\Lodata\Helper
+ */
 final class Identifier
 {
-    /** @var string $name */
+    /**
+     * Name
+     * @var string $name
+     * @internal
+     */
     private $name;
 
-    /** @var string $namespace */
+    /**
+     * Namespace
+     * @var string $namespace
+     * @internal
+     */
     private $namespace;
 
     public function __construct(string $identifier)
@@ -28,16 +40,28 @@ final class Identifier
         $this->namespace = Laravel::beforeLast($identifier, '.');
     }
 
+    /**
+     * Get the identifier name
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * Get the identifier namespace
+     * @return string
+     */
     public function getNamespace(): string
     {
         return $this->namespace;
     }
 
+    /**
+     * @return string
+     * @internal
+     */
     public function __toString(): string
     {
         return $this->namespace.'.'.$this->name;

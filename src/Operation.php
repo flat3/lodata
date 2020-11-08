@@ -33,22 +33,43 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 
+/**
+ * Operation
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530382
+ * @package Flat3\Lodata
+ */
 abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface
 {
     use HasIdentifier;
     use HasTitle;
     use HasTransaction;
 
-    /** @var string $bindingParameterName */
+    /**
+     * The name of the binding parameter used in the invocation function
+     * @var string $bindingParameterName
+     * @internal
+     */
     protected $bindingParameterName;
 
-    /** @var ?PipeInterface $boundParameter */
+    /**
+     * The instance of the bound parameter provided to the instance of the operation
+     * @var ?PipeInterface $boundParameter
+     * @internal
+     */
     protected $boundParameter;
 
-    /** @var array $inlineParameters */
+    /**
+     * The URL inline parameters being provided to this operation
+     * @var array $inlineParameters
+     * @internal
+     */
     protected $inlineParameters = [];
 
-    /** @var Type $returnType */
+    /**
+     * The OData return type from this operation
+     * @var Type $returnType
+     * @internal
+     */
     protected $returnType;
 
     public function __construct($identifier)
@@ -68,6 +89,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         $this->setIdentifier($identifier);
     }
 
+    /**
+     * Get the OData return type of this operation
+     * @return Type|null Return type
+     */
     public function getReturnType(): ?Type
     {
         if ($this->returnType) {
@@ -81,6 +106,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         return null;
     }
 
+    /**
+     * Get the OData return type of this operation, based on reflection of the invocation method
+     * @return string Return type
+     */
     public function getReflectedReturnType(): string
     {
         try {
@@ -104,6 +133,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
     }
 
+    /**
+     * Whether the result of this operation is a collection
+     * @return bool
+     */
     public function returnsCollection(): bool
     {
         $returnType = $this->getReflectedReturnType();
@@ -120,6 +153,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
     }
 
+    /**
+     * Whether the result of this operation can be null
+     * @return bool
+     */
     public function isNullable(): bool
     {
         try {
@@ -130,6 +167,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         }
     }
 
+    /**
+     * Get the reflected arguments of the invocation of this operation
+     * @return ObjectArray Arguments
+     */
     public function getArguments(): ObjectArray
     {
         try {
@@ -147,6 +188,11 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         throw new InternalServerErrorException('invalid_arguments', 'Invalid arguments');
     }
 
+    /**
+     * Set the name of the invocation method parameter used to receive the binding parameter
+     * @param  string  $bindingParameterName  Binding parameter name
+     * @return $this
+     */
     public function setBindingParameterName(string $bindingParameterName): self
     {
         $arguments = $this->getArguments();
@@ -162,11 +208,20 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         return $this;
     }
 
+    /**
+     * Get the method parameter name of the binding parameter used on the invocation method
+     * @return string|null Binding parameter name
+     */
     public function getBindingParameterName(): ?string
     {
         return $this->bindingParameterName;
     }
 
+    /**
+     * Set the bound parameter on an instance of this operation
+     * @param  PipeInterface|null  $parameter  Binding parameter
+     * @return $this
+     */
     public function setBoundParameter(?PipeInterface $parameter): self
     {
         $this->ensureTransaction();
@@ -179,12 +234,21 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         return $this;
     }
 
+    /**
+     * Set the URL inline parameters on an instance of this operation
+     * @param  array  $inlineParameters  Inline parameters
+     * @return $this
+     */
     public function setInlineParameters(array $inlineParameters): self
     {
         $this->inlineParameters = $inlineParameters;
         return $this;
     }
 
+    /**
+     * Get the OData kind of this operation
+     * @return string Kind
+     */
     public function getKind(): string
     {
         switch (true) {
@@ -198,6 +262,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         throw new InternalServerErrorException('invalid_operation', 'Operations must implement as Function or Action');
     }
 
+    /**
+     * Get the arguments being provided by the transaction attached to this operation instance
+     * @return array Arguments
+     */
     public function getTransactionArguments(): array
     {
         switch (true) {
@@ -387,11 +455,21 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         );
     }
 
+    /**
+     * Get the resource URL of this operation instance
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Resource URL
+     */
     public function getResourceUrl(Transaction $transaction): string
     {
         return $transaction->getResourceUrl().$this->getName();
     }
 
+    /**
+     * Set the OData type that will be returned by this operation
+     * @param  Type  $type  Return type
+     * @return $this
+     */
     public function setReturnType(Type $type): self
     {
         $this->returnType = $type;

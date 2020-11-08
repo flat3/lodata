@@ -11,6 +11,11 @@ use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 
 class EntitySetArgument extends Argument
 {
+    /**
+     * Generate an entity set argument
+     * @param  null  $source
+     * @return ArgumentInterface
+     */
     public function generate($source = null): ArgumentInterface
     {
         if (!$source instanceof Transaction) {
@@ -34,6 +39,10 @@ class EntitySetArgument extends Argument
         return $entitySet;
     }
 
+    /**
+     * Get the entity set type
+     * @return EntityType
+     */
     public function getType(): EntityType
     {
         $reflectedSet = $this->parameter->getName();

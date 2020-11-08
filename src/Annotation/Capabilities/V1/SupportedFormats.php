@@ -12,6 +12,10 @@ use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\String_;
 
+/**
+ * Supported Formats
+ * @package Flat3\Lodata\Annotation\Capabilities\V1
+ */
 class SupportedFormats extends Annotation
 {
     protected $name = 'Org.OData.Capabilities.V1.SupportedFormats';

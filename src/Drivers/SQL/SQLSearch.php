@@ -12,10 +12,19 @@ use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
 use Flat3\Lodata\Property;
 
+/**
+ * SQL Search
+ * @package Flat3\Lodata\Drivers\SQL
+ */
 trait SQLSearch
 {
     use SQLWhere;
 
+    /**
+     * Generate SQL clauses for the search query option
+     * @param  Event  $event  Search event
+     * @return bool|null
+     */
     public function search(Event $event): ?bool
     {
         switch (true) {

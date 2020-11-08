@@ -105,7 +105,9 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Default.html">Default</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3.html">Flat3</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata.html">Lodata</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Flat3-Lodata-Controller.html">Controller</a></li>
                             </ul>
         </div>
     
@@ -115,12 +117,27 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/ODCFF.php"><a href="files/src-controller-odcff.html"><abbr title="src/Controller/ODCFF.php">ODCFF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 </aside>
 
-        
+            <p class="phpdocumentor-summary">Class ODCFF</p>
+
+    <section class="phpdocumentor-description"></section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">link</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e"> https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e </a>
+                    
+                                    </dd>
+                        </dl>
 
 
 
@@ -143,9 +160,9 @@
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-ODCFF.html#method_get">get()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: <abbr title="\Illuminate\Http\Response">Response</abbr>    </span>
 </dt>
-<dd></dd>
+<dd>Generate an ODCFF response for the provided entity set identifier</dd>
 
         </dl>
 
@@ -166,7 +183,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/ODCFF.php"><a href="files/src-controller-odcff.html"><abbr title="src/Controller/ODCFF.php">ODCFF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 </aside>
 
     
@@ -204,32 +221,37 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/ODCFF.php"><a href="files/src-controller-odcff.html"><abbr title="src/Controller/ODCFF.php">ODCFF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Generate an ODCFF response for the provided entity set identifier</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">get</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$identifier</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">get</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$identifier</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Http\Response">Response</abbr></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$identifier</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Identifier</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Http\Response">Response</abbr></span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Client response</p>
+</section>
 
     
 </article>
