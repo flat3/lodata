@@ -16,7 +16,7 @@ class Enum extends Primitive
     /** @var EnumerationType $type */
     protected $type;
 
-    /** @var ObjectArray[Primitive] $value */
+    /** @var ObjectArray $value */
     protected $value;
 
     protected $nullable = false;
