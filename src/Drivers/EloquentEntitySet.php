@@ -7,6 +7,7 @@ use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLSearch;
+use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -47,6 +48,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
     use SQLSearch;
     use SQLFilter;
     use SQLSchema;
+    use SQLWhere;
 
     /**
      * Eloquent model class name
