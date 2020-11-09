@@ -24,23 +24,23 @@ use TypeError;
 
 /**
  * Type
- * @method static PrimitiveType binary()
- * @method static PrimitiveType boolean()
- * @method static PrimitiveType byte()
- * @method static PrimitiveType date()
- * @method static PrimitiveType datetimeoffset()
- * @method static PrimitiveType decimal()
- * @method static PrimitiveType double()
- * @method static PrimitiveType duration()
- * @method static PrimitiveType guid()
- * @method static PrimitiveType int16()
- * @method static PrimitiveType int32()
- * @method static PrimitiveType int64()
- * @method static PrimitiveType sbyte()
- * @method static PrimitiveType single()
- * @method static PrimitiveType stream()
- * @method static PrimitiveType string()
- * @method static PrimitiveType timeofday()
+ * @method static PrimitiveType binary() Binary type
+ * @method static PrimitiveType boolean() Boolean type
+ * @method static PrimitiveType byte() Byte type
+ * @method static PrimitiveType date() Date type
+ * @method static PrimitiveType datetimeoffset() DateTimeOffset type
+ * @method static PrimitiveType decimal() Decimal type
+ * @method static PrimitiveType double() Double type
+ * @method static PrimitiveType duration() Duration type
+ * @method static PrimitiveType guid() GUID type
+ * @method static PrimitiveType int16() Int16 type
+ * @method static PrimitiveType int32() Int32 type
+ * @method static PrimitiveType int64() Int64 type
+ * @method static PrimitiveType sbyte() SByte type
+ * @method static PrimitiveType single() Single type
+ * @method static PrimitiveType stream() Stream type
+ * @method static PrimitiveType string() String type
+ * @method static PrimitiveType timeofday() TimeOfDay type
  * @package Flat3\Lodata
  */
 abstract class Type
