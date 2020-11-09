@@ -21,25 +21,26 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Lodata
- * @method static ObjectArray|EntityType[] getEntityTypes()
- * @method static ObjectArray|ResourceInterface[] getResources()
- * @method static ObjectArray|ServiceInterface[] getServices()
- * @method static ObjectArray|Reference[] getAnnotationReferences()
- * @method static ObjectArray|Annotation[] getAnnotations()
- * @method static ObjectArray|EnumerationType[] getEnumerationTypes()
- * @method static ResourceInterface getResource($name)
- * @method static EntitySet getEntitySet($name)
- * @method static Operation getOperation($name)
- * @method static FunctionInterface getFunction($name)
- * @method static ActionInterface getAction($name)
- * @method static EntityType getEntityType($name)
- * @method static Singleton getSingleton($name)
- * @method static IdentifierInterface add(IdentifierInterface $item)
- * @method static string getNamespace()
- * @method static EloquentEntitySet discoverEloquentModel(string $class)
- * @method static string getEndpoint()
- * @method static string getOdcUrl(string $set)
- * @method static string getPbidsUrl()
+ * @method static ObjectArray|EntityType[] getEntityTypes() Get the entity types attached to the model
+ * @method static ObjectArray|ResourceInterface[] getResources() Get the resources attached to the model
+ * @method static ObjectArray|ServiceInterface[] getServices() Get the services attached to the model
+ * @method static ObjectArray|Reference[] getAnnotationReferences() Get the annotation references attached to the model
+ * @method static ObjectArray|Annotation[] getAnnotations() Get the annotations attached to the model
+ * @method static ObjectArray|EnumerationType[] getEnumerationTypes() Get the enumeration types attached to the model
+ * @method static ResourceInterface getResource($name) Get a resource from the model
+ * @method static EntitySet getEntitySet($name) Get an entity set from the model
+ * @method static Operation getOperation($name) Get an operation from the model
+ * @method static FunctionInterface getFunction($name) Get a function from the model
+ * @method static ActionInterface getAction($name) Get an action from the model
+ * @method static EntityType getEntityType($name) Get an entity type from the model
+ * @method static Singleton getSingleton($name) Get a singleton from the model
+ * @method static IdentifierInterface add(IdentifierInterface $item) Add a named resource or type to the OData model
+ * @method static Model drop(string $key) Drop a named resource or type from the model
+ * @method static string getNamespace() Get the namespace of this model
+ * @method static EloquentEntitySet discoverEloquentModel(string $class) Discover the Eloquent model provided as a class name
+ * @method static string getEndpoint() Get the REST endpoint of this OData model
+ * @method static string getOdcUrl(string $set) Get the Office Data Connection URL of the provided entity set
+ * @method static string getPbidsUrl() Get the PowerBI discovery URL of this service
  * @package Flat3\Lodata\Facades
  */
 class Lodata extends Facade

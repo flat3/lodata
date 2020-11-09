@@ -154,7 +154,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Get a value from the array
-     * @param $key Key
+     * @param  mixed  $key  Key
      * @return mixed|null
      */
     public function get($key)
