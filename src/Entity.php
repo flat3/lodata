@@ -146,7 +146,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
                 $metadata['id'] = sprintf(
                     "%s(%s)",
                     $this->entitySet->getName(),
-                    $this->getEntityId()->getValue()->get()
+                    $this->getEntityId()->getPrimitiveValue()->get()
                 );
 
                 $metadata->addRequiredProperty('id');
@@ -562,7 +562,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             }
         }
 
-        return ETag::hash($input);
+        return sprintf('W/"%s"', ETag::hash($input));
     }
 
     /**

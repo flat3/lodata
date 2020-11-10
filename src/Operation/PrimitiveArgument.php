@@ -7,6 +7,7 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\PrimitiveType;
+use ReflectionNamedType;
 
 /**
  * Primitive Argument
@@ -65,6 +66,8 @@ class PrimitiveArgument extends Argument
      */
     public function getType()
     {
-        return new PrimitiveType($this->parameter->getType()->getName());
+        /** @var ReflectionNamedType $type */
+        $type = $this->parameter->getType();
+        return new PrimitiveType($type->getName());
     }
 }

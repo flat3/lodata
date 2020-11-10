@@ -42,11 +42,11 @@ class MetadataContainer implements ArrayAccess
 
     /**
      * Set a metadata property
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return $this
      */
-    public function set($key, $value): self
+    public function set(string $key, string $value): self
     {
         $this->values[$key] = $value;
         return $this;

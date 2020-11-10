@@ -25,6 +25,7 @@ abstract class GeneratedProperty extends Property
      */
     public function generatePropertyValue(Entity $entity): PropertyValue
     {
+        /** @var PrimitiveType $type */
         $type = $this->getType();
         $propertyValue = $entity->newPropertyValue();
         $propertyValue->setProperty($this);

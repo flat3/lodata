@@ -312,7 +312,7 @@ class Lexer
     /**
      * Match a keyword, case insensitively
      * @param  mixed  ...$keywords
-     * @return mixed
+     * @return string
      * @throws LexerException
      */
     public function keyword(...$keywords): string
@@ -342,7 +342,7 @@ class Lexer
 
     /**
      * Sort the provided array by value length
-     * @param $array
+     * @param array $array
      */
     public static function sortArrayByLength(&$array)
     {
@@ -396,7 +396,7 @@ class Lexer
     /**
      * Maybe match a keyword
      * @param  mixed  ...$args
-     * @return mixed|null
+     * @return null|string
      */
     public function maybeKeyword(...$args): ?string
     {
@@ -581,7 +581,7 @@ class Lexer
     /**
      * Match a quoted string
      * @param  string  $quoteChar
-     * @return string|null
+     * @return string
      * @throws LexerException
      */
     public function quotedString($quoteChar = "'"): string

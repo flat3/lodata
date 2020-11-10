@@ -44,7 +44,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Replace a value in the array
-     * @param $key
+     * @param  mixed  $key
      * @param  null  $value
      */
     public function replace($key, $value = null): void
@@ -62,7 +62,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Add a value to the array
-     * @param $key
+     * @param mixed $key
      * @param  null  $value
      */
     public function add($key, $value = null): void
@@ -88,7 +88,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Check if the provided item exists in the array
-     * @param $key
+     * @param mixed $key
      * @return bool
      */
     public function exists($key): bool
@@ -210,7 +210,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Remove an object from the array
-     * @param $key
+     * @param mixed $key
      */
     public function drop($key): void
     {
@@ -228,10 +228,10 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Get a subset of objects in the array by the provided class
-     * @param $class
+     * @param string $class
      * @return $this
      */
-    public function sliceByClass($class): self
+    public function sliceByClass(string $class): self
     {
         $result = new self();
         $classes = is_array($class) ? $class : [$class];

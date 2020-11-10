@@ -2,6 +2,8 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Event\ArgumentSeparator;
@@ -62,7 +64,11 @@ trait SQLFilter
                 return true;
 
             case $event instanceof Field:
-                $property = $this->getType()->getProperty($event->getValue());
+                /** @var EntityType $type */
+                $type = $this->getType();
+
+                /** @var DeclaredProperty $property */
+                $property = $type->getProperty($event->getValue());
 
                 if (!$property->isFilterable()) {
                     throw new BadRequestException(

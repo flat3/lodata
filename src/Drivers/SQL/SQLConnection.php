@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
 use PDO;
@@ -19,11 +20,20 @@ trait SQLConnection
      */
     protected $connection = null;
 
+    /**
+     * Get the connection name
+     * @return string Name
+     */
     public function getConnectionName(): string
     {
         return $this->connection ?: DB::getDefaultConnection();
     }
 
+    /**
+     * Set the connection name
+     * @param  string  $connection Name
+     * @return $this
+     */
     public function setConnectionName(string $connection)
     {
         $this->connection = $connection;
@@ -31,11 +41,19 @@ trait SQLConnection
         return $this;
     }
 
+    /**
+     * Get the database connection
+     * @return ConnectionInterface|Connection Connection
+     */
     public function getConnection(): ConnectionInterface
     {
         return DB::connection($this->getConnectionName());
     }
 
+    /**
+     * Get a database handle
+     * @return PDO Handle
+     */
     public function getHandle(): PDO
     {
         $dbh = $this->getConnection()->getPdo();
@@ -43,6 +61,10 @@ trait SQLConnection
         return $dbh;
     }
 
+    /**
+     * Get the PDO driver name
+     * @return string Driver
+     */
     public function getDriver(): string
     {
         return $this->getHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);

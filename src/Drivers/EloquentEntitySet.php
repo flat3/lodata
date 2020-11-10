@@ -27,6 +27,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -52,7 +53,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
     /**
      * Eloquent model class name
-     * @var Model $model
+     * @var Model|Builder $model
      * @internal
      */
     protected $model;
@@ -112,7 +113,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function getModelByKey(PropertyValue $key): ?Model
     {
-        return $this->model::where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
+        /** @var Model|Builder $model */
+        $model = new $this->model();
+
+        return $model->where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
     }
 
     /**

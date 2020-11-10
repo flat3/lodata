@@ -2,6 +2,8 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Helper\Identifier;
+
 /**
  * Entity Type
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530349
@@ -23,6 +25,16 @@ class EntityType extends ComplexType
     public function getKey(): ?DeclaredProperty
     {
         return $this->key;
+    }
+
+    /**
+     * Generate a new entity type
+     * @param string|Identifier $identifier
+     * @return EntityType Entity Type
+     */
+    public static function factory($identifier)
+    {
+        return new self($identifier);
     }
 
     /**

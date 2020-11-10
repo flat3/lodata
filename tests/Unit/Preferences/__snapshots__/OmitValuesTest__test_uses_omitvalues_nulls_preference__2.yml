@@ -4,5 +4,5 @@ headers:
     vary: [prefer]
     content-type: [application/json]
     odata-version: ['4.01']
-    etag: [6bcbcde1d137f7932aa43f04a4818e1953e69102a0c72bd435bf68095ed925f5]
+    etag: ['W/"6bcbcde1d137f7932aa43f04a4818e1953e69102a0c72bd435bf68095ed925f5"']
 status: 200

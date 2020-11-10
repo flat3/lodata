@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
+use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport;
@@ -40,6 +41,7 @@ class EloquentTest extends TestCase
 
     public function test_failed_relationship()
     {
+        /** @var EloquentEntitySet $countries */
         $countries = Lodata::getEntitySet('Countries');
 
         try {

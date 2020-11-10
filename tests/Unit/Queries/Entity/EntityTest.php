@@ -245,4 +245,25 @@ class EntityTest extends TestCase
 
         $this->assertMatchesSnapshot(ob_get_clean());
     }
+
+    public function test_dynamic_property()
+    {
+        $this->withDynamicPropertyModel();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/example')
+        );
+    }
+
+    public function test_dynamic_property_select()
+    {
+        $this->withDynamicPropertyModel();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/example')
+                ->select('dynamic')
+        );
+    }
 }

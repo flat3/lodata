@@ -17,9 +17,9 @@ class Parameter
 
     /**
      * Parse parameter out of the provided string
-     * @param $text
+     * @param string $text
      */
-    public function parse($text)
+    public function parse(string $text)
     {
         $lexer = new Lexer($text);
 
@@ -47,10 +47,10 @@ class Parameter
 
     /**
      * Set parameter value
-     * @param $value
+     * @param ?string $value
      * @return $this
      */
-    public function setValue($value): self
+    public function setValue(?string $value): self
     {
         $this->value = $value;
         return $this;
@@ -67,11 +67,11 @@ class Parameter
 
     /**
      * Add parameter
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return $this
      */
-    public function addParameter($key, $value): self
+    public function addParameter(string $key, string $value): self
     {
         $this->parameters[$key] = $value;
 

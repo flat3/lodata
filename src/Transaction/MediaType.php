@@ -87,10 +87,10 @@ class MediaType
 
     /**
      * Parse media type
-     * @param $type
+     * @param string $type
      * @return $this
      */
-    public function parse($type): self
+    public function parse(string $type): self
     {
         $this->original = $type;
 

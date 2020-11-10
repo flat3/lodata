@@ -623,7 +623,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
                 $keyProperty = $entitySet->getType()->getProperty($alternateKey);
 
-                if ($keyProperty instanceof Property && !$keyProperty->isAlternativeKey()) {
+                if ($keyProperty instanceof DeclaredProperty && !$keyProperty->isAlternativeKey()) {
                     throw new BadRequestException(
                         'property_not_alternative_key',
                         sprintf(

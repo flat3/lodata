@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Tests\Data;
 
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
@@ -241,13 +242,35 @@ trait TestModels
         Lodata::add(
             new class(
                 'texts',
-                Lodata::add(new EntityType('text'))
-                    ->addDeclaredProperty('a', Type::string())
+                Lodata::add((new EntityType('text'))
+                    ->addDeclaredProperty('a', Type::string()))
             ) extends EntitySet implements QueryInterface {
                 public function query(): array
                 {
                     $entity = $this->newEntity();
                     $entity['a'] = 'a';
+                    return [
+                        $entity,
+                    ];
+                }
+            });
+    }
+
+    public function withDynamicPropertyModel() {
+        Lodata::add(
+            new class(
+                'example',
+                Lodata::add((new EntityType('text'))
+                    ->addDeclaredProperty('declared', Type::string()))
+            ) extends EntitySet implements QueryInterface {
+                public function query(): array
+                {
+                    $entity = $this->newEntity();
+                    $entity['declared'] = 'a';
+                    $pv = $entity->newPropertyValue();
+                    $pv->setValue(new Int32(3));
+                    $pv->setProperty(new DynamicProperty('dynamic', Type::int32()));
+                    $entity->addProperty($pv);
                     return [
                         $entity,
                     ];
