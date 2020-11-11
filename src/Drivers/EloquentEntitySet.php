@@ -113,7 +113,10 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      */
     public function getModelByKey(PropertyValue $key): ?Model
     {
-        /** @var Model|Builder $model */
+        /**
+         * @var Model|Builder $model
+         * @phpstan-ignore-next-line
+         */
         $model = new $this->model();
 
         return $model->where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
