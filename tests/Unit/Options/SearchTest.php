@@ -25,7 +25,7 @@ class SearchTest extends TestCase
 
     public function test_search_no_searchable_properties()
     {
-        Lodata::getEntityType('airport')->getProperty('code')->setSearchable(false);
+        Lodata::getEntityType('airport')->getDeclaredProperty('code')->setSearchable(false);
 
         $this->assertInternalServerError(
             Request::factory()

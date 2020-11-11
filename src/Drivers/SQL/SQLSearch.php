@@ -2,6 +2,8 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Event\EndGroup;
 use Flat3\Lodata\Expression\Event\Literal;
@@ -60,8 +62,11 @@ trait SQLSearch
             case $event instanceof Literal:
                 $properties = [];
 
-                /** @var Property $property */
-                foreach ($this->getType()->getDeclaredProperties() as $property) {
+                /** @var EntityType $type */
+                $type = $this->getType();
+
+                /** @var DeclaredProperty $property */
+                foreach ($type->getDeclaredProperties() as $property) {
                     if (!$property->isSearchable()) {
                         continue;
                     }

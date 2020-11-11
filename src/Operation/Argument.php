@@ -10,6 +10,7 @@ use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Traits\HasName;
+use ReflectionNamedType;
 use ReflectionParameter;
 
 /**
@@ -48,19 +49,21 @@ abstract class Argument implements NameInterface
      */
     public static function factory(ReflectionParameter $parameter): self
     {
-        $type = $parameter->getType()->getName();
+        /** @var ReflectionNamedType $namedType */
+        $namedType = $parameter->getType();
+        $typeName = $namedType->getName();
 
         switch (true) {
-            case is_a($type, EntitySet::class, true):
+            case is_a($typeName, EntitySet::class, true):
                 return new EntitySetArgument($parameter);
 
-            case is_a($type, Transaction::class, true):
+            case is_a($typeName, Transaction::class, true):
                 return new TransactionArgument($parameter);
 
-            case is_a($type, Entity::class, true):
+            case is_a($typeName, Entity::class, true):
                 return new EntityArgument($parameter);
 
-            case is_a($type, Primitive::class, true):
+            case is_a($typeName, Primitive::class, true):
                 return new PrimitiveArgument($parameter);
         }
 

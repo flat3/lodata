@@ -60,10 +60,10 @@ class ParameterList
 
     /**
      * Get a parameter by key
-     * @param $key
+     * @param string $key
      * @return Parameter|null
      */
-    public function getParameter($key): ?Parameter
+    public function getParameter(string $key): ?Parameter
     {
         return $this->parameters[$key];
     }

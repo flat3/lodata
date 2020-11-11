@@ -3,6 +3,7 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -26,7 +27,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * ComplexType constructor.
-     * @param $identifier
+     * @param string|Identifier $identifier
      */
     public function __construct($identifier)
     {
@@ -36,13 +37,12 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Generate a new complex type
-     * @param $identifier
+     * @param string|Identifier $identifier
      * @return ComplexType Complex Type
      */
-    public static function factory($identifier): self
+    public static function factory($identifier)
     {
-        /** @phpstan-ignore-next-line */
-        return new static($identifier);
+        return new self($identifier);
     }
 
     /**
