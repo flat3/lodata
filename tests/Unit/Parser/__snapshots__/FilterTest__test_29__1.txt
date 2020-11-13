@@ -1,1 +1,1 @@
-( substring( title , 1 , 4 ) eq 'abc123' )
+( substring( origin , 1 , 4 ) eq 'abc123' )

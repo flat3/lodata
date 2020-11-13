@@ -14,7 +14,6 @@ abstract class Node
     /**
      * Captured symbol
      * @var string
-     * @internal
      */
     public const symbol = '';
 
@@ -96,9 +95,9 @@ abstract class Node
 
     /**
      * Set the value of this node
-     * @param  string  $value
+     * @param  mixed  $value
      */
-    public function setValue(string $value): void
+    public function setValue($value): void
     {
         $this->value = $value;
     }
@@ -146,6 +145,15 @@ abstract class Node
     }
 
     /**
+     * Get the parser that generated this node
+     * @return Parser
+     */
+    public function getParser(): Parser
+    {
+        return $this->parser;
+    }
+
+    /**
      * Handle an expression event
      * @param  Event  $event  Event
      * @throws NotImplementedException
@@ -178,8 +186,10 @@ abstract class Node
                 );
 
             default:
-                throw new NotImplementedException('unsupported_expression',
-                    'This entity set does not support the provided expression');
+                throw new NotImplementedException(
+                    'unsupported_expression',
+                    'This entity set does not support the provided expression'
+                );
         }
     }
 }

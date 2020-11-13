@@ -1,0 +1,1 @@
+da/all(d: ( d/name eq 'hello' ) )

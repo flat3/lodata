@@ -1,1 +1,1 @@
-( indexof( title , 'a' ) eq 1 )
+( indexof( origin , 'a' ) eq 1 )

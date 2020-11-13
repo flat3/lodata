@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Expression\Parser;
 
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Lexer;
@@ -78,6 +77,10 @@ class Filter extends Parser
 
         // Conditional OR
         Node\Operator\Comparison\Or_::class,
+
+        // Lambda
+        Node\Operator\Lambda\Any::class,
+        Node\Operator\Lambda\All::class,
     ];
 
     /**
@@ -86,9 +89,9 @@ class Filter extends Parser
      */
     protected $transaction;
 
-    public function __construct(EntitySet $entitySet, Transaction $transaction)
+    public function __construct(Transaction $transaction)
     {
-        parent::__construct($entitySet);
+        parent::__construct();
 
         $this->transaction = $transaction;
 
@@ -105,8 +108,10 @@ class Filter extends Parser
      */
     public function expressionEvent(Event $event): ?bool
     {
-        if ($this->entitySet instanceof FilterInterface) {
-            return $this->entitySet->filter($event);
+        $entitySet = $this->getCurrentResource();
+
+        if ($entitySet instanceof FilterInterface) {
+            return $entitySet->filter($event);
         }
 
         return false;
@@ -140,20 +145,24 @@ class Filter extends Parser
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
-            $this->tokenizeParameterAlias($this->transaction) ||
-            $this->tokenizeKeyword() ||
+            $this->tokenizeParameterAlias() ||
+            $this->tokenizeLambdaVariable() ||
+            $this->tokenizeLambdaProperty() ||
+            $this->tokenizeDeclaredProperty() ||
             $this->tokenizeOperator() ||
+            $this->tokenizeNavigationPropertyPath() ||
             $this->findLiteral();
     }
 
     /**
      * Tokenize a parameter alias
-     * @param  Transaction  $transaction  Transaction
      * @return bool
      */
-    public function tokenizeParameterAlias(Transaction $transaction): bool
+    public function tokenizeParameterAlias(): bool
     {
         $token = $this->lexer->maybeParameterAlias();
+
+        $transaction = $this->transaction;
 
         if (!$token) {
             return false;

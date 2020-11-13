@@ -2,17 +2,17 @@
 
 namespace Flat3\Lodata\Expression\Node;
 
-use Flat3\Lodata\Expression\Event\Field as FieldEvent;
+use Flat3\Lodata\Expression\Event\Property as PropertyEvent;
 use Flat3\Lodata\Expression\Node;
 
 /**
- * Field
+ * Property
  * @package Flat3\Lodata\Expression\Node
  */
-class Field extends Node
+class Property extends Node
 {
     public function compute(): void
     {
-        $this->expressionEvent(new FieldEvent($this));
+        $this->expressionEvent(new PropertyEvent($this));
     }
 }

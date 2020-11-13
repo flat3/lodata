@@ -724,9 +724,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
     /**
      * Apply the filter system query option
-     * @param  array  $validLiterals  List of valid literals for this entity set
      */
-    public function applyFilterQueryOption(array $validLiterals = []): void
+    public function applyFilterQueryOption(): void
     {
         $filter = $this->getFilter();
 
@@ -734,11 +733,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             return;
         }
 
-        $parser = new FilterParser($this, $this->getTransaction());
-
-        foreach ($validLiterals as $validLiteral) {
-            $parser->addValidLiteral($validLiteral);
-        }
+        $parser = new FilterParser($this->getTransaction());
+        $parser->pushEntitySet($this);
 
         $tree = $parser->generateTree($filter->getValue());
         $tree->compute();
@@ -755,7 +751,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             return;
         }
 
-        $parser = new SearchParser($this);
+        $parser = new SearchParser();
+        $parser->pushEntitySet($this);
 
         $tree = $parser->generateTree($search->getValue());
         $tree->compute();

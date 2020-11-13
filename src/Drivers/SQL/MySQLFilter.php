@@ -34,6 +34,8 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
  */
 trait MySQLFilter
 {
+    use SQLLambda;
+
     /**
      * MySQL-specific SQL filter generation
      * @param  Event  $event  Filter event
@@ -160,6 +162,8 @@ trait MySQLFilter
                 }
                 break;
         }
+
+        $this->sqlLambdaFilter($event);
 
         return false;
     }

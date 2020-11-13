@@ -1,1 +1,1 @@
-( minute( title ) eq 33 )
+( minute( origin ) eq 33 )

@@ -30,6 +30,8 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
  */
 trait SQLServerFilter
 {
+    use SQLLambda;
+
     /**
      * Microsoft SQL Server-specific SQL filter generation
      * @param  Event  $event  Filter event
@@ -138,6 +140,8 @@ trait SQLServerFilter
                 }
                 break;
         }
+
+        $this->sqlLambdaFilter($event);
 
         return false;
     }

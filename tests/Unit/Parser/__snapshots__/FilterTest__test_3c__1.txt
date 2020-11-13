@@ -1,1 +1,1 @@
-( title ne 4 )
+( origin ne 4 )

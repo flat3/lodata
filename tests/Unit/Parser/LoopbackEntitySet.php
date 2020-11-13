@@ -1,15 +1,16 @@
 <?php
 
-namespace Flat3\Lodata\Tests;
+namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Event\ArgumentSeparator;
 use Flat3\Lodata\Expression\Event\EndFunction;
 use Flat3\Lodata\Expression\Event\EndGroup;
-use Flat3\Lodata\Expression\Event\Field;
 use Flat3\Lodata\Expression\Event\Literal;
 use Flat3\Lodata\Expression\Event\Operator;
+use Flat3\Lodata\Expression\Event\Property;
 use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Event\StartGroup;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
@@ -22,6 +23,8 @@ use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
+use Flat3\Lodata\Expression\Node\Operator\Lambda;
+use Flat3\Lodata\Expression\Node\Property\Lambda as LambdaProperty;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
@@ -133,15 +136,46 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
 
                 return true;
 
-            case $event instanceof Field:
-                $this->addFilter($event->getValue());
+            case $event instanceof Property:
+                $node = $event->getNode();
 
+                switch (true) {
+                    case $node instanceof LambdaProperty:
+                        $this->addFilter(sprintf(
+                            '%s/%s',
+                            $node->getVariable(),
+                            $node->getValue()
+                        ));
+                        return true;
+                }
+
+                $this->addFilter($event->getValue());
                 return true;
 
             case $event instanceof Operator:
                 $operator = $event->getNode();
 
-                $this->addFilter($operator::symbol);
+                switch (true) {
+                    case $operator instanceof Lambda:
+                        list ($lambdaExpression) = $operator->getArguments();
+
+                        $this->addFilter(
+                            sprintf(
+                                '%s/%s(%s:',
+                                $operator->getNavigationProperty()->getValue(),
+                                $operator::symbol,
+                                $operator->getVariable()
+                            )
+                        );
+                        $lambdaExpression->compute();
+                        $this->addFilter(')');
+
+                        throw new NodeHandledException();
+
+                    default:
+                        $this->addFilter($operator::symbol);
+                        break;
+                }
 
                 return true;
 

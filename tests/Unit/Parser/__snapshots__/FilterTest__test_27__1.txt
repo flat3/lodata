@@ -1,1 +1,1 @@
-( length( title ) eq 1 )
+( length( origin ) eq 1 )

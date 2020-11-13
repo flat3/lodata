@@ -5,9 +5,9 @@ namespace Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Event;
 
 /**
- * Field
+ * Property
  * @package Flat3\Lodata\Expression\Event
  */
-class Field extends Event
+class Property extends Event
 {
 }

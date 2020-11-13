@@ -1,1 +1,1 @@
-( ( not contains( title , 'a' ) ) and ( ( title eq 'abcd' ) or ( title eq 'e' ) ) )
+( ( not contains( origin , 'a' ) ) and ( ( origin eq 'abcd' ) or ( origin eq 'e' ) ) )

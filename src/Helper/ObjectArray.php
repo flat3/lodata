@@ -333,4 +333,13 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     {
         return Arr::first($this->array);
     }
+
+    /**
+     * Return the array
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->array;
+    }
 }

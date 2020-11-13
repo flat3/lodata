@@ -1,1 +1,1 @@
-contains( title , 'b' )
+contains( origin , 'b' )

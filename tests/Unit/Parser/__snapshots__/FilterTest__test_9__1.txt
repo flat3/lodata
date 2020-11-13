@@ -1,1 +1,1 @@
-title in ( 'a' , 'b' , 'c' )
+origin in ( 'a' , 'b' , 'c' )

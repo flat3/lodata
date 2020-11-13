@@ -1,1 +1,1 @@
-( title eq ( 4 mod 3 ) )
+( origin eq ( 4 mod 3 ) )

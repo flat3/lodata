@@ -1,1 +1,1 @@
-( ( title eq 'b' ) and ( not ( title eq 'a' ) ) )
+( ( origin eq 'b' ) and ( not ( origin eq 'a' ) ) )

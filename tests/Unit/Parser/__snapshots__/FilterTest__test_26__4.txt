@@ -1,1 +1,1 @@
-SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( POSITION( test.`title` IN ? ) = ? )
+SELECT flights.`id` AS id, flights.`origin` AS origin FROM flights WHERE ( POSITION( flights.`origin` IN ? ) = ? )

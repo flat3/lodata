@@ -1,1 +1,1 @@
-endswith( title , 'b' )
+endswith( origin , 'b' )

@@ -1,1 +1,1 @@
-SELECT test.`id` AS id, test.`title` AS title FROM test WHERE ( UPPER( test.`title` ) = ? )
+SELECT flights.`id` AS id, flights.`origin` AS origin FROM flights WHERE ( UPPER( flights.`origin` ) = ? )

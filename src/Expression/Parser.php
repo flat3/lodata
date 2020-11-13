@@ -5,13 +5,15 @@ namespace Flat3\Lodata\Expression;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Expression\Node\Field;
 use Flat3\Lodata\Expression\Node\Func;
 use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Node\LeftParen;
 use Flat3\Lodata\Expression\Node\Literal;
+use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Operator\Logical;
+use Flat3\Lodata\Expression\Node\Property;
 use Flat3\Lodata\Expression\Node\RightParen;
+use Illuminate\Support\Arr;
 
 /**
  * Parser
@@ -36,17 +38,10 @@ abstract class Parser
 
     /**
      * The entity set this parser is being run on behalf of
-     * @var EntitySet $entitySet
+     * @var EntitySet[] $entitySets
      * @internal
      */
-    protected $entitySet;
-
-    /**
-     * The list of valid literal strings that can be captured by this parser
-     * @var string[] $validLiterals
-     * @internal
-     */
-    private $validLiterals = [];
+    protected $entitySets = [];
 
     /**
      * The operator stack
@@ -69,21 +64,8 @@ abstract class Parser
      */
     protected $lexer;
 
-    public function __construct(EntitySet $entitySet)
+    public function __construct()
     {
-        $this->entitySet = $entitySet;
-    }
-
-    /**
-     * Set the list of valid field literals
-     * @param  string  $literal
-     * @return self
-     */
-    public function addValidLiteral(string $literal): self
-    {
-        $this->validLiterals[] = $literal;
-
-        return $this;
     }
 
     /**
@@ -139,6 +121,26 @@ abstract class Parser
             return;
         }
 
+        if ($operator instanceof Lambda) {
+            $lambdaVariable = array_pop($this->operandStack);
+            $navigationProperty = array_pop($this->operandStack);
+
+            if (!$navigationProperty instanceof Node\Property\Navigation) {
+                throw new ParserException('Lambda function was not prepended by a navigation property path');
+            }
+
+            if (!$lambdaVariable instanceof Literal\LambdaVariable) {
+                throw new ParserException('Lambda function had no valid argument');
+            }
+
+            $operator->setVariable($lambdaVariable);
+            $operator->setNavigationProperty($navigationProperty);
+
+            $this->operandStack[] = $operator;
+
+            return;
+        }
+
         if ($operator::isUnary()) {
             $operand = array_pop($this->operandStack);
 
@@ -187,7 +189,7 @@ abstract class Parser
         $this->tokens[] = $token;
 
         $lastToken = $this->getLastToken();
-        if ($lastToken instanceof Func || $lastToken instanceof Logical\In) {
+        if ($lastToken instanceof Func || $lastToken instanceof Logical\In || $lastToken instanceof Lambda) {
             $token->setFunc($lastToken);
         }
 
@@ -300,10 +302,8 @@ abstract class Parser
         $o1->setValue($token);
         $this->tokens[] = $o1;
 
-        /** @var Operator $o2 */
-        $o2 = null;
-
         while ($this->operatorStack) {
+            /** @var Operator $o2 */
             $o2 = $this->getOperatorStackHead();
 
             if (null === $o2 || $o2 instanceof Group) {
@@ -530,18 +530,132 @@ abstract class Parser
     }
 
     /**
-     * Tokenize a registered literal keyword
+     * Tokenize a navigation property path
      * @return bool
      */
-    public function tokenizeKeyword(): bool
+    public function tokenizeNavigationPropertyPath(): bool
     {
-        $token = $this->lexer->maybeKeyword(...$this->validLiterals);
+        $navigationProperties = $this->getCurrentResource()->getType()->getNavigationProperties();
+
+        $token = $this->lexer->maybeKeyword(...$navigationProperties->keys());
 
         if (!$token) {
             return false;
         }
 
-        $operand = new Field($this);
+        $this->lexer->char('/');
+
+        $operand = new Node\Property\Navigation($this);
+        $operand->setValue($navigationProperties[$token]);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    /**
+     * Tokenize the lambda operator argument
+     * @return bool
+     */
+    public function tokenizeLambdaVariable(): bool
+    {
+        $token = $this->lexer->maybeLambdaVariable();
+
+        if (!$token) {
+            return false;
+        }
+
+        $lambdaVariable = rtrim($token, ':');
+
+        $operand = new Node\Literal\LambdaVariable($this);
+        $operand->setValue($lambdaVariable);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    /**
+     * Tokenize a lambda property
+     * @return bool
+     */
+    public function tokenizeLambdaProperty(): bool
+    {
+        $variable = null;
+
+        foreach (array_reverse($this->tokens) as $token) {
+            if ($token instanceof Literal\LambdaVariable) {
+                $variable = $token;
+                break;
+            }
+        }
+
+        if (!$variable) {
+            return false;
+        }
+
+        $preamble = $this->lexer->maybeKeyword($variable->getValue().'/');
+
+        if (!$preamble) {
+            return false;
+        }
+
+        $token = $this->lexer->identifier();
+
+        $operand = new Node\Property\Lambda($this);
+        $operand->setValue($token);
+        $operand->setVariable($variable);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    /**
+     * Get the entity set currently being operated on
+     * @return EntitySet Entity set
+     */
+    public function getCurrentResource(): EntitySet
+    {
+        return Arr::last($this->entitySets);
+    }
+
+    /**
+     * Push an entity set onto the stack
+     * @param  EntitySet  $entitySet  Entity set
+     * @return $this Parser
+     */
+    public function pushEntitySet(EntitySet $entitySet): self
+    {
+        $this->entitySets[] = $entitySet;
+
+        return $this;
+    }
+
+    /**
+     * Pop an entity set off the stack
+     * @return EntitySet Entity set
+     */
+    public function popEntitySet(): EntitySet
+    {
+        return array_pop($this->entitySets);
+    }
+
+    /**
+     * Tokenize a declared property
+     * @return bool
+     */
+    public function tokenizeDeclaredProperty(): bool
+    {
+        $properties = $this->getCurrentResource()->getType()->getDeclaredProperties()->keys();
+
+        $token = $this->lexer->maybeKeyword(...$properties);
+
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Property($this);
         $operand->setValue($token);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;

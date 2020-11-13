@@ -26,6 +26,7 @@ class Lexer
     public const TIME_OF_DAY = '([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?';
     public const DIGIT = '\d';
     public const PATH_SEPARATOR = '/';
+    public const LAMBDA_VARIABLE = self::IDENTIFIER.'\:';
 
     /**
      * The text passed to the Lexer
@@ -715,6 +716,15 @@ class Lexer
     public function qualifiedIdentifier(): string
     {
         return $this->expression(self::QUALIFIED_IDENTIFIER);
+    }
+
+    /**
+     * Maybe match a lambda variable
+     * @return string|null
+     */
+    public function maybeLambdaVariable(): ?string
+    {
+        return $this->maybeExpression(self::LAMBDA_VARIABLE);
     }
 
     /**

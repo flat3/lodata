@@ -30,6 +30,8 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
  */
 trait PostgreSQLFilter
 {
+    use SQLLambda;
+
     /**
      * PostgreSQL-specific SQL filter generation
      * @param  Event  $event  Filter event
@@ -143,6 +145,8 @@ trait PostgreSQLFilter
                 }
                 break;
         }
+
+        $this->sqlLambdaFilter($event);
 
         return false;
     }

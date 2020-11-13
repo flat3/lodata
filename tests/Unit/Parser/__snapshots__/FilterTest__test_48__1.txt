@@ -1,1 +1,1 @@
-( day( title ) eq 4 )
+( day( origin ) eq 4 )

@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Expression\Parser;
 
-use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Node;
@@ -23,9 +22,9 @@ class Search extends Parser
         Node\Operator\Comparison\Or_::class,
     ];
 
-    public function __construct(EntitySet $entitySet)
+    public function __construct()
     {
-        parent::__construct($entitySet);
+        parent::__construct();
 
         /** @var Operator $operator */
         foreach (self::operators as $operator) {
@@ -40,8 +39,10 @@ class Search extends Parser
      */
     public function expressionEvent(Event $event): ?bool
     {
-        if ($this->entitySet instanceof SearchInterface) {
-            return $this->entitySet->search($event);
+        $entitySet = $this->getCurrentResource();
+
+        if ($entitySet instanceof SearchInterface) {
+            return $entitySet->search($event);
         }
 
         return false;

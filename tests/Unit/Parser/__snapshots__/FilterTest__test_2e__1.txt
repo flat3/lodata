@@ -1,1 +1,1 @@
-( ceiling( title ) eq 4 )
+( ceiling( origin ) eq 4 )

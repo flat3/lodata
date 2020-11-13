@@ -39,12 +39,36 @@ class NavigationBinding
     }
 
     /**
+     * Update the path property of this navigation binding
+     * @param  NavigationProperty  $path  Navigation property
+     * @return $this Navigation binding
+     */
+    public function setPath(NavigationProperty $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
      * Get the target entity set
      * @return EntitySet Entity set
      */
     public function getTarget(): EntitySet
     {
         return $this->target;
+    }
+
+    /**
+     * Re-target this navigation binding to a new entity set
+     * @param  EntitySet  $target
+     * @return $this
+     */
+    public function setTarget(EntitySet $target): self
+    {
+        $this->target = $target;
+
+        return $this;
     }
 
     /**
