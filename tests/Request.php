@@ -25,6 +25,13 @@ class Request
         return $this;
     }
 
+    public function unsetHeader($key): self
+    {
+        unset($this->headers[$key]);
+
+        return $this;
+    }
+
     public function query($key, $value)
     {
         $this->query[$key] = $value;

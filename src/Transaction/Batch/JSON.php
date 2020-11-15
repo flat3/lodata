@@ -9,7 +9,6 @@ use Flat3\Lodata\Transaction\Batch;
 
 class JSON extends Batch
 {
-
     public function emit(Transaction $transaction): void
     {
         // TODO: Implement emit() method.
@@ -17,6 +16,8 @@ class JSON extends Batch
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        // TODO: Implement response() method.
+        return $transaction->getResponse()->setCallback(function () use ($transaction) {
+            $this->emit($transaction);
+        });
     }
 }
