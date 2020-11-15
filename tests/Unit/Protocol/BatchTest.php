@@ -195,6 +195,28 @@ MULTIPART
         );
     }
 
+    public function test_no_accept_header()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->unsetHeader('accept')
+                ->post()
+                ->multipart(<<<MULTIPART
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET flights(1)
+Host: localhost
+
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+MULTIPART
+                )
+        );
+    }
+
     public function test_not_found()
     {
         $this->assertTextMetadataResponse(
