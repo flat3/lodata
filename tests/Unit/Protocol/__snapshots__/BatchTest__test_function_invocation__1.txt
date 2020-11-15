@@ -1,0 +1,10 @@
+
+--00000000-0000-0000-0000-000000000001
+content-type: application/http
+
+HTTP/1.0 200 OK
+content-type: application/json
+odata-version: 4.01
+
+{"@context":"http://localhost/odata/$metadata#Edm.Int32","value":7}
+--00000000-0000-0000-0000-000000000001--
