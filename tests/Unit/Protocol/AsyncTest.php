@@ -41,13 +41,23 @@ class AsyncTest extends TestCase
         $job = collect($queue->pushedJobs())->flatten(1)->first()['job'];
         $job->handle();
 
-        $this->assertMatchesSnapshot($disk->get($job->ns('data')), new JsonDriver());
         $this->assertStoredResponseMetadata($disk->get($job->ns('meta')));
 
-        $this->assertResponseMetadata($this->assertJsonResponse(
-            Request::factory()
-                ->path($location, false)
-        ));
+        if ($request->headers['accept'] === 'application/json') {
+            $this->assertMatchesSnapshot($disk->get($job->ns('data')), new JsonDriver());
+
+            $this->assertResponseMetadata($this->assertJsonResponse(
+                Request::factory()
+                    ->path($location, false)
+            ));
+        } else {
+            $this->assertMatchesSnapshot($disk->get($job->ns('data')));
+
+            $this->assertResponseMetadata($this->assertTextResponse(
+                Request::factory()
+                    ->path($location, false)
+            ));
+        }
 
         $this->assertNotFound(
             Request::factory()
@@ -171,6 +181,15 @@ class AsyncTest extends TestCase
         );
     }
 
+    public function test_async_metadata()
+    {
+        $this->async_request(
+            Request::factory()
+                ->xml()
+                ->path('/$metadata')
+        );
+    }
+
     public function test_async_entityset()
     {
         $this->async_request(
@@ -185,6 +204,55 @@ class AsyncTest extends TestCase
             Request::factory()
                 ->path('/flights')
                 ->metadata(Full::name)
+        );
+    }
+
+    public function test_async_batch()
+    {
+        $this->async_request(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<MULTIPART
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET flights(1)
+Host: localhost
+
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+MULTIPART
+                )
+        );
+    }
+
+    public function test_async_batch_service_metadata()
+    {
+        $this->async_request(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<'MULTIPART'
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET /odata/$metadata
+Host: localhost
+Content-Type: application/xml
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET /odata/
+Host: localhost
+Content-Type: application/json
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+MULTIPART
+                )
         );
     }
 }
