@@ -2,8 +2,10 @@
 
 namespace Flat3\Lodata\Controller;
 
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * Response
@@ -21,11 +23,29 @@ class Response extends StreamedResponse
         try {
             return parent::sendContent();
         } catch (ProtocolException $e) {
-            flush();
-            ob_flush();
-
-            printf('OData-Error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
+            $this->emitError($e);
+        } catch (Throwable $e) {
+            $this->emitError(
+                new InternalServerErrorException(
+                    'unknown_error',
+                    'An unknown internal error has occurred'
+                )
+            );
         }
+
+        return $this;
+    }
+
+    /**
+     * Close the response and emit an error
+     * @param  Throwable  $e
+     * @return $this
+     */
+    public function emitError(Throwable $e): self
+    {
+        flush();
+        ob_flush();
+        printf('OData-Error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
 
         return $this;
     }
