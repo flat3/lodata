@@ -531,9 +531,9 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get the content type requested by the client
-     * @return string
+     * @return MediaType
      */
-    public function getAcceptedContentType(): string
+    public function getAcceptedContentType(): MediaType
     {
         $formatQueryOption = $this->getFormat()->getValue();
 
@@ -545,20 +545,20 @@ class Transaction implements ArgumentInterface
                 );
             }
 
-            return 'application/'.$formatQueryOption;
+            return MediaType::factory()->parse('application/'.$formatQueryOption);
         }
 
         if ($formatQueryOption) {
-            return $formatQueryOption;
+            return MediaType::factory()->parse($formatQueryOption);
         }
 
         $acceptHeader = $this->getRequestHeader('accept');
 
         if ($acceptHeader) {
-            return $acceptHeader;
+            return MediaType::factory()->parse($acceptHeader);
         }
 
-        return '*/*';
+        return MediaType::factory()->parse('*/*');
     }
 
     /**
@@ -1046,19 +1046,19 @@ class Transaction implements ArgumentInterface
             $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
         }
 
+        $acceptedContentType = $this->getAcceptedContentType();
+
         switch ($lastSegment) {
+            case '$batch':
+                $requiredType = MediaType::factory()->parse($acceptedContentType->getOriginal());
+                break;
+
             case '$metadata':
                 $requiredType = MediaType::factory()->parse('application/xml');
                 break;
 
             case '$value':
-                $requestedFormat = $this->getAcceptedContentType();
-
-                if ($requestedFormat) {
-                    $requiredType = MediaType::factory()->parse($requestedFormat);
-                } else {
-                    $requiredType = MediaType::factory()->parse('text/plain');
-                }
+                $requiredType = $acceptedContentType ?: MediaType::factory()->parse('text/plain');
                 break;
 
             case '$count':
@@ -1067,7 +1067,7 @@ class Transaction implements ArgumentInterface
         }
 
         $requiredType->setParameter('charset', 'utf-8');
-        $contentType = $requiredType->negotiate($this->getAcceptedContentType());
+        $contentType = $requiredType->negotiate($this->getAcceptedContentType()->getOriginal());
 
         $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
         $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));

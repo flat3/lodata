@@ -92,6 +92,7 @@ class Request
 
     public function multipart(string $body): self
     {
+        $this->header('accept', 'multipart/mixed');
         $this->body = str_replace("\n", "\r\n", $body);
 
         return $this;

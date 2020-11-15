@@ -56,7 +56,7 @@ class Batch implements PipeInterface, EmitInterface
     {
         $transaction->ensureMethod(Request::METHOD_POST);
 
-        $contentType = $transaction->getProvidedContentType();
+        $contentType = $transaction->getAcceptedContentType() ?: $transaction->getProvidedContentType();
 
         switch ($contentType->getType()) {
             case 'multipart/mixed':
