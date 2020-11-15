@@ -12,7 +12,6 @@ use Flat3\Lodata\Expression\Event\StartGroup;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
-use Flat3\Lodata\Property;
 
 /**
  * SQL Search

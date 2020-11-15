@@ -73,7 +73,7 @@ class NavigationProperty extends Property
 
     /**
      * Set whether this navigation property represents a collection
-     * @param bool $collection
+     * @param  bool  $collection
      * @return $this
      */
     public function setCollection(bool $collection): self

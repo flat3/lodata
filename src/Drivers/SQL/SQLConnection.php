@@ -31,7 +31,7 @@ trait SQLConnection
 
     /**
      * Set the connection name
-     * @param  string  $connection Name
+     * @param  string  $connection  Name
      * @return $this
      */
     public function setConnectionName(string $connection)

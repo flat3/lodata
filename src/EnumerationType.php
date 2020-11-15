@@ -48,7 +48,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Generate a new enumerated type
-     * @param string $identifier Type name
+     * @param  string  $identifier  Type name
      * @return static
      */
     public static function factory(string $identifier): self

@@ -30,6 +30,11 @@ class Response extends StreamedResponse
         return $this;
     }
 
+    public function getStatusText(): string
+    {
+        return $this->statusText;
+    }
+
     /**
      * Encode this response as JSON
      * @return false|string

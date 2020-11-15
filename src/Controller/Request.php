@@ -14,7 +14,7 @@ class Request extends IlluminateRequest implements RequestInterface
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(IlluminateRequest $request)
     {
-        $this->method = $request->method;
+        $this->method = $request->getRealMethod();
         $this->headers = $request->headers;
         $this->query = $request->query;
         $this->content = $request->content;

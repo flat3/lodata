@@ -9,7 +9,6 @@ use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\Metadata\Full;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Str;
 
 class AsyncTest extends TestCase
 {
@@ -18,10 +17,6 @@ class AsyncTest extends TestCase
         parent::setUp();
 
         $this->withFlightModel();
-
-        Str::createUuidsUsing(function () {
-            return '00000000-0000-0000-0000-000000000000';
-        });
     }
 
     public function async_request(Request $request)

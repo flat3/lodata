@@ -180,6 +180,7 @@ class Transaction implements ArgumentInterface
      */
     protected $handlers = [
         EntitySet::class,
+        PathSegment\Batch::class,
         PathSegment\Metadata::class,
         PathSegment\Value::class,
         PathSegment\Count::class,
@@ -290,10 +291,10 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get all request headers of the provided key
-     * @param  string  $key  Key
+     * @param  ?string  $key  Key (or null to get all keys)
      * @return array Headers
      */
-    public function getRequestHeaders(string $key): array
+    public function getRequestHeaders(?string $key = null): array
     {
         return $this->request->headers->all($key);
     }

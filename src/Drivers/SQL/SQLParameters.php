@@ -17,7 +17,7 @@ trait SQLParameters
 
     /**
      * Add a parameter
-     * @param mixed $parameter
+     * @param  mixed  $parameter
      */
     protected function addParameter($parameter): void
     {

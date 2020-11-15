@@ -90,6 +90,13 @@ class Request
         return $this->method(\Illuminate\Http\Request::METHOD_POST);
     }
 
+    public function multipart(string $body): self
+    {
+        $this->body = str_replace("\n", "\r\n", $body);
+
+        return $this;
+    }
+
     public function body($body): self
     {
         if (is_array($body)) {

@@ -60,7 +60,7 @@ class ParameterList
 
     /**
      * Get a parameter by key
-     * @param string $key
+     * @param  string  $key
      * @return Parameter|null
      */
     public function getParameter(string $key): ?Parameter
