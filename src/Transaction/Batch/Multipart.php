@@ -7,6 +7,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Transaction\Batch;
 use Flat3\Lodata\Transaction\MediaType;
@@ -21,7 +22,7 @@ use Illuminate\Support\Str;
 class Multipart extends Batch
 {
     /**
-     * @var MultipartDocument $documents
+     * @var MultipartDocument[] $documents
      * @internal
      */
     protected $documents = [];
@@ -31,6 +32,8 @@ class Multipart extends Batch
      * @internal
      */
     protected $boundaries = [];
+
+    protected $references = [];
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
@@ -78,6 +81,15 @@ class Multipart extends Batch
                 $requestTransaction = new Transaction();
                 $requestTransaction->initialize(new Request($document->toRequest()));
 
+                $requestTransactionPath = $requestTransaction->getRequest()->path();
+
+                $lexer = new Lexer($requestTransactionPath);
+
+                if ($lexer->maybeChar('$')) {
+                    $contentId = $lexer->number();
+                    $requestTransaction->getRequest()->setPath(parse_url($this->references[$contentId], PHP_URL_PATH));
+                }
+
                 $response = null;
 
                 try {
@@ -105,6 +117,11 @@ class Multipart extends Batch
 
                 $transaction->sendOutput("\r\n");
                 $response->sendContent();
+
+                $contentId = $requestTransaction->getRequestHeader('content-id');
+                if ($contentId) {
+                    $this->references[$contentId] = $response->getSegment()->getResourceUrl($requestTransaction);
+                }
             }
         }
 

@@ -500,12 +500,12 @@ class Transaction implements ArgumentInterface
      * Get the content type provided by the client
      * @return MediaType
      */
-    public function getProvidedContentType(): ?MediaType
+    public function getProvidedContentType(): MediaType
     {
         $contentType = $this->getRequestHeader('content-type');
 
         if (!$contentType) {
-            return null;
+            return MediaType::factory()->parse('*/*');
         }
 
         return MediaType::factory()->parse($contentType);

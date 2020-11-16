@@ -107,11 +107,27 @@ class MultipartDocument
 
         list($method, $requestURI, $httpVersion) = array_pad(explode(' ', $requestLine), 3, '');
 
-        $uri = Url::http_build_url(
-            ServiceProvider::endpoint(),
-            $requestURI,
-            Str::startsWith($requestURI, '/') ? Url::HTTP_URL_REPLACE : Url::HTTP_URL_JOIN_PATH
-        );
+        switch (true) {
+            case Str::startsWith($requestURI, '/'):
+                $uri = Url::http_build_url(
+                    ServiceProvider::endpoint(),
+                    $requestURI,
+                    Url::HTTP_URL_REPLACE
+                );
+                break;
+
+            case Str::startsWith($requestURI, '$'):
+                $uri = $requestURI;
+                break;
+
+            default:
+                $uri = Url::http_build_url(
+                    ServiceProvider::endpoint(),
+                    $requestURI,
+                    Url::HTTP_URL_JOIN_PATH
+                );
+                break;
+        }
 
         $headers = [];
 
@@ -130,7 +146,6 @@ class MultipartDocument
         $body = implode("\r\n", $httpRequest);
 
         $request = Request::create($uri, $method, [], [], [], [], $body);
-
         $request->headers->replace($headers);
 
         return $request;

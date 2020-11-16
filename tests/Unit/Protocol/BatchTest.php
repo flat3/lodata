@@ -195,6 +195,28 @@ MULTIPART
         );
     }
 
+    public function test_prefer_metadata()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<MULTIPART
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET flights(1)
+Host: localhost
+Accept: application/json;odata.metadata=full
+
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+MULTIPART
+                )
+        );
+    }
+
     public function test_no_accept_header()
     {
         $this->assertTextMetadataResponse(
@@ -312,6 +334,50 @@ Host: localhost
 
 --batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 
+MULTIPART
+                )
+        );
+    }
+
+    public function test_reference_returned_entity()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<'MULTIPART'
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+POST airports HTTP/1.1
+Host: localhost
+Content-Type: application/json
+Content-ID: 1
+
+{
+  "name": "Test1",
+  "code": "xyz" 
+}
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+PATCH $1 HTTP/1.1
+Host: localhost
+Content-Type: application/json
+
+{
+  "name": "Test2",
+  "code": "abc"
+}
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET $1 HTTP/1.1
+Host: localhost
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
