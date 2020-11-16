@@ -2,11 +2,9 @@
 
 namespace Flat3\Lodata\Controller;
 
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Throwable;
 
 /**
  * Response
@@ -14,57 +12,68 @@ use Throwable;
  */
 class Response extends StreamedResponse
 {
-    protected $segment;
+    /**
+     * The resource responding to this request
+     * @var ResourceInterface $resource
+     * @internal
+     */
+    protected $resource;
 
-    public function setSegment(ResourceInterface $segment): self
+    /**
+     * Set the resource responding to this request
+     * @param  ResourceInterface  $resource  Resource
+     * @return $this
+     */
+    public function setResource(ResourceInterface $resource): self
     {
-        $this->segment = $segment;
+        $this->resource = $resource;
 
         return $this;
     }
 
-    public function getSegment(): ResourceInterface
+    /**
+     * Get the resource responding to this request
+     * @return ResourceInterface|null
+     */
+    public function getResource(): ?ResourceInterface
     {
-        return $this->segment;
+        return $this->resource;
+    }
+
+    /**
+     * Set both the responding resource and its emitter callback
+     * @param  ResourceInterface  $resource  Resource
+     * @param  callable  $callback  Callback
+     * @return $this
+     */
+    public function setResourceCallback(ResourceInterface $resource, callable $callback): self
+    {
+        $this->resource = $resource;
+        return $this->setCallback($callback);
     }
 
     /**
      * Send the results to the client, implementing OData error handling
      * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358909
-     * @return $this|Response
+     * @return Response
      */
     public function sendContent()
     {
         try {
             return parent::sendContent();
         } catch (ProtocolException $e) {
-            $this->emitError($e);
-        } catch (Throwable $e) {
-            $this->emitError(
-                new InternalServerErrorException(
-                    'unknown_error',
-                    'An unknown internal error has occurred'
-                )
-            );
+            flush();
+            ob_flush();
+            printf('OData-Error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
         }
 
         return $this;
     }
 
     /**
-     * Close the response and emit an error
-     * @param  Throwable  $e
-     * @return $this
+     * Get the text representation of the HTTP response code
+     * @return string
      */
-    public function emitError(Throwable $e): self
-    {
-        flush();
-        ob_flush();
-        printf('OData-Error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
-
-        return $this;
-    }
-
     public function getStatusText(): string
     {
         return $this->statusText;

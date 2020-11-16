@@ -504,9 +504,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $response = $transaction->getResponse();
 
         $response->headers->set('etag', $this->getETag());
-        $response->setSegment($this);
 
-        return $response->setCallback(function () use ($transaction) {
+        return $response->setResourceCallback($this, function () use ($transaction) {
             $this->emit($transaction);
         });
     }

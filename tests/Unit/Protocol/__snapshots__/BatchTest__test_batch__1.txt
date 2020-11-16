@@ -4,7 +4,6 @@ content-type: application/http
 
 HTTP/1.0 200 OK
 content-type: application/json
-odata-version: 4.01
 etag: W/"b6a42bfcba65b22c2fcff47cc54acf3d4181d36b23fdc22e866d84878094c6ed"
 
 {"@context":"http://localhost/odata/$metadata#flights/$entity","id":1,"origin":"lhr","destination":"lax","gate":null}
@@ -17,7 +16,6 @@ content-type: application/http
 
 HTTP/1.0 200 OK
 content-type: application/json
-odata-version: 4.01
 etag: W/"34fc3879d08d77fef9930122ce0cd76f78505293eccf1de99cf98a1b3962461e"
 
 {"@context":"http://localhost/odata/$metadata#airports/$entity","id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null}
@@ -26,7 +24,6 @@ content-type: application/http
 
 HTTP/1.0 200 OK
 content-type: application/json
-odata-version: 4.01
 etag: W/"0edfc4659f3b4f7fe51e92c8935f6760c3c78e9f635177e7dc75d69d7670b351"
 
 {"@context":"http://localhost/odata/$metadata#airports/$entity","id":1,"name":"Heathrow","code":"xyz","construction_date":"1946-03-25","open_time":"09:00:00.000000","sam_datetime":"2001-11-10T14:00:00+00:00","review_score":null,"is_big":true}
@@ -37,7 +34,6 @@ content-type: application/http
 
 HTTP/1.0 200 OK
 content-type: application/json
-odata-version: 4.01
 
 {"@context":"http://localhost/odata/$metadata#airports","value":[{"id":1,"name":"Heathrow","code":"xyz","construction_date":"1946-03-25","open_time":"09:00:00.000000","sam_datetime":"2001-11-10T14:00:00+00:00","review_score":null,"is_big":true},{"id":2,"name":"Los Angeles","code":"lax","construction_date":"1930-01-01","open_time":"08:00:00.000000","sam_datetime":"2000-11-10T14:00:00+00:00","review_score":null,"is_big":false},{"id":3,"name":"San Francisco","code":"sfo","construction_date":"1930-01-01","open_time":"15:00:00.000000","sam_datetime":"2001-11-10T14:00:01+00:00","review_score":null,"is_big":null},{"id":4,"name":"O'Hare","code":"ohr","construction_date":"1930-01-01","open_time":"15:00:00.000000","sam_datetime":"1999-11-10T14:00:01+00:00","review_score":null,"is_big":true},{"id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null}]}
 --00000000-0000-0000-0000-000000000001--

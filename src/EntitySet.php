@@ -389,7 +389,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             );
         }
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+        return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
             if ($metadata->hasMetadata()) {

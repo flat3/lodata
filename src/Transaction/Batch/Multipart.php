@@ -7,8 +7,8 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
-use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\Batch;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MultipartDocument;
@@ -32,8 +32,6 @@ class Multipart extends Batch
      * @internal
      */
     protected $boundaries = [];
-
-    protected $references = [];
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
@@ -69,26 +67,22 @@ class Multipart extends Batch
 
             if ($document->getDocuments()) {
                 array_unshift($this->boundaries, Str::uuid());
+
                 $transaction->sendOutput(sprintf(
                     "content-type: multipart/mixed;boundary=%s\r\n\r\n",
                     $this->boundaries[0]
                 ));
+
                 $this->documents[] = $document;
                 $this->emit($transaction);
+
                 array_shift($this->boundaries);
             } else {
                 $transaction->sendOutput("content-type: application/http\r\n\r\n");
                 $requestTransaction = new Transaction();
                 $requestTransaction->initialize(new Request($document->toRequest()));
 
-                $requestTransactionPath = $requestTransaction->getRequest()->path();
-
-                $lexer = new Lexer($requestTransactionPath);
-
-                if ($lexer->maybeChar('$')) {
-                    $contentId = $lexer->number();
-                    $requestTransaction->getRequest()->setPath(parse_url($this->references[$contentId], PHP_URL_PATH));
-                }
+                $this->maybeSwapContentUrl($requestTransaction);
 
                 $response = null;
 
@@ -105,11 +99,7 @@ class Multipart extends Batch
                     $response->getStatusText()
                 ));
 
-                foreach ($response->headers->allPreserveCaseWithoutCookies() as $key => $values) {
-                    if (Str::contains(strtolower($key), ['date', 'cache-control'])) {
-                        continue;
-                    }
-
+                foreach ($this->getResponseHeaders($requestTransaction) as $key => $values) {
                     foreach ($values as $value) {
                         $transaction->sendOutput($key.': '.$value."\r\n");
                     }
@@ -119,8 +109,9 @@ class Multipart extends Batch
                 $response->sendContent();
 
                 $contentId = $requestTransaction->getRequestHeader('content-id');
-                if ($contentId) {
-                    $this->references[$contentId] = $response->getSegment()->getResourceUrl($requestTransaction);
+
+                if ($contentId && $response->getResource() instanceof ResourceInterface) {
+                    $this->references[$contentId] = $response->getResource()->getResourceUrl($requestTransaction);
                 }
             }
         }

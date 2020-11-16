@@ -222,7 +222,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
         $metadata['context'] = $context->getContextUrl($transaction);
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+        return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
             if ($metadata->hasMetadata()) {
