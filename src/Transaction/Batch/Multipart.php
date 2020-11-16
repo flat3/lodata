@@ -82,11 +82,10 @@ class Multipart extends Batch
                 $requestTransaction = new Transaction();
                 $requestTransaction->initialize(new Request($document->toRequest()));
 
-                $this->maybeSwapContentUrl($requestTransaction);
-
                 $response = null;
 
                 try {
+                    $this->maybeSwapContentUrl($requestTransaction);
                     $response = $requestTransaction->execute()->response($requestTransaction);
                 } catch (ProtocolException $e) {
                     $response = $e->toResponse();
@@ -111,7 +110,7 @@ class Multipart extends Batch
                 $contentId = $requestTransaction->getRequestHeader('content-id');
 
                 if ($contentId && $response->getResource() instanceof ResourceInterface) {
-                    $this->references[$contentId] = $response->getResource()->getResourceUrl($requestTransaction);
+                    $this->setReference($contentId, $response->getResource()->getResourceUrl($requestTransaction));
                 }
             }
         }

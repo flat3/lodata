@@ -10,7 +10,7 @@ use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Int32;
 
-class BatchTest extends TestCase
+class BatchMultipartTest extends TestCase
 {
     public function setUp(): void
     {

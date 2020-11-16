@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Transaction\MediaType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -77,6 +78,11 @@ class Response extends StreamedResponse
     public function getStatusText(): string
     {
         return $this->statusText;
+    }
+
+    public function getContentType(): ?MediaType
+    {
+        return MediaType::factory()->parse($this->headers->get('content-type'));
     }
 
     /**

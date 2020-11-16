@@ -24,6 +24,10 @@ class MultipartDocument
      */
     protected $documents = [];
 
+    /**
+     * Get the content type of this document
+     * @return MediaType|null
+     */
     public function getContentType(): ?MediaType
     {
         $contentType = new MediaType();
@@ -39,6 +43,11 @@ class MultipartDocument
         return $contentType;
     }
 
+    /**
+     * Set the headers of this document
+     * @param  array  $headers
+     * @return $this
+     */
     public function setHeaders(array $headers): self
     {
         $this->headers = $headers;
@@ -46,32 +55,49 @@ class MultipartDocument
         return $this;
     }
 
+    /**
+     * Set the body of this document
+     * @param  string  $body
+     * @return $this
+     */
     public function setBody(string $body): self
     {
         $this->body = $body;
 
         if ($this->getContentType()->getType() === 'multipart/mixed') {
-            $this->parseDocuments($this->body);
+            $this->parseDocuments();
         }
 
         return $this;
     }
 
+    /**
+     * Get the body of this document
+     * @return string
+     */
     public function getBody(): string
     {
         return $this->body;
     }
 
+    /**
+     * Get all the documents included inside this document
+     * @return MultipartDocument[]
+     */
     public function getDocuments(): array
     {
         return $this->documents;
     }
 
-    public function parseDocuments(string $data): self
+    /**
+     * Parse the body of this document into its sub-documents
+     * @return $this
+     */
+    public function parseDocuments(): self
     {
         $boundary = $this->getContentType()->getParameter('boundary');
         $delimiter = '--'.$boundary;
-        $documents = explode($delimiter, $data);
+        $documents = explode($delimiter, $this->body);
 
         // Preamble
         array_shift($documents);
@@ -100,9 +126,13 @@ class MultipartDocument
         return $this;
     }
 
+    /**
+     * Convert this document to a Request
+     * @return Request
+     */
     public function toRequest(): Request
     {
-        $httpRequest = explode("\r\n", $this->getBody());
+        $httpRequest = explode("\r\n", $this->body);
         $requestLine = array_shift($httpRequest);
 
         list($method, $requestURI, $httpVersion) = array_pad(explode(' ', $requestLine), 3, '');
