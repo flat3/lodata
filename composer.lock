@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bab372a6992ea8f60618ac21250d25f",
+    "content-hash": "fbea4c1e76243e8a45b6af38cd736a71",
     "packages": [
         {
             "name": "brick/math",
@@ -57,6 +57,75 @@
                 }
             ],
             "time": "2020-08-18T23:57:15+00:00"
+        },
+        {
+            "name": "composer/package-versions-deprecated",
+            "version": "1.11.99.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/package-versions-deprecated.git",
+                "reference": "7413f0b55a051e89485c5cb9f765fe24bb02a7b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/7413f0b55a051e89485c5cb9f765fe24bb02a7b6",
+                "reference": "7413f0b55a051e89485c5cb9f765fe24bb02a7b6",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1.0 || ^2.0",
+                "php": "^7 || ^8"
+            },
+            "replace": {
+                "ocramius/package-versions": "1.11.99"
+            },
+            "require-dev": {
+                "composer/composer": "^1.9.3 || ^2.0@dev",
+                "ext-zip": "^1.13",
+                "phpunit/phpunit": "^6.5 || ^7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "PackageVersions\\Installer",
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PackageVersions\\": "src/PackageVersions"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be"
+                }
+            ],
+            "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-11T10:22:58+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -156,28 +225,29 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "2.12.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "c6d37b4c42aaa3c3ee175f05eca68056f4185646"
+                "reference": "ee6d1260d5cc20ec506455a585945d7bdb98662c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c6d37b4c42aaa3c3ee175f05eca68056f4185646",
-                "reference": "c6d37b4c42aaa3c3ee175f05eca68056f4185646",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/ee6d1260d5cc20ec506455a585945d7bdb98662c",
+                "reference": "ee6d1260d5cc20ec506455a585945d7bdb98662c",
                 "shasum": ""
             },
             "require": {
+                "composer/package-versions-deprecated": "^1.11.99",
                 "doctrine/cache": "^1.0",
                 "doctrine/event-manager": "^1.0",
-                "ext-pdo": "*",
-                "php": "^7.3 || ^8"
+                "php": "^7.3 || ^8.0"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^8.1",
                 "jetbrains/phpstorm-stubs": "^2019.1",
                 "phpstan/phpstan": "^0.12.40",
+                "phpstan/phpstan-strict-rules": "^0.12.2",
                 "phpunit/phpunit": "^9.4",
                 "psalm/plugin-phpunit": "^0.10.0",
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
@@ -197,7 +267,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\DBAL\\": "lib/Doctrine/DBAL"
+                    "Doctrine\\DBAL\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -240,7 +310,6 @@
                 "queryobject",
                 "sasql",
                 "sql",
-                "sqlanywhere",
                 "sqlite",
                 "sqlserver",
                 "sqlsrv"
@@ -259,7 +328,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-22T17:26:24+00:00"
+            "time": "2020-11-15T18:20:41+00:00"
         },
         {
             "name": "doctrine/event-manager",
