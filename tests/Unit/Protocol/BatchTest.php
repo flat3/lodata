@@ -339,6 +339,33 @@ MULTIPART
         );
     }
 
+    public function test_bad_document_content_type()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<MULTIPART
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+Content-ID: 1
+
+POST /odata/airports HTTP/1.1
+Host: localhost
+
+{
+  "name": "One",
+  "code": "one"
+}
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
+
+MULTIPART
+                )
+        );
+    }
+
     public function test_reference_returned_entity()
     {
         $this->assertTextMetadataResponse(

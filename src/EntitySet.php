@@ -428,11 +428,9 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
-                if (!$transaction->getProvidedContentType()->getType() === 'application/json') {
-                    throw new BadRequestException('bad_content_type', 'Create requests must use a JSON content type');
-                }
-
                 Gate::check(Gate::CREATE, $this, $transaction);
+
+                $transaction->ensureContentTypeJson();
 
                 return $this->create()->get($transaction, $context);
         }

@@ -481,6 +481,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         Gate::check(Gate::UPDATE, $this, $transaction);
 
+        $transaction->ensureContentTypeJson();
+
         $entity = $entitySet->update($this->getEntityId());
 
         return $entity->get($transaction, $context);

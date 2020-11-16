@@ -775,23 +775,13 @@ class Transaction implements ArgumentInterface
      */
     public function ensureContentTypeJson(): void
     {
-        $subtype = $this->getProvidedContentType()->getSubtype();
-
-        if (!$subtype) {
-            return;
-        }
-
-        if ($subtype === '*') {
-            return;
-        }
-
-        if ($subtype === 'json') {
+        if ($this->getProvidedContentType()->getSubtype() === 'json') {
             return;
         }
 
         throw new NotAcceptableException(
             'not_json',
-            'Content provided to this request must be supplied with a JSON content type'
+            'Content provided to this endpoint must be supplied with a JSON content type'
         );
     }
 
