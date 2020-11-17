@@ -6,6 +6,7 @@ use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -161,6 +162,10 @@ class JSON extends Batch
                     'missing_request_properties',
                     'All requests must contain the "id", "method" and "url" properties'
                 );
+            }
+
+            if (array_key_exists('atomicityGroup', $request)) {
+                throw new NotImplementedException('atomicity_not_available', 'Atomicity groups are not supported');
             }
 
             if (!in_array(strtolower($request['method']), ['delete', 'get', 'patch', 'post', 'put'])) {

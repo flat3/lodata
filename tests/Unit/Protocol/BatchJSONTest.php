@@ -327,6 +327,29 @@ class BatchJSONTest extends TestCase
         );
     }
 
+    public function test_atomicity_group()
+    {
+        $this->assertNotImplemented(
+            Request::factory()
+                ->path('/$batch')
+                ->post()
+                ->body([
+                    'requests' => [
+                        [
+                            'id' => 0,
+                            'method' => 'post',
+                            'url' => '/odata/airports',
+                            'atomicityGroup' => 'a',
+                            'body' => [
+                                'name' => 'One',
+                                'code' => 'one',
+                            ]
+                        ]
+                    ]
+                ])
+        );
+    }
+
     public function test_missing_reference()
     {
         $this->assertJsonMetadataResponse(

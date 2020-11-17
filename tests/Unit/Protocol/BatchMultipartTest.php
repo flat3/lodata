@@ -30,7 +30,18 @@ class BatchMultipartTest extends TestCase
         );
     }
 
-    public function test_full_url()
+    public function test_invalid_multipart_missing_boundary()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed')
+                ->post()
+                ->multipart('')
+        );
+    }
+
+    public function test_multipart_no_epilogue()
     {
         $this->assertTextMetadataResponse(
             Request::factory()
@@ -51,6 +62,49 @@ MULTIPART
         );
     }
 
+    public function test_multipart_ignores_prologue()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<MULTIPART
+hello!
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET http://localhost/odata/flights(1)
+Host: localhost
+
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
+MULTIPART
+                )
+        );
+    }
+
+    public function test_full_url()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<MULTIPART
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+GET http://localhost/odata/flights(1)
+Host: localhost
+
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
+MULTIPART
+                )
+        );
+    }
+
     public function test_absolute_path()
     {
         $this->assertTextMetadataResponse(
@@ -66,7 +120,7 @@ GET /odata/flights(1)
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -87,7 +141,7 @@ GET /odata/
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -108,7 +162,7 @@ GET /odata/$metadata
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -141,7 +195,7 @@ Content-Type: application/json
   "b": 4
 }
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -168,7 +222,7 @@ Content-Type: application/http
 GET /odata/aa1(a=3,b=4)
 Host: localhost
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -189,7 +243,7 @@ GET flights(1)
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -211,7 +265,7 @@ Host: localhost
 Accept: application/json;odata.metadata=full
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -233,7 +287,7 @@ GET flights(1)
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -254,7 +308,7 @@ GET notfound
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
@@ -275,7 +329,7 @@ GET flights('a')
 Host: localhost
 
 
---batch_36522ad7-fc75-4b56-8c71-56071383e77b
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );
