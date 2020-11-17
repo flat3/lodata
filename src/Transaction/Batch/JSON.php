@@ -74,9 +74,11 @@ class JSON extends Batch
             );
 
             $headers = array_change_key_case($requestData['headers'] ?? [], CASE_LOWER);
+
             if (!array_key_exists('content-type', $headers)) {
                 $headers['content-type'] = 'application/json';
             }
+
             $request->headers->replace($headers);
 
             $requestTransaction->initialize(new Request($request));
@@ -90,18 +92,22 @@ class JSON extends Batch
                 $response = $e->toResponse();
             }
 
-            $transaction->outputJsonKV(['id' => $requestData['id']]);
-            $transaction->outputJsonSeparator();
-            $transaction->outputJsonKV(['status' => $response->getStatusCode()]);
-            $transaction->outputJsonSeparator();
-            $transaction->outputJsonKey('headers');
+            $transaction->outputJsonKV([
+                'id' => $requestData['id'],
+                'status' => $response->getStatusCode(),
+            ]);
 
+            $transaction->outputJsonSeparator();
+
+            $transaction->outputJsonKey('headers');
             $transaction->outputJsonObjectStart();
 
             $responseHeaders = [];
+
             foreach ($this->getResponseHeaders($requestTransaction) as $key => $values) {
                 $responseHeaders[$key] = $values[0];
             }
+
             $transaction->outputJsonKV($responseHeaders);
             $transaction->outputJsonObjectEnd();
 
