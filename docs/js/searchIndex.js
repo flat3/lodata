@@ -421,30 +421,15 @@ Search.appendIndex(
             "summary": "Request",
             "url": "classes/Flat3-Lodata-Controller-Request.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003AsetReferenceId\u0028\u0029",
-            "name": "setReferenceId",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-Request.html#method_setReferenceId"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003AgetReferenceId\u0028\u0029",
-            "name": "getReferenceId",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-Request.html#method_getReferenceId"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003AsetPath\u0028\u0029",
             "name": "setPath",
-            "summary": "",
+            "summary": "Set\u0020the\u0020request\u0020path",
             "url": "classes/Flat3-Lodata-Controller-Request.html#method_setPath"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
             "url": "classes/Flat3-Lodata-Controller-Request.html#method___construct"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003A\u0024referenceId",
-            "name": "referenceId",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Controller-Request.html#property_referenceId"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Response",
             "name": "Response",
@@ -478,7 +463,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AgetContentType\u0028\u0029",
             "name": "getContentType",
-            "summary": "",
+            "summary": "Get\u0020the\u0020response\u0020content\u0020type",
             "url": "classes/Flat3-Lodata-Controller-Response.html#method_getContentType"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction",
@@ -5043,7 +5028,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON",
             "name": "JSON",
-            "summary": "",
+            "summary": "JSON",
             "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003Aemit\u0028\u0029",
@@ -5055,11 +5040,6 @@ Search.appendIndex(
             "name": "response",
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html#method_response"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003A\u0024requests",
-            "name": "requests",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html#property_requests"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\Multipart",
             "name": "Multipart",
@@ -5078,12 +5058,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch",
             "name": "Batch",
-            "summary": "",
+            "summary": "Batch",
             "url": "classes/Flat3-Lodata-Transaction-Batch.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\u003A\u003AsetReference\u0028\u0029",
             "name": "setReference",
-            "summary": "",
+            "summary": "Set\u0020a\u0020referred\u0020entity\u0020URL\u0020value",
             "url": "classes/Flat3-Lodata-Transaction-Batch.html#method_setReference"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\u003A\u003AmaybeSwapContentUrl\u0028\u0029",
@@ -5415,16 +5395,6 @@ Search.appendIndex(
             "name": "toRequest",
             "summary": "Convert\u0020this\u0020document\u0020to\u0020a\u0020Request",
             "url": "classes/Flat3-Lodata-Transaction-MultipartDocument.html#method_toRequest"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\MultipartDocument\u003A\u003A\u0024headers",
-            "name": "headers",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-MultipartDocument.html#property_headers"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\MultipartDocument\u003A\u003A\u0024body",
-            "name": "body",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-MultipartDocument.html#property_body"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\NavigationRequest",
             "name": "NavigationRequest",
