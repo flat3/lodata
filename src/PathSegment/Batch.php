@@ -36,8 +36,8 @@ class Batch implements PipeInterface, EmitInterface
             throw new PathNotHandledException();
         }
 
-        if ($argument) {
-            throw new BadRequestException('batch_argument', 'Batch must be the first argument in the path');
+        if ($argument || $nextSegment) {
+            throw new BadRequestException('batch_argument', '$batch must be the only argument in the path');
         }
 
         return new self();
@@ -56,7 +56,7 @@ class Batch implements PipeInterface, EmitInterface
     {
         $transaction->ensureMethod(Request::METHOD_POST);
 
-        $contentType = $transaction->getAcceptedContentType() ?: $transaction->getProvidedContentType();
+        $contentType = $transaction->getProvidedContentType();
 
         switch ($contentType->getType()) {
             case 'multipart/mixed':

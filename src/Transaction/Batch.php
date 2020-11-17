@@ -7,6 +7,10 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Illuminate\Support\Str;
 
+/**
+ * Batch
+ * @package Flat3\Lodata\Transaction
+ */
 abstract class Batch implements EmitInterface
 {
     /**
@@ -16,7 +20,13 @@ abstract class Batch implements EmitInterface
      */
     protected $references = [];
 
-    protected function setReference(string $key, $value): self
+    /**
+     * Set a referred entity URL value
+     * @param  string  $key  Content-ID
+     * @param  string  $value  URL
+     * @return $this
+     */
+    protected function setReference(string $key, string $value): self
     {
         $this->references[$key] = $value;
 

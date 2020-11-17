@@ -16,8 +16,17 @@ use Flat3\Lodata\Transaction\Batch;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
+/**
+ * JSON
+ * @package Flat3\Lodata\Transaction\Batch
+ */
 class JSON extends Batch
 {
+    /**
+     * Requests in this batch
+     * @var array $requests
+     * @internal
+     */
     protected $requests = [];
 
     public function emit(Transaction $transaction): void
@@ -98,19 +107,19 @@ class JSON extends Batch
                 'status' => $response->getStatusCode(),
             ]);
 
-            $transaction->outputJsonSeparator();
-
-            $transaction->outputJsonKey('headers');
-            $transaction->outputJsonObjectStart();
-
             $responseHeaders = [];
 
             foreach ($this->getResponseHeaders($requestTransaction) as $key => $values) {
                 $responseHeaders[$key] = $values[0];
             }
 
-            $transaction->outputJsonKV($responseHeaders);
-            $transaction->outputJsonObjectEnd();
+            if ($responseHeaders) {
+                $transaction->outputJsonSeparator();
+                $transaction->outputJsonKey('headers');
+                $transaction->outputJsonObjectStart();
+                $transaction->outputJsonKV($responseHeaders);
+                $transaction->outputJsonObjectEnd();
+            }
 
             if ($response->getStatusCode() !== Response::HTTP_NO_CONTENT) {
                 $transaction->outputJsonSeparator();
@@ -147,10 +156,10 @@ class JSON extends Batch
         $transaction->ensureContentTypeJson();
         $body = $transaction->getBody();
 
-        if (!array_key_exists('requests', $body)) {
+        if (!array_key_exists('requests', $body) || !is_array($body['requests'])) {
             throw new BadRequestException(
                 'missing_requests',
-                'The provided JSON document did not contain a requests property'
+                'The provided JSON document did not contain a valid requests property'
             );
         }
 

@@ -502,13 +502,7 @@ class Transaction implements ArgumentInterface
      */
     public function getProvidedContentType(): MediaType
     {
-        $contentType = $this->getRequestHeader('content-type');
-
-        if (!$contentType) {
-            return MediaType::factory()->parse('*/*');
-        }
-
-        return MediaType::factory()->parse($contentType);
+        return MediaType::factory()->parse($this->getRequestHeader('content-type') ?? '');
     }
 
     /**

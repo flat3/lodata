@@ -22,13 +22,13 @@ use Illuminate\Support\Str;
 class Multipart extends Batch
 {
     /**
-     * @var MultipartDocument[] $documents
+     * @var MultipartDocument[] $documents Discovered documents
      * @internal
      */
     protected $documents = [];
 
     /**
-     * @var string[] $boundaries
+     * @var string[] $boundaries Nested boundaries
      * @internal
      */
     protected $boundaries = [];

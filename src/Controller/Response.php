@@ -80,6 +80,10 @@ class Response extends StreamedResponse
         return $this->statusText;
     }
 
+    /**
+     * Get the response content type
+     * @return MediaType|null Content type
+     */
     public function getContentType(): ?MediaType
     {
         return MediaType::factory()->parse($this->headers->get('content-type'));

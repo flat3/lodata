@@ -14,12 +14,20 @@ use Illuminate\Support\Str;
  */
 class MultipartDocument
 {
+    /**
+     * @var array Document headers
+     * @internal
+     */
     protected $headers = [];
 
+    /**
+     * @var string Document body
+     * @internal
+     */
     protected $body = '';
 
     /**
-     * @var self[] $documents
+     * @var self[] $documents Documents
      * @internal
      */
     protected $documents = [];
