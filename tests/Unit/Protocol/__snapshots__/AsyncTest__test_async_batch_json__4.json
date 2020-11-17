@@ -1,0 +1,19 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 200,
+            "headers": {
+                "content-type": "application/json",
+                "etag": "W/\"b6a42bfcba65b22c2fcff47cc54acf3d4181d36b23fdc22e866d84878094c6ed\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#flights/$entity",
+                "id": 1,
+                "origin": "lhr",
+                "destination": "lax",
+                "gate": null
+            }
+        }
+    ]
+}

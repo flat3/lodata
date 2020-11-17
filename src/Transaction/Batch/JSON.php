@@ -95,6 +95,7 @@ class JSON extends Batch
             $transaction->outputJsonKV(['status' => $response->getStatusCode()]);
             $transaction->outputJsonSeparator();
             $transaction->outputJsonKey('headers');
+
             $transaction->outputJsonObjectStart();
 
             $responseHeaders = [];

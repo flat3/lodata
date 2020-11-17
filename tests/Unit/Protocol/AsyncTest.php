@@ -228,6 +228,24 @@ MULTIPART
         );
     }
 
+    public function test_async_batch_json()
+    {
+        $this->async_request(
+            Request::factory()
+                ->path('/$batch')
+                ->post()
+                ->body([
+                    'requests' => [
+                        [
+                            'id' => 0,
+                            'method' => 'get',
+                            'url' => 'flights(1)'
+                        ]
+                    ]
+                ])
+        );
+    }
+
     public function test_async_batch_service_metadata()
     {
         $this->async_request(
