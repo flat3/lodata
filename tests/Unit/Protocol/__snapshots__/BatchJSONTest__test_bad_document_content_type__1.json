@@ -1,0 +1,23 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 200,
+            "headers": {
+                "content-type": "application/json",
+                "etag": "W/\"34fc3879d08d77fef9930122ce0cd76f78505293eccf1de99cf98a1b3962461e\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "One",
+                "code": "one",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null
+            }
+        }
+    ]
+}

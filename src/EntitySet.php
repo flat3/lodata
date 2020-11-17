@@ -389,7 +389,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             );
         }
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+        return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
             if ($metadata->hasMetadata()) {
@@ -429,6 +429,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 }
 
                 Gate::check(Gate::CREATE, $this, $transaction);
+
+                $transaction->ensureContentTypeJson();
 
                 return $this->create()->get($transaction, $context);
         }

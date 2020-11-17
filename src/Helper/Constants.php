@@ -18,4 +18,5 @@ class Constants
     const RETURN = 'return';
     const NULLS = 'nulls';
     const MINIMAL = 'minimal';
+    const CONTINUE_ON_ERROR = 'continue-on-error';
 }

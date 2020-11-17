@@ -164,8 +164,10 @@ abstract class ProtocolException extends RuntimeException implements Responsable
             ]), JSON_UNESCAPED_SLASHES);
         });
 
+        $response->setProtocolVersion('1.1');
         $response->setStatusCode($this->httpCode);
         $response->headers->replace($this->headers);
+        $response->headers->set('content-type', 'application/json');
 
         return $response;
     }

@@ -17,7 +17,7 @@ class Parameter
 
     /**
      * Parse parameter out of the provided string
-     * @param string $text
+     * @param  string  $text
      */
     public function parse(string $text)
     {
@@ -25,7 +25,7 @@ class Parameter
 
         try {
             while (!$lexer->finished()) {
-                $key = $lexer->expression('[^;=]+');
+                $key = trim($lexer->expression('[^;=]+'));
                 $value = null;
 
                 if ($lexer->maybeChar('=')) {
@@ -47,7 +47,7 @@ class Parameter
 
     /**
      * Set parameter value
-     * @param ?string $value
+     * @param ?string  $value
      * @return $this
      */
     public function setValue(?string $value): self
@@ -67,8 +67,8 @@ class Parameter
 
     /**
      * Add parameter
-     * @param string $key
-     * @param string $value
+     * @param  string  $key
+     * @param  string  $value
      * @return $this
      */
     public function addParameter(string $key, string $value): self

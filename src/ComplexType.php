@@ -27,7 +27,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * ComplexType constructor.
-     * @param string|Identifier $identifier
+     * @param  string|Identifier  $identifier
      */
     public function __construct($identifier)
     {
@@ -37,7 +37,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Generate a new complex type
-     * @param string|Identifier $identifier
+     * @param  string|Identifier  $identifier
      * @return ComplexType Complex Type
      */
     public static function factory($identifier)

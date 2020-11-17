@@ -1,0 +1,61 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 200,
+            "headers": {
+                "content-type": "application/json",
+                "etag": "W/\"70aa3d8e2af51d42e906f9342f8c108ce8fdd4988e65f2c19f2d4d0ad9b1f4ec\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "Test1",
+                "code": "xyz",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null
+            }
+        },
+        {
+            "id": 1,
+            "status": 200,
+            "headers": {
+                "content-type": "application/json",
+                "etag": "W/\"7999a181a1c9aac3ee80cbb7d4cdb40037ad1ca20c69639e80ecd2d5bef6798d\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "Test2",
+                "code": "abc",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null
+            }
+        },
+        {
+            "id": 2,
+            "status": 200,
+            "headers": {
+                "content-type": "application/json",
+                "etag": "W/\"7999a181a1c9aac3ee80cbb7d4cdb40037ad1ca20c69639e80ecd2d5bef6798d\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "Test2",
+                "code": "abc",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null
+            }
+        }
+    ]
+}

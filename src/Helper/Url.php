@@ -85,7 +85,7 @@ class Url
             if (isset($parts['path']) && ($flags & self::HTTP_URL_JOIN_PATH)) {
                 if (isset($url['path']) && substr($parts['path'], 0, 1) !== '/') {
                     // Workaround for trailing slashes
-                    $url['path'] .= 'a';
+                    $url['path'] .= "\0";
                     $url['path'] = rtrim(
                             str_replace(basename($url['path']), '', $url['path']),
                             '/'

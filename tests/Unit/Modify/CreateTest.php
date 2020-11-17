@@ -21,6 +21,21 @@ class CreateTest extends TestCase
         );
     }
 
+    public function test_create_content_type_error()
+    {
+        $this->withFlightModel();
+
+        $this->assertNotAcceptable(
+            Request::factory()
+                ->path('/flights')
+                ->text()
+                ->post()
+                ->body([
+                    'origin' => 'lhr',
+                ])
+        );
+    }
+
     public function test_create_related_entity()
     {
         $this->withFlightModel();
