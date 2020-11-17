@@ -256,7 +256,8 @@ trait TestModels
             });
     }
 
-    public function withDynamicPropertyModel() {
+    public function withDynamicPropertyModel()
+    {
         Lodata::add(
             new class(
                 'example',

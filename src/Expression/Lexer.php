@@ -342,7 +342,7 @@ class Lexer
 
     /**
      * Sort the provided array by value length
-     * @param array $array
+     * @param  array  $array
      */
     public static function sortArrayByLength(&$array)
     {

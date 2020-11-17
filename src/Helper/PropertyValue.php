@@ -16,6 +16,7 @@ use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
@@ -25,7 +26,7 @@ use Flat3\Lodata\Transaction\NavigationRequest;
  * Property Value
  * @package Flat3\Lodata\Helper
  */
-class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
+class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, ResourceInterface
 {
     /**
      * The entity that contains this property value
@@ -210,6 +211,16 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
         return $url;
     }
 
+    /**
+     * Get the resource URL for this property value
+     * @param  Transaction  $transaction  Transaction
+     * @return string Context URL
+     */
+    public function getResourceUrl(Transaction $transaction): string
+    {
+        return sprintf("%s/%s", $this->entity->getResourceUrl($transaction), $this->property->getName());
+    }
+
     public static function pipe(
         Transaction $transaction,
         string $currentSegment,
@@ -294,7 +305,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface
 
         $metadata['context'] = $context->getContextUrl($transaction);
 
-        return $transaction->getResponse()->setCallback(function () use ($transaction, $metadata) {
+        return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
             if ($metadata->hasMetadata()) {

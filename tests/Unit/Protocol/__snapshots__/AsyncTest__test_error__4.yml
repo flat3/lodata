@@ -1,5 +1,5 @@
 headers:
     cache-control: ['no-cache, private']
+    content-type: [application/json]
     asyncresult: [404]
-    content-type: ['text/html; charset=UTF-8']
 status: 200

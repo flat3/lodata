@@ -87,7 +87,7 @@ class MediaType
 
     /**
      * Parse media type
-     * @param string $type
+     * @param  string  $type
      * @return $this
      */
     public function parse(string $type): self
@@ -161,10 +161,19 @@ class MediaType
     }
 
     /**
-     * Get the subtype
-     * @return mixed
+     * Get the type
+     * @return string
      */
-    public function getSubtype()
+    public function getType(): string
+    {
+        return $this->type.'/'.$this->subtype;
+    }
+
+    /**
+     * Get the subtype
+     * @return string
+     */
+    public function getSubtype(): string
     {
         return $this->subtype;
     }

@@ -37,7 +37,7 @@ trait HasName
 
     /**
      * Set name
-     * @param string|Name $name
+     * @param  string|Name  $name
      * @return $this
      */
     public function setName($name)

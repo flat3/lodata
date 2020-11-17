@@ -508,6 +508,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * The [$value](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358940) path segment
 * The [$filter](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358948) system query option, with all expressions, functions, operators, and supports query parameter aliases
 * [Asynchronous requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_AsynchronousRequests) using Laravel jobs, with monitoring, cancellation and callbacks
+* [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_BatchRequests) in both multipart and JSON formats, including entity back-references and asynchronous batch requests
 * Edit links, and POST/PATCH/DELETE requests for new or existing entities
 * Composable URLs
 * Declared and navigation properties

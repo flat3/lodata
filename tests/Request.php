@@ -25,6 +25,13 @@ class Request
         return $this;
     }
 
+    public function unsetHeader($key): self
+    {
+        unset($this->headers[$key]);
+
+        return $this;
+    }
+
     public function query($key, $value)
     {
         $this->query[$key] = $value;
@@ -88,6 +95,14 @@ class Request
     public function post(): self
     {
         return $this->method(\Illuminate\Http\Request::METHOD_POST);
+    }
+
+    public function multipart(string $body): self
+    {
+        $this->header('accept', 'multipart/mixed');
+        $this->body = str_replace("\n", "\r\n", $body);
+
+        return $this;
     }
 
     public function body($body): self

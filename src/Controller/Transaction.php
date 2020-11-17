@@ -180,6 +180,7 @@ class Transaction implements ArgumentInterface
      */
     protected $handlers = [
         EntitySet::class,
+        PathSegment\Batch::class,
         PathSegment\Metadata::class,
         PathSegment\Value::class,
         PathSegment\Count::class,
@@ -290,10 +291,10 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get all request headers of the provided key
-     * @param  string  $key  Key
+     * @param  ?string  $key  Key (or null to get all keys)
      * @return array Headers
      */
-    public function getRequestHeaders(string $key): array
+    public function getRequestHeaders(?string $key = null): array
     {
         return $this->request->headers->all($key);
     }
@@ -501,7 +502,7 @@ class Transaction implements ArgumentInterface
      */
     public function getProvidedContentType(): MediaType
     {
-        return MediaType::factory()->parse($this->getRequestHeader('content-type'));
+        return MediaType::factory()->parse($this->getRequestHeader('content-type') ?? '');
     }
 
     /**
@@ -530,9 +531,9 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get the content type requested by the client
-     * @return string
+     * @return MediaType
      */
-    public function getAcceptedContentType(): string
+    public function getAcceptedContentType(): MediaType
     {
         $formatQueryOption = $this->getFormat()->getValue();
 
@@ -544,20 +545,20 @@ class Transaction implements ArgumentInterface
                 );
             }
 
-            return 'application/'.$formatQueryOption;
+            return MediaType::factory()->parse('application/'.$formatQueryOption);
         }
 
         if ($formatQueryOption) {
-            return $formatQueryOption;
+            return MediaType::factory()->parse($formatQueryOption);
         }
 
         $acceptHeader = $this->getRequestHeader('accept');
 
         if ($acceptHeader) {
-            return $acceptHeader;
+            return MediaType::factory()->parse($acceptHeader);
         }
 
-        return '*/*';
+        return MediaType::factory()->parse('*/*');
     }
 
     /**
@@ -768,23 +769,13 @@ class Transaction implements ArgumentInterface
      */
     public function ensureContentTypeJson(): void
     {
-        $subtype = $this->getProvidedContentType()->getSubtype();
-
-        if (!$subtype) {
-            return;
-        }
-
-        if ($subtype === '*') {
-            return;
-        }
-
-        if ($subtype === 'json') {
+        if ($this->getProvidedContentType()->getSubtype() === 'json') {
             return;
         }
 
         throw new NotAcceptableException(
             'not_json',
-            'Content provided to this request must be supplied with a JSON content type'
+            'Content provided to this endpoint must be supplied with a JSON content type'
         );
     }
 
@@ -1045,19 +1036,19 @@ class Transaction implements ArgumentInterface
             $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
         }
 
+        $acceptedContentType = $this->getAcceptedContentType();
+
         switch ($lastSegment) {
+            case '$batch':
+                $requiredType = MediaType::factory()->parse($acceptedContentType->getOriginal());
+                break;
+
             case '$metadata':
                 $requiredType = MediaType::factory()->parse('application/xml');
                 break;
 
             case '$value':
-                $requestedFormat = $this->getAcceptedContentType();
-
-                if ($requestedFormat) {
-                    $requiredType = MediaType::factory()->parse($requestedFormat);
-                } else {
-                    $requiredType = MediaType::factory()->parse('text/plain');
-                }
+                $requiredType = $acceptedContentType ?: MediaType::factory()->parse('text/plain');
                 break;
 
             case '$count':
@@ -1066,7 +1057,7 @@ class Transaction implements ArgumentInterface
         }
 
         $requiredType->setParameter('charset', 'utf-8');
-        $contentType = $requiredType->negotiate($this->getAcceptedContentType());
+        $contentType = $requiredType->negotiate($this->getAcceptedContentType()->getOriginal());
 
         $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
         $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));

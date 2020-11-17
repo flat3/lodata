@@ -95,7 +95,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLConnection.php"><a href="files/src-drivers-sql-sqlconnection.html"><abbr title="src/Drivers/SQL/SQLConnection.php">SQLConnection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 </aside>
 
             <p class="phpdocumentor-summary">SQL Connection</p>
@@ -118,37 +118,37 @@
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLConnection.html#method_getConnection">getConnection()</a>
     <span>
-                        &nbsp;: <abbr title="\Illuminate\Database\ConnectionInterface">ConnectionInterface</abbr>    </span>
+                        &nbsp;: <abbr title="\Illuminate\Database\ConnectionInterface">ConnectionInterface</abbr>|<abbr title="\Illuminate\Database\Connection">Connection</abbr>    </span>
 </dt>
-<dd></dd>
+<dd>Get the database connection</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLConnection.html#method_getConnectionName">getConnectionName()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the connection name</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLConnection.html#method_getDriver">getDriver()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd></dd>
+<dd>Get the PDO driver name</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLConnection.html#method_getHandle">getHandle()</a>
     <span>
                         &nbsp;: <abbr title="\PDO">PDO</abbr>    </span>
 </dt>
-<dd></dd>
+<dd>Get a database handle</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-SQL-SQLConnection.html#method_setConnectionName">setConnectionName()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: $this    </span>
 </dt>
-<dd></dd>
+<dd>Set the connection name</dd>
 
         </dl>
 
@@ -174,22 +174,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLConnection.php"><a href="files/src-drivers-sql-sqlconnection.html"><abbr title="src/Drivers/SQL/SQLConnection.php">SQLConnection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the database connection</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getConnection</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\ConnectionInterface">ConnectionInterface</abbr></span></code>
+                <span class="phpdocumentor-signature__name">getConnection</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\ConnectionInterface">ConnectionInterface</abbr>|<abbr title="\Illuminate\Database\Connection">Connection</abbr></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\ConnectionInterface">ConnectionInterface</abbr></span>
+    <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\ConnectionInterface">ConnectionInterface</abbr>|<abbr title="\Illuminate\Database\Connection">Connection</abbr></span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Connection</p>
+</section>
 
     
 </article>
@@ -206,22 +209,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLConnection.php"><a href="files/src-drivers-sql-sqlconnection.html"><abbr title="src/Drivers/SQL/SQLConnection.php">SQLConnection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the connection name</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getConnectionName</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Name</p>
+</section>
 
     
 </article>
@@ -238,22 +244,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLConnection.php"><a href="files/src-drivers-sql-sqlconnection.html"><abbr title="src/Drivers/SQL/SQLConnection.php">SQLConnection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the PDO driver name</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getDriver</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Driver</p>
+</section>
 
     
 </article>
@@ -270,22 +279,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLConnection.php"><a href="files/src-drivers-sql-sqlconnection.html"><abbr title="src/Drivers/SQL/SQLConnection.php">SQLConnection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Get a database handle</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">getHandle</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\PDO">PDO</abbr></span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><abbr title="\PDO">PDO</abbr></span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Handle</p>
+</section>
 
     
 </article>
@@ -302,15 +314,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/SQL/SQLConnection.php"><a href="files/src-drivers-sql-sqlconnection.html"><abbr title="src/Drivers/SQL/SQLConnection.php">SQLConnection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the connection name</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setConnectionName</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">setConnectionName</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -318,14 +332,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Name</p>
+</section>
+
             </dd>
             </dl>
 
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
+    <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 

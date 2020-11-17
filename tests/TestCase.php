@@ -21,8 +21,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Mockery\Expectation;
+use Ramsey\Uuid\Uuid;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
 use stdClass;
@@ -39,6 +41,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /** @var Expectation $gateMock */
     protected $gateMock;
 
+    protected $uuid;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -48,6 +52,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->getDisk();
 
         config(['lodata.readonly' => false]);
+
+        $this->uuid = 0;
+
+        Str::createUuidsUsing(function (): string {
+            return Uuid::fromInteger($this->uuid++);
+        });
+    }
+
+    public function incrementUuid()
+    {
+        $this->uuid++;
     }
 
     protected function getPackageProviders($app)

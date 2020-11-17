@@ -481,6 +481,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         Gate::check(Gate::UPDATE, $this, $transaction);
 
+        $transaction->ensureContentTypeJson();
+
         $entity = $entitySet->update($this->getEntityId());
 
         return $entity->get($transaction, $context);
@@ -505,7 +507,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         $response->headers->set('etag', $this->getETag());
 
-        return $response->setCallback(function () use ($transaction) {
+        return $response->setResourceCallback($this, function () use ($transaction) {
             $this->emit($transaction);
         });
     }
