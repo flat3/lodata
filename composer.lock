@@ -6576,16 +6576,16 @@
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/phpunit-snapshot-assertions.git",
-                "reference": "b8a978cebdeaaaedd90731ac2d8e71f58b170b2e"
+                "reference": "a6ba40b71b15b481a9e9447f5d8239b820bcb842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/b8a978cebdeaaaedd90731ac2d8e71f58b170b2e",
-                "reference": "b8a978cebdeaaaedd90731ac2d8e71f58b170b2e",
+                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/a6ba40b71b15b481a9e9447f5d8239b820bcb842",
+                "reference": "a6ba40b71b15b481a9e9447f5d8239b820bcb842",
                 "shasum": ""
             },
             "require": {
@@ -6634,7 +6634,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-11-03T10:17:39+00:00"
+            "time": "2020-11-26T13:05:32+00:00"
         },
         {
             "name": "symfony/property-access",
