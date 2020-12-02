@@ -1,4 +1,4 @@
-# Lodata - The OData 4.01 Producer for Laravel
+# Lodata - The OData v4.01 Producer for Laravel
 
 <a href="https://github.com/flat3/lodata/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/flat3/lodata/Tests"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/flat3/lodata"></a>
