@@ -25,17 +25,14 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run test suite
-        run: composer run-script test
-
-      - name: Run static analysis
-        run: composer run-script analyse
-
-      - name: Run test coverage
+      - name: Run tests
         uses: paambaati/codeclimate-action@v2.7.4
         env:
           CC_TEST_REPORTER_ID: 1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
         with:
-          coverageCommand: composer coverage
+          coverageCommand: composer run-script coverage
           coverageLocations: ${{github.workspace}}/coverage.xml:clover
+
+      - name: Run static analysis
+        run: composer run-script analyse
 
