@@ -1,10 +1,10 @@
 # Lodata - The OData 4.01 Producer for Laravel
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/flat3/lodata/Tests?link=https://github.com/flat3/lodata/actions)
-![Packagist Version](https://img.shields.io/packagist/v/flat3/lodata?link=https://packagist.org/packages/flat3/lodata)
-![Packagist License](https://img.shields.io/packagist/l/flat3/lodata?link=https://packagist.org/packages/flat3/lodata)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/flat3/lodata)
-![Code Climate coverage](https://img.shields.io/codeclimate/coverage/flat3/lodata)
+<a href="https://github.com/flat3/lodata/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/flat3/lodata/Tests"></a>
+<a href="https://packagist.org/packages/flat3/lodata"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/flat3/lodata"></a>
+<a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
+<img alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability-percentage/flat3/lodata">
+<img alt="Code Climate coverage" src="https://img.shields.io/codeclimate/coverage/flat3/lodata">
 
 ## Contents
 
