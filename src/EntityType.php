@@ -31,6 +31,7 @@ class EntityType extends ComplexType
      * Generate a new entity type
      * @param  string|Identifier  $identifier
      * @return EntityType Entity Type
+     * @codeCoverageIgnore
      */
     public static function factory($identifier)
     {

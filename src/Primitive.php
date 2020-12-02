@@ -58,6 +58,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * @param  mixed|null  $value  Value
      * @param  bool|null  $nullable  Whether this instance of the primitive supports null
      * @return Primitive
+     * @codeCoverageIgnore
      */
     public static function factory($value = null, ?bool $nullable = true): self
     {

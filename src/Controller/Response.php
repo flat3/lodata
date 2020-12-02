@@ -21,18 +21,6 @@ class Response extends StreamedResponse
     protected $resource;
 
     /**
-     * Set the resource responding to this request
-     * @param  ResourceInterface  $resource  Resource
-     * @return $this
-     */
-    public function setResource(ResourceInterface $resource): self
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
      * Get the resource responding to this request
      * @return ResourceInterface|null
      */

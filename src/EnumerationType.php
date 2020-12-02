@@ -50,6 +50,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * Generate a new enumerated type
      * @param  string  $identifier  Type name
      * @return static
+     * @codeCoverageIgnore
      */
     public static function factory(string $identifier): self
     {
@@ -111,6 +112,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * Whether a member exists on this type with the given name
      * @param  mixed  $offset  Member name
      * @return bool
+     * @codeCoverageIgnore
      */
     public function offsetExists($offset)
     {
@@ -148,6 +150,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     /**
      * Remove a member of the enumerated type
      * @param  mixed  $offset  Member name
+     * @codeCoverageIgnore
      */
     public function offsetUnset($offset)
     {

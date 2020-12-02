@@ -136,6 +136,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @param  string  $name  Entity set name
      * @param  EntityType  $entityType  Entity type
      * @return static Entity set definition
+     * @codeCoverageIgnore
      */
     public static function factory(string $name, EntityType $entityType): self
     {

@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Operation;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
@@ -309,6 +310,40 @@ class FunctionTest extends TestCase
             Request::factory()
                 ->path('/textv1()'),
             InternalServerErrorException::class
+        );
+    }
+
+    public function test_bad_null_argument()
+    {
+        $this->withTextModel();
+
+        Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
+            public function invoke(String_ $a)
+            {
+            }
+        });
+
+        $this->assertRequestExceptionSnapshot(
+            Request::factory()
+                ->path('/textv1()'),
+            BadRequestException::class
+        );
+    }
+
+    public function test_bad_argument_type()
+    {
+        $this->withTextModel();
+
+        Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
+            public function invoke(String_ $a)
+            {
+            }
+        });
+
+        $this->assertRequestExceptionSnapshot(
+            Request::factory()
+                ->path('/textv1(a=4)'),
+            BadRequestException::class
         );
     }
 }
