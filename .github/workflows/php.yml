@@ -31,7 +31,7 @@ jobs:
       - name: Run static analysis
         run: composer run-script analyse
 
-      - uses: paambaati/codeclimate-action@v2.2.4
+      - uses: paambaati/codeclimate-action@v2.7.4
         env:
           CC_TEST_REPORTER_ID: 1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
         with:
