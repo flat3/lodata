@@ -8,10 +8,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem;
 use RuntimeException;
 
 /**
@@ -66,7 +68,7 @@ class Async implements ShouldQueue
 
     /**
      * Get the Laravel disk used to store results of this job
-     * @return Filesystem Filesystem
+     * @return FilesystemAdapter Filesystem
      */
     public function getDisk(): Filesystem
     {
@@ -79,7 +81,7 @@ class Async implements ShouldQueue
      */
     public function getDataPath(): string
     {
-        return $this->getDisk()->path($this->ns('data'));
+        return $this->ns('data');
     }
 
     /**
@@ -88,7 +90,7 @@ class Async implements ShouldQueue
      */
     public function getMetaPath(): string
     {
-        return $this->getDisk()->path($this->ns('meta'));
+        return $this->ns('meta');
     }
 
     /**
@@ -100,7 +102,7 @@ class Async implements ShouldQueue
             return;
         }
 
-        $dataPath = $this->getDataPath();
+        $disk = $this->getDisk();
         $metaPath = $this->getMetaPath();
 
         $error = false;
@@ -112,14 +114,10 @@ class Async implements ShouldQueue
             $error = true;
         }
 
-        file_put_contents($metaPath, $response->toJson());
+        $disk->write($metaPath, $response->toJson());
 
         if (!$error) {
-            $resource = fopen($dataPath, 'w+b');
-
-            if (false === $resource) {
-                throw new RuntimeException();
-            }
+            $resource = $this->openDataStream();
 
             ob_start(function ($buffer) use ($resource) {
                 fwrite($resource, $buffer);
@@ -127,7 +125,8 @@ class Async implements ShouldQueue
 
             $response->sendContent();
             ob_end_flush();
-            fclose($resource);
+
+            $this->commitDataStream($resource);
         }
 
         $callback = $this->transaction->getCallbackUrl();
@@ -137,6 +136,53 @@ class Async implements ShouldQueue
         }
 
         $this->setComplete();
+    }
+
+    /**
+     * Return a resource that can store the data stream
+     * @return resource
+     */
+    public function openDataStream()
+    {
+        $disk = $this->getDisk();
+        $driver = $disk->getDriver()->getAdapter();
+
+        switch (true) {
+            case $driver instanceof Flysystem\Adapter\Local:
+                $resource = fopen($disk->path($this->getDataPath()), 'w+b');
+                break;
+
+            default:
+                $resource = fopen('php://temp', 'w+b');
+                break;
+        }
+
+        if (false === $resource) {
+            throw new RuntimeException();
+        }
+
+        return $resource;
+    }
+
+    /**
+     * Close the data stream resource
+     * @param  resource  $resource
+     */
+    public function commitDataStream($resource)
+    {
+        $disk = $this->getDisk();
+        $driver = $disk->getDriver()->getAdapter();
+
+        switch (true) {
+            case $driver instanceof Flysystem\Adapter\Local:
+                break;
+
+            default:
+                $disk->writeStream($this->getDataPath(), $resource);
+                break;
+        }
+
+        fclose($resource);
     }
 
     /**
@@ -196,6 +242,10 @@ class Async implements ShouldQueue
         /** @var Dispatcher $dispatcher */
         $dispatcher = app(Dispatcher::class);
         $this->setPending();
+
+        $this->onQueue(config('lodata.async.queue'));
+        $this->onConnection(config('lodata.async.connection'));
+
         $dispatcher->dispatch($this);
 
         $accepted = $this->accepted();
@@ -223,7 +273,7 @@ class Async implements ShouldQueue
      */
     public function getResultMetadata(): array
     {
-        return json_decode(file_get_contents($this->getMetaPath()), true);
+        return json_decode($this->getDisk()->read($this->getMetaPath()), true);
     }
 
     /**
@@ -232,7 +282,7 @@ class Async implements ShouldQueue
      */
     public function getResultStream()
     {
-        return fopen($this->getDataPath(), 'r');
+        return $this->getDisk()->readStream($this->getDataPath());
     }
 
     /**
@@ -258,8 +308,8 @@ class Async implements ShouldQueue
      */
     public function destroy()
     {
-        @unlink($this->getDataPath());
-        @unlink($this->getMetaPath());
+        $this->getDisk()->delete($this->getDataPath());
+        $this->getDisk()->delete($this->getMetaPath());
         Cache::forget($this->ns('status'));
     }
 
