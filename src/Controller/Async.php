@@ -105,29 +105,24 @@ class Async implements ShouldQueue
         $disk = $this->getDisk();
         $metaPath = $this->getMetaPath();
 
-        $error = false;
-
         try {
             $response = $this->transaction->execute()->response($this->transaction);
         } catch (ProtocolException $e) {
             $response = $e->toResponse();
-            $error = true;
         }
 
         $disk->write($metaPath, $response->toJson());
 
-        if (!$error) {
-            $resource = $this->openDataStream();
+        $resource = $this->openDataStream();
 
-            ob_start(function ($buffer) use ($resource) {
-                fwrite($resource, $buffer);
-            });
+        ob_start(function ($buffer) use ($resource) {
+            fwrite($resource, $buffer);
+        });
 
-            $response->sendContent();
-            ob_end_flush();
+        $response->sendContent();
+        ob_end_flush();
 
-            $this->commitDataStream($resource);
-        }
+        $this->commitDataStream($resource);
 
         $callback = $this->transaction->getCallbackUrl();
 

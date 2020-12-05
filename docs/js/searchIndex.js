@@ -286,6 +286,16 @@ Search.appendIndex(
             "summary": "Job\u0020handle\u0020method",
             "url": "classes/Flat3-Lodata-Controller-Async.html#method_handle"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AopenDataStream\u0028\u0029",
+            "name": "openDataStream",
+            "summary": "Return\u0020a\u0020resource\u0020that\u0020can\u0020store\u0020the\u0020data\u0020stream",
+            "url": "classes/Flat3-Lodata-Controller-Async.html#method_openDataStream"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AcommitDataStream\u0028\u0029",
+            "name": "commitDataStream",
+            "summary": "Close\u0020the\u0020data\u0020stream\u0020resource",
+            "url": "classes/Flat3-Lodata-Controller-Async.html#method_commitDataStream"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async\u003A\u003AgetMonitorUrl\u0028\u0029",
             "name": "getMonitorUrl",
             "summary": "Get\u0020the\u0020monitoring\u0020URL\u0020to\u0020determine\u0020the\u0020state\u0020of\u0020this\u0020job\u0020by\u0020an\u0020OData\u0020client",
@@ -435,11 +445,6 @@ Search.appendIndex(
             "name": "Response",
             "summary": "Response",
             "url": "classes/Flat3-Lodata-Controller-Response.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AsetResource\u0028\u0029",
-            "name": "setResource",
-            "summary": "Set\u0020the\u0020resource\u0020responding\u0020to\u0020this\u0020request",
-            "url": "classes/Flat3-Lodata-Controller-Response.html#method_setResource"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AgetResource\u0028\u0029",
             "name": "getResource",
@@ -4945,11 +4950,6 @@ Search.appendIndex(
             "name": "setIdentifier",
             "summary": "Set\u0020the\u0020identifier",
             "url": "classes/Flat3-Lodata-Traits-HasIdentifier.html#method_setIdentifier"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Traits\\HasInternalPagination",
-            "name": "HasInternalPagination",
-            "summary": "Has\u0020Internal\u0020Pagination",
-            "url": "classes/Flat3-Lodata-Traits-HasInternalPagination.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Traits\\HasName",
             "name": "HasName",

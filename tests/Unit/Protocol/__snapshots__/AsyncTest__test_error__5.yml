@@ -1,3 +1,5 @@
-httpCode: 404
-odataCode: not_found
-message: 'Not found'
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+    asyncresult: [404]
+status: 200

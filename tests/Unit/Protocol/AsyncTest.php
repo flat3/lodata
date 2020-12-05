@@ -119,7 +119,7 @@ class AsyncTest extends TestCase
 
         $this->assertStoredResponseMetadata($disk->get($job->ns('meta')));
 
-        $response = $this->assertMetadataResponse(
+        $response = $this->assertJsonMetadataResponse(
             Request::factory()
                 ->path($location, false)
         );
