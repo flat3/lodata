@@ -91,8 +91,8 @@ class AsyncTest extends TestCase
         $job = collect($queue->pushedJobs())->flatten(1)->first()['job'];
         $job->handle();
 
-        $this->assertFileDoesNotExist($job->getMetaPath());
-        $this->assertFileDoesNotExist($job->getDataPath());
+        $this->assertFalse($job->getDisk()->exists($job->getMetaPath()));
+        $this->assertFalse($job->getDisk()->exists($job->getDataPath()));
     }
 
     public function test_error()
