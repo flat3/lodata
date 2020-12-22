@@ -1,6 +1,6 @@
 {
     "name": "flat3/lodata",
-    "description": "OData 4.01 Producer for Laravel",
+    "description": "OData v4.01 Producer for Laravel",
     "keywords": ["odata", "laravel"],
     "homepage": "https://github.com/flat3/lodata",
     "license": "MIT",
