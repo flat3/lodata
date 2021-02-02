@@ -295,7 +295,6 @@ abstract class Parser
          */
         /**
          * @var Operator $o1
-         * @phpstan-ignore-next-line
          */
         $o1 = new $this->operators[$token]($this);
         $o1->setValue($token);
