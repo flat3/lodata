@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Connection;
@@ -46,39 +47,52 @@ trait SQLSchema
             }
 
             $column = $columns[$index->getColumns()[0]];
+            $columnName = $column->getName();
+            $sqlType = $column->getType()->getName();
+
+            if (array_key_exists($columnName, $casts)) {
+                $sqlType = $casts[$columnName];
+            }
 
             $type->setKey(
                 new DeclaredProperty(
-                    $column->getName(),
-                    $this->sqlTypeToPrimitiveType($column->getType()->getName())
+                    $columnName,
+                    $this->sqlTypeToPrimitiveType($sqlType),
                 )
+            );
+        }
+
+        if (!$type->getKey()) {
+            throw new InternalServerErrorException(
+                'missing_primary_key',
+                'The primary key of this table could not be detected'
             );
         }
 
         $blacklist = config('lodata.discovery.blacklist', []);
 
         foreach ($columns as $column) {
-            $name = $column->getName();
+            $columnName = $column->getName();
 
-            if ($name === $type->getKey()->getName()) {
+            if ($columnName === $type->getKey()->getName()) {
                 continue;
             }
 
-            if (in_array($name, $blacklist)) {
+            if (in_array($columnName, $blacklist)) {
                 continue;
             }
 
-            $cast = $column->getType()->getName();
+            $sqlType = $column->getType()->getName();
             $notnull = $column->getNotnull();
 
-            if (array_key_exists($name, $casts)) {
-                $cast = $casts[$name];
+            if (array_key_exists($columnName, $casts)) {
+                $sqlType = $casts[$columnName];
             }
 
             $type->addProperty(
                 new DeclaredProperty(
-                    $name,
-                    $this->sqlTypeToPrimitiveType($cast)->setNullable(!$notnull)
+                    $columnName,
+                    $this->sqlTypeToPrimitiveType($sqlType)->setNullable(!$notnull)
                 )
             );
         }
