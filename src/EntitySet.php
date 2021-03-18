@@ -43,6 +43,7 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Iterator;
 
 /**
@@ -119,6 +120,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @internal
      */
     protected $expansionPropertyValue;
+
+    /**
+     * Whether to apply system query options on this entity set instance
+     * @var bool $applyQueryOptions
+     * @internal
+     */
+    protected $applyQueryOptions = true;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
@@ -357,7 +365,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $metadata['context'] = $context->getContextUrl($transaction);
 
-        $count = $transaction->getCount();
+        $count = $this->getCount();
         if (true === $count->getValue()) {
             $metadata['count'] = $setCount;
         }
@@ -540,7 +548,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @param  Transaction  $transaction  Related transaction
      * @return $this
      */
-    public function setTransaction(Transaction $transaction)
+    public function setTransaction(Transaction $transaction): self
     {
         foreach (
             [
@@ -556,7 +564,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             list ($class, $option) = $sqo;
 
             /** @var Option $option */
-            if ($option->hasValue() && !is_a($this, $class, true)) {
+            if ($this->applyQueryOptions && $option->hasValue() && !is_a($this, $class, true)) {
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',
                     sprintf('The %s system query option is not supported by this entity set', $option::param)
@@ -591,6 +599,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         $entitySet = clone $entitySet;
+
+        if ($nextSegment && !Str::startsWith($nextSegment, '$')) {
+            $entitySet->applyQueryOptions = false;
+        }
+
         $entitySet->setTransaction($transaction);
 
         if ($lexer->finished()) {
@@ -701,5 +714,68 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $this->type = $type;
 
         return $this;
+    }
+
+    /**
+     * Return the search option that applies to this entity set
+     * @return Option\Search
+     */
+    public function getSearch(): Option\Search
+    {
+        return $this->applyQueryOptions ? $this->transaction->getSearch() : new Option\Search();
+    }
+
+    /**
+     * Return the filter option that applies to this entity set
+     * @return Option\Filter
+     */
+    public function getFilter(): Option\Filter
+    {
+        return $this->applyQueryOptions ? $this->transaction->getFilter() : new Option\Filter();
+    }
+
+    /**
+     * Return the count option that applies to this entity set
+     * @return Option\Count
+     */
+    public function getCount(): Option\Count
+    {
+        return $this->applyQueryOptions ? $this->transaction->getCount() : new Option\Count();
+    }
+
+    /**
+     * Return the orderby option that applies to this entity set
+     * @return Option\OrderBy
+     */
+    public function getOrderBy(): Option\OrderBy
+    {
+        return $this->applyQueryOptions ? $this->transaction->getOrderBy() : new Option\OrderBy();
+    }
+
+    /**
+     * Return the skip option that applies to this entity set
+     * @return Option\Skip
+     */
+    public function getSkip(): Option\Skip
+    {
+        return $this->applyQueryOptions ? $this->transaction->getSkip() : new Option\Skip();
+    }
+
+    /**
+     * Return the top option that applies to this entity set
+     * @return Option\Top
+     */
+    public function getTop(): Option\Top
+    {
+        return $this->applyQueryOptions ? $this->transaction->getTop() : new Option\Top();
+    }
+
+    /**
+     * Return this select option that applies to this entity set
+     * @return Option\Select
+     */
+    public function getSelect(): Option\Select
+    {
+        return $this->applyQueryOptions ? $this->transaction->getSelect() : new Option\Select();
     }
 }

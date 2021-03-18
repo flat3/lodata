@@ -39,7 +39,7 @@ trait SQLWhere
         $this->where = '';
 
         if ($this instanceof FilterInterface) {
-            $filter = $this->transaction->getFilter();
+            $filter = $this->getFilter();
             if ($filter->hasValue()) {
                 $this->whereMaybeAnd();
                 $validLiterals = [];
@@ -56,7 +56,7 @@ trait SQLWhere
         }
 
         if ($this instanceof SearchInterface) {
-            $search = $this->transaction->getSearch();
+            $search = $this->getSearch();
             if ($search->hasValue()) {
                 if (!$this->getType()->getDeclaredProperties()->filter(function ($property) {
                     return $property->isSearchable();
