@@ -49,7 +49,7 @@ class ExpandTest extends TestCase
             Request::factory()
                 ->path('/flights')
                 ->metadata(Metadata\Full::name)
-                ->query('$expand', 'passengers($count=true,$top=1)')
+                ->query('$expand', 'passengers($count=true;$top=1)')
         );
     }
 
@@ -78,6 +78,26 @@ class ExpandTest extends TestCase
                 ->path('/flights(1)')
                 ->query('$select', 'origin,destination')
                 ->query('$expand', 'passengers($select=name)')
+        );
+    }
+
+    public function test_select_with_expand_select_multiple()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'origin')
+                ->query('$expand', 'airports($select=name,review_score,construction_date)')
+        );
+    }
+
+    public function test_select_with_expand_select_multiple_and_top()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->query('$select', 'origin')
+                ->query('$expand', 'passengers($select=flight_id,name;$top=2)')
         );
     }
 
@@ -140,7 +160,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($orderby=name desc,$select=name)')
+                ->query('$expand', 'passengers($orderby=name desc;$select=name)')
         );
     }
 
@@ -149,7 +169,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($filter=startswith(name, \'Bob\'),$select=name)')
+                ->query('$expand', 'passengers($filter=startswith(name, \'Bob\');$select=name)')
         );
     }
 }

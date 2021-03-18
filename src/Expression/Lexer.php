@@ -820,11 +820,11 @@ class Lexer
     }
 
     /**
-     * Split a comma separated query string
+     * Split a semicolon separated query string
      * @return array
      * @throws LexerException
      */
-    public function splitCommaSeparatedQueryString(): array
+    public function splitSemicolonSeparatedQueryString(): array
     {
         $parameters = [];
         $chars = [];
@@ -840,7 +840,7 @@ class Lexer
                     $chars[] = ')';
                     break;
 
-                case ',':
+                case ';':
                     $parameters[] = implode('', $chars);
                     $chars = [];
                     break;
