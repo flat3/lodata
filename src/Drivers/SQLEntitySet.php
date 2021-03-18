@@ -313,7 +313,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
      */
     protected function getColumnsToQuery(): string
     {
-        $select = $this->transaction->getSelect();
+        $select = $this->getSelect();
 
         $properties = $select->getSelectedProperties($this)->sliceByClass(DeclaredProperty::class);
 

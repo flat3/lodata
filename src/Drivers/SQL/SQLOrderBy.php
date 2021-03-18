@@ -16,7 +16,7 @@ trait SQLOrderBy
      */
     public function generateOrderBy(): string
     {
-        $orderby = $this->transaction->getOrderBy();
+        $orderby = $this->getOrderBy();
 
         if (!$orderby->hasValue()) {
             return '';

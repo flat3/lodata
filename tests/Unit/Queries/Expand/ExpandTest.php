@@ -93,11 +93,17 @@ class ExpandTest extends TestCase
 
     public function test_select_with_expand_select_multiple_and_top()
     {
+        $page = $this->jsonResponse(
+            $this->assertJsonResponse(
+                Request::factory()
+                    ->path('/flights(1)')
+                    ->query('$select', 'origin')
+                    ->query('$expand', 'passengers($select=flight_id,name;$top=2)')
+            )
+        );
+
         $this->assertJsonResponse(
-            Request::factory()
-                ->path('/flights(1)')
-                ->query('$select', 'origin')
-                ->query('$expand', 'passengers($select=flight_id,name;$top=2)')
+            $this->urlToReq($page->{'passengers@nextLink'})
         );
     }
 

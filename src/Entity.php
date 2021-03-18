@@ -351,12 +351,12 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
             $count = $set->count();
 
-            if ($transaction->getCount()->hasValue()) {
+            if ($set->getCount()->hasValue()) {
                 $propertyMetadata['count'] = $count;
             }
 
-            $top = $transaction->getTop();
-            $skip = $transaction->getSkip();
+            $top = $set->getTop();
+            $skip = $set->getSkip();
 
             if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $count)) {
                 $np = $transaction->getQueryParams();

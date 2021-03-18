@@ -1471,6 +1471,41 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020entity\u0020type\u0020of\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_setType"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetSearch\u0028\u0029",
+            "name": "getSearch",
+            "summary": "Return\u0020the\u0020search\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getSearch"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetFilter\u0028\u0029",
+            "name": "getFilter",
+            "summary": "Return\u0020the\u0020filter\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getFilter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetCount\u0028\u0029",
+            "name": "getCount",
+            "summary": "Return\u0020the\u0020count\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getCount"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetOrderBy\u0028\u0029",
+            "name": "getOrderBy",
+            "summary": "Return\u0020the\u0020orderby\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getOrderBy"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetSkip\u0028\u0029",
+            "name": "getSkip",
+            "summary": "Return\u0020the\u0020skip\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getSkip"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetTop\u0028\u0029",
+            "name": "getTop",
+            "summary": "Return\u0020the\u0020top\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getTop"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetSelect\u0028\u0029",
+            "name": "getSelect",
+            "summary": "Return\u0020this\u0020select\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getSelect"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
             "summary": "Entity\u0020Type",
@@ -2176,10 +2211,10 @@ Search.appendIndex(
             "summary": "Match\u0020a\u0020string\u0020enclosed\u0020in\u0020matching\u0020parentheses",
             "url": "classes/Flat3-Lodata-Expression-Lexer.html#method_matchingParenthesis"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AsplitCommaSeparatedQueryString\u0028\u0029",
-            "name": "splitCommaSeparatedQueryString",
-            "summary": "Split\u0020a\u0020comma\u0020separated\u0020query\u0020string",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#method_splitCommaSeparatedQueryString"
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AsplitSemicolonSeparatedQueryString\u0028\u0029",
+            "name": "splitSemicolonSeparatedQueryString",
+            "summary": "Split\u0020a\u0020semicolon\u0020separated\u0020query\u0020string",
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#method_splitSemicolonSeparatedQueryString"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AOPEN_PAREN",
             "name": "OPEN_PAREN",
