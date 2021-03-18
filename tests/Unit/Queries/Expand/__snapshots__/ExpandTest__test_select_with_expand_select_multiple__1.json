@@ -1,0 +1,11 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(origin,airports(name,review_score,construction_date))/$entity",
+    "origin": "lhr",
+    "airports": [
+        {
+            "name": "Heathrow",
+            "review_score": null,
+            "construction_date": "1946-03-25"
+        }
+    ]
+}

@@ -56,7 +56,7 @@ class NavigationRequest implements RequestInterface
     public function setQueryString(string $queryString): self
     {
         $lexer = new Lexer($queryString);
-        $parameters = $lexer->splitCommaSeparatedQueryString();
+        $parameters = $lexer->splitSemicolonSeparatedQueryString();
         $this->request->query->replace($parameters);
 
         return $this;
