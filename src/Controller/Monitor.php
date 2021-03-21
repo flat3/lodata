@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Controller;
 
-use ErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Controller;

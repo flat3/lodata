@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Drivers;
 
 use Exception;
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
@@ -210,11 +211,12 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $model = new $this->model();
 
         $body = $this->transaction->getBody();
+        $declaredProperties = $this->getType()->getDeclaredProperties()->pick(array_keys($body));
 
-        /** @var Property $property */
-        foreach ($this->getType()->getDeclaredProperties() as $property) {
-            if (array_key_exists($property->getName(), $body)) {
-                $model[$property->getName()] = $body[$property->getName()];
+        /** @var DeclaredProperty $declaredProperty */
+        foreach ($declaredProperties as $declaredProperty) {
+            if (array_key_exists($declaredProperty->getName(), $body)) {
+                $model[$declaredProperty->getName()] = $body[$declaredProperty->getName()];
             }
         }
 
@@ -238,6 +240,8 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $key->setValue($key->getProperty()->getType()->instance($model->id));
         $entity = $this->read($key);
         $key->setEntity($entity);
+
+        $this->createRelatedEntities($entity);
 
         return $entity;
     }

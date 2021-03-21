@@ -535,12 +535,18 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * Generate an entity from an array of key/values
-     * @param  array  $array  Key/value array
+     * @param  array  $object  Key/value array
      * @return $this
      */
-    public function fromArray(array $array): self
+    public function fromArray(array $object): self
     {
-        foreach ($array as $key => $value) {
+        // Only pick declared properties of this type
+        $declaredPropertyValues = array_intersect_key(
+            $object,
+            array_flip($this->type->getDeclaredProperties()->keys())
+        );
+
+        foreach ($declaredPropertyValues as $key => $value) {
             $this[$key] = $value;
         }
 

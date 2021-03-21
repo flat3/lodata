@@ -13,7 +13,7 @@ class Request extends IlluminateRequest implements RequestInterface
 {
     /**
      * Set the request path
-     * @param  string  $path Request path
+     * @param  string  $path  Request path
      * @return $this
      */
     public function setPath(string $path): self

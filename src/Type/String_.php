@@ -10,6 +10,7 @@ use Flat3\Lodata\Primitive;
 /**
  * String
  * @package Flat3\Lodata\Type
+ * @method static self factory($value = null, ?bool $nullable = true)
  */
 class String_ extends Primitive
 {

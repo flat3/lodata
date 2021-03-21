@@ -41,7 +41,6 @@ use Flat3\Lodata\Transaction\Option\Top;
 use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Transaction\Version;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use JsonException;
@@ -63,7 +62,7 @@ class Transaction implements ArgumentInterface
 
     /**
      * Request object
-     * @var Request $request
+     * @var RequestInterface $request
      * @internal
      */
     private $request;
@@ -344,9 +343,9 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get the request object
-     * @return Request Request
+     * @return RequestInterface Request
      */
-    public function getRequest(): Request
+    public function getRequest(): RequestInterface
     {
         return $this->request;
     }

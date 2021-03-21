@@ -370,13 +370,20 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     public function create(): Entity
     {
         $entity = $this->newEntity();
-        $entity->fromArray($this->transaction->getBody());
+        $body = $this->transaction->getBody();
+        $entity->fromArray($body);
 
         $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
+        $declaredProperties = $type->getDeclaredProperties()->pick(array_keys($body));
         $propertyValues = $entity->getPropertyValues();
 
         $fields = [];
+
+        /** @var DeclaredProperty $declaredProperty */
+        foreach ($declaredProperties as $declaredProperty) {
+            $fields[] = $this->getPropertySourceName($declaredProperty);
+            $this->addParameter($propertyValues->get($declaredProperty->getName())->getValue()->get());
+        }
 
         if ($this->expansionPropertyValue) {
             /** @var NavigationProperty $navigationProperty */
@@ -388,12 +395,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
                 $fields[] = $this->getPropertySourceName($referencedProperty);
                 $this->addParameter($this->expansionPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
             }
-        }
-
-        /** @var Property $property */
-        foreach ($properties as $property) {
-            $fields[] = $this->getPropertySourceName($property);
-            $this->addParameter($propertyValues->get($property->getName())->getValue()->get());
         }
 
         $fieldsList = implode(',', $fields);
@@ -408,7 +409,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $key = $entity->getEntityId();
         $key->getPrimitiveValue()->set($id);
 
-        return $this->read($key);
+        $entity = $this->read($key);
+
+        $this->createRelatedEntities($entity);
+
+        return $entity;
     }
 
     /**

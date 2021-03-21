@@ -137,6 +137,27 @@ class EloquentTest extends TestCase
         );
     }
 
+    public function test_create_deep()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights')
+                ->post()
+                ->body([
+                    'origin' => 'lhr',
+                    'destination' => 'sfo',
+                    'passengers' => [
+                        [
+                            'name' => 'Alice',
+                        ],
+                        [
+                            'name' => 'Bob',
+                        ],
+                    ],
+                ])
+        );
+    }
+
     public function test_create_navigation_property()
     {
         $this->withFlightData();

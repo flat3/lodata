@@ -94,14 +94,14 @@
     
             <span class="phpdocumentor-element__implements">
             implements
-                            <abbr title="\Countable">Countable</abbr>,                             <abbr title="\Iterator">Iterator</abbr>,                             <abbr title="\ArrayAccess">ArrayAccess</abbr>                    </span>
+                            <abbr title="\Countable">Countable</abbr>,                             <abbr title="\Iterator">Iterator</abbr>,                             <abbr title="\ArrayAccess">ArrayAccess</abbr>,                             <a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>                    </span>
     
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 </aside>
 
             <p class="phpdocumentor-summary">Object Array</p>
@@ -125,6 +125,8 @@
         <dd></dd>
             <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\ArrayAccess">ArrayAccess</abbr></dt>
         <dd></dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a></dt>
+        <dd>Emit Interface</dd>
     
     
     </dl>
@@ -170,6 +172,13 @@
                         &nbsp;: void    </span>
 </dt>
 <dd>Remove an object from the array</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_emit">emit()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Emit this item to the client response</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_exists">exists()</a>
@@ -270,6 +279,13 @@
 <dd>Replace a value in the array</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_response">response()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
+</dt>
+<dd>Generate the client response</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_rewind">rewind()</a>
     <span>
                         &nbsp;: mixed    </span>
@@ -323,7 +339,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add a value to the array</p>
@@ -376,7 +392,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">311</span>
+    <span class="phpdocumentor-element-found-in__line">315</span>
 </aside>
 
         <p class="phpdocumentor-summary">Clear the array</p>
@@ -410,7 +426,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">84</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 </aside>
 
         <p class="phpdocumentor-summary">Count values in the array</p>
@@ -444,7 +460,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">103</span>
+    <span class="phpdocumentor-element-found-in__line">107</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the current value in the array</p>
@@ -478,7 +494,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">215</span>
+    <span class="phpdocumentor-element-found-in__line">219</span>
 </aside>
 
         <p class="phpdocumentor-summary">Remove an object from the array</p>
@@ -516,6 +532,52 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_emit">
+        emit()
+        <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_emit" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">321</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Emit this item to the client response</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">emit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$transaction</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Transaction</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_exists">
         exists()
         <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_exists" class="headerlink"><i class="fas fa-link"></i></a>
@@ -523,7 +585,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">94</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 </aside>
 
         <p class="phpdocumentor-summary">Check if the provided item exists in the array</p>
@@ -568,7 +630,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">255</span>
+    <span class="phpdocumentor-element-found-in__line">259</span>
 </aside>
 
         <p class="phpdocumentor-summary">Filter the objects in the array</p>
@@ -613,7 +675,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">160</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a value from the array</p>
@@ -659,7 +721,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">224</span>
+    <span class="phpdocumentor-element-found-in__line">228</span>
 </aside>
 
         <p class="phpdocumentor-summary">Check whether the array is empty</p>
@@ -693,7 +755,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">125</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the key of the current value in the array</p>
@@ -727,7 +789,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">290</span>
+    <span class="phpdocumentor-element-found-in__line">294</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a a list of object keys</p>
@@ -761,7 +823,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 </aside>
 
         <p class="phpdocumentor-summary">Merge two object arrays</p>
@@ -814,7 +876,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">112</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 </aside>
 
         <p class="phpdocumentor-summary">Move to the next value in the array</p>
@@ -848,7 +910,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">150</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 </aside>
 
         <p class="phpdocumentor-summary">Check if the provided offset exists in the array</p>
@@ -893,7 +955,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">187</span>
+    <span class="phpdocumentor-element-found-in__line">191</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get an object in the array</p>
@@ -938,7 +1000,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">197</span>
+    <span class="phpdocumentor-element-found-in__line">201</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set an object in the array</p>
@@ -991,7 +1053,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">206</span>
+    <span class="phpdocumentor-element-found-in__line">210</span>
 </aside>
 
         <p class="phpdocumentor-summary">Unset an object in the array</p>
@@ -1036,7 +1098,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">300</span>
+    <span class="phpdocumentor-element-found-in__line">304</span>
 </aside>
 
         <p class="phpdocumentor-summary">Pick a subset of the array objects by the provided keys</p>
@@ -1081,7 +1143,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 </aside>
 
         <p class="phpdocumentor-summary">Replace a value in the array</p>
@@ -1127,6 +1189,62 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_response">
+        response()
+        <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_response" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">342</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Generate the client response</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">response</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$transaction</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Transaction</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$context</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Current context</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Client Response</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_rewind">
         rewind()
         <a href="classes/Flat3-Lodata-Helper-ObjectArray.html#method_rewind" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1134,7 +1252,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">140</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 </aside>
 
         <p class="phpdocumentor-summary">Rewind the array</p>
@@ -1168,7 +1286,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a subset of objects in the array by the provided class</p>
@@ -1213,7 +1331,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">273</span>
+    <span class="phpdocumentor-element-found-in__line">277</span>
 </aside>
 
         <p class="phpdocumentor-summary">Sort the objects in the array</p>
@@ -1258,7 +1376,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/ObjectArray.php"><a href="files/src-helper-objectarray.html"><abbr title="src/Helper/ObjectArray.php">ObjectArray.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 </aside>
 
         <p class="phpdocumentor-summary">Check if the current value in the array is valid</p>

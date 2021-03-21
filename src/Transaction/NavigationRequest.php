@@ -21,7 +21,7 @@ class NavigationRequest implements RequestInterface
 
     /**
      * Base request
-     * @var Request $request
+     * @var RequestInterface $request
      */
     public $request;
 
@@ -31,6 +31,12 @@ class NavigationRequest implements RequestInterface
      */
     protected $basePath;
 
+    /**
+     * Body content
+     * @var string $content
+     */
+    protected $content;
+
     public function __construct()
     {
         $this->request = new Request();
@@ -38,10 +44,10 @@ class NavigationRequest implements RequestInterface
 
     /**
      * Set the outer request that generated this request
-     * @param  Request  $request  Request
+     * @param  RequestInterface  $request  Request
      * @return $this
      */
-    public function setOuterRequest(Request $request): self
+    public function setOuterRequest(RequestInterface $request): self
     {
         $this->request = $request;
 
@@ -81,6 +87,18 @@ class NavigationRequest implements RequestInterface
         $this->basePath = $path;
 
         return $this;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content ?: $this->request->getContent();
     }
 
     /**
