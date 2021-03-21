@@ -1,0 +1,41 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights/$entity",
+    "@type": "#com.example.odata.flight",
+    "@id": "http://localhost/odata/flights(4)",
+    "@readLink": "http://localhost/odata/flights(4)",
+    "id": 4,
+    "origin": "lhr",
+    "destination": "sfo",
+    "gate": null,
+    "passengers@navigationLink": "http://localhost/odata/flights(4)/passengers",
+    "passengers": [
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers(6)",
+            "@readLink": "http://localhost/odata/passengers(6)",
+            "id": 6,
+            "name": "Alice",
+            "flight_id": 4,
+            "pets@navigationLink": "http://localhost/odata/passengers(6)/pets",
+            "pets": [
+                {
+                    "@type": "#com.example.odata.pet",
+                    "@id": "http://localhost/odata/pets(1)",
+                    "@readLink": "http://localhost/odata/pets(1)",
+                    "id": 1,
+                    "name": "Sparkles",
+                    "type": "dog",
+                    "passenger_id": 6
+                }
+            ]
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers(7)",
+            "@readLink": "http://localhost/odata/passengers(7)",
+            "id": 7,
+            "name": "Bob",
+            "flight_id": 4
+        }
+    ]
+}

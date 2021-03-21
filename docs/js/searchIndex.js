@@ -1506,6 +1506,11 @@ Search.appendIndex(
             "summary": "Return\u0020this\u0020select\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getSelect"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AcreateRelatedEntities\u0028\u0029",
+            "name": "createRelatedEntities",
+            "summary": "Deep\u0020insert\u0020related\u0020entities",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_createRelatedEntities"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
             "summary": "Entity\u0020Type",
@@ -3766,6 +3771,16 @@ Search.appendIndex(
             "summary": "Clear\u0020the\u0020array",
             "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_clear"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Aemit\u0028\u0029",
+            "name": "emit",
+            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_emit"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "Generate\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_response"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue",
             "name": "PropertyValue",
             "summary": "Property\u0020Value",
@@ -4340,6 +4355,11 @@ Search.appendIndex(
             "name": "generatePropertyValue",
             "summary": "Generate\u0020a\u0020property\u0020value\u0020from\u0020this\u0020property",
             "url": "classes/Flat3-Lodata-NavigationProperty.html#method_generatePropertyValue"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\NavigationProperty\u003A\u003AcreateRelatedEntity\u0028\u0029",
+            "name": "createRelatedEntity",
+            "summary": "Create\u0020a\u0020deep\u0020inserted\u0020entity",
+            "url": "classes/Flat3-Lodata-NavigationProperty.html#method_createRelatedEntity"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\Argument",
             "name": "Argument",
@@ -5461,6 +5481,16 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020path\u0020of\u0020this\u0020request",
             "url": "classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_setPath"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\NavigationRequest\u003A\u003AsetContent\u0028\u0029",
+            "name": "setContent",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_setContent"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\NavigationRequest\u003A\u003AgetContent\u0028\u0029",
+            "name": "getContent",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-NavigationRequest.html#method_getContent"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\NavigationRequest\u003A\u003AsetNavigationProperty\u0028\u0029",
             "name": "setNavigationProperty",
             "summary": "Set\u0020the\u0020navigation\u0020property\u0020for\u0020this\u0020request",
@@ -5495,6 +5525,11 @@ Search.appendIndex(
             "name": "basePath",
             "summary": "Navigation\u0020path\u0020of\u0020this\u0020request",
             "url": "classes/Flat3-Lodata-Transaction-NavigationRequest.html#property_basePath"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\NavigationRequest\u003A\u003A\u0024content",
+            "name": "content",
+            "summary": "Body\u0020content",
+            "url": "classes/Flat3-Lodata-Transaction-NavigationRequest.html#property_content"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Boolean",
             "name": "Boolean",

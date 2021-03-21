@@ -41,6 +41,7 @@ use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
+use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -777,5 +778,46 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function getSelect(): Option\Select
     {
         return $this->applyQueryOptions ? $this->transaction->getSelect() : new Option\Select();
+    }
+
+    /**
+     * Deep insert related entities
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_CreateRelatedEntitiesWhenCreatinganE
+     * @param  Entity  $rootEntity The parent entity
+     */
+    protected function createRelatedEntities(Entity $rootEntity): void
+    {
+        $body = $this->transaction->getBody();
+        $navigationProperties = $this->type->getNavigationProperties()->pick(array_keys($body));
+
+        /** @var NavigationProperty $navigationProperty */
+        foreach ($navigationProperties as $navigationProperty) {
+            $entities = new ObjectArray();
+            $relatedRecords = $body[$navigationProperty->getName()] ?? [];
+
+            if (!$relatedRecords) {
+                continue;
+            }
+
+            foreach ($relatedRecords as $relatedRecord) {
+                $navigationRequest = new NavigationRequest();
+                $navigationRequest->setOuterRequest($this->transaction->getRequest());
+                $navigationRequest->setContent(json_encode($relatedRecord));
+                $navigationRequest->setNavigationProperty($navigationProperty);
+
+                $relatedEntity = $navigationProperty->createRelatedEntity(
+                    $this->transaction,
+                    $navigationRequest,
+                    $rootEntity,
+                );
+
+                $entities->add($relatedEntity->getEntityId()->getPrimitiveValue()->get(), $relatedEntity);
+            }
+
+            $propertyValue = $rootEntity->newPropertyValue();
+            $propertyValue->setProperty($navigationProperty);
+            $propertyValue->setValue($entities);
+            $rootEntity->addProperty($propertyValue);
+        }
     }
 }
