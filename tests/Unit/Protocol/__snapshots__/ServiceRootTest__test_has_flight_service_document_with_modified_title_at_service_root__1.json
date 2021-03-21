@@ -16,6 +16,11 @@
             "name": "airports",
             "kind": "EntitySet",
             "url": "airports"
+        },
+        {
+            "name": "pets",
+            "kind": "EntitySet",
+            "url": "pets"
         }
     ]
 }

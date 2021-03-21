@@ -9,12 +9,15 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="passengers" EntityType="com.example.odata.passenger"/>
+        <EntitySet Name="passengers" EntityType="com.example.odata.passenger">
+          <NavigationPropertyBinding Path="pets" Target="pets"/>
+        </EntitySet>
         <EntitySet Name="flights" EntityType="com.example.odata.flight">
           <NavigationPropertyBinding Path="airports" Target="airports"/>
           <NavigationPropertyBinding Path="passengers" Target="passengers"/>
         </EntitySet>
         <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
+        <EntitySet Name="pets" EntityType="com.example.odata.pet"/>
       </EntityContainer>
       <EntityType Name="passenger">
         <Key>
@@ -23,6 +26,9 @@
         <Property Name="id" Type="Edm.Int32" Nullable="false"/>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
         <Property Name="flight_id" Type="Edm.Int32" Nullable="true"/>
+        <NavigationProperty Name="pets" Type="Collection(com.example.odata.pet)" Nullable="true">
+          <ReferentialConstraint Property="id" ReferencedProperty="passenger_id"/>
+        </NavigationProperty>
       </EntityType>
       <EntityType Name="flight">
         <Key>
@@ -52,6 +58,15 @@
         <Property Name="sam_datetime" Type="Edm.DateTimeOffset" Nullable="true"/>
         <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="pet">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="type" Type="Edm.String" Nullable="true"/>
+        <Property Name="passenger_id" Type="Edm.Int32" Nullable="true"/>
       </EntityType>
       <EnumType Name="hello" UnderlyingType="Edm.Int32" IsFlags="true">
         <Member Name="aaa" Value="1"/>

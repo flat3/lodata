@@ -52,6 +52,13 @@ trait TestModels
             $table->string('name');
         });
 
+        Schema::create('pets', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('passenger_id');
+            $table->string('name');
+            $table->string('type');
+        });
+
         Schema::create('countries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -181,9 +188,22 @@ trait TestModels
         $airportSet = SQLEntitySet::factory('airports', $airportType)
             ->setTable('airports');
 
+        /** @var EntityType $petType */
+        $petType = Lodata::add(
+            EntityType::factory('pet')
+                ->setKey(new DeclaredProperty('id', Type::int32()))
+                ->addDeclaredProperty('name', Type::string())
+                ->addDeclaredProperty('type', Type::string())
+                ->addDeclaredProperty('passenger_id', Type::int32())
+        );
+
+        $petSet = SQLEntitySet::factory('pets', $petType)
+            ->setTable('pets');
+
         Lodata::add($passengerSet);
         Lodata::add($flightSet);
         Lodata::add($airportSet);
+        Lodata::add($petSet);
 
         $originCode = new ReferentialConstraint(
             $flightType->getProperty('origin'),
@@ -210,14 +230,26 @@ trait TestModels
             $passengerType->getProperty('flight_id')
         );
 
-        $toPassenger = (new NavigationProperty($passengerSet, $passengerType))
+        $flightToPassenger = (new NavigationProperty($passengerSet, $passengerType))
             ->setCollection(true)
             ->addConstraint($passengerFlight);
 
-        $binding = new NavigationBinding($toPassenger, $passengerSet);
+        $binding = new NavigationBinding($flightToPassenger, $passengerSet);
 
-        $flightType->addProperty($toPassenger);
+        $flightType->addProperty($flightToPassenger);
         $flightSet->addNavigationBinding($binding);
+
+        $petPassenger = new ReferentialConstraint(
+            $passengerType->getProperty('id'),
+            $petType->getProperty('passenger_id')
+        );
+
+        $passengerToPets = (new NavigationProperty($petSet, $petType))
+            ->setCollection(true)
+            ->addConstraint($petPassenger);
+        $binding = new NavigationBinding($passengerToPets, $petSet);
+        $passengerType->addProperty($passengerToPets);
+        $passengerSet->addNavigationBinding($binding);
     }
 
     public function withMathFunctions()

@@ -8,6 +8,7 @@ use Flat3\Lodata\Primitive;
 /**
  * Stream
  * @package Flat3\Lodata\Type
+ * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Stream extends Primitive
 {

@@ -21,7 +21,7 @@ class NavigationRequest implements RequestInterface
 
     /**
      * Base request
-     * @var Request $request
+     * @var RequestInterface $request
      */
     public $request;
 
@@ -38,10 +38,10 @@ class NavigationRequest implements RequestInterface
 
     /**
      * Set the outer request that generated this request
-     * @param  Request  $request  Request
+     * @param  RequestInterface  $request  Request
      * @return $this
      */
-    public function setOuterRequest(Request $request): self
+    public function setOuterRequest(RequestInterface $request): self
     {
         $this->request = $request;
 

@@ -159,10 +159,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $url = parse_url($url);
         $request->path($url['path'], false);
-        parse_str($url['query'], $query);
 
-        foreach ($query as $key => $value) {
-            $request->query($key, $value);
+        if (array_key_exists('query', $url)) {
+            parse_str($url['query'], $query);
+
+            foreach ($query as $key => $value) {
+                $request->query($key, $value);
+            }
         }
 
         return $request;

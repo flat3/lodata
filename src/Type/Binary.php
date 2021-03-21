@@ -8,6 +8,7 @@ use Flat3\Lodata\Primitive;
 /**
  * Binary
  * @package Flat3\Lodata\Type
+ * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Binary extends Primitive
 {

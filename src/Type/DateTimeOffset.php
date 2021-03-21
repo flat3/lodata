@@ -10,6 +10,7 @@ use Flat3\Lodata\Primitive;
 /**
  * Date Time Offset
  * @package Flat3\Lodata\Type
+ * @method static self factory($value = null, ?bool $nullable = true)
  */
 class DateTimeOffset extends Primitive
 {
