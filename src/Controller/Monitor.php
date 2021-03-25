@@ -18,17 +18,17 @@ class Monitor extends Controller
      * @param  string  $transactionId  Transaction ID
      * @return Response Client response
      */
-    public function show(string $transactionId)
+    public function show(string $transactionId): Response
     {
         $job = new Async();
         $job->setId($transactionId);
 
         if ($job->isPending()) {
-            throw $job->accepted();
+            return $job->accepted()->toResponse();
         }
 
         if ($job->isDeleted()) {
-            throw new NotFoundException();
+            return (new NotFoundException())->toResponse();
         }
 
         $meta = $job->getResultMetadata();

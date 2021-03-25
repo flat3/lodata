@@ -1,5 +1,6 @@
-httpCode: 202
-odataCode: accepted
-message: Accepted
 headers:
-    location: 'http://localhost/odata/_lodata/monitor/00000000-0000-0000-0000-000000000000'
+    location: ['http://localhost/odata/_lodata/monitor/00000000-0000-0000-0000-000000000000']
+    preference-applied: [callback]
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+status: 202

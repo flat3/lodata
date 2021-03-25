@@ -2,6 +2,9 @@
 
 namespace Flat3\Lodata\Controller;
 
+use Exception;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Constants;
 use Illuminate\Routing\Controller;
 
@@ -18,16 +21,22 @@ class OData extends Controller
      * @param  Async  $job  Injected job
      * @return Response Client response
      */
-    public function handle(Request $request, Transaction $transaction, Async $job)
+    public function handle(Request $request, Transaction $transaction, Async $job): Response
     {
-        $transaction->initialize($request);
+        try {
+            $transaction->initialize($request);
 
-        if ($transaction->hasPreference(Constants::RESPOND_ASYNC)) {
-            $job->setTransaction($transaction);
-            $job->dispatch();
+            if ($transaction->hasPreference(Constants::RESPOND_ASYNC)) {
+                $job->setTransaction($transaction);
+                $job->dispatch();
+            }
+
+            return $transaction->execute()->response($transaction);
+        } catch (ProtocolException $e) {
+            return $e->toResponse();
+        } catch (Exception $e) {
+            return (new InternalServerErrorException('unknown_error', $e->getMessage()))->toResponse();
         }
-
-        return $transaction->execute()->response($transaction);
     }
 
     /**

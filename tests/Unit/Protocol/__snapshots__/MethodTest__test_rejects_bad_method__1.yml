@@ -1,5 +1,0 @@
-httpCode: 405
-odataCode: method_not_allowed
-message: 'The PATCH method is not allowed'
-headers:
-    Allow: GET

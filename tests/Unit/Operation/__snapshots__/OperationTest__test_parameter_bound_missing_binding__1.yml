@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: missing_bound_argument
-message: 'This operation is bound, but no bound argument was provided'

@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: invalid_short_format
-message: 'When using a short $format option, parameters cannot be used'

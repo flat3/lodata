@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: reference_value_missing
-message: 'The requested reference value @code did not exist'

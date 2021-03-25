@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: invalid_orderby_property
-message: 'The provided property invalid was not found in this entity type'

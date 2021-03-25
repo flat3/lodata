@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: option_not_numeric
-message: 'The type of $skip must be numeric'

@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: invalid_argument_type
-message: 'The provided argument a was not of type Edm.String'

@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: invalid_orderby_direction
-message: 'The orderby direction must be "asc" or "desc"'

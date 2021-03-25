@@ -1,0 +1,4 @@
+{
+    "code": "option_boolean_invalid",
+    "message": "The value of $count must be \"true\" or \"false\""
+}

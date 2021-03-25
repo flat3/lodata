@@ -1,0 +1,4 @@
+{
+    "code": "method_not_allowed",
+    "message": "This operation must be addressed with a POST request"
+}

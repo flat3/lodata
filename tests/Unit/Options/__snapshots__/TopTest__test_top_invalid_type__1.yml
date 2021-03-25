@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: option_not_numeric
-message: 'The type of $top must be numeric'

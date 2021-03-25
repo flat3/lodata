@@ -1,0 +1,4 @@
+{
+    "code": "property_not_alternative_key",
+    "message": "The requested property (origin) is not configured as an alternative key"
+}

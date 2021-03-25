@@ -1,0 +1,4 @@
+{
+    "code": "query_no_searchable_properties",
+    "message": "The provided query had no properties marked searchable"
+}

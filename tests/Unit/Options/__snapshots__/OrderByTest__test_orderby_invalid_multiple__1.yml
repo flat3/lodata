@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: invalid_orderby_syntax
-message: 'The requested orderby syntax is invalid'

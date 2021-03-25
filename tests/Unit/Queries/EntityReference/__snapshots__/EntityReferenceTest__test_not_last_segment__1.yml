@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: no_next_segment
-message: 'Reference request must be the last segment'

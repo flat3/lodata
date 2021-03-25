@@ -9,7 +9,7 @@ class HeaderTest extends TestCase
 {
     public function test_rejects_isolation_header()
     {
-        $this->assertPreConditionFailed(
+        $this->assertPreconditionFailed(
             Request::factory()
                 ->path('/')
                 ->header('isolation', 'snapshot')

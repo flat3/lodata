@@ -1,3 +1,0 @@
-httpCode: 501
-odataCode: system_query_option_not_implemented
-message: 'The filter system query option is not supported by this entity set'

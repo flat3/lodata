@@ -6,8 +6,6 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Drivers\ManualEntitySet;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Operation;
@@ -318,10 +316,9 @@ class FunctionTest extends TestCase
             }
         });
 
-        $this->assertRequestExceptionSnapshot(
+        $this->assertInternalServerError(
             Request::factory()
-                ->path('/textv1()'),
-            InternalServerErrorException::class
+                ->path('/textv1()')
         );
     }
 
@@ -335,10 +332,9 @@ class FunctionTest extends TestCase
             }
         });
 
-        $this->assertRequestExceptionSnapshot(
+        $this->assertInternalServerError(
             Request::factory()
-                ->path('/textv1()'),
-            InternalServerErrorException::class
+                ->path('/textv1()')
         );
     }
 
@@ -352,10 +348,9 @@ class FunctionTest extends TestCase
             }
         });
 
-        $this->assertRequestExceptionSnapshot(
+        $this->assertBadRequest(
             Request::factory()
-                ->path('/textv1()'),
-            BadRequestException::class
+                ->path('/textv1()')
         );
     }
 
@@ -369,10 +364,9 @@ class FunctionTest extends TestCase
             }
         });
 
-        $this->assertRequestExceptionSnapshot(
+        $this->assertBadRequest(
             Request::factory()
-                ->path('/textv1(a=4)'),
-            BadRequestException::class
+                ->path('/textv1(a=4)')
         );
     }
 }

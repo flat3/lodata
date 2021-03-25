@@ -26,16 +26,15 @@ class AsyncTest extends TestCase
 
         $request->header('prefer', 'respond-async');
 
-        $acceptedException = $this->assertAccepted(
-            $request
-        );
+        $acceptedResponse = $this->assertAccepted($request);
 
-        $location = parse_url($acceptedException->toResponse()->headers->get('location'), PHP_URL_PATH);
+        $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
-        $this->assertAccepted(
+        $acceptedResponse = $this->assertAccepted(
             Request::factory()
                 ->path($location, false)
         );
+        $this->assertResponseMetadata($acceptedResponse);
 
         /** @var Async $job */
         $job = collect($queue->pushedJobs())->flatten(1)->first()['job'];
@@ -69,12 +68,13 @@ class AsyncTest extends TestCase
     {
         $queue = Queue::fake();
 
-        $acceptedException = $this->assertAccepted(
+        $acceptedResponse = $this->assertAccepted(
             Request::factory()
                 ->header('prefer', 'respond-async')
         );
+        $this->assertResponseMetadata($acceptedResponse);
 
-        $location = parse_url($acceptedException->toResponse()->headers->get('location'), PHP_URL_PATH);
+        $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $this->assertMetadataResponse(
             Request::factory()
@@ -100,13 +100,14 @@ class AsyncTest extends TestCase
         $queue = Queue::fake();
         $disk = $this->getDisk();
 
-        $acceptedException = $this->assertAccepted(
+        $acceptedResponse = $this->assertAccepted(
             Request::factory()
                 ->path('/nonexistent')
                 ->header('prefer', 'respond-async')
         );
+        $this->assertResponseMetadata($acceptedResponse);
 
-        $location = parse_url($acceptedException->toResponse()->headers->get('location'), PHP_URL_PATH);
+        $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $this->assertAccepted(
             Request::factory()
@@ -140,12 +141,13 @@ class AsyncTest extends TestCase
 
         $url = 'http://localhost/example';
 
-        $acceptedException = $this->assertAccepted(
+        $acceptedResponse = $this->assertAccepted(
             Request::factory()
                 ->header('prefer', 'respond-async,callback;url="'.$url.'"')
         );
+        $this->assertResponseMetadata($acceptedResponse);
 
-        $location = parse_url($acceptedException->toResponse()->headers->get('location'), PHP_URL_PATH);
+        $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $this->assertAccepted(
             Request::factory()

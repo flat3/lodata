@@ -1,3 +1,0 @@
-httpCode: 501
-odataCode: compute_not_implemented
-message: 'The $compute system query option is not implemented'

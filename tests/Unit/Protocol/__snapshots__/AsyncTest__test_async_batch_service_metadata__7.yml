@@ -1,3 +1,6 @@
-httpCode: 404
-odataCode: not_found
-message: 'Not found'
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [multipart/mixed;boundary=00000000-0000-0000-0000-000000000001]
+    odata-version: ['4.01']
+    asyncresult: [200]
+status: 200

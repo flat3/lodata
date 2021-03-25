@@ -22,7 +22,7 @@ class AuthenticationTest extends TestCase
 
         app(Router::class)->getRoutes()->get('GET')['odata{path}']->middleware(['auth.basic']);
 
-        $this->assertNotAuthenticated(
+        $this->assertNotAuthenticatedException(
             Request::factory()
         );
     }

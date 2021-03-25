@@ -1,0 +1,4 @@
+{
+    "code": "option_numeric_invalid",
+    "message": "The value of $skip must be greater than zero"
+}

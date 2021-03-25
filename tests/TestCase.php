@@ -3,16 +3,8 @@
 namespace Flat3\Lodata\Tests;
 
 use Flat3\Lodata\Controller\Response;
-use Flat3\Lodata\Exception\Protocol\AcceptedException;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
-use Flat3\Lodata\Exception\Protocol\NoContentException;
-use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
-use Flat3\Lodata\Exception\Protocol\NotImplementedException;
-use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
@@ -65,7 +57,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->uuid++;
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             ServiceProvider::class,
@@ -89,68 +81,90 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
             $this->assertMatchesObjectSnapshot($e->serialize());
             return $e;
+        } catch (Exception $e) {
+            if (!$e instanceof $exceptionClass) {
+                throw new RuntimeException('Incorrect exception thrown: '.get_class($e));
+            }
+
+            return new InternalServerErrorException();
         }
     }
 
-    protected function assertNotAcceptable(Request $request): ProtocolException
+    protected function assertNotFound(Request $request): TestResponse
     {
-        return $this->assertRequestExceptionSnapshot($request, NotAcceptableException::class);
+        return $this->assertODataError($request, Response::HTTP_NOT_FOUND);
     }
 
-    protected function assertMethodNotAllowed(Request $request): ProtocolException
+    protected function assertForbidden(Request $request): TestResponse
     {
-        return $this->assertRequestExceptionSnapshot($request, MethodNotAllowedException::class);
+        return $this->assertODataError($request, Response::HTTP_FORBIDDEN);
     }
 
-    protected function assertNotFound(Request $request): ProtocolException
+    protected function assertAccepted(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_ACCEPTED);
+    }
+
+    protected function assertBadRequest(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_BAD_REQUEST);
+    }
+
+    protected function assertNotImplemented(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_NOT_IMPLEMENTED);
+    }
+
+    protected function assertPreconditionFailed(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_PRECONDITION_FAILED);
+    }
+
+    protected function assertNotAcceptable(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_NOT_ACCEPTABLE);
+    }
+
+    protected function assertInternalServerError(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    protected function assertNotFoundException(Request $request): ProtocolException
     {
         return $this->assertRequestExceptionSnapshot($request, NotFoundException::class);
     }
 
-    protected function assertNoContent(Request $request): ProtocolException
+    protected function assertNoContent(Request $request): TestResponse
     {
-        return $this->assertRequestExceptionSnapshot($request, NoContentException::class);
+        return $this->assertODataError($request, Response::HTTP_NO_CONTENT);
     }
 
-    protected function assertNotAuthenticated(Request $request)
+    protected function assertMethodNotAllowed(Request $request): TestResponse
     {
-        try {
-            $this->req($request);
-        } catch (UnauthorizedHttpException $e) {
-            return;
+        return $this->assertODataError($request, Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    protected function assertODataError(Request $request, int $code): TestResponse
+    {
+        $response = $this->req($request);
+        $this->assertEquals($code, $response->getStatusCode());
+
+        $content = $this->responseContent($response);
+
+        if (!$content) {
+            $this->assertEquals(Response::HTTP_NO_CONTENT, $code);
+            return $response;
         }
 
-        throw new RuntimeException('Failed to throw exception');
+        $this->assertMatchesSnapshot($content, new JsonDriver());
+
+        return $response;
     }
 
-    protected function assertForbidden(Request $request): ProtocolException
+    protected function assertNotAuthenticatedException(Request $request): ProtocolException
     {
-        return $this->assertRequestExceptionSnapshot($request, ForbiddenException::class);
-    }
-
-    protected function assertPreconditionFailed(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, PreconditionFailedException::class);
-    }
-
-    protected function assertNotImplemented(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, NotImplementedException::class);
-    }
-
-    protected function assertInternalServerError(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, InternalServerErrorException::class);
-    }
-
-    protected function assertBadRequest(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, BadRequestException::class);
-    }
-
-    protected function assertAccepted(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, AcceptedException::class);
+        return $this->assertRequestExceptionSnapshot($request, UnauthorizedHttpException::class);
     }
 
     public function urlToReq(string $url): Request
@@ -219,7 +233,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $response = new Response();
         $response->headers->replace($metadata['headers']);
         $response->setStatusCode($metadata['status']);
-        return $this->assertResponseMetadata(new TestResponse($response));
+        $this->assertResponseMetadata(new TestResponse($response));
     }
 
     protected function assertMetadataResponse(Request $request): TestResponse
@@ -232,6 +246,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertJsonResponse(Request $request): TestResponse
     {
         $response = $this->req($request);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertMatchesSnapshot($this->responseContent($response), new JsonDriver());
         return $response;
     }

@@ -1,3 +1,0 @@
-httpCode: 400
-odataCode: version_not_supported
-message: 'Requested OData version (3.0) is not supported'

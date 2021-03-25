@@ -22,7 +22,7 @@ class ODCFFTest extends TestCase
 
     public function test_odcff_missing()
     {
-        $this->assertNotFound(
+        $this->assertNotFoundException(
             Request::factory()
                 ->path('/_lodata/missing.odc')
         );
