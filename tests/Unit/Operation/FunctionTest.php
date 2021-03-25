@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Drivers\ManualEntitySet;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -242,6 +243,34 @@ class FunctionTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights/ffb1()')
+        );
+    }
+
+    public function test_callback_bound_entity_set_with_filter()
+    {
+        $this->withFlightModel();
+
+        Lodata::add((new class('sorter') extends Operation implements FunctionInterface {
+            public function invoke(String_ $field, EntitySet $airports): EntitySet
+            {
+                $result = new ManualEntitySet($airports->getType());
+                $result->setIdentifier($airports->getIdentifier());
+
+                foreach ($airports as $airport) {
+                    $result[] = $airport;
+                }
+
+                $result->sort( function (Entity $a1, Entity $a2) use ($field) {
+                    return $a1[$field->get()]->getPrimitiveValue()->get() <=> $a2[$field->get()]->getPrimitiveValue()->get();
+                });
+
+                return $result;
+            }
+        })->setBindingParameterName('airports')->setReturnType(Lodata::getEntityType('airport')));
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/airports/\$filter(is_big eq true)/sorter(field='construction_date')")
         );
     }
 

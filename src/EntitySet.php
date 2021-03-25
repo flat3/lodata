@@ -204,6 +204,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function rewind()
     {
+        if (!$this->results) {
+            return;
+        }
+
         throw new InternalServerErrorException('no_rewind', 'Entity sets cannot be rewound');
     }
 

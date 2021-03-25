@@ -595,4 +595,13 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $this->type = $type;
         return $this;
     }
+
+    /**
+     * @return string
+     * @internal
+     */
+    public function __toString(): string
+    {
+        return $this->getEntityId()->getPrimitiveValue()->get();
+    }
 }

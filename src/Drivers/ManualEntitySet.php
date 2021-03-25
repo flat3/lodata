@@ -18,6 +18,7 @@ class ManualEntitySet extends EntitySet implements QueryInterface, ArrayAccess
     {
         parent::__construct('unbound', $entityType);
 
+        $this->applyQueryOptions = false;
         $this->results = [];
     }
 
@@ -57,5 +58,29 @@ class ManualEntitySet extends EntitySet implements QueryInterface, ArrayAccess
     public function rewind()
     {
         reset($this->results);
+    }
+
+    /**
+     * Filter the objects in the array
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function filter(callable $callback): self
+    {
+        $this->results = array_filter($this->results, $callback);
+
+        return $this;
+    }
+
+    /**
+     * Sort the objects in the array
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function sort(callable $callback): self
+    {
+        uasort($this->results, $callback);
+
+        return $this;
     }
 }
