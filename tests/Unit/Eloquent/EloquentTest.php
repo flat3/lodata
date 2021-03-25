@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
+use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
@@ -128,7 +129,8 @@ class EloquentTest extends TestCase
                     'code' => 'efo',
                     'name' => 'Eloquent',
                 ])
-                ->path('/Airports')
+                ->path('/Airports'),
+            Response::HTTP_CREATED
         );
 
         $this->assertJsonResponse(
@@ -154,7 +156,8 @@ class EloquentTest extends TestCase
                             'name' => 'Bob',
                         ],
                     ],
-                ])
+                ]),
+            Response::HTTP_CREATED
         );
     }
 
@@ -167,7 +170,8 @@ class EloquentTest extends TestCase
                 ->body([
                     'name' => 'Harry Horse',
                 ])
-                ->path('/Flights(1)/passengers')
+                ->path('/Flights(1)/passengers'),
+            Response::HTTP_CREATED
         );
 
         $this->assertJsonResponse(

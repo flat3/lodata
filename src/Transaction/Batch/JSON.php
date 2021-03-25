@@ -97,7 +97,7 @@ class JSON extends Batch
 
             try {
                 $this->maybeSwapContentUrl($requestTransaction);
-                $response = $requestTransaction->execute()->response($requestTransaction);
+                $response = $requestTransaction->execute();
             } catch (ProtocolException $e) {
                 $response = $e->toResponse();
             }

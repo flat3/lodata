@@ -2,7 +2,10 @@
 
 namespace Flat3\Lodata\Tests\Unit\Operation;
 
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Operation;
@@ -146,6 +149,30 @@ class ActionTest extends TestCase
             Request::factory()
                 ->post()
                 ->path('/airports(1)/aa1')
+        );
+    }
+
+    public function test_create()
+    {
+        $this->withFlightModel();
+
+        Lodata::add((new class('aa1') extends Operation implements ActionInterface {
+            public function invoke(EntitySet $airports, Transaction $transaction): Entity
+            {
+                $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
+
+                $entity = $airports->newEntity();
+                $entity->setEntityId(4);
+
+                return $entity;
+            }
+        })->setReturnType(Lodata::getEntityType('airport')));
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->post()
+                ->path('/airports/aa1'),
+            Response::HTTP_CREATED
         );
     }
 

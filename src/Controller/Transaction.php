@@ -2,15 +2,18 @@
 
 namespace Flat3\Lodata\Controller;
 
+use Exception;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
@@ -1016,7 +1019,7 @@ class Transaction implements ArgumentInterface
      * @throws NotFoundException
      * @throws NoContentException
      */
-    public function execute(): EmitInterface
+    public function process(): EmitInterface
     {
         $pathSegments = $this->getPathSegments();
 
@@ -1090,6 +1093,21 @@ class Transaction implements ArgumentInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Execute the transaction
+     * @return Response Response
+     */
+    public function execute(): Response
+    {
+        try {
+            return $this->process()->response($this);
+        } catch (ProtocolException $e) {
+            return $e->toResponse();
+        } catch (Exception $e) {
+            return (new InternalServerErrorException('unknown_error', $e->getMessage()))->toResponse();
+        }
     }
 
     /**

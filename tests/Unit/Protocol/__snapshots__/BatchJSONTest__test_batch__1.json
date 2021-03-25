@@ -17,7 +17,7 @@
         },
         {
             "id": 1,
-            "status": 200,
+            "status": 201,
             "headers": {
                 "content-type": "application/json",
                 "etag": "W/\"34fc3879d08d77fef9930122ce0cd76f78505293eccf1de99cf98a1b3962461e\""

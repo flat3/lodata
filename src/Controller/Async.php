@@ -105,11 +105,7 @@ class Async implements ShouldQueue
         $disk = $this->getDisk();
         $metaPath = $this->getMetaPath();
 
-        try {
-            $response = $this->transaction->execute()->response($this->transaction);
-        } catch (ProtocolException $e) {
-            $response = $e->toResponse();
-        }
+        $response = $this->transaction->execute();
 
         $disk->write($metaPath, $response->toJson());
 

@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests;
 
+use Exception;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -162,7 +163,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $response;
     }
 
-    protected function assertNotAuthenticatedException(Request $request): ProtocolException
+    protected function assertUnauthorizedHttpException(Request $request): ProtocolException
     {
         return $this->assertRequestExceptionSnapshot($request, UnauthorizedHttpException::class);
     }
@@ -243,10 +244,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $response;
     }
 
-    protected function assertJsonResponse(Request $request): TestResponse
+    protected function assertJsonResponse(Request $request, int $statusCode = Response::HTTP_OK): TestResponse
     {
         $response = $this->req($request);
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals($statusCode, $response->getStatusCode());
         $this->assertMatchesSnapshot($this->responseContent($response), new JsonDriver());
         return $response;
     }

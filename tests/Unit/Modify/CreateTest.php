@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Modify;
 
+use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\Metadata;
@@ -12,7 +13,7 @@ class CreateTest extends TestCase
     {
         $this->withFlightModel();
 
-        $this->assertJsonResponse(
+        $this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights')
                 ->post()
@@ -47,7 +48,8 @@ class CreateTest extends TestCase
                 ->post()
                 ->body([
                     'name' => 'Henry Horse',
-                ])
+                ]),
+            Response::HTTP_CREATED
         );
 
         $this->assertJsonResponse(
@@ -66,7 +68,8 @@ class CreateTest extends TestCase
                 ->post()
                 ->body([
                     'origin' => 'lhr',
-                ])
+                ]),
+            Response::HTTP_CREATED
         );
     }
 
@@ -95,7 +98,8 @@ class CreateTest extends TestCase
                             'name' => 'Bob',
                         ],
                     ],
-                ])
+                ]),
+            Response::HTTP_CREATED
         );
     }
 
@@ -125,7 +129,8 @@ class CreateTest extends TestCase
                             'name' => 'Bob',
                         ],
                     ],
-                ])
+                ]),
+            Response::HTTP_CREATED
         ));
 
         $this->assertJsonResponse(

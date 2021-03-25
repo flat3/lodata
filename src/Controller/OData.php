@@ -2,8 +2,6 @@
 
 namespace Flat3\Lodata\Controller;
 
-use Exception;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Constants;
 use Illuminate\Routing\Controller;
@@ -31,11 +29,9 @@ class OData extends Controller
                 $job->dispatch();
             }
 
-            return $transaction->execute()->response($transaction);
+            return $transaction->execute();
         } catch (ProtocolException $e) {
             return $e->toResponse();
-        } catch (Exception $e) {
-            return (new InternalServerErrorException('unknown_error', $e->getMessage()))->toResponse();
         }
     }
 
