@@ -37,7 +37,7 @@ trait HasTransaction
      * Get the attached transaction
      * @return Transaction Transaction
      */
-    public function getTransaction(): Transaction
+    public function getTransaction(): ?Transaction
     {
         return $this->transaction;
     }

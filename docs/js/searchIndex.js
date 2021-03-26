@@ -911,6 +911,46 @@ Search.appendIndex(
             "summary": "Create\u0020an\u0020entity\u0020set\u0020from\u0020the\u0020provided\u0020Eloquent\u0020model\u0020class\u0020and\u0020add\u0020it\u0020to\u0020the\u0020model",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_discover"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet",
+            "name": "ManualEntitySet",
+            "summary": "Class\u0020ManualEntitySet\nThe\u0020manual\u0020entity\u0020set\u0020is\u0020assigned\u0020entities\u0020and\u0020does\u0020not\u0020query\u0020a\u0020data\u0020source",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Aquery\u0028\u0029",
+            "name": "query",
+            "summary": "Return\u0020no\u0020more\u0020results",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_query"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetExists\u0028\u0029",
+            "name": "offsetExists",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetExists"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetGet"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetSet"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetUnset"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Arewind\u0028\u0029",
+            "name": "rewind",
+            "summary": "Rewind\u0020the\u0020results\u0020buffer",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_rewind"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\MySQLFilter",
             "name": "MySQLFilter",
             "summary": "MySQL\u0020Filter",
@@ -3771,16 +3811,6 @@ Search.appendIndex(
             "summary": "Clear\u0020the\u0020array",
             "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_clear"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_emit"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_response"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue",
             "name": "PropertyValue",
             "summary": "Property\u0020Value",
@@ -4165,6 +4195,26 @@ Search.appendIndex(
             "name": "setTitle",
             "summary": "Set\u0020the\u0020title\u0020of\u0020this\u0020service",
             "url": "classes/Flat3-Lodata-Interfaces-ServiceInterface.html#method_setTitle"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\TransactionInterface",
+            "name": "TransactionInterface",
+            "summary": "Transaction\u0020Interface",
+            "url": "classes/Flat3-Lodata-Interfaces-TransactionInterface.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\TransactionInterface\u003A\u003AstartTransaction\u0028\u0029",
+            "name": "startTransaction",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Interfaces-TransactionInterface.html#method_startTransaction"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\TransactionInterface\u003A\u003Arollback\u0028\u0029",
+            "name": "rollback",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Interfaces-TransactionInterface.html#method_rollback"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\TransactionInterface\u003A\u003Acommit\u0028\u0029",
+            "name": "commit",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Interfaces-TransactionInterface.html#method_commit"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\TypeInterface",
             "name": "TypeInterface",

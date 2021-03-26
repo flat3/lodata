@@ -4,11 +4,7 @@ namespace Flat3\Lodata\Helper;
 
 use ArrayAccess;
 use Countable;
-use Flat3\Lodata\Controller\Response;
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Iterator;
 
@@ -16,7 +12,7 @@ use Iterator;
  * Object Array
  * @package Flat3\Lodata\Helper
  */
-class ObjectArray implements Countable, Iterator, ArrayAccess, EmitInterface
+class ObjectArray implements Countable, Iterator, ArrayAccess
 {
     /**
      * Internal content
@@ -316,33 +312,5 @@ class ObjectArray implements Countable, Iterator, ArrayAccess, EmitInterface
     {
         $this->array = [];
         return $this;
-    }
-
-    public function emit(Transaction $transaction): void
-    {
-        $transaction->outputJsonArrayStart();
-
-        while ($this->valid()) {
-            $entity = $this->current();
-
-            $entity->emit($transaction);
-
-            $this->next();
-
-            if (!$this->valid()) {
-                break;
-            }
-
-            $transaction->outputJsonSeparator();
-        }
-
-        $transaction->outputJsonArrayEnd();
-    }
-
-    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
-    {
-        return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
-        });
     }
 }

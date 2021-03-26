@@ -348,6 +348,9 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         if ($propertyValue->getValue() instanceof EntitySet) {
             $set = $propertyValue->getEntitySetValue();
             $transaction = $set->getTransaction();
+            if (!$transaction) {
+                return $propertyMetadata;
+            }
 
             $count = $set->count();
 

@@ -5,6 +5,7 @@ namespace Flat3\Lodata;
 use Countable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Drivers\ManualEntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -783,7 +784,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     /**
      * Deep insert related entities
      * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_CreateRelatedEntitiesWhenCreatinganE
-     * @param  Entity  $rootEntity The parent entity
+     * @param  Entity  $rootEntity  The parent entity
      */
     protected function createRelatedEntities(Entity $rootEntity): void
     {
@@ -792,12 +793,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         /** @var NavigationProperty $navigationProperty */
         foreach ($navigationProperties as $navigationProperty) {
-            $entities = new ObjectArray();
             $relatedRecords = $body[$navigationProperty->getName()] ?? [];
 
             if (!$relatedRecords) {
                 continue;
             }
+
+            $entitySet = new ManualEntitySet($navigationProperty->getEntityType());
 
             foreach ($relatedRecords as $relatedRecord) {
                 $navigationRequest = new NavigationRequest();
@@ -811,12 +813,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     $rootEntity,
                 );
 
-                $entities->add($relatedEntity->getEntityId()->getPrimitiveValue()->get(), $relatedEntity);
+                $entitySet[] = $relatedEntity;
             }
 
             $propertyValue = $rootEntity->newPropertyValue();
             $propertyValue->setProperty($navigationProperty);
-            $propertyValue->setValue($entities);
+            $propertyValue->setValue($entitySet);
             $rootEntity->addProperty($propertyValue);
         }
     }
