@@ -81,6 +81,37 @@ class BatchJSONTest extends TestCase
         );
     }
 
+    public function test_partial_failure()
+    {
+        $this->assertJsonMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->post()
+                ->body([
+                    'requests' => [
+                        [
+                            'id' => 0,
+                            'method' => 'post',
+                            'url' => '/odata/airports',
+                            'body' => [
+                                'name' => 'a',
+                                'code' => 'xyy',
+                            ],
+                        ],
+                        [
+                            'id' => 1,
+                            'method' => 'post',
+                            'url' => '/odata/airports',
+                            'body' => [
+                            ],
+                        ]
+                    ]
+                ])
+        );
+
+        $this->assertDatabaseSnapshot();
+    }
+
     public function test_service_document()
     {
         $this->assertJsonMetadataResponse(
@@ -303,6 +334,8 @@ class BatchJSONTest extends TestCase
                     ]
                 ])
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_bad_document_content_type()

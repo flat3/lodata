@@ -24,6 +24,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
@@ -36,6 +37,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
@@ -44,7 +46,7 @@ use ReflectionMethod;
  * Eloquent Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface, OrderByInterface
+class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface, OrderByInterface, TransactionInterface
 {
     use SQLConnection;
     use SQLSearch;
@@ -424,5 +426,20 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $set->discoverProperties();
 
         return $set;
+    }
+
+    public function startTransaction()
+    {
+        DB::beginTransaction();
+    }
+
+    public function rollback()
+    {
+        DB::rollBack();
+    }
+
+    public function commit()
+    {
+        DB::commit();
     }
 }

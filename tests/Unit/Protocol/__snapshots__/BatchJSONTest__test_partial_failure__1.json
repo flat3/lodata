@@ -1,0 +1,34 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 201,
+            "headers": {
+                "content-type": "application/json",
+                "etag": "W/\"164d6d7a7cf666b4565874642036efa38b44e91fa67c0b660d7250b228260c52\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "a",
+                "code": "xyy",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null
+            }
+        },
+        {
+            "id": 1,
+            "status": 400,
+            "headers": {
+                "content-type": "application/json"
+            },
+            "body": {
+                "code": "missing_fields",
+                "message": "The supplied object had no fields"
+            }
+        }
+    ]
+}

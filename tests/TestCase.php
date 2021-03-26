@@ -12,11 +12,13 @@ use Flat3\Lodata\Tests\Data\TestModels;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Mockery\Expectation;
+use PDOException;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -35,6 +37,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected $gateMock;
 
     protected $uuid;
+
+    protected $databaseSnapshot;
 
     public function setUp(): void
     {
@@ -284,5 +288,45 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $response = $this->req($request);
         $this->assertMatchesTextSnapshot($this->responseContent($response));
         $this->assertResponseMetadata($response);
+    }
+
+    protected function snapshotDatabase(): array
+    {
+        $db = [];
+
+        foreach (DB::connection()->getDoctrineSchemaManager()->listTableNames() as $table) {
+            if ($table === 'migrations') {
+                continue;
+            }
+
+            $db[$table] = DB::table($table)->select('*')->get();
+        }
+
+        return $db;
+    }
+
+    protected function captureDatabaseState()
+    {
+        $this->databaseSnapshot = $this->snapshotDatabase();
+    }
+
+    protected function assertDatabaseMatchesCapturedState()
+    {
+        $this->assertEquals($this->databaseSnapshot, $this->snapshotDatabase());
+    }
+
+    protected function assertDatabaseSnapshot()
+    {
+        $this->assertMatchesObjectSnapshot($this->snapshotDatabase());
+    }
+
+    protected function assertNoTransactionsInProgress()
+    {
+        try {
+            $this->getConnection('testing')->beginTransaction();
+            $this->getConnection('testing')->rollBack();
+        } catch (PDOException $e) {
+            $this->fail('A transaction was in progress');
+        }
     }
 }

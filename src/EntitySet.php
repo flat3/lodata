@@ -580,6 +580,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         $this->transaction = $transaction;
+        $transaction->attachEntitySet($this);
 
         return $this;
     }

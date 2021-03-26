@@ -7,10 +7,20 @@ use Flat3\Lodata\Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->withFlightModel();
+    }
+
+    public function tearDown(): void
+    {
+        $this->assertDatabaseSnapshot();
+        parent::tearDown();
+    }
+
     public function test_update()
     {
-        $this->withFlightModel();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
@@ -19,12 +29,12 @@ class UpdateTest extends TestCase
                     'origin' => 'ooo',
                 ])
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_update_put()
     {
-        $this->withFlightModel();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
@@ -37,8 +47,6 @@ class UpdateTest extends TestCase
 
     public function test_update_ref()
     {
-        $this->withFlightModel();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)/$ref')

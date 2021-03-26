@@ -118,6 +118,8 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Airports(1)')
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_create()
@@ -137,6 +139,8 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Airports(1)')
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_create_deep()
@@ -159,6 +163,8 @@ class EloquentTest extends TestCase
                 ]),
             Response::HTTP_CREATED
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_create_navigation_property()
@@ -178,6 +184,8 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Flights(1)/passengers')
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_delete()
@@ -197,6 +205,8 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Airports(1)')
         );
+
+        $this->assertDatabaseSnapshot();
     }
 
     public function test_query()
@@ -636,5 +646,32 @@ class EloquentTest extends TestCase
                 ->metadata(Metadata\Full::name)
                 ->query('$select', 'destination')
         );
+    }
+
+    public function test_deep_transaction_failed()
+    {
+        $this->withFlightData();
+
+        $this->captureDatabaseState();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Flights')
+                ->post()
+                ->body([
+                    'origin' => 'lhr',
+                    'destination' => 'sfo',
+                    'passengers' => [
+                        [
+                            'name' => 'Alice',
+                        ],
+                        [
+                        ],
+                    ],
+                ]),
+            Response::HTTP_INTERNAL_SERVER_ERROR
+        );
+
+        $this->assertDatabaseMatchesCapturedState();
     }
 }

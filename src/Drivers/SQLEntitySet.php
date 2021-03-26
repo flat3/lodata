@@ -14,6 +14,7 @@ use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -28,6 +29,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
@@ -39,7 +41,7 @@ use PDOStatement;
  * SQL Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface
+class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface, TransactionInterface
 {
     use SQLConnection;
     use SQLFilter;
@@ -397,6 +399,13 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             }
         }
 
+        if (!$fields) {
+            throw new BadRequestException(
+                'missing_fields',
+                'The supplied object had no fields'
+            );
+        }
+
         $fieldsList = implode(',', $fields);
         $valuesList = implode(',', array_fill(0, count($fields), '?'));
 
@@ -485,5 +494,20 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $this->getSetResultQueryString();
 
         return $this;
+    }
+
+    public function startTransaction()
+    {
+        $this->getHandle()->beginTransaction();
+    }
+
+    public function rollback()
+    {
+        $this->getHandle()->rollBack();
+    }
+
+    public function commit()
+    {
+        $this->getHandle()->commit();
     }
 }

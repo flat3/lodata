@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Controller;
 use Exception;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
@@ -22,6 +23,7 @@ use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\RequestInterface;
+use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Primitive;
@@ -174,6 +176,20 @@ class Transaction implements ArgumentInterface
      * @internal
      */
     private $schemaVersion;
+
+    /**
+     * List of entity sets attached to this transaction
+     * @var EntitySet[]|TransactionInterface[] $attachedEntitySets
+     * @internal
+     */
+    private $attachedEntitySets = [];
+
+    /**
+     * List of entity sets with pending transactions
+     * @var TransactionInterface[] $pendingEntitySets
+     * @internal
+     */
+    private $pendingEntitySets = [];
 
     /**
      * List of path segment handlers
@@ -1097,16 +1113,27 @@ class Transaction implements ArgumentInterface
 
     /**
      * Execute the transaction
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358891
      * @return Response Response
      */
     public function execute(): Response
     {
         try {
-            return $this->process()->response($this);
-        } catch (ProtocolException $e) {
+            $emitter = $this->process();
+            $this->startTransaction();
+            $response = $emitter->response($this);
+            $this->commit();
+            return $response;
+        } catch (AcceptedException | NoContentException $e) { // Success responses
+            $this->commit();
             return $e->toResponse();
-        } catch (Exception $e) {
-            return (new InternalServerErrorException('unknown_error', $e->getMessage()))->toResponse();
+        } catch (NotFoundException | MethodNotAllowedException | NotAcceptableException | PreconditionFailedException | NotImplementedException | InternalServerErrorException | ProtocolException $e) { // Error responses
+            $this->rollback();
+            return $e->toResponse();
+        } catch (Exception $e) { // Uncaptured errors
+            $exception = new InternalServerErrorException('unknown_error', $e->getMessage());
+            $this->rollback();
+            return $exception->toResponse();
         }
     }
 
@@ -1144,5 +1171,57 @@ class Transaction implements ArgumentInterface
         }
 
         return $requests;
+    }
+
+    /**
+     * Attach an entity set to this transaction
+     * @param  EntitySet  $entitySet
+     * @return $this
+     */
+    public function attachEntitySet(EntitySet $entitySet): self
+    {
+        if (!$entitySet instanceof TransactionInterface) {
+            return $this;
+        }
+
+        $entitySet->ensureTransaction();
+        $this->attachedEntitySets[$entitySet->getName()] = $entitySet;
+
+        return $this;
+    }
+
+    /**
+     * Start transactions on attached entity sets
+     */
+    public function startTransaction()
+    {
+        foreach ($this->attachedEntitySets as $entitySet) {
+            $this->pendingEntitySets[] = $entitySet;
+            $entitySet->startTransaction();
+        }
+    }
+
+    /**
+     * Commit all entity sets attached to this transaction
+     */
+    public function commit()
+    {
+        foreach ($this->pendingEntitySets as $entitySet) {
+            $entitySet->commit();
+        }
+
+        $this->pendingEntitySets = [];
+    }
+
+    /**
+     * Rollback all entity sets attached to this transaction
+     */
+    public function rollback()
+    {
+        foreach ($this->pendingEntitySets as $entitySet) {
+            $entitySet->rollback();
+        }
+
+        $this->pendingEntitySets = [];
     }
 }

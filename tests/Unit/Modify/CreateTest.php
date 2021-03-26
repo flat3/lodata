@@ -9,10 +9,20 @@ use Flat3\Lodata\Transaction\Metadata;
 
 class CreateTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->withFlightModel();
+    }
+
+    public function tearDown(): void
+    {
+        $this->assertDatabaseSnapshot();
+        parent::tearDown();
+    }
+
     public function test_create()
     {
-        $this->withFlightModel();
-
         $this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights')
@@ -25,8 +35,6 @@ class CreateTest extends TestCase
 
     public function test_create_content_type_error()
     {
-        $this->withFlightModel();
-
         $this->assertNotAcceptable(
             Request::factory()
                 ->path('/flights')
@@ -40,8 +48,6 @@ class CreateTest extends TestCase
 
     public function test_create_related_entity()
     {
-        $this->withFlightModel();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)/passengers')
@@ -60,8 +66,6 @@ class CreateTest extends TestCase
 
     public function test_create_ref()
     {
-        $this->withFlightModel();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights/$ref')
@@ -75,8 +79,6 @@ class CreateTest extends TestCase
 
     public function test_create_deep()
     {
-        $this->withFlightModel();
-
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
@@ -105,8 +107,6 @@ class CreateTest extends TestCase
 
     public function test_create_deep_metadata()
     {
-        $this->withFlightModel();
-
         $response = $this->jsonResponse($this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
