@@ -29,6 +29,7 @@ use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -329,7 +330,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         try {
             $inlineParameters = array_filter(explode(',', $lexer->matchingParenthesis()));
 
-            $inlineParameters = array_merge(...array_map(function ($pair) use ($transaction) {
+            $inlineParameters = Arr::collapse(array_map(function ($pair) use ($transaction) {
                 $pair = trim($pair);
 
                 $kv = array_map('trim', explode('=', $pair));
