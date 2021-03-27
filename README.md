@@ -442,6 +442,9 @@ subrequests of `$expand` requests.
 
 Transactions are also serializable for the purposes of async requests, and can therefore be handled offline, replayed, retried etc.
 
+Transactions handle wrapping requests with database transactions, following OData rules for commit / rollback based on the success
+or failure of the request.
+
 ### Streaming JSON
 
 Responses to OData requests can be of unlimited size. The request for an entity set without server-side pagination, of a database
@@ -517,6 +520,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * Declared and navigation properties
 * Referential constraints
 * Entity singletons
+* Database [transactions](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ClientErrorResponses)
 * Requesting [entity references](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_EntityReference)
 * [IEEE754](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheRepresentationofNumber) number-as-string support
 * Full, minimal and no [metadata](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#_Toc38457725) requests
