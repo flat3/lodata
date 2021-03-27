@@ -776,15 +776,40 @@ Search.appendIndex(
             "summary": "Replace\u0020the\u0020query\u0020parameters\u0020in\u0020this\u0020transaction\u0020with\u0020the\u0020ones\u0020from\u0020the\u0020provided\u0020transaction",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_replaceQueryParams"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003Aprocess\u0028\u0029",
+            "name": "process",
+            "summary": "Process\u0020the\u0020request\u0020represented\u0020by\u0020this\u0020transaction",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_process"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003Aexecute\u0028\u0029",
             "name": "execute",
-            "summary": "Process\u0020the\u0020request\u0020represented\u0020by\u0020this\u0020transaction",
+            "summary": "Execute\u0020the\u0020transaction",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_execute"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetNavigationRequests\u0028\u0029",
             "name": "getNavigationRequests",
             "summary": "Get\u0020the\u0020navigation\u0020requests\u0020embedded\u0020in\u0020this\u0020transaction",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getNavigationRequests"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AattachEntitySet\u0028\u0029",
+            "name": "attachEntitySet",
+            "summary": "Attach\u0020an\u0020entity\u0020set\u0020to\u0020this\u0020transaction",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_attachEntitySet"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AstartTransaction\u0028\u0029",
+            "name": "startTransaction",
+            "summary": "Start\u0020transactions\u0020on\u0020attached\u0020entity\u0020sets",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_startTransaction"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003Acommit\u0028\u0029",
+            "name": "commit",
+            "summary": "Commit\u0020all\u0020entity\u0020sets\u0020attached\u0020to\u0020this\u0020transaction",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_commit"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003Arollback\u0028\u0029",
+            "name": "rollback",
+            "summary": "Rollback\u0020all\u0020entity\u0020sets\u0020attached\u0020to\u0020this\u0020transaction",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_rollback"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003A\u0024handlers",
             "name": "handlers",
@@ -911,6 +936,21 @@ Search.appendIndex(
             "summary": "Create\u0020an\u0020entity\u0020set\u0020from\u0020the\u0020provided\u0020Eloquent\u0020model\u0020class\u0020and\u0020add\u0020it\u0020to\u0020the\u0020model",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_discover"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003AstartTransaction\u0028\u0029",
+            "name": "startTransaction",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_startTransaction"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003Arollback\u0028\u0029",
+            "name": "rollback",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_rollback"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003Acommit\u0028\u0029",
+            "name": "commit",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_commit"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet",
             "name": "ManualEntitySet",
             "summary": "Class\u0020ManualEntitySet\nThe\u0020manual\u0020entity\u0020set\u0020is\u0020assigned\u0020entities\u0020and\u0020does\u0020not\u0020query\u0020a\u0020data\u0020source",
@@ -950,6 +990,16 @@ Search.appendIndex(
             "name": "rewind",
             "summary": "Rewind\u0020the\u0020results\u0020buffer",
             "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_rewind"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Afilter\u0028\u0029",
+            "name": "filter",
+            "summary": "Filter\u0020the\u0020objects\u0020in\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_filter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Asort\u0028\u0029",
+            "name": "sort",
+            "summary": "Sort\u0020the\u0020objects\u0020in\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_sort"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\MySQLFilter",
             "name": "MySQLFilter",
@@ -1235,6 +1285,21 @@ Search.appendIndex(
             "name": "setTransaction",
             "summary": "Set\u0020the\u0020transaction\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set\u0020instance,\u0020and\u0020validate\u0020the\u0020transaction\u0020request",
             "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_setTransaction"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQLEntitySet\u003A\u003AstartTransaction\u0028\u0029",
+            "name": "startTransaction",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_startTransaction"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQLEntitySet\u003A\u003Arollback\u0028\u0029",
+            "name": "rollback",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_rollback"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQLEntitySet\u003A\u003Acommit\u0028\u0029",
+            "name": "commit",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_commit"
         },                {
             "fqsen": "\\Flat3\\Lodata\\DynamicProperty",
             "name": "DynamicProperty",
