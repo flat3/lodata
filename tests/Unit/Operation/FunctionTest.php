@@ -258,7 +258,7 @@ class FunctionTest extends TestCase
                     $result[] = $airport;
                 }
 
-                $result->sort( function (Entity $a1, Entity $a2) use ($field) {
+                $result->sort(function (Entity $a1, Entity $a2) use ($field) {
                     return $a1[$field->get()]->getPrimitiveValue()->get() <=> $a2[$field->get()]->getPrimitiveValue()->get();
                 });
 
