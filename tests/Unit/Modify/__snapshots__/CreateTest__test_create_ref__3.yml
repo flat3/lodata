@@ -5,15 +5,14 @@ airports:
     - { id: '4', name: 'O''Hare', code: ohr, construction_date: '1930-01-01 00:00:00', sam_datetime: '1999-11-10 14:00:01', open_time: '15:00:00', review_score: null, is_big: '1', country_id: null }
 countries: {  }
 flights:
-    - { id: '1', origin: ooo, destination: lax, gate: null }
+    - { id: '1', origin: lhr, destination: lax, gate: null }
     - { id: '2', origin: sam, destination: rgr, gate: null }
     - { id: '3', origin: sfo, destination: lax, gate: null }
+    - { id: '4', origin: lhr, destination: null, gate: null }
 passengers:
     - { id: '1', flight_id: '1', name: 'Anne Arbor' }
     - { id: '2', flight_id: '1', name: 'Bob Barry' }
     - { id: '3', flight_id: '1', name: 'Charlie Carrot' }
     - { id: '4', flight_id: '2', name: 'Fox Flipper' }
     - { id: '5', flight_id: '3', name: 'Grace Gumbo' }
-pets:
-    - { id: '1', passenger_id: null, name: Alice, type: null }
-    - { id: '2', passenger_id: null, name: Bob, type: null }
+pets: {  }

@@ -162,6 +162,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             return $response;
         }
 
+        if (Response::HTTP_NO_CONTENT === $code) {
+            $this->assertEmpty($content);
+        }
+
         $this->assertMatchesSnapshot($content, new JsonDriver());
 
         return $response;
@@ -251,8 +255,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertJsonResponse(Request $request, int $statusCode = Response::HTTP_OK): TestResponse
     {
         $response = $this->req($request);
+        $content = $this->responseContent($response);
         $this->assertEquals($statusCode, $response->getStatusCode());
-        $this->assertMatchesSnapshot($this->responseContent($response), new JsonDriver());
+        $this->assertMatchesSnapshot($content, new JsonDriver());
         return $response;
     }
 

@@ -12,14 +12,14 @@ class Request
     public $body = null;
     public $method = \Illuminate\Http\Request::METHOD_GET;
 
-    public static function factory()
+    public static function factory(): Request
     {
         $request = new self();
         $request->json();
         return $request;
     }
 
-    public function header($key, $value)
+    public function header($key, $value): Request
     {
         $this->headers[$key] = $value;
         return $this;
@@ -32,25 +32,25 @@ class Request
         return $this;
     }
 
-    public function query($key, $value)
+    public function query($key, $value): Request
     {
         $this->query[$key] = $value;
         return $this;
     }
 
-    public function metadata($type)
+    public function metadata($type): Request
     {
         $this->accept('application/json;odata.metadata='.$type);
         return $this;
     }
 
-    public function preference($key, $value)
+    public function preference($key, $value): Request
     {
         $this->header('prefer', $key.'='.$value);
         return $this;
     }
 
-    public function path($path, $withPrefix = true)
+    public function path($path, $withPrefix = true): Request
     {
         $this->path = $path;
 
@@ -61,19 +61,19 @@ class Request
         return $this;
     }
 
-    public function filter($filter)
+    public function filter($filter): Request
     {
         $this->query('$filter', $filter);
         return $this;
     }
 
-    public function select($select)
+    public function select($select): Request
     {
         $this->query('$select', $select);
         return $this;
     }
 
-    public function uri()
+    public function uri(): string
     {
         return Url::http_build_url([
             'query' => http_build_query($this->query),
@@ -81,7 +81,7 @@ class Request
         ]);
     }
 
-    public function headers()
+    public function headers(): array
     {
         return $this->headers;
     }
@@ -131,7 +131,7 @@ class Request
         return $this->method(\Illuminate\Http\Request::METHOD_DELETE);
     }
 
-    public function xml()
+    public function xml(): Request
     {
         $this->header('accept', 'application/xml');
         return $this;
@@ -143,13 +143,13 @@ class Request
         return $this;
     }
 
-    public function text()
+    public function text(): Request
     {
         $this->header('accept', 'text/plain');
         return $this;
     }
 
-    public function accept($accept)
+    public function accept($accept): Request
     {
         $this->header('accept', $accept);
         return $this;

@@ -222,14 +222,14 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
             }
         }
 
-        if ($this->expansionPropertyValue) {
+        if ($this->navigationPropertyValue) {
             /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $this->expansionPropertyValue->getProperty();
+            $navigationProperty = $this->navigationPropertyValue->getProperty();
 
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $model[$referencedProperty->getName()] = $this->expansionPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get();
+                $model[$referencedProperty->getName()] = $this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get();
             }
         }
 
@@ -243,7 +243,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $entity = $this->read($key);
         $key->setEntity($entity);
 
-        $this->createRelatedEntities($entity);
+        $this->transaction->processDeltaPayloads($entity);
 
         return $entity;
     }
@@ -275,9 +275,9 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $instance = new $this->model();
         $builder = $instance->newQuery();
 
-        if ($this->expansionPropertyValue) {
-            $sourceEntity = $this->expansionPropertyValue->getEntity();
-            $expansionPropertyName = $this->expansionPropertyValue->getProperty()->getName();
+        if ($this->navigationPropertyValue) {
+            $sourceEntity = $this->navigationPropertyValue->getEntity();
+            $expansionPropertyName = $this->navigationPropertyValue->getProperty()->getName();
             $instance = $sourceEntity->getEntitySet()->getModelByKey($sourceEntity->getEntityId());
             $builder = $instance->$expansionPropertyName();
 

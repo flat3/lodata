@@ -16,6 +16,7 @@ content-type: application/http
 
 HTTP/1.0 201 Created
 content-type: application/json
+location: http://localhost/odata/airports(5)
 etag: W/"34fc3879d08d77fef9930122ce0cd76f78505293eccf1de99cf98a1b3962461e"
 
 {"@context":"http://localhost/odata/$metadata#airports/$entity","id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null}

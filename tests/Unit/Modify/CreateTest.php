@@ -46,16 +46,29 @@ class CreateTest extends TestCase
         );
     }
 
+    public function test_create_return_minimal()
+    {
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/flights')
+                ->preference('return', 'minimal')
+                ->post()
+                ->body([
+                    'origin' => 'lhr',
+                    'destination' => 'lax',
+                ])
+        );
+    }
+
     public function test_create_related_entity()
     {
-        $this->assertJsonResponse(
+        $this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights(1)/passengers')
                 ->post()
                 ->body([
                     'name' => 'Henry Horse',
-                ]),
-            Response::HTTP_CREATED
+                ])
         );
 
         $this->assertJsonResponse(
@@ -64,22 +77,61 @@ class CreateTest extends TestCase
         );
     }
 
+    public function test_create_entity_with_existing_related_entities()
+    {
+        $this->assertJsonMetadataResponse(
+            Request::factory()
+                ->path('/flights')
+                ->post()
+                ->body([
+                    'origin' => 'sfo',
+                    'destination' => 'lhr',
+                    'passengers' => [
+                        [
+                            '@id' => 'passengers(1)',
+                        ],
+                        [
+                            '@id' => 'passengers(2)',
+                        ],
+                    ]
+                ])
+        );
+    }
+
+    public function test_create_entity_cannot_modify_existing_related_entities()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/flights')
+                ->post()
+                ->body([
+                    'origin' => 'sfo',
+                    'destination' => 'lhr',
+                    'passengers' => [
+                        [
+                            '@id' => 'passengers(1)',
+                            'name' => 'Not allowed',
+                        ],
+                    ]
+                ])
+        );
+    }
+
     public function test_create_ref()
     {
-        $this->assertJsonResponse(
+        $this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights/$ref')
                 ->post()
                 ->body([
                     'origin' => 'lhr',
-                ]),
-            Response::HTTP_CREATED
+                ])
         );
     }
 
     public function test_create_deep()
     {
-        $this->assertJsonResponse(
+        $this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights')
                 ->post()
@@ -100,14 +152,13 @@ class CreateTest extends TestCase
                             'name' => 'Bob',
                         ],
                     ],
-                ]),
-            Response::HTTP_CREATED
+                ])
         );
     }
 
     public function test_create_deep_metadata()
     {
-        $response = $this->jsonResponse($this->assertJsonResponse(
+        $response = $this->jsonResponse($this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights')
                 ->metadata(Metadata\Full::name)
@@ -129,8 +180,7 @@ class CreateTest extends TestCase
                             'name' => 'Bob',
                         ],
                     ],
-                ]),
-            Response::HTTP_CREATED
+                ])
         ));
 
         $this->assertJsonResponse(

@@ -1,7 +1,7 @@
 headers:
     cache-control: ['no-cache, private']
-    content-type: [application/json;odata.metadata=full]
+    content-type: [application/json]
     odata-version: ['4.01']
     location: ['http://localhost/odata/flights(4)']
-    etag: ['W/"17f1142f54c717612a305a0dcf1cd282913b1ecf1108861811825bddf0641608"']
+    etag: ['W/"1ed1368d068ad39a391d03075a936dd24a1e49a550f61eea269de85be6c2fe68"']
 status: 201

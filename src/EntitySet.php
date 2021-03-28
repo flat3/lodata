@@ -5,12 +5,13 @@ namespace Flat3\Lodata;
 use Countable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Drivers\ManualEntitySet;
+use Flat3\Lodata\Drivers\DeltaPayloads;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
+use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
@@ -42,7 +43,6 @@ use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
-use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -118,10 +118,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
     /**
      * The expansion property value that generated this entity set instance
-     * @var PropertyValue $expansionPropertyValue
+     * @var PropertyValue $navigationPropertyValue
      * @internal
      */
-    protected $expansionPropertyValue;
+    protected $navigationPropertyValue;
 
     /**
      * Whether to apply system query options on this entity set instance
@@ -448,7 +448,20 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 $transaction->ensureContentTypeJson();
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
 
-                return $this->create()->get($transaction, $context);
+                $result = $this->create();
+
+                if (
+                    $transaction->getPreferenceValue(Constants::RETURN) === Constants::MINIMAL &&
+                    !$transaction->getSelect()->hasValue() &&
+                    !$transaction->getExpand()->hasValue()
+                ) {
+                    throw NoContentException::factory()
+                        ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL);
+                }
+
+                $transaction->getResponse()->headers->add(['Location' => $result->getResourceUrl($transaction)]);
+
+                return $result->get($transaction, $context);
         }
 
         throw new MethodNotAllowedException();
@@ -499,9 +512,9 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @param  PropertyValue  $property  Expansion property
      * @return $this
      */
-    public function setExpansionPropertyValue(PropertyValue $property): self
+    public function setNavigationPropertyValue(PropertyValue $property): self
     {
-        $this->expansionPropertyValue = $property;
+        $this->navigationPropertyValue = $property;
         return $this;
     }
 
@@ -512,8 +525,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function resolveExpansionKey(): PropertyValue
     {
         /** @var NavigationProperty $navigationProperty */
-        $navigationProperty = $this->expansionPropertyValue->getProperty();
-        $sourceEntity = $this->expansionPropertyValue->getEntity();
+        $navigationProperty = $this->navigationPropertyValue->getProperty();
+        $sourceEntity = $this->navigationPropertyValue->getEntity();
 
         $targetConstraint = null;
         /** @var ReferentialConstraint $constraint */
@@ -588,8 +601,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public static function pipe(
         Transaction $transaction,
         string $currentSegment,
-        ?string $nextSegment,
-        ?PipeInterface $argument
+        ?string $nextSegment = null,
+        ?PipeInterface $argument = null
     ): ?PipeInterface {
         $lexer = new Lexer($currentSegment);
         try {
@@ -787,45 +800,4 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return $this->applyQueryOptions ? $this->transaction->getSelect() : new Option\Select();
     }
 
-    /**
-     * Deep insert related entities
-     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_CreateRelatedEntitiesWhenCreatinganE
-     * @param  Entity  $rootEntity  The parent entity
-     */
-    protected function createRelatedEntities(Entity $rootEntity): void
-    {
-        $body = $this->transaction->getBody();
-        $navigationProperties = $this->type->getNavigationProperties()->pick(array_keys($body));
-
-        /** @var NavigationProperty $navigationProperty */
-        foreach ($navigationProperties as $navigationProperty) {
-            $relatedRecords = $body[$navigationProperty->getName()] ?? [];
-
-            if (!$relatedRecords) {
-                continue;
-            }
-
-            $entitySet = new ManualEntitySet($navigationProperty->getEntityType());
-
-            foreach ($relatedRecords as $relatedRecord) {
-                $navigationRequest = new NavigationRequest();
-                $navigationRequest->setOuterRequest($this->transaction->getRequest());
-                $navigationRequest->setContent(json_encode($relatedRecord));
-                $navigationRequest->setNavigationProperty($navigationProperty);
-
-                $relatedEntity = $navigationProperty->createRelatedEntity(
-                    $this->transaction,
-                    $navigationRequest,
-                    $rootEntity,
-                );
-
-                $entitySet[] = $relatedEntity;
-            }
-
-            $propertyValue = $rootEntity->newPropertyValue();
-            $propertyValue->setProperty($navigationProperty);
-            $propertyValue->setValue($entitySet);
-            $rootEntity->addProperty($propertyValue);
-        }
-    }
 }

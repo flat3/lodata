@@ -1,6 +1,15 @@
 {
-    "@context": "http://localhost/odata/$metadata#passengers/$entity",
-    "id": 6,
-    "name": "Alice",
-    "flight_id": 4
+    "@context": "http://localhost/odata/$metadata#flights(4)/passengers",
+    "value": [
+        {
+            "id": 6,
+            "name": "Alice",
+            "flight_id": 4
+        },
+        {
+            "id": 7,
+            "name": "Bob",
+            "flight_id": 4
+        }
+    ]
 }

@@ -14,4 +14,6 @@ passengers:
     - { id: '3', flight_id: '1', name: 'Charlie Carrot' }
     - { id: '4', flight_id: '2', name: 'Fox Flipper' }
     - { id: '5', flight_id: '3', name: 'Grace Gumbo' }
-pets: {  }
+pets:
+    - { id: '1', passenger_id: null, name: Alice, type: null }
+    - { id: '2', passenger_id: null, name: Bob, type: null }

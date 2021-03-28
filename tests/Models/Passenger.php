@@ -23,5 +23,10 @@ class Passenger extends Model
     {
         return $this->hasOneThrough(Airport::class, Flight::class, 'id', 'code', 'flight_id', 'destination');
     }
+
+    public function pets()
+    {
+        return $this->hasMany(Pet::class);
+    }
 }
 

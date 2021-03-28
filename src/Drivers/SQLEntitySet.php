@@ -276,7 +276,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         $this->sqlGenerateWhere();
 
-        if (!$this->expansionPropertyValue) {
+        if (!$this->navigationPropertyValue) {
             return;
         }
 
@@ -387,15 +387,15 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $this->addParameter($propertyValues->get($declaredProperty->getName())->getValue()->get());
         }
 
-        if ($this->expansionPropertyValue) {
+        if ($this->navigationPropertyValue) {
             /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $this->expansionPropertyValue->getProperty();
+            $navigationProperty = $this->navigationPropertyValue->getProperty();
 
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = $this->getPropertySourceName($referencedProperty);
-                $this->addParameter($this->expansionPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
             }
         }
 
@@ -420,7 +420,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $entity = $this->read($key);
 
-        $this->createRelatedEntities($entity);
+        $this->transaction->processDeltaPayloads($entity);
 
         return $entity;
     }
@@ -438,6 +438,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $type = $this->getType();
         $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
+
         $primitives = $entity->getPropertyValues();
 
         $fields = [];
@@ -447,6 +448,23 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             $fields[] = sprintf('%s=?', $this->getPropertySourceName($property));
             $this->addParameter($primitives->get($property->getName())->getValue()->get());
         }
+
+        if ($this->navigationPropertyValue) {
+            /** @var NavigationProperty $navigationProperty */
+            $navigationProperty = $this->navigationPropertyValue->getProperty();
+
+            /** @var ReferentialConstraint $constraint */
+            foreach ($navigationProperty->getConstraints() as $constraint) {
+                $referencedProperty = $constraint->getReferencedProperty();
+                $fields[] = sprintf('%s=?', $this->getPropertySourceName($referencedProperty));
+                $this->addParameter($this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+            }
+        }
+
+        if (!$fields) {
+            return $this->read($key);
+        }
+
         $fields = implode(',', $fields);
 
         $this->addParameter($key->getPrimitiveValue()->get());
@@ -460,7 +478,11 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
         $this->pdoModify($query);
 
-        return $this->read($key);
+        $entity = $this->read($key);
+
+        $this->transaction->processDeltaPayloads($entity);
+
+        return $entity;
     }
 
     /**

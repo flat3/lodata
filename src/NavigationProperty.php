@@ -3,11 +3,9 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Transaction\NavigationRequest;
 
@@ -170,7 +168,7 @@ class NavigationProperty extends Property
 
         $expansionSet = clone $targetEntitySet;
         $expansionSet->setTransaction($expansionTransaction);
-        $expansionSet->setExpansionPropertyValue($propertyValue);
+        $expansionSet->setNavigationPropertyValue($propertyValue);
 
         if ($this->isCollection()) {
             $propertyValue->setValue($expansionSet);
@@ -182,40 +180,5 @@ class NavigationProperty extends Property
         $entity->addProperty($propertyValue);
 
         return $propertyValue;
-    }
-
-    /**
-     * Create a deep inserted entity
-     * @param  Transaction  $transaction  Related transaction
-     * @param  NavigationRequest  $navigationRequest  Navigation request
-     * @param  Entity  $entity  Entity that is the parent of the created entity
-     * @return Entity The created entity
-     */
-    public function createRelatedEntity(
-        Transaction $transaction,
-        NavigationRequest $navigationRequest,
-        Entity $entity
-    ): Entity {
-        $propertyValue = $entity->newPropertyValue();
-        $propertyValue->setProperty($this);
-        $propertyValue->setValue($entity->getEntityId());
-
-        $binding = $entity->getEntitySet()->getBindingByNavigationProperty($this);
-        $targetEntitySet = $binding->getTarget();
-
-        if (!$targetEntitySet instanceof CreateInterface) {
-            throw new BadRequestException(
-                'target_entity_set_cannot_create',
-                'The requested entity set does not support create operations'
-            );
-        }
-
-        $relatedSet = clone $targetEntitySet;
-        $relationTransaction = clone $transaction;
-        $relationTransaction->setRequest($navigationRequest);
-        $relatedSet->setTransaction($relationTransaction);
-        $relatedSet->setExpansionPropertyValue($propertyValue);
-
-        return $relatedSet->create();
     }
 }

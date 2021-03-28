@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Modify;
 
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Metadata\Full;
 
 class UpdateTest extends TestCase
 {
@@ -11,6 +12,7 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
         $this->withFlightModel();
+        $this->withFlightDataV2();
     }
 
     public function tearDown(): void
@@ -53,6 +55,48 @@ class UpdateTest extends TestCase
                 ->patch()
                 ->body([
                     'origin' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_update_invalid_property()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/passengers(1)')
+                ->patch()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_update_related()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/passengers(1)')
+                ->patch()
+                ->body([
+                    'name' => 'Zooey Zamblo',
+                    'pets' => [
+                        [
+                            '@id' => 'pets(1)',
+                        ],
+                        [
+                            '@id' => 'pets(2)',
+                            'name' => 'Charlie',
+                        ],
+                        [
+                            'name' => 'Delta',
+                        ],
+                        [
+                            '@id' => 'pets(2)',
+                            '@removed' => [
+                                'reason' => 'deleted',
+                            ],
+                        ]
+                    ]
                 ])
         );
     }

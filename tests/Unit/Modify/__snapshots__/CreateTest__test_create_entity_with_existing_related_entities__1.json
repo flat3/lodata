@@ -1,0 +1,19 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights/$entity",
+    "id": 4,
+    "origin": "sfo",
+    "destination": "lhr",
+    "gate": null,
+    "passengers": [
+        {
+            "id": 1,
+            "name": "Anne Arbor",
+            "flight_id": 4
+        },
+        {
+            "id": 2,
+            "name": "Bob Barry",
+            "flight_id": 4
+        }
+    ]
+}

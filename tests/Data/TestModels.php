@@ -17,6 +17,7 @@ use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
 use Flat3\Lodata\Tests\Models\Passenger as PassengerEModel;
+use Flat3\Lodata\Tests\Models\Pet as PetEModel;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
@@ -54,9 +55,9 @@ trait TestModels
 
         Schema::create('pets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('passenger_id');
-            $table->string('name');
-            $table->string('type');
+            $table->bigInteger('passenger_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('type')->nullable();
         });
 
         Schema::create('countries', function (Blueprint $table) {
@@ -141,6 +142,16 @@ trait TestModels
             'open_time' => '15:00:00',
             'sam_datetime' => '1999-11-10T14:00:01+00:00',
             'is_big' => true,
+        ]))->save();
+    }
+
+    public function withFlightDataV2():void {
+        (new PetEModel([
+            'name' => 'Alice',
+        ]))->save();
+
+        (new PetEModel([
+            'name' => 'Bob',
         ]))->save();
     }
 

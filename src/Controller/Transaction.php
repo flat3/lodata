@@ -3,6 +3,8 @@
 namespace Flat3\Lodata\Controller;
 
 use Exception;
+use Flat3\Lodata\Drivers\ManualEntitySet;
+use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
@@ -17,13 +19,18 @@ use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
+use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
+use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Primitive;
@@ -1223,5 +1230,161 @@ class Transaction implements ArgumentInterface
         }
 
         $this->pendingEntitySets = [];
+    }
+
+    /**
+     * Process deltas in the request body
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_DeltaPayloads
+     * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_DeltaPayload
+     * @param  Entity  $parentEntity  The parent entity
+     */
+    public function processDeltaPayloads(Entity $parentEntity): void
+    {
+        $body = $this->getBody();
+        $navigationProperties = $parentEntity->getType()->getNavigationProperties()->pick(array_keys($body));
+
+        /** @var NavigationProperty $navigationProperty */
+        foreach ($navigationProperties as $navigationProperty) {
+            $deltaPayloads = $body[$navigationProperty->getName()] ?? [];
+            $deltaAnnotations = $body[$navigationProperty->getName().'@delta'] ?? [];
+            $deltaResponseSet = new ManualEntitySet($navigationProperty->getEntityType());
+
+            foreach ($deltaPayloads as $deltaPayload) {
+                $entity = null;
+                $binding = $parentEntity->getEntitySet()->getBindingByNavigationProperty($navigationProperty);
+
+                if (array_key_exists('@id', $deltaPayload)) {
+                    /** @var Entity $entity */
+                    try {
+                        $entity = EntitySet::pipe($this, $deltaPayload['@id']);
+                    } catch (PathNotHandledException | NotFoundException $e) {
+                        throw new BadRequestException(
+                            'related_entity_missing',
+                            'The requested related entity did not exist'
+                        );
+                    }
+
+                    if ($this->getMethod() === Request::METHOD_POST && count($deltaPayload) > 1) {
+                        throw new BadRequestException(
+                            'related_entity_cannot_update',
+                            'Entity create requests cannot contain content for existing related entities',
+                        );
+                    }
+                }
+
+                $deltaRequest = new NavigationRequest();
+                $deltaRequest->setOuterRequest($this->getRequest());
+                $deltaRequest->setContent(json_encode($deltaPayload));
+                $deltaRequest->setNavigationProperty($navigationProperty);
+
+                $deltaTransaction = clone $this;
+                $deltaTransaction->setRequest($deltaRequest);
+
+                $entityId = $parentEntity->newPropertyValue();
+                $entityId->setProperty($navigationProperty);
+                $entityId->setValue($parentEntity->getEntityId());
+
+                $entitySet = clone $binding->getTarget();
+                $entitySet->setTransaction($deltaTransaction);
+                $entitySet->setNavigationPropertyValue($entityId);
+
+                switch (true) {
+                    case array_key_exists('@removed', $deltaPayload):
+                        $deltaTransaction->processDeltaRemove($entitySet, $deltaPayload['@removed']['reason'] ?? '',
+                            $entity);
+                        break;
+
+                    case array_key_exists('@id', $deltaPayload):
+                        $entity = $deltaTransaction->processDeltaModify($entitySet, $entity);
+                        break;
+
+                    default:
+                        $entity = $deltaTransaction->processDeltaCreate($entitySet);
+                        break;
+                }
+
+                $deltaResponseSet[] = $entity;
+            }
+
+            $deltaProperty = $parentEntity->newPropertyValue();
+            $deltaProperty->setProperty($navigationProperty);
+            $deltaProperty->setValue($deltaResponseSet);
+            $parentEntity->addProperty($deltaProperty);
+        }
+    }
+
+    /**
+     * @param  EntitySet  $entitySet
+     * @param  string  $reason
+     * @param  Entity|null  $entity
+     */
+    protected function processDeltaRemove(EntitySet $entitySet, string $reason, ?Entity $entity): void
+    {
+        switch ($reason) {
+            case 'deleted':
+                if (!$entitySet instanceof DeleteInterface) {
+                    throw new BadRequestException(
+                        'target_entity_set_cannot_delete',
+                        'The requested entity set does not support delete operations'
+                    );
+                }
+
+                Gate::check(Gate::DELETE, $entity, $this);
+                $entitySet->delete($entity->getEntityId());
+                break;
+
+            case 'changed':
+                if (!$entitySet instanceof UpdateInterface) {
+                    throw new BadRequestException(
+                        'target_entity_set_cannot_update',
+                        'The requested entity set does not support update operations'
+                    );
+                }
+
+                Gate::check(Gate::UPDATE, $entity, $this);
+                $entitySet->update($entity->getEntityId());
+                break;
+
+            default:
+                throw new BadRequestException(
+                    'delta_removal_missing_reason',
+                    'The delta payload did not include a removal reason'
+                );
+        }
+    }
+
+    /**
+     * @param  EntitySet  $entitySet
+     * @param  Entity|null  $entity
+     * @return Entity
+     */
+    protected function processDeltaModify(EntitySet $entitySet, ?Entity $entity): Entity
+    {
+        if (!$entitySet instanceof UpdateInterface) {
+            throw new BadRequestException('target_entity_set_cannot_update',
+                'The requested entity set does not support update operations');
+        }
+
+        Gate::check(Gate::UPDATE, $entity, $this);
+
+        return $entitySet->update($entity->getEntityId());
+    }
+
+    /**
+     * @param  EntitySet  $entitySet
+     * @return Entity
+     */
+    protected function processDeltaCreate(EntitySet $entitySet): Entity
+    {
+        if (!$entitySet instanceof CreateInterface) {
+            throw new BadRequestException(
+                'target_entity_set_cannot_create',
+                'The requested entity set does not support create operations'
+            );
+        }
+
+        Gate::check(Gate::CREATE, $entitySet, $this);
+
+        return $entitySet->create();
     }
 }
