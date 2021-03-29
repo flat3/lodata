@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Modify;
 
-use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\Metadata;
@@ -48,7 +47,7 @@ class CreateTest extends TestCase
 
     public function test_create_return_minimal()
     {
-        $this->assertNoContent(
+        $response = $this->assertNoContent(
             Request::factory()
                 ->path('/flights')
                 ->preference('return', 'minimal')
@@ -58,6 +57,8 @@ class CreateTest extends TestCase
                     'destination' => 'lax',
                 ])
         );
+
+        $this->assertResponseMetadata($response);
     }
 
     public function test_create_related_entity()

@@ -19,4 +19,5 @@ class Constants
     const NULLS = 'nulls';
     const MINIMAL = 'minimal';
     const CONTINUE_ON_ERROR = 'continue-on-error';
+    const ODATA_ENTITY_ID = 'odata-entityid';
 }

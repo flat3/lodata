@@ -145,7 +145,8 @@ trait TestModels
         ]))->save();
     }
 
-    public function withFlightDataV2():void {
+    public function withFlightDataV2(): void
+    {
         (new PetEModel([
             'name' => 'Alice',
         ]))->save();

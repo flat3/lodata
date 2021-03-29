@@ -81,30 +81,21 @@
                     <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3.html">Flat3</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata.html">Lodata</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-annotation.html">Annotation</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-annotation-core.html">Core</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-annotation-core-v1.html">V1</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-traits.html">Traits</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -class">
+    <article class="phpdocumentor-element -trait">
         <h2 class="phpdocumentor-content__title">
-    ConventionalIDs
-
-        <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a>
-    </span>
-    
-    
-    
+    HasAnnotations
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Annotation/Core/V1/ConventionalIDs.php"><a href="files/src-annotation-core-v1-conventionalids.html"><abbr title="src/Annotation/Core/V1/ConventionalIDs.php">ConventionalIDs.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasAnnotations.php"><a href="files/src-traits-hasannotations.html"><abbr title="src/Traits/HasAnnotations.php">HasAnnotations.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">12</span>
 </aside>
 
-            <p class="phpdocumentor-summary">Conventional IDs</p>
+            <p class="phpdocumentor-summary">Has Annotations</p>
 
     <section class="phpdocumentor-description"></section>
 
@@ -122,37 +113,35 @@
 
 <dl class="phpdocumentor-table-of-contents">
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#property_name">$name</a>
+    <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#property_annotations">$annotations</a>
     <span>
-                &nbsp;: mixed            </span>
+                &nbsp;: <a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>            </span>
 </dt>
-<dd></dd>
+<dd>Annotations</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#method___construct">__construct()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Annotation.html#method_append">append()</a>
+    <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#method_addAnnotation">addAnnotation()</a>
     <span>
                         &nbsp;: $this    </span>
 </dt>
-<dd>Append the annotation to the provided schema element</dd>
+<dd>Add an annotation</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#method_getAnnotations">getAnnotations()</a>
+    <span>
+                        &nbsp;: array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
+</dt>
+<dd>Get the annotations</dd>
 
         </dl>
 
 
 
         
-
-        
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="
@@ -161,26 +150,28 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_name">
-        $name
-        <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#property_name" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_annotations">
+        $annotations
+        <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#property_annotations" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Annotation/Core/V1/ConventionalIDs.php"><a href="files/src-annotation-core-v1-conventionalids.html"><abbr title="src/Annotation/Core/V1/ConventionalIDs.php">ConventionalIDs.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasAnnotations.php"><a href="files/src-traits-hasannotations.html"><abbr title="src/Traits/HasAnnotations.php">HasAnnotations.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
-    
+        <p class="phpdocumentor-summary">Annotations</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$name</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;Org.OData.Core.V1.ConventionalIDs&#039;</span></code>
+        <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$annotations</span>
+    </code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
 
 </article>
@@ -189,7 +180,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -197,61 +188,29 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___construct">
-        __construct()
-        <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_addAnnotation">
+        addAnnotation()
+        <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#method_addAnnotation" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Annotation/Core/V1/ConventionalIDs.php"><a href="files/src-annotation-core-v1-conventionalids.html"><abbr title="src/Annotation/Core/V1/ConventionalIDs.php">ConventionalIDs.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasAnnotations.php"><a href="files/src-traits-hasannotations.html"><abbr title="src/Traits/HasAnnotations.php">HasAnnotations.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 </aside>
 
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_append">
-        append()
-        <a href="classes/Flat3-Lodata-Annotation.html#method_append" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Annotation.php"><a href="files/src-annotation.html"><abbr title="src/Annotation.php">Annotation.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">39</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Append the annotation to the provided schema element</p>
+        <p class="phpdocumentor-summary">Add an annotation</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">append</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$schema</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+                <span class="phpdocumentor-signature__name">addAnnotation</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$annotation</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
         <section class="phpdocumentor-description"></section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$schema</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr></span>
+                <span class="phpdocumentor-signature__argument__name">$annotation</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
@@ -264,7 +223,43 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">$this</span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Annotation container</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getAnnotations">
+        getAnnotations()
+        <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#method_getAnnotations" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Traits/HasAnnotations.php"><a href="files/src-traits-hasannotations.html"><abbr title="src/Traits/HasAnnotations.php">HasAnnotations.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">40</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get the annotations</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getAnnotations</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation.html"><abbr title="\Flat3\Lodata\Annotation">Annotation</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Annotation</p>
+</section>
 
     
 </article>
@@ -284,7 +279,7 @@
 </section>
             </div>
         </div>
-        <a href="classes/Flat3-Lodata-Annotation-Core-V1-ConventionalIDs.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Flat3-Lodata-Traits-HasAnnotations.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

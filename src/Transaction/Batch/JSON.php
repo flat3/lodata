@@ -109,7 +109,7 @@ class JSON extends Batch
 
             $responseHeaders = [];
 
-            foreach ($this->getResponseHeaders($requestTransaction) as $key => $values) {
+            foreach ($this->getResponseHeaders($response) as $key => $values) {
                 $responseHeaders[$key] = $values[0];
             }
 

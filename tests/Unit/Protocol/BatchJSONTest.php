@@ -383,6 +383,47 @@ class BatchJSONTest extends TestCase
         );
     }
 
+    public function test_prefer_minimal()
+    {
+        $this->assertJsonMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->post()
+                ->preference('return', 'minimal')
+                ->body([
+                    'requests' => [
+                        [
+                            'id' => 0,
+                            'method' => 'post',
+                            'url' => "/odata/airports",
+                            'headers' => [
+                                'content-type' => 'application/json',
+                                'prefer' => 'return=minimal',
+                            ],
+                            'body' => [
+                                "name" => "One",
+                                "code" => "one"
+                            ]
+                        ],
+                        [
+                            'id' => 1,
+                            'method' => 'patch',
+                            'headers' => [
+                                'content-type' => 'application/json',
+                                'prefer' => 'return=minimal',
+                            ],
+                            'url' => "/odata/airports(1)",
+                            'body' => [
+                                "code" => "xyz"
+                            ]
+                        ]
+                    ]
+                ])
+        );
+
+        $this->assertDatabaseSnapshot();
+    }
+
     public function test_missing_reference()
     {
         $this->assertJsonMetadataResponse(

@@ -3,7 +3,6 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Annotation\Record;
-use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;

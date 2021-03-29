@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Transaction;
 
+use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Interfaces\EmitInterface;
@@ -64,13 +65,12 @@ abstract class Batch implements EmitInterface
     }
 
     /**
-     * Get the sub-request response headers
-     * @param  Transaction  $transaction
+     * Get the response headers
+     * @param  Response  $response
      * @return array
      */
-    protected function getResponseHeaders(Transaction $transaction): array
+    protected function getResponseHeaders(Response $response): array
     {
-        $response = $transaction->getResponse();
         $headers = [];
 
         foreach ($response->headers->allPreserveCaseWithoutCookies() as $key => $values) {

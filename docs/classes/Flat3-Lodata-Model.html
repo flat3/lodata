@@ -89,13 +89,16 @@
 
     
     
+            <span class="phpdocumentor-element__implements">
+            implements
+                            <a href="classes/Flat3-Lodata-Interfaces-AnnotationInterface.html"><abbr title="\Flat3\Lodata\Interfaces\AnnotationInterface">AnnotationInterface</abbr></a>                    </span>
     
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
             <p class="phpdocumentor-summary">Model</p>
@@ -120,6 +123,17 @@
 
 
 
+<h3 id="interfaces_class_traits">
+    Interfaces, Classes and Traits
+    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
+</h3>
+
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-AnnotationInterface.html"><abbr title="\Flat3\Lodata\Interfaces\AnnotationInterface">AnnotationInterface</abbr></a></dt>
+        <dd>Annotation Interface</dd>
+    
+    
+    </dl>
 
 
 <h3 id="toc">
@@ -128,7 +142,14 @@
 </h3>
 
 <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -method -public">
+                <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Flat3-Lodata-Model.html#property_references">$references</a>
+    <span>
+                &nbsp;: array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>            </span>
+</dt>
+<dd>References to external CSDL documents</dd>
+
+                <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Model.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
@@ -141,6 +162,13 @@
                         &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a>    </span>
 </dt>
 <dd>Add a named resource or type to the OData model</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Model.html#method_addReference">addReference()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Add a reference to an external CSDL document</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Model.html#method_discoverEloquentModel">discoverEloquentModel()</a>
@@ -162,20 +190,6 @@
                         &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-Operation-ActionInterface.html"><abbr title="\Flat3\Lodata\Interfaces\Operation\ActionInterface">ActionInterface</abbr></a>|null    </span>
 </dt>
 <dd>Get an action from the model</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Model.html#method_getAnnotationReferences">getAnnotationReferences()</a>
-    <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
-</dt>
-<dd>Get the annotation references attached to the model</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Model.html#method_getAnnotations">getAnnotations()</a>
-    <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
-</dt>
-<dd>Get the annotations attached to the model</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Model.html#method_getEndpoint">getEndpoint()</a>
@@ -248,6 +262,13 @@
 <dd>Get the PowerBI discovery URL of this service</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Model.html#method_getReferences">getReferences()</a>
+    <span>
+                        &nbsp;: array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
+</dt>
+<dd>Get the document references attached to the model</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Model.html#method_getResource">getResource()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a>|null    </span>
@@ -282,6 +303,44 @@
         
 
         
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Flat3-Lodata-Model.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_references">
+        $references
+        <a href="classes/Flat3-Lodata-Model.html#property_references" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">38</span>
+</aside>
+
+        <p class="phpdocumentor-summary">References to external CSDL documents</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$references</span>
+    </code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
@@ -301,7 +360,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 </aside>
 
     
@@ -333,7 +392,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add a named resource or type to the OData model</p>
@@ -373,6 +432,64 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_addReference">
+        addReference()
+        <a href="classes/Flat3-Lodata-Model.html#method_addReference" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">216</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Add a reference to an external CSDL document</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">addReference</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$reference</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$reference</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">link</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Reference"> https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Reference </a>
+                    
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_discoverEloquentModel">
         discoverEloquentModel()
         <a href="classes/Flat3-Lodata-Model.html#method_discoverEloquentModel" class="headerlink"><i class="fas fa-link"></i></a>
@@ -380,7 +497,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">212</span>
+    <span class="phpdocumentor-element-found-in__line">228</span>
 </aside>
 
         <p class="phpdocumentor-summary">Discover the Eloquent model provided as a class name</p>
@@ -427,7 +544,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">147</span>
+    <span class="phpdocumentor-element-found-in__line">159</span>
 </aside>
 
         <p class="phpdocumentor-summary">Drop a named resource or type from the model</p>
@@ -473,7 +590,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">139</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get an action from the model</p>
@@ -513,76 +630,6 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getAnnotationReferences">
-        getAnnotationReferences()
-        <a href="classes/Flat3-Lodata-Model.html#method_getAnnotationReferences" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">202</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Get the annotation references attached to the model</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getAnnotationReferences</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>References</p>
-</section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getAnnotations">
-        getAnnotations()
-        <a href="classes/Flat3-Lodata-Model.html#method_getAnnotations" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">193</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Get the annotations attached to the model</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getAnnotations</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Annotations</p>
-</section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getEndpoint">
         getEndpoint()
         <a href="classes/Flat3-Lodata-Model.html#method_getEndpoint" class="headerlink"><i class="fas fa-link"></i></a>
@@ -590,7 +637,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">221</span>
+    <span class="phpdocumentor-element-found-in__line">237</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the REST endpoint of this OData model</p>
@@ -625,7 +672,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">94</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get an entity set from the model</p>
@@ -672,7 +719,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get an entity type from the model</p>
@@ -719,7 +766,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">169</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the entity types attached to the model</p>
@@ -754,7 +801,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">166</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the enumeration types attached to the model</p>
@@ -789,7 +836,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">128</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a function from the model</p>
@@ -836,7 +883,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">137</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the namespace of this model</p>
@@ -871,7 +918,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">240</span>
+    <span class="phpdocumentor-element-found-in__line">256</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the Office Data Connection URL of the provided entity set</p>
@@ -918,7 +965,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">117</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get an operation from the model</p>
@@ -965,7 +1012,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">230</span>
+    <span class="phpdocumentor-element-found-in__line">246</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the PowerBI discovery URL of this service</p>
@@ -993,6 +1040,41 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getReferences">
+        getReferences()
+        <a href="classes/Flat3-Lodata-Model.html#method_getReferences" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">205</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get the document references attached to the model</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getReferences</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-Annotation-Reference.html"><abbr title="\Flat3\Lodata\Annotation\Reference">Reference</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>References</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getResource">
         getResource()
         <a href="classes/Flat3-Lodata-Model.html#method_getResource" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1000,7 +1082,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">84</span>
+    <span class="phpdocumentor-element-found-in__line">96</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a resource from the model</p>
@@ -1047,7 +1129,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">175</span>
+    <span class="phpdocumentor-element-found-in__line">187</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resources attached to the model</p>
@@ -1082,7 +1164,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">184</span>
+    <span class="phpdocumentor-element-found-in__line">196</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the services attached to the model</p>
@@ -1117,7 +1199,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model.php"><a href="files/src-model.html"><abbr title="src/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">85</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a singleton from the model</p>

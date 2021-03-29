@@ -460,7 +460,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     !$transaction->getExpand()->hasValue()
                 ) {
                     throw NoContentException::factory()
-                        ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL);
+                        ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL)
+                        ->header(Constants::ODATA_ENTITY_ID, $result->getResourceUrl($transaction));
                 }
 
                 $transaction->getResponse()->headers->add(['Location' => $result->getResourceUrl($transaction)]);

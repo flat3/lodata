@@ -23,11 +23,12 @@ etag: W/"34fc3879d08d77fef9930122ce0cd76f78505293eccf1de99cf98a1b3962461e"
 --00000000-0000-0000-0000-000000000003
 content-type: application/http
 
-HTTP/1.0 200 OK
+HTTP/1.1 204 No Content
+preference-applied: return=minimal
+odata-entityid: http://localhost/odata/airports(1)
 content-type: application/json
-etag: W/"0edfc4659f3b4f7fe51e92c8935f6760c3c78e9f635177e7dc75d69d7670b351"
 
-{"@context":"http://localhost/odata/$metadata#airports/$entity","id":1,"name":"Heathrow","code":"xyz","construction_date":"1946-03-25","open_time":"09:00:00.000000","sam_datetime":"2001-11-10T14:00:00+00:00","review_score":null,"is_big":true}
+
 --00000000-0000-0000-0000-000000000003--
 
 --00000000-0000-0000-0000-000000000001

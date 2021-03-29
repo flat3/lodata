@@ -154,7 +154,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $response = $this->req($request);
         $this->assertEquals($code, $response->getStatusCode());
-
         $content = $this->responseContent($response);
 
         if (!$content) {

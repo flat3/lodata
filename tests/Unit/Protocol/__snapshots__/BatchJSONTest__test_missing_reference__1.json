@@ -23,6 +23,9 @@
         {
             "id": 1,
             "status": 400,
+            "headers": {
+                "content-type": "application/json"
+            },
             "body": {
                 "code": "missing_reference",
                 "message": "The requested reference request was not found"

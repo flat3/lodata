@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
-use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Filesystem\Filesystem;

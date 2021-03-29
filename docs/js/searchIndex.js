@@ -1,6 +1,26 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeepInsertSupportType",
+            "name": "DeepInsertSupportType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeepInsertSupportType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeepInsertSupportType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeepInsertSupportType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeepInsertSupportType\u003A\u003ASupported",
+            "name": "Supported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeepInsertSupportType.html#constant_Supported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeepInsertSupportType\u003A\u003AContentIDSupported",
+            "name": "ContentIDSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeepInsertSupportType.html#constant_ContentIDSupported"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\AsynchronousRequestsSupported",
             "name": "AsynchronousRequestsSupported",
             "summary": "Asynchronous\u0020Requests\u0020Supported",
@@ -45,6 +65,31 @@ Search.appendIndex(
             "name": "name",
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ConformanceLevel.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeepInsertSupport",
+            "name": "DeepInsertSupport",
+            "summary": "Deep\u0020insert\u0020support",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeepInsertSupport\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeepInsertSupport\u003A\u003AsetSupported\u0028\u0029",
+            "name": "setSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html#method_setSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeepInsertSupport\u003A\u003AsetContentIDSupported\u0028\u0029",
+            "name": "setContentIDSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html#method_setContentIDSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeepInsertSupport\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html#property_name"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference",
             "name": "Reference",
@@ -151,9 +196,14 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-Reference.html#property_namespace"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Record",
+            "name": "Record",
+            "summary": "Class\u0020Record",
+            "url": "classes/Flat3-Lodata-Annotation-Record.html"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference",
             "name": "Reference",
-            "summary": "Reference",
+            "summary": "Reference\u0020to\u0020an\u0020external\u0020CSDL\u0020document",
             "url": "classes/Flat3-Lodata-Annotation-Reference.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003Aappend\u0028\u0029",
@@ -810,6 +860,26 @@ Search.appendIndex(
             "name": "rollback",
             "summary": "Rollback\u0020all\u0020entity\u0020sets\u0020attached\u0020to\u0020this\u0020transaction",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_rollback"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaPayloads\u0028\u0029",
+            "name": "processDeltaPayloads",
+            "summary": "Process\u0020deltas\u0020in\u0020the\u0020request\u0020body",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaPayloads"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaRemove\u0028\u0029",
+            "name": "processDeltaRemove",
+            "summary": "Process\u0020a\u0020deep\u0020delete",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaRemove"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaModify\u0028\u0029",
+            "name": "processDeltaModify",
+            "summary": "Process\u0020a\u0020deep\u0020modification",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaModify"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaCreate\u0028\u0029",
+            "name": "processDeltaCreate",
+            "summary": "Process\u0020a\u0020deep\u0020creation",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaCreate"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003A\u0024handlers",
             "name": "handlers",
@@ -1541,10 +1611,10 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020resource\u0020URL\u0020for\u0020this\u0020entity\u0020set\u0020instance",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getResourceUrl"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AsetExpansionPropertyValue\u0028\u0029",
-            "name": "setExpansionPropertyValue",
-            "summary": "Get\u0020the\u0020expansion\u0020property\u0020value\u0020that\u0020generated\u0020this\u0020entity\u0020set\u0020instance",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_setExpansionPropertyValue"
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AsetNavigationPropertyValue\u0028\u0029",
+            "name": "setNavigationPropertyValue",
+            "summary": "Get\u0020the\u0020navigation\u0020property\u0020value\u0020that\u0020relates\u0020to\u0020this\u0020entity\u0020set\u0020instance",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_setNavigationPropertyValue"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AresolveExpansionKey\u0028\u0029",
             "name": "resolveExpansionKey",
@@ -1610,11 +1680,6 @@ Search.appendIndex(
             "name": "getSelect",
             "summary": "Return\u0020this\u0020select\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getSelect"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AcreateRelatedEntities\u0028\u0029",
-            "name": "createRelatedEntities",
-            "summary": "Deep\u0020insert\u0020related\u0020entities",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_createRelatedEntities"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
@@ -1860,6 +1925,11 @@ Search.appendIndex(
             "name": "NoContentException",
             "summary": "No\u0020Content\u0020Exception",
             "url": "classes/Flat3-Lodata-Exception-Protocol-NoContentException.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\NoContentException\u003A\u003AtoResponse\u0028\u0029",
+            "name": "toResponse",
+            "summary": "No\u0020Content\u0020responses\u0020do\u0020not\u0020return\u0020content",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#method_toResponse"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\NoContentException\u003A\u003A\u0024httpCode",
             "name": "httpCode",
@@ -3616,6 +3686,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_CONTINUE_ON_ERROR"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AODATA_ENTITY_ID",
+            "name": "ODATA_ENTITY_ID",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_ODATA_ENTITY_ID"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\ETag",
             "name": "ETag",
             "summary": "ETag",
@@ -4021,6 +4096,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Helper-Url.html#constant_HTTP_URL_STRIP_ALL"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\AnnotationInterface",
+            "name": "AnnotationInterface",
+            "summary": "Annotation\u0020Interface",
+            "url": "classes/Flat3-Lodata-Interfaces-AnnotationInterface.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\AnnotationInterface\u003A\u003AaddAnnotation\u0028\u0029",
+            "name": "addAnnotation",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Interfaces-AnnotationInterface.html#method_addAnnotation"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\AnnotationInterface\u003A\u003AgetAnnotations\u0028\u0029",
+            "name": "getAnnotations",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Interfaces-AnnotationInterface.html#method_getAnnotations"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\ContextInterface",
             "name": "ContextInterface",
             "summary": "Context\u0020Interface",
@@ -4366,15 +4456,15 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020services\u0020attached\u0020to\u0020the\u0020model",
             "url": "classes/Flat3-Lodata-Model.html#method_getServices"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetAnnotations\u0028\u0029",
-            "name": "getAnnotations",
-            "summary": "Get\u0020the\u0020annotations\u0020attached\u0020to\u0020the\u0020model",
-            "url": "classes/Flat3-Lodata-Model.html#method_getAnnotations"
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetReferences\u0028\u0029",
+            "name": "getReferences",
+            "summary": "Get\u0020the\u0020document\u0020references\u0020attached\u0020to\u0020the\u0020model",
+            "url": "classes/Flat3-Lodata-Model.html#method_getReferences"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetAnnotationReferences\u0028\u0029",
-            "name": "getAnnotationReferences",
-            "summary": "Get\u0020the\u0020annotation\u0020references\u0020attached\u0020to\u0020the\u0020model",
-            "url": "classes/Flat3-Lodata-Model.html#method_getAnnotationReferences"
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AaddReference\u0028\u0029",
+            "name": "addReference",
+            "summary": "Add\u0020a\u0020reference\u0020to\u0020an\u0020external\u0020CSDL\u0020document",
+            "url": "classes/Flat3-Lodata-Model.html#method_addReference"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AdiscoverEloquentModel\u0028\u0029",
             "name": "discoverEloquentModel",
@@ -4395,6 +4485,11 @@ Search.appendIndex(
             "name": "getOdcUrl",
             "summary": "Get\u0020the\u0020Office\u0020Data\u0020Connection\u0020URL\u0020of\u0020the\u0020provided\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-Model.html#method_getOdcUrl"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003A\u0024references",
+            "name": "references",
+            "summary": "References\u0020to\u0020external\u0020CSDL\u0020documents",
+            "url": "classes/Flat3-Lodata-Model.html#property_references"
         },                {
             "fqsen": "\\Flat3\\Lodata\\NavigationBinding",
             "name": "NavigationBinding",
@@ -4470,11 +4565,6 @@ Search.appendIndex(
             "name": "generatePropertyValue",
             "summary": "Generate\u0020a\u0020property\u0020value\u0020from\u0020this\u0020property",
             "url": "classes/Flat3-Lodata-NavigationProperty.html#method_generatePropertyValue"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\NavigationProperty\u003A\u003AcreateRelatedEntity\u0028\u0029",
-            "name": "createRelatedEntity",
-            "summary": "Create\u0020a\u0020deep\u0020inserted\u0020entity",
-            "url": "classes/Flat3-Lodata-NavigationProperty.html#method_createRelatedEntity"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\Argument",
             "name": "Argument",
@@ -5071,6 +5161,26 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-Singleton.html#method_pipe"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasAnnotations",
+            "name": "HasAnnotations",
+            "summary": "Has\u0020Annotations",
+            "url": "classes/Flat3-Lodata-Traits-HasAnnotations.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasAnnotations\u003A\u003AaddAnnotation\u0028\u0029",
+            "name": "addAnnotation",
+            "summary": "Add\u0020an\u0020annotation",
+            "url": "classes/Flat3-Lodata-Traits-HasAnnotations.html#method_addAnnotation"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasAnnotations\u003A\u003AgetAnnotations\u0028\u0029",
+            "name": "getAnnotations",
+            "summary": "Get\u0020the\u0020annotations",
+            "url": "classes/Flat3-Lodata-Traits-HasAnnotations.html#method_getAnnotations"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasAnnotations\u003A\u003A\u0024annotations",
+            "name": "annotations",
+            "summary": "Annotations",
+            "url": "classes/Flat3-Lodata-Traits-HasAnnotations.html#property_annotations"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Traits\\HasComplexType",
             "name": "HasComplexType",
             "summary": "Has\u0020Complex\u0020Type",
@@ -5243,7 +5353,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\u003A\u003AgetResponseHeaders\u0028\u0029",
             "name": "getResponseHeaders",
-            "summary": "Get\u0020the\u0020sub\u002Drequest\u0020response\u0020headers",
+            "summary": "Get\u0020the\u0020response\u0020headers",
             "url": "classes/Flat3-Lodata-Transaction-Batch.html#method_getResponseHeaders"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Boolean",
@@ -6586,15 +6696,15 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1",
-            "name": "V1",
-            "summary": "",
-            "url": "namespaces/flat3-lodata-annotation-capabilities-v1.html"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities",
             "name": "Capabilities",
             "summary": "",
             "url": "namespaces/flat3-lodata-annotation-capabilities.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1",
+            "name": "V1",
+            "summary": "",
+            "url": "namespaces/flat3-lodata-annotation-capabilities-v1.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1",
             "name": "V1",

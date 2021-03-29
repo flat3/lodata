@@ -58,6 +58,21 @@ class UpdateTest extends TestCase
         );
     }
 
+    public function test_update_return_minimal()
+    {
+        $response = $this->assertNoContent(
+            Request::factory()
+                ->path('/flights(1)')
+                ->preference('return', 'minimal')
+                ->patch()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+
+        $this->assertResponseMetadata($response);
+    }
+
     public function test_update_invalid_property()
     {
         $this->assertJsonResponse(

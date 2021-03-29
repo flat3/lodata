@@ -1,0 +1,22 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 204,
+            "headers": {
+                "preference-applied": "return=minimal",
+                "odata-entityid": "http://localhost/odata/airports(5)",
+                "content-type": "application/json"
+            }
+        },
+        {
+            "id": 1,
+            "status": 204,
+            "headers": {
+                "preference-applied": "return=minimal",
+                "odata-entityid": "http://localhost/odata/airports(1)",
+                "content-type": "application/json"
+            }
+        }
+    ]
+}

@@ -98,7 +98,7 @@ class Multipart extends Batch
                     $response->getStatusText()
                 ));
 
-                foreach ($this->getResponseHeaders($requestTransaction) as $key => $values) {
+                foreach ($this->getResponseHeaders($response) as $key => $values) {
                     foreach ($values as $value) {
                         $transaction->sendOutput($key.': '.$value."\r\n");
                     }

@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
@@ -487,6 +488,16 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $transaction->ensureContentTypeJson();
 
         $entity = $entitySet->update($this->getEntityId());
+
+        if (
+            $transaction->getPreferenceValue(Constants::RETURN) === Constants::MINIMAL &&
+            !$transaction->getSelect()->hasValue() &&
+            !$transaction->getExpand()->hasValue()
+        ) {
+            throw NoContentException::factory()
+                ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL)
+                ->header(Constants::ODATA_ENTITY_ID, $entity->getResourceUrl($transaction));
+        }
 
         return $entity->get($transaction, $context);
     }
