@@ -2,7 +2,11 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Annotation\Record;
+use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;
+use Flat3\Lodata\Type\Byte;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Enum;
 use Flat3\Lodata\Type\String_;
@@ -34,24 +38,44 @@ abstract class Annotation
      */
     public function append(SimpleXMLElement $schema): self
     {
-        $annotation = $schema->addChild('Annotation');
-        $annotation->addAttribute('Term', $this->name);
+        $annotationElement = $schema->addChild('Annotation');
+        $annotationElement->addAttribute('Term', $this->name);
 
         switch (true) {
             case $this->value instanceof Boolean:
-                $annotation->addAttribute('Bool', $this->value->toUrl());
+                $annotationElement->addAttribute('Bool', $this->value->toUrl());
                 break;
 
             case $this->value instanceof String_:
-                $annotation->addAttribute('String', $this->value->get());
+                $annotationElement->addAttribute('String', $this->value->get());
                 break;
 
             case $this->value instanceof Enum:
-                $annotation->addAttribute('EnumMember', $this->value->getIdentifier().'/'.$this->value->toUrl());
+                $annotationElement->addAttribute('EnumMember', $this->value->getIdentifier().'/'.$this->value->toUrl());
+                break;
+
+            case $this->value instanceof Record:
+                $recordElement = $annotationElement->addChild('Record');
+
+                /** @var PropertyValue $propertyValue */
+                foreach ($this->value as $propertyValue) {
+                    $propertyValueElement = $recordElement->addChild('PropertyValue');
+                    $propertyValueElement->addAttribute('Property', $propertyValue->getProperty()->getName());
+
+                    switch (true) {
+                        case $propertyValue->getProperty()->getType()->instance() instanceof Boolean:
+                            $propertyValueElement->addAttribute('Bool', $propertyValue->getPrimitiveValue()->toUrl());
+                            break;
+
+                        case $propertyValue->getProperty()->getType()->instance() instanceof Byte:
+                            $propertyValueElement->addAttribute('Int', $propertyValue->getPrimitiveValue()->toUrl());
+                            break;
+                    }
+                }
                 break;
 
             case $this->value instanceof Collection:
-                $collection = $annotation->addChild('Collection');
+                $collection = $annotationElement->addChild('Collection');
                 foreach ($this->value->get() as $member) {
                     switch (true) {
                         case $member instanceof String_:

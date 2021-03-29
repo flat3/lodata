@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static ObjectArray|EntityType[] getEntityTypes() Get the entity types attached to the model
  * @method static ObjectArray|ResourceInterface[] getResources() Get the resources attached to the model
  * @method static ObjectArray|ServiceInterface[] getServices() Get the services attached to the model
- * @method static ObjectArray|Reference[] getAnnotationReferences() Get the annotation references attached to the model
+ * @method static ObjectArray|Reference[] getReferences() Get the annotation references attached to the model
  * @method static ObjectArray|Annotation[] getAnnotations() Get the annotations attached to the model
  * @method static ObjectArray|EnumerationType[] getEnumerationTypes() Get the enumeration types attached to the model
  * @method static ResourceInterface getResource($name) Get a resource from the model

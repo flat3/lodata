@@ -10,14 +10,40 @@
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="passengers" EntityType="com.example.odata.passenger">
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
           <NavigationPropertyBinding Path="pets" Target="pets"/>
         </EntitySet>
         <EntitySet Name="flights" EntityType="com.example.odata.flight">
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
           <NavigationPropertyBinding Path="airports" Target="airports"/>
           <NavigationPropertyBinding Path="passengers" Target="passengers"/>
         </EntitySet>
-        <EntitySet Name="airports" EntityType="com.example.odata.airport"/>
-        <EntitySet Name="pets" EntityType="com.example.odata.pet"/>
+        <EntitySet Name="airports" EntityType="com.example.odata.airport">
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <EntitySet Name="pets" EntityType="com.example.odata.pet">
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
       </EntityContainer>
       <EntityType Name="passenger">
         <Key>

@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
@@ -71,6 +72,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     {
         parent::__construct($name, $entityType);
         $this->sourceMap = new ObjectArray();
+
+        $this->addAnnotation(new DeepInsertSupport());
     }
 
     /**

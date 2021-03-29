@@ -5,7 +5,8 @@ namespace Flat3\Lodata\Annotation;
 use SimpleXMLElement;
 
 /**
- * Reference
+ * Reference to an external CSDL document
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Reference
  * @package Flat3\Lodata\Annotation
  */
 class Reference

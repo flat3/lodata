@@ -5,7 +5,6 @@ namespace Flat3\Lodata;
 use Countable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Drivers\DeltaPayloads;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -21,6 +20,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\Url;
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
@@ -39,6 +39,7 @@ use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
+use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
@@ -53,12 +54,13 @@ use Iterator;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, AnnotationInterface
 {
     use HasIdentifier;
     use UseReferences;
     use HasTitle;
     use HasTransaction;
+    use HasAnnotations;
 
     /**
      * Navigation bindings of this entity set
@@ -135,9 +137,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $this->setIdentifier($identifier);
 
         $this->type = $entityType;
+
         if (!Lodata::getEntityType($this->type->getIdentifier())) {
             Lodata::add($entityType);
         }
+
         $this->navigationBindings = new ObjectArray();
     }
 

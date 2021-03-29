@@ -7,19 +7,23 @@ use Flat3\Lodata\Annotation\Core;
 use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
+use Flat3\Lodata\Traits\HasAnnotations;
 
 /**
  * Model
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530335
  * @package Flat3\Lodata
  */
-class Model
+class Model implements AnnotationInterface
 {
+    use HasAnnotations;
+
     /**
      * The OData model
      * @var ObjectArray $model
@@ -27,21 +31,29 @@ class Model
      */
     protected $model;
 
+    /**
+     * References to external CSDL documents
+     * @var Reference[]|ObjectArray $references
+     */
+    protected $references;
+
     public function __construct()
     {
         $this->model = new ObjectArray();
+        $this->references = new ObjectArray();
 
-        $this->model[] = new Core\V1\Reference();
-        $this->model[] = new Core\V1\ConventionalIDs();
-        $this->model[] = new Core\V1\DefaultNamespace();
-        $this->model[] = new Core\V1\DereferencableIDs();
-        $this->model[] = new Core\V1\ODataVersions();
+        $this->addReference(new Core\V1\Reference());
+        $this->addReference(new Capabilities\V1\Reference());
 
-        $this->model[] = new Capabilities\V1\Reference();
-        $this->model[] = new Capabilities\V1\AsynchronousRequestsSupported();
-        $this->model[] = new Capabilities\V1\CallbackSupported();
-        $this->model[] = new Capabilities\V1\ConformanceLevel();
-        $this->model[] = new Capabilities\V1\SupportedFormats();
+        $this->addAnnotation(new Core\V1\ConventionalIDs());
+        $this->addAnnotation(new Core\V1\ConventionalIDs());
+        $this->addAnnotation(new Core\V1\DefaultNamespace());
+        $this->addAnnotation(new Core\V1\DereferencableIDs());
+        $this->addAnnotation(new Core\V1\ODataVersions());
+        $this->addAnnotation(new Capabilities\V1\AsynchronousRequestsSupported());
+        $this->addAnnotation(new Capabilities\V1\CallbackSupported());
+        $this->addAnnotation(new Capabilities\V1\ConformanceLevel());
+        $this->addAnnotation(new Capabilities\V1\SupportedFormats());
     }
 
     /**
@@ -187,21 +199,25 @@ class Model
     }
 
     /**
-     * Get the annotations attached to the model
-     * @return ObjectArray Annotations
+     * Get the document references attached to the model
+     * @return Reference[]|ObjectArray References
      */
-    public function getAnnotations(): ObjectArray
+    public function getReferences(): ObjectArray
     {
-        return $this->model->sliceByClass(Annotation::class);
+        return $this->references;
     }
 
     /**
-     * Get the annotation references attached to the model
-     * @return ObjectArray References
+     * Add a reference to an external CSDL document
+     * @param  Reference  $reference
+     * @return $this
+     * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Reference
      */
-    public function getAnnotationReferences(): ObjectArray
+    public function addReference(Reference $reference): self
     {
-        return $this->model->sliceByClass(Reference::class);
+        $this->references[] = $reference;
+
+        return $this;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\PathSegment;
 
+use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
@@ -10,6 +11,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -61,7 +63,7 @@ class Metadata implements PipeInterface, EmitInterface
         $version = $transaction->getVersion();
         $root->addAttribute('Version', $version);
 
-        foreach (Lodata::getAnnotationReferences() as $reference) {
+        foreach (Lodata::getReferences() as $reference) {
             $reference->append($root);
         }
 
@@ -172,6 +174,14 @@ class Metadata implements PipeInterface, EmitInterface
                         'EntityType',
                         $resource->getType()->getIdentifier()
                     );
+
+                    // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530341
+                    if ($resource instanceof AnnotationInterface) {
+                        /** @var Annotation $annotation */
+                        foreach ($resource->getAnnotations() as $annotation) {
+                            $annotation->append($entitySetElement);
+                        }
+                    }
 
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
                     /** @var NavigationBinding $binding */
