@@ -44,6 +44,7 @@ use Flat3\Lodata\Transaction\Option\Count;
 use Flat3\Lodata\Transaction\Option\Expand;
 use Flat3\Lodata\Transaction\Option\Filter;
 use Flat3\Lodata\Transaction\Option\Format;
+use Flat3\Lodata\Transaction\Option\Id;
 use Flat3\Lodata\Transaction\Option\OrderBy;
 use Flat3\Lodata\Transaction\Option\SchemaVersion;
 use Flat3\Lodata\Transaction\Option\Search;
@@ -178,6 +179,13 @@ class Transaction implements ArgumentInterface
     private $top;
 
     /**
+     * Id system query option
+     * @var Id $idOption
+     * @internal
+     */
+    private $idOption;
+
+    /**
      * Schema version system query option
      * @var SchemaVersion $schemaVersion
      * @internal
@@ -207,6 +215,8 @@ class Transaction implements ArgumentInterface
         EntitySet::class,
         PathSegment\Batch::class,
         PathSegment\Metadata::class,
+        PathSegment\Entity::class,
+        PathSegment\Type::class,
         PathSegment\Value::class,
         PathSegment\Count::class,
         PathSegment\Filter::class,
@@ -229,6 +239,7 @@ class Transaction implements ArgumentInterface
         $this->select = new Select();
         $this->skip = new Skip();
         $this->top = new Top();
+        $this->idOption = new Id();
     }
 
     /**
@@ -300,6 +311,7 @@ class Transaction implements ArgumentInterface
         $this->select = Select::factory($this);
         $this->skip = Skip::factory($this);
         $this->top = Top::factory($this);
+        $this->idOption = Id::factory($this);
 
         return $this;
     }
@@ -464,6 +476,15 @@ class Transaction implements ArgumentInterface
     public function getTop(): Top
     {
         return $this->top;
+    }
+
+    /**
+     * Get the $id system query option
+     * @return Id Id
+     */
+    public function getIdOption(): Id
+    {
+        return $this->idOption;
     }
 
     /**
@@ -813,7 +834,7 @@ class Transaction implements ArgumentInterface
     {
         $options = [
             'apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip', 'top',
-            'schemaversion'
+            'schemaversion', 'id',
         ];
 
         if ($prefixed) {

@@ -626,6 +626,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020\u0024top\u0020system\u0020query\u0020option",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getTop"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetIdOption\u0028\u0029",
+            "name": "getIdOption",
+            "summary": "Get\u0020the\u0020\u0024id\u0020system\u0020query\u0020option",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getIdOption"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003ApreferenceApplied\u0028\u0029",
             "name": "preferenceApplied",
             "summary": "Mark\u0020as\u0020requested\u0020preference\u0020as\u0020having\u0020been\u0020applied\u0020to\u0020the\u0020response\u0020object",
@@ -4781,6 +4786,16 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Count.html#method_pipe"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Entity",
+            "name": "Entity",
+            "summary": "Entity",
+            "url": "classes/Flat3-Lodata-PathSegment-Entity.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Entity\u003A\u003Apipe\u0028\u0029",
+            "name": "pipe",
+            "summary": "Path\u0020component\u0020handler",
+            "url": "classes/Flat3-Lodata-PathSegment-Entity.html#method_pipe"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Filter",
             "name": "Filter",
             "summary": "Filter",
@@ -4855,6 +4870,16 @@ Search.appendIndex(
             "name": "emit",
             "summary": "Emit\u0020the\u0020service\u0020document",
             "url": "classes/Flat3-Lodata-PathSegment-Service.html#method_emit"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Type",
+            "name": "Type",
+            "summary": "Type",
+            "url": "classes/Flat3-Lodata-PathSegment-Type.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Type\u003A\u003Apipe\u0028\u0029",
+            "name": "pipe",
+            "summary": "Path\u0020component\u0020handler",
+            "url": "classes/Flat3-Lodata-PathSegment-Type.html#method_pipe"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value",
             "name": "Value",
@@ -5815,6 +5840,16 @@ Search.appendIndex(
             "name": "param",
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-Option-Format.html#constant_param"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Id",
+            "name": "Id",
+            "summary": "Id",
+            "url": "classes/Flat3-Lodata-Transaction-Option-Id.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Id\u003A\u003Aparam",
+            "name": "param",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-Id.html#constant_param"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Numeric",
             "name": "Numeric",

@@ -517,6 +517,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_BatchRequests) in both multipart and JSON formats, including entity back-references and asynchronous batch requests
 * [Deep insert](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_CreateRelatedEntitiesWhenCreatinganE) support at any depth
 * [Deep update](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) support at any depth
+* [Resolving](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ResolvinganEntityId) entity IDs into representations
 * Edit links, and POST/PATCH/DELETE requests for new or existing entities
 * Composable URLs
 * Declared and navigation properties

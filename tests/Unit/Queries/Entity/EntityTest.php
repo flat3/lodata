@@ -266,4 +266,60 @@ class EntityTest extends TestCase
                 ->select('dynamic')
         );
     }
+
+    public function test_resolve_entity_id()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/$entity')
+                ->query('$id', 'flights(1)')
+        );
+    }
+
+    public function test_resolve_absolute_entity_id()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/$entity')
+                ->query('$id', 'http://localhost/odata/flights(1)')
+        );
+    }
+
+    public function test_resolve_entity_id_with_select()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/$entity')
+                ->query('$id', 'flights(1)')
+                ->query('$select', 'destination')
+        );
+    }
+
+    public function test_resolve_entity_id_with_expand()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/$entity')
+                ->query('$id', 'flights(1)')
+                ->query('$expand', 'passengers')
+        );
+    }
+
+    public function test_resolve_entity_id_with_type()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/$entity/com.example.odata.flight')
+                ->query('$id', 'flights(1)')
+        );
+    }
+
+    public function test_resolve_entity_id_with_incorrect_type()
+    {
+        $this->assertNotFound(
+            Request::factory()
+                ->path('/$entity/com.example.odata.passenger')
+                ->query('$id', 'flights(1)')
+        );
+    }
 }
