@@ -119,7 +119,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     protected $results = null;
 
     /**
-     * The expansion property value that generated this entity set instance
+     * The navigation property value that relates to this entity set instance
      * @var PropertyValue $navigationPropertyValue
      * @internal
      */
@@ -512,8 +512,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
-     * Get the expansion property value that generated this entity set instance
-     * @param  PropertyValue  $property  Expansion property
+     * Get the navigation property value that relates to this entity set instance
+     * @param  PropertyValue  $property  Navigation property value
      * @return $this
      */
     public function setNavigationPropertyValue(PropertyValue $property): self
