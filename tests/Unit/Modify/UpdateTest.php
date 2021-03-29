@@ -4,7 +4,6 @@ namespace Flat3\Lodata\Tests\Unit\Modify;
 
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata\Full;
 
 class UpdateTest extends TestCase
 {
@@ -96,6 +95,40 @@ class UpdateTest extends TestCase
                                 'reason' => 'deleted',
                             ],
                         ]
+                    ]
+                ])
+        );
+    }
+
+    public function test_update_related_missing()
+    {
+        $this->assertJsonMetadataResponse(
+            Request::factory()
+                ->path('/passengers(1)')
+                ->patch()
+                ->body([
+                    'name' => 'Zooey Zamblo',
+                    'pets' => [
+                        [
+                            '@id' => 'pets(99)',
+                        ],
+                    ]
+                ])
+        );
+    }
+
+    public function test_update_removed_changed()
+    {
+        $this->assertJsonMetadataResponse(
+            Request::factory()
+                ->path('/passengers(1)')
+                ->patch()
+                ->body([
+                    'pets' => [
+                        [
+                            '@removed' => ['reason' => 'changed'],
+                            '@id' => 'pets(1)',
+                        ],
                     ]
                 ])
         );

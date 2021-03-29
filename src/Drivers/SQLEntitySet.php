@@ -464,22 +464,20 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             }
         }
 
-        if (!$fields) {
-            return $this->read($key);
+        if ($fields) {
+            $fields = implode(',', $fields);
+
+            $this->addParameter($key->getPrimitiveValue()->get());
+
+            $query = sprintf(
+                'UPDATE %s SET %s WHERE %s=?',
+                $this->getTable(),
+                $fields,
+                $this->propertyToField($type->getKey())
+            );
+
+            $this->pdoModify($query);
         }
-
-        $fields = implode(',', $fields);
-
-        $this->addParameter($key->getPrimitiveValue()->get());
-
-        $query = sprintf(
-            'UPDATE %s SET %s WHERE %s=?',
-            $this->getTable(),
-            $fields,
-            $this->propertyToField($type->getKey())
-        );
-
-        $this->pdoModify($query);
 
         $entity = $this->read($key);
 

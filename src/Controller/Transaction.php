@@ -1246,7 +1246,6 @@ class Transaction implements ArgumentInterface
         /** @var NavigationProperty $navigationProperty */
         foreach ($navigationProperties as $navigationProperty) {
             $deltaPayloads = $body[$navigationProperty->getName()] ?? [];
-            $deltaAnnotations = $body[$navigationProperty->getName().'@delta'] ?? [];
             $deltaResponseSet = new ManualEntitySet($navigationProperty->getEntityType());
 
             foreach ($deltaPayloads as $deltaPayload) {
@@ -1290,8 +1289,11 @@ class Transaction implements ArgumentInterface
 
                 switch (true) {
                     case array_key_exists('@removed', $deltaPayload):
-                        $deltaTransaction->processDeltaRemove($entitySet, $deltaPayload['@removed']['reason'] ?? '',
-                            $entity);
+                        $deltaTransaction->processDeltaRemove(
+                            $entitySet,
+                            $deltaPayload['@removed']['reason'] ?? '',
+                            $entity
+                        );
                         break;
 
                     case array_key_exists('@id', $deltaPayload):
@@ -1314,6 +1316,7 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Process a deep delete
      * @param  EntitySet  $entitySet
      * @param  string  $reason
      * @param  Entity|null  $entity
@@ -1334,16 +1337,10 @@ class Transaction implements ArgumentInterface
                 break;
 
             case 'changed':
-                if (!$entitySet instanceof UpdateInterface) {
-                    throw new BadRequestException(
-                        'target_entity_set_cannot_update',
-                        'The requested entity set does not support update operations'
-                    );
-                }
-
-                Gate::check(Gate::UPDATE, $entity, $this);
-                $entitySet->update($entity->getEntityId());
-                break;
+                throw new NotImplementedException(
+                    'removed_changed_not_supported',
+                    'The service does not support change removals'
+                );
 
             default:
                 throw new BadRequestException(
@@ -1354,6 +1351,7 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Process a deep modification
      * @param  EntitySet  $entitySet
      * @param  Entity|null  $entity
      * @return Entity
@@ -1371,6 +1369,7 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Process a deep creation
      * @param  EntitySet  $entitySet
      * @return Entity
      */
