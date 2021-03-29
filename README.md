@@ -234,7 +234,8 @@ types discovered by the entity set.
 ### Annotations
 
 OData allows the creation of annotations on the schema. Annotations are classes that extend `\Flat3\Lodata\Annotation`
-and are added to the model with `Lodata::add($annotation)`. Examples are in the `\Flat3\Lodata\Annotation` namespace.
+and are added to the model with `Lodata::add($annotation)`, or entity set types with `EntitySet::addAnnotation($annotation).
+Examples are in the `\Flat3\Lodata\Annotation` namespace.
 
 ### Generated properties
 
@@ -515,6 +516,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * [Asynchronous requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_AsynchronousRequests) using Laravel jobs, with monitoring, cancellation and callbacks
 * [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_BatchRequests) in both multipart and JSON formats, including entity back-references and asynchronous batch requests
 * [Deep insert](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_CreateRelatedEntitiesWhenCreatinganE) support at any depth
+* [Deep update](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) support at any depth
 * Edit links, and POST/PATCH/DELETE requests for new or existing entities
 * Composable URLs
 * Declared and navigation properties
