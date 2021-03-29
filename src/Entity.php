@@ -5,6 +5,7 @@ namespace Flat3\Lodata;
 use ArrayAccess;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
@@ -30,6 +31,7 @@ use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Entity
@@ -389,7 +391,26 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        return $argument;
+        if ($currentSegment !== '$entity') {
+            throw new PathNotHandledException();
+        }
+
+        if ($argument) {
+            throw new BadRequestException('entity_argument', 'Entity cannot have a preceding path segment');
+        }
+
+        $id = $transaction->getIdOption();
+
+        if (!$id->hasValue()) {
+            throw new BadRequestException('missing_id', 'The entity id system query option must be provided');
+        }
+
+        $entityId = $id->getValue();
+        if (Str::startsWith($entityId, ServiceProvider::endpoint())) {
+            $entityId = Str::substr($entityId, strlen(ServiceProvider::endpoint()));
+        }
+
+        return EntitySet::pipe($transaction, $entityId);
     }
 
     /**

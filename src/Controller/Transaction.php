@@ -6,6 +6,7 @@ use Exception;
 use Flat3\Lodata\Drivers\ManualEntitySet;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -212,11 +213,11 @@ class Transaction implements ArgumentInterface
      * @var PipeInterface[] $handlers
      */
     protected $handlers = [
+        Entity::class,
         EntitySet::class,
+        EntityType::class,
         PathSegment\Batch::class,
         PathSegment\Metadata::class,
-        PathSegment\Entity::class,
-        PathSegment\Type::class,
         PathSegment\Value::class,
         PathSegment\Count::class,
         PathSegment\Filter::class,
