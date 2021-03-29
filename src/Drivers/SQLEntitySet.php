@@ -71,8 +71,8 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     public function __construct(string $name, EntityType $entityType)
     {
         parent::__construct($name, $entityType);
-        $this->sourceMap = new ObjectArray();
 
+        $this->sourceMap = new ObjectArray();
         $this->addAnnotation(new DeepInsertSupport());
     }
 
