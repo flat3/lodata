@@ -46,7 +46,8 @@
         "orchestra/testbench": "^5.0|^6.0",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "phpstan/phpstan": "^0.12.54",
-        "josiasmontag/laravel-redis-mock": "^1.2"
+        "josiasmontag/laravel-redis-mock": "^1.2",
+        "league/flysystem-vfs": "^1.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

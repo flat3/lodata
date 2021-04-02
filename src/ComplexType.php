@@ -84,7 +84,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Get all declared properties on this type
-     * @return ObjectArray Declared properties
+     * @return ObjectArray|DeclaredProperty[] Declared properties
      */
     public function getDeclaredProperties(): ObjectArray
     {

@@ -78,7 +78,7 @@ class Transaction implements ArgumentInterface
 
     /**
      * Request object
-     * @var RequestInterface $request
+     * @var Request|RequestInterface $request
      * @internal
      */
     private $request;

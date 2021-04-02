@@ -22,7 +22,6 @@ use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
-use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\EnumMember;
@@ -93,7 +92,6 @@ class Metadata implements PipeInterface, EmitInterface
             }
 
             // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
-            /** @var Property $property */
             foreach ($entityType->getDeclaredProperties() as $property) {
                 $entityTypeProperty = $entityTypeElement->addChild('Property');
                 $entityTypeProperty->addAttribute('Name', $property->getName());
@@ -106,6 +104,10 @@ class Metadata implements PipeInterface, EmitInterface
                     'Nullable',
                     Boolean::factory($property->isNullable())->toUrl()
                 );
+
+                foreach ($property->getAnnotations() as $annotation) {
+                    $annotation->append($entityTypeProperty);
+                }
             }
 
             // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365

@@ -228,10 +228,10 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
     /**
      * Get a subset of objects in the array by the provided class
-     * @param  string  $class
+     * @param  string|array  $class
      * @return $this
      */
-    public function sliceByClass(string $class): self
+    public function sliceByClass($class): self
     {
         $result = new self();
         $classes = is_array($class) ? $class : [$class];

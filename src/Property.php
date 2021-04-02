@@ -2,8 +2,10 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
+use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasName;
 
 /**
@@ -11,8 +13,9 @@ use Flat3\Lodata\Traits\HasName;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
  * @package Flat3\Lodata
  */
-abstract class Property implements NameInterface, TypeInterface
+abstract class Property implements NameInterface, TypeInterface, AnnotationInterface
 {
+    use HasAnnotations;
     use HasName;
 
     /**

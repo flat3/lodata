@@ -1,14 +1,5 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-    <JetCodeStyleSettings>
-      <option name="PACKAGES_TO_USE_STAR_IMPORTS">
-        <value>
-          <package name="java.util" withSubpackages="false" static="false" />
-          <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
-          <package name="io.ktor" withSubpackages="true" static="false" />
-        </value>
-      </option>
-    </JetCodeStyleSettings>
     <PHPCodeStyleSettings>
       <option name="CONCAT_SPACES" value="false" />
       <option name="PHPDOC_PARAM_SPACES_BETWEEN_TAG_AND_TYPE" value="2" />
