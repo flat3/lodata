@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Controller;
 
 use Exception;
-use Flat3\Lodata\Drivers\ManualEntitySet;
+use Flat3\Lodata\Drivers\StaticEntitySet;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -1268,7 +1268,7 @@ class Transaction implements ArgumentInterface
         /** @var NavigationProperty $navigationProperty */
         foreach ($navigationProperties as $navigationProperty) {
             $deltaPayloads = $body[$navigationProperty->getName()] ?? [];
-            $deltaResponseSet = new ManualEntitySet($navigationProperty->getEntityType());
+            $deltaResponseSet = new StaticEntitySet($navigationProperty->getEntityType());
 
             foreach ($deltaPayloads as $deltaPayload) {
                 $entity = null;

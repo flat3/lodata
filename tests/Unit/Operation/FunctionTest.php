@@ -3,7 +3,7 @@
 namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Drivers\ManualEntitySet;
+use Flat3\Lodata\Drivers\StaticEntitySet;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Facades\Lodata;
@@ -251,7 +251,7 @@ class FunctionTest extends TestCase
         Lodata::add((new class('sorter') extends Operation implements FunctionInterface {
             public function invoke(String_ $field, EntitySet $airports): EntitySet
             {
-                $result = new ManualEntitySet($airports->getType());
+                $result = new StaticEntitySet($airports->getType());
                 $result->setIdentifier($airports->getIdentifier());
 
                 foreach ($airports as $airport) {

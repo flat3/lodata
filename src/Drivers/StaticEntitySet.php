@@ -8,11 +8,11 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 
 /**
- * Class ManualEntitySet
- * The manual entity set is assigned entities and does not query a data source
+ * Class StaticEntitySet
+ * The static entity set is assigned entities and does not query a data source
  * @package Flat3\Lodata\Drivers
  */
-class ManualEntitySet extends EntitySet implements QueryInterface, ArrayAccess
+class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess
 {
     public function __construct(EntityType $entityType)
     {
