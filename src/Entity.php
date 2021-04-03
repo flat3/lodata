@@ -29,6 +29,7 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -37,10 +38,17 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358838
  * @package Flat3\Lodata
  */
-class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface
+class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface, Arrayable
 {
     use UseReferences;
     use HasTransaction;
+
+    /**
+     * The Entity ID
+     * @var PropertyValue $id
+     * @internal
+     */
+    private $id;
 
     /**
      * Property values on this entity instance
@@ -218,8 +226,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
      */
     public function getEntityId(): ?PropertyValue
     {
-        $key = $this->getType()->getKey();
-        return $this->propertyValues[$key];
+        return $this->id;
     }
 
     /**
@@ -229,12 +236,19 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
      */
     public function setEntityId($id): self
     {
+        if ($id instanceof PropertyValue) {
+            $this->id = $id;
+            $this->propertyValues[] = $id;
+            return $this;
+        }
+
         $key = $this->getType()->getKey();
         $type = $key->getType();
 
         $propertyValue = $this->newPropertyValue();
         $propertyValue->setProperty($key);
         $propertyValue->setValue($type->instance($id));
+        $this->id = $propertyValue;
         $this->propertyValues[] = $propertyValue;
 
         return $this;
@@ -323,6 +337,12 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $propertyValue = $this->newPropertyValue();
         $propertyValue->setProperty($property);
         $propertyValue->setValue($property->getType()->instance($value));
+
+        $keyProperty = $this->getType()->getKey();
+        if ($keyProperty && $offset === $keyProperty->getName()) {
+            $this->setEntityId($propertyValue);
+        }
+
         $this->addProperty($propertyValue);
     }
 
@@ -611,5 +631,21 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     public function __toString(): string
     {
         return $this->getEntityId()->getPrimitiveValue()->get();
+    }
+
+    /**
+     * Convert this entity to a PHP array of key/value pairs
+     * @return array Record
+     */
+    public function toArray(): array
+    {
+        $result = [];
+
+        /** @var PropertyValue $propertyValue */
+        foreach ($this->getPropertyValues() as $propertyValue) {
+            $result[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue()->get();
+        }
+
+        return $result;
     }
 }

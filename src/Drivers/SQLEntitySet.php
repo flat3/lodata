@@ -140,7 +140,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
             return null;
         }
 
-        return $this->assocToEntity($result);
+        return $this->newEntity()->fromArray($result);
     }
 
     /**
@@ -234,28 +234,6 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
     }
 
     /**
-     * Convert an associative array record to an OData entity
-     * @param  array  $row  Record
-     * @return Entity Entity
-     */
-    public function assocToEntity(array $row): Entity
-    {
-        $entity = $this->newEntity();
-
-        $key = $this->getType()->getKey();
-        $propertyValue = $entity->newPropertyValue();
-        $propertyValue->setProperty($key);
-        $propertyValue->setValue($key->getType()->instance($row[$key->getName()]));
-        $entity->addProperty($propertyValue);
-
-        foreach ($row as $id => $value) {
-            $entity[$id] = $value;
-        }
-
-        return $entity;
-    }
-
-    /**
      * Run a PDO query and return the results
      * @return array Result buffer
      */
@@ -266,7 +244,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
         $results = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $results[] = $this->assocToEntity($row);
+            $results[] = $this->newEntity()->fromArray($row);
         }
 
         return $results;

@@ -107,6 +107,17 @@
       <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
       <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/vendor/zbateson/mail-mime-parser" />
+      <path value="$PROJECT_DIR$/vendor/zbateson/mb-wrapper" />
+      <path value="$PROJECT_DIR$/vendor/zbateson/stream-decorators" />
+      <path value="$PROJECT_DIR$/vendor/spatie/macroable" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-ray" />
+      <path value="$PROJECT_DIR$/vendor/spatie/ray" />
+      <path value="$PROJECT_DIR$/vendor/spatie/backtrace" />
+      <path value="$PROJECT_DIR$/vendor/m6web/redis-mock" />
+      <path value="$PROJECT_DIR$/vendor/predis/predis" />
+      <path value="$PROJECT_DIR$/vendor/josiasmontag/laravel-redis-mock" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

@@ -1,0 +1,5 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "name": "whammo",
+    "key": "734nt4"
+}

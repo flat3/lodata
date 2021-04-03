@@ -1,0 +1,14 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "@nextLink": "http://localhost/odata/passengers?%24top=2&%24skip=2",
+    "value": [
+        {
+            "name": "Mary Morgan",
+            "key": "7a3465"
+        },
+        {
+            "name": "Mike Blammo",
+            "key": "23452f"
+        }
+    ]
+}

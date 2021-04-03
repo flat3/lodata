@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
+use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
 use Mockery\Expectation;
 use PDOException;
 use Ramsey\Uuid\Uuid;
@@ -40,21 +41,26 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected $databaseSnapshot;
 
-    public function setUp(): void
+    public function getEnvironmentSetUp($app)
     {
-        parent::setUp();
-        $this->withoutExceptionHandling();
+        config(['database.redis.client' => 'mock']);
+        $app->register(RedisMockServiceProvider::class);
         $this->gateMock = Gate::shouldReceive('denies');
         $this->gateMock->andReturnFalse();
         $this->getDisk();
 
         config(['lodata.readonly' => false]);
 
-        $this->uuid = 0;
-
         Str::createUuidsUsing(function (): string {
             return Uuid::fromInteger($this->uuid++);
         });
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutExceptionHandling();
+        $this->uuid = 0;
     }
 
     public function incrementUuid()

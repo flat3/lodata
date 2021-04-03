@@ -1,0 +1,8 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "@type": "#com.example.odata.passenger",
+    "@id": "http://localhost/odata/passengers('7a3465')",
+    "@readLink": "http://localhost/odata/passengers('7a3465')",
+    "name": "Mary Morgan",
+    "key": "7a3465"
+}
