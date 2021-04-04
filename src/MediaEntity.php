@@ -16,6 +16,12 @@ class MediaEntity extends Entity
     /** @var Uri $readLink */
     protected $readLink;
 
+    /**
+     * Get a media entity
+     * @param  Transaction  $transaction
+     * @param  ContextInterface|null  $context
+     * @return Response
+     */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $response = parent::get($transaction, $context);
@@ -31,6 +37,11 @@ class MediaEntity extends Entity
         return $response;
     }
 
+    /**
+     * Set the content type of this entity
+     * @param  MediaType  $contentType  Content type
+     * @return $this Entity
+     */
     public function setContentType(MediaType $contentType): self
     {
         $this->contentType = $contentType;
@@ -38,11 +49,20 @@ class MediaEntity extends Entity
         return $this;
     }
 
+    /**
+     * Get the content type of this entity
+     * @return MediaType|null Content type
+     */
     public function getContentType(): ?MediaType
     {
         return $this->contentType;
     }
 
+    /**
+     * Set the read link for this entity
+     * @param  Uri  $readLink  Read link
+     * @return $this Entity
+     */
     public function setReadLink(Uri $readLink): self
     {
         $this->readLink = $readLink;
@@ -50,6 +70,10 @@ class MediaEntity extends Entity
         return $this;
     }
 
+    /**
+     * Get the read link for this entity
+     * @return Uri|null Read link
+     */
     public function getReadLink(): ?Uri
     {
         return $this->readLink;

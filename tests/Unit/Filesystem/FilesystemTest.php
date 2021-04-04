@@ -114,6 +114,8 @@ class FilesystemTest extends TestCase
                 ->path("/files"),
             Response::HTTP_CREATED
         );
+
+        $this->assertMatchesTextSnapshot($this->getDisk()->get('d1/a2.txt'));
     }
 
     public function test_create_with_content()
