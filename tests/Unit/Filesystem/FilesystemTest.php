@@ -9,7 +9,7 @@ use Flat3\Lodata\Drivers\FilesystemEntitySet;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Config;
@@ -105,7 +105,7 @@ class FilesystemTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->path("/testfiles('a1.txt')")
         );
     }

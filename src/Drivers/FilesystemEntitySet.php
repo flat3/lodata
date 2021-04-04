@@ -86,7 +86,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
         return $this->read($entity->getEntityId());
     }
 
-    public function delete(PropertyValue $key)
+    public function delete(PropertyValue $key): void
     {
         $this->disk->delete($key->getPrimitiveValue()->get());
     }
