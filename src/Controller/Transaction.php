@@ -39,7 +39,8 @@ use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\IEEE754Compatible;
 use Flat3\Lodata\Transaction\MediaType;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataContainer;
+use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option\Count;
 use Flat3\Lodata\Transaction\Option\Expand;
@@ -51,6 +52,7 @@ use Flat3\Lodata\Transaction\Option\SchemaVersion;
 use Flat3\Lodata\Transaction\Option\Search;
 use Flat3\Lodata\Transaction\Option\Select;
 use Flat3\Lodata\Transaction\Option\Skip;
+use Flat3\Lodata\Transaction\Option\SkipToken;
 use Flat3\Lodata\Transaction\Option\Top;
 use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
@@ -103,11 +105,11 @@ class Transaction implements ArgumentInterface
     private $preferences;
 
     /**
-     * Metadata type
-     * @var Metadata $metadata
+     * Requested metadata type
+     * @var MetadataType $metadataType
      * @internal
      */
-    private $metadata;
+    private $metadataType;
 
     /**
      * IEEE 754 requirement
@@ -171,6 +173,13 @@ class Transaction implements ArgumentInterface
      * @internal
      */
     private $skip;
+
+    /**
+     * Skip token system query option
+     * @var SkipToken $skiptoken
+     * @internal
+     */
+    private $skiptoken;
 
     /**
      * Top system query option
@@ -239,6 +248,7 @@ class Transaction implements ArgumentInterface
         $this->search = new Search();
         $this->select = new Select();
         $this->skip = new Skip();
+        $this->skiptoken = new SkipToken();
         $this->top = new Top();
         $this->idOption = new Id();
     }
@@ -311,6 +321,7 @@ class Transaction implements ArgumentInterface
         $this->search = Search::factory($this);
         $this->select = Select::factory($this);
         $this->skip = Skip::factory($this);
+        $this->skiptoken = SkipToken::factory($this);
         $this->top = Top::factory($this);
         $this->idOption = Id::factory($this);
 
@@ -471,6 +482,15 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Get the $skiptoken system query option
+     * @return SkipToken Skip Token
+     */
+    public function getSkipToken(): SkipToken
+    {
+        return $this->skiptoken;
+    }
+
+    /**
      * Get the $top system query option
      * @return Top Top
      */
@@ -568,12 +588,12 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * Get the negotiated metadata type
-     * @return Metadata|null Metadata
+     * Create a new metadata container
+     * @return MetadataContainer|null Metadata
      */
-    public function getMetadata(): ?Metadata
+    public function createMetadataContainer(): MetadataContainer
     {
-        return $this->metadata;
+        return new MetadataContainer($this->metadataType);
     }
 
     /**
@@ -834,8 +854,8 @@ class Transaction implements ArgumentInterface
     private function getSystemQueryOptions(bool $prefixed = true): array
     {
         $options = [
-            'apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip', 'top',
-            'schemaversion', 'id',
+            'apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip',
+            'skiptoken', 'top', 'schemaversion', 'id',
         ];
 
         if ($prefixed) {
@@ -1076,7 +1096,7 @@ class Transaction implements ArgumentInterface
         $requiredType = MediaType::factory()
             ->parse('application/json')
             ->setParameter('odata.streaming', Constants::TRUE)
-            ->setParameter('odata.metadata', Metadata\Minimal::name)
+            ->setParameter('odata.metadata', MetadataType\Minimal::name)
             ->setParameter('IEEE754Compatible', Constants::FALSE);
 
         if ($this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS) {
@@ -1106,7 +1126,7 @@ class Transaction implements ArgumentInterface
         $requiredType->setParameter('charset', 'utf-8');
         $contentType = $requiredType->negotiate($this->getAcceptedContentType()->getOriginal());
 
-        $this->metadata = Metadata::factory($contentType->getParameter('odata.metadata'), $this->version);
+        $this->metadataType = MetadataType::factory($contentType->getParameter('odata.metadata'), $this->version);
         $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));
 
         $this->sendContentType($contentType);

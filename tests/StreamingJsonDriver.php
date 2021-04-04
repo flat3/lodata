@@ -6,7 +6,7 @@ use PHPUnit\Framework\Assert;
 use Spatie\Snapshots\Driver;
 use Spatie\Snapshots\Exceptions\CantBeSerialized;
 
-class JsonDriver implements Driver
+class StreamingJsonDriver implements Driver
 {
     /**
      * @param  mixed  $data
@@ -31,12 +31,15 @@ class JsonDriver implements Driver
         return 'json';
     }
 
-    public function match($expected, $actual)
+    public function match($expected, $actual, string $message = '')
     {
         if (is_array($actual)) {
             $actual = json_encode($actual, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n";
         }
 
-        Assert::assertJsonStringEqualsJsonString($expected, $actual);
+        Assert::assertJson($expected, $message);
+        Assert::assertJson($actual, $message);
+
+        Assert::assertThat($actual, new StreamingJsonMatches($expected), $message);
     }
 }

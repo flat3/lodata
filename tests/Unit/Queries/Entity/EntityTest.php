@@ -7,7 +7,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\String_;
@@ -40,7 +40,7 @@ class EntityTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->path('/flights(1)')
         );
     }
@@ -49,7 +49,7 @@ class EntityTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\None::name)
+                ->metadata(MetadataType\None::name)
                 ->path('/flights(1)')
         );
     }

@@ -490,7 +490,7 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
      * Delete a record
      * @param  PropertyValue  $key  Key
      */
-    public function delete(PropertyValue $key)
+    public function delete(PropertyValue $key): void
     {
         $this->resetParameters();
         $type = $this->getType();

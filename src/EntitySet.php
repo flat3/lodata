@@ -44,6 +44,7 @@ use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
+use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\Option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -367,57 +368,39 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     {
         Gate::check(Gate::QUERY, $this, $transaction);
 
-        $context = $context ?: $this;
-
-        $setCount = $this->count();
-
-        $metadata = $transaction->getMetadata()->getContainer();
-
-        $metadata['context'] = $context->getContextUrl($transaction);
-
-        $count = $this->getCount();
-        if (true === $count->getValue()) {
-            $metadata['count'] = $setCount;
-        }
-
-        $top = $transaction->getTop();
-        $skip = $transaction->getSkip();
-
+        $top = $this->getTop();
         $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
+
         if (!$top->hasValue() && $maxPageSize) {
             $transaction->preferenceApplied(Constants::MAX_PAGE_SIZE, $maxPageSize);
             $top->setValue($maxPageSize);
         }
 
-        $metadata['readLink'] = $this->getResourceUrl($transaction);
+        return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $context) {
+            $context = $context ?: $this;
 
-        if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $setCount)) {
-            $np = $transaction->getQueryParams();
-            $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
-            $metadata['nextLink'] = Url::http_build_url(
-                $this->getResourceUrl($transaction),
-                [
-                    'query' => http_build_query(
-                        $np,
-                        null,
-                        '&',
-                        PHP_QUERY_RFC3986
-                    ),
-                ],
-                Url::HTTP_URL_JOIN_QUERY
-            );
-        }
+            $leadingMetadata = $transaction->createMetadataContainer();
+            $leadingMetadata['context'] = $context->getContextUrl($transaction);
+            $leadingMetadata['readLink'] = $this->getResourceUrl($transaction);
 
-        return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $metadata) {
             $transaction->outputJsonObjectStart();
 
-            if ($metadata->hasMetadata()) {
-                $transaction->outputJsonKV($metadata->getMetadata());
+            if ($leadingMetadata->hasProperties()) {
+                $transaction->outputJsonKV($leadingMetadata->getProperties());
                 $transaction->outputJsonSeparator();
             }
 
             $transaction->outputJsonKey('value');
             $this->emit($transaction);
+
+            $trailingMetadata = $transaction->createMetadataContainer();
+            $this->addTrailingMetadata($trailingMetadata, $this->getResourceUrl($transaction));
+
+            if ($trailingMetadata->hasProperties()) {
+                $transaction->outputJsonSeparator();
+                $transaction->outputJsonKV($trailingMetadata->getProperties());
+            }
+
             $transaction->outputJsonObjectEnd();
         });
     }
@@ -788,6 +771,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
+     * Return the skip token option that applies to this entity set
+     * @return Option\SkipToken
+     */
+    public function getSkipToken(): Option\SkipToken
+    {
+        return $this->applyQueryOptions ? $this->transaction->getSkipToken() : new Option\SkipToken();
+    }
+
+    /**
      * Return the top option that applies to this entity set
      * @return Option\Top
      */
@@ -803,6 +795,51 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function getSelect(): Option\Select
     {
         return $this->applyQueryOptions ? $this->transaction->getSelect() : new Option\Select();
+    }
+
+    /**
+     * Generate trailing metadata for this entity set
+     * @param  MetadataContainer  $metadata
+     * @param  string  $resourceUrl
+     */
+    public function addTrailingMetadata(MetadataContainer $metadata, string $resourceUrl)
+    {
+        $count = $this->count();
+
+        if ($this->getCount()->hasValue()) {
+            $metadata['count'] = $count;
+        }
+
+        $top = $this->getTop();
+        $skip = $this->getSkip();
+        $skipToken = $this->getSkipToken();
+
+        $nextLinkParams = [];
+
+        if ($skipToken->hasValue()) {
+            $nextLinkParams['$skiptoken'] = $skipToken->getValue();
+        } else {
+            if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $count)) {
+                $nextLinkParams['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
+            }
+        }
+
+        if (!$nextLinkParams) {
+            return;
+        }
+
+        $metadata['nextLink'] = Url::http_build_url(
+            $resourceUrl,
+            [
+                'query' => http_build_query(
+                    array_merge($this->getTransaction()->getQueryParams(), $nextLinkParams),
+                    null,
+                    '&',
+                    PHP_QUERY_RFC3986
+                ),
+            ],
+            Url::HTTP_URL_JOIN_QUERY
+        );
     }
 
 }

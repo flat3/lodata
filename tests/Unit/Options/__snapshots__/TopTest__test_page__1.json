@@ -1,6 +1,5 @@
 {
     "@context": "http://localhost/odata/$metadata#airports",
-    "@nextLink": "http://localhost/odata/airports?%24top=2&%24skip=2",
     "value": [
         {
             "id": 1,
@@ -22,5 +21,6 @@
             "review_score": null,
             "is_big": false
         }
-    ]
+    ],
+    "@nextLink": "http://localhost/odata/airports?%24top=2&%24skip=2"
 }

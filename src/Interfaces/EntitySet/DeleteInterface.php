@@ -13,7 +13,6 @@ interface DeleteInterface
     /**
      * Delete an entity
      * @param  PropertyValue  $key  Key
-     * @return mixed
      */
-    public function delete(PropertyValue $key);
+    public function delete(PropertyValue $key): void;
 }

@@ -4,10 +4,10 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Transaction\Metadata;
-use Flat3\Lodata\Transaction\Metadata\Full;
-use Flat3\Lodata\Transaction\Metadata\Minimal;
-use Flat3\Lodata\Transaction\Metadata\None;
+use Flat3\Lodata\Transaction\MetadataType;
+use Flat3\Lodata\Transaction\MetadataType\Full;
+use Flat3\Lodata\Transaction\MetadataType\Minimal;
+use Flat3\Lodata\Transaction\MetadataType\None;
 use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\String_;
@@ -24,7 +24,7 @@ class SupportedFormats extends Annotation
     {
         $this->value = new Collection();
 
-        /** @var Metadata $attribute */
+        /** @var MetadataType $attribute */
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
             $this->value->set(new String_(
                 'application/json;'.(new Parameter())

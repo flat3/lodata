@@ -3,16 +3,16 @@
 namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
-use Flat3\Lodata\Transaction\Metadata\Full;
-use Flat3\Lodata\Transaction\Metadata\Minimal;
-use Flat3\Lodata\Transaction\Metadata\None;
+use Flat3\Lodata\Transaction\MetadataType\Full;
+use Flat3\Lodata\Transaction\MetadataType\Minimal;
+use Flat3\Lodata\Transaction\MetadataType\None;
 
 /**
  * Metadata
  * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
  * @package Flat3\Lodata\Transaction
  */
-abstract class Metadata
+abstract class MetadataType
 {
     public const name = '';
     protected $requiredProperties = [];
@@ -64,15 +64,6 @@ abstract class Metadata
     public function __toString()
     {
         return $this::name;
-    }
-
-    /**
-     * Get a new metadata container from this metadata object
-     * @return MetadataContainer
-     */
-    public function getContainer(): MetadataContainer
-    {
-        return new MetadataContainer($this);
     }
 
     /**

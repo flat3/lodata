@@ -6,22 +6,24 @@ use ArrayAccess;
 use Illuminate\Support\Arr;
 
 /**
- * Metadata Container
+ * Metadata container
+ * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_PayloadOrderingConstraints
+ * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
  * @package Flat3\Lodata\Transaction
  */
 class MetadataContainer implements ArrayAccess
 {
     /**
      * The metadata type in use by this container
-     * @var Metadata $metadata
+     * @var MetadataType $type
      */
-    protected $metadata;
+    protected $type;
 
     /**
-     * The metadata values in this container
-     * @var array $values
+     * The metadata properties in this container
+     * @var array $properties
      */
-    protected $values = [];
+    protected $properties = [];
 
     /**
      * The additional required properties for this metadata container
@@ -35,9 +37,9 @@ class MetadataContainer implements ArrayAccess
      */
     protected $prefix = '';
 
-    public function __construct(Metadata $metadata)
+    public function __construct(MetadataType $metadata)
     {
-        $this->metadata = $metadata;
+        $this->type = $metadata;
     }
 
     /**
@@ -48,7 +50,7 @@ class MetadataContainer implements ArrayAccess
      */
     public function set(string $key, string $value): self
     {
-        $this->values[$key] = $value;
+        $this->properties[$key] = $value;
         return $this;
     }
 
@@ -87,28 +89,27 @@ class MetadataContainer implements ArrayAccess
 
     /**
      * Get the metadata properties, filtered according to the type and list of required properties
-     * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma
      * @return array
      */
-    public function getMetadata(): array
+    public function getProperties(): array
     {
-        $metadata = $this->values;
+        $properties = $this->properties;
 
-        $requiredProperties = $this->metadata->getRequiredProperties();
+        $typeRequiredProperties = $this->type->getRequiredProperties();
 
-        if ($requiredProperties) {
-            $metadata = array_intersect_key(
-                $metadata,
-                array_flip(array_merge($this->requiredProperties, $requiredProperties))
+        if ($typeRequiredProperties) {
+            $properties = array_intersect_key(
+                $properties,
+                array_flip(array_merge($this->requiredProperties, $typeRequiredProperties))
             );
         }
 
         // Append the control information prefix to the metadata keys
-        $requestedODataVersion = (string) $this->metadata->getVersion();
+        $requestedODataVersion = (string) $this->type->getVersion();
 
         $result = [];
 
-        foreach ($metadata as $key => $value) {
+        foreach ($properties as $key => $value) {
             if (version_compare('4.0', $requestedODataVersion, '=')) {
                 $result[$this->prefix.'@odata.'.$key] = $value;
             } else {
@@ -123,28 +124,28 @@ class MetadataContainer implements ArrayAccess
      * Whether this container will contain any properties after processing
      * @return bool
      */
-    public function hasMetadata(): bool
+    public function hasProperties(): bool
     {
-        return !!$this->getMetadata();
+        return !!$this->getProperties();
     }
 
     public function offsetExists($offset)
     {
-        return array_key_exists($offset, $this->values);
+        return array_key_exists($offset, $this->properties);
     }
 
     public function offsetGet($offset)
     {
-        return $this->values[$offset];
+        return $this->properties[$offset];
     }
 
     public function offsetSet($offset, $value)
     {
-        $this->values[$offset] = $value;
+        $this->properties[$offset] = $value;
     }
 
     public function offsetUnset($offset)
     {
-        unset($this->values[$offset]);
+        unset($this->properties[$offset]);
     }
 }

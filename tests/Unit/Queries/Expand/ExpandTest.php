@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Queries\Expand;
 
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 
 class ExpandTest extends TestCase
 {
@@ -28,7 +28,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->query('$expand', 'passengers')
         );
     }
@@ -38,7 +38,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->query('$expand', 'passengers($count=true)')
         );
     }
@@ -48,7 +48,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->query('$expand', 'passengers($count=true;$top=1)')
         );
     }

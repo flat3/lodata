@@ -252,7 +252,7 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
      * Delete an Eloquent model
      * @param  PropertyValue  $key  Key
      */
-    public function delete(PropertyValue $key)
+    public function delete(PropertyValue $key): void
     {
         $model = $this->getModelByKey($key);
 

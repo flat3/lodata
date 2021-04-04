@@ -9,7 +9,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 
 class EnumerationTypeTest extends TestCase
 {
@@ -146,7 +146,7 @@ class EnumerationTypeTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->path('/example')
         );
     }

@@ -16,7 +16,6 @@ use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -139,7 +138,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         $transaction->outputJsonObjectStart();
 
-        $metadata = $this->metadata ?: $transaction->getMetadata()->getContainer();
+        $metadata = $this->metadata ?: $transaction->createMetadataContainer();
         $metadata['type'] = '#'.$this->getType()->getIdentifier();
 
         if ($this->entitySet && $this->getEntityId()) {
@@ -160,8 +159,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         $requiresSeparator = false;
 
-        if ($metadata->hasMetadata()) {
-            $transaction->outputJsonKV($metadata->getMetadata());
+        if ($metadata->hasProperties()) {
+            $transaction->outputJsonKV($metadata->getProperties());
             $requiresSeparator = true;
         }
 
@@ -191,8 +190,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             if ($propertyValue->getProperty() instanceof NavigationProperty) {
                 $propertyMetadata = $this->getExpansionMetadata($transaction, $propertyValue);
 
-                if ($propertyMetadata->hasMetadata()) {
-                    $transaction->outputJsonKV($propertyMetadata->getMetadata());
+                if ($propertyMetadata->hasProperties()) {
+                    $transaction->outputJsonKV($propertyMetadata->getProperties());
                     $transaction->outputJsonSeparator();
                 }
             }
@@ -344,42 +343,19 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
      */
     public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue): MetadataContainer
     {
-        $propertyMetadata = $transaction->getMetadata()->getContainer();
+        $propertyMetadata = $transaction->createMetadataContainer();
         $propertyMetadata->setPrefix($propertyValue->getProperty()->getName());
         $propertyMetadata['navigationLink'] = $this->getResourceUrl($transaction).'/'.$propertyValue->getProperty()->getName();
 
         if ($propertyValue->getValue() instanceof EntitySet) {
-            $set = $propertyValue->getEntitySetValue();
-            $transaction = $set->getTransaction();
+            $entitySet = $propertyValue->getEntitySetValue();
+            $transaction = $entitySet->getTransaction();
+
             if (!$transaction) {
                 return $propertyMetadata;
             }
 
-            $count = $set->count();
-
-            if ($set->getCount()->hasValue()) {
-                $propertyMetadata['count'] = $count;
-            }
-
-            $top = $set->getTop();
-            $skip = $set->getSkip();
-
-            if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $count)) {
-                $np = $transaction->getQueryParams();
-                $np['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
-                $propertyMetadata['nextLink'] = Url::http_build_url(
-                    $propertyMetadata['navigationLink'],
-                    [
-                        'query' => http_build_query(
-                            $np,
-                            null,
-                            '&',
-                            PHP_QUERY_RFC3986
-                        ),
-                    ],
-                    Url::HTTP_URL_JOIN_QUERY
-                );
-            }
+            $entitySet->addTrailingMetadata($propertyMetadata, $propertyMetadata['navigationLink']);
         }
 
         return $propertyMetadata;
@@ -535,7 +511,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         $context = $context ?: $this;
 
-        $this->metadata = $transaction->getMetadata()->getContainer();
+        $this->metadata = $transaction->createMetadataContainer();
         $this->metadata['context'] = $context->getContextUrl($transaction);
 
         $response = $transaction->getResponse();

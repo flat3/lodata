@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Queries\EntitySet;
 
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 
 class EntitySetTest extends TestCase
 {
@@ -26,7 +26,7 @@ class EntitySetTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->path('/flights')
         );
     }
@@ -35,7 +35,7 @@ class EntitySetTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\None::name)
+                ->metadata(MetadataType\None::name)
                 ->path('/flights')
         );
     }
@@ -45,7 +45,7 @@ class EntitySetTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->query('$select', 'destination')
         );
     }

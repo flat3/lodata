@@ -1,6 +1,5 @@
 {
     "@context": "http://localhost/odata/$metadata#airports",
-    "@count": 1,
     "value": [
         {
             "id": 2,
@@ -12,5 +11,6 @@
             "review_score": null,
             "is_big": false
         }
-    ]
+    ],
+    "@count": 1
 }

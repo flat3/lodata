@@ -165,7 +165,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $this->assertEmpty($content);
         }
 
-        $this->assertMatchesSnapshot($content, new JsonDriver());
+        $this->assertMatchesSnapshot($content, new StreamingJsonDriver());
 
         return $response;
     }
@@ -256,7 +256,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $response = $this->req($request);
         $content = $this->responseContent($response);
         $this->assertEquals($statusCode, $response->getStatusCode());
-        $this->assertMatchesSnapshot($content, new JsonDriver());
+        $this->assertMatchesSnapshot($content, new StreamingJsonDriver());
         return $response;
     }
 
@@ -282,7 +282,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertJsonMetadataResponse(Request $request): TestResponse
     {
         $response = $this->req($request);
-        $this->assertMatchesSnapshot($this->responseContent($response), new JsonDriver());
+        $this->assertMatchesSnapshot($this->responseContent($response), new StreamingJsonDriver());
         $this->assertResponseMetadata($response);
         return $response;
     }

@@ -9,8 +9,8 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
-use Flat3\Lodata\Tests\JsonDriver;
 use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\StreamingJsonDriver;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
 use Illuminate\Testing\TestResponse;
@@ -42,7 +42,7 @@ class ErrorReportingTest extends TestCase
             $response = $e->toResponse();
             /** @noinspection PhpParamsInspection */
             $testResponse = new TestResponse($response);
-            $this->assertMatchesSnapshot($testResponse->streamedContent(), new JsonDriver());
+            $this->assertMatchesSnapshot($testResponse->streamedContent(), new StreamingJsonDriver());
         }
     }
 

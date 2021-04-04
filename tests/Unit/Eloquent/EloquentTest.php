@@ -12,7 +12,7 @@ use Flat3\Lodata\Tests\Models\Flight;
 use Flat3\Lodata\Tests\Models\Passenger;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 
 class EloquentTest extends TestCase
 {
@@ -410,7 +410,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->query('$expand', 'passengers($expand=flight)')
         );
     }
@@ -465,7 +465,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->preference('omit-values', 'nulls')
                 ->query('$select', 'gate')
         );
@@ -477,7 +477,7 @@ class EloquentTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->path('/Passengers(1)/flight')
         );
     }
@@ -643,7 +643,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->query('$select', 'destination')
         );
     }

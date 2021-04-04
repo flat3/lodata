@@ -3,10 +3,10 @@
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
 use Flat3\Lodata\Controller\Async;
-use Flat3\Lodata\Tests\JsonDriver;
 use Flat3\Lodata\Tests\Request;
+use Flat3\Lodata\Tests\StreamingJsonDriver;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata\Full;
+use Flat3\Lodata\Transaction\MetadataType\Full;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 
@@ -43,7 +43,7 @@ class AsyncTest extends TestCase
         $this->assertStoredResponseMetadata($disk->get($job->ns('meta')));
 
         if ($request->headers['accept'] === 'application/json') {
-            $this->assertMatchesSnapshot($disk->get($job->ns('data')), new JsonDriver());
+            $this->assertMatchesSnapshot($disk->get($job->ns('data')), new StreamingJsonDriver());
 
             $this->assertResponseMetadata($this->assertJsonResponse(
                 Request::factory()
@@ -162,7 +162,7 @@ class AsyncTest extends TestCase
             return $request->url() == $url;
         });
 
-        $this->assertMatchesSnapshot($disk->get($job->ns('data')), new JsonDriver());
+        $this->assertMatchesSnapshot($disk->get($job->ns('data')), new StreamingJsonDriver());
         $this->assertStoredResponseMetadata($disk->get($job->ns('meta')));
 
         $this->assertResponseMetadata($this->assertJsonResponse(

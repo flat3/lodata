@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Modify;
 
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 
 class CreateTest extends TestCase
 {
@@ -162,7 +162,7 @@ class CreateTest extends TestCase
         $response = $this->jsonResponse($this->assertJsonMetadataResponse(
             Request::factory()
                 ->path('/flights')
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->post()
                 ->body([
                     'origin' => 'lhr',
