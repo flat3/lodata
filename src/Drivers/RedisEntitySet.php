@@ -17,6 +17,10 @@ use Flat3\Lodata\Type;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
+/**
+ * Class RedisEntitySet
+ * @package Flat3\Lodata\Drivers
+ */
 class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface
 {
     public function create(): Entity

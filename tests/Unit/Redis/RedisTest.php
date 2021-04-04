@@ -110,6 +110,15 @@ class RedisTest extends TestCase
         );
     }
 
+    public function test_read_select()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->select('key')
+                ->path("/passengers('7a3465')")
+        );
+    }
+
     public function test_update()
     {
         $this->assertJsonResponse(
