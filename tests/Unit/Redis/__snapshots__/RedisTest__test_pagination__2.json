@@ -1,0 +1,14 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "name": "Wardley Woofle",
+            "key": "23152f"
+        },
+        {
+            "name": "Sunday Pantone",
+            "key": "1237h1"
+        }
+    ],
+    "@nextLink": "http://localhost/odata/passengers?%24top=2&%24skiptoken=4"
+}

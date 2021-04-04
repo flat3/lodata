@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "name": "Sebastian Organa",
+            "key": "238g84"
+        }
+    ]
+}

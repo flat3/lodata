@@ -82,19 +82,19 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
 
         $config = [];
 
-        if ($this->getTop()->hasValue()) {
-            $config['COUNT'] = $this->getTop()->getValue();
+        $top = $this->getTop();
+
+        if ($top->hasValue()) {
+            $config['COUNT'] = $top->getValue();
         }
 
-        $skipToken = $this->getSkipToken()->getValue() ?: 0;
-
         // @phpstan-ignore-next-line
-        $scan = Redis::scan($skipToken, $config);
+        list($redisPage, $results) = Redis::scan($skipToken->getValue() ?: 0, $config);
 
-        if ($scan[0] == 0) {
-            $this->getSkipToken()->setPaginationComplete();
+        if ($redisPage == 0) {
+            $skipToken->setPaginationComplete();
         } else {
-            $this->getSkipToken()->setValue($scan[0]);
+            $skipToken->setValue($redisPage);
         }
 
         return array_map(function ($key) {
@@ -103,7 +103,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             $keyValue->setValue(Type\String_::factory(Str::after($key, config('database.redis.options.prefix'))));
 
             return $this->read($keyValue);
-        }, $scan[1] ?: []);
+        }, $results ?: []);
     }
 
     public function serialize(Entity $entity): string
