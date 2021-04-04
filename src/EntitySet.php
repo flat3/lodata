@@ -394,7 +394,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $this->emit($transaction);
 
             $trailingMetadata = $transaction->createMetadataContainer();
-            $this->addTrailingMetadata($trailingMetadata, $this->getResourceUrl($transaction));
+            $this->addTrailingMetadata($transaction, $trailingMetadata, $this->getResourceUrl($transaction));
 
             if ($trailingMetadata->hasProperties()) {
                 $transaction->outputJsonSeparator();
@@ -799,32 +799,48 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
     /**
      * Generate trailing metadata for this entity set
+     * @param  Transaction  $transaction
      * @param  MetadataContainer  $metadata
      * @param  string  $resourceUrl
      */
-    public function addTrailingMetadata(MetadataContainer $metadata, string $resourceUrl)
+    public function addTrailingMetadata(Transaction $transaction, MetadataContainer $metadata, string $resourceUrl)
     {
         $count = $this->count();
 
-        if ($this->getCount()->hasValue()) {
+        if ($transaction->getCount()->hasValue()) {
             $metadata['count'] = $count;
         }
 
-        $top = $this->getTop();
-        $skip = $this->getSkip();
-        $skipToken = $this->getSkipToken();
+        $top = $transaction->getTop();
+        $skip = $transaction->getSkip();
+        $skipToken = $transaction->getSkipToken();
 
-        $nextLinkParams = [];
+        if ($skipToken->isPaginationComplete()) {
+            return;
+        }
 
-        if ($skipToken->hasValue()) {
-            $nextLinkParams['$skiptoken'] = $skipToken->getValue();
-        } else {
-            if ($top->hasValue() && ($top->getValue() + ($skip->getValue() ?: 0) < $count)) {
-                $nextLinkParams['$skip'] = $top->getValue() + ($skip->getValue() ?: 0);
+        $transactionParams = array_diff_key(
+            $transaction->getQueryParams(),
+            array_flip(['$top', '$skip', '$skiptoken'])
+        );
+
+        $paginationParams = [];
+
+        if ($top->hasValue()) {
+            if ($skipToken->hasValue()) {
+                $paginationParams['$top'] = $top->getValue();
+                $paginationParams['$skiptoken'] = $skipToken->getValue();
+            } else {
+                $nextSkipValue = $top->getValue() + ($skip->getValue() ?: 0);
+
+                if ($top->hasValue() && $nextSkipValue < $count) {
+                    $paginationParams['$top'] = $top->getValue();
+                    $paginationParams['$skip'] = $nextSkipValue;
+                }
             }
         }
 
-        if (!$nextLinkParams) {
+        if (!$paginationParams) {
             return;
         }
 
@@ -832,7 +848,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $resourceUrl,
             [
                 'query' => http_build_query(
-                    array_merge($this->getTransaction()->getQueryParams(), $nextLinkParams),
+                    array_merge($transactionParams, $paginationParams),
                     null,
                     '&',
                     PHP_QUERY_RFC3986

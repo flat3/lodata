@@ -8,5 +8,5 @@
             "gate": null
         }
     ],
-    "@nextLink": "http://localhost/odata/flights?%24skip=1"
+    "@nextLink": "http://localhost/odata/flights?%24top=1&%24skip=1"
 }

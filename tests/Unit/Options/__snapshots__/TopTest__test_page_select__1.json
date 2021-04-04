@@ -8,5 +8,5 @@
             "code": "lax"
         }
     ],
-    "@nextLink": "http://localhost/odata/airports?%24top=2&%24select=code&%24skip=2"
+    "@nextLink": "http://localhost/odata/airports?%24select=code&%24top=2&%24skip=2"
 }

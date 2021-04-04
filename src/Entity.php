@@ -355,7 +355,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
                 return $propertyMetadata;
             }
 
-            $entitySet->addTrailingMetadata($propertyMetadata, $propertyMetadata['navigationLink']);
+            $entitySet->addTrailingMetadata($transaction, $propertyMetadata, $propertyMetadata['navigationLink']);
         }
 
         return $propertyMetadata;
