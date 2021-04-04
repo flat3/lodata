@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#Edm.Boolean",
+    "value": true
+}

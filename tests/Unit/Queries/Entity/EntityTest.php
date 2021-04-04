@@ -322,4 +322,12 @@ class EntityTest extends TestCase
                 ->query('$id', 'flights(1)')
         );
     }
+
+    public function test_cannot_use_value_with_normal_entity()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path('/flights(1)/$value')
+        );
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\Tests\Unit\Parser;
+namespace Flat3\Lodata\Tests;
 
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Expression\Event;

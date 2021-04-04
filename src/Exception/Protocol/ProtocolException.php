@@ -20,6 +20,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     protected $details;
     protected $inner;
     protected $headers = [];
+    protected $suppressContent = false;
 
     public function __construct(string $code = null, string $message = null)
     {
@@ -155,6 +156,10 @@ abstract class ProtocolException extends RuntimeException implements Responsable
         $response = new Response();
 
         $response->setCallback(function () {
+            if ($this->suppressContent) {
+                return;
+            }
+
             echo json_encode(array_filter([
                 'code' => $this->odataCode,
                 'message' => $this->message,

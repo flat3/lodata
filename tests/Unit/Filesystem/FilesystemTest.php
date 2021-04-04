@@ -11,6 +11,7 @@ use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type\DateTimeOffset;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 class FilesystemTest extends TestCase
@@ -19,6 +20,7 @@ class FilesystemTest extends TestCase
     {
         parent::setUp();
 
+        /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('testing');
         $disk->put('a1.txt', 'hello');
         $disk->put('d1/a1.txt', 'hello1');
@@ -111,6 +113,48 @@ class FilesystemTest extends TestCase
                 ->post()
                 ->path("/files"),
             Response::HTTP_CREATED
+        );
+    }
+
+    public function test_create_with_content()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->body([
+                    'path' => 'd1/a3.txt',
+                    'timestamp' => DateTimeOffset::factory(Carbon::createFromTimeString('2020-01-01 01:01:01'))->toJson(),
+                    '$value' => 'dGVzdA==',
+                ])
+                ->post()
+                ->path("/files"),
+            Response::HTTP_CREATED
+        );
+
+        $this->assertMatchesTextSnapshot($this->getDisk()->get('d1/a3.txt'));
+    }
+
+    public function test_update_with_content()
+    {
+        $this->getDisk()->put('c1.txt', '');
+        $this->assertJsonResponse(
+            Request::factory()
+                ->body([
+                    '$value' => 'dGVzdA==',
+                ])
+                ->put()
+                ->path("/files('c1.txt')")
+        );
+
+        $this->assertMatchesTextSnapshot($this->getDisk()->get('c1.txt'));
+    }
+
+    public function test_media_stream()
+    {
+        $this->assertResponseMetadata(
+            $this->assertFound(
+                Request::factory()
+                    ->path("/files('a1.txt')/\$value")
+            )
         );
     }
 }

@@ -10,6 +10,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Parser\Search;
+use Flat3\Lodata\Tests\LoopbackEntitySet;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
 

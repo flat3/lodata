@@ -1,0 +1,5 @@
+headers:
+    location: ['http://odata.files/a1.txt']
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+status: 302

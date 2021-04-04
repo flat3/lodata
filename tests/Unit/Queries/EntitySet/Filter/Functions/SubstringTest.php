@@ -5,7 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Queries\EntitySet\Filter\Functions;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-class Substring extends TestCase
+class SubstringTest extends TestCase
 {
     public function setUp(): void
     {

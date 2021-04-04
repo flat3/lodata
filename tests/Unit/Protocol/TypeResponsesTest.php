@@ -15,7 +15,7 @@ use Flat3\Lodata\Type\Int16;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\Int64;
 
-class TypeResponses extends TestCase
+class TypeResponsesTest extends TestCase
 {
     public function test_inf()
     {

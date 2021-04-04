@@ -1,0 +1,4 @@
+{
+    "code": "bad_value_entity_argument",
+    "message": "$value was passed an entity that is not a media entity"
+}

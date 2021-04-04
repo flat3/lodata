@@ -117,6 +117,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $this->assertODataError($request, Response::HTTP_NOT_FOUND);
     }
 
+    protected function assertFound(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_FOUND);
+    }
+
     protected function assertForbidden(Request $request): TestResponse
     {
         return $this->assertODataError($request, Response::HTTP_FORBIDDEN);
@@ -169,16 +174,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function assertODataError(Request $request, int $code): TestResponse
     {
+        $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND];
         $response = $this->req($request);
         $this->assertEquals($code, $response->getStatusCode());
         $content = $this->responseContent($response);
 
         if (!$content) {
-            $this->assertEquals(Response::HTTP_NO_CONTENT, $code);
+            $this->assertContains($code, $emptyCodes);
             return $response;
         }
 
-        if (Response::HTTP_NO_CONTENT === $code) {
+        if (in_array($code, $emptyCodes)) {
             $this->assertEmpty($content);
         }
 
