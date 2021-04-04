@@ -9,7 +9,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\Metadata;
+use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type;
 use Illuminate\Support\Facades\Redis;
 
@@ -47,6 +47,12 @@ class RedisTest extends TestCase
             // @phpstan-ignore-next-line
             Redis::set($id, serialize($passenger));
         }
+    }
+
+    public function assertRedisRecord($key): void
+    {
+        // @phpstan-ignore-next-line
+        $this->assertMatchesObjectSnapshot(unserialize(Redis::get($key)));
     }
 
     public function test_metadata()
@@ -104,11 +110,25 @@ class RedisTest extends TestCase
         );
     }
 
+    public function test_update()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->body([
+                    'name' => 'Diamond Jobleck',
+                ])
+                ->put()
+                ->path("/passengers('7a3465')")
+        );
+
+        $this->assertRedisRecord('7a3465');
+    }
+
     public function test_read_with_metadata()
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->metadata(Metadata\Full::name)
+                ->metadata(MetadataType\Full::name)
                 ->path("/passengers('7a3465')")
         );
     }
@@ -121,8 +141,7 @@ class RedisTest extends TestCase
                 ->path("/passengers('7a3465')")
         );
 
-        // @phpstan-ignore-next-line
-        $this->assertNull(Redis::get('7a3465'));
+        $this->assertRedisRecord('7a3465');
     }
 
     public function test_create()
@@ -137,9 +156,11 @@ class RedisTest extends TestCase
                 ->path("/passengers"),
             Response::HTTP_CREATED
         );
+
+        $this->assertRedisRecord('734nt4');
     }
 
-    public function test_create_missing_key()
+    public function test_create_without_key()
     {
         $this->assertBadRequest(
             Request::factory()

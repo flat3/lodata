@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Drivers;
 
-use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -14,12 +13,11 @@ use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
-use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\Type;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
-class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, TransactionInterface, PaginationInterface
+class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface
 {
     public function create(): Entity
     {
@@ -42,7 +40,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
         return Redis::dbsize();
     }
 
-    public function delete(PropertyValue $key)
+    public function delete(PropertyValue $key): void
     {
         // @phpstan-ignore-next-line
         Redis::del($key->getPrimitiveValue()->get());
@@ -63,35 +61,40 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
     public function update(PropertyValue $key): Entity
     {
         $entity = $this->read($key);
-        $entity->fromArray($this->transaction->getBody());
+
+        foreach ($this->transaction->getBody() as $property => $value) {
+            $entity[$property] = $value;
+        }
 
         // @phpstan-ignore-next-line
-        Redis::set($key->getPrimitiveValue()->get(), $this->serialize($entity));
+        Redis::set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
 
-        return $this->read($key);
+        return $entity;
     }
-
-    public $finished = false;
 
     public function query(): array
     {
+        $skipToken = $this->getSkipToken();
+
+        if ($skipToken->isPaginationComplete()) {
+            return [];
+        }
+
         $config = [];
 
         if ($this->getTop()->hasValue()) {
             $config['COUNT'] = $this->getTop()->getValue();
         }
 
-        $skip = $this->getSkip()->hasValue() ? $this->getSkip()->getValue() : 0;
+        $skipToken = $this->getSkipToken()->getValue() ?: 0;
 
         // @phpstan-ignore-next-line
-        $scan = Redis::scan((string) $skip, $config);
-
-        if ($this->finished) {
-            return [];
-        }
+        $scan = Redis::scan($skipToken, $config);
 
         if ($scan[0] == 0) {
-            $this->finished = true;
+            $this->getSkipToken()->setPaginationComplete();
+        } else {
+            $this->getSkipToken()->setValue($scan[0]);
         }
 
         return array_map(function ($key) {
@@ -115,27 +118,5 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
         $entity = $this->newEntity()->fromArray(unserialize($string));
         $entity->setEntityId($key);
         return $entity;
-    }
-
-    public function startTransaction()
-    {
-        if ($this->getTransaction()->getMethod() === Request::METHOD_GET) {
-            return;
-        }
-
-        // @phpstan-ignore-next-line
-        Redis::multi();
-    }
-
-    public function rollback()
-    {
-        // @phpstan-ignore-next-line
-        Redis::discard();
-    }
-
-    public function commit()
-    {
-        // @phpstan-ignore-next-line
-        Redis::exec();
     }
 }
