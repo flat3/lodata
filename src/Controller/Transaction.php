@@ -668,7 +668,7 @@ class Transaction implements ArgumentInterface
      */
     public function sendContentType(MediaType $contentType): self
     {
-        $this->sendHeader('content-type', (string)$contentType);
+        $this->sendHeader('content-type', (string) $contentType);
 
         return $this;
     }

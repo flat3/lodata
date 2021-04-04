@@ -9,7 +9,7 @@ use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
+use League\Flysystem\Filesystem;
 use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
 use Mockery\Expectation;
 use PDOException;
@@ -26,6 +27,7 @@ use Spatie\Snapshots\MatchesSnapshots;
 use stdClass;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use VirtualFileSystem\FileSystem as VirtualFileSystem;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -37,28 +39,37 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /** @var Expectation $gateMock */
     protected $gateMock;
 
+    /** @var int $uuid */
     protected $uuid;
 
+    /** @var string $databaseSnapshot */
     protected $databaseSnapshot;
 
     public function getEnvironmentSetUp($app)
     {
         config(['database.redis.client' => 'mock']);
+        config(['filesystems.disks.testing' => ['driver' => 'vfs']]);
+        config(['lodata.readonly' => false]);
+        config(['lodata.disk' => 'testing']);
+
         $app->register(RedisMockServiceProvider::class);
+
         $this->gateMock = Gate::shouldReceive('denies');
         $this->gateMock->andReturnFalse();
-        $this->getDisk();
-
-        config(['lodata.readonly' => false]);
 
         Str::createUuidsUsing(function (): string {
             return Uuid::fromInteger($this->uuid++);
+        });
+
+        Storage::extend('vfs', function () {
+            return new Filesystem(new VfsAdapter(new VirtualFileSystem()), ['url' => 'http://odata.files']);
         });
     }
 
     public function setUp(): void
     {
         parent::setUp();
+
         $this->withoutExceptionHandling();
         $this->uuid = 0;
     }
@@ -75,9 +86,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    protected function getDisk(): Filesystem
+    protected function getDisk(): FilesystemContract
     {
-        return Storage::fake(config('lodata.disk'));
+        return Storage::disk(config('lodata.disk'));
     }
 
     protected function assertRequestExceptionSnapshot(Request $request, string $exceptionClass): ProtocolException
