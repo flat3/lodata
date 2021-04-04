@@ -621,6 +621,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020\u0024skip\u0020system\u0020query\u0020option",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getSkip"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetSkipToken\u0028\u0029",
+            "name": "getSkipToken",
+            "summary": "Get\u0020the\u0020\u0024skiptoken\u0020system\u0020query\u0020option",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getSkipToken"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetTop\u0028\u0029",
             "name": "getTop",
             "summary": "Get\u0020the\u0020\u0024top\u0020system\u0020query\u0020option",
@@ -666,10 +671,10 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020callback\u0020preference\u0020URL",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getCallbackUrl"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetMetadata\u0028\u0029",
-            "name": "getMetadata",
-            "summary": "Get\u0020the\u0020negotiated\u0020metadata\u0020type",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getMetadata"
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AcreateMetadataContainer\u0028\u0029",
+            "name": "createMetadataContainer",
+            "summary": "Create\u0020a\u0020new\u0020metadata\u0020container",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_createMetadataContainer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetAcceptedContentType\u0028\u0029",
             "name": "getAcceptedContentType",
@@ -1026,55 +1031,75 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_commit"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet",
-            "name": "ManualEntitySet",
-            "summary": "Class\u0020ManualEntitySet\nThe\u0020manual\u0020entity\u0020set\u0020is\u0020assigned\u0020entities\u0020and\u0020does\u0020not\u0020query\u0020a\u0020data\u0020source",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html"
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet",
+            "name": "RedisEntitySet",
+            "summary": "Class\u0020RedisEntitySet",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Acreate\u0028\u0029",
+            "name": "create",
+            "summary": "Create\u0020an\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_create"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003AgetConnection\u0028\u0029",
+            "name": "getConnection",
+            "summary": "Get\u0020the\u0020Redis\u0020connection\u0020configured\u0020for\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_getConnection"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003AsetConnectionName\u0028\u0029",
+            "name": "setConnectionName",
+            "summary": "Set\u0020the\u0020name\u0020of\u0020the\u0020Redis\u0020database\u0020to\u0020use",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_setConnectionName"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Acount\u0028\u0029",
+            "name": "count",
+            "summary": "Count\u0020records\u0020in\u0020the\u0020database",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_count"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "Delete\u0020a\u0020record\u0020from\u0020the\u0020database",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_delete"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Aread\u0028\u0029",
+            "name": "read",
+            "summary": "Read\u0020a\u0020record\u0020from\u0020the\u0020database",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_read"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Aupdate\u0028\u0029",
+            "name": "update",
+            "summary": "Update\u0020a\u0020record\u0020in\u0020the\u0020database",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_update"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Aquery\u0028\u0029",
+            "name": "query",
+            "summary": "Query\u0020the\u0020redis\u0020database",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_query"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Aserialize\u0028\u0029",
+            "name": "serialize",
+            "summary": "Serialize\u0020an\u0020Entity\u0020into\u0020a\u0020string\u0020for\u0020insertion\u0020into\u0020Redis",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_serialize"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003Aunserialize\u0028\u0029",
+            "name": "unserialize",
+            "summary": "Deserialize\u0020a\u0020string\u0020Redis\u0020value\u0020into\u0020an\u0020Entity",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_unserialize"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003A\u0024connectionName",
+            "name": "connectionName",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_connectionName"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntityType",
+            "name": "RedisEntityType",
+            "summary": "Class\u0020RedisEntityType",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntityType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntityType\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method___construct"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Aquery\u0028\u0029",
-            "name": "query",
-            "summary": "Return\u0020no\u0020more\u0020results",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_query"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetExists\u0028\u0029",
-            "name": "offsetExists",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetExists"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetGet\u0028\u0029",
-            "name": "offsetGet",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetGet"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetSet\u0028\u0029",
-            "name": "offsetSet",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetSet"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003AoffsetUnset\u0028\u0029",
-            "name": "offsetUnset",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_offsetUnset"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Arewind\u0028\u0029",
-            "name": "rewind",
-            "summary": "Rewind\u0020the\u0020results\u0020buffer",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_rewind"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Afilter\u0028\u0029",
-            "name": "filter",
-            "summary": "Filter\u0020the\u0020objects\u0020in\u0020the\u0020array",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_filter"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\ManualEntitySet\u003A\u003Asort\u0028\u0029",
-            "name": "sort",
-            "summary": "Sort\u0020the\u0020objects\u0020in\u0020the\u0020array",
-            "url": "classes/Flat3-Lodata-Drivers-ManualEntitySet.html#method_sort"
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntityType.html#method___construct"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\MySQLFilter",
             "name": "MySQLFilter",
@@ -1306,11 +1331,6 @@ Search.appendIndex(
             "summary": "Get\u0020a\u0020version\u0020of\u0020the\u0020query\u0020string\u0020that\u0020counts\u0020the\u0020total\u0020number\u0020of\u0020rows\u0020in\u0020the\u0020collection",
             "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_getRowCountQueryString"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQLEntitySet\u003A\u003AassocToEntity\u0028\u0029",
-            "name": "assocToEntity",
-            "summary": "Convert\u0020an\u0020associative\u0020array\u0020record\u0020to\u0020an\u0020OData\u0020entity",
-            "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_assocToEntity"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\SQLEntitySet\u003A\u003Aquery\u0028\u0029",
             "name": "query",
             "summary": "Run\u0020a\u0020PDO\u0020query\u0020and\u0020return\u0020the\u0020results",
@@ -1375,6 +1395,56 @@ Search.appendIndex(
             "name": "commit",
             "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-SQLEntitySet.html#method_commit"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet",
+            "name": "StaticEntitySet",
+            "summary": "Class\u0020StaticEntitySet\nThe\u0020static\u0020entity\u0020set\u0020is\u0020assigned\u0020entities\u0020and\u0020does\u0020not\u0020query\u0020a\u0020data\u0020source",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Aquery\u0028\u0029",
+            "name": "query",
+            "summary": "Return\u0020no\u0020more\u0020results",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_query"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003AoffsetExists\u0028\u0029",
+            "name": "offsetExists",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_offsetExists"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_offsetGet"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_offsetSet"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_offsetUnset"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Arewind\u0028\u0029",
+            "name": "rewind",
+            "summary": "Rewind\u0020the\u0020results\u0020buffer",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_rewind"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Afilter\u0028\u0029",
+            "name": "filter",
+            "summary": "Filter\u0020the\u0020objects\u0020in\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_filter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Asort\u0028\u0029",
+            "name": "sort",
+            "summary": "Sort\u0020the\u0020objects\u0020in\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_sort"
         },                {
             "fqsen": "\\Flat3\\Lodata\\DynamicProperty",
             "name": "DynamicProperty",
@@ -1520,6 +1590,11 @@ Search.appendIndex(
             "name": "setType",
             "summary": "Set\u0020the\u0020entity\u0020type\u0020of\u0020this\u0020entity",
             "url": "classes/Flat3-Lodata-Entity.html#method_setType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003AtoArray\u0028\u0029",
+            "name": "toArray",
+            "summary": "Convert\u0020this\u0020entity\u0020to\u0020a\u0020PHP\u0020array\u0020of\u0020key\/value\u0020pairs",
+            "url": "classes/Flat3-Lodata-Entity.html#method_toArray"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet",
             "name": "EntitySet",
@@ -1676,6 +1751,11 @@ Search.appendIndex(
             "summary": "Return\u0020the\u0020skip\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getSkip"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetSkipToken\u0028\u0029",
+            "name": "getSkipToken",
+            "summary": "Return\u0020the\u0020skip\u0020token\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getSkipToken"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetTop\u0028\u0029",
             "name": "getTop",
             "summary": "Return\u0020the\u0020top\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
@@ -1685,6 +1765,11 @@ Search.appendIndex(
             "name": "getSelect",
             "summary": "Return\u0020this\u0020select\u0020option\u0020that\u0020applies\u0020to\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getSelect"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AaddTrailingMetadata\u0028\u0029",
+            "name": "addTrailingMetadata",
+            "summary": "Generate\u0020trailing\u0020metadata\u0020for\u0020this\u0020entity\u0020set",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_addTrailingMetadata"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
@@ -1705,6 +1790,11 @@ Search.appendIndex(
             "name": "setKey",
             "summary": "Set\u0020the\u0020entity\u0020type\u0020key\u0020property",
             "url": "classes/Flat3-Lodata-EntityType.html#method_setKey"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntityType\u003A\u003Apipe\u0028\u0029",
+            "name": "pipe",
+            "summary": "Path\u0020component\u0020handler",
+            "url": "classes/Flat3-Lodata-EntityType.html#method_pipe"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EnumerationType",
             "name": "EnumerationType",
@@ -4786,16 +4876,6 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Count.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Entity",
-            "name": "Entity",
-            "summary": "Entity",
-            "url": "classes/Flat3-Lodata-PathSegment-Entity.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Entity\u003A\u003Apipe\u0028\u0029",
-            "name": "pipe",
-            "summary": "Path\u0020component\u0020handler",
-            "url": "classes/Flat3-Lodata-PathSegment-Entity.html#method_pipe"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Filter",
             "name": "Filter",
             "summary": "Filter",
@@ -4870,16 +4950,6 @@ Search.appendIndex(
             "name": "emit",
             "summary": "Emit\u0020the\u0020service\u0020document",
             "url": "classes/Flat3-Lodata-PathSegment-Service.html#method_emit"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Type",
-            "name": "Type",
-            "summary": "Type",
-            "url": "classes/Flat3-Lodata-PathSegment-Type.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Type\u003A\u003Apipe\u0028\u0029",
-            "name": "pipe",
-            "summary": "Path\u0020component\u0020handler",
-            "url": "classes/Flat3-Lodata-PathSegment-Type.html#method_pipe"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value",
             "name": "Value",
@@ -5496,94 +5566,9 @@ Search.appendIndex(
             "summary": "Parameters\u0020attached\u0020to\u0020this\u0020media\u0020type",
             "url": "classes/Flat3-Lodata-Transaction-MediaType.html#property_parameter"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\Full",
-            "name": "Full",
-            "summary": "Full",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-Full.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\Full\u003A\u003Aname",
-            "name": "name",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-Full.html#constant_name"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\Minimal",
-            "name": "Minimal",
-            "summary": "Minimal",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-Minimal.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\Minimal\u003A\u003Aname",
-            "name": "name",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-Minimal.html#constant_name"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\Minimal\u003A\u003A\u0024requiredProperties",
-            "name": "requiredProperties",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-Minimal.html#property_requiredProperties"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\None",
-            "name": "None",
-            "summary": "None",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-None.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\None\u003A\u003Aname",
-            "name": "name",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-None.html#constant_name"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\None\u003A\u003A\u0024requiredProperties",
-            "name": "requiredProperties",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-None.html#property_requiredProperties"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata",
-            "name": "Metadata",
-            "summary": "Metadata",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method___construct"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003Afactory\u0028\u0029",
-            "name": "factory",
-            "summary": "Generate\u0020a\u0020new\u0020metadata\u0020object",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method_factory"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003AgetContainer\u0028\u0029",
-            "name": "getContainer",
-            "summary": "Get\u0020a\u0020new\u0020metadata\u0020container\u0020from\u0020this\u0020metadata\u0020object",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method_getContainer"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003AgetRequiredProperties\u0028\u0029",
-            "name": "getRequiredProperties",
-            "summary": "Get\u0020the\u0020list\u0020of\u0020properties\u0020required\u0020by\u0020this\u0020metadata\u0020type",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method_getRequiredProperties"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003AgetVersion\u0028\u0029",
-            "name": "getVersion",
-            "summary": "Get\u0020the\u0020OData\u0020version\u0020attached\u0020to\u0020this\u0020metadata\u0020type",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method_getVersion"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003Aname",
-            "name": "name",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#constant_name"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003A\u0024requiredProperties",
-            "name": "requiredProperties",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#property_requiredProperties"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003A\u0024version",
-            "name": "version",
-            "summary": "OData\u0020version",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#property_version"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer",
             "name": "MetadataContainer",
-            "summary": "Metadata\u0020Container",
+            "summary": "Metadata\u0020container",
             "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003A__construct\u0028\u0029",
@@ -5611,15 +5596,15 @@ Search.appendIndex(
             "summary": "Remove\u0020a\u0020required\u0020property\u0020from\u0020this\u0020container",
             "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_dropRequiredProperty"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003AgetMetadata\u0028\u0029",
-            "name": "getMetadata",
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003AgetProperties\u0028\u0029",
+            "name": "getProperties",
             "summary": "Get\u0020the\u0020metadata\u0020properties,\u0020filtered\u0020according\u0020to\u0020the\u0020type\u0020and\u0020list\u0020of\u0020required\u0020properties",
-            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_getMetadata"
+            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_getProperties"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003AhasMetadata\u0028\u0029",
-            "name": "hasMetadata",
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003AhasProperties\u0028\u0029",
+            "name": "hasProperties",
             "summary": "Whether\u0020this\u0020container\u0020will\u0020contain\u0020any\u0020properties\u0020after\u0020processing",
-            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_hasMetadata"
+            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_hasProperties"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003AoffsetExists\u0028\u0029",
             "name": "offsetExists",
@@ -5641,15 +5626,15 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_offsetUnset"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003A\u0024metadata",
-            "name": "metadata",
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003A\u0024type",
+            "name": "type",
             "summary": "The\u0020metadata\u0020type\u0020in\u0020use\u0020by\u0020this\u0020container",
-            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_metadata"
+            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_type"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003A\u0024values",
-            "name": "values",
-            "summary": "The\u0020metadata\u0020values\u0020in\u0020this\u0020container",
-            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_values"
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003A\u0024properties",
+            "name": "properties",
+            "summary": "The\u0020metadata\u0020properties\u0020in\u0020this\u0020container",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_properties"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer\u003A\u003A\u0024requiredProperties",
             "name": "requiredProperties",
@@ -5660,6 +5645,86 @@ Search.appendIndex(
             "name": "prefix",
             "summary": "The\u0020prefix\u0020applied\u0020to\u0020properties\u0020in\u0020this\u0020container",
             "url": "classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_prefix"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\Full",
+            "name": "Full",
+            "summary": "Full",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-Full.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\Full\u003A\u003Aname",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-Full.html#constant_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\Minimal",
+            "name": "Minimal",
+            "summary": "Minimal",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-Minimal.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\Minimal\u003A\u003Aname",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-Minimal.html#constant_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\Minimal\u003A\u003A\u0024requiredProperties",
+            "name": "requiredProperties",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-Minimal.html#property_requiredProperties"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\None",
+            "name": "None",
+            "summary": "None",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-None.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\None\u003A\u003Aname",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-None.html#constant_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\\None\u003A\u003A\u0024requiredProperties",
+            "name": "requiredProperties",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType-None.html#property_requiredProperties"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType",
+            "name": "MetadataType",
+            "summary": "Metadata",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003Afactory\u0028\u0029",
+            "name": "factory",
+            "summary": "Generate\u0020a\u0020new\u0020metadata\u0020object",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#method_factory"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003AgetRequiredProperties\u0028\u0029",
+            "name": "getRequiredProperties",
+            "summary": "Get\u0020the\u0020list\u0020of\u0020properties\u0020required\u0020by\u0020this\u0020metadata\u0020type",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#method_getRequiredProperties"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003AgetVersion\u0028\u0029",
+            "name": "getVersion",
+            "summary": "Get\u0020the\u0020OData\u0020version\u0020attached\u0020to\u0020this\u0020metadata\u0020type",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#method_getVersion"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003Aname",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#constant_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003A\u0024requiredProperties",
+            "name": "requiredProperties",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#property_requiredProperties"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType\u003A\u003A\u0024version",
+            "name": "version",
+            "summary": "OData\u0020version",
+            "url": "classes/Flat3-Lodata-Transaction-MetadataType.html#property_version"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MultipartDocument",
             "name": "MultipartDocument",
@@ -5935,6 +6000,31 @@ Search.appendIndex(
             "name": "param",
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-Option-Skip.html#constant_param"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken",
+            "name": "SkipToken",
+            "summary": "SkipToken",
+            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003AsetPaginationComplete\u0028\u0029",
+            "name": "setPaginationComplete",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#method_setPaginationComplete"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003AisPaginationComplete\u0028\u0029",
+            "name": "isPaginationComplete",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#method_isPaginationComplete"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003Aparam",
+            "name": "param",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#constant_param"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003A\u0024paginationComplete",
+            "name": "paginationComplete",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#property_paginationComplete"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Top",
             "name": "Top",
@@ -6916,10 +7006,10 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/flat3-lodata-transaction.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata",
-            "name": "Metadata",
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType",
+            "name": "MetadataType",
             "summary": "",
-            "url": "namespaces/flat3-lodata-transaction-metadata.html"
+            "url": "namespaces/flat3-lodata-transaction-metadatatype.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option",
             "name": "Option",

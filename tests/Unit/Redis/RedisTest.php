@@ -3,9 +3,8 @@
 namespace Flat3\Lodata\Tests\Unit\Redis;
 
 use Flat3\Lodata\Controller\Response;
-use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\RedisEntitySet;
-use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Drivers\RedisEntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -19,8 +18,7 @@ class RedisTest extends TestCase
     {
         parent::setUp();
 
-        $entityType = new EntityType('passenger');
-        $entityType->setKey(new DeclaredProperty('key', Type::string()));
+        $entityType = new RedisEntityType('passenger');
         $entityType->addDeclaredProperty('name', Type::string());
         Lodata::add(new RedisEntitySet('passengers', $entityType));
 
@@ -116,6 +114,14 @@ class RedisTest extends TestCase
             Request::factory()
                 ->select('key')
                 ->path("/passengers('7a3465')")
+        );
+    }
+
+    public function test_read_missing()
+    {
+        $this->assertNotFound(
+            Request::factory()
+                ->path("/passengers('missing')")
         );
     }
 

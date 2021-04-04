@@ -231,6 +231,24 @@ First an empty entity type is defined with the name `passenger`, and used to gen
 Then a table `passengers` is assigned. When `discoverProperties` is run, `passengerType` will be filled with field
 types discovered by the entity set.
 
+### Redis
+
+Lodata supports read, update, create, delete and query options on an attached Redis database.
+
+The `RedisEntityType` provides an entity type starting point, with the key property set to a `String` key. The
+`RedisEntitySet` can then be attached to expose the database.
+
+```
+$entityType = new RedisEntityType('passenger');
+$entityType->addDeclaredProperty('name', Type::string());
+Lodata::add(new RedisEntitySet('passengers', $entityType));
+```
+
+The driver expects all values in the database to be encoded with PHP's `serialize()`. To modify this behaviour, the
+`RedisEntitySet` can be subclassed and the `serialize` and `unserialize` methods can be overridden.
+
+The specific Redis database connection can be configured by calling `setConnectionName()` on the entity set.
+
 ### Annotations
 
 OData allows the creation of annotations on the schema. Annotations are classes that extend `\Flat3\Lodata\Annotation`

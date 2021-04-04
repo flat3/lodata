@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -14,6 +13,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Type;
+use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
@@ -23,6 +23,8 @@ use Illuminate\Support\Str;
  */
 class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface
 {
+    protected $connectionName = null;
+
     public function create(): Entity
     {
         $entity = $this->newEntity();
@@ -32,36 +34,74 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             throw new BadRequestException('missing_key', 'The required key must be provided to this entity set type');
         }
 
-        // @phpstan-ignore-next-line
-        Redis::set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
+        $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
 
         return $entity;
     }
 
+    /**
+     * Get the Redis connection configured for this entity set
+     * @return Connection
+     */
+    public function getConnection(): Connection
+    {
+        return Redis::connection($this->connectionName);
+    }
+
+    /**
+     * Set the name of the Redis database to use
+     * @param  string  $name
+     * @return $this
+     */
+    public function setConnectionName(string $name): self
+    {
+        $this->connectionName = $name;
+
+        return $this;
+    }
+
+    /**
+     * Count records in the database
+     * @return int|null
+     */
     public function count()
     {
-        // @phpstan-ignore-next-line
-        return Redis::dbsize();
+        return $this->getConnection()->dbsize();
     }
 
+    /**
+     * Delete a record from the database
+     * @param  PropertyValue  $key  Key
+     */
     public function delete(PropertyValue $key): void
     {
-        // @phpstan-ignore-next-line
-        Redis::del($key->getPrimitiveValue()->get());
+        $this->getConnection()->del($key->getPrimitiveValue()->get());
     }
 
+    /**
+     * Read a record from the database
+     * @param  PropertyValue  $key  Key
+     * @return Entity|null Entity
+     */
     public function read(PropertyValue $key): ?Entity
     {
-        // @phpstan-ignore-next-line
-        $record = Redis::get($key->getPrimitiveValue()->get());
+        $record = $this->getConnection()->get($key->getPrimitiveValue()->get());
 
         if (null === $record) {
-            throw new NotFoundException();
+            return null;
         }
 
-        return $this->unserialize($key, $record);
+        $entity = $this->unserialize($record);
+        $entity->setEntityId($key);
+
+        return $entity;
     }
 
+    /**
+     * Update a record in the database
+     * @param  PropertyValue  $key  Key
+     * @return Entity Entity
+     */
     public function update(PropertyValue $key): Entity
     {
         $entity = $this->read($key);
@@ -70,12 +110,15 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             $entity[$property] = $value;
         }
 
-        // @phpstan-ignore-next-line
-        Redis::set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
+        $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
 
         return $entity;
     }
 
+    /**
+     * Query the redis database
+     * @return Entity[] Results
+     */
     public function query(): array
     {
         $skipToken = $this->getSkipToken();
@@ -92,8 +135,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             $config['COUNT'] = $top->getValue();
         }
 
-        // @phpstan-ignore-next-line
-        list($redisPage, $results) = Redis::scan($skipToken->getValue() ?: 0, $config);
+        list($redisPage, $results) = $this->getConnection()->scan($skipToken->getValue() ?: 0, $config);
 
         if ($redisPage == 0) {
             $skipToken->setPaginationComplete();
@@ -110,6 +152,11 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
         }, $results ?: []);
     }
 
+    /**
+     * Serialize an Entity into a string for insertion into Redis
+     * @param  Entity  $entity  Entity
+     * @return string Redis value
+     */
     public function serialize(Entity $entity): string
     {
         $data = $entity->toArray();
@@ -117,10 +164,13 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
         return serialize($data);
     }
 
-    public function unserialize(PropertyValue $key, string $string): Entity
+    /**
+     * Deserialize a string Redis value into an Entity
+     * @param  string  $string
+     * @return Entity Entity
+     */
+    public function unserialize(string $string): Entity
     {
-        $entity = $this->newEntity()->fromArray(unserialize($string));
-        $entity->setEntityId($key);
-        return $entity;
+        return $this->newEntity()->fromArray(unserialize($string));
     }
 }

@@ -99,14 +99,34 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 </aside>
 
-            <p class="phpdocumentor-summary">Metadata Container</p>
+            <p class="phpdocumentor-summary">Metadata container</p>
 
     <section class="phpdocumentor-description"></section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">link</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_PayloadOrderingConstraints"> https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_PayloadOrderingConstraints </a>
+                    
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">link</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma"> https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma </a>
+                    
+                                    </dd>
+                        </dl>
 
 
 
@@ -131,18 +151,18 @@
 
 <dl class="phpdocumentor-table-of-contents">
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_metadata">$metadata</a>
-    <span>
-                &nbsp;: <a href="classes/Flat3-Lodata-Transaction-Metadata.html"><abbr title="\Flat3\Lodata\Transaction\Metadata">Metadata</abbr></a>            </span>
-</dt>
-<dd>The metadata type in use by this container</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_prefix">$prefix</a>
     <span>
                 &nbsp;: string            </span>
 </dt>
 <dd>The prefix applied to properties in this container</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_properties">$properties</a>
+    <span>
+                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+</dt>
+<dd>The metadata properties in this container</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_requiredProperties">$requiredProperties</a>
@@ -152,11 +172,11 @@
 <dd>The additional required properties for this metadata container</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_values">$values</a>
+    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_type">$type</a>
     <span>
-                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                &nbsp;: <a href="classes/Flat3-Lodata-Transaction-MetadataType.html"><abbr title="\Flat3\Lodata\Transaction\MetadataType">MetadataType</abbr></a>            </span>
 </dt>
-<dd>The metadata values in this container</dd>
+<dd>The metadata type in use by this container</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method___construct">__construct()</a>
@@ -180,14 +200,14 @@
 <dd>Remove a required property from this container</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_getMetadata">getMetadata()</a>
+    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_getProperties">getProperties()</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Get the metadata properties, filtered according to the type and list of required properties</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_hasMetadata">hasMetadata()</a>
+    <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_hasProperties">hasProperties()</a>
     <span>
                         &nbsp;: bool    </span>
 </dt>
@@ -254,38 +274,6 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_metadata">
-        $metadata
-        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_metadata" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">18</span>
-</aside>
-
-        <p class="phpdocumentor-summary">The metadata type in use by this container</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Transaction-Metadata.html"><abbr title="\Flat3\Lodata\Transaction\Metadata">Metadata</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$metadata</span>
-    </code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="property_prefix">
         $prefix
         <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_prefix" class="headerlink"><i class="fas fa-link"></i></a>
@@ -295,7 +283,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 </aside>
 
         <p class="phpdocumentor-summary">The prefix applied to properties in this container</p>
@@ -318,6 +306,38 @@
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_properties">
+        $properties
+        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_properties" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">26</span>
+</aside>
+
+        <p class="phpdocumentor-summary">The metadata properties in this container</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$properties</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_requiredProperties">
         $requiredProperties
         <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_requiredProperties" class="headerlink"><i class="fas fa-link"></i></a>
@@ -327,7 +347,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 </aside>
 
         <p class="phpdocumentor-summary">The additional required properties for this metadata container</p>
@@ -350,25 +370,25 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_values">
-        $values
-        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_values" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_type">
+        $type
+        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#property_type" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 </aside>
 
-        <p class="phpdocumentor-summary">The metadata values in this container</p>
+        <p class="phpdocumentor-summary">The metadata type in use by this container</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$values</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+        <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Transaction-MetadataType.html"><abbr title="\Flat3\Lodata\Transaction\MetadataType">MetadataType</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$type</span>
+    </code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -395,20 +415,20 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Transaction-Metadata.html"><abbr title="\Flat3\Lodata\Transaction\Metadata">Metadata</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$metadata</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Transaction-MetadataType.html"><abbr title="\Flat3\Lodata\Transaction\MetadataType">MetadataType</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$metadata</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$metadata</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Transaction-Metadata.html"><abbr title="\Flat3\Lodata\Transaction\Metadata">Metadata</abbr></a></span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Transaction-MetadataType.html"><abbr title="\Flat3\Lodata\Transaction\MetadataType">MetadataType</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -437,7 +457,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">71</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add a required property on this container</p>
@@ -482,7 +502,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">84</span>
 </aside>
 
         <p class="phpdocumentor-summary">Remove a required property from this container</p>
@@ -520,39 +540,26 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getMetadata">
-        getMetadata()
-        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_getMetadata" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getProperties">
+        getProperties()
+        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_getProperties" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">93</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the metadata properties, filtered according to the type and list of required properties</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getMetadata</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                <span class="phpdocumentor-signature__name">getProperties</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
         <section class="phpdocumentor-description"></section>
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">link</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma"> https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma </a>
-                    
-                                    </dd>
-                        </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
@@ -567,21 +574,21 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_hasMetadata">
-        hasMetadata()
-        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_hasMetadata" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_hasProperties">
+        hasProperties()
+        <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html#method_hasProperties" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">126</span>
+    <span class="phpdocumentor-element-found-in__line">127</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether this container will contain any properties after processing</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">hasMetadata</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                <span class="phpdocumentor-signature__name">hasProperties</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -608,7 +615,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">131</span>
+    <span class="phpdocumentor-element-found-in__line">132</span>
 </aside>
 
     
@@ -650,7 +657,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">136</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 </aside>
 
     
@@ -692,7 +699,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">141</span>
+    <span class="phpdocumentor-element-found-in__line">142</span>
 </aside>
 
     
@@ -741,7 +748,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">146</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 </aside>
 
     
@@ -783,7 +790,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set a metadata property</p>
@@ -836,7 +843,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/MetadataContainer.php"><a href="files/src-transaction-metadatacontainer.html"><abbr title="src/Transaction/MetadataContainer.php">MetadataContainer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the prefix applied to these properties</p>
