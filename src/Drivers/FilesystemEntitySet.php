@@ -5,6 +5,8 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\ConflictException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
@@ -116,9 +118,18 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     {
         $entity = $this->newEntity();
         $body = $this->transaction->getBody();
-        $entity->fromArray($body);
-        $path = $this->getEntityIdPath($entity->getEntityId());
 
+        if (!array_key_exists('path', $body)) {
+            throw new BadRequestException('missing_path', 'The path key must be provided');
+        }
+
+        $path = $body['path'];
+
+        if ($this->getDisk()->exists($path)) {
+            throw new ConflictException('path_exists', 'The requested path already exists');
+        }
+
+        $entity->setEntityId($body['path']);
         $this->disk->put($path, base64_decode($body['$value'] ?? ''));
         $entity['size'] = $this->disk->size($path);
 
@@ -153,8 +164,6 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     {
         $entity = $this->read($key);
         $body = $this->transaction->getBody();
-        $entity->fromArray($body);
-
         $path = $this->getEntityIdPath($entity->getEntityId());
 
         if (array_key_exists('$value', $body)) {

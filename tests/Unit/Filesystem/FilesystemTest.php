@@ -133,6 +133,20 @@ class FilesystemTest extends TestCase
         $this->assertMatchesTextSnapshot($this->getDisk()->get('d1/a3.txt'));
     }
 
+    public function test_create_conflicts()
+    {
+        $this->getDisk()->put('c1.txt', '');
+
+        $this->assertConflict(
+            Request::factory()
+                ->body([
+                    'path' => 'c1.txt',
+                ])
+                ->post()
+                ->path("/files")
+        );
+    }
+
     public function test_update_with_content()
     {
         $this->getDisk()->put('c1.txt', '');

@@ -172,6 +172,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $this->assertODataError($request, Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
+    protected function assertConflict(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_CONFLICT);
+    }
+
     protected function assertODataError(Request $request, int $code): TestResponse
     {
         $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND];

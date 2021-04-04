@@ -10,6 +10,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\ConflictException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
@@ -1176,7 +1177,7 @@ class Transaction implements ArgumentInterface
         } catch (AcceptedException | NoContentException $e) { // Success responses
             $this->commit();
             return $e->toResponse();
-        } catch (NotFoundException | MethodNotAllowedException | NotAcceptableException | PreconditionFailedException | NotImplementedException | InternalServerErrorException | ProtocolException $e) { // Error responses
+        } catch (NotFoundException | MethodNotAllowedException | NotAcceptableException | PreconditionFailedException | NotImplementedException | InternalServerErrorException | ConflictException | ProtocolException $e) { // Error responses
             $this->rollback();
             return $e->toResponse();
         } catch (Exception $e) { // Uncaptured errors
