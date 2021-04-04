@@ -9,7 +9,7 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="testfiles" EntityType="com.example.odata.file"/>
+        <EntitySet Name="files" EntityType="com.example.odata.file"/>
       </EntityContainer>
       <EntityType Name="file">
         <Key>

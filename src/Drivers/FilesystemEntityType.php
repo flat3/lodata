@@ -9,16 +9,16 @@ use Flat3\Lodata\Type;
 
 class FilesystemEntityType extends EntityType
 {
-    public function __construct()
+    public function __construct($identifier = 'file')
     {
-        parent::__construct('file');
+        parent::__construct($identifier);
 
-        $path = new DeclaredProperty('path', Type::string());
-        $this->setKey($path);
-
+        $this->setKey(new DeclaredProperty('path', Type::string()));
         $this->addProperty((new DeclaredProperty('type', Type::string()))->setNullable(false));
         $this->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false));
         $this->addProperty((new DeclaredProperty('timestamp', Type::datetimeoffset()))->setNullable(false));
-        $this->addProperty((new DeclaredProperty('size', Type::int64()))->setNullable(false)->addAnnotation(new Computed()));
+        $this->addProperty(
+            (new DeclaredProperty('size', Type::int64()))->setNullable(false)->addAnnotation(new Computed())
+        );
     }
 }

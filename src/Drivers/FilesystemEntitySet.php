@@ -4,15 +4,16 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
-use Flat3\Lodata\MediaEntity;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileNotFoundException;
 
 /**
@@ -24,10 +25,17 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     /** @var FilesystemAdapter $disk */
     protected $disk;
 
-    public function __construct(string $identifier, Filesystem $filesystem)
+    public function __construct(string $identifier, EntityType $entityType)
     {
-        parent::__construct($identifier, new FilesystemEntityType());
-        $this->disk = $filesystem;
+        parent::__construct($identifier, $entityType);
+        $this->disk = Storage::disk();
+    }
+
+    public function setDiskName(string $name): self
+    {
+        $this->disk = Storage::disk($name);
+
+        return $this;
     }
 
     public function setDisk(Filesystem $disk): self
@@ -43,11 +51,11 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     }
 
     /**
-     * @return MediaEntity Entity
+     * @return FilesystemEntity Entity
      */
     public function newEntity(): Entity
     {
-        $entity = new MediaEntity();
+        $entity = new FilesystemEntity();
         $entity->setEntitySet($this);
 
         return $entity;
@@ -57,9 +65,11 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     {
         $contents = $this->disk->getDriver()->listContents('', true);
         $results = [];
+
         foreach ($contents as $content) {
             $results[] = $this->newEntity()->fromMetadata($content);
         }
+
         return $results;
     }
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Drivers\FilesystemEntitySet;
+use Flat3\Lodata\Drivers\FilesystemEntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -64,7 +65,10 @@ class FilesystemTest extends TestCase
         $disk->put('a1.txt', 'hello');
         $disk->put('d1/a1.txt', 'hello1');
 
-        Lodata::add(new FilesystemEntitySet('testfiles', $disk));
+        $entitySet = new FilesystemEntitySet('files', new FilesystemEntityType());
+        $entitySet->setDisk($disk);
+
+        Lodata::add($entitySet);
     }
 
     public function test_metadata()
@@ -80,7 +84,16 @@ class FilesystemTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path('/testfiles')
+                ->path('/files')
+        );
+    }
+
+    public function test_set_with_metadata()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->metadata(MetadataType\Full::name)
+                ->path('/files')
         );
     }
 
@@ -89,7 +102,7 @@ class FilesystemTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->text()
-                ->path('/testfiles/$count')
+                ->path('/files/$count')
         );
     }
 
@@ -97,7 +110,7 @@ class FilesystemTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/testfiles('a1.txt')")
+                ->path("/files('a1.txt')")
         );
     }
 
@@ -106,7 +119,7 @@ class FilesystemTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->metadata(MetadataType\Full::name)
-                ->path("/testfiles('a1.txt')")
+                ->path("/files('a1.txt')")
         );
     }
 
@@ -114,7 +127,7 @@ class FilesystemTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/testfiles('d1%2Fa1.txt')")
+                ->path("/files('d1%2Fa1.txt')")
         );
     }
 
@@ -123,7 +136,7 @@ class FilesystemTest extends TestCase
         $this->assertNoContent(
             Request::factory()
                 ->delete()
-                ->path("/testfiles('a1.txt')")
+                ->path("/files('a1.txt')")
         );
 
         try {
@@ -146,7 +159,7 @@ class FilesystemTest extends TestCase
                     'timestamp' => DateTimeOffset::factory(Carbon::createFromTimeString('2020-01-01 01:01:01'))->toJson(),
                 ])
                 ->post()
-                ->path("/testfiles"),
+                ->path("/files"),
             Response::HTTP_CREATED
         );
     }

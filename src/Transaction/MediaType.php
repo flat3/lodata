@@ -205,7 +205,7 @@ class MediaType
      * @return string
      * @internal
      */
-    public function toString()
+    public function __toString()
     {
         $type = $this->type.'/';
 

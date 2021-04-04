@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#testfiles/$entity",
+    "@context": "http://localhost/odata/$metadata#files/$entity",
     "type": "file",
     "path": "d1/a1.txt",
     "timestamp": "2020-01-01T01:01:01+00:00",

@@ -1,10 +1,10 @@
 {
-    "@context": "http://localhost/odata/$metadata#testfiles/$entity",
+    "@context": "http://localhost/odata/$metadata#files/$entity",
     "@mediaContentType": "text/plain",
     "@mediaReadLink": "http://odata.files/a1.txt",
     "@type": "#com.example.odata.file",
-    "@id": "http://localhost/odata/testfiles('a1.txt')",
-    "@readLink": "http://localhost/odata/testfiles('a1.txt')",
+    "@id": "http://localhost/odata/files('a1.txt')",
+    "@readLink": "http://localhost/odata/files('a1.txt')",
     "type": "file",
     "path": "a1.txt",
     "timestamp": "2020-01-01T01:01:01+00:00",

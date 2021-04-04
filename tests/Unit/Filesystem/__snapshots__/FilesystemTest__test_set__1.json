@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#testfiles",
+    "@context": "http://localhost/odata/$metadata#files",
     "value": [
         {
             "type": "file",
