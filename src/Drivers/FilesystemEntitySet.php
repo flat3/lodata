@@ -14,6 +14,9 @@ use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Transaction\MediaType;
+use GuzzleHttp\Psr7\Uri;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileNotFoundException;
@@ -67,18 +70,6 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     }
 
     /**
-     * Create a new media entity
-     * @return FilesystemEntity Entity
-     */
-    public function newEntity(): Entity
-    {
-        $entity = new FilesystemEntity();
-        $entity->setEntitySet($this);
-
-        return $entity;
-    }
-
-    /**
      * Query
      * @return array
      */
@@ -88,7 +79,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
         $results = [];
 
         foreach ($contents as $content) {
-            $results[] = $this->newEntity()->fromMetadata($content);
+            $results[] = $this->fromMetadata($content);
         }
 
         return $results;
@@ -97,7 +88,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     /**
      * Read a filesystem entity
      * @param  PropertyValue  $key  Entity ID
-     * @return FilesystemEntity|null
+     * @return Entity|null
      */
     public function read(PropertyValue $key): ?Entity
     {
@@ -107,12 +98,12 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
             throw new NotFoundException();
         }
 
-        return $this->newEntity()->fromMetadata($metadata);
+        return $this->fromMetadata($metadata);
     }
 
     /**
      * Create a filesystem entity
-     * @return FilesystemEntity Entity
+     * @return Entity Entity
      */
     public function create(): Entity
     {
@@ -158,7 +149,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     /**
      * Update a filesystem entity
      * @param  PropertyValue  $key  Entity ID
-     * @return FilesystemEntity Entity
+     * @return Entity Entity
      */
     public function update(PropertyValue $key): Entity
     {
@@ -175,6 +166,33 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
         }
 
         $entity['size'] = $this->disk->size($path);
+
+        return $entity;
+    }
+
+    public function fromMetadata(array $metadata): Entity
+    {
+        $entity = $this->newEntity();
+
+        foreach (['type', 'path', 'timestamp', 'size'] as $meta) {
+            if (array_key_exists($meta, $metadata)) {
+                $this[$meta] = $metadata[$meta];
+            }
+        }
+
+        /** @var Filesystem $disk */
+        $disk = $this->getDisk();
+        $path = $entity->getEntityId()->getPrimitiveValue()->get();
+
+        $contentProperty = $this->getType()->getProperty('content');
+        $entity->addProperty(
+            $entity->newPropertyValue()->setProperty($contentProperty)->setValue(
+                $contentProperty->getType()->instance()
+                    ->set($disk->readStream($path))
+                    ->setContentType(MediaType::factory()->parse($disk->mimeType($path)))
+                    ->setReadLink(new Uri($disk->url($path)))
+            )
+        );
 
         return $entity;
     }
