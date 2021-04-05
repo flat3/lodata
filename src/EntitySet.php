@@ -14,8 +14,8 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
-use Flat3\Lodata\Expression\Parser\Filter as Parser;
-use Flat3\Lodata\Expression\Parser\Search;
+use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
+use Flat3\Lodata\Expression\Parser\Search as SearchParser;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
@@ -918,7 +918,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             return;
         }
 
-        $parser = new Parser($this, $this->getTransaction());
+        $parser = new FilterParser($this, $this->getTransaction());
 
         foreach ($validLiterals as $validLiteral) {
             $parser->addValidLiteral($validLiteral);
@@ -939,7 +939,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             return;
         }
 
-        $parser = new Search($this);
+        $parser = new SearchParser($this);
 
         $tree = $parser->generateTree($search->getValue());
         $tree->compute();
