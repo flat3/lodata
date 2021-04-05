@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Interfaces;
 
 use Flat3\Lodata\Controller\Transaction;
 
-interface EmitJsonInterface extends EmitInterface
+interface JsonInterface extends ResponseInterface
 {
     /**
      * Emit this item as valid JSON to the client response

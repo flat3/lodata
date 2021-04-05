@@ -24,7 +24,7 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
@@ -58,7 +58,7 @@ use Iterator;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitJsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface
 {
     use HasIdentifier;
     use UseReferences;

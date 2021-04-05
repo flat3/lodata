@@ -13,7 +13,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitStreamInterface;
+use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
@@ -32,7 +32,7 @@ use SimpleXMLElement;
  * Metadata
  * @package Flat3\Lodata\PathSegment
  */
-class Metadata implements PipeInterface, EmitStreamInterface
+class Metadata implements PipeInterface, StreamInterface
 {
     public static function pipe(
         Transaction $transaction,

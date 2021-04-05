@@ -24,8 +24,8 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Interfaces\EmitInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
@@ -1024,7 +1024,7 @@ class Transaction implements ArgumentInterface
 
             $this->outputJsonKey($key);
 
-            if ($value instanceof EmitJsonInterface) {
+            if ($value instanceof JsonInterface) {
                 $value->emitJson($this);
             } else {
                 $this->sendJson($value);
@@ -1079,15 +1079,15 @@ class Transaction implements ArgumentInterface
 
     /**
      * Process the request represented by this transaction
-     * @return EmitInterface
+     * @return ResponseInterface
      * @throws NotFoundException
      * @throws NoContentException
      */
-    public function process(): EmitInterface
+    public function process(): ResponseInterface
     {
         $pathSegments = $this->getPathSegments();
 
-        /** @var PipeInterface|EmitInterface $result */
+        /** @var PipeInterface|ResponseInterface $result */
         $result = null;
 
         $lastSegment = Arr::last($pathSegments);

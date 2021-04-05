@@ -8,7 +8,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitStreamInterface;
+use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\Batch;
 use Flat3\Lodata\Transaction\MediaType;
@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
  * @package Flat3\Lodata\Transaction\Batch
  * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_MultipartBatchFormat
  */
-class Multipart extends Batch implements EmitStreamInterface
+class Multipart extends Batch implements StreamInterface
 {
     /**
      * @var MultipartDocument[] $documents Discovered documents

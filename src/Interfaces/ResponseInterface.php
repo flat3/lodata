@@ -6,10 +6,10 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 
 /**
- * Emit Interface
+ * Response Interface
  * @package Flat3\Lodata\Interfaces
  */
-interface EmitInterface
+interface ResponseInterface
 {
     /**
      * Generate the client response

@@ -4,7 +4,7 @@ namespace Flat3\Lodata\Interfaces;
 
 use Flat3\Lodata\Controller\Transaction;
 
-interface EmitStreamInterface extends EmitInterface
+interface StreamInterface extends ResponseInterface
 {
     /**
      * Emit this item as a stream to the client response

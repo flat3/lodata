@@ -8,7 +8,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Transaction\Batch\JSON;
 use Flat3\Lodata\Transaction\Batch\Multipart;
@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
  * Batch
  * @package Flat3\Lodata\PathSegment
  */
-class Batch implements PipeInterface, EmitInterface
+class Batch implements PipeInterface, ResponseInterface
 {
     /**
      * @var \Flat3\Lodata\Transaction\Batch $implementation

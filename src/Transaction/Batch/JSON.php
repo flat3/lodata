@@ -10,7 +10,7 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\Batch;
@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
  * JSON
  * @package Flat3\Lodata\Transaction\Batch
  */
-class JSON extends Batch implements EmitJsonInterface
+class JSON extends Batch implements JsonInterface
 {
     /**
      * Requests in this batch

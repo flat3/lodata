@@ -10,7 +10,7 @@ use Flat3\Lodata\Exception\Protocol\FoundException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitStreamInterface;
+use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type\Stream;
@@ -19,7 +19,7 @@ use Flat3\Lodata\Type\Stream;
  * Value
  * @package Flat3\Lodata\PathSegment
  */
-class Value implements PipeInterface, EmitStreamInterface
+class Value implements PipeInterface, StreamInterface
 {
     /**
      * The primitive provided to this path segment

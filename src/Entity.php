@@ -17,7 +17,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
@@ -38,7 +38,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358838
  * @package Flat3\Lodata
  */
-class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitJsonInterface, PipeInterface, ArgumentInterface, Arrayable
+class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, JsonInterface, PipeInterface, ArgumentInterface, Arrayable
 {
     use UseReferences;
     use HasTransaction;

@@ -7,7 +7,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Helper\Laravel;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530338
  * @package Flat3\Lodata
  */
-abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, EmitJsonInterface, PipeInterface
+abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, JsonInterface, PipeInterface
 {
     /**
      * The OData type name of this primitive

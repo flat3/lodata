@@ -9,14 +9,14 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitStreamInterface;
+use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 
 /**
  * Count
  * @package Flat3\Lodata\PathSegment
  */
-class Count implements EmitStreamInterface, PipeInterface
+class Count implements StreamInterface, PipeInterface
 {
     /**
      * The countable value passed to this segment

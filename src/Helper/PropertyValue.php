@@ -13,7 +13,7 @@ use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\NavigationProperty;
@@ -27,7 +27,7 @@ use Flat3\Lodata\Type\Stream;
  * Property Value
  * @package Flat3\Lodata\Helper
  */
-class PropertyValue implements ContextInterface, PipeInterface, EmitJsonInterface, ResourceInterface
+class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, ResourceInterface
 {
     /**
      * The entity that contains this property value
@@ -92,10 +92,10 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitJsonInterfac
 
     /**
      * Set the attached value
-     * @param  EmitJsonInterface|null  $value  Value
+     * @param  JsonInterface|null  $value  Value
      * @return $this
      */
-    public function setValue(?EmitJsonInterface $value): self
+    public function setValue(?JsonInterface $value): self
     {
         $this->value = $value;
         return $this;
@@ -103,9 +103,9 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitJsonInterfac
 
     /**
      * Get the attached value
-     * @return EmitJsonInterface|null Value
+     * @return JsonInterface|null Value
      */
-    public function getValue(): ?EmitJsonInterface
+    public function getValue(): ?JsonInterface
     {
         return $this->value;
     }

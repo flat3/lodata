@@ -6,7 +6,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
  * Service
  * @package Flat3\Lodata\PathSegment
  */
-class Service implements EmitJsonInterface
+class Service implements JsonInterface
 {
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {

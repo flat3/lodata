@@ -10,7 +10,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitJsonInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 
@@ -18,7 +18,7 @@ use Flat3\Lodata\Interfaces\ReferenceInterface;
  * Reference
  * @package Flat3\Lodata\PathSegment
  */
-class Reference implements EmitJsonInterface, PipeInterface
+class Reference implements JsonInterface, PipeInterface
 {
     /**
      * The referencable item passed to this path segment
