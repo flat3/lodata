@@ -2,8 +2,6 @@
 
 namespace Flat3\Lodata\Transaction\Option;
 
-use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Expression\Parser\Filter as Parser;
 use Flat3\Lodata\Transaction\Option;
 
 /**
@@ -14,20 +12,4 @@ use Flat3\Lodata\Transaction\Option;
 class Filter extends Option
 {
     public const param = 'filter';
-
-    public function applyQuery(EntitySet $query, array $validLiterals = []): void
-    {
-        if (!$this->hasValue()) {
-            return;
-        }
-
-        $parser = new Parser($query, $this->transaction);
-
-        foreach ($validLiterals as $validLiteral) {
-            $parser->addValidLiteral($validLiteral);
-        }
-
-        $tree = $parser->generateTree($this->getValue());
-        $tree->compute();
-    }
 }

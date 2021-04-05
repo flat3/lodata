@@ -14,6 +14,8 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Expression\Parser\Filter as Parser;
+use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
@@ -858,4 +860,81 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         );
     }
 
+    /**
+     * Get selected properties
+     * @return DeclaredProperty[]|ObjectArray Properties
+     */
+    public function getSelectedProperties(): ObjectArray
+    {
+        $select = $this->getSelect();
+        $declaredProperties = $this->getType()->getDeclaredProperties();
+
+        if ($select->isStar()) {
+            return $declaredProperties;
+        }
+
+        if (!$select->hasValue()) {
+            return $declaredProperties;
+        }
+
+        $properties = new ObjectArray();
+        $selectedProperties = $select->getCommaSeparatedValues();
+
+        foreach ($selectedProperties as $selectedProperty) {
+            $property = $this->getType()->getProperty($selectedProperty);
+
+            if (null === $property) {
+                throw new BadRequestException(
+                    'property_does_not_exist',
+                    sprintf(
+                        'The requested property "%s" does not exist on this entity type',
+                        $selectedProperty
+                    )
+                );
+            }
+
+            $properties[] = $property;
+        }
+
+        return $properties;
+    }
+
+    /**
+     * Apply the filter system query option
+     * @param  array  $validLiterals  List of valid literals for this entity set
+     */
+    public function applyFilterQueryOption(array $validLiterals = []): void
+    {
+        $filter = $this->getFilter();
+
+        if (!$filter->hasValue()) {
+            return;
+        }
+
+        $parser = new Parser($this, $this->getTransaction());
+
+        foreach ($validLiterals as $validLiteral) {
+            $parser->addValidLiteral($validLiteral);
+        }
+
+        $tree = $parser->generateTree($filter->getValue());
+        $tree->compute();
+    }
+
+    /**
+     * Apply the search system query option
+     */
+    public function applySearchQueryOption(): void
+    {
+        $search = $this->getSearch();
+
+        if (!$search->hasValue()) {
+            return;
+        }
+
+        $parser = new Search($this);
+
+        $tree = $parser->generateTree($search->getValue());
+        $tree->compute();
+    }
 }

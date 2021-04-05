@@ -51,7 +51,7 @@ trait SQLWhere
                     }
                 }
 
-                $filter->applyQuery($this, $validLiterals);
+                $this->applyFilterQueryOption($validLiterals);
             }
         }
 
@@ -68,7 +68,7 @@ trait SQLWhere
                 }
 
                 $this->whereMaybeAnd();
-                $search->applyQuery($this);
+                $this->applySearchQueryOption();
             }
         }
     }
