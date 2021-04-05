@@ -17,7 +17,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
@@ -29,7 +29,6 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
-use Flat3\Lodata\Type\Stream;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -39,7 +38,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358838
  * @package Flat3\Lodata
  */
-class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitInterface, PipeInterface, ArgumentInterface, Arrayable
+class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterface, ContextInterface, ArrayAccess, EmitJsonInterface, PipeInterface, ArgumentInterface, Arrayable
 {
     use UseReferences;
     use HasTransaction;
@@ -96,7 +95,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         return $this;
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitJson(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
         $entityType = $this->getType();
@@ -209,17 +208,10 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             $transaction->outputJsonKey($propertyValue->getProperty()->getName());
 
             $value = $propertyValue->getValue();
-
-            if ($value instanceof Stream) {
-                $transaction->outputRaw('"');
-                $value->emit($transaction);
-                $transaction->outputRaw('"');
-            } else if ($value instanceof Primitive) {
-                $transaction->outputJsonValue($value);
-            } else if ($value instanceof EmitInterface) {
-                $value->emit($transaction);
+            if (null === $value) {
+                $transaction->sendJson(null);
             } else {
-                $transaction->outputJsonValue($value);
+                $value->emitJson($transaction);
             }
 
             $requiresSeparator = true;
@@ -522,7 +514,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $response->headers->set('etag', $this->getETag());
 
         return $response->setResourceCallback($this, function () use ($transaction) {
-            $this->emit($transaction);
+            $this->emitJson($transaction);
         });
     }
 

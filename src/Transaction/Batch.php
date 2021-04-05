@@ -5,14 +5,13 @@ namespace Flat3\Lodata\Transaction;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Interfaces\EmitInterface;
 use Illuminate\Support\Str;
 
 /**
  * Batch
  * @package Flat3\Lodata\Transaction
  */
-abstract class Batch implements EmitInterface
+abstract class Batch
 {
     /**
      * Content ID referenced resource URLs

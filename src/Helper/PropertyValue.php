@@ -14,7 +14,7 @@ use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\NavigationProperty;
@@ -28,7 +28,7 @@ use Flat3\Lodata\Type\Stream;
  * Property Value
  * @package Flat3\Lodata\Helper
  */
-class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, ResourceInterface
+class PropertyValue implements ContextInterface, PipeInterface, EmitJsonInterface, ResourceInterface
 {
     /**
      * The entity that contains this property value
@@ -93,10 +93,10 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, R
 
     /**
      * Set the attached value
-     * @param  EmitInterface|null  $value  Value
+     * @param  EmitJsonInterface|null  $value  Value
      * @return $this
      */
-    public function setValue(?EmitInterface $value): self
+    public function setValue(?EmitJsonInterface $value): self
     {
         $this->value = $value;
         return $this;
@@ -104,9 +104,9 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, R
 
     /**
      * Get the attached value
-     * @return EmitInterface|null Value
+     * @return EmitJsonInterface|null Value
      */
-    public function getValue(): ?EmitInterface
+    public function getValue(): ?EmitJsonInterface
     {
         return $this->value;
     }
@@ -278,22 +278,9 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, R
         return $argument->getPropertyValues()->get($property);
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitJson(Transaction $transaction): void
     {
-        switch (true) {
-            case $this->value instanceof EntitySet:
-                $this->value->emit($transaction);
-                return;
-
-            case $this->value instanceof Primitive:
-                $transaction->outputJsonValue($this);
-                return;
-        }
-
-        throw new InternalServerErrorException(
-            'cannot_emit_property_value',
-            'Property value received an object it could not emit'
-        );
+        $this->value->emitJson($transaction);
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -322,7 +309,7 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, R
             }
 
             $transaction->outputJsonKey('value');
-            $this->emit($transaction);
+            $this->emitJson($transaction);
 
             $transaction->outputJsonObjectEnd();
         });

@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\Batch;
@@ -20,7 +21,7 @@ use Illuminate\Support\Str;
  * JSON
  * @package Flat3\Lodata\Transaction\Batch
  */
-class JSON extends Batch
+class JSON extends Batch implements EmitJsonInterface
 {
     /**
      * Requests in this batch
@@ -29,7 +30,7 @@ class JSON extends Batch
      */
     protected $requests = [];
 
-    public function emit(Transaction $transaction): void
+    public function emitJson(Transaction $transaction): void
     {
         $transaction->outputJsonObjectStart();
         $transaction->outputJsonKey('responses');
@@ -133,7 +134,7 @@ class JSON extends Batch
                     default:
                         ob_start();
                         $response->sendContent();
-                        $transaction->outputJsonValue(ob_get_clean());
+                        $transaction->sendJson(ob_get_clean());
                         break;
                 }
             }
@@ -188,7 +189,7 @@ class JSON extends Batch
         $this->requests = $requests;
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+            $this->emitJson($transaction);
         });
     }
 }

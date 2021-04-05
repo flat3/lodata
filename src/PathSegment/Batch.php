@@ -43,15 +43,6 @@ class Batch implements PipeInterface, EmitInterface
         return new self();
     }
 
-    /**
-     * Emit the batch response
-     * @param  Transaction  $transaction  Transaction
-     */
-    public function emit(Transaction $transaction): void
-    {
-        $this->implementation->emit($transaction);
-    }
-
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $transaction->ensureMethod(Request::METHOD_POST);

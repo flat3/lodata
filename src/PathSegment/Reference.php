@@ -10,7 +10,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 
@@ -18,7 +18,7 @@ use Flat3\Lodata\Interfaces\ReferenceInterface;
  * Reference
  * @package Flat3\Lodata\PathSegment
  */
-class Reference implements EmitInterface, PipeInterface
+class Reference implements EmitJsonInterface, PipeInterface
 {
     /**
      * The referencable item passed to this path segment
@@ -31,9 +31,9 @@ class Reference implements EmitInterface, PipeInterface
         $this->referencable = $countable;
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitJson(Transaction $transaction): void
     {
-        $this->referencable->emit($transaction);
+        $this->referencable->emitJson($transaction);
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response

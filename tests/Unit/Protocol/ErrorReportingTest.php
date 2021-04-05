@@ -54,7 +54,7 @@ class ErrorReportingTest extends TestCase
                 Lodata::add(new EntityType('text'))
                     ->addProperty(new DeclaredProperty('a', Type::string()))
             ) extends EntitySet implements QueryInterface {
-                public function emit(Transaction $transaction): void
+                public function emitJson(Transaction $transaction): void
                 {
                     $transaction->outputJsonObjectStart();
                     $transaction->outputJsonKV(['key' => 'value']);

@@ -13,7 +13,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitStreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
@@ -32,7 +32,7 @@ use SimpleXMLElement;
  * Metadata
  * @package Flat3\Lodata\PathSegment
  */
-class Metadata implements PipeInterface, EmitInterface
+class Metadata implements PipeInterface, EmitStreamInterface
 {
     public static function pipe(
         Transaction $transaction,
@@ -55,7 +55,7 @@ class Metadata implements PipeInterface, EmitInterface
      * Emit the service metadata document
      * @param  Transaction  $transaction  Transaction
      */
-    public function emit(Transaction $transaction): void
+    public function emitStream(Transaction $transaction): void
     {
         // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_CSDLXMLDocument
         $root = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" />');
@@ -276,7 +276,7 @@ class Metadata implements PipeInterface, EmitInterface
             $annotation->append($schemaAnnotations);
         }
 
-        $transaction->outputRaw($root->asXML());
+        $transaction->sendOutput($root->asXML());
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -284,7 +284,8 @@ class Metadata implements PipeInterface, EmitInterface
         $transaction->ensureMethod(Request::METHOD_GET);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+            $this->emitStream($transaction);
         });
     }
+
 }

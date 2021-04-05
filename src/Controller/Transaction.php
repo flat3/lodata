@@ -25,6 +25,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
@@ -35,7 +36,6 @@ use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment;
-use Flat3\Lodata\Primitive;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\IEEE754Compatible;
@@ -524,6 +524,15 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Get the IEEE 754 compatibility flag
+     * @return IEEE754Compatible
+     */
+    public function getIeee754Compatible(): IEEE754Compatible
+    {
+        return $this->ieee754compatible;
+    }
+
+    /**
      * Return whether the provided preference was requested
      * @param  string  $preference  Preference
      * @return bool
@@ -969,6 +978,15 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Send the provided data as encoded JSON
+     * @param  mixed  $data  Data
+     */
+    public function sendJson($data): void
+    {
+        $this->sendOutput(json_encode($data, JSON_UNESCAPED_SLASHES));
+    }
+
+    /**
      * Output the end of a JSON object
      */
     public function outputJsonObjectEnd()
@@ -993,15 +1011,6 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * Output a raw text value
-     * @param  string  $text  Data
-     */
-    public function outputRaw(string $text)
-    {
-        $this->sendOutput($text);
-    }
-
-    /**
      * Output the provided associative array as a set of JSON key/values
      * @param  array  $kv  Array
      */
@@ -1014,7 +1023,12 @@ class Transaction implements ArgumentInterface
             $value = $kv[$key];
 
             $this->outputJsonKey($key);
-            $this->outputJsonValue($value);
+
+            if ($value instanceof EmitJsonInterface) {
+                $value->emitJson($this);
+            } else {
+                $this->sendJson($value);
+            }
 
             if ($keys) {
                 $this->outputJsonSeparator();
@@ -1028,24 +1042,8 @@ class Transaction implements ArgumentInterface
      */
     public function outputJsonKey(string $key)
     {
-        $this->sendOutput(json_encode((string) $key, JSON_UNESCAPED_SLASHES).':');
-    }
-
-    /**
-     * Encode and output a JSON value
-     * @param  mixed  $value  Value
-     */
-    public function outputJsonValue($value)
-    {
-        if ($value instanceof PropertyValue) {
-            $value = $value->getValue();
-        }
-
-        if ($value instanceof Primitive) {
-            $value = $this->ieee754compatible->isTrue() ? $value->toJsonIeee754() : $value->toJson();
-        }
-
-        $this->sendOutput(json_encode($value, JSON_UNESCAPED_SLASHES));
+        $this->sendJson($key);
+        $this->sendOutput(':');
     }
 
     /**

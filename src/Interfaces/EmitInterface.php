@@ -12,12 +12,6 @@ use Flat3\Lodata\Controller\Transaction;
 interface EmitInterface
 {
     /**
-     * Emit this item to the client response
-     * @param  Transaction  $transaction  Transaction
-     */
-    public function emit(Transaction $transaction): void;
-
-    /**
      * Generate the client response
      * @param  Transaction  $transaction  Transaction
      * @param  ContextInterface|null  $context  Current context

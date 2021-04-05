@@ -9,14 +9,14 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitStreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 
 /**
  * Count
  * @package Flat3\Lodata\PathSegment
  */
-class Count implements EmitInterface, PipeInterface
+class Count implements EmitStreamInterface, PipeInterface
 {
     /**
      * The countable value passed to this segment
@@ -30,15 +30,15 @@ class Count implements EmitInterface, PipeInterface
         $this->countable = $countable;
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitStream(Transaction $transaction): void
     {
-        $transaction->outputRaw($this->countable->count());
+        $transaction->sendOutput($this->countable->count());
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+            $this->emitStream($transaction);
         });
     }
 

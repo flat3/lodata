@@ -6,7 +6,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Illuminate\Http\Request;
 
@@ -14,14 +14,14 @@ use Illuminate\Http\Request;
  * Service
  * @package Flat3\Lodata\PathSegment
  */
-class Service implements EmitInterface
+class Service implements EmitJsonInterface
 {
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $transaction->ensureMethod(Request::METHOD_GET);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+            $this->emitJson($transaction);
         });
     }
 
@@ -29,7 +29,7 @@ class Service implements EmitInterface
      * Emit the service document
      * @param  Transaction  $transaction  Transaction
      */
-    public function emit(Transaction $transaction): void
+    public function emitJson(Transaction $transaction): void
     {
         $transaction->outputJsonObjectStart();
 

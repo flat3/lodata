@@ -172,7 +172,8 @@ class FilesystemTest extends TestCase
         );
     }
 
-    public function test_read_with_embedded_stream() {
+    public function test_read_with_embedded_stream()
+    {
         $this->assertJsonResponse(
             Request::factory()
                 ->select('content')

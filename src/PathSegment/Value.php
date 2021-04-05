@@ -4,14 +4,13 @@ namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\FoundException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitStreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type\Stream;
@@ -20,7 +19,7 @@ use Flat3\Lodata\Type\Stream;
  * Value
  * @package Flat3\Lodata\PathSegment
  */
-class Value implements PipeInterface, EmitInterface
+class Value implements PipeInterface, EmitStreamInterface
 {
     /**
      * The primitive provided to this path segment
@@ -68,14 +67,14 @@ class Value implements PipeInterface, EmitInterface
         }
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
-            $this->emit($transaction);
+            $this->emitStream($transaction);
         });
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitStream(Transaction $transaction): void
     {
         if ($this->primitive) {
-            $transaction->outputRaw($this->primitive->toJson());
+            $transaction->sendOutput($this->primitive->toJson());
         }
     }
 }

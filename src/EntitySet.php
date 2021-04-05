@@ -24,7 +24,7 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EmitInterface;
+use Flat3\Lodata\Interfaces\EmitJsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
@@ -58,7 +58,7 @@ use Iterator;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitInterface, PipeInterface, ArgumentInterface, AnnotationInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, EmitJsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface
 {
     use HasIdentifier;
     use UseReferences;
@@ -312,7 +312,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         return null;
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitJson(Transaction $transaction): void
     {
         $transaction = $this->transaction ?: $transaction;
 
@@ -347,7 +347,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 $entity->useReferences();
             }
 
-            $entity->emit($transaction);
+            $entity->emitJson($transaction);
 
             $this->next();
 
@@ -394,7 +394,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
 
             $transaction->outputJsonKey('value');
-            $this->emit($transaction);
+            $this->emitJson($transaction);
 
             $trailingMetadata = $transaction->createMetadataContainer();
             $this->addTrailingMetadata($transaction, $trailingMetadata, $this->getResourceUrl($transaction));

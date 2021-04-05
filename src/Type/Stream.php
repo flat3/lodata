@@ -4,7 +4,6 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Transaction\MediaType;
 use GuzzleHttp\Psr7\Uri;
@@ -54,7 +53,7 @@ class Stream extends Primitive
         return $this;
     }
 
-    public function emit(Transaction $transaction): void
+    public function emitStream(Transaction $transaction): void
     {
         $output = fopen('php://output', 'w');
         $base64 = new Base64Stream(Utils::streamFor($output));
@@ -64,6 +63,13 @@ class Stream extends Primitive
             echo $base64->write(fread($resource, 512));
         }
         $base64->close();
+    }
+
+    public function emitJson(Transaction $transaction): void
+    {
+        $transaction->sendOutput('"');
+        $this->emitStream($transaction);
+        $transaction->sendOutput('"');
     }
 
     /**
