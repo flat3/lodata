@@ -29,7 +29,8 @@
         "ext-json": "*",
         "ext-dom": "*",
         "ext-pdo": "*",
-        "guzzlehttp/guzzle": "^6.5.5|^7.0.1"
+        "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
+        "zbateson/stream-decorators": "^1.0"
     },
     "extra": {
         "laravel": {
