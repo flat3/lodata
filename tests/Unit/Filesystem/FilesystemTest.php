@@ -166,11 +166,17 @@ class FilesystemTest extends TestCase
 
     public function test_media_stream()
     {
-        $this->assertResponseMetadata(
-            $this->assertFound(
-                Request::factory()
-                    ->path("/files('a1.txt')/\$value")
-            )
+        $this->assertFound(
+            Request::factory()
+                ->path("/files('a1.txt')/content/\$value")
+        );
+    }
+
+    public function test_read_with_embedded_stream() {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->select('content')
+                ->path("/files('a1.txt')")
         );
     }
 }

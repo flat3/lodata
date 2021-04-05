@@ -13,8 +13,8 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EmitInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
-use Flat3\Lodata\MediaEntity;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Type\Stream;
 
 /**
  * Value
@@ -28,12 +28,6 @@ class Value implements PipeInterface, EmitInterface
      */
     protected $primitive;
 
-    /**
-     * The media entity provided to this path segment
-     * @var MediaEntity $entity
-     */
-    protected $entity;
-
     public static function pipe(
         Transaction $transaction,
         string $currentSegment,
@@ -44,22 +38,12 @@ class Value implements PipeInterface, EmitInterface
             throw new PathNotHandledException();
         }
 
-        if ($argument instanceof MediaEntity) {
-            $result = new self();
-            $result->entity = $argument;
-
-            return $result;
-        }
-
-        if ($argument instanceof Entity) {
-            throw new BadRequestException(
-                'bad_value_entity_argument',
-                '$value was passed an entity that is not a media entity'
-            );
-        }
-
         if ($argument instanceof PropertyValue) {
             $value = $argument->getPrimitiveValue();
+
+            if ($value instanceof Stream) {
+                throw new FoundException($value->getReadLink());
+            }
 
             if (null === $value->get()) {
                 throw new NoContentException('no_content', 'No content');
@@ -83,10 +67,6 @@ class Value implements PipeInterface, EmitInterface
             throw new NoContentException('null_value');
         }
 
-        if ($this->entity) {
-            throw new FoundException($this->entity->getReadLink());
-        }
-
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emit($transaction);
         });
@@ -95,7 +75,7 @@ class Value implements PipeInterface, EmitInterface
     public function emit(Transaction $transaction): void
     {
         if ($this->primitive) {
-            $transaction->outputRaw($this->primitive->get());
+            $transaction->outputRaw($this->primitive->toJson());
         }
     }
 }

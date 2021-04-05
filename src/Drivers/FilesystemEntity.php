@@ -2,12 +2,12 @@
 
 namespace Flat3\Lodata\Drivers;
 
-use Flat3\Lodata\MediaEntity;
+use Flat3\Lodata\Entity;
 use Flat3\Lodata\Transaction\MediaType;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
-class FilesystemEntity extends MediaEntity
+class FilesystemEntity extends Entity
 {
     public function fromMetadata(array $metadata): self
     {
@@ -20,8 +20,16 @@ class FilesystemEntity extends MediaEntity
         /** @var Filesystem $disk */
         $disk = $this->getEntitySet()->getDisk();
         $path = $this->getEntityId()->getPrimitiveValue()->get();
-        $this->contentType = MediaType::factory()->parse($disk->mimeType($path));
-        $this->readLink = new Uri($disk->url($path));
+
+        $contentProperty = $this->getType()->getProperty('content');
+        $this->addProperty(
+            $this->newPropertyValue()->setProperty($contentProperty)->setValue(
+                $contentProperty->getType()->instance()
+                    ->set($disk->readStream($path))
+                    ->setContentType(MediaType::factory()->parse($disk->mimeType($path)))
+                    ->setReadLink(new Uri($disk->url($path)))
+            )
+        );
 
         return $this;
     }

@@ -312,17 +312,17 @@ class TypesTest extends TestCase
         Type\Stream::class => [
             'toUrl' => [
                 [null, 'null'],
-                ['hello', "'hello'"],
+                ['hello', "'aGVsbG8='"],
                 ['', "''"],
-                ["hell'o", "'hell'o'"],
-                [0, "'0'"],
+                ["hell'o", "'aGVsbCdv'"],
+                [0, "'MA=='"],
             ],
             'toJson' => [
                 [null, null],
-                ['hello', 'hello'],
+                ['hello', 'aGVsbG8='],
                 ['', ''],
-                ["hell'o", "hell'o"],
-                [0, '0'],
+                ["hell'o", "aGVsbCdv"],
+                [0, 'MA=='],
             ],
         ],
         Type\String_::class => [

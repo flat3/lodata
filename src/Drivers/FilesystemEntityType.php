@@ -13,12 +13,24 @@ class FilesystemEntityType extends EntityType
     {
         parent::__construct($identifier);
 
-        $this->setKey(new DeclaredProperty('path', Type::string()));
-        $this->addProperty((new DeclaredProperty('type', Type::string()))->setNullable(false));
-        $this->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false));
-        $this->addProperty((new DeclaredProperty('timestamp', Type::datetimeoffset()))->setNullable(false));
-        $this->addProperty(
-            (new DeclaredProperty('size', Type::int64()))->setNullable(false)->addAnnotation(new Computed())
-        );
+        $this->setKey(new DeclaredProperty('path', Type::string()))
+            ->addProperty(
+                (new DeclaredProperty('type', Type::string()))
+                    ->setNullable(false)
+            )
+            ->addProperty(
+                (new DeclaredProperty('name', Type::string()))
+                    ->setNullable(false)
+            )
+            ->addProperty(
+                (new DeclaredProperty('timestamp', Type::datetimeoffset()))
+                    ->setNullable(false)
+            )
+            ->addProperty(
+                (new DeclaredProperty('size', Type::int64()))
+                    ->setNullable(false)
+                    ->addAnnotation(new Computed())
+            )
+            ->addDeclaredProperty('content', Type::stream());
     }
 }

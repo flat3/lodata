@@ -48,6 +48,7 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\Option;
+use Flat3\Lodata\Type\Stream;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Iterator;
@@ -868,6 +869,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     {
         $select = $this->getSelect();
         $declaredProperties = $this->getType()->getDeclaredProperties();
+
+        // Stream properties must be explicitly requested
+        $declaredProperties = $declaredProperties->filter(function ($property) {
+            /** @var Property $property */
+            return !$property->getPrimitiveType()->is(Stream::class);
+        });
 
         if ($select->isStar()) {
             return $declaredProperties;

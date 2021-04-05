@@ -20,7 +20,9 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
+use Flat3\Lodata\Type\Stream;
 
 /**
  * Property Value
@@ -165,12 +167,18 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, R
         }
 
         $select = $transaction->getSelect();
+        $selected = $select->getCommaSeparatedValues();
 
-        if ($select->isStar() || !$select->hasValue()) {
-            return true;
+        if (
+            $this->getProperty()->getPrimitiveType()->is(Stream::class) &&
+            !in_array($this->property->getName(), $selected)
+        ) {
+            return false;
         }
 
-        $selected = $select->getCommaSeparatedValues();
+        if (($select->isStar() || !$select->hasValue())) {
+            return true;
+        }
 
         if ($selected && !in_array($this->property->getName(), $selected)) {
             return false;
@@ -318,5 +326,42 @@ class PropertyValue implements ContextInterface, PipeInterface, EmitInterface, R
 
             $transaction->outputJsonObjectEnd();
         });
+    }
+
+    /**
+     * Get the metadata for this property value
+     * @param  Transaction  $transaction  Related transaction
+     * @return MetadataContainer Metadata container
+     */
+    public function getMetadata(Transaction $transaction): MetadataContainer
+    {
+        $metadata = $transaction->createMetadataContainer();
+        $metadata->setPrefix($this->getProperty()->getName());
+
+        $property = $this->property;
+
+        switch (true) {
+            case $property instanceof NavigationProperty:
+                $metadata['navigationLink'] = $this->entity->getResourceUrl($transaction).'/'.$this->getProperty()->getName();
+
+                if ($this->getValue() instanceof EntitySet) {
+                    $entitySet = $this->getEntitySetValue();
+                    $transaction = $entitySet->getTransaction();
+
+                    if (!$transaction) {
+                        break;
+                    }
+
+                    $entitySet->addTrailingMetadata($transaction, $metadata, $metadata['navigationLink']);
+                }
+                break;
+
+            case $property->getPrimitiveType()->is(Stream::class):
+                $metadata['mediaContentType'] = (string) $this->getPrimitiveValue()->getContentType();
+                $metadata['mediaReadLink'] = (string) $this->getPrimitiveValue()->getReadLink();
+                break;
+        }
+
+        return $metadata;
     }
 }

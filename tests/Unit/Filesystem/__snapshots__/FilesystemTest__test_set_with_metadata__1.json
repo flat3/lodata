@@ -9,7 +9,9 @@
             "type": "file",
             "path": "a1.txt",
             "timestamp": "2020-01-01T01:01:01+00:00",
-            "size": 5
+            "size": 5,
+            "content@mediaContentType": "text/plain",
+            "content@mediaReadLink": "http://odata.files/a1.txt"
         },
         {
             "@type": "#com.example.odata.file",
@@ -17,7 +19,9 @@
             "@readLink": "http://localhost/odata/files('d1')",
             "type": "dir",
             "path": "d1",
-            "timestamp": "2020-01-01T01:01:01+00:00"
+            "timestamp": "2020-01-01T01:01:01+00:00",
+            "content@mediaContentType": "*/*",
+            "content@mediaReadLink": "http://odata.files/d1"
         },
         {
             "@type": "#com.example.odata.file",
@@ -26,7 +30,9 @@
             "type": "file",
             "path": "d1/a1.txt",
             "timestamp": "2020-01-01T01:01:01+00:00",
-            "size": 6
+            "size": 6,
+            "content@mediaContentType": "text/plain",
+            "content@mediaReadLink": "http://odata.files/d1/a1.txt"
         }
     ]
 }

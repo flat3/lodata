@@ -29,6 +29,7 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
+use Flat3\Lodata\Type\Stream;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -186,6 +187,16 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             /** @var PropertyValue $propertyValue */
             $propertyValue = $this->propertyValues->current();
 
+            $propertyMetadata = $propertyValue->getMetadata($transaction);
+
+            if ($propertyMetadata->hasProperties()) {
+                if ($requiresSeparator) {
+                    $transaction->outputJsonSeparator();
+                }
+
+                $transaction->outputJsonKV($propertyMetadata->getProperties());
+            }
+
             if (!$propertyValue->shouldEmit($transaction)) {
                 $this->propertyValues->next();
                 continue;
@@ -195,20 +206,18 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
                 $transaction->outputJsonSeparator();
             }
 
-            if ($propertyValue->getProperty() instanceof NavigationProperty) {
-                $propertyMetadata = $this->getExpansionMetadata($transaction, $propertyValue);
-
-                if ($propertyMetadata->hasProperties()) {
-                    $transaction->outputJsonKV($propertyMetadata->getProperties());
-                    $transaction->outputJsonSeparator();
-                }
-            }
-
             $transaction->outputJsonKey($propertyValue->getProperty()->getName());
 
             $value = $propertyValue->getValue();
-            if ($value instanceof EmitInterface) {
-                $propertyValue->getValue()->emit($transaction);
+
+            if ($value instanceof Stream) {
+                $transaction->outputRaw('"');
+                $value->emit($transaction);
+                $transaction->outputRaw('"');
+            } else if ($value instanceof Primitive) {
+                $transaction->outputJsonValue($value);
+            } else if ($value instanceof EmitInterface) {
+                $value->emit($transaction);
             } else {
                 $transaction->outputJsonValue($value);
             }
@@ -353,32 +362,6 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     public function offsetUnset($offset)
     {
         $this->propertyValues->drop($offset);
-    }
-
-    /**
-     * Get the metadata for this expanded entity
-     * @param  Transaction  $transaction  Related transaction
-     * @param  PropertyValue  $propertyValue  Navigation property value
-     * @return MetadataContainer Metadata container
-     */
-    public function getExpansionMetadata(Transaction $transaction, PropertyValue $propertyValue): MetadataContainer
-    {
-        $propertyMetadata = $transaction->createMetadataContainer();
-        $propertyMetadata->setPrefix($propertyValue->getProperty()->getName());
-        $propertyMetadata['navigationLink'] = $this->getResourceUrl($transaction).'/'.$propertyValue->getProperty()->getName();
-
-        if ($propertyValue->getValue() instanceof EntitySet) {
-            $entitySet = $propertyValue->getEntitySetValue();
-            $transaction = $entitySet->getTransaction();
-
-            if (!$transaction) {
-                return $propertyMetadata;
-            }
-
-            $entitySet->addTrailingMetadata($transaction, $propertyMetadata, $propertyMetadata['navigationLink']);
-        }
-
-        return $propertyMetadata;
     }
 
     public static function pipe(

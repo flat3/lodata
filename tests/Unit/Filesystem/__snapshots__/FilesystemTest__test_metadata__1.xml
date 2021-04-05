@@ -22,6 +22,7 @@
         <Property Name="size" Type="Edm.Int64" Nullable="false">
           <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>
+        <Property Name="content" Type="Edm.Stream" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
