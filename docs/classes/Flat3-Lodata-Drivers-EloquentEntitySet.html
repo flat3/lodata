@@ -173,6 +173,20 @@
 <dd>Generate trailing metadata for this entity set</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-EntitySet.html#method_applyFilterQueryOption">applyFilterQueryOption()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Apply the filter system query option</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-EntitySet.html#method_applySearchQueryOption">applySearchQueryOption()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Apply the search system query option</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_commit">commit()</a>
     <span>
                         &nbsp;: mixed    </span>
@@ -222,11 +236,11 @@
 <dd>Discover an Eloquent relationship method and add it to the model</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-EntitySet.html#method_emit">emit()</a>
+    <a href="classes/Flat3-Lodata-EntitySet.html#method_emitJson">emitJson()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd>Emit this item to the client response</dd>
+<dd>Emit this item as valid JSON to the client response</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-EntitySet.html#method_factory">factory()</a>
@@ -325,6 +339,13 @@
                         &nbsp;: <a href="classes/Flat3-Lodata-Transaction-Option-Select.html"><abbr title="\Flat3\Lodata\Transaction\Option\Select">Select</abbr></a>    </span>
 </dt>
 <dd>Return this select option that applies to this entity set</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-EntitySet.html#method_getSelectedProperties">getSelectedProperties()</a>
+    <span>
+                        &nbsp;: array&lt;string|int, <a href="classes/Flat3-Lodata-DeclaredProperty.html"><abbr title="\Flat3\Lodata\DeclaredProperty">DeclaredProperty</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
+</dt>
+<dd>Get selected properties</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getSetName">getSetName()</a>
@@ -443,7 +464,7 @@
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
 </dt>
-<dd>Generate the client response</dd>
+<dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-EntitySet.html#method_rewind">rewind()</a>
@@ -584,7 +605,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">279</span>
+    <span class="phpdocumentor-element-found-in__line">282</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add a navigation binding to this entity set</p>
@@ -630,7 +651,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">806</span>
+    <span class="phpdocumentor-element-found-in__line">809</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate trailing metadata for this entity set</p>
@@ -684,6 +705,86 @@ Implements internal pagination</dd>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_applyFilterQueryOption">
+        applyFilterQueryOption()
+        <a href="classes/Flat3-Lodata-EntitySet.html#method_applyFilterQueryOption" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">913</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Apply the filter system query option</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">applyFilterQueryOption</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$validLiterals</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$validLiterals</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>List of valid literals for this entity set</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_applySearchQueryOption">
+        applySearchQueryOption()
+        <a href="classes/Flat3-Lodata-EntitySet.html#method_applySearchQueryOption" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">934</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Apply the search system query option</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">applySearchQueryOption</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_commit">
         commit()
         <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_commit" class="headerlink"><i class="fas fa-link"></i></a>
@@ -723,7 +824,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">223</span>
+    <span class="phpdocumentor-element-found-in__line">226</span>
 </aside>
 
         <p class="phpdocumentor-summary">Count the number of results in the result buffer</p>
@@ -792,7 +893,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">175</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 </aside>
 
         <p class="phpdocumentor-summary">The current entity in the results buffer</p>
@@ -958,21 +1059,21 @@ Implements internal pagination</dd>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_emit">
-        emit()
-        <a href="classes/Flat3-Lodata-EntitySet.html#method_emit" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_emitJson">
+        emitJson()
+        <a href="classes/Flat3-Lodata-EntitySet.html#method_emitJson" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">312</span>
+    <span class="phpdocumentor-element-found-in__line">315</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Emit this item to the client response</p>
+        <p class="phpdocumentor-summary">Emit this item as valid JSON to the client response</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">emit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                <span class="phpdocumentor-signature__name">emitJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1011,7 +1112,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">156</span>
+    <span class="phpdocumentor-element-found-in__line">159</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new entity set definition</p>
@@ -1081,7 +1182,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">367</span>
+    <span class="phpdocumentor-element-found-in__line">370</span>
 </aside>
 
         <p class="phpdocumentor-summary">Read this entity set</p>
@@ -1137,7 +1238,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">300</span>
+    <span class="phpdocumentor-element-found-in__line">303</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the navigation binding for the provided navigation property on this entity set</p>
@@ -1219,7 +1320,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">463</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the context URL for this entity set instance</p>
@@ -1266,7 +1367,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">750</span>
+    <span class="phpdocumentor-element-found-in__line">753</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the count option that applies to this entity set</p>
@@ -1300,7 +1401,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">741</span>
+    <span class="phpdocumentor-element-found-in__line">744</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the filter option that applies to this entity set</p>
@@ -1334,7 +1435,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">166</span>
+    <span class="phpdocumentor-element-found-in__line">169</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the OData kind of this resource</p>
@@ -1416,7 +1517,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">290</span>
+    <span class="phpdocumentor-element-found-in__line">293</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the navigation bindings attached to this entity set</p>
@@ -1450,7 +1551,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">759</span>
+    <span class="phpdocumentor-element-found-in__line">762</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the orderby option that applies to this entity set</p>
@@ -1484,7 +1585,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">484</span>
+    <span class="phpdocumentor-element-found-in__line">487</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resource URL for this entity set instance</p>
@@ -1531,7 +1632,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">732</span>
+    <span class="phpdocumentor-element-found-in__line">735</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the search option that applies to this entity set</p>
@@ -1565,7 +1666,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">795</span>
+    <span class="phpdocumentor-element-found-in__line">798</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return this select option that applies to this entity set</p>
@@ -1583,6 +1684,41 @@ Implements internal pagination</dd>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-Option-Select.html"><abbr title="\Flat3\Lodata\Transaction\Option\Select">Select</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getSelectedProperties">
+        getSelectedProperties()
+        <a href="classes/Flat3-Lodata-EntitySet.html#method_getSelectedProperties" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">868</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get selected properties</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getSelectedProperties</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-DeclaredProperty.html"><abbr title="\Flat3\Lodata\DeclaredProperty">DeclaredProperty</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-DeclaredProperty.html"><abbr title="\Flat3\Lodata\DeclaredProperty">DeclaredProperty</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Properties</p>
+</section>
 
     
 </article>
@@ -1646,7 +1782,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">768</span>
+    <span class="phpdocumentor-element-found-in__line">771</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the skip option that applies to this entity set</p>
@@ -1680,7 +1816,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">777</span>
+    <span class="phpdocumentor-element-found-in__line">780</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the skip token option that applies to this entity set</p>
@@ -1749,7 +1885,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">786</span>
+    <span class="phpdocumentor-element-found-in__line">789</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the top option that applies to this entity set</p>
@@ -1783,7 +1919,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">711</span>
+    <span class="phpdocumentor-element-found-in__line">714</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the entity type of this entity set</p>
@@ -1865,7 +2001,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">196</span>
+    <span class="phpdocumentor-element-found-in__line">199</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the entity ID of the current entity in the results buffer</p>
@@ -1947,7 +2083,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">699</span>
+    <span class="phpdocumentor-element-found-in__line">702</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new entity attached to this entity set instance</p>
@@ -1982,7 +2118,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">187</span>
+    <span class="phpdocumentor-element-found-in__line">190</span>
 </aside>
 
         <p class="phpdocumentor-summary">Move to the next entity in the results buffer</p>
@@ -2016,7 +2152,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">589</span>
+    <span class="phpdocumentor-element-found-in__line">592</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -2219,7 +2355,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">513</span>
+    <span class="phpdocumentor-element-found-in__line">516</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the entity ID of the entity this set was generated from using the attached expansion property value</p>
@@ -2254,17 +2390,15 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">408</span>
+    <span class="phpdocumentor-element-found-in__line">411</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Generate the client response</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">response</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span></code>
 
-        <section class="phpdocumentor-description"></section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2272,18 +2406,14 @@ Implements internal pagination</dd>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Transaction</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$context</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Current context</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -2292,8 +2422,7 @@ Implements internal pagination</dd>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span>
             &mdash;
-            <section class="phpdocumentor-description"><p>Client Response</p>
-</section>
+            <section class="phpdocumentor-description"></section>
 
     
 </article>
@@ -2310,7 +2439,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">210</span>
+    <span class="phpdocumentor-element-found-in__line">213</span>
 </aside>
 
         <p class="phpdocumentor-summary">Rewind the results buffer</p>
@@ -2376,7 +2505,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">267</span>
+    <span class="phpdocumentor-element-found-in__line">270</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the maximum pagination size to use with the service providing results into the buffer</p>
@@ -2468,7 +2597,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">503</span>
+    <span class="phpdocumentor-element-found-in__line">506</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the navigation property value that relates to this entity set instance</p>
@@ -2514,7 +2643,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">559</span>
+    <span class="phpdocumentor-element-found-in__line">562</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the context transaction this entity set instance should use</p>
@@ -2560,7 +2689,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">721</span>
+    <span class="phpdocumentor-element-found-in__line">724</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the entity type of this entity set</p>
@@ -2685,7 +2814,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">237</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether there is a current entity in the results buffer

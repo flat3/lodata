@@ -34,7 +34,7 @@ class Stream extends Primitive
             return Constants::NULL;
         }
 
-        return sprintf("'%s'", base64_encode($this->value));
+        return sprintf("'%s'", $this->getEncodedValueAsString());
     }
 
     public function toJson()
@@ -43,7 +43,12 @@ class Stream extends Primitive
             return null;
         }
 
-        return (string) base64_encode($this->value);
+        return $this->getEncodedValueAsString();
+    }
+
+    public function getEncodedValueAsString(): string
+    {
+        return base64_encode(is_resource($this->value) ? stream_get_contents($this->value) : $this->value);
     }
 
     public function set($value): self

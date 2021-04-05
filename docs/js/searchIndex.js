@@ -121,6 +121,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedFormats.html#property_name"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Computed",
+            "name": "Computed",
+            "summary": "Annotation",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Computed.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Computed\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Computed.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Computed\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Computed.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\ConventionalIDs",
             "name": "ConventionalIDs",
             "summary": "Conventional\u0020IDs",
@@ -641,6 +656,11 @@ Search.appendIndex(
             "summary": "Mark\u0020as\u0020requested\u0020preference\u0020as\u0020having\u0020been\u0020applied\u0020to\u0020the\u0020response\u0020object",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_preferenceApplied"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AgetIeee754Compatible\u0028\u0029",
+            "name": "getIeee754Compatible",
+            "summary": "Get\u0020the\u0020IEEE\u0020754\u0020compatibility\u0020flag",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_getIeee754Compatible"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AhasPreference\u0028\u0029",
             "name": "hasPreference",
             "summary": "Return\u0020whether\u0020the\u0020provided\u0020preference\u0020was\u0020requested",
@@ -786,6 +806,11 @@ Search.appendIndex(
             "summary": "Output\u0020the\u0020provided\u0020string",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_sendOutput"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AsendJson\u0028\u0029",
+            "name": "sendJson",
+            "summary": "Send\u0020the\u0020provided\u0020data\u0020as\u0020encoded\u0020JSON",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_sendJson"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AoutputJsonObjectEnd\u0028\u0029",
             "name": "outputJsonObjectEnd",
             "summary": "Output\u0020the\u0020end\u0020of\u0020a\u0020JSON\u0020object",
@@ -801,11 +826,6 @@ Search.appendIndex(
             "summary": "Output\u0020the\u0020end\u0020of\u0020a\u0020JSON\u0020array",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_outputJsonArrayEnd"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AoutputRaw\u0028\u0029",
-            "name": "outputRaw",
-            "summary": "Output\u0020a\u0020raw\u0020text\u0020value",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_outputRaw"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AoutputJsonKV\u0028\u0029",
             "name": "outputJsonKV",
             "summary": "Output\u0020the\u0020provided\u0020associative\u0020array\u0020as\u0020a\u0020set\u0020of\u0020JSON\u0020key\/values",
@@ -815,11 +835,6 @@ Search.appendIndex(
             "name": "outputJsonKey",
             "summary": "Output\u0020a\u0020JSON\u0020object\u0020key",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_outputJsonKey"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AoutputJsonValue\u0028\u0029",
-            "name": "outputJsonValue",
-            "summary": "Encode\u0020and\u0020output\u0020a\u0020JSON\u0020value",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_outputJsonValue"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AoutputJsonSeparator\u0028\u0029",
             "name": "outputJsonSeparator",
@@ -1030,6 +1045,91 @@ Search.appendIndex(
             "name": "commit",
             "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_commit"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntity",
+            "name": "FilesystemEntity",
+            "summary": "Entity",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntity.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntity\u003A\u003AfromMetadata\u0028\u0029",
+            "name": "fromMetadata",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntity.html#method_fromMetadata"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet",
+            "name": "FilesystemEntitySet",
+            "summary": "Class\u0020FilesystemEntitySet",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AsetDiskName\u0028\u0029",
+            "name": "setDiskName",
+            "summary": "Set\u0020the\u0020disk\u0020by\u0020name",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_setDiskName"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AsetDisk\u0028\u0029",
+            "name": "setDisk",
+            "summary": "Set\u0020the\u0020disk\u0020by\u0020filesystem\u0020adaptor",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_setDisk"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AgetDisk\u0028\u0029",
+            "name": "getDisk",
+            "summary": "Get\u0020the\u0020attached\u0020disk",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_getDisk"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AnewEntity\u0028\u0029",
+            "name": "newEntity",
+            "summary": "Create\u0020a\u0020new\u0020media\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_newEntity"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003Aquery\u0028\u0029",
+            "name": "query",
+            "summary": "Query",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_query"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003Aread\u0028\u0029",
+            "name": "read",
+            "summary": "Read\u0020a\u0020filesystem\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_read"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003Acreate\u0028\u0029",
+            "name": "create",
+            "summary": "Create\u0020a\u0020filesystem\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_create"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "Delete\u0020a\u0020filesystem\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_delete"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AgetEntityIdPath\u0028\u0029",
+            "name": "getEntityIdPath",
+            "summary": "Get\u0020a\u0020disk\u0020path\u0020from\u0020the\u0020entity\u0020id",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_getEntityIdPath"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003Aupdate\u0028\u0029",
+            "name": "update",
+            "summary": "Update\u0020a\u0020filesystem\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_update"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003A\u0024disk",
+            "name": "disk",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#property_disk"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntityType",
+            "name": "FilesystemEntityType",
+            "summary": "Entity\u0020Type",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntityType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntityType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntityType.html#method___construct"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet",
             "name": "RedisEntitySet",
@@ -1471,10 +1571,10 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020entity\u0020set\u0020that\u0020contains\u0020this\u0020entity",
             "url": "classes/Flat3-Lodata-Entity.html#method_setEntitySet"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Entity.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Entity.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003AgetEntityId\u0028\u0029",
             "name": "getEntityId",
@@ -1531,11 +1631,6 @@ Search.appendIndex(
             "summary": "Remove\u0020a\u0020property\u0020value\u0020from\u0020this\u0020entity",
             "url": "classes/Flat3-Lodata-Entity.html#method_offsetUnset"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003AgetExpansionMetadata\u0028\u0029",
-            "name": "getExpansionMetadata",
-            "summary": "Get\u0020the\u0020metadata\u0020for\u0020this\u0020expanded\u0020entity",
-            "url": "classes/Flat3-Lodata-Entity.html#method_getExpansionMetadata"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003Apipe\u0028\u0029",
             "name": "pipe",
             "summary": "Path\u0020component\u0020handler",
@@ -1568,7 +1663,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-Entity.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Entity\u003A\u003AfromArray\u0028\u0029",
@@ -1666,10 +1761,10 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020navigation\u0020binding\u0020for\u0020the\u0020provided\u0020navigation\u0020property\u0020on\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getBindingByNavigationProperty"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Aget\u0028\u0029",
             "name": "get",
@@ -1678,7 +1773,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetContextUrl\u0028\u0029",
@@ -1770,6 +1865,21 @@ Search.appendIndex(
             "name": "addTrailingMetadata",
             "summary": "Generate\u0020trailing\u0020metadata\u0020for\u0020this\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_addTrailingMetadata"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetSelectedProperties\u0028\u0029",
+            "name": "getSelectedProperties",
+            "summary": "Get\u0020selected\u0020properties",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_getSelectedProperties"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AapplyFilterQueryOption\u0028\u0029",
+            "name": "applyFilterQueryOption",
+            "summary": "Apply\u0020the\u0020filter\u0020system\u0020query\u0020option",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_applyFilterQueryOption"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AapplySearchQueryOption\u0028\u0029",
+            "name": "applySearchQueryOption",
+            "summary": "Apply\u0020the\u0020search\u0020system\u0020query\u0020option",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_applySearchQueryOption"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
@@ -1956,6 +2066,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Exception-Protocol-BadRequestException.html#property_message"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ConflictException",
+            "name": "ConflictException",
+            "summary": "Conflict\u0020Exception",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ConflictException.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ConflictException\u003A\u003A\u0024httpCode",
+            "name": "httpCode",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ConflictException.html#property_httpCode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ConflictException\u003A\u003A\u0024odataCode",
+            "name": "odataCode",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ConflictException.html#property_odataCode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ConflictException\u003A\u003A\u0024message",
+            "name": "message",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ConflictException.html#property_message"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ForbiddenException",
             "name": "ForbiddenException",
             "summary": "Forbidden\u0020Exception",
@@ -1975,6 +2105,36 @@ Search.appendIndex(
             "name": "message",
             "summary": "",
             "url": "classes/Flat3-Lodata-Exception-Protocol-ForbiddenException.html#property_message"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\FoundException",
+            "name": "FoundException",
+            "summary": "Found\u0020Exception",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-FoundException.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\FoundException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-FoundException.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\FoundException\u003A\u003A\u0024httpCode",
+            "name": "httpCode",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-FoundException.html#property_httpCode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\FoundException\u003A\u003A\u0024odataCode",
+            "name": "odataCode",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-FoundException.html#property_odataCode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\FoundException\u003A\u003A\u0024message",
+            "name": "message",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-FoundException.html#property_message"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\FoundException\u003A\u003A\u0024suppressContent",
+            "name": "suppressContent",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-FoundException.html#property_suppressContent"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\InternalServerErrorException",
             "name": "InternalServerErrorException",
@@ -2021,11 +2181,6 @@ Search.appendIndex(
             "summary": "No\u0020Content\u0020Exception",
             "url": "classes/Flat3-Lodata-Exception-Protocol-NoContentException.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\NoContentException\u003A\u003AtoResponse\u0028\u0029",
-            "name": "toResponse",
-            "summary": "No\u0020Content\u0020responses\u0020do\u0020not\u0020return\u0020content",
-            "url": "classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#method_toResponse"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\NoContentException\u003A\u003A\u0024httpCode",
             "name": "httpCode",
             "summary": "",
@@ -2040,6 +2195,11 @@ Search.appendIndex(
             "name": "message",
             "summary": "",
             "url": "classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#property_message"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\NoContentException\u003A\u003A\u0024suppressContent",
+            "name": "suppressContent",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#property_suppressContent"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\NotAcceptableException",
             "name": "NotAcceptableException",
@@ -2195,6 +2355,11 @@ Search.appendIndex(
             "name": "headers",
             "summary": "",
             "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_headers"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003A\u0024suppressContent",
+            "name": "suppressContent",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_suppressContent"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Event\\ArgumentSeparator",
             "name": "ArgumentSeparator",
@@ -3721,6 +3886,61 @@ Search.appendIndex(
             "summary": "Generate\u0020a\u0020property\u0020value\u0020for\u0020this\u0020entity",
             "url": "classes/Flat3-Lodata-GeneratedProperty.html#method_generatePropertyValue"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64",
+            "name": "Base64",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003Afread\u0028\u0029",
+            "name": "fread",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#method_fread"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003Afwrite\u0028\u0029",
+            "name": "fwrite",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#method_fwrite"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#method_get"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003Aencode\u0028\u0029",
+            "name": "encode",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#method_encode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003Adecode\u0028\u0029",
+            "name": "decode",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#method_decode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003Achars",
+            "name": "chars",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#constant_chars"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003A\u0024inputBuffer",
+            "name": "inputBuffer",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#property_inputBuffer"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003A\u0024inputBufferPosition",
+            "name": "inputBufferPosition",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#property_inputBufferPosition"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Base64\u003A\u003A\u0024outputBuffer",
+            "name": "outputBuffer",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Base64.html#property_outputBuffer"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\Constants",
             "name": "Constants",
             "summary": "Constants",
@@ -4116,15 +4336,20 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-Helper-PropertyValue.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Helper-PropertyValue.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Helper-PropertyValue.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-Helper-PropertyValue.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue\u003A\u003AgetMetadata\u0028\u0029",
+            "name": "getMetadata",
+            "summary": "Get\u0020the\u0020metadata\u0020for\u0020this\u0020property\u0020value",
+            "url": "classes/Flat3-Lodata-Helper-PropertyValue.html#method_getMetadata"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\Url",
             "name": "Url",
@@ -4215,21 +4440,6 @@ Search.appendIndex(
             "name": "getContextUrl",
             "summary": "Get\u0020the\u0020context\u0020URL",
             "url": "classes/Flat3-Lodata-Interfaces-ContextInterface.html#method_getContextUrl"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Interfaces\\EmitInterface",
-            "name": "EmitInterface",
-            "summary": "Emit\u0020Interface",
-            "url": "classes/Flat3-Lodata-Interfaces-EmitInterface.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Interfaces\\EmitInterface\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Interfaces-EmitInterface.html#method_emit"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Interfaces\\EmitInterface\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Interfaces-EmitInterface.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\CountInterface",
             "name": "CountInterface",
@@ -4356,6 +4566,16 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020name\u0020of\u0020this\u0020item,\u0020qualified\u0020if\u0020required\u0020based\u0020on\u0020the\u0020provided\u0020namespace",
             "url": "classes/Flat3-Lodata-Interfaces-IdentifierInterface.html#method_getResolvedName"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\JsonInterface",
+            "name": "JsonInterface",
+            "summary": "Response\u0020Interface",
+            "url": "classes/Flat3-Lodata-Interfaces-JsonInterface.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\JsonInterface\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Interfaces-JsonInterface.html#method_emitJson"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\NameInterface",
             "name": "NameInterface",
             "summary": "Name\u0020Interface",
@@ -4421,6 +4641,16 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020resource\u0020URL\u0020for\u0020this\u0020item",
             "url": "classes/Flat3-Lodata-Interfaces-ResourceInterface.html#method_getResourceUrl"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\ResponseInterface",
+            "name": "ResponseInterface",
+            "summary": "Response\u0020Interface",
+            "url": "classes/Flat3-Lodata-Interfaces-ResponseInterface.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\ResponseInterface\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "Generate\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Interfaces-ResponseInterface.html#method_response"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\ServiceInterface",
             "name": "ServiceInterface",
             "summary": "Service\u0020Interface",
@@ -4445,6 +4675,16 @@ Search.appendIndex(
             "name": "setTitle",
             "summary": "Set\u0020the\u0020title\u0020of\u0020this\u0020service",
             "url": "classes/Flat3-Lodata-Interfaces-ServiceInterface.html#method_setTitle"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\StreamInterface",
+            "name": "StreamInterface",
+            "summary": "Response\u0020Interface",
+            "url": "classes/Flat3-Lodata-Interfaces-StreamInterface.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\StreamInterface\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020a\u0020stream\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Interfaces-StreamInterface.html#method_emitStream"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\TransactionInterface",
             "name": "TransactionInterface",
@@ -4841,11 +5081,6 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020the\u0020batch\u0020response",
-            "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_emit"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
             "summary": "Generate\u0020the\u0020client\u0020response",
@@ -4861,14 +5096,14 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Count.html#method___construct"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Count\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-PathSegment-Count.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Count\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020a\u0020stream\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-Count.html#method_emitStream"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Count\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Count.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Count\u003A\u003Apipe\u0028\u0029",
@@ -4896,14 +5131,14 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
             "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
-            "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_emit"
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_emitStream"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Reference",
@@ -4916,14 +5151,14 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Reference.html#method___construct"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Reference\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-PathSegment-Reference.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Reference\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-Reference.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Reference\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Reference.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Reference\u003A\u003Apipe\u0028\u0029",
@@ -4943,23 +5178,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Service\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Service.html#method_response"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Service\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Service\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
             "summary": "Emit\u0020the\u0020service\u0020document",
-            "url": "classes/Flat3-Lodata-PathSegment-Service.html#method_emit"
+            "url": "classes/Flat3-Lodata-PathSegment-Service.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value",
             "name": "Value",
             "summary": "Value",
             "url": "classes/Flat3-Lodata-PathSegment-Value.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-PathSegment-Value.html#method___construct"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value\u003A\u003Apipe\u0028\u0029",
             "name": "pipe",
@@ -4968,13 +5198,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-PathSegment-Value.html#method_response"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-PathSegment-Value.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020a\u0020stream\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-Value.html#method_emitStream"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Value\u003A\u003A\u0024primitive",
             "name": "primitive",
@@ -5071,14 +5301,14 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020context\u0020URL\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Primitive.html#method_getContextUrl"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "Emit\u0020this\u0020item\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Primitive.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Primitive.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
+            "summary": "",
             "url": "classes/Flat3-Lodata-Primitive.html#method_response"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003Apipe\u0028\u0029",
@@ -5406,10 +5636,10 @@ Search.appendIndex(
             "summary": "JSON",
             "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html#method_emitJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
@@ -5426,10 +5656,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-Batch-Multipart.html#method_response"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\Multipart\u003A\u003Aemit\u0028\u0029",
-            "name": "emit",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-Multipart.html#method_emit"
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\Multipart\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020a\u0020stream\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Transaction-Batch-Multipart.html#method_emitStream"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch",
             "name": "Batch",
@@ -5886,11 +6116,6 @@ Search.appendIndex(
             "summary": "Filter",
             "url": "classes/Flat3-Lodata-Transaction-Option-Filter.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Filter\u003A\u003AapplyQuery\u0028\u0029",
-            "name": "applyQuery",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Option-Filter.html#method_applyQuery"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Filter\u003A\u003Aparam",
             "name": "param",
             "summary": "",
@@ -5961,11 +6186,6 @@ Search.appendIndex(
             "summary": "Search",
             "url": "classes/Flat3-Lodata-Transaction-Option-Search.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Search\u003A\u003AapplyQuery\u0028\u0029",
-            "name": "applyQuery",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Option-Search.html#method_applyQuery"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Search\u003A\u003Aparam",
             "name": "param",
             "summary": "",
@@ -5975,11 +6195,6 @@ Search.appendIndex(
             "name": "Select",
             "summary": "Select",
             "url": "classes/Flat3-Lodata-Transaction-Option-Select.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Select\u003A\u003AgetSelectedProperties\u0028\u0029",
-            "name": "getSelectedProperties",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Option-Select.html#method_getSelectedProperties"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Select\u003A\u003AisStar\u0028\u0029",
             "name": "isStar",
@@ -6741,6 +6956,36 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020value\u0020of\u0020this\u0020primitive",
             "url": "classes/Flat3-Lodata-Type-Stream.html#method_set"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#method_emitStream"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#method_emitJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AsetContentType\u0028\u0029",
+            "name": "setContentType",
+            "summary": "Set\u0020the\u0020content\u0020type\u0020of\u0020this\u0020property",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#method_setContentType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AgetContentType\u0028\u0029",
+            "name": "getContentType",
+            "summary": "Get\u0020the\u0020content\u0020type\u0020of\u0020this\u0020property",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#method_getContentType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AsetReadLink\u0028\u0029",
+            "name": "setReadLink",
+            "summary": "Set\u0020the\u0020read\u0020link\u0020for\u0020this\u0020property",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#method_setReadLink"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AgetReadLink\u0028\u0029",
+            "name": "getReadLink",
+            "summary": "Get\u0020the\u0020read\u0020link\u0020for\u0020this\u0020property",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#method_getReadLink"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
@@ -6750,6 +6995,16 @@ Search.appendIndex(
             "name": "value",
             "summary": "",
             "url": "classes/Flat3-Lodata-Type-Stream.html#property_value"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003A\u0024contentType",
+            "name": "contentType",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#property_contentType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003A\u0024readLink",
+            "name": "readLink",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#property_readLink"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\String_",
             "name": "String_",

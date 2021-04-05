@@ -163,6 +163,13 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#property_suppressContent">$suppressContent</a>
+    <span>
+                &nbsp;: mixed            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_target">$target</a>
     <span>
                 &nbsp;: mixed            </span>
@@ -240,11 +247,11 @@
 <dd>Convert this exception to a Symfony error</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#method_toResponse">toResponse()</a>
+    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_toResponse">toResponse()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
 </dt>
-<dd>No Content responses do not return content</dd>
+<dd>Convert this exception to a Symfony response</dd>
 
         </dl>
 
@@ -445,6 +452,36 @@
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_suppressContent">
+        $suppressContent
+        <a href="classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#property_suppressContent" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/NoContentException.php"><a href="files/src-exception-protocol-nocontentexception.html"><abbr title="src/Exception/Protocol/NoContentException.php">NoContentException.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">16</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$suppressContent</span>
+     = <span class="phpdocumentor-signature__default-value">true</span></code>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_target">
         $target
         <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_target" class="headerlink"><i class="fas fa-link"></i></a>
@@ -488,7 +525,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 </aside>
 
     
@@ -537,7 +574,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error code</p>
@@ -583,7 +620,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">87</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error details</p>
@@ -629,7 +666,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new protocol exception</p>
@@ -684,7 +721,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">111</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set a header on the outgoing response</p>
@@ -739,7 +776,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">98</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData inner error</p>
@@ -785,7 +822,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error message</p>
@@ -831,7 +868,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">120</span>
+    <span class="phpdocumentor-element-found-in__line">121</span>
 </aside>
 
         <p class="phpdocumentor-summary">Serialize this error</p>
@@ -865,7 +902,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error target</p>
@@ -911,7 +948,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">137</span>
+    <span class="phpdocumentor-element-found-in__line">138</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert this exception to a Symfony error</p>
@@ -940,15 +977,15 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_toResponse">
         toResponse()
-        <a href="classes/Flat3-Lodata-Exception-Protocol-NoContentException.html#method_toResponse" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_toResponse" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/NoContentException.php"><a href="files/src-exception-protocol-nocontentexception.html"><abbr title="src/Exception/Protocol/NoContentException.php">NoContentException.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 </aside>
 
-        <p class="phpdocumentor-summary">No Content responses do not return content</p>
+        <p class="phpdocumentor-summary">Convert this exception to a Symfony response</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -963,7 +1000,8 @@
                 : <span class="phpdocumentor-signature__argument__return-type">null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
+                    <section class="phpdocumentor-description"><p>Request</p>
+</section>
 
             </dd>
             </dl>
@@ -973,7 +1011,8 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span>
             &mdash;
-            <section class="phpdocumentor-description"></section>
+            <section class="phpdocumentor-description"><p>Response</p>
+</section>
 
     
 </article>

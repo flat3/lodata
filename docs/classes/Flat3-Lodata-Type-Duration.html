@@ -148,11 +148,11 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Primitive.html#method_emit">emit()</a>
+    <a href="classes/Flat3-Lodata-Primitive.html#method_emitJson">emitJson()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd>Emit this item to the client response</dd>
+<dd>Emit this item as valid JSON to the client response</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Primitive.html#method_factory">factory()</a>
@@ -250,7 +250,7 @@
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
 </dt>
-<dd>Generate the client response</dd>
+<dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Type-Duration.html#method_set">set()</a>
@@ -474,9 +474,9 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_emit">
-        emit()
-        <a href="classes/Flat3-Lodata-Primitive.html#method_emit" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_emitJson">
+        emitJson()
+        <a href="classes/Flat3-Lodata-Primitive.html#method_emitJson" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
@@ -484,11 +484,11 @@
     <span class="phpdocumentor-element-found-in__line">209</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Emit this item to the client response</p>
+        <p class="phpdocumentor-summary">Emit this item as valid JSON to the client response</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">emit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                <span class="phpdocumentor-signature__name">emitJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1052,7 +1052,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">241</span>
+    <span class="phpdocumentor-element-found-in__line">242</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -1126,17 +1126,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">215</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Generate the client response</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">response</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span></code>
 
-        <section class="phpdocumentor-description"></section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1144,18 +1142,14 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Transaction</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$context</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Current context</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -1164,8 +1158,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span>
             &mdash;
-            <section class="phpdocumentor-description"><p>Client Response</p>
-</section>
+            <section class="phpdocumentor-description"></section>
 
     
 </article>

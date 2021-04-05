@@ -81,64 +81,36 @@
                     <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3.html">Flat3</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata.html">Lodata</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-drivers.html">Drivers</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Singleton
+    FilesystemEntity
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>
     </span>
     
     
-            <span class="phpdocumentor-element__implements">
-            implements
-                            <a href="classes/Flat3-Lodata-Interfaces-ServiceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ServiceInterface">ServiceInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a>                    </span>
     
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton.php"><a href="files/src-singleton.html"><abbr title="src/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntity.php"><a href="files/src-drivers-filesystementity.html"><abbr title="src/Drivers/FilesystemEntity.php">FilesystemEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">10</span>
 </aside>
 
-            <p class="phpdocumentor-summary">Singleton</p>
+            <p class="phpdocumentor-summary">Entity</p>
 
     <section class="phpdocumentor-description"></section>
 
 
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">link</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                                        <a class="phpdocumentor-tag-link" href="https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530395"> https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530395 </a>
-                    
-                                    </dd>
-                        </dl>
 
 
 
 
-<h3 id="interfaces_class_traits">
-    Interfaces, Classes and Traits
-    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
-</h3>
-
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-ServiceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ServiceInterface">ServiceInterface</abbr></a></dt>
-        <dd>Service Interface</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a></dt>
-        <dd>Identifier Interface</dd>
-    
-    
-    </dl>
 
 
 <h3 id="toc">
@@ -148,7 +120,7 @@
 
 <dl class="phpdocumentor-table-of-contents">
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Singleton.html#method___construct">__construct()</a>
+    <a href="classes/Flat3-Lodata-Entity.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
@@ -183,6 +155,13 @@
 <dd>Generate an entity from an array of key/values</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html#method_fromMetadata">fromMetadata()</a>
+    <span>
+                        &nbsp;: self    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Entity.html#method_get">get()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
@@ -190,11 +169,11 @@
 <dd>Read this entity</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Singleton.html#method_getContextUrl">getContextUrl()</a>
+    <a href="classes/Flat3-Lodata-Entity.html#method_getContextUrl">getContextUrl()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd>Get the context URL of this singleton</dd>
+<dd>Get the context URL for this entity</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Entity.html#method_getEntityId">getEntityId()</a>
@@ -218,13 +197,6 @@
 <dd>Get the ETag for this entity</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Singleton.html#method_getKind">getKind()</a>
-    <span>
-                        &nbsp;: string    </span>
-</dt>
-<dd>Get the OData kind of this resource</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Entity.html#method_getPropertyValue">getPropertyValue()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Primitive.html"><abbr title="\Flat3\Lodata\Primitive">Primitive</abbr></a>|null    </span>
@@ -239,11 +211,11 @@
 <dd>Get all property values attached to this entity</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Singleton.html#method_getResourceUrl">getResourceUrl()</a>
+    <a href="classes/Flat3-Lodata-Entity.html#method_getResourceUrl">getResourceUrl()</a>
     <span>
                         &nbsp;: string    </span>
 </dt>
-<dd>Get the resource URL of this singleton</dd>
+<dd>Get the resource URL for this entity</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Entity.html#method_getType">getType()</a>
@@ -295,7 +267,7 @@
 <dd>Update this entity</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Singleton.html#method_pipe">pipe()</a>
+    <a href="classes/Flat3-Lodata-Entity.html#method_pipe">pipe()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null    </span>
 </dt>
@@ -347,7 +319,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Flat3-Lodata-Singleton.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -357,38 +329,21 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Flat3-Lodata-Singleton.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Entity.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton.php"><a href="files/src-singleton.html"><abbr title="src/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity.php"><a href="files/src-entity.html"><abbr title="src/Entity.php">Entity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$identifier</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-EntityType.html"><abbr title="\Flat3\Lodata\EntityType">EntityType</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$identifier</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$type</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-EntityType.html"><abbr title="\Flat3\Lodata\EntityType">EntityType</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
+    
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -598,6 +553,48 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_fromMetadata">
+        fromMetadata()
+        <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html#method_fromMetadata" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntity.php"><a href="files/src-drivers-filesystementity.html"><abbr title="src/Drivers/FilesystemEntity.php">FilesystemEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">12</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">fromMetadata</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$metadata</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$metadata</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">self</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_get">
         get()
         <a href="classes/Flat3-Lodata-Entity.html#method_get" class="headerlink"><i class="fas fa-link"></i></a>
@@ -656,15 +653,15 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_getContextUrl">
         getContextUrl()
-        <a href="classes/Flat3-Lodata-Singleton.html#method_getContextUrl" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Entity.html#method_getContextUrl" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton.php"><a href="files/src-singleton.html"><abbr title="src/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity.php"><a href="files/src-entity.html"><abbr title="src/Entity.php">Entity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">392</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Get the context URL of this singleton</p>
+        <p class="phpdocumentor-summary">Get the context URL for this entity</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -805,41 +802,6 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getKind">
-        getKind()
-        <a href="classes/Flat3-Lodata-Singleton.html#method_getKind" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton.php"><a href="files/src-singleton.html"><abbr title="src/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">36</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Get the OData kind of this resource</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getKind</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Kind</p>
-</section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getPropertyValue">
         getPropertyValue()
         <a href="classes/Flat3-Lodata-Entity.html#method_getPropertyValue" class="headerlink"><i class="fas fa-link"></i></a>
@@ -924,15 +886,15 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_getResourceUrl">
         getResourceUrl()
-        <a href="classes/Flat3-Lodata-Singleton.html#method_getResourceUrl" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Entity.html#method_getResourceUrl" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton.php"><a href="files/src-singleton.html"><abbr title="src/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity.php"><a href="files/src-entity.html"><abbr title="src/Entity.php">Entity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">420</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Get the resource URL of this singleton</p>
+        <p class="phpdocumentor-summary">Get the resource URL for this entity</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1291,12 +1253,12 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_pipe">
         pipe()
-        <a href="classes/Flat3-Lodata-Singleton.html#method_pipe" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Entity.html#method_pipe" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton.php"><a href="files/src-singleton.html"><abbr title="src/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity.php"><a href="files/src-entity.html"><abbr title="src/Entity.php">Entity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">359</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -1595,7 +1557,7 @@
 </section>
             </div>
         </div>
-        <a href="classes/Flat3-Lodata-Singleton.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

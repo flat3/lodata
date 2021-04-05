@@ -99,7 +99,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
             <p class="phpdocumentor-summary">Stream</p>
@@ -127,6 +127,20 @@
 <dd>The OData type name of this primitive</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#property_contentType">$contentType</a>
+    <span>
+                &nbsp;: <a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a>            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#property_readLink">$readLink</a>
+    <span>
+                &nbsp;: <abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr>            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Type-Stream.html#property_value">$value</a>
     <span>
                 &nbsp;: string|null            </span>
@@ -141,11 +155,18 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Primitive.html#method_emit">emit()</a>
+    <a href="classes/Flat3-Lodata-Type-Stream.html#method_emitJson">emitJson()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd>Emit this item to the client response</dd>
+<dd>Emit this item as valid JSON to the client response</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#method_emitStream">emitStream()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Primitive.html#method_factory">factory()</a>
@@ -167,6 +188,13 @@
                         &nbsp;: mixed    </span>
 </dt>
 <dd>Get the internal representation of the value</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#method_getContentType">getContentType()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a>|null    </span>
+</dt>
+<dd>Get the content type of this property</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Primitive.html#method_getContextUrl">getContextUrl()</a>
@@ -195,6 +223,13 @@
                         &nbsp;: string    </span>
 </dt>
 <dd>Get the namespace of this primitive type</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#method_getReadLink">getReadLink()</a>
+    <span>
+                        &nbsp;: <abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr>|null    </span>
+</dt>
+<dd>Get the read link for this property</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Primitive.html#method_getResolvedName">getResolvedName()</a>
@@ -236,7 +271,7 @@
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
 </dt>
-<dd>Generate the client response</dd>
+<dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Type-Stream.html#method_set">set()</a>
@@ -246,11 +281,25 @@
 <dd>Set the value of this primitive</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#method_setContentType">setContentType()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Set the content type of this property</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Primitive.html#method_setNullable">setNullable()</a>
     <span>
                         &nbsp;: $this    </span>
 </dt>
 <dd>Set whether this value can be made null</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type-Stream.html#method_setReadLink">setReadLink()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Set the read link for this property</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Type-Stream.html#method_toJson">toJson()</a>
@@ -299,7 +348,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 </aside>
 
         <p class="phpdocumentor-summary">The OData type name of this primitive</p>
@@ -332,6 +381,68 @@
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_contentType">
+        $contentType
+        <a href="classes/Flat3-Lodata-Type-Stream.html#property_contentType" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">26</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$contentType</span>
+    </code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_readLink">
+        $readLink
+        <a href="classes/Flat3-Lodata-Type-Stream.html#property_readLink" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">29</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr></span>
+    <span class="phpdocumentor-signature__name">$readLink</span>
+    </code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_value">
         $value
         <a href="classes/Flat3-Lodata-Type-Stream.html#property_value" class="headerlink"><i class="fas fa-link"></i></a>
@@ -341,7 +452,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
     
@@ -418,21 +529,21 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_emit">
-        emit()
-        <a href="classes/Flat3-Lodata-Primitive.html#method_emit" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_emitJson">
+        emitJson()
+        <a href="classes/Flat3-Lodata-Type-Stream.html#method_emitJson" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">209</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Emit this item to the client response</p>
+        <p class="phpdocumentor-summary">Emit this item as valid JSON to the client response</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">emit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                <span class="phpdocumentor-signature__name">emitJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -446,6 +557,48 @@
                     <section class="phpdocumentor-description"><p>Transaction</p>
 </section>
 
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_emitStream">
+        emitStream()
+        <a href="classes/Flat3-Lodata-Type-Stream.html#method_emitStream" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">56</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">emitStream</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$transaction</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
             </dd>
             </dl>
 
@@ -620,6 +773,41 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getContentType">
+        getContentType()
+        <a href="classes/Flat3-Lodata-Type-Stream.html#method_getContentType" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">99</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get the content type of this property</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getContentType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a>|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a>|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Content type</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getContextUrl">
         getContextUrl()
         <a href="classes/Flat3-Lodata-Primitive.html#method_getContextUrl" class="headerlink"><i class="fas fa-link"></i></a>
@@ -762,6 +950,41 @@
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
             <section class="phpdocumentor-description"><p>Namespace</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getReadLink">
+        getReadLink()
+        <a href="classes/Flat3-Lodata-Type-Stream.html#method_getReadLink" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">120</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get the read link for this property</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getReadLink</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr>|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr>|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Read link</p>
 </section>
 
     
@@ -954,7 +1177,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">241</span>
+    <span class="phpdocumentor-element-found-in__line">242</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -1028,17 +1251,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">215</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Generate the client response</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">response</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span></code>
 
-        <section class="phpdocumentor-description"></section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1046,18 +1267,14 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Transaction</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$context</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Current context</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -1066,8 +1283,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span>
             &mdash;
-            <section class="phpdocumentor-description"><p>Client Response</p>
-</section>
+            <section class="phpdocumentor-description"></section>
 
     
 </article>
@@ -1084,7 +1300,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the value of this primitive</p>
@@ -1114,6 +1330,53 @@
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Primitive.html"><abbr title="\Flat3\Lodata\Primitive">Primitive</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setContentType">
+        setContentType()
+        <a href="classes/Flat3-Lodata-Type-Stream.html#method_setContentType" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">88</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Set the content type of this property</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setContentType</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contentType</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$contentType</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Transaction-MediaType.html"><abbr title="\Flat3\Lodata\Transaction\MediaType">MediaType</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Content type</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Property</p>
+</section>
 
     
 </article>
@@ -1168,6 +1431,53 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_setReadLink">
+        setReadLink()
+        <a href="classes/Flat3-Lodata-Type-Stream.html#method_setReadLink" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">109</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Set the read link for this property</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setReadLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$readLink</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$readLink</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\GuzzleHttp\Psr7\Uri">Uri</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Read link</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Property</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_toJson">
         toJson()
         <a href="classes/Flat3-Lodata-Type-Stream.html#method_toJson" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1175,7 +1485,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the value in a format suitable for JSON encoding</p>
@@ -1243,7 +1553,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Stream.php"><a href="files/src-type-stream.html"><abbr title="src/Type/Stream.php">Stream.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the value in a format suitable for an OData URL</p>

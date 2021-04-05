@@ -99,7 +99,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 </aside>
 
             <p class="phpdocumentor-summary">Transaction</p>
@@ -270,6 +270,13 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
                         &nbsp;: <a href="classes/Flat3-Lodata-Transaction-Option-Id.html"><abbr title="\Flat3\Lodata\Transaction\Option\Id">Id</abbr></a>    </span>
 </dt>
 <dd>Get the $id system query option</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_getIeee754Compatible">getIeee754Compatible()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Transaction-IEEE754Compatible.html"><abbr title="\Flat3\Lodata\Transaction\IEEE754Compatible">IEEE754Compatible</abbr></a>    </span>
+</dt>
+<dd>Get the IEEE 754 compatibility flag</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_getImplicitParameterAlias">getImplicitParameterAlias()</a>
@@ -525,20 +532,6 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
 <dd>Output a JSON property separator</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_outputJsonValue">outputJsonValue()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd>Encode and output a JSON value</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_outputRaw">outputRaw()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd>Output a raw text value</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_preferenceApplied">preferenceApplied()</a>
     <span>
                         &nbsp;: $this    </span>
@@ -548,7 +541,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_process">process()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-ResponseInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResponseInterface">ResponseInterface</abbr></a>    </span>
 </dt>
 <dd>Process the request represented by this transaction</dd>
 
@@ -586,6 +579,13 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
                         &nbsp;: $this    </span>
 </dt>
 <dd>Send a response header</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_sendJson">sendJson()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Send the provided data as encoded JSON</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_sendOutput">sendOutput()</a>
@@ -678,7 +678,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">224</span>
+    <span class="phpdocumentor-element-found-in__line">225</span>
 </aside>
 
         <p class="phpdocumentor-summary">List of path segment handlers</p>
@@ -727,7 +727,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">239</span>
+    <span class="phpdocumentor-element-found-in__line">240</span>
 </aside>
 
     
@@ -759,7 +759,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1230</span>
+    <span class="phpdocumentor-element-found-in__line">1229</span>
 </aside>
 
         <p class="phpdocumentor-summary">Attach an entity set to this transaction</p>
@@ -804,7 +804,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1256</span>
+    <span class="phpdocumentor-element-found-in__line">1255</span>
 </aside>
 
         <p class="phpdocumentor-summary">Commit all entity sets attached to this transaction</p>
@@ -838,7 +838,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">594</span>
+    <span class="phpdocumentor-element-found-in__line">604</span>
 </aside>
 
         <p class="phpdocumentor-summary">Create a new metadata container</p>
@@ -873,7 +873,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">837</span>
+    <span class="phpdocumentor-element-found-in__line">847</span>
 </aside>
 
         <p class="phpdocumentor-summary">Ensure that the request content type is JSON</p>
@@ -922,7 +922,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">802</span>
+    <span class="phpdocumentor-element-found-in__line">812</span>
 </aside>
 
         <p class="phpdocumentor-summary">Ensure the request method is one of the provided list or throw an exception</p>
@@ -1001,7 +1001,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1168</span>
+    <span class="phpdocumentor-element-found-in__line">1167</span>
 </aside>
 
         <p class="phpdocumentor-summary">Execute the transaction</p>
@@ -1049,7 +1049,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">603</span>
+    <span class="phpdocumentor-element-found-in__line">613</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the content type requested by the client</p>
@@ -1083,7 +1083,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">780</span>
+    <span class="phpdocumentor-element-found-in__line">790</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the request body, decoded if JSON is being provided</p>
@@ -1118,7 +1118,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">579</span>
+    <span class="phpdocumentor-element-found-in__line">589</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the callback preference URL</p>
@@ -1153,7 +1153,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">561</span>
+    <span class="phpdocumentor-element-found-in__line">571</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the requested charset</p>
@@ -1187,7 +1187,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">875</span>
+    <span class="phpdocumentor-element-found-in__line">885</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the service document context URL
@@ -1223,7 +1223,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">894</span>
+    <span class="phpdocumentor-element-found-in__line">904</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get request properties to expose in the context URL</p>
@@ -1258,7 +1258,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">425</span>
+    <span class="phpdocumentor-element-found-in__line">426</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $count system query option</p>
@@ -1293,7 +1293,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">434</span>
+    <span class="phpdocumentor-element-found-in__line">435</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $expand system query option</p>
@@ -1328,7 +1328,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">443</span>
+    <span class="phpdocumentor-element-found-in__line">444</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $filter system query option</p>
@@ -1363,7 +1363,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">659</span>
+    <span class="phpdocumentor-element-found-in__line">669</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the requested content format</p>
@@ -1398,7 +1398,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1062</span>
+    <span class="phpdocumentor-element-found-in__line">1061</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the transaction ID</p>
@@ -1433,7 +1433,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">506</span>
+    <span class="phpdocumentor-element-found-in__line">507</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $id system query option</p>
@@ -1461,6 +1461,40 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getIeee754Compatible">
+        getIeee754Compatible()
+        <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_getIeee754Compatible" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">530</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get the IEEE 754 compatibility flag</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getIeee754Compatible</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-IEEE754Compatible.html"><abbr title="\Flat3\Lodata\Transaction\IEEE754Compatible">IEEE754Compatible</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-IEEE754Compatible.html"><abbr title="\Flat3\Lodata\Transaction\IEEE754Compatible">IEEE754Compatible</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getImplicitParameterAlias">
         getImplicitParameterAlias()
         <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_getImplicitParameterAlias" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1468,7 +1502,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">758</span>
+    <span class="phpdocumentor-element-found-in__line">768</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get implicit parameter aliases</p>
@@ -1515,7 +1549,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">771</span>
+    <span class="phpdocumentor-element-found-in__line">781</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the request method</p>
@@ -1550,7 +1584,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1193</span>
+    <span class="phpdocumentor-element-found-in__line">1192</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the navigation requests embedded in this transaction</p>
@@ -1585,7 +1619,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">452</span>
+    <span class="phpdocumentor-element-found-in__line">453</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $orderby system query option</p>
@@ -1620,7 +1654,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">741</span>
+    <span class="phpdocumentor-element-found-in__line">751</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a URL parameter alias</p>
@@ -1680,7 +1714,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">703</span>
+    <span class="phpdocumentor-element-found-in__line">713</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the request path with normalization decoding</p>
@@ -1728,7 +1762,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">693</span>
+    <span class="phpdocumentor-element-found-in__line">703</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the list of URL-decoded path segments in the request</p>
@@ -1763,7 +1797,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">540</span>
+    <span class="phpdocumentor-element-found-in__line">550</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a requested preference as a Parameter object</p>
@@ -1809,7 +1843,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">550</span>
+    <span class="phpdocumentor-element-found-in__line">560</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the string value of a requested preference</p>
@@ -1854,7 +1888,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">570</span>
+    <span class="phpdocumentor-element-found-in__line">580</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the content type provided by the client</p>
@@ -1888,7 +1922,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">389</span>
+    <span class="phpdocumentor-element-found-in__line">390</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a single query parameter</p>
@@ -1935,7 +1969,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">378</span>
+    <span class="phpdocumentor-element-found-in__line">379</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get all query parameters</p>
@@ -1970,7 +2004,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">398</span>
+    <span class="phpdocumentor-element-found-in__line">399</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the request object</p>
@@ -2005,7 +2039,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">336</span>
+    <span class="phpdocumentor-element-found-in__line">337</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the first request header of the provided key</p>
@@ -2052,7 +2086,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">346</span>
+    <span class="phpdocumentor-element-found-in__line">347</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get all request headers of the provided key</p>
@@ -2099,7 +2133,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">729</span>
+    <span class="phpdocumentor-element-found-in__line">739</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the request path without any REST prefix</p>
@@ -2134,7 +2168,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">885</span>
+    <span class="phpdocumentor-element-found-in__line">895</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the service document resource URL
@@ -2170,7 +2204,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">936</span>
+    <span class="phpdocumentor-element-found-in__line">946</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get request properties to expose in the resource URL</p>
@@ -2205,7 +2239,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">407</span>
+    <span class="phpdocumentor-element-found-in__line">408</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the response object</p>
@@ -2240,7 +2274,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">356</span>
+    <span class="phpdocumentor-element-found-in__line">357</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the first response header of the provided key</p>
@@ -2287,7 +2321,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">461</span>
+    <span class="phpdocumentor-element-found-in__line">462</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $search system query option</p>
@@ -2322,7 +2356,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">470</span>
+    <span class="phpdocumentor-element-found-in__line">471</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $select system query option</p>
@@ -2357,7 +2391,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">479</span>
+    <span class="phpdocumentor-element-found-in__line">480</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $skip system query option</p>
@@ -2392,7 +2426,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">488</span>
+    <span class="phpdocumentor-element-found-in__line">489</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $skiptoken system query option</p>
@@ -2427,7 +2461,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">366</span>
+    <span class="phpdocumentor-element-found-in__line">367</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a system query option</p>
@@ -2474,7 +2508,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">497</span>
+    <span class="phpdocumentor-element-found-in__line">498</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the $top system query option</p>
@@ -2509,7 +2543,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">416</span>
+    <span class="phpdocumentor-element-found-in__line">417</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the negotiated version as a string</p>
@@ -2544,7 +2578,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">530</span>
+    <span class="phpdocumentor-element-found-in__line">540</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return whether the provided preference was requested</p>
@@ -2590,7 +2624,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">261</span>
+    <span class="phpdocumentor-element-found-in__line">262</span>
 </aside>
 
         <p class="phpdocumentor-summary">Initialize this transaction using the provided request object</p>
@@ -2636,7 +2670,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">989</span>
+    <span class="phpdocumentor-element-found-in__line">1008</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output the end of a JSON array</p>
@@ -2670,7 +2704,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">981</span>
+    <span class="phpdocumentor-element-found-in__line">1000</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output the start of a JSON array</p>
@@ -2704,7 +2738,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1028</span>
+    <span class="phpdocumentor-element-found-in__line">1043</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output a JSON object key</p>
@@ -2750,7 +2784,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1007</span>
+    <span class="phpdocumentor-element-found-in__line">1017</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output the provided associative array as a set of JSON key/values</p>
@@ -2796,7 +2830,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">973</span>
+    <span class="phpdocumentor-element-found-in__line">992</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output the end of a JSON object</p>
@@ -2830,7 +2864,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">956</span>
+    <span class="phpdocumentor-element-found-in__line">966</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output the start of a JSON object</p>
@@ -2864,7 +2898,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1053</span>
+    <span class="phpdocumentor-element-found-in__line">1052</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output a JSON property separator</p>
@@ -2891,98 +2925,6 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_outputJsonValue">
-        outputJsonValue()
-        <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_outputJsonValue" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">1037</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Encode and output a JSON value</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">outputJsonValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Value</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_outputRaw">
-        outputRaw()
-        <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_outputRaw" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">998</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Output a raw text value</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">outputRaw</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$text</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Data</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_preferenceApplied">
         preferenceApplied()
         <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_preferenceApplied" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2990,7 +2932,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">517</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 </aside>
 
         <p class="phpdocumentor-summary">Mark as requested preference as having been applied to the response object</p>
@@ -3045,14 +2987,14 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1087</span>
+    <span class="phpdocumentor-element-found-in__line">1086</span>
 </aside>
 
         <p class="phpdocumentor-summary">Process the request represented by this transaction</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">process</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">process</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-ResponseInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResponseInterface">ResponseInterface</abbr></a></span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -3084,7 +3026,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
                         </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-ResponseInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResponseInterface">ResponseInterface</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -3103,7 +3045,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1283</span>
+    <span class="phpdocumentor-element-found-in__line">1282</span>
 </aside>
 
         <p class="phpdocumentor-summary">Process deltas in the request body</p>
@@ -3169,7 +3111,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1072</span>
+    <span class="phpdocumentor-element-found-in__line">1071</span>
 </aside>
 
         <p class="phpdocumentor-summary">Replace the query parameters in this transaction with the ones from the provided transaction</p>
@@ -3215,7 +3157,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1268</span>
+    <span class="phpdocumentor-element-found-in__line">1267</span>
 </aside>
 
         <p class="phpdocumentor-summary">Rollback all entity sets attached to this transaction</p>
@@ -3249,7 +3191,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">669</span>
+    <span class="phpdocumentor-element-found-in__line">679</span>
 </aside>
 
         <p class="phpdocumentor-summary">Send the negotiated content type response header</p>
@@ -3295,7 +3237,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">682</span>
+    <span class="phpdocumentor-element-found-in__line">692</span>
 </aside>
 
         <p class="phpdocumentor-summary">Send a response header</p>
@@ -3343,6 +3285,52 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_sendJson">
+        sendJson()
+        <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_sendJson" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">984</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Send the provided data as encoded JSON</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">sendJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Data</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_sendOutput">
         sendOutput()
         <a href="classes/Flat3-Lodata-Controller-Transaction.html#method_sendOutput" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3350,7 +3338,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">965</span>
+    <span class="phpdocumentor-element-found-in__line">975</span>
 </aside>
 
         <p class="phpdocumentor-summary">Output the provided string</p>
@@ -3396,7 +3384,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">636</span>
+    <span class="phpdocumentor-element-found-in__line">646</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the content encoding response header</p>
@@ -3442,7 +3430,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">648</span>
+    <span class="phpdocumentor-element-found-in__line">658</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the content language response header</p>
@@ -3488,7 +3476,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">311</span>
+    <span class="phpdocumentor-element-found-in__line">312</span>
 </aside>
 
         <p class="phpdocumentor-summary">Update this transaction based on the provided request object</p>
@@ -3534,7 +3522,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1245</span>
+    <span class="phpdocumentor-element-found-in__line">1244</span>
 </aside>
 
         <p class="phpdocumentor-summary">Start transactions on attached entity sets</p>
@@ -3568,7 +3556,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1418</span>
+    <span class="phpdocumentor-element-found-in__line">1417</span>
 </aside>
 
         <p class="phpdocumentor-summary">Process a deep creation</p>
@@ -3613,7 +3601,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1401</span>
+    <span class="phpdocumentor-element-found-in__line">1400</span>
 </aside>
 
         <p class="phpdocumentor-summary">Process a deep modification</p>
@@ -3666,7 +3654,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1366</span>
+    <span class="phpdocumentor-element-found-in__line">1365</span>
 </aside>
 
         <p class="phpdocumentor-summary">Process a deep delete</p>
@@ -3727,7 +3715,7 @@ https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#se
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/Transaction.php"><a href="files/src-controller-transaction.html"><abbr title="src/Controller/Transaction.php">Transaction.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">854</span>
+    <span class="phpdocumentor-element-found-in__line">864</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get all system query options from the request, optionally returning them with the $ prefix</p>

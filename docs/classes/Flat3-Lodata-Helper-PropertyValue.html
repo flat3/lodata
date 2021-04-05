@@ -92,14 +92,14 @@
     
             <span class="phpdocumentor-element__implements">
             implements
-                            <a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-ResourceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResourceInterface">ResourceInterface</abbr></a>                    </span>
+                            <a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-ResourceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResourceInterface">ResourceInterface</abbr></a>                    </span>
     
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 </aside>
 
             <p class="phpdocumentor-summary">Property Value</p>
@@ -121,8 +121,8 @@
         <dd>Context Interface</dd>
             <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a></dt>
         <dd>Pipe Interface</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a></dt>
-        <dd>Emit Interface</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a></dt>
+        <dd>Response Interface</dd>
             <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-ResourceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResourceInterface">ResourceInterface</abbr></a></dt>
         <dd>Resource Interface</dd>
     
@@ -137,11 +137,11 @@
 
 <dl class="phpdocumentor-table-of-contents">
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_emit">emit()</a>
+    <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_emitJson">emitJson()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
-<dd>Emit this item to the client response</dd>
+<dd>Emit this item as valid JSON to the client response</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_getContextUrl">getContextUrl()</a>
@@ -172,6 +172,13 @@
 <dd>Get the attached entity value</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_getMetadata">getMetadata()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html"><abbr title="\Flat3\Lodata\Transaction\MetadataContainer">MetadataContainer</abbr></a>    </span>
+</dt>
+<dd>Get the metadata for this property value</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_getPrimitiveValue">getPrimitiveValue()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Primitive.html"><abbr title="\Flat3\Lodata\Primitive">Primitive</abbr></a>    </span>
@@ -195,7 +202,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_getValue">getValue()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>|null    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a>|null    </span>
 </dt>
 <dd>Get the attached value</dd>
 
@@ -211,7 +218,7 @@
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
 </dt>
-<dd>Generate the client response</dd>
+<dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_setEntity">setEntity()</a>
@@ -260,21 +267,21 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_emit">
-        emit()
-        <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_emit" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_emitJson">
+        emitJson()
+        <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_emitJson" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">273</span>
+    <span class="phpdocumentor-element-found-in__line">280</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Emit this item to the client response</p>
+        <p class="phpdocumentor-summary">Emit this item as valid JSON to the client response</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">emit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                <span class="phpdocumentor-signature__name">emitJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -313,7 +320,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">187</span>
+    <span class="phpdocumentor-element-found-in__line">194</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the context URL for this property value</p>
@@ -360,7 +367,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">87</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the attached entity</p>
@@ -395,7 +402,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">125</span>
+    <span class="phpdocumentor-element-found-in__line">126</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the attached entity set value</p>
@@ -430,7 +437,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">135</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the attached entity value</p>
@@ -458,6 +465,53 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getMetadata">
+        getMetadata()
+        <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_getMetadata" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">322</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get the metadata for this property value</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getMetadata</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html"><abbr title="\Flat3\Lodata\Transaction\MetadataContainer">MetadataContainer</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$transaction</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Related transaction</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Transaction-MetadataContainer.html"><abbr title="\Flat3\Lodata\Transaction\MetadataContainer">MetadataContainer</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Metadata container</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getPrimitiveValue">
         getPrimitiveValue()
         <a href="classes/Flat3-Lodata-Helper-PropertyValue.html#method_getPrimitiveValue" class="headerlink"><i class="fas fa-link"></i></a>
@@ -465,7 +519,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">117</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the attached primitive value</p>
@@ -500,7 +554,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the property</p>
@@ -535,7 +589,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">219</span>
+    <span class="phpdocumentor-element-found-in__line">226</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resource URL for this property value</p>
@@ -582,14 +636,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">107</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the attached value</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getValue</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>|null</span></code>
+                <span class="phpdocumentor-signature__name">getValue</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a>|null</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -597,7 +651,7 @@
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>|null</span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a>|null</span>
             &mdash;
             <section class="phpdocumentor-description"><p>Value</p>
 </section>
@@ -617,7 +671,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">224</span>
+    <span class="phpdocumentor-element-found-in__line">231</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -691,17 +745,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">291</span>
+    <span class="phpdocumentor-element-found-in__line">285</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Generate the client response</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                 <span class="phpdocumentor-signature__name">response</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span></code>
 
-        <section class="phpdocumentor-description"></section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -709,18 +761,14 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Transaction</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$context</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-ContextInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ContextInterface">ContextInterface</abbr></a>|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Current context</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -729,8 +777,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a></span>
             &mdash;
-            <section class="phpdocumentor-description"><p>Client Response</p>
-</section>
+            <section class="phpdocumentor-description"></section>
 
     
 </article>
@@ -747,7 +794,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the attached entity</p>
@@ -793,7 +840,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the property</p>
@@ -839,14 +886,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the attached value</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+                <span class="phpdocumentor-signature__name">setValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -854,7 +901,7 @@
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-EmitInterface.html"><abbr title="\Flat3\Lodata\Interfaces\EmitInterface">EmitInterface</abbr></a>|null</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-JsonInterface.html"><abbr title="\Flat3\Lodata\Interfaces\JsonInterface">JsonInterface</abbr></a>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Value</p>
@@ -885,7 +932,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Helper/PropertyValue.php"><a href="files/src-helper-propertyvalue.html"><abbr title="src/Helper/PropertyValue.php">PropertyValue.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">153</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether this property value should be emitted based on the provided transaction</p>
