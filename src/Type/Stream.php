@@ -55,13 +55,21 @@ class Stream extends Primitive
 
     public function emitStream(Transaction $transaction): void
     {
+        if (!is_resource($this->value)) {
+            $transaction->sendOutput(json_encode($this->value));
+            return;
+        }
+
         $output = fopen('php://output', 'w');
         $base64 = new Base64Stream(Utils::streamFor($output));
+
         /** @var resource $resource */
         $resource = $this->value;
+
         while (!feof($resource)) {
             echo $base64->write(fread($resource, 512));
         }
+
         $base64->close();
     }
 

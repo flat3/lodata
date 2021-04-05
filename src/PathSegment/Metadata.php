@@ -287,5 +287,4 @@ class Metadata implements PipeInterface, StreamInterface
             $this->emitStream($transaction);
         });
     }
-
 }
