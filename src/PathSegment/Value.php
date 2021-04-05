@@ -37,33 +37,28 @@ class Value implements PipeInterface, EmitStreamInterface
             throw new PathNotHandledException();
         }
 
-        if ($argument instanceof PropertyValue) {
-            $value = $argument->getPrimitiveValue();
-
-            if ($value instanceof Stream) {
-                throw new FoundException($value->getReadLink());
-            }
-
-            if (null === $value->get()) {
-                throw new NoContentException('no_content', 'No content');
-            }
-
-            $result = new self();
-            $result->primitive = $value;
-
-            return $result;
+        if (!$argument instanceof PropertyValue) {
+            throw new BadRequestException(
+                'bad_value_argument',
+                '$value was not passed a valid argument',
+            );
         }
 
-        throw new BadRequestException(
-            'bad_value_argument',
-            '$value was not passed a valid argument',
-        );
+        $result = new self();
+        $result->primitive = $argument->getPrimitiveValue();
+
+        return $result;
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        if ($this->primitive && null === $this->primitive->get()) {
+        $primitive = $this->primitive;
+        if ($primitive && null === $primitive->get()) {
             throw new NoContentException('null_value');
+        }
+
+        if ($primitive instanceof Stream && $primitive->getReadLink()) {
+            throw new FoundException($primitive->getReadLink());
         }
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
@@ -73,8 +68,6 @@ class Value implements PipeInterface, EmitStreamInterface
 
     public function emitStream(Transaction $transaction): void
     {
-        if ($this->primitive) {
-            $transaction->sendOutput($this->primitive->toJson());
-        }
+        $transaction->sendOutput($this->primitive->toJson());
     }
 }
