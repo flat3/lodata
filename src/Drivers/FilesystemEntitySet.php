@@ -176,7 +176,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
 
         foreach (['type', 'path', 'timestamp', 'size'] as $meta) {
             if (array_key_exists($meta, $metadata)) {
-                $this[$meta] = $metadata[$meta];
+                $entity[$meta] = $metadata[$meta];
             }
         }
 
