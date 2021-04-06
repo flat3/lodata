@@ -23,6 +23,18 @@ class Request extends IlluminateRequest implements RequestInterface
         return $this;
     }
 
+    /**
+     * Set the request content
+     * @param mixed $content Request content
+     * @return $this
+     */
+    public function setContent($content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(IlluminateRequest $request)
     {

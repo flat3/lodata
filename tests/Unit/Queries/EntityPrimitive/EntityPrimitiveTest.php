@@ -22,6 +22,17 @@ class EntityPrimitiveTest extends TestCase
         );
     }
 
+    public function test_delete_an_entity_set_primitive()
+    {
+        $this->assertNoContent(
+            Request::factory()
+                ->delete()
+                ->path('/flights(1)/origin')
+        );
+
+        $this->assertDatabaseSnapshot();
+    }
+
     public function test_null_no_content()
     {
         $flight = (new Flight([

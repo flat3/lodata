@@ -8,11 +8,14 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
@@ -22,6 +25,7 @@ use Flat3\Lodata\Property;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Type\Stream;
+use Illuminate\Http\Request;
 
 /**
  * Property Value
@@ -285,14 +289,56 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $value = $this->value;
+
+        if ($value instanceof Entity || $value instanceof EntitySet) {
+            return $value->response($transaction, $this);
+        }
+
+        switch ($transaction->getMethod()) {
+            case Request::METHOD_GET:
+                return $this->get($transaction, $context);
+
+            case Request::METHOD_DELETE:
+                return $this->delete($transaction, $context);
+        }
+
+        throw new MethodNotAllowedException();
+    }
+
+    public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        $entitySet = $this->entity->getEntitySet();
+
+        if (!$entitySet instanceof UpdateInterface) {
+            throw new BadRequestException(
+                'entity_set_not_updatable',
+                'The entity set for this entity does not support updates'
+            );
+        }
+
+        if (!$this->getProperty()->isNullable()) {
+            throw new BadRequestException('property_not_nullable', 'This property cannot be set to null');
+        }
+
+        Gate::check(Gate::DELETE, $this, $transaction);
+
+        $transaction->getRequest()->setContent([
+            $this->getProperty()->getName() => null,
+        ]);
+        $entitySet->update($this->entity->getEntityId());
+
+        throw new NoContentException();
+    }
+
+    public function get(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        Gate::check(Gate::READ, $this, $transaction);
+
+        $value = $this->value;
         $context = $context ?: $this;
 
         if ($value instanceof Primitive && null === $value->get() || $value === null) {
             throw new NoContentException('null_value');
-        }
-
-        if ($value instanceof Entity || $value instanceof EntitySet) {
-            return $value->response($transaction, $this);
         }
 
         $metadata = $transaction->createMetadataContainer();

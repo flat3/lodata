@@ -395,7 +395,7 @@ class Transaction implements ArgumentInterface
 
     /**
      * Get the request object
-     * @return RequestInterface Request
+     * @return RequestInterface|Request Request
      */
     public function getRequest(): RequestInterface
     {
