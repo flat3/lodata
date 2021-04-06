@@ -249,10 +249,29 @@ The driver expects all values in the database to be encoded with PHP's `serializ
 
 The specific Redis database connection can be configured by calling `setConnectionName()` on the entity set.
 
+### Filesystems
+
+Lodata supports read, update, create, delete and query options on Laravel filesystems.
+
+The `FilesystemEntityType` provides an entity type starting point, with the key property set to a `String` key named
+`path`. The `FilesystemEntitySet` can then be attached to expose the filesystem. The entity set supports a `setDisk`
+method to set the filesystem to use.
+
+```
+$entitySet = new FilesystemEntitySet('files', new FilesystemEntityType());
+$entitySet->setDisk('default');
+Lodata::add($entitySet);
+```
+
+The filesystem entity type supports a `Edm.Stream` property named `content` that can be requested with `$select` which
+will encode the file into the body of the response. The URL to retrieve the file will also be provided in the body as
+the metadata `content@mediaReadLink`.
+
 ### Annotations
 
 OData allows the creation of annotations on the schema. Annotations are classes that extend `\Flat3\Lodata\Annotation`
-and are added to the model with `Lodata::add($annotation)`, or entity set types with `EntitySet::addAnnotation($annotation).
+and are added to the model with `Lodata::add($annotation)`, or entity set types with `EntitySet::addAnnotation($annotation)`,
+or entity type properties with `Property::addAnnotation($annotation)`.
 Examples are in the `\Flat3\Lodata\Annotation` namespace.
 
 ### Generated properties
@@ -536,7 +555,9 @@ Lodata supports many sections of the OData specification, these are the major ar
 * [Deep insert](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_CreateRelatedEntitiesWhenCreatinganE) support at any depth
 * [Deep update](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) support at any depth
 * [Resolving](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ResolvinganEntityId) entity IDs into representations
+* [Stream](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358992) properties in the payload and via read links
 * Edit links, and POST/PATCH/DELETE requests for new or existing entities
+* Use of [ETags](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358971) for avoiding update conflicts
 * Composable URLs
 * Declared and navigation properties
 * Referential constraints
@@ -544,6 +565,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * Database [transactions](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ClientErrorResponses)
 * Requesting [entity references](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_EntityReference)
 * [IEEE754](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheRepresentationofNumber) number-as-string support
+* Primitive [literals](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_PrimitiveLiterals) including duration and enumeration in URLs.
 * Full, minimal and no [metadata](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#_Toc38457725) requests
 * Function and Action [operations](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31359005), including bound operations and inline parameters
 * Automatic discovery of PDO or Eloquent model tables, and relationships between Eloquent models
