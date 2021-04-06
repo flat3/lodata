@@ -63,6 +63,33 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_an_entity_if_none_match_any()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->header('if-none-match', '*')
+                ->path('/flights(1)')
+        );
+    }
+
+    public function test_read_an_entity_if_none_match()
+    {
+        $this->assertNotModified(
+            Request::factory()
+                ->header('if-none-match', 'W/"9002879996637791044635c0a75ae412322098677c04322be3da15089239bc76"')
+                ->path('/flights(1)')
+        );
+    }
+
+    public function test_read_an_entity_if_none_match_failed()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->header('if-none-match', 'xxx')
+                ->path('/flights(1)')
+        );
+    }
+
     public function test_read_an_entity_with_full_metadata()
     {
         $this->assertJsonResponse(

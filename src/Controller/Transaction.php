@@ -17,6 +17,7 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Exception\Protocol\NotModifiedException;
 use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Lexer;
@@ -1441,37 +1442,45 @@ class Transaction implements ArgumentInterface
     }
 
     /**
-     * Get the current value of the If-Match header
-     * @return array If-Match header
-     */
-    public function getIfMatchHeaders(): array
-    {
-        return $this->getRequestHeaders(Constants::IF_MATCH);
-    }
-
-    /**
      * Validate that the provided ETag matches the current If-Match header
      * @param  string|null  $etag  ETag
      */
     public function assertIfMatchHeader(?string $etag): void
     {
-        $ifMatches = $this->getIfMatchHeaders();
+        $ifMatches = $this->getRequestHeaders(Constants::IF_MATCH);
+        $ifNoneMatches = $this->getRequestHeaders(Constants::IF_NONE_MATCH);
 
         $this->request->headers->remove(Constants::IF_MATCH);
+        $this->request->headers->remove(Constants::IF_NONE_MATCH);
 
-        if (!$ifMatches) {
-            return;
-        }
-
-        foreach ($ifMatches as $ifMatch) {
-            if ($ifMatch === '*' || $ifMatch === $etag) {
-                return;
+        if ($ifMatches) {
+            foreach ($ifMatches as $ifMatch) {
+                if ($ifMatch === '*' || $ifMatch === $etag) {
+                    return;
+                }
             }
+
+            throw new PreconditionFailedException(
+                'etag_mismatch',
+                'The provided If-Match header did not match the current ETag value'
+            );
         }
 
-        throw new PreconditionFailedException(
-            'etag_mismatch',
-            'The provided If-Match header did not match the current ETag value'
-        );
+        if ($ifNoneMatches) {
+            foreach ($ifNoneMatches as $ifNoneMatch) {
+                if ($ifNoneMatch === '*' || $ifNoneMatch !== $etag) {
+                    return;
+                }
+            }
+
+            if ($this->getMethod() === Request::METHOD_GET) {
+                throw new NotModifiedException();
+            }
+
+            throw new PreconditionFailedException(
+                'etag_mismatch',
+                'The provided If-None-Match header matched the current ETag value',
+            );
+        }
     }
 }

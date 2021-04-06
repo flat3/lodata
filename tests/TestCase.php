@@ -147,6 +147,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $this->assertODataError($request, Response::HTTP_PRECONDITION_FAILED);
     }
 
+    protected function assertNotModified(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_NOT_MODIFIED);
+    }
+
     protected function assertNotAcceptable(Request $request): TestResponse
     {
         return $this->assertODataError($request, Response::HTTP_NOT_ACCEPTABLE);
@@ -179,7 +184,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function assertODataError(Request $request, int $code): TestResponse
     {
-        $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND];
+        $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND, Response::HTTP_NOT_MODIFIED];
         $response = $this->req($request);
         $this->assertEquals($code, $response->getStatusCode());
         $content = $this->responseContent($response);

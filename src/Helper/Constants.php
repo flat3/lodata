@@ -22,4 +22,5 @@ class Constants
     const ODATA_ENTITY_ID = 'odata-entityid';
     const ETAG = 'etag';
     const IF_MATCH = 'if-match';
+    const IF_NONE_MATCH = 'if-none-match';
 }

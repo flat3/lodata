@@ -119,6 +119,52 @@ class UpdateTest extends TestCase
         );
     }
 
+    public function test_any_if_none_match_any()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-none-match', '*')
+                ->put()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_any_if_none_match()
+    {
+        $response = $this->req(
+            Request::factory()
+                ->path('/flights(1)')
+        );
+
+        $etag = $response->headers->get('etag');
+
+        $this->assertPreconditionFailed(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-none-match', $etag)
+                ->put()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_any_if_none_match_failed()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-none-match', 'xxx')
+                ->put()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
     public function test_update_ref()
     {
         $this->assertJsonResponse(
