@@ -102,7 +102,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 </aside>
 
             <p class="phpdocumentor-summary">Class FilesystemEntitySet</p>
@@ -193,7 +193,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_create">create()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a>    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>    </span>
 </dt>
 <dd>Create a filesystem entity</dd>
 
@@ -224,6 +224,13 @@
                         &nbsp;: static    </span>
 </dt>
 <dd>Generate a new entity set definition</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_fromMetadata">fromMetadata()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>    </span>
+</dt>
+<dd>Create an entity from filesystem metadata</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-EntitySet.html#method_get">get()</a>
@@ -359,11 +366,11 @@
 <dd>Get the entity ID of the current entity in the results buffer</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_newEntity">newEntity()</a>
+    <a href="classes/Flat3-Lodata-EntitySet.html#method_newEntity">newEntity()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a>    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>    </span>
 </dt>
-<dd>Create a new media entity</dd>
+<dd>Generate a new entity attached to this entity set instance</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-EntitySet.html#method_next">next()</a>
@@ -389,7 +396,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_read">read()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a>|null    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>|null    </span>
 </dt>
 <dd>Read a filesystem entity</dd>
 
@@ -459,7 +466,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_update">update()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a>    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>    </span>
 </dt>
 <dd>Update a filesystem entity</dd>
 
@@ -499,7 +506,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 </aside>
 
     
@@ -534,7 +541,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 </aside>
 
     
@@ -804,14 +811,14 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 </aside>
 
         <p class="phpdocumentor-summary">Create a filesystem entity</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">create</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">create</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -819,7 +826,7 @@ Implements internal pagination</dd>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"><p>Entity</p>
 </section>
@@ -874,7 +881,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">143</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 </aside>
 
         <p class="phpdocumentor-summary">Delete a filesystem entity</p>
@@ -1020,6 +1027,52 @@ Implements internal pagination</dd>
             &mdash;
             <section class="phpdocumentor-description"><p>Entity set definition</p>
 </section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_fromMetadata">
+        fromMetadata()
+        <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_fromMetadata" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">178</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Create an entity from filesystem metadata</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">fromMetadata</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$metadata</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$metadata</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Metadata</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
 
     
 </article>
@@ -1220,7 +1273,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the attached disk</p>
@@ -1255,7 +1308,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">153</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a disk path from the entity id</p>
@@ -1756,19 +1809,19 @@ Implements internal pagination</dd>
 >
     <h4 class="phpdocumentor-element__name" id="method_newEntity">
         newEntity()
-        <a href="classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_newEntity" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-EntitySet.html#method_newEntity" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">702</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Create a new media entity</p>
+        <p class="phpdocumentor-summary">Generate a new entity attached to this entity set instance</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">newEntity</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">newEntity</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1776,7 +1829,7 @@ Implements internal pagination</dd>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"><p>Entity</p>
 </section>
@@ -1904,7 +1957,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">85</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 </aside>
 
         <p class="phpdocumentor-summary">Query</p>
@@ -1938,14 +1991,14 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">102</span>
+    <span class="phpdocumentor-element-found-in__line">93</span>
 </aside>
 
         <p class="phpdocumentor-summary">Read a filesystem entity</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">read</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Helper-PropertyValue.html"><abbr title="\Flat3\Lodata\Helper\PropertyValue">PropertyValue</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a>|null</span></code>
+                <span class="phpdocumentor-signature__name">read</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Helper-PropertyValue.html"><abbr title="\Flat3\Lodata\Helper\PropertyValue">PropertyValue</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>|null</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1965,7 +2018,7 @@ Implements internal pagination</dd>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a>|null</span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>|null</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -2102,7 +2155,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the disk by filesystem adaptor</p>
@@ -2148,7 +2201,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the disk by name</p>
@@ -2378,14 +2431,14 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/FilesystemEntitySet.php"><a href="files/src-drivers-filesystementityset.html"><abbr title="src/Drivers/FilesystemEntitySet.php">FilesystemEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">163</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 </aside>
 
         <p class="phpdocumentor-summary">Update a filesystem entity</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">update</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Helper-PropertyValue.html"><abbr title="\Flat3\Lodata\Helper\PropertyValue">PropertyValue</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">update</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Helper-PropertyValue.html"><abbr title="\Flat3\Lodata\Helper\PropertyValue">PropertyValue</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -2405,7 +2458,7 @@ Implements internal pagination</dd>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Drivers-FilesystemEntity.html"><abbr title="\Flat3\Lodata\Drivers\FilesystemEntity">FilesystemEntity</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"><p>Entity</p>
 </section>

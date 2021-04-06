@@ -102,7 +102,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 </aside>
 
             <p class="phpdocumentor-summary">Class RedisEntitySet</p>
@@ -144,14 +144,14 @@
 
 <dl class="phpdocumentor-table-of-contents">
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_connectionName">$connectionName</a>
+    <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_connection">$connection</a>
     <span>
-                &nbsp;: mixed            </span>
+                &nbsp;: <abbr title="\Illuminate\Redis\Connections\Connection">Connection</abbr>|null            </span>
 </dt>
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-EntitySet.html#method___construct">__construct()</a>
+    <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
@@ -197,7 +197,7 @@
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Entity.html"><abbr title="\Flat3\Lodata\Entity">Entity</abbr></a>    </span>
 </dt>
-<dd>Create an entity</dd>
+<dd>Create a new record</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-EntitySet.html#method_current">current()</a>
@@ -417,6 +417,13 @@
 <dd>Serialize an Entity into a string for insertion into Redis</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_setConnection">setConnection()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Set the Redis connection to use</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_setConnectionName">setConnectionName()</a>
     <span>
                         &nbsp;: $this    </span>
@@ -492,26 +499,27 @@ Implements internal pagination</dd>
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_connectionName">
-        $connectionName
-        <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_connectionName" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_connection">
+        $connection
+        <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_connection" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$connectionName</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\Illuminate\Redis\Connections\Connection">Connection</abbr>|null</span>
+    <span class="phpdocumentor-signature__name">$connection</span>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
     
 
 </article>
@@ -530,12 +538,12 @@ Implements internal pagination</dd>
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Flat3-Lodata-EntitySet.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EntitySet.php"><a href="files/src-entityset.html"><abbr title="src/EntitySet.php">EntitySet.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">139</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 </aside>
 
     
@@ -771,7 +779,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">93</span>
 </aside>
 
         <p class="phpdocumentor-summary">Count records in the database</p>
@@ -805,10 +813,10 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Create an entity</p>
+        <p class="phpdocumentor-summary">Create a new record</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -874,7 +882,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 </aside>
 
         <p class="phpdocumentor-summary">Delete a record from the database</p>
@@ -1139,7 +1147,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the Redis connection configured for this entity set</p>
@@ -1856,7 +1864,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">122</span>
+    <span class="phpdocumentor-element-found-in__line">148</span>
 </aside>
 
         <p class="phpdocumentor-summary">Query the redis database</p>
@@ -1891,7 +1899,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">112</span>
 </aside>
 
         <p class="phpdocumentor-summary">Read a record from the database</p>
@@ -2056,7 +2064,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">160</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 </aside>
 
         <p class="phpdocumentor-summary">Serialize an Entity into a string for insertion into Redis</p>
@@ -2096,6 +2104,51 @@ Implements internal pagination</dd>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_setConnection">
+        setConnection()
+        <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_setConnection" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">82</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Set the Redis connection to use</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setConnection</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Illuminate\Redis\Connections\Connection">Connection</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$connection</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Illuminate\Redis\Connections\Connection">Connection</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_setConnectionName">
         setConnectionName()
         <a href="classes/Flat3-Lodata-Drivers-RedisEntitySet.html#method_setConnectionName" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2103,7 +2156,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the name of the Redis database to use</p>
@@ -2332,7 +2385,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">172</span>
+    <span class="phpdocumentor-element-found-in__line">198</span>
 </aside>
 
         <p class="phpdocumentor-summary">Deserialize a string Redis value into an Entity</p>
@@ -2378,7 +2431,7 @@ Implements internal pagination</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/RedisEntitySet.php"><a href="files/src-drivers-redisentityset.html"><abbr title="src/Drivers/RedisEntitySet.php">RedisEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">131</span>
 </aside>
 
         <p class="phpdocumentor-summary">Update a record in the database</p>
