@@ -14,11 +14,11 @@ use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Traits\HasDisk;
 use Flat3\Lodata\Transaction\MediaType;
 use Generator;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileNotFoundException;
 
@@ -28,46 +28,12 @@ use League\Flysystem\FileNotFoundException;
  */
 class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, QueryInterface
 {
-    /** @var FilesystemAdapter $disk */
-    protected $disk;
+    use HasDisk;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
         parent::__construct($identifier, $entityType);
         $this->disk = Storage::disk();
-    }
-
-    /**
-     * Set the disk by name
-     * @param  string  $name  Disk name
-     * @return $this
-     */
-    public function setDiskName(string $name): self
-    {
-        $this->disk = Storage::disk($name);
-
-        return $this;
-    }
-
-    /**
-     * Set the disk by filesystem adaptor
-     * @param  FilesystemAdapter  $disk  Filesystem
-     * @return $this
-     */
-    public function setDisk(FilesystemAdapter $disk): self
-    {
-        $this->disk = $disk;
-
-        return $this;
-    }
-
-    /**
-     * Get the attached disk
-     * @return FilesystemAdapter Disk
-     */
-    public function getDisk(): FilesystemAdapter
-    {
-        return $this->disk;
     }
 
     /**

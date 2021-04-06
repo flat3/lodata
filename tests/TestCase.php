@@ -3,6 +3,8 @@
 namespace Flat3\Lodata\Tests;
 
 use Exception;
+use Faker\Factory;
+use Faker\Generator;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -45,6 +47,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /** @var string $databaseSnapshot */
     protected $databaseSnapshot;
 
+    /** @var Generator $faker */
+    protected $faker;
+
     public function getEnvironmentSetUp($app)
     {
         config(['database.redis.client' => 'mock']);
@@ -64,6 +69,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         Storage::extend('vfs', function () {
             return new Filesystem(new VfsAdapter(new VirtualFileSystem()), ['url' => 'http://odata.files']);
         });
+
+        $this->faker = Factory::create();
     }
 
     public function setUp(): void
@@ -72,6 +79,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->withoutExceptionHandling();
         $this->uuid = 0;
+        $this->faker->seed(1234);
     }
 
     public function incrementUuid()

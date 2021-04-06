@@ -1,0 +1,30 @@
+{
+    "@context": "http://localhost/odata/$metadata#csv",
+    "value": [
+        {
+            "offset": 5,
+            "name": "Shayna Blanda",
+            "datetime": "1970-05-15T12:59:59+00:00",
+            "duration": "P44DT20H48M43.913000000175S"
+        },
+        {
+            "offset": 6,
+            "name": "Dr. Kristian Kohler",
+            "datetime": "2004-10-28T08:17:42+00:00",
+            "duration": "PT3M55.32S"
+        },
+        {
+            "offset": 7,
+            "name": "Prof. Hillard Mante Jr.",
+            "datetime": "2005-06-01T17:18:22+00:00",
+            "duration": "PT30.987482592S"
+        },
+        {
+            "offset": 8,
+            "name": "Prof. Gaylord Ryan MD",
+            "datetime": "2010-11-01T17:56:27+00:00",
+            "duration": "PT8H38M9.5408012599983S"
+        }
+    ],
+    "@nextLink": "http://localhost/odata/csv?%24top=4&%24skip=9"
+}

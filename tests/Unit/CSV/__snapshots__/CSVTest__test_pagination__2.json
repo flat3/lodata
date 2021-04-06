@@ -1,0 +1,30 @@
+{
+    "@context": "http://localhost/odata/$metadata#csv",
+    "value": [
+        {
+            "offset": 9,
+            "name": "Mrs. Zita Schuppe MD",
+            "datetime": "1972-02-03T16:02:13+00:00",
+            "duration": "PT33.692727405S"
+        },
+        {
+            "offset": 10,
+            "name": "Miss Graciela Williamson I",
+            "datetime": "1989-07-09T14:15:17+00:00",
+            "duration": "PT1M57.9447S"
+        },
+        {
+            "offset": 11,
+            "name": "Sherwood Volkman V",
+            "datetime": "1982-11-25T11:00:24+00:00",
+            "duration": "P7DT13H11M34.579799999949S"
+        },
+        {
+            "offset": 12,
+            "name": "Makenna Borer IV",
+            "datetime": "1979-02-07T21:53:16+00:00",
+            "duration": "PT6S"
+        }
+    ],
+    "@nextLink": "http://localhost/odata/csv?%24top=4&%24skip=13"
+}

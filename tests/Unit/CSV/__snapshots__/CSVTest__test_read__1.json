@@ -1,0 +1,7 @@
+{
+    "@context": "http://localhost/odata/$metadata#csv/$entity",
+    "offset": 2,
+    "name": "Mrs. Audra Nolan",
+    "datetime": "1970-07-28T03:38:10+00:00",
+    "duration": "PT2H53M12.8914S"
+}
