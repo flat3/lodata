@@ -18,7 +18,7 @@ class Service implements JsonInterface
 {
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction->ensureMethod(Request::METHOD_GET);
+        $transaction->assertMethod(Request::METHOD_GET);
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emitJson($transaction);

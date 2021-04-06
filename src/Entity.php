@@ -455,7 +455,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         }
 
         Gate::check(Gate::DELETE, $this, $transaction);
-        $transaction->ensureIfMatchHeader($this->getETag());
+        $transaction->assertIfMatchHeader($this->getETag());
 
         $entitySet->delete($this->getEntityId());
 
@@ -478,8 +478,8 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         Gate::check(Gate::UPDATE, $this, $transaction);
 
-        $transaction->ensureContentTypeJson();
-        $transaction->ensureIfMatchHeader($this->getETag());
+        $transaction->assertContentTypeJson();
+        $transaction->assertIfMatchHeader($this->getETag());
 
         $entity = $entitySet->update($this->getEntityId());
 
@@ -512,6 +512,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $this->metadata['context'] = $context->getContextUrl($transaction);
 
         $response = $transaction->getResponse();
+        $transaction->assertIfMatchHeader($this->getETag());
         $transaction->setETagHeader($this->getETag());
 
         return $response->setResourceCallback($this, function () use ($transaction) {

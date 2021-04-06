@@ -21,7 +21,7 @@ trait HasTransaction
      * Ensure that this instance has an associated transaction
      * @throws InternalServerErrorException
      */
-    public function ensureTransaction(): void
+    public function assertTransaction(): void
     {
         if ($this->transaction) {
             return;

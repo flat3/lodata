@@ -225,7 +225,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
      */
     public function setBoundParameter(?PipeInterface $parameter): self
     {
-        $this->ensureTransaction();
+        $this->assertTransaction();
 
         if ($parameter instanceof PropertyValue) {
             $parameter = $parameter->getValue();
@@ -366,16 +366,16 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         $operation->setInlineParameters($inlineParameters);
 
         if ($operation instanceof ActionInterface) {
-            $transaction->ensureMethod(Request::METHOD_POST,
+            $transaction->assertMethod(Request::METHOD_POST,
                 'This operation must be addressed with a POST request');
 
             if ($transaction->getBody()) {
-                $transaction->ensureContentTypeJson();
+                $transaction->assertContentTypeJson();
             }
         }
 
         if ($operation instanceof FunctionInterface) {
-            $transaction->ensureMethod(Request::METHOD_GET,
+            $transaction->assertMethod(Request::METHOD_GET,
                 'This operation must be addressed with a GET request');
 
             $operation->getReflectedReturnType();

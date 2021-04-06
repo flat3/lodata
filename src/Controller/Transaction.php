@@ -809,7 +809,7 @@ class Transaction implements ArgumentInterface
      * @param  string|null  $code  Error code
      * @throws MethodNotAllowedException
      */
-    public function ensureMethod($permitted, ?string $message = null, ?string $code = null): void
+    public function assertMethod($permitted, ?string $message = null, ?string $code = null): void
     {
         $permitted = is_array($permitted) ? $permitted : [$permitted];
 
@@ -844,7 +844,7 @@ class Transaction implements ArgumentInterface
      * Ensure that the request content type is JSON
      * @throws NotAcceptableException
      */
-    public function ensureContentTypeJson(): void
+    public function assertContentTypeJson(): void
     {
         if ($this->getProvidedContentType()->getSubtype() === 'json') {
             return;
@@ -1232,7 +1232,7 @@ class Transaction implements ArgumentInterface
             return $this;
         }
 
-        $entitySet->ensureTransaction();
+        $entitySet->assertTransaction();
         $this->attachedEntitySets[$entitySet->getName()] = $entitySet;
 
         return $this;
@@ -1453,9 +1453,11 @@ class Transaction implements ArgumentInterface
      * Validate that the provided ETag matches the current If-Match header
      * @param  string|null  $etag  ETag
      */
-    public function ensureIfMatchHeader(?string $etag): void
+    public function assertIfMatchHeader(?string $etag): void
     {
         $ifMatches = $this->getIfMatchHeaders();
+
+        $this->request->headers->remove(Constants::IF_MATCH);
 
         if (!$ifMatches) {
             return;

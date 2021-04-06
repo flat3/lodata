@@ -435,7 +435,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
                 Gate::check(Gate::CREATE, $this, $transaction);
 
-                $transaction->ensureContentTypeJson();
+                $transaction->assertContentTypeJson();
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
 
                 $result = $this->create();

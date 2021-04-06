@@ -45,7 +45,7 @@ class Batch implements PipeInterface, ResponseInterface
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction->ensureMethod(Request::METHOD_POST);
+        $transaction->assertMethod(Request::METHOD_POST);
 
         $contentType = $transaction->getProvidedContentType();
 
