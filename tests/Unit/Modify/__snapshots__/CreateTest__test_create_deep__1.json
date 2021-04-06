@@ -4,6 +4,7 @@
     "origin": "lhr",
     "destination": "sfo",
     "gate": null,
+    "duration": null,
     "passengers": [
         {
             "id": 6,

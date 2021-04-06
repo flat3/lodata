@@ -33,6 +33,7 @@ trait TestModels
             $table->string('origin')->nullable();
             $table->string('destination')->nullable();
             $table->integer('gate')->nullable();
+            $table->float('duration')->nullable();
         });
 
         Schema::create('airports', function (Blueprint $table) {
@@ -71,16 +72,19 @@ trait TestModels
         (new FlightEModel([
             'origin' => 'lhr',
             'destination' => 'lax',
+            'duration' => 41100,
         ]))->save();
 
         (new FlightEModel([
             'origin' => 'sam',
             'destination' => 'rgr',
+            'duration' => 2384,
         ]))->save();
 
         (new FlightEModel([
             'origin' => 'sfo',
             'destination' => 'lax',
+            'duration' => 2133,
         ]))->save();
 
         (new PassengerEModel([
@@ -179,6 +183,7 @@ trait TestModels
                 ->addDeclaredProperty('origin', Type::string())
                 ->addDeclaredProperty('destination', Type::string())
                 ->addDeclaredProperty('gate', Type::int32())
+                ->addDeclaredProperty('duration', Type::duration())
         );
 
         $flightSet = SQLEntitySet::factory('flights', $flightType)

@@ -4,6 +4,7 @@
     "origin": "lhr",
     "destination": "lax",
     "gate": null,
+    "duration": "PT11H25M0S",
     "passengers": [
         {
             "id": 2,

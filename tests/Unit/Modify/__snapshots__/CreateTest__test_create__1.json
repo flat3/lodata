@@ -3,5 +3,6 @@
     "id": 4,
     "origin": "lhr",
     "destination": null,
-    "gate": null
+    "gate": null,
+    "duration": null
 }

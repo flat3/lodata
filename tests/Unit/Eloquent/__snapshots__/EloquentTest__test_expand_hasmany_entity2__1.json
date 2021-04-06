@@ -4,6 +4,7 @@
     "origin": "sam",
     "destination": "rgr",
     "gate": null,
+    "duration": "PT39M44S",
     "passengers": [
         {
             "id": 4,

@@ -2,5 +2,6 @@
     "id": 1,
     "origin": "lhr",
     "destination": "lax",
-    "gate": null
+    "gate": null,
+    "duration": "PT11H25M0S"
 }

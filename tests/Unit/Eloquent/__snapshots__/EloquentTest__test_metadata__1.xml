@@ -53,6 +53,7 @@
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
         <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
+        <Property Name="duration" Type="Edm.Duration" Nullable="true"/>
         <NavigationProperty Name="passengers" Type="Collection(com.example.odata.Passenger)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="flight_id"/>
         </NavigationProperty>

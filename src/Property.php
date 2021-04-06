@@ -85,4 +85,16 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     {
         return $this->type;
     }
+
+    /**
+     * Set the type this property is attached to
+     * @param  Type  $type  Type
+     * @return $this
+     */
+    public function setType(Type $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 }

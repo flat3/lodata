@@ -3,5 +3,5 @@ headers:
     content-type: [application/json;odata.metadata=full]
     odata-version: ['4.01']
     location: ['http://localhost/odata/flights(4)']
-    etag: ['W/"17f1142f54c717612a305a0dcf1cd282913b1ecf1108861811825bddf0641608"']
+    etag: ['W/"d8235baf3975ab77f34887d30e10b5c78cbbc043661f1927b17b64f3af7fc0da"']
 status: 201

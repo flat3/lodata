@@ -13,6 +13,7 @@ use Flat3\Lodata\Tests\Models\Passenger;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
+use Flat3\Lodata\Type;
 
 class EloquentTest extends TestCase
 {
@@ -25,6 +26,7 @@ class EloquentTest extends TestCase
         $flights = Lodata::discoverEloquentModel(Flight::class);
         $countries = Lodata::discoverEloquentModel(Country::class);
         $passengers = Lodata::discoverEloquentModel(Passenger::class);
+        Lodata::getEntityType('Flight')->getProperty('duration')->setType(Type::duration());
 
         $airports->discoverRelationship('flights');
         $airports->discoverRelationship('country');

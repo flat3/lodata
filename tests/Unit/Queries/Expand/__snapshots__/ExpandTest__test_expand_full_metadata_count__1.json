@@ -10,6 +10,7 @@
             "origin": "lhr",
             "destination": "lax",
             "gate": null,
+            "duration": "PT11H25M0S",
             "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers",
             "passengers@count": 3,
             "passengers": [
@@ -47,6 +48,7 @@
             "origin": "sam",
             "destination": "rgr",
             "gate": null,
+            "duration": "PT39M44S",
             "passengers@navigationLink": "http://localhost/odata/flights(2)/passengers",
             "passengers@count": 1,
             "passengers": [
@@ -68,6 +70,7 @@
             "origin": "sfo",
             "destination": "lax",
             "gate": null,
+            "duration": "PT35M33S",
             "passengers@navigationLink": "http://localhost/odata/flights(3)/passengers",
             "passengers@count": 1,
             "passengers": [

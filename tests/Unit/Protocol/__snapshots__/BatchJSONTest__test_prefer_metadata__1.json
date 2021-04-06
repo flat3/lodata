@@ -5,7 +5,7 @@
             "status": 200,
             "headers": {
                 "content-type": "application/json;odata.metadata=full",
-                "etag": "W/\"b6a42bfcba65b22c2fcff47cc54acf3d4181d36b23fdc22e866d84878094c6ed\""
+                "etag": "W/\"9002879996637791044635c0a75ae412322098677c04322be3da15089239bc76\""
             },
             "body": {
                 "@context": "http://localhost/odata/$metadata#flights/$entity",
@@ -15,7 +15,8 @@
                 "id": 1,
                 "origin": "lhr",
                 "destination": "lax",
-                "gate": null
+                "gate": null,
+                "duration": "PT11H25M0S"
             }
         }
     ]

@@ -9,7 +9,8 @@
             "id": 1,
             "origin": "lhr",
             "destination": "lax",
-            "gate": null
+            "gate": null,
+            "duration": "PT11H25M0S"
         },
         {
             "@type": "#com.example.odata.flight",
@@ -18,7 +19,8 @@
             "id": 2,
             "origin": "sam",
             "destination": "rgr",
-            "gate": null
+            "gate": null,
+            "duration": "PT39M44S"
         },
         {
             "@type": "#com.example.odata.flight",
@@ -27,7 +29,8 @@
             "id": 3,
             "origin": "sfo",
             "destination": "lax",
-            "gate": null
+            "gate": null,
+            "duration": "PT35M33S"
         }
     ]
 }

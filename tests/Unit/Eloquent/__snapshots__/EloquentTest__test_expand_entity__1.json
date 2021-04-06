@@ -14,13 +14,15 @@
             "id": 1,
             "origin": "elo",
             "destination": null,
-            "gate": null
+            "gate": null,
+            "duration": null
         },
         {
             "id": 2,
             "origin": "elo",
             "destination": null,
-            "gate": null
+            "gate": null,
+            "duration": null
         }
     ]
 }

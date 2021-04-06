@@ -10,6 +10,7 @@
             "origin": "lhr",
             "destination": "lax",
             "gate": null,
+            "duration": "PT11H25M0S",
             "passengers@navigationLink": "http://localhost/odata/Flights(1)/passengers",
             "passengers": [
                 {
@@ -27,7 +28,8 @@
                         "id": 1,
                         "origin": "lhr",
                         "destination": "lax",
-                        "gate": null
+                        "gate": null,
+                        "duration": "PT11H25M0S"
                     }
                 },
                 {
@@ -45,7 +47,8 @@
                         "id": 1,
                         "origin": "lhr",
                         "destination": "lax",
-                        "gate": null
+                        "gate": null,
+                        "duration": "PT11H25M0S"
                     }
                 },
                 {
@@ -63,7 +66,8 @@
                         "id": 1,
                         "origin": "lhr",
                         "destination": "lax",
-                        "gate": null
+                        "gate": null,
+                        "duration": "PT11H25M0S"
                     }
                 }
             ]
@@ -76,6 +80,7 @@
             "origin": "sam",
             "destination": "rgr",
             "gate": null,
+            "duration": "PT39M44S",
             "passengers@navigationLink": "http://localhost/odata/Flights(2)/passengers",
             "passengers": [
                 {
@@ -93,7 +98,8 @@
                         "id": 2,
                         "origin": "sam",
                         "destination": "rgr",
-                        "gate": null
+                        "gate": null,
+                        "duration": "PT39M44S"
                     }
                 }
             ]
@@ -106,6 +112,7 @@
             "origin": "sfo",
             "destination": "lax",
             "gate": null,
+            "duration": "PT35M33S",
             "passengers@navigationLink": "http://localhost/odata/Flights(3)/passengers",
             "passengers": [
                 {
@@ -123,7 +130,8 @@
                         "id": 3,
                         "origin": "sfo",
                         "destination": "lax",
-                        "gate": null
+                        "gate": null,
+                        "duration": "PT35M33S"
                     }
                 }
             ]

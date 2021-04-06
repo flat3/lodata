@@ -4,7 +4,7 @@ content-type: application/http
 
 HTTP/1.0 200 OK
 content-type: application/json;odata.metadata=full
-etag: W/"b6a42bfcba65b22c2fcff47cc54acf3d4181d36b23fdc22e866d84878094c6ed"
+etag: W/"9002879996637791044635c0a75ae412322098677c04322be3da15089239bc76"
 
-{"@context":"http://localhost/odata/$metadata#flights/$entity","@type":"#com.example.odata.flight","@id":"http://localhost/odata/flights(1)","@readLink":"http://localhost/odata/flights(1)","id":1,"origin":"lhr","destination":"lax","gate":null}
+{"@context":"http://localhost/odata/$metadata#flights/$entity","@type":"#com.example.odata.flight","@id":"http://localhost/odata/flights(1)","@readLink":"http://localhost/odata/flights(1)","id":1,"origin":"lhr","destination":"lax","gate":null,"duration":"PT11H25M0S"}
 --00000000-0000-0000-0000-000000000001--

@@ -1,7 +1,7 @@
 airports: {  }
 countries: {  }
 flights:
-    - { id: '1', origin: lhr, destination: sfo, gate: null }
+    - { id: '1', origin: lhr, destination: sfo, gate: null, duration: null }
 passengers:
     - { id: '1', flight_id: '1', name: Alice }
     - { id: '2', flight_id: '1', name: Bob }

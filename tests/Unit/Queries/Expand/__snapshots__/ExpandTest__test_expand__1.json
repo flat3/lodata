@@ -6,6 +6,7 @@
             "origin": "lhr",
             "destination": "lax",
             "gate": null,
+            "duration": "PT11H25M0S",
             "passengers": [
                 {
                     "id": 1,
@@ -29,6 +30,7 @@
             "origin": "sam",
             "destination": "rgr",
             "gate": null,
+            "duration": "PT39M44S",
             "passengers": [
                 {
                     "id": 4,
@@ -42,6 +44,7 @@
             "origin": "sfo",
             "destination": "lax",
             "gate": null,
+            "duration": "PT35M33S",
             "passengers": [
                 {
                     "id": 5,
