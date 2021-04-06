@@ -170,6 +170,11 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
         return $entity;
     }
 
+    /**
+     * Create an entity from filesystem metadata
+     * @param  array  $metadata Metadata
+     * @return Entity
+     */
     public function fromMetadata(array $metadata): Entity
     {
         $entity = $this->newEntity();
