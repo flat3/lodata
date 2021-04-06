@@ -9,8 +9,8 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\StreamInterface;
 
 /**
  * Count

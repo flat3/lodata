@@ -320,7 +320,10 @@ class BatchJSONTest extends TestCase
                         [
                             'id' => 2,
                             'method' => 'patch',
-                            'headers' => ['content-type' => 'application/json'],
+                            'headers' => [
+                                'content-type' => 'application/json',
+                                'if-match' => 'W/"192974269b83f1c24b65713ffc921a2e414f1174ee4c1ad2342ce4f9b014f9de"',
+                            ],
                             'url' => "/odata/airports(1)",
                             'body' => [
                                 "code" => "xyz"
@@ -445,6 +448,40 @@ class BatchJSONTest extends TestCase
                             'id' => 1,
                             'method' => 'patch',
                             'url' => '$2',
+                            'body' => [
+                                "name" => "Test2",
+                                "code" => "abc",
+                            ]
+                        ],
+                    ]
+                ])
+        );
+    }
+
+    public function test_ifmatch_failed()
+    {
+        $this->assertJsonMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->post()
+                ->body([
+                    'requests' => [
+                        [
+                            'id' => 0,
+                            'method' => 'post',
+                            'url' => "airports",
+                            'body' => [
+                                "name" => "Test1",
+                                "code" => "xyz",
+                            ]
+                        ],
+                        [
+                            'id' => 1,
+                            'method' => 'patch',
+                            'url' => '$0',
+                            'headers' => [
+                                'if-match' => 'xxx',
+                            ],
                             'body' => [
                                 "name" => "Test2",
                                 "code" => "abc",

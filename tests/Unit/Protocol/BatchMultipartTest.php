@@ -372,8 +372,8 @@ Content-ID: 2
 PATCH /odata/airports(1) HTTP/1.1
 Host: localhost
 Content-Type: application/json
-If-Match: xxxxx
 Prefer: return=minimal
+If-Match: W/"192974269b83f1c24b65713ffc921a2e414f1174ee4c1ad2342ce4f9b014f9de"
 
 {
   "code": "xyz"
@@ -415,6 +415,46 @@ Host: localhost
 
 --batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 
+MULTIPART
+                )
+        );
+    }
+
+
+    public function test_ifmatch_failed()
+    {
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
+                ->post()
+                ->multipart(<<<'MULTIPART'
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+POST airports HTTP/1.1
+Host: localhost
+Content-Type: application/json
+Content-ID: 1
+
+{
+  "name": "Test1",
+  "code": "xyz" 
+}
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b
+Content-Type: application/http
+
+PATCH $1 HTTP/1.1
+Host: localhost
+Content-Type: application/json
+If-Match: xxx
+
+{
+  "name": "Test2",
+  "code": "abc"
+}
+--batch_36522ad7-fc75-4b56-8c71-56071383e77b--
 MULTIPART
                 )
         );

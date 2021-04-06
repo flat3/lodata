@@ -24,14 +24,14 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Interfaces\ResponseInterface;
-use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\RequestInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
@@ -1426,5 +1426,50 @@ class Transaction implements ArgumentInterface
         Gate::check(Gate::CREATE, $entitySet, $this);
 
         return $entitySet->create();
+    }
+
+    /**
+     * Set the value of the ETag header
+     * @param  string  $etag  ETag header
+     * @return $this
+     */
+    public function setETagHeader(string $etag): self
+    {
+        $this->sendHeader(Constants::ETAG, $etag);
+
+        return $this;
+    }
+
+    /**
+     * Get the current value of the If-Match header
+     * @return array If-Match header
+     */
+    public function getIfMatchHeaders(): array
+    {
+        return $this->getRequestHeaders(Constants::IF_MATCH);
+    }
+
+    /**
+     * Validate that the provided ETag matches the current If-Match header
+     * @param  string|null  $etag  ETag
+     */
+    public function ensureIfMatchHeader(?string $etag): void
+    {
+        $ifMatches = $this->getIfMatchHeaders();
+
+        if (!$ifMatches) {
+            return;
+        }
+
+        foreach ($ifMatches as $ifMatch) {
+            if ($ifMatch === '*' || $ifMatch === $etag) {
+                return;
+            }
+        }
+
+        throw new PreconditionFailedException(
+            'etag_mismatch',
+            'The provided If-Match header did not match the current ETag value'
+        );
     }
 }

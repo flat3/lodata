@@ -17,10 +17,10 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
+use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
@@ -455,6 +455,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         }
 
         Gate::check(Gate::DELETE, $this, $transaction);
+        $transaction->ensureIfMatchHeader($this->getETag());
 
         $entitySet->delete($this->getEntityId());
 
@@ -478,6 +479,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         Gate::check(Gate::UPDATE, $this, $transaction);
 
         $transaction->ensureContentTypeJson();
+        $transaction->ensureIfMatchHeader($this->getETag());
 
         $entity = $entitySet->update($this->getEntityId());
 
@@ -510,8 +512,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $this->metadata['context'] = $context->getContextUrl($transaction);
 
         $response = $transaction->getResponse();
-
-        $response->headers->set('etag', $this->getETag());
+        $transaction->setETagHeader($this->getETag());
 
         return $response->setResourceCallback($this, function () use ($transaction) {
             $this->emitJson($transaction);

@@ -1,0 +1,35 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 201,
+            "headers": {
+                "content-type": "application/json",
+                "location": "http://localhost/odata/airports(5)",
+                "etag": "W/\"70aa3d8e2af51d42e906f9342f8c108ce8fdd4988e65f2c19f2d4d0ad9b1f4ec\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "Test1",
+                "code": "xyz",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null
+            }
+        },
+        {
+            "id": 1,
+            "status": 412,
+            "headers": {
+                "content-type": "application/json"
+            },
+            "body": {
+                "code": "etag_mismatch",
+                "message": "The provided If-Match header did not match the current ETag value"
+            }
+        }
+    ]
+}

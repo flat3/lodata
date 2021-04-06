@@ -45,4 +45,28 @@ class DeleteTest extends TestCase
                 ->delete()
         );
     }
+
+    public function test_validate_etag()
+    {
+        $response = $this->req(
+            Request::factory()
+                ->path('/flights(1)')
+        );
+
+        $etag = $response->headers->get('etag');
+
+        $this->assertNoContent(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-match', $etag)
+                ->delete()
+        );
+
+        $this->assertPreconditionFailed(
+            Request::factory()
+                ->path('/flights(2)')
+                ->header('if-match', $etag)
+                ->delete()
+        );
+    }
 }

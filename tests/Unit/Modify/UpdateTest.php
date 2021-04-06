@@ -46,6 +46,79 @@ class UpdateTest extends TestCase
         );
     }
 
+    public function test_validate_etag()
+    {
+        $response = $this->req(
+            Request::factory()
+                ->path('/flights(1)')
+        );
+
+        $etag = $response->headers->get('etag');
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-match', $etag)
+                ->put()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+
+        $this->assertPreconditionFailed(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-match', $etag)
+                ->put()
+                ->body([
+                    'origin' => 'aaa',
+                ])
+        );
+
+        $this->assertPreconditionFailed(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-match', [$etag])
+                ->put()
+                ->body([
+                    'origin' => 'aaa',
+                ])
+        );
+    }
+
+    public function test_multiple_etag()
+    {
+        $response = $this->req(
+            Request::factory()
+                ->path('/flights(1)')
+        );
+
+        $etag = $response->headers->get('etag');
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-match', ['xyz', $etag])
+                ->put()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_any_etag()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->header('if-match', '*')
+                ->put()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
     public function test_update_ref()
     {
         $this->assertJsonResponse(

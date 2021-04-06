@@ -10,8 +10,8 @@ use Flat3\Lodata\Exception\Protocol\FoundException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type\Stream;
 
