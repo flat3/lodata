@@ -16,6 +16,7 @@ use Flat3\Lodata\Expression\Event\StartGroup;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
+use Flat3\Lodata\Expression\Node\Literal\Duration;
 use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy;
@@ -94,6 +95,10 @@ trait SQLFilter
 
                     case $node instanceof Date:
                         $this->addParameter($node->getValue()->format('Y-m-d 00:00:00'));
+                        break;
+
+                    case $node instanceof Duration:
+                        $this->addParameter($node->getValue());
                         break;
 
                     case $node instanceof DateTimeOffset:

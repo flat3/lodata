@@ -1,0 +1,12 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights",
+    "value": [
+        {
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null,
+            "duration": "PT35M33S"
+        }
+    ]
+}

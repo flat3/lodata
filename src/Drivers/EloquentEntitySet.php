@@ -188,11 +188,12 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $model = $this->getModelByKey($key);
 
         $body = $this->transaction->getBody();
+        $entity = $this->newEntity()->fromArray($body);
 
         /** @var Property $property */
         foreach ($this->getType()->getDeclaredProperties() as $property) {
             if (array_key_exists($property->getName(), $body)) {
-                $model[$property->getName()] = $body[$property->getName()];
+                $model[$property->getName()] = $entity->getPropertyValue($property)->get();
             }
         }
 
@@ -215,10 +216,12 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
         $body = $this->transaction->getBody();
         $declaredProperties = $this->getType()->getDeclaredProperties()->pick(array_keys($body));
 
+        $entity = $this->newEntity()->fromArray($body);
+
         /** @var DeclaredProperty $declaredProperty */
         foreach ($declaredProperties as $declaredProperty) {
             if (array_key_exists($declaredProperty->getName(), $body)) {
-                $model[$declaredProperty->getName()] = $body[$declaredProperty->getName()];
+                $model[$declaredProperty->getName()] = $entity->getPropertyValue($declaredProperty)->get();
             }
         }
 

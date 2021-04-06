@@ -154,6 +154,7 @@ class EloquentTest extends TestCase
                 ->body([
                     'origin' => 'lhr',
                     'destination' => 'sfo',
+                    'duration' => 'PT8H',
                     'passengers' => [
                         [
                             'name' => 'Alice',
