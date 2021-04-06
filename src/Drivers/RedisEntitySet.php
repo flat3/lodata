@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -171,6 +172,15 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function unserialize(string $string): Entity
     {
-        return $this->newEntity()->fromArray(unserialize($string));
+        $redisValue = unserialize($string);
+
+        if (!is_array($redisValue)) {
+            throw new InternalServerErrorException(
+                'invalid_redis_value',
+                'The value retrieved from Redis could not be converted to an entity'
+            );
+        }
+
+        return $this->newEntity()->fromArray($redisValue);
     }
 }
