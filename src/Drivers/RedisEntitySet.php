@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -24,8 +25,20 @@ use Illuminate\Support\Str;
  */
 class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface
 {
-    protected $connectionName = null;
+    /** @var ?Connection $connection */
+    protected $connection = null;
 
+    public function __construct(string $identifier, EntityType $entityType)
+    {
+        parent::__construct($identifier, $entityType);
+
+        $this->connection = Redis::connection();
+    }
+
+    /**
+     * Create a new record
+     * @return Entity
+     */
     public function create(): Entity
     {
         $entity = $this->newEntity();
@@ -46,7 +59,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function getConnection(): Connection
     {
-        return Redis::connection($this->connectionName);
+        return $this->connection;
     }
 
     /**
@@ -56,7 +69,19 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function setConnectionName(string $name): self
     {
-        $this->connectionName = $name;
+        $this->connection = Redis::connection($name);
+
+        return $this;
+    }
+
+    /**
+     * Set the Redis connection to use
+     * @param  Connection  $connection
+     * @return $this
+     */
+    public function setConnection(Connection $connection): self
+    {
+        $this->connection = $connection;
 
         return $this;
     }
