@@ -11,7 +11,6 @@
             "destination": "lax",
             "gate": null,
             "duration": "PT11H25M0S",
-            "passengers@navigationLink": "http://localhost/odata/Flights(1)/passengers",
             "passengers": [
                 {
                     "@type": "#com.example.odata.Passenger",
@@ -20,7 +19,6 @@
                     "id": 1,
                     "flight_id": 1,
                     "name": "Anne Arbor",
-                    "flight@navigationLink": "http://localhost/odata/Passengers(1)/flight",
                     "flight": {
                         "@type": "#com.example.odata.Flight",
                         "@id": "http://localhost/odata/Flights(1)",
@@ -30,7 +28,8 @@
                         "destination": "lax",
                         "gate": null,
                         "duration": "PT11H25M0S"
-                    }
+                    },
+                    "flight@navigationLink": "http://localhost/odata/Passengers(1)/flight"
                 },
                 {
                     "@type": "#com.example.odata.Passenger",
@@ -39,7 +38,6 @@
                     "id": 2,
                     "flight_id": 1,
                     "name": "Bob Barry",
-                    "flight@navigationLink": "http://localhost/odata/Passengers(2)/flight",
                     "flight": {
                         "@type": "#com.example.odata.Flight",
                         "@id": "http://localhost/odata/Flights(1)",
@@ -49,7 +47,8 @@
                         "destination": "lax",
                         "gate": null,
                         "duration": "PT11H25M0S"
-                    }
+                    },
+                    "flight@navigationLink": "http://localhost/odata/Passengers(2)/flight"
                 },
                 {
                     "@type": "#com.example.odata.Passenger",
@@ -58,7 +57,6 @@
                     "id": 3,
                     "flight_id": 1,
                     "name": "Charlie Carrot",
-                    "flight@navigationLink": "http://localhost/odata/Passengers(3)/flight",
                     "flight": {
                         "@type": "#com.example.odata.Flight",
                         "@id": "http://localhost/odata/Flights(1)",
@@ -68,9 +66,11 @@
                         "destination": "lax",
                         "gate": null,
                         "duration": "PT11H25M0S"
-                    }
+                    },
+                    "flight@navigationLink": "http://localhost/odata/Passengers(3)/flight"
                 }
-            ]
+            ],
+            "passengers@navigationLink": "http://localhost/odata/Flights(1)/passengers"
         },
         {
             "@type": "#com.example.odata.Flight",
@@ -81,7 +81,6 @@
             "destination": "rgr",
             "gate": null,
             "duration": "PT39M44S",
-            "passengers@navigationLink": "http://localhost/odata/Flights(2)/passengers",
             "passengers": [
                 {
                     "@type": "#com.example.odata.Passenger",
@@ -90,7 +89,6 @@
                     "id": 4,
                     "flight_id": 2,
                     "name": "Fox Flipper",
-                    "flight@navigationLink": "http://localhost/odata/Passengers(4)/flight",
                     "flight": {
                         "@type": "#com.example.odata.Flight",
                         "@id": "http://localhost/odata/Flights(2)",
@@ -100,9 +98,11 @@
                         "destination": "rgr",
                         "gate": null,
                         "duration": "PT39M44S"
-                    }
+                    },
+                    "flight@navigationLink": "http://localhost/odata/Passengers(4)/flight"
                 }
-            ]
+            ],
+            "passengers@navigationLink": "http://localhost/odata/Flights(2)/passengers"
         },
         {
             "@type": "#com.example.odata.Flight",
@@ -113,7 +113,6 @@
             "destination": "lax",
             "gate": null,
             "duration": "PT35M33S",
-            "passengers@navigationLink": "http://localhost/odata/Flights(3)/passengers",
             "passengers": [
                 {
                     "@type": "#com.example.odata.Passenger",
@@ -122,7 +121,6 @@
                     "id": 5,
                     "flight_id": 3,
                     "name": "Grace Gumbo",
-                    "flight@navigationLink": "http://localhost/odata/Passengers(5)/flight",
                     "flight": {
                         "@type": "#com.example.odata.Flight",
                         "@id": "http://localhost/odata/Flights(3)",
@@ -132,9 +130,11 @@
                         "destination": "lax",
                         "gate": null,
                         "duration": "PT35M33S"
-                    }
+                    },
+                    "flight@navigationLink": "http://localhost/odata/Passengers(5)/flight"
                 }
-            ]
+            ],
+            "passengers@navigationLink": "http://localhost/odata/Flights(3)/passengers"
         }
     ]
 }

@@ -3,32 +3,40 @@
 namespace Flat3\Lodata\Drivers;
 
 use ArrayAccess;
+use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
+use Generator;
 
 /**
  * Class StaticEntitySet
  * The static entity set is assigned entities and does not query a data source
  * @package Flat3\Lodata\Drivers
  */
-class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess
+class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess, CountInterface
 {
+    /**
+     * @var Entity[] $results
+     */
+    protected $results = [];
+
     public function __construct(EntityType $entityType)
     {
         parent::__construct('unbound', $entityType);
 
         $this->applyQueryOptions = false;
-        $this->results = [];
     }
 
     /**
-     * Return no more results
-     * @return array
+     * Return all results
      */
-    public function query(): array
+    public function query(): Generator
     {
-        return [];
+        foreach ($this->results as $result) {
+            yield $result;
+        }
     }
 
     public function offsetExists($offset)
@@ -82,5 +90,14 @@ class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess
         uasort($this->results, $callback);
 
         return $this;
+    }
+
+    /**
+     * Count the objects in the array
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->results);
     }
 }

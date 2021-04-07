@@ -186,6 +186,23 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             /** @var PropertyValue $propertyValue */
             $propertyValue = $this->propertyValues->current();
 
+            if ($propertyValue->shouldEmit($transaction)) {
+                if ($requiresSeparator) {
+                    $transaction->outputJsonSeparator();
+                }
+
+                $transaction->outputJsonKey($propertyValue->getProperty()->getName());
+
+                $value = $propertyValue->getValue();
+                if (null === $value) {
+                    $transaction->sendJson(null);
+                } else {
+                    $value->emitJson($transaction);
+                }
+
+                $requiresSeparator = true;
+            }
+
             $propertyMetadata = $propertyValue->getMetadata($transaction);
 
             if ($propertyMetadata->hasProperties()) {
@@ -194,27 +211,9 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
                 }
 
                 $transaction->outputJsonKV($propertyMetadata->getProperties());
+                $requiresSeparator = true;
             }
 
-            if (!$propertyValue->shouldEmit($transaction)) {
-                $this->propertyValues->next();
-                continue;
-            }
-
-            if ($requiresSeparator) {
-                $transaction->outputJsonSeparator();
-            }
-
-            $transaction->outputJsonKey($propertyValue->getProperty()->getName());
-
-            $value = $propertyValue->getValue();
-            if (null === $value) {
-                $transaction->sendJson(null);
-            } else {
-                $value->emitJson($transaction);
-            }
-
-            $requiresSeparator = true;
             $this->propertyValues->next();
         }
 

@@ -2,13 +2,13 @@
 
 namespace Flat3\Lodata\PathSegment;
 
-use Countable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\StreamInterface;
 
@@ -20,12 +20,12 @@ class Count implements StreamInterface, PipeInterface
 {
     /**
      * The countable value passed to this segment
-     * @var Countable Countable
+     * @var CountInterface Countable
      * @internal
      */
     protected $countable;
 
-    public function __construct(Countable $countable)
+    public function __construct(CountInterface $countable)
     {
         $this->countable = $countable;
     }
@@ -56,8 +56,8 @@ class Count implements StreamInterface, PipeInterface
             $argument = $argument->getValue();
         }
 
-        if (!$argument instanceof Countable) {
-            throw new BadRequestException('not_countable', '$count was passed something not countable');
+        if (!$argument instanceof CountInterface) {
+            throw new NotImplementedException('not_countable', '$count was passed something not countable');
         }
 
         $transaction->getTop()->clearValue();

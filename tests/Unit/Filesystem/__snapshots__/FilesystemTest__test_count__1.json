@@ -1,1 +1,4 @@
-3
+{
+    "code": "not_countable",
+    "message": "$count was passed something not countable"
+}

@@ -15,6 +15,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Transaction\MediaType;
+use Generator;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -71,18 +72,14 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
 
     /**
      * Query
-     * @return array
      */
-    public function query(): array
+    public function query(): Generator
     {
         $contents = $this->disk->getDriver()->listContents('', true);
-        $results = [];
 
         foreach ($contents as $content) {
-            $results[] = $this->fromMetadata($content);
+            yield $this->fromMetadata($content);
         }
-
-        return $results;
     }
 
     /**

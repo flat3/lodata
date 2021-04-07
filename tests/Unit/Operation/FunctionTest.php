@@ -254,7 +254,7 @@ class FunctionTest extends TestCase
                 $result = new StaticEntitySet($airports->getType());
                 $result->setIdentifier($airports->getIdentifier());
 
-                foreach ($airports as $airport) {
+                foreach ($airports->query() as $airport) {
                     $result[] = $airport;
                 }
 

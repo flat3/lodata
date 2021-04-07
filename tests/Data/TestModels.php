@@ -21,6 +21,7 @@ use Flat3\Lodata\Tests\Models\Pet as PetEModel;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
+use Generator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -294,13 +295,11 @@ trait TestModels
                 Lodata::add((new EntityType('text'))
                     ->addDeclaredProperty('a', Type::string()))
             ) extends EntitySet implements QueryInterface {
-                public function query(): array
+                public function query(): Generator
                 {
                     $entity = $this->newEntity();
                     $entity['a'] = 'a';
-                    return [
-                        $entity,
-                    ];
+                    yield $entity;
                 }
             });
     }
@@ -313,7 +312,7 @@ trait TestModels
                 Lodata::add((new EntityType('text'))
                     ->addDeclaredProperty('declared', Type::string()))
             ) extends EntitySet implements QueryInterface {
-                public function query(): array
+                public function query(): Generator
                 {
                     $entity = $this->newEntity();
                     $entity['declared'] = 'a';
@@ -321,9 +320,7 @@ trait TestModels
                     $pv->setValue(new Int32(3));
                     $pv->setProperty(new DynamicProperty('dynamic', Type::int32()));
                     $entity->addProperty($pv);
-                    return [
-                        $entity,
-                    ];
+                    yield $entity;
                 }
             });
     }

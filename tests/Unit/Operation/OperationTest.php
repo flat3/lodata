@@ -10,6 +10,7 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Decimal;
+use Flat3\Lodata\Type\Duration;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\String_;
 
@@ -98,9 +99,11 @@ class OperationTest extends TestCase
         $this->withFlightModel();
 
         Lodata::add((new class('f1') extends Operation implements FunctionInterface {
-            public function invoke(?Decimal $b, EntitySet $flights): Decimal
+            public function invoke(?Decimal $b, EntitySet $flights): Duration
             {
-                return new Decimal($flights->count());
+                $entity = $flights->query()->current();
+                $duration = $entity['duration'];
+                return $duration->getValue();
             }
         })->setBindingParameterName('flights'));
 

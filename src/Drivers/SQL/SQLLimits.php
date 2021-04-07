@@ -16,21 +16,14 @@ trait SQLLimits
      */
     public function generateLimits(): string
     {
-        $limits = '';
-
-        if ($this->top === PHP_INT_MAX) {
-            return $limits;
+        if (!$this->getSkip()->hasValue()) {
+            return '';
         }
 
-        $limits .= ' LIMIT ?';
-        $this->addParameter($this->top);
+        $limits = ' LIMIT ?,?';
 
-        if (!$this->skip) {
-            return $limits;
-        }
-
-        $limits .= ' OFFSET ?';
-        $this->addParameter($this->skip);
+        $this->addParameter($this->getSkip()->getValue());
+        $this->addParameter($this->getTop()->hasValue() ? $this->getTop()->getValue() : PHP_INT_MAX);
 
         return $limits;
     }

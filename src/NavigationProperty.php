@@ -173,7 +173,7 @@ class NavigationProperty extends Property
         if ($this->isCollection()) {
             $propertyValue->setValue($expansionSet);
         } else {
-            $expansionSingular = $expansionSet->current();
+            $expansionSingular = $expansionSet->query()->current();
             $propertyValue->setValue($expansionSingular);
         }
 

@@ -11,8 +11,6 @@
             "destination": "lax",
             "gate": null,
             "duration": "PT11H25M0S",
-            "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers",
-            "passengers@count": 3,
             "passengers": [
                 {
                     "@type": "#com.example.odata.passenger",
@@ -38,7 +36,9 @@
                     "name": "Charlie Carrot",
                     "flight_id": 1
                 }
-            ]
+            ],
+            "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers",
+            "passengers@count": 3
         },
         {
             "@type": "#com.example.odata.flight",
@@ -49,8 +49,6 @@
             "destination": "rgr",
             "gate": null,
             "duration": "PT39M44S",
-            "passengers@navigationLink": "http://localhost/odata/flights(2)/passengers",
-            "passengers@count": 1,
             "passengers": [
                 {
                     "@type": "#com.example.odata.passenger",
@@ -60,7 +58,9 @@
                     "name": "Fox Flipper",
                     "flight_id": 2
                 }
-            ]
+            ],
+            "passengers@navigationLink": "http://localhost/odata/flights(2)/passengers",
+            "passengers@count": 1
         },
         {
             "@type": "#com.example.odata.flight",
@@ -71,8 +71,6 @@
             "destination": "lax",
             "gate": null,
             "duration": "PT35M33S",
-            "passengers@navigationLink": "http://localhost/odata/flights(3)/passengers",
-            "passengers@count": 1,
             "passengers": [
                 {
                     "@type": "#com.example.odata.passenger",
@@ -82,7 +80,9 @@
                     "name": "Grace Gumbo",
                     "flight_id": 3
                 }
-            ]
+            ],
+            "passengers@navigationLink": "http://localhost/odata/flights(3)/passengers",
+            "passengers@count": 1
         }
     ]
 }

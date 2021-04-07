@@ -69,6 +69,16 @@ class EloquentTest extends TestCase
 
         $this->assertJsonResponse(
             Request::factory()
+                ->path('/Airports')
+        );
+    }
+
+    public function test_count()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
                 ->text()
                 ->path('/Airports/$count')
         );

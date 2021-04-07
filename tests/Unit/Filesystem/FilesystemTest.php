@@ -59,7 +59,7 @@ class FilesystemTest extends TestCase
 
     public function test_count()
     {
-        $this->assertJsonResponse(
+        $this->assertNotImplemented(
             Request::factory()
                 ->text()
                 ->path('/files/$count')

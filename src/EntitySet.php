@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata;
 
-use Countable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
@@ -49,16 +48,16 @@ use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Type\Stream;
+use Generator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Iterator;
 
 /**
  * Entity Set
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, Iterator, Countable, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface
 {
     use HasIdentifier;
     use UseReferences;
@@ -81,48 +80,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     protected $type;
 
     /**
-     * Page size to return from the query
-     * @var int $top
-     * @internal
-     */
-    protected $top = PHP_INT_MAX;
-
-    /**
-     * Page size to return from the query
-     * @var int $skip
-     * @internal
-     */
-    protected $skip = 0;
-
-    /**
-     * Total number of records fetched for internal pagination
-     * @var int $topCounter
-     * @internal
-     */
-    private $topCounter = 0;
-
-    /**
-     * Limit of number of records to evaluate from the source
-     * @var int $topLimit
-     * @internal
-     */
-    protected $topLimit = PHP_INT_MAX;
-
-    /**
-     * Maximum pagination size allowed for this entity set
-     * @var int $maxPageSize
-     * @internal
-     */
-    protected $maxPageSize = 500;
-
-    /**
-     * Result set buffer from the query
-     * @var null|Entity[] $results
-     * @internal
-     */
-    protected $results = null;
-
-    /**
      * The navigation property value that relates to this entity set instance
      * @var PropertyValue $navigationPropertyValue
      * @internal
@@ -135,6 +92,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @internal
      */
     protected $applyQueryOptions = true;
+
+    /**
+     * Running total of emitted entities
+     * @var int $emittedEntityCount Emitted entities
+     */
+    private $emittedEntityCount = 0;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
@@ -169,109 +132,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function getKind(): string
     {
         return 'EntitySet';
-    }
-
-    /**
-     * The current entity in the results buffer
-     * @return null|Entity Current entity
-     */
-    public function current(): ?Entity
-    {
-        if (null === $this->results && !$this->valid()) {
-            return null;
-        }
-
-        return current($this->results);
-    }
-
-    /**
-     * Move to the next entity in the results buffer
-     */
-    public function next(): void
-    {
-        next($this->results);
-    }
-
-    /**
-     * Get the entity ID of the current entity in the results buffer
-     * @return PropertyValue Entity ID
-     */
-    public function key()
-    {
-        $entity = $this->current();
-
-        if (!$entity) {
-            return null;
-        }
-
-        return $entity->getEntityId();
-    }
-
-    /**
-     * Rewind the results buffer
-     */
-    public function rewind()
-    {
-        if (!$this->results) {
-            return;
-        }
-
-        throw new InternalServerErrorException('no_rewind', 'Entity sets cannot be rewound');
-    }
-
-    /**
-     * Count the number of results in the result buffer
-     * @return int|null
-     */
-    public function count()
-    {
-        $this->valid();
-        return $this->results ? count($this->results) : null;
-    }
-
-    /**
-     * Whether there is a current entity in the results buffer
-     * Implements internal pagination
-     * @return bool Whether there is a valid entity in the current position of the buffer
-     */
-    public function valid(): bool
-    {
-        if (!$this instanceof QueryInterface) {
-            throw new NotImplementedException(
-                'query_not_implemented',
-                'Query not implemented for this entity set driver'
-            );
-        }
-
-        if (0 === $this->top) {
-            return false;
-        }
-
-        if ($this->results === null) {
-            $this->results = $this->query();
-            $this->topCounter = count($this->results);
-        } elseif ($this->results && !current($this->results) && !$this instanceof PaginationInterface) {
-            return false;
-        } elseif (!current($this->results) && ($this->topCounter < $this->topLimit)) {
-            $this->top = min($this->top, $this->topLimit - $this->topCounter);
-            $this->skip += count($this->results);
-            $this->results = $this->query();
-            $this->topCounter += count($this->results);
-        }
-
-        return !!current($this->results);
-    }
-
-    /**
-     * Set the maximum pagination size to use with the service providing results into the buffer
-     * @param  int  $maxPageSize  Maximum page size
-     * @return $this
-     */
-    public function setMaxPageSize(int $maxPageSize): self
-    {
-        $this->maxPageSize = $maxPageSize;
-
-        return $this;
     }
 
     /**
@@ -321,37 +181,36 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $orderby->getSortOrders();
 
         $top = $transaction->getTop();
-        $skip = $transaction->getSkip();
 
         $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
         if (!$top->hasValue() && $maxPageSize) {
             $top->setValue($maxPageSize);
         }
 
-        $this->top = $top->hasValue() && ($top->getValue() < $this->maxPageSize) ? $top->getValue() : $this->maxPageSize;
-
-        if ($skip->hasValue()) {
-            $this->skip = $skip->getValue();
-        }
-
-        if ($top->hasValue()) {
-            $this->topLimit = $top->getValue();
-        }
+        /** @var Generator $results */
+        $results = $this->query();
 
         $transaction->outputJsonArrayStart();
 
-        while ($this->valid()) {
-            $entity = $this->current();
+        $limit = $top->getValue();
+
+        while ($results->valid()) {
+            if ($top->hasValue() && $limit === 0) {
+                break;
+            }
+
+            $entity = $results->current();
 
             if ($this->usesReferences()) {
                 $entity->useReferences();
             }
 
             $entity->emitJson($transaction);
+            $this->emittedEntityCount++;
 
-            $this->next();
+            $results->next();
 
-            if (!$this->valid()) {
+            if (!$results->valid() || --$limit === 0) {
                 break;
             }
 
@@ -808,10 +667,14 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function addTrailingMetadata(Transaction $transaction, MetadataContainer $metadata, string $resourceUrl)
     {
-        $count = $this->count();
+        $count = null;
 
-        if ($transaction->getCount()->hasValue()) {
-            $metadata['count'] = $count;
+        if ($this instanceof CountInterface) {
+            $count = $this->count();
+
+            if ($transaction->getCount()->hasValue()) {
+                $metadata['count'] = $count;
+            }
         }
 
         $top = $transaction->getTop();
@@ -834,11 +697,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 $paginationParams['$top'] = $top->getValue();
                 $paginationParams['$skiptoken'] = $skipToken->getValue();
             } else {
-                $nextSkipValue = $top->getValue() + ($skip->getValue() ?: 0);
-
-                if ($top->hasValue() && $nextSkipValue < $count) {
-                    $paginationParams['$top'] = $top->getValue();
-                    $paginationParams['$skip'] = $nextSkipValue;
+                if ($top->hasValue()) {
+                    $nextSkipValue = $this->emittedEntityCount + $skip->getValue();
+                    if ($count === null || $nextSkipValue < $count) {
+                        $paginationParams['$top'] = $top->getValue();
+                        $paginationParams['$skip'] = $nextSkipValue;
+                    }
                 }
             }
         }

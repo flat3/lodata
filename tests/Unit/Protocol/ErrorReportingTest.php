@@ -13,6 +13,7 @@ use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\StreamingJsonDriver;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
+use Generator;
 use Illuminate\Testing\TestResponse;
 
 class ErrorReportingTest extends TestCase
@@ -61,9 +62,9 @@ class ErrorReportingTest extends TestCase
                     throw new NotImplementedException('not_implemented', 'Error during stream');
                 }
 
-                public function query(): array
+                public function query(): Generator
                 {
-                    return [];
+                    yield;
                 }
             });
 

@@ -5,7 +5,6 @@
     "destination": "lax",
     "gate": null,
     "duration": "PT11H25M0S",
-    "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24top=2&%24skip=2",
     "passengers": [
         {
             "id": 1,
@@ -17,5 +16,6 @@
             "name": "Bob Barry",
             "flight_id": 1
         }
-    ]
+    ],
+    "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24top=2&%24skip=2"
 }

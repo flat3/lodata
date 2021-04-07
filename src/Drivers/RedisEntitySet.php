@@ -8,6 +8,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
@@ -15,6 +16,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Type;
+use Generator;
 use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
@@ -23,7 +25,7 @@ use Illuminate\Support\Str;
  * Class RedisEntitySet
  * @package Flat3\Lodata\Drivers
  */
-class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface
+class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface, CountInterface
 {
     /** @var ?Connection $connection */
     protected $connection = null;
@@ -90,7 +92,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      * Count records in the database
      * @return int|null
      */
-    public function count()
+    public function count(): int
     {
         return $this->getConnection()->dbsize();
     }
@@ -143,14 +145,13 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
 
     /**
      * Query the redis database
-     * @return Entity[] Results
      */
-    public function query(): array
+    public function query(): Generator
     {
         $skipToken = $this->getSkipToken();
 
         if ($skipToken->isPaginationComplete()) {
-            return [];
+            return;
         }
 
         $config = [];
@@ -169,13 +170,13 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             $skipToken->setValue($redisPage);
         }
 
-        return array_map(function ($key) {
+        foreach ($results as $key) {
             $keyValue = new PropertyValue();
             $keyValue->setProperty($this->getType()->getKey());
             $keyValue->setValue(Type\String_::factory(Str::after($key, config('database.redis.options.prefix'))));
 
-            return $this->read($keyValue);
-        }, $results ?: []);
+            yield $this->read($keyValue);
+        }
     }
 
     /**

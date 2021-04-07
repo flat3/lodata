@@ -2,6 +2,9 @@
 
 namespace Flat3\Lodata\Interfaces\EntitySet;
 
+use Flat3\Lodata\Entity;
+use Generator;
+
 /**
  * Query Interface
  * @package Flat3\Lodata\Interfaces\EntitySet
@@ -9,7 +12,9 @@ namespace Flat3\Lodata\Interfaces\EntitySet;
 interface QueryInterface
 {
     /**
-     * Generate a single page of results, using $this->top and $this->skip, loading the results as Entity objects into $this->result_set
+     * Generate a single Entity result
+     * Must observe the $skip system query option if implementing pagination
+     * @return Generator|Entity[]
      */
-    public function query(): array;
+    public function query(): Generator;
 }

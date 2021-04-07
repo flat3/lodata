@@ -25,7 +25,7 @@ class Request extends IlluminateRequest implements RequestInterface
 
     /**
      * Set the request content
-     * @param mixed $content Request content
+     * @param  mixed  $content  Request content
      * @return $this
      */
     public function setContent($content): self

@@ -34,6 +34,7 @@ use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
+use Generator;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -235,19 +236,14 @@ class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface
 
     /**
      * Run a PDO query and return the results
-     * @return array Result buffer
      */
-    public function query(): array
+    public function query(): Generator
     {
         $stmt = $this->pdoSelect($this->getSetResultQueryString());
 
-        $results = [];
-
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $results[] = $this->newEntity()->fromArray($row);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            yield $this->newEntity()->fromArray($row);
         }
-
-        return $results;
     }
 
     /**

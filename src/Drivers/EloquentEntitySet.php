@@ -15,6 +15,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
@@ -29,6 +30,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,7 +48,7 @@ use ReflectionMethod;
  * Eloquent Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface, OrderByInterface, TransactionInterface
+class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterface, CreateInterface, DeleteInterface, QueryInterface, FilterInterface, SearchInterface, ExpandInterface, OrderByInterface, TransactionInterface, CountInterface
 {
     use SQLConnection;
     use SQLSearch;
@@ -268,9 +270,8 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
 
     /**
      * Query eloquent models
-     * @return array Entity buffer
      */
-    public function query(): array
+    public function query(): Generator
     {
         /**
          * @var Model $instance
@@ -304,21 +305,17 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
             }
         }
 
-        if ($this->top !== PHP_INT_MAX) {
-            $builder->limit($this->top);
+        if ($this->getTop()->hasValue()) {
+            $builder->limit($this->getTop()->getValue());
 
-            if ($this->skip) {
-                $builder->skip($this->skip);
+            if ($this->getSkip()->hasValue()) {
+                $builder->skip($this->getSkip()->getValue());
             }
         }
 
-        $results = [];
-
         foreach ($builder->getModels() as $model) {
-            $results[] = $this->modelToEntity($model);
+            yield $this->modelToEntity($model);
         }
-
-        return $results;
     }
 
     /**
@@ -444,5 +441,27 @@ class EloquentEntitySet extends EntitySet implements ReadInterface, UpdateInterf
     public function commit()
     {
         DB::commit();
+    }
+
+    /**
+     * Count the number of records matching the query
+     * @return int Count
+     */
+    public function count(): int
+    {
+        /**
+         * @var Model $instance
+         */
+        $instance = new $this->model();
+        $builder = $instance->newQuery();
+
+        $this->resetParameters();
+        $this->generateWhere();
+
+        if ($this->where) {
+            $builder->whereRaw($this->where, $this->parameters);
+        }
+
+        return $builder->count();
     }
 }
