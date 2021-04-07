@@ -1061,6 +1061,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_commit"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003Acount\u0028\u0029",
+            "name": "count",
+            "summary": "Count\u0020the\u0020number\u0020of\u0020records\u0020matching\u0020the\u0020query",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_count"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet",
             "name": "FilesystemEntitySet",
             "summary": "Class\u0020FilesystemEntitySet",
@@ -1523,7 +1528,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Aquery\u0028\u0029",
             "name": "query",
-            "summary": "Return\u0020no\u0020more\u0020results",
+            "summary": "Return\u0020all\u0020results",
             "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_query"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003AoffsetExists\u0028\u0029",
@@ -1548,7 +1553,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Arewind\u0028\u0029",
             "name": "rewind",
-            "summary": "Rewind\u0020the\u0020results\u0020buffer",
+            "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_rewind"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Afilter\u0028\u0029",
@@ -1560,6 +1565,16 @@ Search.appendIndex(
             "name": "sort",
             "summary": "Sort\u0020the\u0020objects\u0020in\u0020the\u0020array",
             "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_sort"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003Acount\u0028\u0029",
+            "name": "count",
+            "summary": "Count\u0020the\u0020objects\u0020in\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#method_count"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\StaticEntitySet\u003A\u003A\u0024results",
+            "name": "results",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-StaticEntitySet.html#property_results"
         },                {
             "fqsen": "\\Flat3\\Lodata\\DynamicProperty",
             "name": "DynamicProperty",
@@ -1726,41 +1741,6 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020OData\u0020kind\u0020of\u0020this\u0020resource",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getKind"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Acurrent\u0028\u0029",
-            "name": "current",
-            "summary": "The\u0020current\u0020entity\u0020in\u0020the\u0020results\u0020buffer",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_current"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Anext\u0028\u0029",
-            "name": "next",
-            "summary": "Move\u0020to\u0020the\u0020next\u0020entity\u0020in\u0020the\u0020results\u0020buffer",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_next"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Akey\u0028\u0029",
-            "name": "key",
-            "summary": "Get\u0020the\u0020entity\u0020ID\u0020of\u0020the\u0020current\u0020entity\u0020in\u0020the\u0020results\u0020buffer",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_key"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Arewind\u0028\u0029",
-            "name": "rewind",
-            "summary": "Rewind\u0020the\u0020results\u0020buffer",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_rewind"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Acount\u0028\u0029",
-            "name": "count",
-            "summary": "Count\u0020the\u0020number\u0020of\u0020results\u0020in\u0020the\u0020result\u0020buffer",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_count"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003Avalid\u0028\u0029",
-            "name": "valid",
-            "summary": "Whether\u0020there\u0020is\u0020a\u0020current\u0020entity\u0020in\u0020the\u0020results\u0020buffer\nImplements\u0020internal\u0020pagination",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_valid"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AsetMaxPageSize\u0028\u0029",
-            "name": "setMaxPageSize",
-            "summary": "Set\u0020the\u0020maximum\u0020pagination\u0020size\u0020to\u0020use\u0020with\u0020the\u0020service\u0020providing\u0020results\u0020into\u0020the\u0020buffer",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_setMaxPageSize"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AaddNavigationBinding\u0028\u0029",
             "name": "addNavigationBinding",
             "summary": "Add\u0020a\u0020navigation\u0020binding\u0020to\u0020this\u0020entity\u0020set",
@@ -1895,6 +1875,11 @@ Search.appendIndex(
             "name": "applySearchQueryOption",
             "summary": "Apply\u0020the\u0020search\u0020system\u0020query\u0020option",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_applySearchQueryOption"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003A\u0024emittedEntityCount",
+            "name": "emittedEntityCount",
+            "summary": "Running\u0020total\u0020of\u0020emitted\u0020entities",
+            "url": "classes/Flat3-Lodata-EntitySet.html#property_emittedEntityCount"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
@@ -4511,6 +4496,11 @@ Search.appendIndex(
             "summary": "Count\u0020Interface",
             "url": "classes/Flat3-Lodata-Interfaces-EntitySet-CountInterface.html"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\CountInterface\u003A\u003Acount\u0028\u0029",
+            "name": "count",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Interfaces-EntitySet-CountInterface.html#method_count"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\CreateInterface",
             "name": "CreateInterface",
             "summary": "Create\u0020Interface",
@@ -4563,7 +4553,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\QueryInterface\u003A\u003Aquery\u0028\u0029",
             "name": "query",
-            "summary": "Generate\u0020a\u0020single\u0020page\u0020of\u0020results,\u0020using\u0020\u0024this\u002D\u003Etop\u0020and\u0020\u0024this\u002D\u003Eskip,\u0020loading\u0020the\u0020results\u0020as\u0020Entity\u0020objects\u0020into\u0020\u0024this\u002D\u003Eresult_set",
+            "summary": "Generate\u0020a\u0020single\u0020Entity\u0020result\nMust\u0020observe\u0020the\u0020\u0024skip\u0020system\u0020query\u0020option\u0020if\u0020implementing\u0020pagination",
             "url": "classes/Flat3-Lodata-Interfaces-EntitySet-QueryInterface.html#method_query"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\ReadInterface",

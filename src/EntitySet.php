@@ -174,6 +174,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
     public function emitJson(Transaction $transaction): void
     {
+        assert($this instanceof QueryInterface);
+
         $transaction = $this->transaction ?: $transaction;
 
         // Validate $orderby
