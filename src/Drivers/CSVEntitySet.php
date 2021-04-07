@@ -6,17 +6,18 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Traits\HasDisk;
+use Generator;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use League\Csv\TabularDataReader;
 
-class CSVEntitySet extends EntitySet implements ReadInterface, DeleteInterface, QueryInterface, PaginationInterface
+class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, PaginationInterface, CountInterface
 {
     use HasDisk;
 
@@ -65,25 +66,28 @@ class CSVEntitySet extends EntitySet implements ReadInterface, DeleteInterface, 
         return Statement::create()->process($this->getCsvReader(), $this->getCsvHeader());
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->getCsvStatement()->count();
     }
 
-    public function query(): array
+    public function query(): Generator
     {
-        $csv = Statement::create()
-            ->offset($this->skip)
-            ->limit($this->top)
-            ->process($this->getCsvReader(), $this->getCsvHeader());
+        $statement = Statement::create();
 
-        $results = [];
-
-        foreach ($csv->getRecords() as $offset => $record) {
-            $results[] = $this->newEntity()->setEntityId($offset)->fromArray($record);
+        if ($this->getSkip()->hasValue()) {
+            $statement = $statement->offset($this->getSkip()->getValue());
         }
 
-        return $results;
+        if ($this->getTop()->hasValue()) {
+            $statement = $statement->limit($this->getTop()->getValue());
+        }
+
+        $reader = $statement->process($this->getCsvReader(), $this->getCsvHeader());
+
+        foreach ($reader->getIterator() as $offset => $record) {
+            yield $this->newEntity()->setEntityId($offset)->fromArray($record);
+        }
     }
 
     public function read(PropertyValue $key): ?Entity
@@ -91,10 +95,5 @@ class CSVEntitySet extends EntitySet implements ReadInterface, DeleteInterface, 
         $csv = $this->getCsvStatement();
         $row = $csv->fetchOne($key->getPrimitiveValue()->get());
         return $this->newEntity()->setEntityId($key)->fromArray($row);
-    }
-
-    public function delete(PropertyValue $key): void
-    {
-        $csv = $this->getCsvStatement();
     }
 }

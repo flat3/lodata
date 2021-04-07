@@ -115,30 +115,4 @@ class CSVTest extends TestCase
                 ->path("/csv(2)")
         );
     }
-
-    public function test_delete()
-    {
-        $this->assertNoContent(
-            Request::factory()
-                ->delete()
-                ->path("/csv(2)")
-        );
-
-        // assert deleted
-    }
-
-    public function test_create()
-    {
-        $this->assertJsonResponse(
-            Request::factory()
-                ->body([
-                    'name' => 'a',
-                ])
-                ->post()
-                ->path("/csv"),
-            Response::HTTP_CREATED
-        );
-
-        //assert crated
-    }
 }
