@@ -43,7 +43,7 @@ class CSVTest extends TestCase
 
         $entitySet = new CSVEntitySet('csv', $entityType);
         $entitySet->setDisk($disk);
-        $entitySet->setPath('test.csv');
+        $entitySet->setFilePath('test.csv');
         Lodata::add($entitySet);
     }
 

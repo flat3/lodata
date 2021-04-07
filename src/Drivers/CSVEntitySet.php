@@ -12,6 +12,7 @@ use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Traits\HasDisk;
+use Flat3\Lodata\Traits\HasFilePath;
 use Flat3\Lodata\Transaction\Option\OrderBy;
 use Generator;
 use Illuminate\Support\Facades\Storage;
@@ -22,25 +23,12 @@ use League\Csv\TabularDataReader;
 class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, PaginationInterface, CountInterface, OrderByInterface
 {
     use HasDisk;
-
-    protected $path = null;
+    use HasFilePath;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
         parent::__construct($identifier, $entityType);
         $this->disk = Storage::disk();
-    }
-
-    public function setPath(string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    public function getPath(): ?string
-    {
-        return $this->path;
     }
 
     public function getCsvHeader(): array
@@ -60,7 +48,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
 
     public function getCsvReader()
     {
-        return Reader::createFromStream($this->disk->readStream($this->path));
+        return Reader::createFromStream($this->disk->readStream($this->filePath));
     }
 
     public function getCsvStatement(): TabularDataReader

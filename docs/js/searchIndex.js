@@ -961,6 +961,46 @@ Search.appendIndex(
             "summary": "Set\u0020whether\u0020this\u0020property\u0020can\u0020be\u0020used\u0020in\u0020a\u0020filter\u0020query",
             "url": "classes/Flat3-Lodata-DeclaredProperty.html#method_setFilterable"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet",
+            "name": "CSVEntitySet",
+            "summary": "Entity\u0020Set",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003AgetCsvHeader\u0028\u0029",
+            "name": "getCsvHeader",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_getCsvHeader"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003AgetCsvReader\u0028\u0029",
+            "name": "getCsvReader",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_getCsvReader"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003AgetCsvStatement\u0028\u0029",
+            "name": "getCsvStatement",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_getCsvStatement"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003Acount\u0028\u0029",
+            "name": "count",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_count"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003Aquery\u0028\u0029",
+            "name": "query",
+            "summary": "Generate\u0020a\u0020single\u0020Entity\u0020result\nMust\u0020observe\u0020the\u0020\u0024skip\u0020system\u0020query\u0020option\u0020if\u0020implementing\u0020pagination",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_query"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntitySet\u003A\u003Aread\u0028\u0029",
+            "name": "read",
+            "summary": "Read\u0020a\u0020entity",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_read"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet",
             "name": "EloquentEntitySet",
             "summary": "Eloquent\u0020Entity\u0020Set",
@@ -1076,21 +1116,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method___construct"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AsetDiskName\u0028\u0029",
-            "name": "setDiskName",
-            "summary": "Set\u0020the\u0020disk\u0020by\u0020name",
-            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_setDiskName"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AsetDisk\u0028\u0029",
-            "name": "setDisk",
-            "summary": "Set\u0020the\u0020disk\u0020by\u0020filesystem\u0020adaptor",
-            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_setDisk"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003AgetDisk\u0028\u0029",
-            "name": "getDisk",
-            "summary": "Get\u0020the\u0020attached\u0020disk",
-            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_getDisk"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003Aquery\u0028\u0029",
             "name": "query",
             "summary": "Query",
@@ -1125,11 +1150,6 @@ Search.appendIndex(
             "name": "fromMetadata",
             "summary": "Create\u0020an\u0020entity\u0020from\u0020filesystem\u0020metadata",
             "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#method_fromMetadata"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet\u003A\u003A\u0024disk",
-            "name": "disk",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Drivers-FilesystemEntitySet.html#property_disk"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntityType",
             "name": "FilesystemEntityType",
@@ -5586,6 +5606,51 @@ Search.appendIndex(
             "summary": "Complex\u0020type",
             "url": "classes/Flat3-Lodata-Traits-HasComplexType.html#property_type"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasDisk",
+            "name": "HasDisk",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Traits-HasDisk.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasDisk\u003A\u003AsetDiskName\u0028\u0029",
+            "name": "setDiskName",
+            "summary": "Set\u0020the\u0020disk\u0020by\u0020name",
+            "url": "classes/Flat3-Lodata-Traits-HasDisk.html#method_setDiskName"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasDisk\u003A\u003AsetDisk\u0028\u0029",
+            "name": "setDisk",
+            "summary": "Set\u0020the\u0020disk\u0020by\u0020filesystem\u0020adaptor",
+            "url": "classes/Flat3-Lodata-Traits-HasDisk.html#method_setDisk"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasDisk\u003A\u003AgetDisk\u0028\u0029",
+            "name": "getDisk",
+            "summary": "Get\u0020the\u0020attached\u0020disk",
+            "url": "classes/Flat3-Lodata-Traits-HasDisk.html#method_getDisk"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasDisk\u003A\u003A\u0024disk",
+            "name": "disk",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Traits-HasDisk.html#property_disk"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasFilePath",
+            "name": "HasFilePath",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Traits-HasFilePath.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasFilePath\u003A\u003AsetFilePath\u0028\u0029",
+            "name": "setFilePath",
+            "summary": "Set\u0020the\u0020path",
+            "url": "classes/Flat3-Lodata-Traits-HasFilePath.html#method_setFilePath"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasFilePath\u003A\u003AgetFilePath\u0028\u0029",
+            "name": "getFilePath",
+            "summary": "Get\u0020the\u0020path",
+            "url": "classes/Flat3-Lodata-Traits-HasFilePath.html#method_getFilePath"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasFilePath\u003A\u003A\u0024filePath",
+            "name": "filePath",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Traits-HasFilePath.html#property_filePath"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Traits\\HasIdentifier",
             "name": "HasIdentifier",
             "summary": "Has\u0020Identifier",
@@ -6230,6 +6295,16 @@ Search.appendIndex(
             "name": "param",
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-Option-OrderBy.html#constant_param"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\OrderBy\u003A\u003Aasc",
+            "name": "asc",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-OrderBy.html#constant_asc"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\OrderBy\u003A\u003Adesc",
+            "name": "desc",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-OrderBy.html#constant_desc"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SchemaVersion",
             "name": "SchemaVersion",
