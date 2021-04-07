@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\CSV;
 use DateTime;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\CSVEntitySet;
+use Flat3\Lodata\Drivers\CSVEntityType;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
@@ -35,8 +36,7 @@ class CSVTest extends TestCase
         }
         $disk->write('test.csv', $csv->toString());
 
-        $entityType = new EntityType('entry');
-        $entityType->setKey(new DeclaredProperty('offset', Type::int64()));
+        $entityType = new CSVEntityType('entry');
         $entityType->addDeclaredProperty('name', Type::string());
         $entityType->addDeclaredProperty('datetime', Type::datetimeoffset());
         $entityType->addDeclaredProperty('duration', Type::duration());

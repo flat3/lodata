@@ -8,17 +8,20 @@
 
 ## Contents
 
-1. Introduction
+1. [Introduction](#introduction)
    1. [What is OData?](#what-is-odata)
    1. [Why OData for Laravel?](#why-odata-for-laravel)
-1. Basic usage
+1. [Basic usage](#basic-usage)
    1. [Getting started](#getting-started)
    1. [Authentication](#authentication)
    1. [Authorization](#authorization)
    1. [Discovery](#discovery)
    1. [Applications](#applications)
-1. Advanced usage
+1. [Drivers](#drivers)
    1. [Database](#database)
+   1. [Redis](#redis)
+   1. [Filesystem](#filesystem)
+1. [Advanced usage](#advanced-usage)
    1. [Annotations](#annotations)
    1. [Generated properties](#generated-properties)
    1. [Asynchronous Requests](#asynchronous-requests)
@@ -26,7 +29,7 @@
    1. [Alternative keys](#alternative-keys)
    1. [Function composition](#function-composition)
    1. [Operations](#operations)
-1. Internals
+1. [Internals](#internals)
    1. [Class documentation](https://flat3.github.io/lodata/)
    1. [Transactions](#transactions)
    1. [Streaming JSON](#streaming-json)
@@ -208,14 +211,26 @@ using:
 \Lodata::getEndpoint()
 ```
 
-## Advanced usage
+## Drivers
+
+A Lodata 'driver' represents any storage system that could implement one or more of the `\Flat3\Lodata\Interfaces\EntitySet` interfaces
+including `QueryInterface`, `ReadInterface`, `UpdateInterface`, `DeleteInterface`, and `CreateInterface`. In addition to the query
+interface the driver may implement `SearchInterface` and `FilterInterface` to support `$search` and `$filter`, and other system
+query parameters can be supported through `ExpandInterface`, `PaginationInterface` and `OrderByInterface`. Implementation of any
+of these interfaces is optional, and Lodata will detect support and return a 'Not Implemented' exception to a client trying to use
+an interface that is not available.
+
+A wide variety of different services can support these interfaces in whatever way makes sense to that service. Services could be
+other databases, NoSQL services, other REST APIs or simple on-disk text files.
+
+A list of provided drivers is below.
 
 ### Database
 
-In addition to Eloquent models, Lodata can discover database tables directly. This can be used to expose tables through OData that are
-not used in Eloquent sets, such as through tables for many-to-many relationships. This is required for applications that treat OData
-Feeds as relational database models such as PowerBI and Tableau. It can also be used to expose databases that are not even used in the
-Laravel application, or to use Lodata as simply an OData endpoint for an existing database.
+In addition to the Eloquent model driver described above, Lodata can discover database tables directly. This can be used to expose
+tables through OData that are not used in Eloquent sets, such as through tables for many-to-many relationships. This is required
+for applications that treat OData Feeds as relational database models such as PowerBI and Tableau. It can also be used to expose
+databases that are not even used in the Laravel application, or to use Lodata as simply an OData endpoint for an existing database. 
 
 SQL database tables can be discovered using this syntax:
 
@@ -266,6 +281,27 @@ Lodata::add($entitySet);
 The filesystem entity type supports a `Edm.Stream` property named `content` that can be requested with `$select` which
 will encode the file into the body of the response. The URL to retrieve the file will also be provided in the body as
 the metadata `content@mediaReadLink`.
+
+### CSV files
+
+Lodata can expose CSV files through the OData API using the `CSVEntitySet` driver and the `CSVEntityType` entity type.
+This driver is configured with a Laravel disk and a file path, and supports query and read operations including
+sorting and pagination.
+
+The `CSVEntityType` uses the key property 'offset' referring to the CSV row number.
+The entity type is further configured with the same field order as found in the CSV file.
+```
+$entityType = new CSVEntityType('entry');
+$entityType->addDeclaredProperty('name', Type::string());
+$entityType->addDeclaredProperty('birthday', Type::datetimeoffset());
+
+$entitySet = new CSVEntitySet('csv', $entityType);
+$entitySet->setDisk('default');
+$entitySet->setFilePath('example.csv');
+Lodata::add($entitySet);
+```
+
+## Advanced usage
 
 ### Annotations
 
@@ -498,18 +534,6 @@ options, but it is not executed to receive data from the data source until the c
 data from it. For example in the SQL driver, the path segment generates the query, prepares and executes the query, but not until
 the data is emitted does PDO start drawing data from the server and outputting it.
 
-### Drivers
-
-A Lodata 'driver' represents any storage system that could implement one or more of the `\Flat3\Lodata\Interfaces\EntitySet` interfaces
-including `QueryInterface`, `ReadInterface`, `UpdateInterface`, `DeleteInterface`, and `CreateInterface`. In addition to the query
-interface the driver may implement `SearchInterface` and `FilterInterface` to support `$search` and `$filter`, and other system
-query parameters can be supported through `ExpandInterface`, `PaginationInterface` and `OrderByInterface`. Implementation of any
-of these interfaces is optional, and Lodata will detect support and return a 'Not Implemented' exception to a client trying to use
-an interface that is not available.
-
-A wide variety of different services can support these interfaces in whatever way makes sense to that service. Services could be
-other databases, NoSQL services, other REST APIs or simple on-disk text files.
-
 ### Types
 
 OData specifies many [primitive types](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_PrimitiveValue)
@@ -572,7 +596,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * All database backends that Laravel supports (MySQL, PostgreSQL, SQLite and Microsoft SQL Server) including all possible $filter expressions
 * Automatic discovery of OData feeds by PowerBI (using [PBIDS](https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources#using-pbids-files-to-get-data)) and Excel (using [ODCFF](https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e))
 * Custom entity type, primitive type and entity set support
-* Extensible driver model enabling the integration of data stores such as Redis, local files and third party REST APIs
+* Extensible driver model enabling the integration of data stores such as Redis, local files and third party REST APIs.
 
 ## License
 

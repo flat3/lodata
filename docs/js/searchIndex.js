@@ -1001,6 +1001,16 @@ Search.appendIndex(
             "summary": "Read\u0020a\u0020entity",
             "url": "classes/Flat3-Lodata-Drivers-CSVEntitySet.html#method_read"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntityType",
+            "name": "CSVEntityType",
+            "summary": "Class\u0020CSVEntityType",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntityType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\CSVEntityType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-CSVEntityType.html#method___construct"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet",
             "name": "EloquentEntitySet",
             "summary": "Eloquent\u0020Entity\u0020Set",
