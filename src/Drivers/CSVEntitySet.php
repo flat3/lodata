@@ -7,17 +7,19 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
+use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Traits\HasDisk;
+use Flat3\Lodata\Transaction\Option\OrderBy;
 use Generator;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use League\Csv\TabularDataReader;
 
-class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, PaginationInterface, CountInterface
+class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, PaginationInterface, CountInterface, OrderByInterface
 {
     use HasDisk;
 
@@ -81,6 +83,27 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
 
         if ($this->getTop()->hasValue()) {
             $statement = $statement->limit($this->getTop()->getValue());
+        }
+
+        if ($this->getOrderBy()->hasValue()) {
+            $orderBy = $this->getOrderBy()->getSortOrders();
+
+            $statement = $statement->orderBy(function (array $recordA, array $recordB) use ($orderBy): int {
+                $l = [];
+                $r = [];
+
+                foreach ($orderBy as $orders) {
+                    list ($field, $direction) = $orders;
+
+                    $af = $recordA[$field];
+                    $bf = $recordB[$field];
+
+                    $l[] = $direction === OrderBy::asc ? $af : $bf;
+                    $r[] = $direction === OrderBy::asc ? $bf : $af;
+                }
+
+                return $l <=> $r;
+            });
         }
 
         $reader = $statement->process($this->getCsvReader(), $this->getCsvHeader());

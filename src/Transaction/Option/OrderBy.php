@@ -13,6 +13,8 @@ use Flat3\Lodata\Transaction\Option;
 class OrderBy extends Option
 {
     public const param = 'orderby';
+    public const asc = 'asc';
+    public const desc = 'desc';
 
     public function getSortOrders(): array
     {
@@ -22,7 +24,7 @@ class OrderBy extends Option
             $pair = array_map('trim', explode(' ', $expression));
 
             $literal = array_shift($pair);
-            $direction = array_shift($pair) ?? 'asc';
+            $direction = array_shift($pair) ?? self::asc;
 
             if ($pair) {
                 throw new BadRequestException('invalid_orderby_syntax', 'The requested orderby syntax is invalid');
@@ -30,7 +32,7 @@ class OrderBy extends Option
 
             $direction = strtolower($direction);
 
-            if (!in_array($direction, ['asc', 'desc'], true)) {
+            if (!in_array($direction, [self::asc, self::desc], true)) {
                 throw new BadRequestException(
                     'invalid_orderby_direction',
                     'The orderby direction must be "asc" or "desc"'

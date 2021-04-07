@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Tests\Unit\CSV;
 
 use DateTime;
-use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\CSVEntitySet;
 use Flat3\Lodata\EntityType;
@@ -78,6 +77,28 @@ class CSVTest extends TestCase
 
         $this->assertJsonResponse(
             $this->urlToReq($page->{'@nextLink'})
+        );
+    }
+
+    public function test_orderby()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$top', 4)
+                ->metadata(MetadataType\Full::name)
+                ->query('$orderby', 'name')
+                ->path('/csv')
+        );
+    }
+
+    public function test_orderby_direction()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$top', 4)
+                ->metadata(MetadataType\Full::name)
+                ->query('$orderby', 'name desc')
+                ->path('/csv')
         );
     }
 
