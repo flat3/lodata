@@ -10,23 +10,23 @@
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="passengers" EntityType="com.example.odata.passenger">
+          <NavigationPropertyBinding Path="pets" Target="pets"/>
           <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
             <Record>
               <PropertyValue Property="Supported" Bool="true"/>
               <PropertyValue Property="ContentIDSupported" Bool="true"/>
             </Record>
           </Annotation>
-          <NavigationPropertyBinding Path="pets" Target="pets"/>
         </EntitySet>
         <EntitySet Name="flights" EntityType="com.example.odata.flight">
+          <NavigationPropertyBinding Path="airports" Target="airports"/>
+          <NavigationPropertyBinding Path="passengers" Target="passengers"/>
           <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
             <Record>
               <PropertyValue Property="Supported" Bool="true"/>
               <PropertyValue Property="ContentIDSupported" Bool="true"/>
             </Record>
           </Annotation>
-          <NavigationPropertyBinding Path="airports" Target="airports"/>
-          <NavigationPropertyBinding Path="passengers" Target="passengers"/>
         </EntitySet>
         <EntitySet Name="airports" EntityType="com.example.odata.airport">
           <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">

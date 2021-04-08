@@ -23,6 +23,7 @@ use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\EnumMember;
 use Illuminate\Http\Request;
@@ -167,28 +168,29 @@ class Metadata implements PipeInterface, StreamInterface
         }
 
         foreach (Lodata::getResources() as $resource) {
+            $resourceElement = null;
+
             switch (true) {
+                case $resource instanceof Singleton:
+                    // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530395
+                    $resourceElement = $entityContainer->addChild('Singleton');
+                    $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
+                    $resourceElement->addAttribute('Type', $resource->getType()->getIdentifier());
+                    break;
+
                 case $resource instanceof EntitySet:
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
-                    $entitySetElement = $entityContainer->addChild('EntitySet');
-                    $entitySetElement->addAttribute('Name', $resource->getResolvedName($namespace));
-                    $entitySetElement->addAttribute(
+                    $resourceElement = $entityContainer->addChild('EntitySet');
+                    $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
+                    $resourceElement->addAttribute(
                         'EntityType',
                         $resource->getType()->getIdentifier()
                     );
 
-                    // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530341
-                    if ($resource instanceof AnnotationInterface) {
-                        /** @var Annotation $annotation */
-                        foreach ($resource->getAnnotations() as $annotation) {
-                            $annotation->append($entitySetElement);
-                        }
-                    }
-
                     // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
                     /** @var NavigationBinding $binding */
                     foreach ($resource->getNavigationBindings() as $binding) {
-                        $navigationPropertyBindingElement = $entitySetElement->addChild('NavigationPropertyBinding');
+                        $navigationPropertyBindingElement = $resourceElement->addChild('NavigationPropertyBinding');
                         $navigationPropertyBindingElement->addAttribute(
                             'Path',
                             $binding->getPath()->getName()
@@ -202,10 +204,10 @@ class Metadata implements PipeInterface, StreamInterface
 
                 /** @var Operation $resource */
                 case $resource instanceof Operation:
-                    $operationElement = $schema->addChild($resource->getKind());
-                    $operationElement->addAttribute('Name', $resource->getResolvedName($namespace));
+                    $resourceElement = $schema->addChild($resource->getKind());
+                    $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
                     if ($resource->getBindingParameterName()) {
-                        $operationElement->addAttribute('IsBound', Constants::TRUE);
+                        $resourceElement->addAttribute('IsBound', Constants::TRUE);
                     }
 
                     // Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
@@ -233,7 +235,7 @@ class Metadata implements PipeInterface, StreamInterface
 
                     /** @var Argument $argument */
                     foreach ($arguments as $argument) {
-                        $parameterElement = $operationElement->addChild('Parameter');
+                        $parameterElement = $resourceElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
                         $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());
                         $parameterElement->addAttribute(
@@ -244,7 +246,7 @@ class Metadata implements PipeInterface, StreamInterface
 
                     $returnType = $resource->getReturnType();
                     if (null !== $returnType) {
-                        $returnTypeElement = $operationElement->addChild('ReturnType');
+                        $returnTypeElement = $resourceElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
                             $returnTypeElement->addAttribute('Type',
@@ -266,6 +268,14 @@ class Metadata implements PipeInterface, StreamInterface
                         $resource->getResolvedName($namespace)
                     );
                     break;
+            }
+
+            // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530341
+            if ($resource instanceof AnnotationInterface) {
+                /** @var Annotation $annotation */
+                foreach ($resource->getAnnotations() as $annotation) {
+                    $annotation->append($resourceElement);
+                }
             }
         }
 

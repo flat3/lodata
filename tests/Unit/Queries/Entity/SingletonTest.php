@@ -36,6 +36,15 @@ class SingletonTest extends TestCase
         );
     }
 
+    public function test_metadata()
+    {
+        $this->assertXmlResponse(
+            Request::factory()
+                ->path('/$metadata')
+                ->xml()
+        );
+    }
+
     public function test_singleton()
     {
         $this->assertJsonResponse(
