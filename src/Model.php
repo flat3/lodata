@@ -46,7 +46,6 @@ class Model implements AnnotationInterface
         $this->addReference(new Capabilities\V1\Reference());
 
         $this->addAnnotation(new Core\V1\ConventionalIDs());
-        $this->addAnnotation(new Core\V1\ConventionalIDs());
         $this->addAnnotation(new Core\V1\DefaultNamespace());
         $this->addAnnotation(new Core\V1\DereferencableIDs());
         $this->addAnnotation(new Core\V1\ODataVersions());
