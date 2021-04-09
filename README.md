@@ -28,8 +28,9 @@
    1. [Asynchronous Requests](#asynchronous-requests)
    1. [Filter expressions](#filter-expressions)
    1. [Alternative keys](#alternative-keys)
-   1. [Function composition](#function-composition)
    1. [Operations](#operations)
+   1. [Function composition](#function-composition)
+   1. [Laravel Octane](#laravel-octane)
 1. [Internals](#internals)
    1. [Class documentation](https://flat3.github.io/lodata/)
    1. [Transactions](#transactions)
@@ -502,6 +503,14 @@ the response via the `response()` method.
 
 Operations can therefore act on path segments that precede them as [bound parameters](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_BindinganOperationtoaResource), and the output of one operation can be piped
 into the next. The output can therefore pass through several functions before being output.
+
+### Laravel Octane
+
+Lodata is compatible with [Laravel Octane](https://github.com/laravel/octane) in both Swoole and Roadrunner configurations.
+
+The Lodata model is shared as a singleton across all requests, which allows it to be dynamically updated at runtime without
+requiring a server restart. Lodata does not mutate any internal data structures during the request cycle, making it safe
+for multiple requests.
 
 ## Internals
 
