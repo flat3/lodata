@@ -1241,6 +1241,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_connection"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntitySet\u003A\u003A\u0024pageSize",
+            "name": "pageSize",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Drivers-RedisEntitySet.html#property_pageSize"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\RedisEntityType",
             "name": "RedisEntityType",
             "summary": "Class\u0020RedisEntityType",
@@ -1905,11 +1910,6 @@ Search.appendIndex(
             "name": "applySearchQueryOption",
             "summary": "Apply\u0020the\u0020search\u0020system\u0020query\u0020option",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_applySearchQueryOption"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003A\u0024emittedEntityCount",
-            "name": "emittedEntityCount",
-            "summary": "Running\u0020total\u0020of\u0020emitted\u0020entities",
-            "url": "classes/Flat3-Lodata-EntitySet.html#property_emittedEntityCount"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
@@ -4606,6 +4606,11 @@ Search.appendIndex(
             "summary": "Handle\u0020a\u0020discovered\u0020expression\u0020symbol\u0020in\u0020the\u0020search\u0020query",
             "url": "classes/Flat3-Lodata-Interfaces-EntitySet-SearchInterface.html#method_search"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\TokenPaginationInterface",
+            "name": "TokenPaginationInterface",
+            "summary": "Token\u0020Pagination\u0020Interface",
+            "url": "classes/Flat3-Lodata-Interfaces-EntitySet-TokenPaginationInterface.html"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Interfaces\\EntitySet\\UpdateInterface",
             "name": "UpdateInterface",
             "summary": "Update\u0020Interface",
@@ -6291,6 +6296,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020option\u0020value",
             "url": "classes/Flat3-Lodata-Transaction-Option-Numeric.html#method_getValue"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Numeric\u003A\u003Aincrement\u0028\u0029",
+            "name": "increment",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Option-Numeric.html#method_increment"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\OrderBy",
             "name": "OrderBy",
             "summary": "OrderBy",
@@ -6366,25 +6376,10 @@ Search.appendIndex(
             "summary": "SkipToken",
             "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003AsetPaginationComplete\u0028\u0029",
-            "name": "setPaginationComplete",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#method_setPaginationComplete"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003AisPaginationComplete\u0028\u0029",
-            "name": "isPaginationComplete",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#method_isPaginationComplete"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003Aparam",
             "name": "param",
             "summary": "",
             "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#constant_param"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\SkipToken\u003A\u003A\u0024paginationComplete",
-            "name": "paginationComplete",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Option-SkipToken.html#property_paginationComplete"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Option\\Top",
             "name": "Top",
