@@ -6,7 +6,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Cast;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Type\Int32;
+use Flat3\Lodata\Type\Int64;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -30,7 +30,7 @@ class CastingTest extends TestCase
     public function testPrimaryKeyCast()
     {
         $type = Lodata::getEntityType('Cast');
-        $this->assertTrue($type->getKey()->getType()->instance() instanceof Int32);
+        $this->assertTrue($type->getKey()->getType()->instance() instanceof Int64);
     }
 
     public function testPrimaryKeyCastRequest()
