@@ -57,6 +57,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "test-laravel-8": "vendor/bin/testbench package:test --parallel",
+        "test-laravel-7": "vendor/bin/phpunit",
         "test": "vendor/bin/testbench package:test --parallel",
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml",
         "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",

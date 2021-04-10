@@ -12,7 +12,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ 7.3, 7.4, 8.0 ]
-        laravel: [ 7.*, 8.* ]
+        laravel: [ 7, 8 ]
         dependency-version: [ prefer-stable ]
 
     name: PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}(${{ matrix.dependency-version }})
@@ -45,11 +45,11 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update --dev
+          composer require "laravel/framework:${{ matrix.laravel }}.*" --no-interaction --no-update --dev
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Run Unit tests
-        run: composer test
+        run: composer test-laravel-${{ matrix.laravel }}
 
   coverage:
     runs-on: ubuntu-latest
