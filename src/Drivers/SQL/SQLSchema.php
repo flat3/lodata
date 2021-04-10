@@ -128,7 +128,7 @@ trait SQLSchema
 
             case 'int':
             case 'integer':
-                return Type::int32();
+                return PHP_INT_SIZE === 8 ? Type::int64() : Type::int32();
 
             case 'varchar':
             case 'string':
