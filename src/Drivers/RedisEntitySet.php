@@ -151,7 +151,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function query(): Generator
     {
-        $token = $this->getSkipToken()->hasValue() ? $this->getSkipToken()->getValue() : 0;
+        $token = $this->getSkipToken()->hasValue() ? $this->getSkipToken()->getValue() : null;
 
         $pageSize = $this->pageSize;
         if ($this->getTop()->hasValue()) {

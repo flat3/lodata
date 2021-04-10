@@ -2,10 +2,6 @@
     "@context": "http://localhost/odata/$metadata#passengers",
     "value": [
         {
-            "name": "Orville Satterfield",
-            "key": "vmqeop"
-        },
-        {
             "name": "Prof. Robyn Carter",
             "key": "dtdsuf"
         },
