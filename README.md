@@ -512,6 +512,9 @@ The Lodata model is shared as a singleton across all requests, which allows it t
 requiring a server restart. Lodata does not mutate any internal data structures during the request cycle, making it safe
 for multiple requests.
 
+Note that Roadrunner does not currently support streaming responses, so all output is buffered in memory before being
+sent to the client. Swoole responses are streamed correctly.
+
 ## Internals
 
 ### Transactions
