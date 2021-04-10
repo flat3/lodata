@@ -50,12 +50,14 @@
         "phpstan/phpstan": "^0.12.54",
         "josiasmontag/laravel-redis-mock": "^1.2",
         "league/flysystem-vfs": "^1.1",
-        "fakerphp/faker": "^1.14"
+        "fakerphp/faker": "^1.14",
+        "nunomaduro/collision": "^5.3",
+        "brianium/paratest": "^6.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "test": "vendor/bin/testbench package:test --parallel",
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml",
         "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
         "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true --defaultpackagename=Flat3\\\\Lodata"
