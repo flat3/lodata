@@ -25,6 +25,7 @@ use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
+use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
@@ -33,6 +34,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
+use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -43,6 +45,7 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
+use Flat3\Lodata\Traits\HasNavigation;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
@@ -65,13 +68,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     use HasTitle;
     use HasTransaction;
     use HasAnnotations;
-
-    /**
-     * Navigation bindings of this entity set
-     * @var ObjectArray $navigationBindings
-     * @internal
-     */
-    protected $navigationBindings;
+    use HasNavigation;
 
     /**
      * Entity type of this entity set
@@ -79,13 +76,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @internal
      */
     protected $type;
-
-    /**
-     * The navigation property value that relates to this entity set instance
-     * @var PropertyValue $navigationPropertyValue
-     * @internal
-     */
-    protected $navigationPropertyValue;
 
     /**
      * Whether to apply system query options on this entity set instance
@@ -127,44 +117,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function getKind(): string
     {
         return 'EntitySet';
-    }
-
-    /**
-     * Add a navigation binding to this entity set
-     * @param  NavigationBinding  $binding  Navigation binding
-     * @return $this
-     */
-    public function addNavigationBinding(NavigationBinding $binding): self
-    {
-        $this->navigationBindings[] = $binding;
-
-        return $this;
-    }
-
-    /**
-     * Get the navigation bindings attached to this entity set
-     * @return ObjectArray
-     */
-    public function getNavigationBindings(): ObjectArray
-    {
-        return $this->navigationBindings;
-    }
-
-    /**
-     * Get the navigation binding for the provided navigation property on this entity set
-     * @param  NavigationProperty  $property  Navigation property
-     * @return NavigationBinding|null Navigation binding
-     */
-    public function getBindingByNavigationProperty(NavigationProperty $property): ?NavigationBinding
-    {
-        /** @var NavigationBinding $navigationBinding */
-        foreach ($this->navigationBindings as $navigationBinding) {
-            if ($navigationBinding->getPath() === $property) {
-                return $navigationBinding;
-            }
-        }
-
-        return null;
     }
 
     public function emitJson(Transaction $transaction): void
@@ -351,62 +303,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         return $url;
-    }
-
-    /**
-     * Get the navigation property value that relates to this entity set instance
-     * @param  PropertyValue  $property  Navigation property value
-     * @return $this
-     */
-    public function setNavigationPropertyValue(PropertyValue $property): self
-    {
-        $this->navigationPropertyValue = $property;
-        return $this;
-    }
-
-    /**
-     * Get the entity ID of the entity this set was generated from using the attached expansion property value
-     * @return PropertyValue Entity ID
-     */
-    public function resolveExpansionKey(): PropertyValue
-    {
-        /** @var NavigationProperty $navigationProperty */
-        $navigationProperty = $this->navigationPropertyValue->getProperty();
-        $sourceEntity = $this->navigationPropertyValue->getEntity();
-
-        $targetConstraint = null;
-        /** @var ReferentialConstraint $constraint */
-        foreach ($navigationProperty->getConstraints() as $constraint) {
-            if ($this->getType()->getProperty($constraint->getReferencedProperty()) && $sourceEntity->getEntitySet()->getType()->getProperty($constraint->getProperty())) {
-                $targetConstraint = $constraint;
-                break;
-            }
-        }
-
-        if (!$targetConstraint) {
-            throw new BadRequestException(
-                'no_expansion_constraint',
-                sprintf(
-                    'No applicable constraint could be found between sets %s and %s for expansion',
-                    $sourceEntity->getEntitySet()->getIdentifier(),
-                    $this->getIdentifier()
-                )
-            );
-        }
-
-        /** @var PropertyValue $keyPropertyValue */
-        $keyPropertyValue = $sourceEntity->getPropertyValues()->get($targetConstraint->getProperty());
-        if ($keyPropertyValue->getPrimitiveValue()->get() === null) {
-            throw new InternalServerErrorException('missing_expansion_key', 'The target constraint key is null');
-        }
-
-        $referencedProperty = $targetConstraint->getReferencedProperty();
-
-        $targetKey = new PropertyValue();
-        $targetKey->setProperty($referencedProperty);
-        $targetKey->setValue($keyPropertyValue->getValue());
-
-        return $targetKey;
     }
 
     /**
@@ -803,5 +699,77 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $tree = $parser->generateTree($search->getValue());
         $tree->compute();
+    }
+
+    /**
+     * Process a deep creation
+     * @param  Transaction  $transaction
+     * @return Entity
+     */
+    public function processDeltaCreate(Transaction $transaction): Entity
+    {
+        if (!$this instanceof CreateInterface) {
+            throw new BadRequestException(
+                'target_entity_set_cannot_create',
+                'The requested entity set does not support create operations'
+            );
+        }
+
+        Gate::check(Gate::CREATE, $this, $transaction);
+
+        return $this->create();
+    }
+
+    /**
+     * Process a deep modification
+     * @param  Transaction  $transaction
+     * @param  Entity  $entity
+     * @return Entity
+     */
+    public function processDeltaModify(Transaction $transaction, Entity $entity): Entity
+    {
+        if (!$this instanceof UpdateInterface) {
+            throw new BadRequestException('target_entity_set_cannot_update',
+                'The requested entity set does not support update operations');
+        }
+
+        Gate::check(Gate::UPDATE, $entity, $transaction);
+
+        return $this->update($entity->getEntityId());
+    }
+
+    /**
+     * Process a deep delete
+     * @param  string  $reason
+     * @param  Transaction  $transaction
+     * @param  Entity  $entity
+     */
+    public function processDeltaRemove(string $reason, Transaction $transaction, Entity $entity): void
+    {
+        switch ($reason) {
+            case 'deleted':
+                if (!$this instanceof DeleteInterface) {
+                    throw new BadRequestException(
+                        'target_entity_set_cannot_delete',
+                        'The requested entity set does not support delete operations'
+                    );
+                }
+
+                Gate::check(Gate::DELETE, $entity, $transaction);
+                $this->delete($entity->getEntityId());
+                break;
+
+            case 'changed':
+                throw new NotImplementedException(
+                    'removed_changed_not_supported',
+                    'The service does not support change removals'
+                );
+
+            default:
+                throw new BadRequestException(
+                    'delta_removal_missing_reason',
+                    'The delta payload did not include a removal reason'
+                );
+        }
     }
 }

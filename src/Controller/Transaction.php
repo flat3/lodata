@@ -22,12 +22,8 @@ use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
-use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
-use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
-use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -1275,10 +1271,65 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Set the value of the ETag header
+     * @param  string  $etag  ETag header
+     * @return $this
+     */
+    public function setETagHeader(string $etag): self
+    {
+        $this->sendHeader(Constants::ETAG, $etag);
+
+        return $this;
+    }
+
+    /**
+     * Validate that the provided ETag matches the current If-Match header
+     * @param  string|null  $etag  ETag
+     */
+    public function assertIfMatchHeader(?string $etag): void
+    {
+        $ifMatches = $this->getRequestHeaders(Constants::IF_MATCH);
+        $ifNoneMatches = $this->getRequestHeaders(Constants::IF_NONE_MATCH);
+
+        $this->request->headers->remove(Constants::IF_MATCH);
+        $this->request->headers->remove(Constants::IF_NONE_MATCH);
+
+        if ($ifMatches) {
+            foreach ($ifMatches as $ifMatch) {
+                if ($ifMatch === '*' || $ifMatch === $etag) {
+                    return;
+                }
+            }
+
+            throw new PreconditionFailedException(
+                'etag_mismatch',
+                'The provided If-Match header did not match the current ETag value'
+            );
+        }
+
+        if ($ifNoneMatches) {
+            foreach ($ifNoneMatches as $ifNoneMatch) {
+                if ($ifNoneMatch === '*' || $ifNoneMatch !== $etag) {
+                    return;
+                }
+            }
+
+            if ($this->getMethod() === Request::METHOD_GET) {
+                throw new NotModifiedException();
+            }
+
+            throw new PreconditionFailedException(
+                'etag_mismatch',
+                'The provided If-None-Match header matched the current ETag value',
+            );
+        }
+    }
+
+    /**
      * Process deltas in the request body
      * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_DeltaPayloads
      * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_DeltaPayload
-     * @param  Entity  $parentEntity  The parent entity
+     * @param  Entity  $parentEntity
      */
     public function processDeltaPayloads(Entity $parentEntity): void
     {
@@ -1331,19 +1382,17 @@ class Transaction implements ArgumentInterface
 
                 switch (true) {
                     case array_key_exists('@removed', $deltaPayload):
-                        $deltaTransaction->processDeltaRemove(
-                            $entitySet,
-                            $deltaPayload['@removed']['reason'] ?? '',
-                            $entity
+                        $entitySet->processDeltaRemove(
+                            $deltaPayload['@removed']['reason'] ?? '', $deltaTransaction, $entity
                         );
                         break;
 
                     case array_key_exists('@id', $deltaPayload):
-                        $entity = $deltaTransaction->processDeltaModify($entitySet, $entity);
+                        $entity = $entitySet->processDeltaModify($deltaTransaction, $entity);
                         break;
 
                     default:
-                        $entity = $deltaTransaction->processDeltaCreate($entitySet);
+                        $entity = $entitySet->processDeltaCreate($deltaTransaction);
                         break;
                 }
 
@@ -1354,133 +1403,6 @@ class Transaction implements ArgumentInterface
             $deltaProperty->setProperty($navigationProperty);
             $deltaProperty->setValue($deltaResponseSet);
             $parentEntity->addProperty($deltaProperty);
-        }
-    }
-
-    /**
-     * Process a deep delete
-     * @param  EntitySet  $entitySet
-     * @param  string  $reason
-     * @param  Entity|null  $entity
-     */
-    protected function processDeltaRemove(EntitySet $entitySet, string $reason, ?Entity $entity): void
-    {
-        switch ($reason) {
-            case 'deleted':
-                if (!$entitySet instanceof DeleteInterface) {
-                    throw new BadRequestException(
-                        'target_entity_set_cannot_delete',
-                        'The requested entity set does not support delete operations'
-                    );
-                }
-
-                Gate::check(Gate::DELETE, $entity, $this);
-                $entitySet->delete($entity->getEntityId());
-                break;
-
-            case 'changed':
-                throw new NotImplementedException(
-                    'removed_changed_not_supported',
-                    'The service does not support change removals'
-                );
-
-            default:
-                throw new BadRequestException(
-                    'delta_removal_missing_reason',
-                    'The delta payload did not include a removal reason'
-                );
-        }
-    }
-
-    /**
-     * Process a deep modification
-     * @param  EntitySet  $entitySet
-     * @param  Entity|null  $entity
-     * @return Entity
-     */
-    protected function processDeltaModify(EntitySet $entitySet, ?Entity $entity): Entity
-    {
-        if (!$entitySet instanceof UpdateInterface) {
-            throw new BadRequestException('target_entity_set_cannot_update',
-                'The requested entity set does not support update operations');
-        }
-
-        Gate::check(Gate::UPDATE, $entity, $this);
-
-        return $entitySet->update($entity->getEntityId());
-    }
-
-    /**
-     * Process a deep creation
-     * @param  EntitySet  $entitySet
-     * @return Entity
-     */
-    protected function processDeltaCreate(EntitySet $entitySet): Entity
-    {
-        if (!$entitySet instanceof CreateInterface) {
-            throw new BadRequestException(
-                'target_entity_set_cannot_create',
-                'The requested entity set does not support create operations'
-            );
-        }
-
-        Gate::check(Gate::CREATE, $entitySet, $this);
-
-        return $entitySet->create();
-    }
-
-    /**
-     * Set the value of the ETag header
-     * @param  string  $etag  ETag header
-     * @return $this
-     */
-    public function setETagHeader(string $etag): self
-    {
-        $this->sendHeader(Constants::ETAG, $etag);
-
-        return $this;
-    }
-
-    /**
-     * Validate that the provided ETag matches the current If-Match header
-     * @param  string|null  $etag  ETag
-     */
-    public function assertIfMatchHeader(?string $etag): void
-    {
-        $ifMatches = $this->getRequestHeaders(Constants::IF_MATCH);
-        $ifNoneMatches = $this->getRequestHeaders(Constants::IF_NONE_MATCH);
-
-        $this->request->headers->remove(Constants::IF_MATCH);
-        $this->request->headers->remove(Constants::IF_NONE_MATCH);
-
-        if ($ifMatches) {
-            foreach ($ifMatches as $ifMatch) {
-                if ($ifMatch === '*' || $ifMatch === $etag) {
-                    return;
-                }
-            }
-
-            throw new PreconditionFailedException(
-                'etag_mismatch',
-                'The provided If-Match header did not match the current ETag value'
-            );
-        }
-
-        if ($ifNoneMatches) {
-            foreach ($ifNoneMatches as $ifNoneMatch) {
-                if ($ifNoneMatch === '*' || $ifNoneMatch !== $etag) {
-                    return;
-                }
-            }
-
-            if ($this->getMethod() === Request::METHOD_GET) {
-                throw new NotModifiedException();
-            }
-
-            throw new PreconditionFailedException(
-                'etag_mismatch',
-                'The provided If-None-Match header matched the current ETag value',
-            );
         }
     }
 }
