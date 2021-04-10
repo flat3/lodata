@@ -11,9 +11,9 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
-use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
+use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Type;
 use Generator;
@@ -25,10 +25,13 @@ use Illuminate\Support\Str;
  * Class RedisEntitySet
  * @package Flat3\Lodata\Drivers
  */
-class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, PaginationInterface, CountInterface
+class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, TokenPaginationInterface, CountInterface
 {
     /** @var ?Connection $connection */
     protected $connection = null;
+
+    /** @var int $pageSize */
+    protected $pageSize = 100;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
@@ -148,35 +151,28 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function query(): Generator
     {
-        $skipToken = $this->getSkipToken();
+        $token = $this->getSkipToken()->hasValue() ? $this->getSkipToken()->getValue() : 0;
 
-        if ($skipToken->isPaginationComplete()) {
-            return;
+        $pageSize = $this->pageSize;
+        if ($this->getTop()->hasValue()) {
+            $pageSize = min($pageSize, $this->getTop()->getValue());
         }
 
-        $config = [];
+        do {
+            list($token, $keys) = $this->getConnection()->scan($token, ['COUNT' => $pageSize]);
 
-        $top = $this->getTop();
+            foreach ($keys as $key) {
+                $keyValue = new PropertyValue();
+                $keyValue->setProperty($this->getType()->getKey());
+                $keyValue->setValue(Type\String_::factory(Str::after($key, config('database.redis.options.prefix'))));
 
-        if ($top->hasValue()) {
-            $config['COUNT'] = $top->getValue();
-        }
+                yield $this->read($keyValue);
+            }
 
-        list($redisPage, $results) = $this->getConnection()->scan($skipToken->getValue() ?: 0, $config);
+            $this->getSkipToken()->setValue($token);
+        } while ($token > 0);
 
-        if ($redisPage == 0) {
-            $skipToken->setPaginationComplete();
-        } else {
-            $skipToken->setValue($redisPage);
-        }
-
-        foreach ($results as $key) {
-            $keyValue = new PropertyValue();
-            $keyValue->setProperty($this->getType()->getKey());
-            $keyValue->setValue(Type\String_::factory(Str::after($key, config('database.redis.options.prefix'))));
-
-            yield $this->read($keyValue);
-        }
+        $this->getSkipToken()->clearValue();
     }
 
     /**

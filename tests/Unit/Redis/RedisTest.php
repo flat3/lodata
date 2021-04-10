@@ -25,25 +25,13 @@ class RedisTest extends TestCase
         // @phpstan-ignore-next-line
         Redis::flushdb();
 
-        foreach ([
-                     '7a3465' => [
-                         'name' => 'Mary Morgan',
-                     ],
-                     '23452f' => [
-                         'name' => 'Mike Blammo',
-                     ],
-                     '23152f' => [
-                         'name' => 'Wardley Woofle',
-                     ],
-                     '1237h1' => [
-                         'name' => 'Sunday Pantone',
-                     ],
-                     '238g84' => [
-                         'name' => 'Sebastian Organa',
-                     ],
-                 ] as $id => $passenger) {
+        $faker = $this->faker;
+
+        for ($i = 0; $i < 7; $i++) {
             // @phpstan-ignore-next-line
-            Redis::set($id, serialize($passenger));
+            Redis::set($faker->lexify('??????'), serialize([
+                'name' => $faker->name(),
+            ]));
         }
     }
 
@@ -86,6 +74,12 @@ class RedisTest extends TestCase
             )
         );
 
+        $page = $this->jsonResponse(
+            $this->assertJsonResponse(
+                $this->urlToReq($page->{'@nextLink'})
+            )
+        );
+
         $this->assertJsonResponse(
             $this->urlToReq($page->{'@nextLink'})
         );
@@ -104,7 +98,7 @@ class RedisTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/passengers('7a3465')")
+                ->path("/passengers('ilpmuf')")
         );
     }
 
@@ -113,7 +107,7 @@ class RedisTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->select('key')
-                ->path("/passengers('7a3465')")
+                ->path("/passengers('ilpmuf')")
         );
     }
 
@@ -133,10 +127,10 @@ class RedisTest extends TestCase
                     'name' => 'Diamond Jobleck',
                 ])
                 ->put()
-                ->path("/passengers('7a3465')")
+                ->path("/passengers('ilpmuf')")
         );
 
-        $this->assertRedisRecord('7a3465');
+        $this->assertRedisRecord('ilpmuf');
     }
 
     public function test_read_with_metadata()
@@ -144,7 +138,7 @@ class RedisTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->metadata(MetadataType\Full::name)
-                ->path("/passengers('7a3465')")
+                ->path("/passengers('ilpmuf')")
         );
     }
 
@@ -153,10 +147,10 @@ class RedisTest extends TestCase
         $this->assertNoContent(
             Request::factory()
                 ->delete()
-                ->path("/passengers('7a3465')")
+                ->path("/passengers('ilpmuf')")
         );
 
-        $this->assertRedisRecord('7a3465');
+        $this->assertRedisRecord('ilpmuf');
     }
 
     public function test_create()

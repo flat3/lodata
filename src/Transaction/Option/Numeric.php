@@ -36,4 +36,11 @@ abstract class Numeric extends Option
     {
         return $this->value;
     }
+
+    public function increment(): self
+    {
+        $this->value++;
+
+        return $this;
+    }
 }

@@ -32,6 +32,7 @@ use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
+use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -92,12 +93,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @internal
      */
     protected $applyQueryOptions = true;
-
-    /**
-     * Running total of emitted entities
-     * @var int $emittedEntityCount Emitted entities
-     */
-    private $emittedEntityCount = 0;
 
     public function __construct(string $identifier, EntityType $entityType)
     {
@@ -208,8 +203,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
 
             $entity->emitJson($transaction);
-            $this->emittedEntityCount++;
-
+            $this->getSkip()->increment();
             $results->next();
 
             if (!$results->valid() || --$limit === 0) {
@@ -675,56 +669,56 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $count = $this->count();
 
             if ($transaction->getCount()->hasValue()) {
-                $metadata['count'] = $count;
+                $metadata->offsetSet('count', $count);
             }
         }
 
-        $top = $transaction->getTop();
-        $skip = $transaction->getSkip();
-        $skipToken = $transaction->getSkipToken();
+        if ($this instanceof PaginationInterface) {
+            $top = $transaction->getTop();
+            $paginationParams = [];
 
-        if ($skipToken->isPaginationComplete()) {
-            return;
-        }
+            if ($top->hasValue()) {
+                switch (true) {
+                    case $this instanceof TokenPaginationInterface:
+                        $skipToken = $transaction->getSkipToken();
 
-        $transactionParams = array_diff_key(
-            $transaction->getQueryParams(),
-            array_flip(['$top', '$skip', '$skiptoken'])
-        );
+                        if ($skipToken->hasValue()) {
+                            $paginationParams['$top'] = $top->getValue();
+                            $paginationParams['$skiptoken'] = $skipToken->getValue();
+                        }
+                        break;
 
-        $paginationParams = [];
+                    case $this instanceof PaginationInterface:
+                        $skip = $transaction->getSkip();
 
-        if ($top->hasValue()) {
-            if ($skipToken->hasValue()) {
-                $paginationParams['$top'] = $top->getValue();
-                $paginationParams['$skiptoken'] = $skipToken->getValue();
-            } else {
-                if ($top->hasValue()) {
-                    $nextSkipValue = $this->emittedEntityCount + $skip->getValue();
-                    if ($count === null || $nextSkipValue < $count) {
-                        $paginationParams['$top'] = $top->getValue();
-                        $paginationParams['$skip'] = $nextSkipValue;
-                    }
+                        if ($skip->hasValue() && ($count === null || $skip->getValue() < $count)) {
+                            $paginationParams['$top'] = $top->getValue();
+                            $paginationParams['$skip'] = $skip->getValue();
+                        }
+                        break;
                 }
             }
-        }
 
-        if (!$paginationParams) {
-            return;
-        }
+            if ($paginationParams) {
+                $transactionParams = array_diff_key(
+                    $transaction->getQueryParams(),
+                    array_flip(['$top', '$skip', '$skiptoken'])
+                );
 
-        $metadata['nextLink'] = Url::http_build_url(
-            $resourceUrl,
-            [
-                'query' => http_build_query(
-                    array_merge($transactionParams, $paginationParams),
-                    null,
-                    '&',
-                    PHP_QUERY_RFC3986
-                ),
-            ],
-            Url::HTTP_URL_JOIN_QUERY
-        );
+                $metadata['nextLink'] = Url::http_build_url(
+                    $resourceUrl,
+                    [
+                        'query' => http_build_query(
+                            array_merge($transactionParams, $paginationParams),
+                            null,
+                            '&',
+                            PHP_QUERY_RFC3986
+                        ),
+                    ],
+                    Url::HTTP_URL_JOIN_QUERY
+                );
+            }
+        }
     }
 
     /**

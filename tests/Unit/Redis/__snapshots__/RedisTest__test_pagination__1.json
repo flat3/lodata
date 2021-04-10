@@ -2,12 +2,12 @@
     "@context": "http://localhost/odata/$metadata#passengers",
     "value": [
         {
-            "name": "Mary Morgan",
-            "key": "7a3465"
+            "name": "Orville Satterfield",
+            "key": "vmqeop"
         },
         {
-            "name": "Mike Blammo",
-            "key": "23452f"
+            "name": "Prof. Robyn Carter",
+            "key": "dtdsuf"
         }
     ],
     "@nextLink": "http://localhost/odata/passengers?%24top=2&%24skiptoken=2"

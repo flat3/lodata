@@ -12,19 +12,4 @@ use Flat3\Lodata\Transaction\Option;
 class SkipToken extends Option
 {
     public const param = 'skiptoken';
-
-    protected $paginationComplete = false;
-
-    public function setPaginationComplete(): self
-    {
-        $this->paginationComplete = true;
-        $this->value = null;
-
-        return $this;
-    }
-
-    public function isPaginationComplete(): bool
-    {
-        return $this->paginationComplete;
-    }
 }
