@@ -136,11 +136,18 @@
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Annotation-Reference.html#method_append">append()</a>
+    <a href="classes/Flat3-Lodata-Annotation-Reference.html#method_appendJson">appendJson()</a>
     <span>
                         &nbsp;: $this    </span>
 </dt>
-<dd>Append this annotation to the provided schema element</dd>
+<dd>Append this reference to the provided JSON class</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Annotation-Reference.html#method_appendXml">appendXml()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Append this reference to the provided XML element</dd>
 
         </dl>
 
@@ -208,7 +215,7 @@
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">$uri</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml&#039;</span></code>
+     = <span class="phpdocumentor-signature__default-value">&#039;https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1&#039;</span></code>
 
     
     
@@ -227,21 +234,66 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_append">
-        append()
-        <a href="classes/Flat3-Lodata-Annotation-Reference.html#method_append" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_appendJson">
+        appendJson()
+        <a href="classes/Flat3-Lodata-Annotation-Reference.html#method_appendJson" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Annotation/Reference.php"><a href="files/src-annotation-reference.html"><abbr title="src/Annotation/Reference.php">Reference.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Append this annotation to the provided schema element</p>
+        <p class="phpdocumentor-summary">Append this reference to the provided JSON class</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">append</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$schema</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+                <span class="phpdocumentor-signature__name">appendJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\stdClass">stdClass</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$json</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$json</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\stdClass">stdClass</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_appendXml">
+        appendXml()
+        <a href="classes/Flat3-Lodata-Annotation-Reference.html#method_appendXml" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Annotation/Reference.php"><a href="files/src-annotation-reference.html"><abbr title="src/Annotation/Reference.php">Reference.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">33</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Append this reference to the provided XML element</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">appendXml</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$schema</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
         <section class="phpdocumentor-description"></section>
 

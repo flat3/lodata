@@ -221,20 +221,30 @@ Search.appendIndex(
             "summary": "Reference\u0020to\u0020an\u0020external\u0020CSDL\u0020document",
             "url": "classes/Flat3-Lodata-Annotation-Reference.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003Aappend\u0028\u0029",
-            "name": "append",
-            "summary": "Append\u0020this\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
-            "url": "classes/Flat3-Lodata-Annotation-Reference.html#method_append"
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003AappendXml\u0028\u0029",
+            "name": "appendXml",
+            "summary": "Append\u0020this\u0020reference\u0020to\u0020the\u0020provided\u0020XML\u0020element",
+            "url": "classes/Flat3-Lodata-Annotation-Reference.html#method_appendXml"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Reference\u003A\u003AappendJson\u0028\u0029",
+            "name": "appendJson",
+            "summary": "Append\u0020this\u0020reference\u0020to\u0020the\u0020provided\u0020JSON\u0020class",
+            "url": "classes/Flat3-Lodata-Annotation-Reference.html#method_appendJson"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation",
             "name": "Annotation",
             "summary": "Annotation",
             "url": "classes/Flat3-Lodata-Annotation.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003Aappend\u0028\u0029",
-            "name": "append",
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AappendJson\u0028\u0029",
+            "name": "appendJson",
             "summary": "Append\u0020the\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
-            "url": "classes/Flat3-Lodata-Annotation.html#method_append"
+            "url": "classes/Flat3-Lodata-Annotation.html#method_appendJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AappendXml\u0028\u0029",
+            "name": "appendXml",
+            "summary": "Append\u0020the\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_appendXml"
         },                {
             "fqsen": "\\Flat3\\Lodata\\ComplexType",
             "name": "ComplexType",
@@ -891,26 +901,6 @@ Search.appendIndex(
             "summary": "Rollback\u0020all\u0020entity\u0020sets\u0020attached\u0020to\u0020this\u0020transaction",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_rollback"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaPayloads\u0028\u0029",
-            "name": "processDeltaPayloads",
-            "summary": "Process\u0020deltas\u0020in\u0020the\u0020request\u0020body",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaPayloads"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaRemove\u0028\u0029",
-            "name": "processDeltaRemove",
-            "summary": "Process\u0020a\u0020deep\u0020delete",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaRemove"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaModify\u0028\u0029",
-            "name": "processDeltaModify",
-            "summary": "Process\u0020a\u0020deep\u0020modification",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaModify"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaCreate\u0028\u0029",
-            "name": "processDeltaCreate",
-            "summary": "Process\u0020a\u0020deep\u0020creation",
-            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaCreate"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AsetETagHeader\u0028\u0029",
             "name": "setETagHeader",
             "summary": "Set\u0020the\u0020value\u0020of\u0020the\u0020ETag\u0020header",
@@ -920,6 +910,11 @@ Search.appendIndex(
             "name": "assertIfMatchHeader",
             "summary": "Validate\u0020that\u0020the\u0020provided\u0020ETag\u0020matches\u0020the\u0020current\u0020If\u002DMatch\u0020header",
             "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_assertIfMatchHeader"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003AprocessDeltaPayloads\u0028\u0029",
+            "name": "processDeltaPayloads",
+            "summary": "Process\u0020deltas\u0020in\u0020the\u0020request\u0020body",
+            "url": "classes/Flat3-Lodata-Controller-Transaction.html#method_processDeltaPayloads"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction\u003A\u003A\u0024handlers",
             "name": "handlers",
@@ -1776,21 +1771,6 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020OData\u0020kind\u0020of\u0020this\u0020resource",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getKind"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AaddNavigationBinding\u0028\u0029",
-            "name": "addNavigationBinding",
-            "summary": "Add\u0020a\u0020navigation\u0020binding\u0020to\u0020this\u0020entity\u0020set",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_addNavigationBinding"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetNavigationBindings\u0028\u0029",
-            "name": "getNavigationBindings",
-            "summary": "Get\u0020the\u0020navigation\u0020bindings\u0020attached\u0020to\u0020this\u0020entity\u0020set",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_getNavigationBindings"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AgetBindingByNavigationProperty\u0028\u0029",
-            "name": "getBindingByNavigationProperty",
-            "summary": "Get\u0020the\u0020navigation\u0020binding\u0020for\u0020the\u0020provided\u0020navigation\u0020property\u0020on\u0020this\u0020entity\u0020set",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_getBindingByNavigationProperty"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AemitJson\u0028\u0029",
             "name": "emitJson",
             "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
@@ -1815,16 +1795,6 @@ Search.appendIndex(
             "name": "getResourceUrl",
             "summary": "Get\u0020the\u0020resource\u0020URL\u0020for\u0020this\u0020entity\u0020set\u0020instance",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_getResourceUrl"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AsetNavigationPropertyValue\u0028\u0029",
-            "name": "setNavigationPropertyValue",
-            "summary": "Get\u0020the\u0020navigation\u0020property\u0020value\u0020that\u0020relates\u0020to\u0020this\u0020entity\u0020set\u0020instance",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_setNavigationPropertyValue"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AresolveExpansionKey\u0028\u0029",
-            "name": "resolveExpansionKey",
-            "summary": "Get\u0020the\u0020entity\u0020ID\u0020of\u0020the\u0020entity\u0020this\u0020set\u0020was\u0020generated\u0020from\u0020using\u0020the\u0020attached\u0020expansion\u0020property\u0020value",
-            "url": "classes/Flat3-Lodata-EntitySet.html#method_resolveExpansionKey"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AsetTransaction\u0028\u0029",
             "name": "setTransaction",
@@ -1910,6 +1880,21 @@ Search.appendIndex(
             "name": "applySearchQueryOption",
             "summary": "Apply\u0020the\u0020search\u0020system\u0020query\u0020option",
             "url": "classes/Flat3-Lodata-EntitySet.html#method_applySearchQueryOption"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AprocessDeltaCreate\u0028\u0029",
+            "name": "processDeltaCreate",
+            "summary": "Process\u0020a\u0020deep\u0020creation",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_processDeltaCreate"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AprocessDeltaModify\u0028\u0029",
+            "name": "processDeltaModify",
+            "summary": "Process\u0020a\u0020deep\u0020modification",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_processDeltaModify"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\EntitySet\u003A\u003AprocessDeltaRemove\u0028\u0029",
+            "name": "processDeltaRemove",
+            "summary": "Process\u0020a\u0020deep\u0020delete",
+            "url": "classes/Flat3-Lodata-EntitySet.html#method_processDeltaRemove"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType",
             "name": "EntityType",
@@ -5221,15 +5206,20 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003AemitStream\u0028\u0029",
-            "name": "emitStream",
-            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
-            "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_emitStream"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003Aresponse\u0028\u0029",
             "name": "response",
-            "summary": "",
+            "summary": "Generate\u0020the\u0020client\u0020response",
             "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Query",
+            "name": "Query",
+            "summary": "Query",
+            "url": "classes/Flat3-Lodata-PathSegment-Query.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Query\u003A\u003Apipe\u0028\u0029",
+            "name": "pipe",
+            "summary": "Path\u0020component\u0020handler",
+            "url": "classes/Flat3-Lodata-PathSegment-Query.html#method_pipe"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Reference",
             "name": "Reference",
@@ -5711,6 +5701,36 @@ Search.appendIndex(
             "summary": "Set\u0020name",
             "url": "classes/Flat3-Lodata-Traits-HasName.html#method_setName"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasNavigation",
+            "name": "HasNavigation",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Traits-HasNavigation.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasNavigation\u003A\u003AaddNavigationBinding\u0028\u0029",
+            "name": "addNavigationBinding",
+            "summary": "Add\u0020a\u0020navigation\u0020binding",
+            "url": "classes/Flat3-Lodata-Traits-HasNavigation.html#method_addNavigationBinding"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasNavigation\u003A\u003AgetNavigationBindings\u0028\u0029",
+            "name": "getNavigationBindings",
+            "summary": "Get\u0020the\u0020navigation\u0020bindings",
+            "url": "classes/Flat3-Lodata-Traits-HasNavigation.html#method_getNavigationBindings"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasNavigation\u003A\u003AgetBindingByNavigationProperty\u0028\u0029",
+            "name": "getBindingByNavigationProperty",
+            "summary": "Get\u0020the\u0020navigation\u0020binding\u0020for\u0020the\u0020provided\u0020navigation\u0020property\u0020on\u0020this\u0020target",
+            "url": "classes/Flat3-Lodata-Traits-HasNavigation.html#method_getBindingByNavigationProperty"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasNavigation\u003A\u003AsetNavigationPropertyValue\u0028\u0029",
+            "name": "setNavigationPropertyValue",
+            "summary": "Get\u0020the\u0020navigation\u0020property\u0020value\u0020that\u0020relates\u0020to\u0020this\u0020target",
+            "url": "classes/Flat3-Lodata-Traits-HasNavigation.html#method_setNavigationPropertyValue"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Traits\\HasNavigation\u003A\u003AresolveExpansionKey\u0028\u0029",
+            "name": "resolveExpansionKey",
+            "summary": "Get\u0020the\u0020entity\u0020ID\u0020of\u0020the\u0020entity\u0020this\u0020target\u0020was\u0020generated\u0020from\u0020using\u0020the\u0020attached\u0020expansion\u0020property\u0020value",
+            "url": "classes/Flat3-Lodata-Traits-HasNavigation.html#method_resolveExpansionKey"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Traits\\HasTitle",
             "name": "HasTitle",
             "summary": "Has\u0020Title",
@@ -5935,6 +5955,46 @@ Search.appendIndex(
             "name": "parameter",
             "summary": "Parameters\u0020attached\u0020to\u0020this\u0020media\u0020type",
             "url": "classes/Flat3-Lodata-Transaction-MediaType.html#property_parameter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\JSON",
+            "name": "JSON",
+            "summary": "JSON",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata-JSON.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\JSON\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_emitJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\JSON\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\XML",
+            "name": "XML",
+            "summary": "XML",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata-XML.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\XML\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata-XML.html#method_emitStream"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\XML\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata-XML.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata",
+            "name": "Metadata",
+            "summary": "Class\u0020Metadata\nProvides\u0020CSDL\u0020metadata",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003AgetOperationArguments\u0028\u0029",
+            "name": "getOperationArguments",
+            "summary": "Extract\u0020operation\u0020arguments\u0020for\u0020metadata\nEnsure\u0020the\u0020binding\u0020parameter\u0020is\u0020first,\u0020if\u0020it\u0020exists.\u0020Filter\u0020out\u0020non\u002Dodata\u0020arguments.",
+            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method_getOperationArguments"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer",
             "name": "MetadataContainer",
@@ -7405,6 +7465,11 @@ Search.appendIndex(
             "name": "Transaction",
             "summary": "",
             "url": "namespaces/flat3-lodata-transaction.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata",
+            "name": "Metadata",
+            "summary": "",
+            "url": "namespaces/flat3-lodata-transaction-metadata.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType",
             "name": "MetadataType",

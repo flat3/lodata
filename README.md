@@ -305,6 +305,8 @@ Lodata::add($entitySet);
 
 ## Advanced usage
 
+Developer API documentation is automatically generated at [https://flat3.github.io/lodata](https://flat3.github.io/lodata/namespaces/flat3-lodata.html)
+
 ### Annotations
 
 OData allows the creation of annotations on the schema. Annotations are classes that extend `\Flat3\Lodata\Annotation`
