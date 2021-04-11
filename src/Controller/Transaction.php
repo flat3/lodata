@@ -228,6 +228,7 @@ class Transaction implements ArgumentInterface
         PathSegment\Value::class,
         PathSegment\Count::class,
         PathSegment\Filter::class,
+        PathSegment\Query::class,
         PathSegment\Reference::class,
         Operation::class,
         Singleton::class,
@@ -1115,6 +1116,7 @@ class Transaction implements ArgumentInterface
                 break;
 
             case '$count':
+            case '$query':
                 $requiredType = MediaType::factory()->parse('text/plain');
                 break;
         }

@@ -1,0 +1,20 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights",
+    "value": [
+        {
+            "id": 1,
+            "origin": "lhr",
+            "destination": "lax",
+            "gate": null,
+            "duration": "PT11H25M0S"
+        },
+        {
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null,
+            "duration": "PT35M33S"
+        }
+    ],
+    "@count": 2
+}
