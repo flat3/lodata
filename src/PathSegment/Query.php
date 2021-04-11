@@ -5,7 +5,6 @@ namespace Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Illuminate\Http\Request;

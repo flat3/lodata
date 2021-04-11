@@ -1108,7 +1108,7 @@ class Transaction implements ArgumentInterface
                 break;
 
             case '$metadata':
-                $requiredType = MediaType::factory()->parse('application/xml');
+                $requiredType = $acceptedContentType ?: MediaType::factory()->parse('application/xml');
                 break;
 
             case '$value':

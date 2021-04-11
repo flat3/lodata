@@ -1,4 +1,4 @@
 {
     "code": "metadata_argument",
-    "message": "Metadata must be the first argument in the path"
+    "message": "$metadata must be the only argument in the path"
 }

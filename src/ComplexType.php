@@ -157,7 +157,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Get all navigation properties defined on this type
-     * @return ObjectArray Navigation properties
+     * @return ObjectArray|NavigationProperty[] Navigation properties
      */
     public function getNavigationProperties(): ObjectArray
     {

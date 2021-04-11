@@ -138,7 +138,7 @@ class NavigationProperty extends Property
 
     /**
      * Get the referential constraints attached to this property
-     * @return ObjectArray Referential constraints
+     * @return ObjectArray|ReferentialConstraint[] Referential constraints
      */
     public function getConstraints(): ObjectArray
     {

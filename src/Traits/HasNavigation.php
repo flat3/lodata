@@ -40,7 +40,7 @@ trait HasNavigation
 
     /**
      * Get the navigation bindings
-     * @return ObjectArray
+     * @return ObjectArray|NavigationBinding[]
      */
     public function getNavigationBindings(): ObjectArray
     {

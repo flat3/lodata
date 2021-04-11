@@ -10,6 +10,7 @@ use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Enum;
 use Flat3\Lodata\Type\String_;
 use SimpleXMLElement;
+use stdClass;
 
 /**
  * Annotation
@@ -32,10 +33,56 @@ abstract class Annotation
 
     /**
      * Append the annotation to the provided schema element
+     * @param  stdClass  $schema
+     * @return $this
+     */
+    public function appendJson(stdClass $schema): self
+    {
+        switch (true) {
+            case $this->value instanceof Boolean:
+            case $this->value instanceof String_:
+                $schema->{"@{$this->name}"} = $this->value->toJson();
+                break;
+
+            case $this->value instanceof Enum:
+                $schema->{"@{$this->name}"} = $this->value->getIdentifier().'/'.$this->value->toUrl();
+                break;
+
+            case $this->value instanceof Record:
+                $record = [];
+
+                /** @var PropertyValue $propertyValue */
+                foreach ($this->value as $propertyValue) {
+                    $record[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue()->toJson();
+                }
+
+                $schema->{"@{$this->name}"} = $record;
+                break;
+
+            case $this->value instanceof Collection:
+                $collection = [];
+
+                foreach ($this->value->get() as $member) {
+                    switch (true) {
+                        case $member instanceof String_:
+                            $collection[] = $member->get();
+                            break;
+                    }
+                }
+
+                $schema->{"@{$this->name}"} = $collection;
+                break;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Append the annotation to the provided schema element
      * @param  SimpleXMLElement  $schema
      * @return $this
      */
-    public function append(SimpleXMLElement $schema): self
+    public function appendXml(SimpleXMLElement $schema): self
     {
         $annotationElement = $schema->addChild('Annotation');
         $annotationElement->addAttribute('Term', $this->name);

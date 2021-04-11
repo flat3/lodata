@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Annotation;
 
 use SimpleXMLElement;
+use stdClass;
 
 /**
  * Reference to an external CSDL document
@@ -12,6 +13,7 @@ use SimpleXMLElement;
 class Reference
 {
     /**
+     * URI of the service document, without the xml/json suffix
      * @var string $uri URI
      * @internal
      */
@@ -24,16 +26,34 @@ class Reference
     protected $namespace;
 
     /**
-     * Append this annotation to the provided schema element
+     * Append this reference to the provided XML element
      * @param  SimpleXMLElement  $schema  Schema
      * @return $this
      */
-    public function append(SimpleXMLElement $schema): self
+    public function appendXml(SimpleXMLElement $schema): self
     {
         $reference = $schema->addChild('Reference');
-        $reference->addAttribute('Uri', $this->uri);
+        $reference->addAttribute('Uri', $this->uri.'.xml');
         $include = $reference->addChild('Include');
         $include->addAttribute('Namespace', $this->namespace);
+
+        return $this;
+    }
+
+    /**
+     * Append this reference to the provided JSON class
+     * @param  stdClass  $json
+     * @return $this
+     */
+    public function appendJson(stdClass $json): self
+    {
+        $json->{'$Reference'}[$this->uri.'.json'] = [
+            '$Include' => [
+                [
+                    '$Namespace' => $this->namespace,
+                ]
+            ]
+        ];
 
         return $this;
     }
