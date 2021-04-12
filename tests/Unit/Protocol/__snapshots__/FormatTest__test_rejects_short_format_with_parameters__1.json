@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "invalid_short_format",
-        "message": "When using a short $format option, parameters cannot be used"
+        "message": "When using a short $format option, parameters cannot be used",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

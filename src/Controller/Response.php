@@ -53,7 +53,7 @@ class Response extends StreamedResponse
         } catch (ProtocolException $e) {
             flush();
             ob_flush();
-            printf('OData-Error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
+            printf('OData-error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
         }
 
         return $this;

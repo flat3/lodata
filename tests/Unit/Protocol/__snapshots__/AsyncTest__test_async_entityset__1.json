@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "accepted",
-        "message": "Accepted"
+        "message": "Accepted",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

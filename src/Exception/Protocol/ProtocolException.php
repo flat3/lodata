@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Exception\Protocol;
 use Flat3\Lodata\Controller\Response;
 use Illuminate\Contracts\Support\Responsable;
 use RuntimeException;
+use stdClass;
 
 /**
  * Protocol Exception
@@ -16,9 +17,9 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     protected $httpCode = Response::HTTP_INTERNAL_SERVER_ERROR;
     protected $odataCode;
     protected $message;
-    protected $target;
-    protected $details;
-    protected $inner;
+    protected $target = null;
+    protected $details = [];
+    protected $innerError = [];
     protected $headers = [];
     protected $suppressContent = false;
 
@@ -82,23 +83,35 @@ abstract class ProtocolException extends RuntimeException implements Responsable
 
     /**
      * Set the OData error details
-     * @param  string  $details  Details
+     * @param  string  $code  Details
      * @return $this
      */
-    public function details(string $details): self
+    public function addDetail(string $code, string $message, ?string $target = null): self
     {
-        $this->details = $details;
+        $detail = [
+            'code' => $code,
+            'message' => $message,
+        ];
+
+        if ($target) {
+            $detail['target'] = $target;
+        }
+
+        $this->details[] = $detail;
+
         return $this;
     }
 
     /**
      * Set the OData inner error
-     * @param  string  $inner  Inner error
+     * @param  string  $key  Key
+     * @param  string  $value  Value
      * @return $this
      */
-    public function inner(string $inner): self
+    public function addInnerError(string $key, string $value): self
     {
-        $this->inner = $inner;
+        $this->innerError[$key] = $value;
+
         return $this;
     }
 
@@ -126,7 +139,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
             'message' => $this->message,
             'target' => $this->target,
             'details' => $this->details,
-            'inner' => $this->inner,
+            'innererror' => $this->innerError,
             'headers' => $this->headers,
         ]);
     }
@@ -137,13 +150,13 @@ abstract class ProtocolException extends RuntimeException implements Responsable
      */
     public function toError()
     {
-        return array_filter([
+        return [
             'code' => $this->odataCode,
             'message' => $this->message,
             'target' => $this->target,
             'details' => $this->details,
-            'inner' => $this->inner,
-        ]);
+            'innererror' => $this->innerError ?: new stdClass(),
+        ];
     }
 
     /**
@@ -160,13 +173,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
                 return;
             }
 
-            echo json_encode(['error'=> array_filter([
-                'code' => $this->odataCode,
-                'message' => $this->message,
-                'target' => $this->target,
-                'details' => $this->details,
-                'innererror' => $this->inner,
-            ])], JSON_UNESCAPED_SLASHES);
+            echo json_encode(['error' => $this->toError()], JSON_UNESCAPED_SLASHES);
         });
 
         $response->setProtocolVersion('1.1');

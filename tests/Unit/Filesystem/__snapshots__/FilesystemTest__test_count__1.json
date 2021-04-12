@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "not_countable",
-        "message": "$count was passed something not countable"
+        "message": "$count was passed something not countable",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

@@ -17,7 +17,8 @@ class BadRequestException extends ProtocolException
 
     public function lexer(Lexer $lexer): self
     {
-        $this->details = $lexer->errorContext();
+        $this->addInnerError('lexer_error', $lexer->errorContext());
+
         return $this;
     }
 }

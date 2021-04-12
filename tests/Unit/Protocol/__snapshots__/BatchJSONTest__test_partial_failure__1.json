@@ -29,7 +29,10 @@
             "body": {
                 "error": {
                     "code": "missing_fields",
-                    "message": "The supplied object had no fields"
+                    "message": "The supplied object had no fields",
+                    "target": null,
+                    "details": [],
+                    "innererror": {}
                 }
             }
         }

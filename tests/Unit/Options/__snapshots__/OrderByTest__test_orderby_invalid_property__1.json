@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "invalid_orderby_property",
-        "message": "The provided property invalid was not found in this entity type"
+        "message": "The provided property invalid was not found in this entity type",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

@@ -37,8 +37,8 @@ class ErrorReportingTest extends TestCase
                 ->code('test')
                 ->message('test message')
                 ->target('test target')
-                ->details('test details')
-                ->inner('inner error');
+                ->addDetail('testdetail', 'test details')
+                ->addInnerError('internal', 'inner error');
         } catch (NotImplementedException $e) {
             $response = $e->toResponse();
             /** @noinspection PhpParamsInspection */

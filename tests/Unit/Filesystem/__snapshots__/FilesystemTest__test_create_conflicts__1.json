@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "path_exists",
-        "message": "The requested path already exists"
+        "message": "The requested path already exists",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

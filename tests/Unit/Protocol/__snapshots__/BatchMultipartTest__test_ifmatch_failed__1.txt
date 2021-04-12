@@ -14,5 +14,5 @@ content-type: application/http
 HTTP/1.1 412 Precondition Failed
 content-type: application/json
 
-{"error":{"code":"etag_mismatch","message":"The provided If-Match header did not match the current ETag value"}}
+{"error":{"code":"etag_mismatch","message":"The provided If-Match header did not match the current ETag value","target":null,"details":[],"innererror":{}}}
 --00000000-0000-0000-0000-000000000001--

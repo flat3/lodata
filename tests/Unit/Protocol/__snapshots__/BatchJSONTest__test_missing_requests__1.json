@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "missing_requests",
-        "message": "The provided JSON document did not contain a valid requests property"
+        "message": "The provided JSON document did not contain a valid requests property",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

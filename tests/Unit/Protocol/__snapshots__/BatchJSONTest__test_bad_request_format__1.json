@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "missing_request_properties",
-        "message": "All requests must contain the \"id\", \"method\" and \"url\" properties"
+        "message": "All requests must contain the \"id\", \"method\" and \"url\" properties",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

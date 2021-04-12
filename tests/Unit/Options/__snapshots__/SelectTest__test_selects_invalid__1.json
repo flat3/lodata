@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "property_does_not_exist",
-        "message": "The requested property \"invalid\" does not exist on this entity type"
+        "message": "The requested property \"invalid\" does not exist on this entity type",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

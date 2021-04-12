@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "not_entity_or_entity_set",
-        "message": "Can only ask for a reference for an entity set or entity"
+        "message": "Can only ask for a reference for an entity set or entity",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

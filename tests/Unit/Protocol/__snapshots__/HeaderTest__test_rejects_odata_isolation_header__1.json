@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "isolation_not_supported",
-        "message": "Isolation is not supported"
+        "message": "Isolation is not supported",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

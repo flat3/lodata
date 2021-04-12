@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "invalid_system_query_option",
-        "message": "The provided system query option \"$hello\" is not valid"
+        "message": "The provided system query option \"$hello\" is not valid",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

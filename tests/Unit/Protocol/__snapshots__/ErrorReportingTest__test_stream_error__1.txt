@@ -1,1 +1,1 @@
-OData-Error: {"code":"not_implemented","message":"Error during stream"}
+OData-error: {"code":"not_implemented","message":"Error during stream","target":null,"details":[],"innererror":{}}

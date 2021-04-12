@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "method_not_allowed",
-        "message": "This operation must be addressed with a POST request"
+        "message": "This operation must be addressed with a POST request",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

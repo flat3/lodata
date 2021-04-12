@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "missing_function_result",
-        "message": "Function is required to return a result"
+        "message": "Function is required to return a result",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

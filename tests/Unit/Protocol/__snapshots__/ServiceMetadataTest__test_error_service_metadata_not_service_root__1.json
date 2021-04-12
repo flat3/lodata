@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "metadata_argument",
-        "message": "$metadata must be the only argument in the path"
+        "message": "$metadata must be the only argument in the path",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }

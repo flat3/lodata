@@ -1,6 +1,9 @@
 {
     "error": {
         "code": "forbidden",
-        "message": "This service is read-only"
+        "message": "This service is read-only",
+        "target": null,
+        "details": [],
+        "innererror": {}
     }
 }
