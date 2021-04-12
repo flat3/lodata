@@ -26,5 +26,5 @@
             "duration": "PT6S"
         }
     ],
-    "@nextLink": "http://localhost/odata/csv?%24top=4&%24skip=13"
+    "@nextLink": "http://localhost/odata/csv?top=4&skip=13"
 }

@@ -10,5 +10,5 @@
             "key": "dqamni"
         }
     ],
-    "@nextLink": "http://localhost/odata/passengers?%24top=2&%24skiptoken=2"
+    "@nextLink": "http://localhost/odata/passengers?top=2&skiptoken=2"
 }

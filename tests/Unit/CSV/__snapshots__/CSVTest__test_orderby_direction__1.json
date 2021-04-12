@@ -39,5 +39,5 @@
             "duration": "P54DT17H45M8.5999999996275S"
         }
     ],
-    "@nextLink": "http://localhost/odata/csv?%24orderby=name%20desc&%24top=4&%24skip=4"
+    "@nextLink": "http://localhost/odata/csv?%24orderby=name%20desc&top=4&skip=4"
 }

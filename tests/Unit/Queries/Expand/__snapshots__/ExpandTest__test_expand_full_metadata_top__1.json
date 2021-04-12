@@ -23,7 +23,7 @@
             ],
             "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers",
             "passengers@count": 3,
-            "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24count=true&%24top=1&%24skip=1"
+            "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24count=true&top=1&skip=1"
         },
         {
             "@type": "#com.example.odata.flight",

@@ -26,5 +26,5 @@
             "duration": "PT8H38M9.5408012599983S"
         }
     ],
-    "@nextLink": "http://localhost/odata/csv?%24top=4&%24skip=9"
+    "@nextLink": "http://localhost/odata/csv?top=4&skip=9"
 }

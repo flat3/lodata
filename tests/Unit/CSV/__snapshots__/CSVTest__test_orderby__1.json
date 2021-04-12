@@ -39,5 +39,5 @@
             "duration": "P2DT17H44M37.225146000012S"
         }
     ],
-    "@nextLink": "http://localhost/odata/csv?%24orderby=name&%24top=4&%24skip=4"
+    "@nextLink": "http://localhost/odata/csv?%24orderby=name&top=4&skip=4"
 }

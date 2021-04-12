@@ -13,5 +13,5 @@
         }
     ],
     "@count": 4,
-    "@nextLink": "http://localhost/odata/airports?%24count=true&%24top=1&%24skip=1"
+    "@nextLink": "http://localhost/odata/airports?%24count=true&top=1&skip=1"
 }

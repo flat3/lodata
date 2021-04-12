@@ -11,5 +11,5 @@
             "name": "Bob Barry"
         }
     ],
-    "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24select=flight_id%2Cname&%24top=2&%24skip=2"
+    "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24select=flight_id%2Cname&top=2&skip=2"
 }

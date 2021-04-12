@@ -41,7 +41,6 @@ class ErrorReportingTest extends TestCase
                 ->addInnerError('internal', 'inner error');
         } catch (NotImplementedException $e) {
             $response = $e->toResponse();
-            /** @noinspection PhpParamsInspection */
             $testResponse = new TestResponse($response);
             $this->assertMatchesSnapshot($testResponse->streamedContent(), new StreamingJsonDriver());
         }

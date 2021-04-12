@@ -579,8 +579,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                         $skipToken = $transaction->getSkipToken();
 
                         if ($skipToken->hasValue()) {
-                            $paginationParams['$top'] = $top->getValue();
-                            $paginationParams['$skiptoken'] = $skipToken->getValue();
+                            $paginationParams[$top::param] = $top->getValue();
+                            $paginationParams[$skipToken::param] = $skipToken->getValue();
                         }
                         break;
 
@@ -588,8 +588,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                         $skip = $transaction->getSkip();
 
                         if ($skip->hasValue() && ($count === null || $skip->getValue() < $count)) {
-                            $paginationParams['$top'] = $top->getValue();
-                            $paginationParams['$skip'] = $skip->getValue();
+                            $paginationParams[$top::param] = $top->getValue();
+                            $paginationParams[$skip::param] = $skip->getValue();
                         }
                         break;
                 }
@@ -598,7 +598,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             if ($paginationParams) {
                 $transactionParams = array_diff_key(
                     $transaction->getQueryParams(),
-                    array_flip(['$top', '$skip', '$skiptoken'])
+                    array_flip([Option\Top::param, Option\Skip::param, Option\SkipToken::param]),
+                    array_flip(['$'.Option\Top::param, '$'.Option\Skip::param, '$'.Option\SkipToken::param]),
                 );
 
                 $metadata['nextLink'] = Url::http_build_url(

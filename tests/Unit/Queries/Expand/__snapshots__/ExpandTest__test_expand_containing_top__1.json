@@ -17,5 +17,5 @@
             "flight_id": 1
         }
     ],
-    "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24top=2&%24skip=2"
+    "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?top=2&skip=2"
 }

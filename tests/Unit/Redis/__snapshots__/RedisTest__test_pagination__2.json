@@ -10,5 +10,5 @@
             "key": "coynla"
         }
     ],
-    "@nextLink": "http://localhost/odata/passengers?%24top=2&%24skiptoken=4"
+    "@nextLink": "http://localhost/odata/passengers?top=2&skiptoken=4"
 }
