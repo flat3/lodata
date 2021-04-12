@@ -1,4 +1,6 @@
 {
-    "code": "missing_requests",
-    "message": "The provided JSON document did not contain a valid requests property"
+    "error": {
+        "code": "missing_requests",
+        "message": "The provided JSON document did not contain a valid requests property"
+    }
 }

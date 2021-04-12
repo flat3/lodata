@@ -7,9 +7,11 @@
                 "content-type": "application/json"
             },
             "body": {
-                "code": "invalid_identifier_value",
-                "message": "The type of the provided identifier value was not valid for this entity type",
-                "details": ">'<a'"
+                "error": {
+                    "code": "invalid_identifier_value",
+                    "message": "The type of the provided identifier value was not valid for this entity type",
+                    "details": ">'<a'"
+                }
             }
         }
     ]

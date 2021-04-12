@@ -1,7 +1,9 @@
 {
-    "code": "test",
-    "message": "test message",
-    "target": "test target",
-    "details": "test details",
-    "innererror": "inner error"
+    "error": {
+        "code": "test",
+        "message": "test message",
+        "target": "test target",
+        "details": "test details",
+        "innererror": "inner error"
+    }
 }

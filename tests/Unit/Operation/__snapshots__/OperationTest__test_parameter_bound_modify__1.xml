@@ -44,7 +44,7 @@
             </Record>
           </Annotation>
         </EntitySet>
-        <FunctionImport Name="f1" Function="f1"/>
+        <FunctionImport Name="f1" Function="com.example.odata.f1"/>
       </EntityContainer>
       <EntityType Name="passenger">
         <Key>

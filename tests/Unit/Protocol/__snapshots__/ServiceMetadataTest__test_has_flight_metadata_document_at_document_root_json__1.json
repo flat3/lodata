@@ -205,7 +205,7 @@
             }
         },
         "addImport": {
-            "$Function": "add"
+            "$Function": "com.example.odata.add"
         },
         "div": {
             "$Kind": "Function",
@@ -228,7 +228,7 @@
             }
         },
         "divImport": {
-            "$Function": "div"
+            "$Function": "com.example.odata.div"
         },
         "$Annotations": {
             "com.example.odata.DefaultContainer": {

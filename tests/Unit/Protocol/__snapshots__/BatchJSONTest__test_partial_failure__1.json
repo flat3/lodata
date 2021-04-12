@@ -27,8 +27,10 @@
                 "content-type": "application/json"
             },
             "body": {
-                "code": "missing_fields",
-                "message": "The supplied object had no fields"
+                "error": {
+                    "code": "missing_fields",
+                    "message": "The supplied object had no fields"
+                }
             }
         }
     ]

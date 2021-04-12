@@ -1,4 +1,6 @@
 {
-    "code": "query_error",
-    "message": "The executed query returned an error: SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: passengers.name"
+    "error": {
+        "code": "query_error",
+        "message": "The executed query returned an error: SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: passengers.name"
+    }
 }

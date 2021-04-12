@@ -1,4 +1,6 @@
 {
-    "code": "version_not_supported",
-    "message": "Requested OData version (3.0) is not supported"
+    "error": {
+        "code": "version_not_supported",
+        "message": "Requested OData version (3.0) is not supported"
+    }
 }

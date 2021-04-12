@@ -1,4 +1,6 @@
 {
-    "code": "option_not_numeric",
-    "message": "The type of $skip must be numeric"
+    "error": {
+        "code": "option_not_numeric",
+        "message": "The type of $skip must be numeric"
+    }
 }

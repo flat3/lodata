@@ -1,4 +1,6 @@
 {
-    "code": "accepted",
-    "message": "Accepted"
+    "error": {
+        "code": "accepted",
+        "message": "Accepted"
+    }
 }

@@ -1,4 +1,6 @@
 {
-    "code": "no_next_segment",
-    "message": "Reference request must be the last segment"
+    "error": {
+        "code": "no_next_segment",
+        "message": "Reference request must be the last segment"
+    }
 }

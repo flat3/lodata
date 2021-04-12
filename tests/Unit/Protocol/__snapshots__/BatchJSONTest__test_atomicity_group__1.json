@@ -1,4 +1,6 @@
 {
-    "code": "atomicity_not_available",
-    "message": "Atomicity groups are not supported"
+    "error": {
+        "code": "atomicity_not_available",
+        "message": "Atomicity groups are not supported"
+    }
 }

@@ -1,4 +1,6 @@
 {
-    "code": "not_json",
-    "message": "Content provided to this endpoint must be supplied with a JSON content type"
+    "error": {
+        "code": "not_json",
+        "message": "Content provided to this endpoint must be supplied with a JSON content type"
+    }
 }

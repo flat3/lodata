@@ -1,4 +1,6 @@
 {
-    "code": "isolation_not_supported",
-    "message": "Isolation is not supported"
+    "error": {
+        "code": "isolation_not_supported",
+        "message": "Isolation is not supported"
+    }
 }

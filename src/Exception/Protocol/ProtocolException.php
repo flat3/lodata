@@ -160,13 +160,13 @@ abstract class ProtocolException extends RuntimeException implements Responsable
                 return;
             }
 
-            echo json_encode(array_filter([
+            echo json_encode(['error'=> array_filter([
                 'code' => $this->odataCode,
                 'message' => $this->message,
                 'target' => $this->target,
                 'details' => $this->details,
                 'innererror' => $this->inner,
-            ]), JSON_UNESCAPED_SLASHES);
+            ])], JSON_UNESCAPED_SLASHES);
         });
 
         $response->setProtocolVersion('1.1');

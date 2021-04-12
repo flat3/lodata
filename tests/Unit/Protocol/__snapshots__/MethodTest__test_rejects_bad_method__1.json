@@ -1,4 +1,6 @@
 {
-    "code": "method_not_allowed",
-    "message": "The PATCH method is not allowed"
+    "error": {
+        "code": "method_not_allowed",
+        "message": "The PATCH method is not allowed"
+    }
 }

@@ -1,4 +1,6 @@
 {
-    "code": "reference_value_missing",
-    "message": "The requested reference value @code did not exist"
+    "error": {
+        "code": "reference_value_missing",
+        "message": "The requested reference value @code did not exist"
+    }
 }

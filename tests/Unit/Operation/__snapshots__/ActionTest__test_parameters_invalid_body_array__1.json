@@ -1,4 +1,6 @@
 {
-    "code": "invalid_json",
-    "message": "Invalid JSON was provided"
+    "error": {
+        "code": "invalid_json",
+        "message": "Invalid JSON was provided"
+    }
 }

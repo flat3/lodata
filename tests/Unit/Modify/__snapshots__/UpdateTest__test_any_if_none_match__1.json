@@ -1,4 +1,6 @@
 {
-    "code": "etag_mismatch",
-    "message": "The provided If-None-Match header matched the current ETag value"
+    "error": {
+        "code": "etag_mismatch",
+        "message": "The provided If-None-Match header matched the current ETag value"
+    }
 }

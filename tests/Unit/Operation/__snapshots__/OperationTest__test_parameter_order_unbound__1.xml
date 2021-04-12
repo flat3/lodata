@@ -9,7 +9,7 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <FunctionImport Name="f1" Function="f1"/>
+        <FunctionImport Name="f1" Function="com.example.odata.f1"/>
       </EntityContainer>
       <Function Name="f1">
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>

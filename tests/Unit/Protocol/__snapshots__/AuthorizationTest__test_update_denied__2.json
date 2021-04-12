@@ -1,4 +1,6 @@
 {
-    "code": "forbidden",
-    "message": "This request is not permitted"
+    "error": {
+        "code": "forbidden",
+        "message": "This request is not permitted"
+    }
 }

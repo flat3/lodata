@@ -1,4 +1,6 @@
 {
-    "code": "invalid_orderby_syntax",
-    "message": "The requested orderby syntax is invalid"
+    "error": {
+        "code": "invalid_orderby_syntax",
+        "message": "The requested orderby syntax is invalid"
+    }
 }

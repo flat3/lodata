@@ -1,4 +1,6 @@
 {
-    "code": "unsupported_operator",
-    "message": "This entity set does not support the operator \"substring\""
+    "error": {
+        "code": "unsupported_operator",
+        "message": "This entity set does not support the operator \"substring\""
+    }
 }

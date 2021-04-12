@@ -1,4 +1,6 @@
 {
-    "code": "missing_boundary",
-    "message": "The provided content type had no boundary parameter"
+    "error": {
+        "code": "missing_boundary",
+        "message": "The provided content type had no boundary parameter"
+    }
 }

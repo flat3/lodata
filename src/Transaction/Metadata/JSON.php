@@ -169,7 +169,7 @@ class JSON extends Metadata implements JsonInterface
                     if ($resource instanceof FunctionInterface) {
                         $operationImportElement = new stdClass();
                         $schema->{$resource->getResolvedName($namespace).'Import'} = $operationImportElement;
-                        $operationImportElement->{$resource instanceof ActionInterface ? '$Action' : '$Function'} = $resource->getResolvedName($namespace);
+                        $operationImportElement->{$resource instanceof ActionInterface ? '$Action' : '$Function'} = $resource->getIdentifier();
                     }
                     break;
             }

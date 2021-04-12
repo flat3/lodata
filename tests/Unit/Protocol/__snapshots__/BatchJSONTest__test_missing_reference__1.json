@@ -27,8 +27,10 @@
                 "content-type": "application/json"
             },
             "body": {
-                "code": "missing_reference",
-                "message": "The requested reference request was not found"
+                "error": {
+                    "code": "missing_reference",
+                    "message": "The requested reference request was not found"
+                }
             }
         }
     ]

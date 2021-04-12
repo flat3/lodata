@@ -1,5 +1,7 @@
 {
-    "code": "invalid_identifier_value",
-    "message": "The type of the provided identifier value was not valid for this entity type",
-    "details": "name='O'>H<are'"
+    "error": {
+        "code": "invalid_identifier_value",
+        "message": "The type of the provided identifier value was not valid for this entity type",
+        "details": "name='O'>H<are'"
+    }
 }

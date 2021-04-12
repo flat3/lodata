@@ -1,4 +1,6 @@
 {
-    "code": "invalid_short_format",
-    "message": "When using a short $format option, parameters cannot be used"
+    "error": {
+        "code": "invalid_short_format",
+        "message": "When using a short $format option, parameters cannot be used"
+    }
 }

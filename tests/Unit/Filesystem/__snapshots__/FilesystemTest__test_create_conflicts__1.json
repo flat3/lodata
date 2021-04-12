@@ -1,4 +1,6 @@
 {
-    "code": "path_exists",
-    "message": "The requested path already exists"
+    "error": {
+        "code": "path_exists",
+        "message": "The requested path already exists"
+    }
 }

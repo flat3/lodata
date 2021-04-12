@@ -1,4 +1,6 @@
 {
-    "code": "missing_function_result",
-    "message": "Function is required to return a result"
+    "error": {
+        "code": "missing_function_result",
+        "message": "Function is required to return a result"
+    }
 }

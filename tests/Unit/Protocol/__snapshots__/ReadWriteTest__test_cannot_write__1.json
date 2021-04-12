@@ -1,4 +1,6 @@
 {
-    "code": "forbidden",
-    "message": "This service is read-only"
+    "error": {
+        "code": "forbidden",
+        "message": "This service is read-only"
+    }
 }

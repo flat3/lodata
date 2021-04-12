@@ -27,8 +27,10 @@
                 "content-type": "application/json"
             },
             "body": {
-                "code": "etag_mismatch",
-                "message": "The provided If-Match header did not match the current ETag value"
+                "error": {
+                    "code": "etag_mismatch",
+                    "message": "The provided If-Match header did not match the current ETag value"
+                }
             }
         }
     ]

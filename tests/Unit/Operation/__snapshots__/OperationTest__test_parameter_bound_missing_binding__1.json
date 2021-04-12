@@ -1,4 +1,6 @@
 {
-    "code": "missing_bound_argument",
-    "message": "This operation is bound, but no bound argument was provided"
+    "error": {
+        "code": "missing_bound_argument",
+        "message": "This operation is bound, but no bound argument was provided"
+    }
 }

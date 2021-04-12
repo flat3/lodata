@@ -218,7 +218,7 @@ class XML extends Metadata implements StreamInterface
                     $operationImport->addAttribute('Name', $resource->getResolvedName($namespace));
                     $operationImport->addAttribute(
                         $resource->getKind(),
-                        $resource->getResolvedName($namespace)
+                        $resource->getIdentifier()
                     );
                     break;
             }
