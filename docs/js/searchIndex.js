@@ -2351,15 +2351,15 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_target"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003A\u0024details",
-            "name": "details",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_details"
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003AaddDetail\u0028\u0029",
+            "name": "addDetail",
+            "summary": "Set\u0020the\u0020OData\u0020error\u0020details",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_addDetail"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003A\u0024inner",
-            "name": "inner",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_inner"
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003AaddInnerError\u0028\u0029",
+            "name": "addInnerError",
+            "summary": "Set\u0020the\u0020OData\u0020inner\u0020error",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_addInnerError"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003Aheader\u0028\u0029",
             "name": "header",
@@ -2390,6 +2390,16 @@ Search.appendIndex(
             "name": "odataCode",
             "summary": "",
             "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_odataCode"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003A\u0024details",
+            "name": "details",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_details"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003A\u0024innerError",
+            "name": "innerError",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_innerError"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Exception\\Protocol\\ProtocolException\u003A\u003A\u0024headers",
             "name": "headers",

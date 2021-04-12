@@ -142,7 +142,7 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_inner">$inner</a>
+    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_innerError">$innerError</a>
     <span>
                 &nbsp;: mixed            </span>
 </dt>
@@ -184,18 +184,25 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_addDetail">addDetail()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Set the OData error details</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_addInnerError">addInnerError()</a>
+    <span>
+                        &nbsp;: $this    </span>
+</dt>
+<dd>Set the OData inner error</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_code">code()</a>
     <span>
                         &nbsp;: $this    </span>
 </dt>
 <dd>Set the OData error code</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_details">details()</a>
-    <span>
-                        &nbsp;: $this    </span>
-</dt>
-<dd>Set the OData error details</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_factory">factory()</a>
@@ -210,13 +217,6 @@
                         &nbsp;: $this    </span>
 </dt>
 <dd>Set a header on the outgoing response</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_inner">inner()</a>
-    <span>
-                        &nbsp;: $this    </span>
-</dt>
-<dd>Set the OData inner error</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_message">message()</a>
@@ -281,7 +281,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 </aside>
 
     
@@ -289,7 +289,7 @@
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">$details</span>
-    </code>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
     
     
@@ -311,7 +311,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 </aside>
 
     
@@ -362,24 +362,24 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_inner">
-        $inner
-        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_inner" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_innerError">
+        $innerError
+        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#property_innerError" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$inner</span>
-    </code>
+    <span class="phpdocumentor-signature__name">$innerError</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
     
     
@@ -491,7 +491,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 </aside>
 
     
@@ -499,7 +499,7 @@
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">$target</span>
-    </code>
+     = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
     
@@ -525,7 +525,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 </aside>
 
     
@@ -567,6 +567,121 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_addDetail">
+        addDetail()
+        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_addDetail" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">89</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Set the OData error details</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">addDetail</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$code</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$code</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Details</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$message</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$target</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_addInnerError">
+        addInnerError()
+        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_addInnerError" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">111</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Set the OData inner error</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">addInnerError</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$key</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Key</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Value</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">$this</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_code">
         code()
         <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_code" class="headerlink"><i class="fas fa-link"></i></a>
@@ -574,7 +689,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error code</p>
@@ -611,52 +726,6 @@
         class="phpdocumentor-element
             -method
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_details">
-        details()
-        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_details" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">88</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Set the OData error details</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">details</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$details</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$details</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Details</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">$this</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_factory">
@@ -666,7 +735,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new protocol exception</p>
@@ -721,7 +790,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">111</span>
+    <span class="phpdocumentor-element-found-in__line">124</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set a header on the outgoing response</p>
@@ -769,52 +838,6 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_inner">
-        inner()
-        <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_inner" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">99</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Set the OData inner error</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">inner</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inner</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$inner</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Inner error</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">$this</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_message">
         message()
         <a href="classes/Flat3-Lodata-Exception-Protocol-ProtocolException.html#method_message" class="headerlink"><i class="fas fa-link"></i></a>
@@ -822,7 +845,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error message</p>
@@ -868,7 +891,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 </aside>
 
         <p class="phpdocumentor-summary">Serialize this error</p>
@@ -902,7 +925,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData error target</p>
@@ -948,7 +971,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">138</span>
+    <span class="phpdocumentor-element-found-in__line">151</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert this exception to a Symfony error</p>
@@ -982,7 +1005,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Exception/Protocol/ProtocolException.php"><a href="files/src-exception-protocol-protocolexception.html"><abbr title="src/Exception/Protocol/ProtocolException.php">ProtocolException.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">167</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert this exception to a Symfony response</p>
