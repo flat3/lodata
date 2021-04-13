@@ -2,30 +2,28 @@
 
 namespace Flat3\Lodata\PathSegment;
 
-use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
-use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
-use Flat3\Lodata\Transaction\Metadata\JSON;
-use Flat3\Lodata\Transaction\Metadata\XML;
+use Flat3\Lodata\Operation;
+use Flat3\Lodata\Operation\Argument;
+use Flat3\Lodata\Operation\EntityArgument;
+use Flat3\Lodata\Operation\EntitySetArgument;
+use Flat3\Lodata\Operation\PrimitiveArgument;
+use Flat3\Lodata\PathSegment\Metadata\JSON;
+use Flat3\Lodata\PathSegment\Metadata\XML;
 use Illuminate\Http\Request;
 
 /**
  * Metadata
  * @package Flat3\Lodata\PathSegment
  */
-class Metadata implements PipeInterface, ResponseInterface
+abstract class Metadata implements PipeInterface, ResponseInterface
 {
-    /**
-     * @var \Flat3\Lodata\Transaction\Metadata $implementation
-     * @internal
-     */
-    protected $implementation;
-
     public static function pipe(
         Transaction $transaction,
         string $currentSegment,
@@ -40,11 +38,6 @@ class Metadata implements PipeInterface, ResponseInterface
             throw new BadRequestException('metadata_argument', '$metadata must be the only argument in the path');
         }
 
-        return new self();
-    }
-
-    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
-    {
         $transaction->assertMethod(Request::METHOD_GET);
 
         $contentType = $transaction->getAcceptedContentType();
@@ -52,12 +45,10 @@ class Metadata implements PipeInterface, ResponseInterface
         switch ($contentType->getSubtype()) {
             case 'xml':
             case '*':
-                $this->implementation = new XML();
-                break;
+                return new XML();
 
             case 'json':
-                $this->implementation = new JSON();
-                break;
+                return new JSON();
 
             default:
                 throw new NotAcceptableException(
@@ -65,7 +56,36 @@ class Metadata implements PipeInterface, ResponseInterface
                     'The requested metadata content type was not known'
                 );
         }
+    }
 
-        return $this->implementation->response($transaction, $context);
+    /**
+     * Extract operation arguments for metadata
+     * Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
+     * @param  Operation  $resource
+     * @return ObjectArray|Argument[]
+     */
+    protected function getOperationArguments(Operation $resource)
+    {
+        return $resource->getArguments()->sort(function (Argument $a, Argument $b) use ($resource) {
+            if ($a->getName() === $resource->getBindingParameterName()) {
+                return -1;
+            }
+
+            if ($b->getName() === $resource->getBindingParameterName()) {
+                return 1;
+            }
+
+            return 0;
+        })->filter(function ($argument) use ($resource) {
+            if ($argument instanceof PrimitiveArgument) {
+                return true;
+            }
+
+            if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $resource->getBindingParameterName() === $argument->getName()) {
+                return true;
+            }
+
+            return false;
+        });
     }
 }

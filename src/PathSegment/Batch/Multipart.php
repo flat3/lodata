@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\Transaction\Batch;
+namespace Flat3\Lodata\PathSegment\Batch;
 
 use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Controller\Response;
@@ -10,7 +10,7 @@ use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\StreamInterface;
-use Flat3\Lodata\Transaction\Batch;
+use Flat3\Lodata\PathSegment\Batch;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MultipartDocument;
 use Illuminate\Support\Str;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\Transaction\Batch;
+namespace Flat3\Lodata\PathSegment\Batch;
 
 use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Controller\Response;
@@ -12,8 +12,8 @@ use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\PathSegment\Batch;
 use Flat3\Lodata\ServiceProvider;
-use Flat3\Lodata\Transaction\Batch;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

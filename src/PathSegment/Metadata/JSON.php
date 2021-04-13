@@ -1,6 +1,6 @@
 <?php
 
-namespace Flat3\Lodata\Transaction\Metadata;
+namespace Flat3\Lodata\PathSegment\Metadata;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
@@ -12,9 +12,9 @@ use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Operation;
+use Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
-use Flat3\Lodata\Transaction\Metadata;
 use stdClass;
 
 /**

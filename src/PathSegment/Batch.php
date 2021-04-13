@@ -7,24 +7,25 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
-use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
-use Flat3\Lodata\Transaction\Batch\JSON;
-use Flat3\Lodata\Transaction\Batch\Multipart;
+use Flat3\Lodata\PathSegment\Batch\JSON;
+use Flat3\Lodata\PathSegment\Batch\Multipart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Batch
  * @package Flat3\Lodata\PathSegment
  */
-class Batch implements PipeInterface, ResponseInterface
+abstract class Batch implements PipeInterface, ResponseInterface
 {
     /**
-     * @var \Flat3\Lodata\Transaction\Batch $implementation
+     * Content ID referenced resource URLs
+     * @var array $references
      * @internal
      */
-    protected $implementation;
+    protected $references = [];
 
     public static function pipe(
         Transaction $transaction,
@@ -40,23 +41,16 @@ class Batch implements PipeInterface, ResponseInterface
             throw new BadRequestException('batch_argument', '$batch must be the only argument in the path');
         }
 
-        return new self();
-    }
-
-    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
-    {
         $transaction->assertMethod(Request::METHOD_POST);
 
         $contentType = $transaction->getProvidedContentType();
 
         switch ($contentType->getType()) {
             case 'multipart/mixed':
-                $this->implementation = new Multipart();
-                break;
+                return new Multipart();
 
             case 'application/json':
-                $this->implementation = new JSON();
-                break;
+                return new JSON();
 
             default:
                 throw new NotAcceptableException(
@@ -64,7 +58,74 @@ class Batch implements PipeInterface, ResponseInterface
                     'The requested batch content type was not known'
                 );
         }
+    }
 
-        return $this->implementation->response($transaction, $context);
+    /**
+     * Set a referred entity URL value
+     * @param  string  $key  Content-ID
+     * @param  string  $value  URL
+     * @return Batch
+     */
+    protected function setReference(string $key, string $value): self
+    {
+        $this->references[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Swap the requested content URL reference
+     * @param  Transaction  $transaction
+     * @return $this
+     */
+    protected function maybeSwapContentUrl(Transaction $transaction): self
+    {
+        $segments = array_filter(explode('/', $transaction->getRequest()->path()));
+
+        if (!Str::startsWith($segments[0], '$')) {
+            return $this;
+        }
+
+        $contentId = substr($segments[0], 1);
+
+        if (in_array($contentId, ['batch', 'crossjoin', 'all', 'entity', 'root', 'id', 'metadata'])) {
+            return $this;
+        }
+
+        if (!array_key_exists($contentId, $this->references)) {
+            throw new BadRequestException('missing_reference', 'The requested reference request was not found');
+        }
+
+        $transaction->getRequest()->setPath(
+            parse_url($this->references[$contentId], PHP_URL_PATH).$contentId
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get the response headers
+     * @param  Response  $response
+     * @return array
+     */
+    protected function getResponseHeaders(Response $response): array
+    {
+        $headers = [];
+
+        foreach ($response->headers->allPreserveCaseWithoutCookies() as $key => $values) {
+            if (Str::contains(strtolower($key), ['date', 'cache-control', 'odata-version'])) {
+                continue;
+            }
+
+            $key = strtolower($key);
+
+            $headers[$key] = $headers[$key] ?? [];
+
+            foreach ($values as $value) {
+                $headers[$key][] = $value;
+            }
+        }
+
+        return $headers;
     }
 }
