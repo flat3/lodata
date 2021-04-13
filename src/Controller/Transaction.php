@@ -225,6 +225,7 @@ class Transaction implements ArgumentInterface
         EntityType::class,
         PathSegment\Batch::class,
         PathSegment\Metadata::class,
+        PathSegment\OpenAPI::class,
         PathSegment\Value::class,
         PathSegment\Count::class,
         PathSegment\Filter::class,
