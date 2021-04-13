@@ -9,8 +9,6 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
-use Flat3\Lodata\PathSegment\Batch\JSON;
-use Flat3\Lodata\PathSegment\Batch\Multipart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -47,10 +45,10 @@ abstract class Batch implements PipeInterface, ResponseInterface
 
         switch ($contentType->getType()) {
             case 'multipart/mixed':
-                return new Multipart();
+                return new Batch\Multipart();
 
             case 'application/json':
-                return new JSON();
+                return new Batch\JSON();
 
             default:
                 throw new NotAcceptableException(

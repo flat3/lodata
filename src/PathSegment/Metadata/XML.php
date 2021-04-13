@@ -26,7 +26,7 @@ use SimpleXMLElement;
 /**
  * XML
  * @link http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html
- * @package Flat3\Lodata\Transaction\Metadata
+ * @package Flat3\Lodata\PathSegment\Metadata
  */
 class XML extends Metadata implements StreamInterface
 {

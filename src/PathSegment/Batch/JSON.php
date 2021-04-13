@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 
 /**
  * JSON
- * @package Flat3\Lodata\Transaction\Batch
+ * @package Flat3\Lodata\PathSegment\Batch
  */
 class JSON extends Batch implements JsonInterface
 {

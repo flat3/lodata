@@ -5156,6 +5156,36 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020OData\u0020type\u0020that\u0020will\u0020be\u0020returned\u0020by\u0020this\u0020operation",
             "url": "classes/Flat3-Lodata-Operation.html#method_setReturnType"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\JSON",
+            "name": "JSON",
+            "summary": "JSON",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch-JSON.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\JSON\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch-JSON.html#method_emitJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\JSON\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch-JSON.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\Multipart",
+            "name": "Multipart",
+            "summary": "Multipart",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch-Multipart.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\Multipart\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch-Multipart.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\Multipart\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020a\u0020stream\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch-Multipart.html#method_emitStream"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch",
             "name": "Batch",
             "summary": "Batch",
@@ -5166,10 +5196,20 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_response"
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\u003A\u003AsetReference\u0028\u0029",
+            "name": "setReference",
+            "summary": "Set\u0020a\u0020referred\u0020entity\u0020URL\u0020value",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_setReference"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\u003A\u003AmaybeSwapContentUrl\u0028\u0029",
+            "name": "maybeSwapContentUrl",
+            "summary": "Swap\u0020the\u0020requested\u0020content\u0020URL\u0020reference",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_maybeSwapContentUrl"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\u003A\u003AgetResponseHeaders\u0028\u0029",
+            "name": "getResponseHeaders",
+            "summary": "Get\u0020the\u0020response\u0020headers",
+            "url": "classes/Flat3-Lodata-PathSegment-Batch.html#method_getResponseHeaders"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Count",
             "name": "Count",
@@ -5206,6 +5246,36 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Filter.html#method_pipe"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\JSON",
+            "name": "JSON",
+            "summary": "JSON",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata-JSON.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\JSON\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#method_emitJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\JSON\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\XML",
+            "name": "XML",
+            "summary": "XML",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata-XML.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\XML\u003A\u003AemitStream\u0028\u0029",
+            "name": "emitStream",
+            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata-XML.html#method_emitStream"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\XML\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata-XML.html#method_response"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata",
             "name": "Metadata",
             "summary": "Metadata",
@@ -5216,10 +5286,10 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "Generate\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_response"
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003AgetOperationArguments\u0028\u0029",
+            "name": "getOperationArguments",
+            "summary": "Extract\u0020operation\u0020arguments\u0020for\u0020metadata\nEnsure\u0020the\u0020binding\u0020parameter\u0020is\u0020first,\u0020if\u0020it\u0020exists.\u0020Filter\u0020out\u0020non\u002Dodata\u0020arguments.",
+            "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_getOperationArguments"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Query",
             "name": "Query",
@@ -5801,56 +5871,6 @@ Search.appendIndex(
             "summary": "Get\u0020whether\u0020this\u0020item\u0020uses\u0020references",
             "url": "classes/Flat3-Lodata-Traits-UseReferences.html#method_usesReferences"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON",
-            "name": "JSON",
-            "summary": "JSON",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003AemitJson\u0028\u0029",
-            "name": "emitJson",
-            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html#method_emitJson"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\JSON\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-JSON.html#method_response"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\Multipart",
-            "name": "Multipart",
-            "summary": "Multipart",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-Multipart.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\Multipart\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-Multipart.html#method_response"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\\Multipart\u003A\u003AemitStream\u0028\u0029",
-            "name": "emitStream",
-            "summary": "Emit\u0020this\u0020item\u0020as\u0020a\u0020stream\u0020to\u0020the\u0020client\u0020response",
-            "url": "classes/Flat3-Lodata-Transaction-Batch-Multipart.html#method_emitStream"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch",
-            "name": "Batch",
-            "summary": "Batch",
-            "url": "classes/Flat3-Lodata-Transaction-Batch.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\u003A\u003AsetReference\u0028\u0029",
-            "name": "setReference",
-            "summary": "Set\u0020a\u0020referred\u0020entity\u0020URL\u0020value",
-            "url": "classes/Flat3-Lodata-Transaction-Batch.html#method_setReference"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\u003A\u003AmaybeSwapContentUrl\u0028\u0029",
-            "name": "maybeSwapContentUrl",
-            "summary": "Swap\u0020the\u0020requested\u0020content\u0020URL\u0020reference",
-            "url": "classes/Flat3-Lodata-Transaction-Batch.html#method_maybeSwapContentUrl"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch\u003A\u003AgetResponseHeaders\u0028\u0029",
-            "name": "getResponseHeaders",
-            "summary": "Get\u0020the\u0020response\u0020headers",
-            "url": "classes/Flat3-Lodata-Transaction-Batch.html#method_getResponseHeaders"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\Boolean",
             "name": "Boolean",
             "summary": "Boolean",
@@ -5965,46 +5985,6 @@ Search.appendIndex(
             "name": "parameter",
             "summary": "Parameters\u0020attached\u0020to\u0020this\u0020media\u0020type",
             "url": "classes/Flat3-Lodata-Transaction-MediaType.html#property_parameter"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\JSON",
-            "name": "JSON",
-            "summary": "JSON",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-JSON.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\JSON\u003A\u003AemitJson\u0028\u0029",
-            "name": "emitJson",
-            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_emitJson"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\JSON\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_response"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\XML",
-            "name": "XML",
-            "summary": "XML",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-XML.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\XML\u003A\u003AemitStream\u0028\u0029",
-            "name": "emitStream",
-            "summary": "Emit\u0020the\u0020service\u0020metadata\u0020document",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-XML.html#method_emitStream"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\\XML\u003A\u003Aresponse\u0028\u0029",
-            "name": "response",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata-XML.html#method_response"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata",
-            "name": "Metadata",
-            "summary": "Class\u0020Metadata\nProvides\u0020CSDL\u0020metadata",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata\u003A\u003AgetOperationArguments\u0028\u0029",
-            "name": "getOperationArguments",
-            "summary": "Extract\u0020operation\u0020arguments\u0020for\u0020metadata\nEnsure\u0020the\u0020binding\u0020parameter\u0020is\u0020first,\u0020if\u0020it\u0020exists.\u0020Filter\u0020out\u0020non\u002Dodata\u0020arguments.",
-            "url": "classes/Flat3-Lodata-Transaction-Metadata.html#method_getOperationArguments"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataContainer",
             "name": "MetadataContainer",
@@ -7456,30 +7436,30 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/flat3-lodata-operation.html"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch",
+            "name": "Batch",
+            "summary": "",
+            "url": "namespaces/flat3-lodata-pathsegment-batch.html"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment",
             "name": "PathSegment",
             "summary": "",
             "url": "namespaces/flat3-lodata-pathsegment.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata",
+            "name": "Metadata",
+            "summary": "",
+            "url": "namespaces/flat3-lodata-pathsegment-metadata.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Traits",
             "name": "Traits",
             "summary": "",
             "url": "namespaces/flat3-lodata-traits.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Batch",
-            "name": "Batch",
-            "summary": "",
-            "url": "namespaces/flat3-lodata-transaction-batch.html"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction",
             "name": "Transaction",
             "summary": "",
             "url": "namespaces/flat3-lodata-transaction.html"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Transaction\\Metadata",
-            "name": "Metadata",
-            "summary": "",
-            "url": "namespaces/flat3-lodata-transaction-metadata.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MetadataType",
             "name": "MetadataType",

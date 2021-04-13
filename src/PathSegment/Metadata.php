@@ -14,8 +14,6 @@ use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
-use Flat3\Lodata\PathSegment\Metadata\JSON;
-use Flat3\Lodata\PathSegment\Metadata\XML;
 use Illuminate\Http\Request;
 
 /**
@@ -45,10 +43,10 @@ abstract class Metadata implements PipeInterface, ResponseInterface
         switch ($contentType->getSubtype()) {
             case 'xml':
             case '*':
-                return new XML();
+                return new Metadata\XML();
 
             case 'json':
-                return new JSON();
+                return new Metadata\JSON();
 
             default:
                 throw new NotAcceptableException(

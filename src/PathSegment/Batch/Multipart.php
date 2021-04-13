@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 
 /**
  * Multipart
- * @package Flat3\Lodata\Transaction\Batch
+ * @package Flat3\Lodata\PathSegment\Batch
  * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_MultipartBatchFormat
  */
 class Multipart extends Batch implements StreamInterface

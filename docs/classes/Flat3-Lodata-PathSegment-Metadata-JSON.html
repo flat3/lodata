@@ -81,8 +81,8 @@
                     <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3.html">Flat3</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata.html">Lodata</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-transaction.html">Transaction</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-transaction-metadata.html">Metadata</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-pathsegment.html">PathSegment</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/flat3-lodata-pathsegment-metadata.html">Metadata</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
@@ -90,7 +90,7 @@
     JSON
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Flat3-Lodata-Transaction-Metadata.html"><abbr title="\Flat3\Lodata\Transaction\Metadata">Metadata</abbr></a>
+        extends <a href="classes/Flat3-Lodata-PathSegment-Metadata.html"><abbr title="\Flat3\Lodata\PathSegment\Metadata">Metadata</abbr></a>
     </span>
     
     
@@ -101,7 +101,7 @@
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/Metadata/JSON.php"><a href="files/src-transaction-metadata-json.html"><abbr title="src/Transaction/Metadata/JSON.php">JSON.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PathSegment/Metadata/JSON.php"><a href="files/src-pathsegment-metadata-json.html"><abbr title="src/PathSegment/Metadata/JSON.php">JSON.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">25</span>
 </aside>
@@ -148,21 +148,28 @@
 
 <dl class="phpdocumentor-table-of-contents">
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_emitJson">emitJson()</a>
+    <a href="classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#method_emitJson">emitJson()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
 <dd>Emit the service metadata document</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_response">response()</a>
+    <a href="classes/Flat3-Lodata-PathSegment-Metadata.html#method_pipe">pipe()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null    </span>
+</dt>
+<dd>Path component handler</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#method_response">response()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Controller-Response.html"><abbr title="\Flat3\Lodata\Controller\Response">Response</abbr></a>    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Flat3-Lodata-Transaction-Metadata.html#method_getOperationArguments">getOperationArguments()</a>
+    <a href="classes/Flat3-Lodata-PathSegment-Metadata.html#method_getOperationArguments">getOperationArguments()</a>
     <span>
                         &nbsp;: <a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>|array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;    </span>
 </dt>
@@ -180,7 +187,7 @@ Ensure the binding parameter is first, if it exists. Filter out non-odata argume
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Flat3-Lodata-Transaction-Metadata-JSON.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -190,10 +197,10 @@ Ensure the binding parameter is first, if it exists. Filter out non-odata argume
 >
     <h4 class="phpdocumentor-element__name" id="method_emitJson">
         emitJson()
-        <a href="classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_emitJson" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#method_emitJson" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/Metadata/JSON.php"><a href="files/src-transaction-metadata-json.html"><abbr title="src/Transaction/Metadata/JSON.php">JSON.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PathSegment/Metadata/JSON.php"><a href="files/src-pathsegment-metadata-json.html"><abbr title="src/PathSegment/Metadata/JSON.php">JSON.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">31</span>
 </aside>
@@ -232,14 +239,88 @@ Ensure the binding parameter is first, if it exists. Filter out non-odata argume
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_pipe">
+        pipe()
+        <a href="classes/Flat3-Lodata-PathSegment-Metadata.html#method_pipe" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PathSegment/Metadata.php"><a href="files/src-pathsegment-metadata.html"><abbr title="src/PathSegment/Metadata.php">Metadata.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">25</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Path component handler</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">pipe</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$transaction</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$currentSegment</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$nextSegment</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$argument</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$transaction</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Controller-Transaction.html"><abbr title="\Flat3\Lodata\Controller\Transaction">Transaction</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Related transaction</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$currentSegment</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The current path segment</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$nextSegment</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The next path segment</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$argument</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The previous path segment</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>The processed path segment if handled by this implementation</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_response">
         response()
-        <a href="classes/Flat3-Lodata-Transaction-Metadata-JSON.html#method_response" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#method_response" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/Metadata/JSON.php"><a href="files/src-transaction-metadata-json.html"><abbr title="src/Transaction/Metadata/JSON.php">JSON.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PathSegment/Metadata/JSON.php"><a href="files/src-pathsegment-metadata-json.html"><abbr title="src/PathSegment/Metadata/JSON.php">JSON.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">197</span>
 </aside>
@@ -285,12 +366,12 @@ Ensure the binding parameter is first, if it exists. Filter out non-odata argume
 >
     <h4 class="phpdocumentor-element__name" id="method_getOperationArguments">
         getOperationArguments()
-        <a href="classes/Flat3-Lodata-Transaction-Metadata.html#method_getOperationArguments" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-PathSegment-Metadata.html#method_getOperationArguments" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Transaction/Metadata.php"><a href="files/src-transaction-metadata.html"><abbr title="src/Transaction/Metadata.php">Metadata.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PathSegment/Metadata.php"><a href="files/src-pathsegment-metadata.html"><abbr title="src/PathSegment/Metadata.php">Metadata.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 </aside>
 
         <p class="phpdocumentor-summary">Extract operation arguments for metadata
@@ -339,7 +420,7 @@ Ensure the binding parameter is first, if it exists. Filter out non-odata argume
 </section>
             </div>
         </div>
-        <a href="classes/Flat3-Lodata-Transaction-Metadata-JSON.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Flat3-Lodata-PathSegment-Metadata-JSON.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
