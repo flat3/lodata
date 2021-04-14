@@ -26,7 +26,7 @@ class SupportedFormats extends Annotation
 
         /** @var MetadataType $attribute */
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
-            $this->value->set(new String_(
+            $this->value->add(new String_(
                 MediaType::factory()->parse(MediaType::json)
                     ->setParameter('odata.metadata', $attribute::name)
                     ->setParameter('IEEE754Compatible', Constants::TRUE)

@@ -13,7 +13,7 @@ class Collection extends Primitive implements ArrayAccess
 {
     protected $value = [];
 
-    public function set($value): self
+    public function add($value): self
     {
         $this->value[] = $value;
 
@@ -52,5 +52,12 @@ class Collection extends Primitive implements ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->value[$offset]);
+    }
+
+    public function set($value)
+    {
+        $this->value = [$value];
+
+        return $this;
     }
 }

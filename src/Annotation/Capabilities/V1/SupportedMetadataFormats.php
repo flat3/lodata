@@ -18,7 +18,7 @@ class SupportedMetadataFormats extends Annotation
     public function __construct()
     {
         $this->value = new Collection();
-        $this->value->set(new String_(MediaType::json));
-        $this->value->set(new String_(MediaType::xml));
+        $this->value->add(new String_(MediaType::json));
+        $this->value->add(new String_(MediaType::xml));
     }
 }
