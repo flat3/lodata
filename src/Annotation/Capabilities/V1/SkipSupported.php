@@ -17,4 +17,11 @@ class SkipSupported extends Annotation
     {
         $this->value = new Boolean(true);
     }
+
+    public function setSupported(bool $supported): self
+    {
+        $this->value->set($supported);
+
+        return $this;
+    }
 }

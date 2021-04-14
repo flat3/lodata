@@ -95,42 +95,63 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             Lodata::add($entityType);
         }
 
-        $countRestrictions = new Capabilities\V1\CountRestrictions();
-        $this->addAnnotation($countRestrictions);
+        $this->addAnnotation(
+            (new Capabilities\V1\CountRestrictions())
+                ->setCountable($this instanceof CountInterface)
+        );
 
-        $topSupported = new Capabilities\V1\TopSupported();
-        $this->addAnnotation($topSupported);
+        $this->addAnnotation(
+            (new Capabilities\V1\TopSupported())
+                ->setSupported($this instanceof PaginationInterface)
+        );
 
-        $skipSupported = new Capabilities\V1\SkipSupported();
-        $this->addAnnotation($skipSupported);
+        $this->addAnnotation(
+            (new Capabilities\V1\SkipSupported())
+                ->setSupported($this instanceof PaginationInterface)
+        );
 
-        $filterRestrictions = new Capabilities\V1\FilterRestrictions();
-        $this->addAnnotation($filterRestrictions);
+        $this->addAnnotation(
+            (new Capabilities\V1\FilterRestrictions())
+                ->setFilterable($this instanceof FilterInterface)
+        );
 
-        $sortRestrictions = new Capabilities\V1\SortRestrictions();
-        $this->addAnnotation($sortRestrictions);
+        $this->addAnnotation(
+            (new Capabilities\V1\SortRestrictions())
+                ->setSortable($this instanceof OrderByInterface)
+        );
+
+        $this->addAnnotation(
+            (new Capabilities\V1\ExpandRestrictions())
+                ->setExpandable($this instanceof ExpandInterface)
+        );
+
+        $this->addAnnotation(
+            (new Capabilities\V1\SearchRestrictions())
+                ->setSearchable($this instanceof SearchInterface)
+        );
+
+        $this->addAnnotation(
+            (new Capabilities\V1\InsertRestrictions())
+                ->setInsertable($this instanceof CreateInterface)
+        );
+
+        $this->addAnnotation(
+            (new Capabilities\V1\UpdateRestrictions())
+                ->setUpdatable($this instanceof UpdateInterface)
+        );
+
+        $this->addAnnotation(
+            (new Capabilities\V1\DeleteRestrictions())
+                ->setDeletable($this instanceof DeleteInterface)
+        );
+
+        $this->addAnnotation(
+            (new Capabilities\V1\ReadRestrictions())
+                ->setReadable($this instanceof ReadInterface)
+        );
 
         $this->addAnnotation(new Capabilities\V1\IndexableByKey());
         $this->addAnnotation(new Capabilities\V1\SelectSupport());
-
-        switch (true) {
-            case !$this instanceof CountInterface:
-                $countRestrictions->setCountable(false);
-                break;
-
-            case !$this instanceof PaginationInterface:
-                $topSupported->getValue()->set(false);
-                $skipSupported->getValue()->set(false);
-                break;
-
-            case !$this instanceof FilterInterface:
-                $filterRestrictions->setFilterable(false);
-                break;
-
-            case !$this instanceof OrderByInterface:
-                $sortRestrictions->setSortable(false);
-                break;
-        }
 
         $this->navigationBindings = new ObjectArray();
     }
