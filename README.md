@@ -602,6 +602,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * Declared and navigation properties
 * Referential constraints
 * Entity singletons
+* Key as segment
 * Passing query options in the [request body](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_PassingQueryOptionsintheRequestBody)
 * Database [transactions](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ClientErrorResponses)
 * Requesting [entity references](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_EntityReference)
