@@ -74,6 +74,14 @@ class FilesystemTest extends TestCase
         );
     }
 
+    public function test_read_key_as_segment()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/files/a1.txt")
+        );
+    }
+
     public function test_read_with_metadata()
     {
         $this->assertJsonResponse(
@@ -88,6 +96,14 @@ class FilesystemTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path("/files('d1%2Fa1.txt')")
+        );
+    }
+
+    public function test_read_file_in_directory_key_as_segment()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/files/d1%2Fa1.txt")
         );
     }
 

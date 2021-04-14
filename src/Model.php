@@ -52,6 +52,7 @@ class Model implements AnnotationInterface
         $this->addAnnotation(new Capabilities\V1\AsynchronousRequestsSupported());
         $this->addAnnotation(new Capabilities\V1\CallbackSupported());
         $this->addAnnotation(new Capabilities\V1\ConformanceLevel());
+        $this->addAnnotation(new Capabilities\V1\KeyAsSegmentSupported());
         $this->addAnnotation(new Capabilities\V1\SupportedFormats());
     }
 

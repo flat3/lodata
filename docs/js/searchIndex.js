@@ -91,6 +91,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html#property_name"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\KeyAsSegmentSupported",
+            "name": "KeyAsSegmentSupported",
+            "summary": "Key\u002Das\u002Dsegment\u0020support",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-KeyAsSegmentSupported.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\KeyAsSegmentSupported\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-KeyAsSegmentSupported.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\KeyAsSegmentSupported\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-KeyAsSegmentSupported.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference",
             "name": "Reference",
             "summary": "Reference",
@@ -5245,6 +5260,16 @@ Search.appendIndex(
             "name": "pipe",
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Filter.html#method_pipe"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Key",
+            "name": "Key",
+            "summary": "Key\u002DAs\u002DSegment",
+            "url": "classes/Flat3-Lodata-PathSegment-Key.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Key\u003A\u003Apipe\u0028\u0029",
+            "name": "pipe",
+            "summary": "Path\u0020component\u0020handler",
+            "url": "classes/Flat3-Lodata-PathSegment-Key.html#method_pipe"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\\JSON",
             "name": "JSON",

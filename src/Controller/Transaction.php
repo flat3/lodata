@@ -233,6 +233,7 @@ class Transaction implements ArgumentInterface
         Operation::class,
         Singleton::class,
         PropertyValue::class,
+        PathSegment\Key::class,
     ];
 
     public function __construct()

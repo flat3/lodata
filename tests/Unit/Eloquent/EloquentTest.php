@@ -495,7 +495,7 @@ class EloquentTest extends TestCase
         );
     }
 
-    public function test_expand_property_invalid_entity()
+    public function test_expand_property_invalid_key_segment()
     {
         $this->withFlightData();
 

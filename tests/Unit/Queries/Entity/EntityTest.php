@@ -28,6 +28,30 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_an_entity_key_as_segment()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights/1')
+        );
+    }
+
+    public function test_read_an_entity_property_key_as_segment()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights/1/origin')
+        );
+    }
+
+    public function test_read_an_entity_key_as_segment_not_found()
+    {
+        $this->assertNotFound(
+            Request::factory()
+                ->path('/flights/99')
+        );
+    }
+
     public function test_read_an_entity_etag()
     {
         $this->assertMetadataResponse(
