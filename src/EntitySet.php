@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Annotation\Capabilities;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
@@ -92,6 +93,43 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         if (!Lodata::getEntityType($this->type->getIdentifier())) {
             Lodata::add($entityType);
+        }
+
+        $countRestrictions = new Capabilities\V1\CountRestrictions();
+        $this->addAnnotation($countRestrictions);
+
+        $topSupported = new Capabilities\V1\TopSupported();
+        $this->addAnnotation($topSupported);
+
+        $skipSupported = new Capabilities\V1\SkipSupported();
+        $this->addAnnotation($skipSupported);
+
+        $filterRestrictions = new Capabilities\V1\FilterRestrictions();
+        $this->addAnnotation($filterRestrictions);
+
+        $sortRestrictions = new Capabilities\V1\SortRestrictions();
+        $this->addAnnotation($sortRestrictions);
+
+        $this->addAnnotation(new Capabilities\V1\IndexableByKey());
+        $this->addAnnotation(new Capabilities\V1\SelectSupport());
+
+        switch (true) {
+            case !$this instanceof CountInterface:
+                $countRestrictions->setCountable(false);
+                break;
+
+            case !$this instanceof PaginationInterface:
+                $topSupported->getValue()->set(false);
+                $skipSupported->getValue()->set(false);
+                break;
+
+            case !$this instanceof FilterInterface:
+                $filterRestrictions->setFilterable(false);
+                break;
+
+            case !$this instanceof OrderByInterface:
+                $sortRestrictions->setSortable(false);
+                break;
         }
 
         $this->navigationBindings = new ObjectArray();

@@ -152,6 +152,21 @@
             "$NavigationPropertyBinding": {
                 "pets": "pets"
             },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
             "@Org.OData.Capabilities.V1.DeepInsertSupport": {
                 "Supported": true,
                 "ContentIDSupported": true
@@ -163,6 +178,21 @@
                 "airports": "airports",
                 "passengers": "passengers"
             },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
             "@Org.OData.Capabilities.V1.DeepInsertSupport": {
                 "Supported": true,
                 "ContentIDSupported": true
@@ -171,6 +201,21 @@
         "airports": {
             "$EntityType": "com.example.odata.airport",
             "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
             "@Org.OData.Capabilities.V1.DeepInsertSupport": {
                 "Supported": true,
                 "ContentIDSupported": true
@@ -179,6 +224,21 @@
         "pets": {
             "$EntityType": "com.example.odata.pet",
             "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
             "@Org.OData.Capabilities.V1.DeepInsertSupport": {
                 "Supported": true,
                 "ContentIDSupported": true
@@ -237,9 +297,19 @@
                 "@Org.OData.Core.V1.DereferencableIDs": true,
                 "@Org.OData.Core.V1.ODataVersions": "4.01",
                 "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
                 "@Org.OData.Capabilities.V1.CallbackSupported": [],
                 "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
                 "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
                 "@Org.OData.Capabilities.V1.SupportedFormats": [
                     "application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true",
                     "application/json;odata.metadata=minimal;IEEE754Compatible=true;odata.streaming=true",

@@ -50,9 +50,12 @@ class Model implements AnnotationInterface
         $this->addAnnotation(new Core\V1\DereferencableIDs());
         $this->addAnnotation(new Core\V1\ODataVersions());
         $this->addAnnotation(new Capabilities\V1\AsynchronousRequestsSupported());
+        $this->addAnnotation(new Capabilities\V1\BatchSupported());
+        $this->addAnnotation(new Capabilities\V1\BatchSupport());
         $this->addAnnotation(new Capabilities\V1\CallbackSupported());
         $this->addAnnotation(new Capabilities\V1\ConformanceLevel());
         $this->addAnnotation(new Capabilities\V1\KeyAsSegmentSupported());
+        $this->addAnnotation(new Capabilities\V1\QuerySegmentSupported());
         $this->addAnnotation(new Capabilities\V1\SupportedFormats());
         $this->addAnnotation(new Capabilities\V1\SupportedMetadataFormats());
     }

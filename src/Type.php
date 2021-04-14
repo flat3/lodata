@@ -6,6 +6,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
+use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Date;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
@@ -27,6 +28,7 @@ use TypeError;
  * @method static PrimitiveType binary() Binary type
  * @method static PrimitiveType boolean() Boolean type
  * @method static PrimitiveType byte() Byte type
+ * @method static PrimitiveType collection() Collection type
  * @method static PrimitiveType date() Date type
  * @method static PrimitiveType datetimeoffset() DateTimeOffset type
  * @method static PrimitiveType decimal() Decimal type
@@ -56,6 +58,7 @@ abstract class Type
             'binary' => Binary::class,
             'boolean' => Boolean::class,
             'byte' => Byte::class,
+            'collection' => Collection::class,
             'date' => Date::class,
             'datetimeoffset' => DateTimeOffset::class,
             'decimal' => Decimal::class,

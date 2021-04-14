@@ -13,6 +13,12 @@ class Collection extends Primitive implements ArrayAccess
 {
     protected $value = [];
 
+    public function __construct($value = null, bool $nullable = true)
+    {
+        parent::__construct($value, $nullable);
+        $this->value = $value == null ? [] : [$value];
+    }
+
     public function add($value): self
     {
         $this->value[] = $value;

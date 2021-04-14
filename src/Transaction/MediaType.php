@@ -14,6 +14,7 @@ class MediaType
     const xml = 'application/xml';
     const json = 'application/json';
     const text = 'text/plain';
+    const multipartMixed = 'multipart/mixed';
 
     protected $original;
     protected $type;

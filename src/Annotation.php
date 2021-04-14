@@ -116,6 +116,18 @@ abstract class Annotation
                         case $propertyValue->getProperty()->getType()->instance() instanceof Byte:
                             $propertyValueElement->addAttribute('Int', $propertyValue->getPrimitiveValue()->toUrl());
                             break;
+
+                        case $propertyValue->getProperty()->getType()->instance() instanceof Collection:
+                            $collection = $propertyValue->getPrimitiveValue();
+                            $collectionElement = $propertyValueElement->addChild('Collection');
+                            foreach ($collection->get() as $member) {
+                                switch (true) {
+                                    case $member instanceof String_:
+                                        $collectionElement->addChild('String', $member->get());
+                                        break;
+                                }
+                            }
+                            break;
                     }
                 }
                 break;
@@ -142,5 +154,10 @@ abstract class Annotation
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getValue(): Primitive
+    {
+        return $this->value;
     }
 }
