@@ -54,6 +54,7 @@ class Model implements AnnotationInterface
         $this->addAnnotation(new Capabilities\V1\ConformanceLevel());
         $this->addAnnotation(new Capabilities\V1\KeyAsSegmentSupported());
         $this->addAnnotation(new Capabilities\V1\SupportedFormats());
+        $this->addAnnotation(new Capabilities\V1\SupportedMetadataFormats());
     }
 
     /**

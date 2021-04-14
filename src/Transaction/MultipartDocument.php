@@ -41,7 +41,7 @@ class MultipartDocument
         $contentType = new MediaType();
 
         if (!array_key_exists('content-type', $this->headers)) {
-            $contentType->parse('text/plain');
+            $contentType->parse(MediaType::text);
 
             return $contentType;
         }

@@ -14,6 +14,7 @@ use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\PathSegment\Batch;
 use Flat3\Lodata\ServiceProvider;
+use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -87,7 +88,7 @@ class JSON extends Batch implements JsonInterface
             $headers = array_change_key_case($requestData['headers'] ?? [], CASE_LOWER);
 
             if (!array_key_exists('content-type', $headers)) {
-                $headers['content-type'] = 'application/json';
+                $headers['content-type'] = MediaType::json;
             }
 
             $request->headers->replace($headers);

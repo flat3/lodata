@@ -32,6 +32,10 @@
                     "application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true",
                     "application/json;odata.metadata=minimal;IEEE754Compatible=true;odata.streaming=true",
                     "application/json;odata.metadata=none;IEEE754Compatible=true;odata.streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
                 ]
             }
         }

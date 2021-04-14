@@ -244,7 +244,7 @@ class XML extends Metadata implements StreamInterface
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction->sendContentType(MediaType::factory()->parse('application/xml'));
+        $transaction->sendContentType(MediaType::factory()->parse(MediaType::xml));
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emitStream($transaction);

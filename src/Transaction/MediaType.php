@@ -11,6 +11,10 @@ use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
  */
 class MediaType
 {
+    const xml = 'application/xml';
+    const json = 'application/json';
+    const text = 'text/plain';
+
     protected $original;
     protected $type;
     protected $subtype;

@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Exception\Protocol;
 
 use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Contracts\Support\Responsable;
 use RuntimeException;
 use stdClass;
@@ -179,7 +180,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
         $response->setProtocolVersion('1.1');
         $response->setStatusCode($this->httpCode);
         $response->headers->replace($this->headers);
-        $response->headers->set('content-type', 'application/json');
+        $response->headers->set('content-type', MediaType::json);
 
         return $response;
     }

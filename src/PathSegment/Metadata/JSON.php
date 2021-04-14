@@ -196,7 +196,7 @@ class JSON extends Metadata implements JsonInterface
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction->sendContentType(MediaType::factory()->parse('application/json'));
+        $transaction->sendContentType(MediaType::factory()->parse(MediaType::json));
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emitJson($transaction);

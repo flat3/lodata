@@ -4,11 +4,11 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Transaction\MetadataType\Full;
 use Flat3\Lodata\Transaction\MetadataType\Minimal;
 use Flat3\Lodata\Transaction\MetadataType\None;
-use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\String_;
 
@@ -27,10 +27,10 @@ class SupportedFormats extends Annotation
         /** @var MetadataType $attribute */
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
             $this->value->set(new String_(
-                'application/json;'.(new Parameter())
-                    ->addParameter('odata.metadata', $attribute::name)
-                    ->addParameter('IEEE754Compatible', Constants::TRUE)
-                    ->addParameter('odata.streaming', Constants::TRUE)
+                MediaType::factory()->parse(MediaType::json)
+                    ->setParameter('odata.metadata', $attribute::name)
+                    ->setParameter('IEEE754Compatible', Constants::TRUE)
+                    ->setParameter('odata.streaming', Constants::TRUE)
             ));
         }
     }

@@ -36,6 +36,12 @@
             <String>application/json;odata.metadata=none;IEEE754Compatible=true;odata.streaming=true</String>
           </Collection>
         </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedMetadataFormats">
+          <Collection>
+            <String>application/json</String>
+            <String>application/xml</String>
+          </Collection>
+        </Annotation>
       </Annotations>
     </Schema>
   </edmx:DataServices>

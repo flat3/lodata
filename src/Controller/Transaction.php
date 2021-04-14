@@ -1092,7 +1092,7 @@ class Transaction implements ArgumentInterface
         $lastSegment = Arr::last($pathSegments);
 
         $requiredType = MediaType::factory()
-            ->parse('application/json')
+            ->parse(MediaType::json)
             ->setParameter('odata.streaming', Constants::TRUE)
             ->setParameter('odata.metadata', MetadataType\Minimal::name)
             ->setParameter('IEEE754Compatible', Constants::FALSE);
@@ -1109,16 +1109,16 @@ class Transaction implements ArgumentInterface
                 break;
 
             case '$metadata':
-                $requiredType = $acceptedContentType ?: MediaType::factory()->parse('application/xml');
+                $requiredType = $acceptedContentType ?: MediaType::factory()->parse(MediaType::xml);
                 break;
 
             case '$value':
-                $requiredType = $acceptedContentType ?: MediaType::factory()->parse('text/plain');
+                $requiredType = $acceptedContentType ?: MediaType::factory()->parse(MediaType::text);
                 break;
 
             case '$count':
             case '$query':
-                $requiredType = MediaType::factory()->parse('text/plain');
+                $requiredType = MediaType::factory()->parse(MediaType::text);
                 break;
         }
 
