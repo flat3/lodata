@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "."
+            "url": "http://localhost/odata"
         }
     ],
     "tags": [],

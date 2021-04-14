@@ -13,9 +13,12 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
+use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\Operation;
+use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Http\Request;
@@ -71,7 +74,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
         $oas->servers = [
             [
-                'url' => '.',
+                'url' => rtrim(ServiceProvider::endpoint(), '/'),
             ]
         ];
 
@@ -99,14 +102,40 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
         /** @var EntitySet $entitySet */
         foreach (Lodata::getResources()->sliceByClass(EntitySet::class) as $entitySet) {
-            $pathItemObject = new stdClass();
-
             if ($entitySet instanceof QueryInterface) {
+                $pathItemObject = new stdClass();
                 $queryObject = new stdClass();
                 $pathItemObject->{'get'} = $queryObject;
+                $paths->{'/'.$entitySet->getName()} = $pathItemObject;
             }
 
-            $paths->{'/'.$entitySet->getName()} = $pathItemObject;
+            if ($entitySet instanceof ReadInterface) {
+                $pathItemObject = new stdClass();
+                $queryObject = new stdClass();
+                $pathItemObject->{'get'} = $queryObject;
+                $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}"} = $pathItemObject;
+
+                foreach ($entitySet->getType()->getNavigationProperties() as $navigationProperty) {
+                    $pathItemObject = new stdClass();
+                    $queryObject = new stdClass();
+                    $pathItemObject->{'get'} = $queryObject;
+                    $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
+                }
+            }
+        }
+
+        foreach (Lodata::getResources()->sliceByClass(Singleton::class) as $singleton) {
+            $pathItemObject = new stdClass();
+            $queryObject = new stdClass();
+            $pathItemObject->{'get'} = $queryObject;
+            $paths->{'/'.$singleton->getName()} = $pathItemObject;
+        }
+
+        foreach (Lodata::getResources()->sliceByClass(Operation::class) as $operation) {
+            $pathItemObject = new stdClass();
+            $queryObject = new stdClass();
+            $pathItemObject->{'get'} = $queryObject;
+            $paths->{'/'.$operation->getName()} = $pathItemObject;
         }
 
         $transaction->sendJson($oas);

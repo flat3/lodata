@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "."
+            "url": "http://localhost/odata"
         }
     ],
     "tags": [
@@ -28,13 +28,40 @@
         "/passengers": {
             "get": {}
         },
+        "/passengers/{id}": {
+            "get": {}
+        },
+        "/passengers/{id}/pets": {
+            "get": {}
+        },
         "/flights": {
+            "get": {}
+        },
+        "/flights/{id}": {
+            "get": {}
+        },
+        "/flights/{id}/airports": {
+            "get": {}
+        },
+        "/flights/{id}/passengers": {
             "get": {}
         },
         "/airports": {
             "get": {}
         },
+        "/airports/{id}": {
+            "get": {}
+        },
         "/pets": {
+            "get": {}
+        },
+        "/pets/{id}": {
+            "get": {}
+        },
+        "/add": {
+            "get": {}
+        },
+        "/div": {
             "get": {}
         }
     }
