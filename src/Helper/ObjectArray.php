@@ -313,4 +313,13 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         $this->array = [];
         return $this;
     }
+
+    /**
+     * Get the first element of the array
+     * @return mixed|null
+     */
+    public function first()
+    {
+        return $this->array[0] ?? null;
+    }
 }

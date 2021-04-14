@@ -3,6 +3,7 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Annotation\Record;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
@@ -156,8 +157,30 @@ abstract class Annotation
         return $this->name;
     }
 
+    /**
+     * Get the value of the annotation
+     * @return Primitive
+     */
     public function getValue(): Primitive
     {
         return $this->value;
+    }
+
+    /**
+     * Get the value of this annotation suitable for JSON
+     * @return mixed
+     */
+    public function toJson()
+    {
+        return $this->value->toJson();
+    }
+
+    /**
+     * Get the model annotation represented by this class
+     * @return static|null
+     */
+    public static function getModelAnnotation(): ?static
+    {
+        return Lodata::getAnnotations()->sliceByClass(static::class)->first();
     }
 }
