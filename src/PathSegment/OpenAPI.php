@@ -62,6 +62,8 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
         $info = new stdClass();
         $oas->info = $info;
 
+        $endpoint = rtrim(Lodata::getEndpoint(), '/');
+
         $description = Description::getModelAnnotation();
         $info->title = $description ? $description->toJson() : 'OData Service for namespace '.Lodata::getNamespace();
 
@@ -69,12 +71,24 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
         $info->version = $schemaVersion ? $schemaVersion->toJson() : '1.0.0';
 
         $longDescription = LongDescription::getModelAnnotation();
-        $info->description = $longDescription ? $longDescription->toJson() : sprintf('This OData service is located at [%1$s](%1$s)\n\n## References\n- [Org.OData.Core.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.md)\n- [Org.OData.Measures.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.md)',
-            Lodata::getEndpoint());
+        $standardDescription = <<<'DESC'
+This OData service is located at [%1$s](%1$s)
+
+## References
+- [Org.OData.Core.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.md)
+- [Org.OData.Measures.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.md)
+DESC;
+
+        $info->description = $longDescription
+            ? $longDescription->toJson()
+            : sprintf(
+                $standardDescription,
+                $endpoint
+            );
 
         $oas->servers = [
             [
-                'url' => rtrim(ServiceProvider::endpoint(), '/'),
+                'url' => $endpoint,
             ]
         ];
 
