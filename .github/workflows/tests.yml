@@ -49,7 +49,7 @@ jobs:
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Run Unit tests
-        run: composer test-laravel-${{ matrix.laravel }}
+        run: composer test
 
   coverage:
     runs-on: ubuntu-latest
