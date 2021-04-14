@@ -179,7 +179,7 @@ abstract class Annotation
      * Get the model annotation represented by this class
      * @return static|null
      */
-    public static function getModelAnnotation(): ?static
+    public static function getModelAnnotation(): ?Annotation
     {
         return Lodata::getAnnotations()->sliceByClass(static::class)->first();
     }
