@@ -1,1 +1,41 @@
-[]
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OData Service for namespace com.example.odata",
+        "version": "1.0.0",
+        "description": "This OData service is located at [http://localhost/odata/](http://localhost/odata/)\\n\\n## References\\n- [Org.OData.Core.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.md)\\n- [Org.OData.Measures.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.md)"
+    },
+    "servers": [
+        {
+            "url": "."
+        }
+    ],
+    "tags": [
+        {
+            "name": "passengers"
+        },
+        {
+            "name": "flights"
+        },
+        {
+            "name": "airports"
+        },
+        {
+            "name": "pets"
+        }
+    ],
+    "paths": {
+        "/passengers": {
+            "get": {}
+        },
+        "/flights": {
+            "get": {}
+        },
+        "/airports": {
+            "get": {}
+        },
+        "/pets": {
+            "get": {}
+        }
+    }
+}
