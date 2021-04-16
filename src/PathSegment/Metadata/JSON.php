@@ -10,7 +10,6 @@ use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\Singleton;
@@ -30,21 +29,22 @@ class JSON extends Metadata implements JsonInterface
      */
     public function emitJson(Transaction $transaction): void
     {
-        $root = new stdClass();
+        $schema = new stdClass();
 
         $version = $transaction->getVersion();
         $namespace = Lodata::getNamespace();
 
-        $root->{'$Version'} = $version;
-        $root->{'$EntityContainer'} = $namespace.'.'.'DefaultContainer';
+        $schema->{'$Version'} = $version;
+        $schema->{'$EntityContainer'} = $namespace.'.'.'DefaultContainer';
 
-        $root->{'$Reference'} = [];
+        $schema->{'$Reference'} = [];
         foreach (Lodata::getReferences() as $reference) {
-            $reference->appendJson($root);
+            $reference->appendJson($schema);
         }
 
-        $schema = new stdClass();
-        $root->{$namespace} = $schema;
+        $entityContainer = new stdClass();
+        $entityContainer->{'$Kind'} = 'EntityContainer';
+        $schema->{$namespace} = $entityContainer;
 
         foreach (Lodata::getEntityTypes() as $entityType) {
             $entityTypeElement = new stdClass();
@@ -113,13 +113,12 @@ class JSON extends Metadata implements JsonInterface
 
             switch (true) {
                 case $resource instanceof Singleton:
-                    $schema->{$resource->getResolvedName($namespace)} = [
-                        '$Type' => $resource->getType()->getIdentifier(),
-                    ];
+                    $entityContainer->{$resource->getResolvedName($namespace)} = $resourceElement;
+                    $resourceElement->{'$Type'} = $resource->getType()->getIdentifier();
                     break;
 
                 case $resource instanceof EntitySet:
-                    $schema->{$resource->getResolvedName($namespace)} = $resourceElement;
+                    $entityContainer->{$resource->getResolvedName($namespace)} = $resourceElement;
                     $resourceElement->{'$EntityType'} = $resource->getType()->getIdentifier();
 
                     $navigationBindings = $resource->getNavigationBindings();
@@ -134,12 +133,11 @@ class JSON extends Metadata implements JsonInterface
                     break;
 
                 case $resource instanceof Operation:
+                    $isBound = null !== $resource->getBindingParameterName();
+
                     $schema->{$resource->getResolvedName($namespace)} = $resourceElement;
                     $resourceElement->{'$Kind'} = $resource->getKind();
-
-                    if ($resource->getBindingParameterName()) {
-                        $resourceElement->{'$IsBound'} = true;
-                    }
+                    $resourceElement->{'$IsBound'} = $isBound;
 
                     $arguments = $this->getOperationArguments($resource);
 
@@ -165,11 +163,14 @@ class JSON extends Metadata implements JsonInterface
                         $returnTypeElement->{'$Nullable'} = $resource->isNullable();
                     }
 
-                    /** @var Operation $resource */
-                    if ($resource instanceof FunctionInterface) {
+                    if (!$isBound) {
                         $operationImportElement = new stdClass();
-                        $schema->{$resource->getResolvedName($namespace).'Import'} = $operationImportElement;
+                        $entityContainer->{$resource->getResolvedName($namespace).'Import'} = $operationImportElement;
                         $operationImportElement->{$resource instanceof ActionInterface ? '$Action' : '$Function'} = $resource->getIdentifier();
+
+                        if (null !== $returnType && $returnType instanceof EntitySet) {
+                            $operationImportElement->{'$EntitySet'} = $returnType->getName();
+                        }
                     }
                     break;
             }
@@ -182,7 +183,7 @@ class JSON extends Metadata implements JsonInterface
         }
 
         $schemaAnnotationsElement = new stdClass();
-        $schema->{'$Annotations'} = $schemaAnnotationsElement;
+        $entityContainer->{'$Annotations'} = $schemaAnnotationsElement;
 
         $targetElement = new stdClass();
         $schemaAnnotationsElement->{$namespace.'.'.'DefaultContainer'} = $targetElement;
@@ -191,7 +192,7 @@ class JSON extends Metadata implements JsonInterface
             $annotation->appendJson($targetElement);
         }
 
-        $transaction->sendJson($root);
+        $transaction->sendJson($schema);
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response

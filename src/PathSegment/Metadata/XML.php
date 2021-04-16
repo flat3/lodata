@@ -8,7 +8,6 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\StreamInterface;
@@ -181,11 +180,11 @@ class XML extends Metadata implements StreamInterface
 
                 /** @var Operation $resource */
                 case $resource instanceof Operation:
+                    $isBound = null !== $resource->getBindingParameterName();
+
                     $resourceElement = $schema->addChild($resource->getKind());
                     $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
-                    if ($resource->getBindingParameterName()) {
-                        $resourceElement->addAttribute('IsBound', Constants::TRUE);
-                    }
+                    $resourceElement->addAttribute('IsBound', Boolean::factory($isBound)->toUrl());
 
                     foreach ($this->getOperationArguments($resource) as $argument) {
                         $parameterElement = $resourceElement->addChild('Parameter');
@@ -214,12 +213,15 @@ class XML extends Metadata implements StreamInterface
                         );
                     }
 
-                    $operationImport = $entityContainer->addChild($resource->getKind().'Import');
-                    $operationImport->addAttribute('Name', $resource->getResolvedName($namespace));
-                    $operationImport->addAttribute(
-                        $resource->getKind(),
-                        $resource->getIdentifier()
-                    );
+                    if (!$isBound) {
+                        $operationImportElement = $entityContainer->addChild($resource->getKind().'Import');
+                        $operationImportElement->addAttribute('Name', $resource->getName());
+                        $operationImportElement->addAttribute($resource->getKind(), $resource->getIdentifier());
+
+                        if (null !== $returnType && $returnType instanceof EntitySet) {
+                            $operationImportElement->addAttribute('EntitySet', $returnType->getName());
+                        }
+                    }
                     break;
             }
 

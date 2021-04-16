@@ -313,12 +313,12 @@
         <Property Name="type" Type="Edm.String" Nullable="true"/>
         <Property Name="passenger_id" Type="Edm.Int32" Nullable="true"/>
       </EntityType>
-      <Function Name="add">
+      <Function Name="add" IsBound="false">
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Int32" Nullable="false"/>
         <ReturnType Type="Edm.Int32" Nullable="false"/>
       </Function>
-      <Function Name="div">
+      <Function Name="div" IsBound="false">
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Int32" Nullable="false"/>
         <ReturnType Type="Edm.Decimal" Nullable="false"/>

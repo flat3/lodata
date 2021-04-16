@@ -18,7 +18,6 @@ use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Operation;
-use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Http\Request;
@@ -79,12 +78,7 @@ This OData service is located at [%1$s](%1$s)
 - [Org.OData.Measures.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.md)
 DESC;
 
-        $info->description = $longDescription
-            ? $longDescription->toJson()
-            : sprintf(
-                $standardDescription,
-                $endpoint
-            );
+        $info->description = $longDescription ? $longDescription->toJson() : sprintf($standardDescription, $endpoint);
 
         $oas->servers = [
             [
@@ -145,11 +139,22 @@ DESC;
             $paths->{'/'.$singleton->getName()} = $pathItemObject;
         }
 
+        /** @var Operation $operation */
         foreach (Lodata::getResources()->sliceByClass(Operation::class) as $operation) {
+            $boundParameter = $operation->getBoundParameter();
             $pathItemObject = new stdClass();
             $queryObject = new stdClass();
             $pathItemObject->{'get'} = $queryObject;
-            $paths->{'/'.$operation->getName()} = $pathItemObject;
+
+            switch (true) {
+                case null === $boundParameter:
+                    $paths->{'/'.$operation->getName()} = $pathItemObject;
+                    break;
+
+                case $boundParameter instanceof EntitySet:
+                    $paths->{"/{$boundParameter->getName()}/{$operation->getName()}()"} = $pathItemObject;
+                    break;
+            }
         }
 
         $transaction->sendJson($oas);

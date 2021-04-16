@@ -476,4 +476,13 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         $this->returnType = $type;
         return $this;
     }
+
+    /**
+     * Retrieve the bound parameter attached to this operation
+     * @return PipeInterface|null
+     */
+    public function getBoundParameter(): ?PipeInterface
+    {
+        return $this->boundParameter;
+    }
 }

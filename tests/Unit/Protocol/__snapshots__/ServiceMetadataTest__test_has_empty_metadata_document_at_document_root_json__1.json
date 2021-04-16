@@ -18,6 +18,7 @@
         }
     },
     "com.example.odata": {
+        "$Kind": "EntityContainer",
         "$Annotations": {
             "com.example.odata.DefaultContainer": {
                 "@Org.OData.Core.V1.ConventionalIDs": true,

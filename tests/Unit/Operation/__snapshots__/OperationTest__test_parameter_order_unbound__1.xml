@@ -11,7 +11,7 @@
       <EntityContainer Name="DefaultContainer">
         <FunctionImport Name="f1" Function="com.example.odata.f1"/>
       </EntityContainer>
-      <Function Name="f1">
+      <Function Name="f1" IsBound="false">
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
         <Parameter Name="b" Type="Edm.Decimal" Nullable="false"/>
         <ReturnType Type="Edm.Int32" Nullable="false"/>

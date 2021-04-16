@@ -8,9 +8,7 @@
   </edmx:Reference>
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
-      <EntityContainer Name="DefaultContainer">
-        <FunctionImport Name="f1" Function="com.example.odata.f1"/>
-      </EntityContainer>
+      <EntityContainer Name="DefaultContainer"/>
       <Function Name="f1" IsBound="true">
         <Parameter Name="b" Type="Edm.Decimal" Nullable="false"/>
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
