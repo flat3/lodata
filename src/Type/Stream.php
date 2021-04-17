@@ -53,7 +53,13 @@ class Stream extends Primitive
 
     public function getEncodedValueAsString(): string
     {
-        return base64_encode(is_resource($this->value) ? stream_get_contents($this->value) : $this->value);
+        if (is_resource($this->value)) {
+            rewind($this->value);
+
+            return base64_encode(stream_get_contents($this->value));
+        }
+
+        return base64_encode($this->value);
     }
 
     public function set($value): self
@@ -70,6 +76,7 @@ class Stream extends Primitive
             return;
         }
 
+        rewind($this->value);
         $output = fopen('php://output', 'w');
         $base64 = new Base64Stream(Utils::streamFor($output));
 

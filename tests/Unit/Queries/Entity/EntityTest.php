@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
+use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\GeneratedProperty;
@@ -64,7 +65,7 @@ class EntityTest extends TestCase
     {
         $this->assertMetadataResponse(
             Request::factory()
-                ->header('if-match', 'W/"9002879996637791044635c0a75ae412322098677c04322be3da15089239bc76"')
+                ->header('if-match', 'W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"')
                 ->path('/flights(1)')
         );
     }
@@ -100,7 +101,7 @@ class EntityTest extends TestCase
     {
         $this->assertNotModified(
             Request::factory()
-                ->header('if-none-match', 'W/"9002879996637791044635c0a75ae412322098677c04322be3da15089239bc76"')
+                ->header('if-none-match', 'W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"')
                 ->path('/flights(1)')
         );
     }

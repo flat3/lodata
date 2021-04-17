@@ -322,7 +322,7 @@ class BatchJSONTest extends TestCase
                             'method' => 'patch',
                             'headers' => [
                                 'content-type' => 'application/json',
-                                'if-match' => 'W/"192974269b83f1c24b65713ffc921a2e414f1174ee4c1ad2342ce4f9b014f9de"',
+                                'if-match' => 'W/"73fa0e567cdc8392d1869d47b3f0886db629d38780a5f2010ce767900cde7266"',
                             ],
                             'url' => "/odata/airports(1)",
                             'body' => [

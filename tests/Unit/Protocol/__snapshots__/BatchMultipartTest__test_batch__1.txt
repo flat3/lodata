@@ -4,7 +4,7 @@ content-type: application/http
 
 HTTP/1.0 200 OK
 content-type: application/json
-etag: W/"9002879996637791044635c0a75ae412322098677c04322be3da15089239bc76"
+etag: W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"
 
 {"@context":"http://localhost/odata/$metadata#flights/$entity","id":1,"origin":"lhr","destination":"lax","gate":null,"duration":"PT11H25M0S"}
 --00000000-0000-0000-0000-000000000001
@@ -17,7 +17,7 @@ content-type: application/http
 HTTP/1.0 201 Created
 content-type: application/json
 location: http://localhost/odata/airports(5)
-etag: W/"34fc3879d08d77fef9930122ce0cd76f78505293eccf1de99cf98a1b3962461e"
+etag: W/"7f1bc052a54d9aed031b61b33efcee8e26c23b55f10814770f991b58d17c90e5"
 
 {"@context":"http://localhost/odata/$metadata#airports/$entity","id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null}
 --00000000-0000-0000-0000-000000000003

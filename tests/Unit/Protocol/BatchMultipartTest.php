@@ -373,7 +373,7 @@ PATCH /odata/airports(1) HTTP/1.1
 Host: localhost
 Content-Type: application/json
 Prefer: return=minimal
-If-Match: W/"192974269b83f1c24b65713ffc921a2e414f1174ee4c1ad2342ce4f9b014f9de"
+If-Match: W/"73fa0e567cdc8392d1869d47b3f0886db629d38780a5f2010ce767900cde7266"
 
 {
   "code": "xyz"
