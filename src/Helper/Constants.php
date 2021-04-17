@@ -8,19 +8,28 @@ namespace Flat3\Lodata\Helper;
  */
 class Constants
 {
-    const TRUE = 'true';
-    const FALSE = 'false';
-    const NULL = 'null';
-    const RESPOND_ASYNC = 'respond-async';
-    const PREFERENCE_APPLIED = 'preference-applied';
-    const MAX_PAGE_SIZE = 'maxpagesize';
-    const OMIT_VALUES = 'omit-values';
-    const RETURN = 'return';
-    const NULLS = 'nulls';
-    const MINIMAL = 'minimal';
-    const CONTINUE_ON_ERROR = 'continue-on-error';
-    const ODATA_ENTITY_ID = 'odata-entityid';
-    const ETAG = 'etag';
-    const IF_MATCH = 'if-match';
-    const IF_NONE_MATCH = 'if-none-match';
+    public const TRUE = 'true';
+    public const FALSE = 'false';
+    public const NULL = 'null';
+    public const RESPOND_ASYNC = 'respond-async';
+    public const PREFERENCE_APPLIED = 'preference-applied';
+    public const MAX_PAGE_SIZE = 'maxpagesize';
+    public const OMIT_VALUES = 'omit-values';
+    public const RETURN = 'return';
+    public const NULLS = 'nulls';
+    public const MINIMAL = 'minimal';
+    public const CONTINUE_ON_ERROR = 'continue-on-error';
+    public const ODATA_ENTITY_ID = 'odata-entityid';
+    public const ETAG = 'etag';
+    public const IF_MATCH = 'if-match';
+    public const IF_NONE_MATCH = 'if-none-match';
+    public const OAPI_STRING = 'string';
+    public const OAPI_NUMBER = 'number';
+    public const OAPI_BOOLEAN = 'boolean';
+    public const OAPI_ARRAY = 'array';
+    public const OAPI_INTEGER = 'integer';
+    public const OAPI_OBJECT = 'object';
+    public const INFINITY = 'INF';
+    public const NEG_INFINITY = '-INF';
+    public const NOT_A_NUMBER = 'NaN';
 }

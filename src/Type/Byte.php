@@ -13,6 +13,14 @@ use Flat3\Lodata\Primitive;
 class Byte extends Primitive
 {
     const identifier = 'Edm.Byte';
+
+    const openApiSchema = [
+        'type' => Constants::OAPI_INTEGER,
+        'format' => 'uint8',
+        'minimum' => 0,
+        'maximum' => 255,
+    ];
+
     public const format = 'C';
 
     /** @var ?int $value */

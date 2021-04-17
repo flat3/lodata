@@ -113,7 +113,7 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
                         return true;
 
                     case $node instanceof DateTimeOffset:
-                        $this->addFilter($node->getValue()->format('Y-m-dTh:i:s\ZP'));
+                        $this->addFilter($node->getValue()->format('c'));
                         return true;
 
                     case $node instanceof TimeOfDay:

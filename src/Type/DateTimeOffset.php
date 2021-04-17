@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Type;
 
 use DateTime;
 use Exception;
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
@@ -15,6 +16,13 @@ use Flat3\Lodata\Primitive;
 class DateTimeOffset extends Primitive
 {
     const identifier = 'Edm.DateTimeOffset';
+
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+        'format' => 'date-time',
+        'pattern' => '^'.Lexer::DATE_TIME_OFFSET.'$',
+    ];
+
     public const DATE_FORMAT = 'c';
 
     /** @var ?DateTime $value */

@@ -2,6 +2,8 @@
 
 namespace Flat3\Lodata\Type;
 
+use Flat3\Lodata\Helper\Constants;
+
 /**
  * Single
  * @package Flat3\Lodata\Type
@@ -10,4 +12,20 @@ namespace Flat3\Lodata\Type;
 class Single extends Decimal
 {
     const identifier = 'Edm.Single';
+
+    const openApiSchema = [
+        'anyOf' => [
+            [
+                'type' => Constants::OAPI_NUMBER,
+                'format' => 'single',
+            ],
+            [
+                'enum' => [
+                    Constants::NEG_INFINITY,
+                    Constants::INFINITY,
+                    Constants::NOT_A_NUMBER,
+                ]
+            ],
+        ],
+    ];
 }

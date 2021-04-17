@@ -20,6 +20,8 @@ use stdClass;
  */
 abstract class Annotation
 {
+    const identifier = 'Edm.AnnotationPath';
+
     /**
      * @var string $name Annotation name
      * @internal

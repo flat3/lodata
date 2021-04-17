@@ -22,9 +22,14 @@ use Illuminate\Support\Str;
 abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, JsonInterface, PipeInterface
 {
     /**
-     * The OData type name of this primitive
+     * The OData name of this primitive type
      */
     const identifier = 'Edm.None';
+
+    /**
+     * The OpenAPI schema definition of this type
+     */
+    const openApiSchema = [];
 
     /**
      * Whether the value can be made null

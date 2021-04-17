@@ -14,6 +14,22 @@ class Decimal extends Primitive
 {
     const identifier = 'Edm.Decimal';
 
+    const openApiSchema = [
+        'anyOf' => [
+            [
+                'type' => Constants::OAPI_NUMBER,
+                'format' => 'decimal',
+            ],
+            [
+                'enum' => [
+                    Constants::NEG_INFINITY,
+                    Constants::INFINITY,
+                    Constants::NOT_A_NUMBER,
+                ]
+            ],
+        ],
+    ];
+
     /** @var ?double $value */
     protected $value;
 
@@ -39,11 +55,11 @@ class Decimal extends Primitive
         }
 
         if (is_nan($this->value)) {
-            return 'NaN';
+            return Constants::NOT_A_NUMBER;
         }
 
         if (is_infinite($this->value)) {
-            return (($this->value < 0) ? '-' : '').'INF';
+            return ($this->value < 0) ? Constants::NEG_INFINITY : Constants::INFINITY;
         }
 
         return $this->value;
@@ -56,11 +72,11 @@ class Decimal extends Primitive
         }
 
         if (is_nan($this->value)) {
-            return 'NaN';
+            return Constants::NOT_A_NUMBER;
         }
 
         if (is_infinite($this->value)) {
-            return (($this->value < 0) ? '-' : '').'INF';
+            return ($this->value < 0) ? Constants::NEG_INFINITY : Constants::INFINITY;
         }
 
         return strtolower((string) $this->value);
@@ -76,17 +92,17 @@ class Decimal extends Primitive
 
         if (is_string($value)) {
             switch ($value) {
-                case 'INF':
+                case Constants::INFINITY:
                     $this->value = INF;
 
                     return $this;
 
-                case '-INF':
+                case Constants::NEG_INFINITY:
                     $this->value = -INF;
 
                     return $this;
 
-                case 'NaN':
+                case Constants::NOT_A_NUMBER:
                     $this->value = NAN;
 
                     return $this;

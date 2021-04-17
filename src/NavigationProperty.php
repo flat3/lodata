@@ -16,6 +16,8 @@ use Flat3\Lodata\Transaction\NavigationRequest;
  */
 class NavigationProperty extends Property
 {
+    const identifier = 'Edm.NavigationPropertyPath';
+
     /**
      * The partner property referring back to this property
      * @var self $partner

@@ -16,6 +16,8 @@ use Flat3\Lodata\Interfaces\PipeInterface;
  */
 class EntityType extends ComplexType implements PipeInterface
 {
+    const identifier = 'Edm.EntityType';
+
     /**
      * Primary key property
      * @var DeclaredProperty $key

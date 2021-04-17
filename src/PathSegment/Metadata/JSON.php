@@ -18,7 +18,7 @@ use stdClass;
 
 /**
  * JSON
- * @link http://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html
+ * @link https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html
  * @package Flat3\Lodata\PathSegment\Metadata
  */
 class JSON extends Metadata implements JsonInterface

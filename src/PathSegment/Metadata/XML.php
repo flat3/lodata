@@ -24,7 +24,7 @@ use SimpleXMLElement;
 
 /**
  * XML
- * @link http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html
  * @package Flat3\Lodata\PathSegment\Metadata
  */
 class XML extends Metadata implements StreamInterface
@@ -46,20 +46,20 @@ class XML extends Metadata implements StreamInterface
         $dataServices = $root->addChild('DataServices');
         $namespace = Lodata::getNamespace();
 
-        // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Schema
+        // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Schema
         $schema = $dataServices->addChild('Schema', null, 'http://docs.oasis-open.org/odata/ns/edm');
         $schema->addAttribute('Namespace', $namespace);
 
-        // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityContainer
+        // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityContainer
         $entityContainer = $schema->addChild('EntityContainer');
         $entityContainer->addAttribute('Name', 'DefaultContainer');
 
-        // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
+        // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
         foreach (Lodata::getEntityTypes() as $entityType) {
             $entityTypeElement = $schema->addChild('EntityType');
             $entityTypeElement->addAttribute('Name', $entityType->getResolvedName($namespace));
 
-            // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
+            // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
             $keyField = $entityType->getKey();
 
             if ($keyField) {
@@ -68,15 +68,15 @@ class XML extends Metadata implements StreamInterface
                 $entityTypeKeyPropertyRef->addAttribute('Name', $keyField->getName());
             }
 
-            // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
+            // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
             foreach ($entityType->getDeclaredProperties() as $property) {
                 $entityTypeProperty = $entityTypeElement->addChild('Property');
                 $entityTypeProperty->addAttribute('Name', $property->getName());
 
-                // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
+                // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
                 $entityTypeProperty->addAttribute('Type', $property->getType()->getIdentifier());
 
-                // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
+                // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
                     'Nullable',
                     Boolean::factory($property->isNullable())->toUrl()
@@ -87,7 +87,7 @@ class XML extends Metadata implements StreamInterface
                 }
             }
 
-            // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365
+            // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365
             /** @var NavigationProperty $navigationProperty */
             foreach ($entityType->getNavigationProperties() as $navigationProperty) {
                 /** @var EntityType $targetEntityType */
@@ -155,7 +155,7 @@ class XML extends Metadata implements StreamInterface
                     break;
 
                 case $resource instanceof EntitySet:
-                    // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
+                    // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
                     $resourceElement = $entityContainer->addChild('EntitySet');
                     $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
                     $resourceElement->addAttribute(
@@ -163,7 +163,7 @@ class XML extends Metadata implements StreamInterface
                         $resource->getType()->getIdentifier()
                     );
 
-                    // http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
+                    // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
                     /** @var NavigationBinding $binding */
                     foreach ($resource->getNavigationBindings() as $binding) {
                         $navigationPropertyBindingElement = $resourceElement->addChild('NavigationPropertyBinding');

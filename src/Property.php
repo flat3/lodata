@@ -15,6 +15,8 @@ use Flat3\Lodata\Traits\HasName;
  */
 abstract class Property implements NameInterface, TypeInterface, AnnotationInterface
 {
+    const identifier = 'Edm.PropertyPath';
+
     use HasAnnotations;
     use HasName;
 
@@ -55,6 +57,7 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     public function setNullable(bool $nullable): self
     {
         $this->nullable = $nullable;
+        $this->type->setNullable($nullable);
 
         return $this;
     }

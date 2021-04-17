@@ -3,6 +3,7 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -17,6 +18,8 @@ use Flat3\Lodata\Traits\HasIdentifier;
  */
 class ComplexType extends Type implements ResourceInterface, ContextInterface, IdentifierInterface
 {
+    const identifier = 'Edm.ComplexType';
+
     use HasIdentifier;
 
     /**
@@ -193,5 +196,15 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     public function instance($value = null)
     {
         return new ObjectArray();
+    }
+
+    public function toOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::OAPI_OBJECT,
+            'properties' => $this->getDeclaredProperties()->map(function (DeclaredProperty $property) {
+                return $property->getType()->toOpenAPISchema();
+            })
+        ];
     }
 }

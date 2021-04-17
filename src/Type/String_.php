@@ -16,6 +16,10 @@ class String_ extends Primitive
 {
     const identifier = 'Edm.String';
 
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+    ];
+
     /** @var ?string $value */
     protected $value;
 

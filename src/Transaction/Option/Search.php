@@ -6,7 +6,7 @@ use Flat3\Lodata\Transaction\Option;
 
 /**
  * Search
- * @link http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionsearch
+ * @link https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_SystemQueryOptionsearch
  * @package Flat3\Lodata\Transaction\Option
  */
 class Search extends Option

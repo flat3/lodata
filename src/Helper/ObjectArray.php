@@ -266,6 +266,16 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     }
 
     /**
+     * Map over the objects in the array
+     * @param  callable  $callback
+     * @return mixed
+     */
+    public function map(callable $callback)
+    {
+        return array_map($callback, $this->array);
+    }
+
+    /**
      * Sort the objects in the array
      * @param  callable  $callback
      * @return $this

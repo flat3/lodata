@@ -15,6 +15,12 @@ class Duration extends Primitive
 {
     const identifier = 'Edm.Duration';
 
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+        'format' => 'duration',
+        'pattern' => '^'.Lexer::DURATION.'$',
+    ];
+
     /** @var ?double $value */
     protected $value;
 
@@ -58,7 +64,7 @@ class Duration extends Primitive
 
     public static function durationToNumber(string $duration): ?float
     {
-        $matches = Lexer::patternMatch(Lexer::ISO8601_DURATION, $duration);
+        $matches = Lexer::patternMatch(Lexer::DURATION, $duration);
 
         if (!$matches) {
             return null;

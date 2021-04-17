@@ -3,6 +3,8 @@
 namespace Flat3\Lodata\Type;
 
 use DateTime;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\Constants;
 
 /**
  * Date
@@ -12,6 +14,13 @@ use DateTime;
 class Date extends DateTimeOffset
 {
     const identifier = 'Edm.Date';
+
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+        'format' => 'date',
+        'pattern' => '^'.Lexer::DATE.'$',
+    ];
+
     public const DATE_FORMAT = 'Y-m-d';
 
     protected function repack(DateTime $dt)

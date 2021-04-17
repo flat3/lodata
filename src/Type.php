@@ -114,4 +114,6 @@ abstract class Type
      * @return Primitive OData primitive
      */
     abstract public function instance($value = null);
+
+    abstract public function toOpenAPISchema(): array;
 }

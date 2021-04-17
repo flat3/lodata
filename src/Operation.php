@@ -170,7 +170,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /**
      * Get the reflected arguments of the invocation of this operation
-     * @return ObjectArray Arguments
+     * @return Argument[]|ObjectArray Arguments
      */
     public function getArguments(): ObjectArray
     {

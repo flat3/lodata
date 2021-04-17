@@ -338,7 +338,7 @@ class FilterTest extends TestCase
 
     public function test_40()
     {
-        $this->assertResult('title eq 2000-01-01T12:34:59Z+00:00');
+        $this->assertResult('title eq 2000-01-01T12:34:59Z');
     }
 
     public function test_41()
@@ -429,6 +429,16 @@ class FilterTest extends TestCase
     public function test_52()
     {
         $this->assertResult("startswith(title,'a')");
+    }
+
+    public function test_53()
+    {
+        $this->assertResult('title eq 2000-01-01T12:34:59+01:00');
+    }
+
+    public function test_54()
+    {
+        $this->assertResult('title eq 2000-01-01T12:34:59-01:00');
     }
 
     public function assertLoopbackSet($input)

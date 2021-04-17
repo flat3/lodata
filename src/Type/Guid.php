@@ -15,6 +15,12 @@ class Guid extends Primitive
 {
     const identifier = 'Edm.Guid';
 
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+        'format' => 'uuid',
+        'pattern' => '^'.Lexer::GUID.'$',
+    ];
+
     /** @var ?string $value */
     protected $value;
 

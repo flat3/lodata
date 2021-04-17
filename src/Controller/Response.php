@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class Response extends StreamedResponse
 {
+    const HTTP_OK_ANY = '2XX';
+    const HTTP_ERROR_ANY = '4XX';
+
     /**
      * The resource responding to this request
      * @var ResourceInterface $resource

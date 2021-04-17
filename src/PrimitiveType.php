@@ -12,6 +12,8 @@ use RuntimeException;
  */
 class PrimitiveType extends Type implements IdentifierInterface
 {
+    const identifier = 'Edm.PrimitiveType';
+
     /**
      * The factory class name to generate primitives of this type
      * @var string $factory Factory class
@@ -119,5 +121,16 @@ class PrimitiveType extends Type implements IdentifierInterface
     public function getResolvedName(string $namespace): string
     {
         return $this->instance()->getResolvedName($namespace);
+    }
+
+    /**
+     * Render this type as an OpenAPI schema
+     * @return array
+     */
+    public function toOpenAPISchema(): array
+    {
+        return array_merge($this->factory::openApiSchema, [
+            'nullable' => $this->nullable,
+        ]);
     }
 }

@@ -19,6 +19,11 @@ class Stream extends Primitive
 {
     const identifier = 'Edm.Stream';
 
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+        'format' => 'base64url',
+    ];
+
     /** @var ?string $value */
     protected $value;
 

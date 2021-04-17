@@ -14,6 +14,10 @@ class Boolean extends Primitive
 {
     const identifier = 'Edm.Boolean';
 
+    const openApiSchema = [
+        'type' => Constants::OAPI_BOOLEAN,
+    ];
+
     /** @var ?bool $value */
     protected $value;
 

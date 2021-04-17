@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
@@ -13,6 +14,12 @@ use Flat3\Lodata\Primitive;
 class Binary extends Primitive
 {
     const identifier = 'Edm.Binary';
+
+    const openApiSchema = [
+        'type' => Constants::OAPI_STRING,
+        'format' => 'base64url',
+        'pattern' => '^'.Lexer::BASE64.'$',
+    ];
 
     /** @var ?string $value */
     protected $value;

@@ -28,21 +28,18 @@ use Flat3\Lodata\Type\TimeOfDay;
  */
 class Lexer
 {
-    public const OPEN_PAREN = "(?:\(|%28)";
-    public const PATH_SEPARATOR = '/';
+    public const BASE64 = '([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?';
     public const IDENTIFIER = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
     public const QUALIFIED_IDENTIFIER = '(?:'.self::IDENTIFIER.'\.?)*'.self::IDENTIFIER;
-    public const ISO8601_DURATION = 'P(?:(?:(?P<d>[0-9]+)D)?)?(?:T(?:(?P<h>[0-9]+)H)?(?:(?P<m>[0-9]+)M)?(?:(?P<s>[0-9\.]+)S)?)?';
-    public const DATETIMEOFFSET = self::DATE.'T'.self::TIMEOFDAY.'(Z[-+]'.self::HOUR.':'.self::MINUTE.')?';
-    public const HOUR = '([0-1][0-9]|2[0-3])';
-    public const MINUTE = '([0-5][0-9])';
-    public const TIMEOFDAY = self::HOUR.':'.self::MINUTE.'(:[0-5][0-9](\.[0-9]{1,12})?)?';
-    public const DATE = '([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][--9]|3[0-1])';
-    public const GUID = '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}';
-    public const CLOSE_PAREN = "(?:\)|%29)";
-    public const DIGIT = '\d';
-    public const BASE64 = '(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?';
     public const PARAMETER_ALIAS = '\@'.self::IDENTIFIER;
+    public const DURATION = '-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?';
+    public const DATE_TIME_OFFSET = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])';
+    public const BINARY = '([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?';
+    public const DATE = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])';
+    public const GUID = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
+    public const TIME_OF_DAY = '([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?';
+    public const DIGIT = '\d';
+    public const PATH_SEPARATOR = '/';
 
     /**
      * The text passed to the Lexer
@@ -535,7 +532,7 @@ class Lexer
      */
     public function datetimeoffset()
     {
-        return $this->expression(self::DATETIMEOFFSET);
+        return $this->expression(self::DATE_TIME_OFFSET);
     }
 
     /**
@@ -555,7 +552,7 @@ class Lexer
      */
     public function timeOfDay()
     {
-        return $this->expression(self::TIMEOFDAY);
+        return $this->expression(self::TIME_OF_DAY);
     }
 
     /**
@@ -565,7 +562,7 @@ class Lexer
      */
     public function duration()
     {
-        return $this->expression(self::ISO8601_DURATION);
+        return $this->expression(self::DURATION);
     }
 
     /**
