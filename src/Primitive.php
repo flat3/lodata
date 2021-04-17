@@ -102,6 +102,15 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
+     * Return a value suitable for ETag checking
+     * @return string|null
+     */
+    public function toEtag(): ?string
+    {
+        return $this->toJsonIeee754();
+    }
+
+    /**
      * Get the value in a format suitable for JSON encoding
      * @return mixed
      */

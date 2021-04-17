@@ -573,7 +573,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             $property = $propertyValue->getProperty();
 
             if ($property instanceof DeclaredProperty) {
-                $input[$property->getName()] = $propertyValue->getPrimitiveValue()->toJsonIeee754();
+                $input[$property->getName()] = $propertyValue->getPrimitiveValue()->toEtag();
             }
         }
 
