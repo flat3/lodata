@@ -437,14 +437,14 @@ DESC, [
             $queryObject = new stdClass();
             $pathItemObject->{$operation instanceof FunctionInterface ? 'get' : 'post'} = $queryObject;
 
-            $summary = $resource->getAnnotations()->sliceByClass(Description::class)->first();
+            $summary = $operation->getAnnotations()->sliceByClass(Description::class)->first();
 
             if ($summary) {
                 $tag['summary'] = $summary->toJson();
             }
 
             $tags = [];
-            $tags[] = $entitySet->getName();
+            $tags[] = $operation->getName();
 
             if ($boundParameter) {
                 $tags[] = $boundParameter->getName();
@@ -457,6 +457,7 @@ DESC, [
             if ($returnType instanceof EntitySet) {
                 $parameters[] = $this->getExpandParameterObject($returnType);
                 $parameters[] = $this->getSelectParameterObject($returnType);
+                $tags[] = $returnType->getName();
             }
 
             foreach ($operation->getArguments() as $argument) {

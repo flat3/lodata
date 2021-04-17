@@ -14,6 +14,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
@@ -25,6 +26,7 @@ use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
+use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
@@ -39,11 +41,12 @@ use ReflectionNamedType;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530382
  * @package Flat3\Lodata
  */
-abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface
+abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface, AnnotationInterface
 {
     use HasIdentifier;
     use HasTitle;
     use HasTransaction;
+    use HasAnnotations;
 
     /**
      * The name of the binding parameter used in the invocation function
