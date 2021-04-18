@@ -132,28 +132,21 @@
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_BASE64">BASE64</a>
     <span>
-        &nbsp;= &#039;(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?&#039;                    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_CLOSE_PAREN">CLOSE_PAREN</a>
-    <span>
-        &nbsp;= &quot;(?:\)|%29)&quot;                    </span>
+        &nbsp;= &#039;([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?&#039;                    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DATE">DATE</a>
     <span>
-        &nbsp;= &#039;([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][--9]|3[0-1])&#039;                    </span>
+        &nbsp;= &#039;[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])&#039;                    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DATETIMEOFFSET">DATETIMEOFFSET</a>
+    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DATE_TIME_OFFSET">DATE_TIME_OFFSET</a>
     <span>
-        &nbsp;= self::DATE . &#039;T&#039; . self::TIMEOFDAY . &#039;(Z[-+]&#039; . self::HOUR . &#039;:&#039; . self::MINUTE . &#039;)?&#039;                    </span>
+        &nbsp;= &#039;[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])&#039;                    </span>
 </dt>
 <dd></dd>
 
@@ -165,16 +158,16 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_GUID">GUID</a>
+    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DURATION">DURATION</a>
     <span>
-        &nbsp;= &#039;[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}&#039;                    </span>
+        &nbsp;= &#039;-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?&#039;                    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_HOUR">HOUR</a>
+    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_GUID">GUID</a>
     <span>
-        &nbsp;= &#039;([0-1][0-9]|2[0-3])&#039;                    </span>
+        &nbsp;= &#039;[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}&#039;                    </span>
 </dt>
 <dd></dd>
 
@@ -182,27 +175,6 @@
     <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_IDENTIFIER">IDENTIFIER</a>
     <span>
         &nbsp;= &#039;([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})&#039;                    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_ISO8601_DURATION">ISO8601_DURATION</a>
-    <span>
-        &nbsp;= &#039;P(?:(?:(?P&lt;d&gt;[0-9]+)D)?)?(?:T(?:(?P&lt;h&gt;[0-9]+)H)?(?:(?P&lt;m&gt;[0-9]+)M)?(?:(?P&lt;s&gt;[0-9\.]+)S)?)?&#039;                    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_MINUTE">MINUTE</a>
-    <span>
-        &nbsp;= &#039;([0-5][0-9])&#039;                    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_OPEN_PAREN">OPEN_PAREN</a>
-    <span>
-        &nbsp;= &quot;(?:\(|%28)&quot;                    </span>
 </dt>
 <dd></dd>
 
@@ -228,9 +200,9 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_TIMEOFDAY">TIMEOFDAY</a>
+    <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_TIME_OF_DAY">TIME_OF_DAY</a>
     <span>
-        &nbsp;= self::HOUR . &#039;:&#039; . self::MINUTE . &#039;(:[0-5][0-9](\.[0-9]{1,12})?)?&#039;                    </span>
+        &nbsp;= &#039;([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?&#039;                    </span>
 </dt>
 <dd></dd>
 
@@ -575,7 +547,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 </aside>
 
     
@@ -583,32 +555,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">BASE64</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?&#039;</span>
-</code>
-
-
-    
-    
-
-</article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_CLOSE_PAREN">
-        CLOSE_PAREN
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_CLOSE_PAREN" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">42</span>
-</aside>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">CLOSE_PAREN</span>
-    = <span class="phpdocumentor-signature__default-value">&quot;(?:\)|%29)&quot;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?&#039;</span>
 </code>
 
 
@@ -625,7 +572,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 </aside>
 
     
@@ -633,7 +580,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">DATE</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][--9]|3[0-1])&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])&#039;</span>
 </code>
 
 
@@ -642,9 +589,9 @@
 
 </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_DATETIMEOFFSET">
-        DATETIMEOFFSET
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DATETIMEOFFSET" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_DATE_TIME_OFFSET">
+        DATE_TIME_OFFSET
+        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DATE_TIME_OFFSET" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
@@ -657,8 +604,8 @@
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">DATETIMEOFFSET</span>
-    = <span class="phpdocumentor-signature__default-value">self::DATE . &#039;T&#039; . self::TIMEOFDAY . &#039;(Z[-+]&#039; . self::HOUR . &#039;:&#039; . self::MINUTE . &#039;)?&#039;</span>
+    <span class="phpdocumentor-signature__name">DATE_TIME_OFFSET</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])&#039;</span>
 </code>
 
 
@@ -675,7 +622,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 </aside>
 
     
@@ -692,23 +639,23 @@
 
 </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_GUID">
-        GUID
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_GUID" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_DURATION">
+        DURATION
+        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_DURATION" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 </aside>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">GUID</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}&#039;</span>
+    <span class="phpdocumentor-signature__name">DURATION</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?&#039;</span>
 </code>
 
 
@@ -717,23 +664,23 @@
 
 </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_HOUR">
-        HOUR
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_HOUR" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_GUID">
+        GUID
+        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_GUID" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 </aside>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">HOUR</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;([0-1][0-9]|2[0-3])&#039;</span>
+    <span class="phpdocumentor-signature__name">GUID</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}&#039;</span>
 </code>
 
 
@@ -750,7 +697,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 </aside>
 
     
@@ -767,81 +714,6 @@
 
 </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_ISO8601_DURATION">
-        ISO8601_DURATION
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_ISO8601_DURATION" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">35</span>
-</aside>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">ISO8601_DURATION</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;P(?:(?:(?P&lt;d&gt;[0-9]+)D)?)?(?:T(?:(?P&lt;h&gt;[0-9]+)H)?(?:(?P&lt;m&gt;[0-9]+)M)?(?:(?P&lt;s&gt;[0-9\.]+)S)?)?&#039;</span>
-</code>
-
-
-    
-    
-
-</article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_MINUTE">
-        MINUTE
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_MINUTE" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">38</span>
-</aside>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">MINUTE</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;([0-5][0-9])&#039;</span>
-</code>
-
-
-    
-    
-
-</article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_OPEN_PAREN">
-        OPEN_PAREN
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_OPEN_PAREN" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">31</span>
-</aside>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">OPEN_PAREN</span>
-    = <span class="phpdocumentor-signature__default-value">&quot;(?:\(|%28)&quot;</span>
-</code>
-
-
-    
-    
-
-</article>
-                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_PARAMETER_ALIAS">
         PARAMETER_ALIAS
         <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_PARAMETER_ALIAS" class="headerlink"><i class="fas fa-link"></i></a>
@@ -850,7 +722,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 </aside>
 
     
@@ -875,7 +747,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 </aside>
 
     
@@ -900,7 +772,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 </aside>
 
     
@@ -917,9 +789,9 @@
 
 </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_TIMEOFDAY">
-        TIMEOFDAY
-        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_TIMEOFDAY" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_TIME_OF_DAY">
+        TIME_OF_DAY
+        <a href="classes/Flat3-Lodata-Expression-Lexer.html#constant_TIME_OF_DAY" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
@@ -932,8 +804,8 @@
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">TIMEOFDAY</span>
-    = <span class="phpdocumentor-signature__default-value">self::HOUR . &#039;:&#039; . self::MINUTE . &#039;(:[0-5][0-9](\.[0-9]{1,12})?)?&#039;</span>
+    <span class="phpdocumentor-signature__name">TIME_OF_DAY</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?&#039;</span>
 </code>
 
 
@@ -963,7 +835,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 </aside>
 
     
@@ -1005,7 +877,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a base64 value</p>
@@ -1054,7 +926,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">307</span>
+    <span class="phpdocumentor-element-found-in__line">303</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a boolean</p>
@@ -1103,7 +975,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">496</span>
+    <span class="phpdocumentor-element-found-in__line">492</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match one of the provided chars</p>
@@ -1163,7 +1035,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">546</span>
+    <span class="phpdocumentor-element-found-in__line">542</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a date</p>
@@ -1212,7 +1084,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">536</span>
+    <span class="phpdocumentor-element-found-in__line">532</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a date time offset</p>
@@ -1261,7 +1133,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">566</span>
+    <span class="phpdocumentor-element-found-in__line">562</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a duration</p>
@@ -1310,7 +1182,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">102</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 </aside>
 
         <p class="phpdocumentor-summary">Provide the current state of the lexer to report in errors</p>
@@ -1345,7 +1217,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">276</span>
+    <span class="phpdocumentor-element-found-in__line">272</span>
 </aside>
 
         <p class="phpdocumentor-summary">Parse the provided regular expression</p>
@@ -1415,7 +1287,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">616</span>
+    <span class="phpdocumentor-element-found-in__line">612</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return whether the lexer is at the end of the string</p>
@@ -1449,7 +1321,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">576</span>
+    <span class="phpdocumentor-element-found-in__line">572</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a GUID</p>
@@ -1498,7 +1370,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">762</span>
+    <span class="phpdocumentor-element-found-in__line">758</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match an identifier</p>
@@ -1547,7 +1419,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">318</span>
+    <span class="phpdocumentor-element-found-in__line">314</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a keyword, case insensitively</p>
@@ -1607,7 +1479,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">126</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match one of the provided rules</p>
@@ -1676,7 +1548,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">795</span>
+    <span class="phpdocumentor-element-found-in__line">791</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a string enclosed in matching parentheses</p>
@@ -1725,7 +1597,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">709</span>
+    <span class="phpdocumentor-element-found-in__line">705</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a boolean</p>
@@ -1759,7 +1631,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">429</span>
+    <span class="phpdocumentor-element-found-in__line">425</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match from a character list</p>
@@ -1804,7 +1676,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">468</span>
+    <span class="phpdocumentor-element-found-in__line">464</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a date</p>
@@ -1838,7 +1710,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">455</span>
+    <span class="phpdocumentor-element-found-in__line">451</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a date time offset</p>
@@ -1872,7 +1744,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">647</span>
+    <span class="phpdocumentor-element-found-in__line">643</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a double quoted string</p>
@@ -1906,7 +1778,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">673</span>
+    <span class="phpdocumentor-element-found-in__line">669</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a duration</p>
@@ -1940,7 +1812,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">415</span>
+    <span class="phpdocumentor-element-found-in__line">411</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match an expression</p>
@@ -1985,7 +1857,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">660</span>
+    <span class="phpdocumentor-element-found-in__line">656</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a GUID</p>
@@ -2019,7 +1891,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">735</span>
+    <span class="phpdocumentor-element-found-in__line">731</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match an identifier</p>
@@ -2053,7 +1925,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">401</span>
+    <span class="phpdocumentor-element-found-in__line">397</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a keyword</p>
@@ -2098,7 +1970,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">781</span>
+    <span class="phpdocumentor-element-found-in__line">777</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a string enclosed in matching parentheses</p>
@@ -2132,7 +2004,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">722</span>
+    <span class="phpdocumentor-element-found-in__line">718</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a number</p>
@@ -2166,7 +2038,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">442</span>
+    <span class="phpdocumentor-element-found-in__line">438</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a parameter alias</p>
@@ -2200,7 +2072,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">748</span>
+    <span class="phpdocumentor-element-found-in__line">744</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a qualified identifier</p>
@@ -2234,7 +2106,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">634</span>
+    <span class="phpdocumentor-element-found-in__line">630</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a single quoted string</p>
@@ -2268,7 +2140,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">686</span>
+    <span class="phpdocumentor-element-found-in__line">682</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a string</p>
@@ -2302,7 +2174,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">481</span>
+    <span class="phpdocumentor-element-found-in__line">477</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match a time of day</p>
@@ -2336,7 +2208,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">251</span>
+    <span class="phpdocumentor-element-found-in__line">247</span>
 </aside>
 
         <p class="phpdocumentor-summary">Maybe match whitespace</p>
@@ -2370,7 +2242,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">359</span>
+    <span class="phpdocumentor-element-found-in__line">355</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a float</p>
@@ -2419,7 +2291,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">526</span>
+    <span class="phpdocumentor-element-found-in__line">522</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a parameter alias</p>
@@ -2468,7 +2340,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">80</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 </aside>
 
         <p class="phpdocumentor-summary">Check the provided pattern against the value</p>
@@ -2523,7 +2395,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">87</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match the provided pattern against the value</p>
@@ -2578,7 +2450,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">772</span>
+    <span class="phpdocumentor-element-found-in__line">768</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a qualified identifier</p>
@@ -2627,7 +2499,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">587</span>
+    <span class="phpdocumentor-element-found-in__line">583</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a quoted string</p>
@@ -2687,7 +2559,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">625</span>
+    <span class="phpdocumentor-element-found-in__line">621</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return the remaining text in the buffer</p>
@@ -2721,7 +2593,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">347</span>
+    <span class="phpdocumentor-element-found-in__line">343</span>
 </aside>
 
         <p class="phpdocumentor-summary">Sort the provided array by value length</p>
@@ -2766,7 +2638,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">827</span>
+    <span class="phpdocumentor-element-found-in__line">823</span>
 </aside>
 
         <p class="phpdocumentor-summary">Split a semicolon separated query string</p>
@@ -2815,7 +2687,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">700</span>
+    <span class="phpdocumentor-element-found-in__line">696</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a string</p>
@@ -2864,7 +2736,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">556</span>
+    <span class="phpdocumentor-element-found-in__line">552</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match a time of day</p>
@@ -2913,7 +2785,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">180</span>
+    <span class="phpdocumentor-element-found-in__line">176</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match the provided type and return a primitive of that type</p>
@@ -2975,7 +2847,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Expression/Lexer.php"><a href="files/src-expression-lexer.html"><abbr title="src/Expression/Lexer.php">Lexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">264</span>
+    <span class="phpdocumentor-element-found-in__line">260</span>
 </aside>
 
         <p class="phpdocumentor-summary">Match whitespace</p>

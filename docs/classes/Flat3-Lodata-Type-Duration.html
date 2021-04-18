@@ -124,7 +124,14 @@
     <span>
         &nbsp;= &#039;Edm.Duration&#039;                    </span>
 </dt>
-<dd>The OData type name of this primitive</dd>
+<dd>The OData name of this primitive type</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Flat3-Lodata-Type-Duration.html#constant_openApiSchema">openApiSchema</a>
+    <span>
+        &nbsp;= [&#039;type&#039; =&gt; Flat3LodataHelperConstants::OAPI_STRING, &#039;format&#039; =&gt; &#039;duration&#039;, &#039;pattern&#039; =&gt; &#039;^&#039; . Flat3LodataExpressionLexer::DURATION . &#039;$&#039;]                    </span>
+</dt>
+<dd>The OpenAPI schema definition of this type</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Type-Duration.html#property_value">$value</a>
@@ -267,6 +274,13 @@
 <dd>Set whether this value can be made null</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Primitive.html#method_toEtag">toEtag()</a>
+    <span>
+                        &nbsp;: string|null    </span>
+</dt>
+<dd>Return a value suitable for ETag checking</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Type-Duration.html#method_toJson">toJson()</a>
     <span>
                         &nbsp;: mixed    </span>
@@ -316,13 +330,40 @@
     <span class="phpdocumentor-element-found-in__line">16</span>
 </aside>
 
-        <p class="phpdocumentor-summary">The OData type name of this primitive</p>
+        <p class="phpdocumentor-summary">The OData name of this primitive type</p>
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">identifier</span>
     = <span class="phpdocumentor-signature__default-value">&#039;Edm.Duration&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_openApiSchema">
+        openApiSchema
+        <a href="classes/Flat3-Lodata-Type-Duration.html#constant_openApiSchema" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">18</span>
+</aside>
+
+        <p class="phpdocumentor-summary">The OpenAPI schema definition of this type</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+    <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">openApiSchema</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;type&#039; =&gt; Flat3LodataHelperConstants::OAPI_STRING, &#039;format&#039; =&gt; &#039;duration&#039;, &#039;pattern&#039; =&gt; &#039;^&#039; . Flat3LodataExpressionLexer::DURATION . &#039;$&#039;]</span>
 </code>
 
 
@@ -355,7 +396,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 </aside>
 
     
@@ -390,7 +431,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 </aside>
 
     
@@ -439,7 +480,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 </aside>
 
     
@@ -481,7 +522,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">209</span>
+    <span class="phpdocumentor-element-found-in__line">223</span>
 </aside>
 
         <p class="phpdocumentor-summary">Emit this item as valid JSON to the client response</p>
@@ -527,7 +568,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new primitive of this type</p>
@@ -649,7 +690,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the internal representation of the value</p>
@@ -683,7 +724,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">204</span>
+    <span class="phpdocumentor-element-found-in__line">218</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the context URL of this primitive type</p>
@@ -730,7 +771,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">208</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the fully qualified identifier of this primitive type</p>
@@ -765,7 +806,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">166</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the name of this primitive type</p>
@@ -800,7 +841,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">175</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the namespace of this primitive type</p>
@@ -835,7 +876,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">171</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resolved name of this primitive type</p>
@@ -882,7 +923,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">185</span>
+    <span class="phpdocumentor-element-found-in__line">199</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resource URL of this primitive type</p>
@@ -929,7 +970,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get whether this value can be made null</p>
@@ -963,7 +1004,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">124</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return null or an &quot;empty&quot; value if this type cannot be made null</p>
@@ -1010,7 +1051,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 </aside>
 
     
@@ -1052,7 +1093,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">256</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -1126,7 +1167,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">215</span>
+    <span class="phpdocumentor-element-found-in__line">229</span>
 </aside>
 
     
@@ -1175,7 +1216,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the value of this primitive</p>
@@ -1221,7 +1262,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">133</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set whether this value can be made null</p>
@@ -1259,6 +1300,40 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_toEtag">
+        toEtag()
+        <a href="classes/Flat3-Lodata-Primitive.html#method_toEtag" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">108</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Return a value suitable for ETag checking</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">toEtag</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_toJson">
         toJson()
         <a href="classes/Flat3-Lodata-Type-Duration.html#method_toJson" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1266,7 +1341,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the value in a format suitable for JSON encoding</p>
@@ -1300,7 +1375,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">97</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the value in a format suitable for JSON encoding in IEEE754 mode</p>
@@ -1334,7 +1409,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the value in a format suitable for an OData URL</p>
@@ -1368,7 +1443,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Duration.php"><a href="files/src-type-duration.html"><abbr title="src/Type/Duration.php">Duration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">84</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the &quot;empty&quot; representation of this type if it cannot be made null</p>

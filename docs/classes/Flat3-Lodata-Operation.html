@@ -91,14 +91,14 @@
     
             <span class="phpdocumentor-element__implements">
             implements
-                            <a href="classes/Flat3-Lodata-Interfaces-ServiceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ServiceInterface">ServiceInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-ResourceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResourceInterface">ResourceInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>                    </span>
+                            <a href="classes/Flat3-Lodata-Interfaces-ServiceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ServiceInterface">ServiceInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-ResourceInterface.html"><abbr title="\Flat3\Lodata\Interfaces\ResourceInterface">ResourceInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-IdentifierInterface.html"><abbr title="\Flat3\Lodata\Interfaces\IdentifierInterface">IdentifierInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>,                             <a href="classes/Flat3-Lodata-Interfaces-AnnotationInterface.html"><abbr title="\Flat3\Lodata\Interfaces\AnnotationInterface">AnnotationInterface</abbr></a>                    </span>
     
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 </aside>
 
             <p class="phpdocumentor-summary">Operation</p>
@@ -137,6 +137,8 @@
         <dd>Identifier Interface</dd>
             <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a></dt>
         <dd>Pipe Interface</dd>
+            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Flat3-Lodata-Interfaces-AnnotationInterface.html"><abbr title="\Flat3\Lodata\Interfaces\AnnotationInterface">AnnotationInterface</abbr></a></dt>
+        <dd>Annotation Interface</dd>
     
     
     </dl>
@@ -158,7 +160,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Operation.html#method_getArguments">getArguments()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
+                        &nbsp;: array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>    </span>
 </dt>
 <dd>Get the reflected arguments of the invocation of this operation</dd>
 
@@ -168,6 +170,21 @@
                         &nbsp;: string|null    </span>
 </dt>
 <dd>Get the method parameter name of the binding parameter used on the invocation method</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Operation.html#method_getBoundParameter">getBoundParameter()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null    </span>
+</dt>
+<dd>Retrieve the bound parameter attached to this operation</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Operation.html#method_getExternalArguments">getExternalArguments()</a>
+    <span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>|array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;    </span>
+</dt>
+<dd>Extract operation arguments for metadata
+Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Operation.html#method_getKind">getKind()</a>
@@ -279,7 +296,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">79</span>
 </aside>
 
     
@@ -321,14 +338,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">175</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the reflected arguments of the invocation of this operation</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getArguments</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">getArguments</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -336,7 +353,7 @@
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;|<a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"><p>Arguments</p>
 </section>
@@ -356,7 +373,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">216</span>
+    <span class="phpdocumentor-element-found-in__line">219</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the method parameter name of the binding parameter used on the invocation method</p>
@@ -384,6 +401,75 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getBoundParameter">
+        getBoundParameter()
+        <a href="classes/Flat3-Lodata-Operation.html#method_getBoundParameter" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">487</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Retrieve the bound parameter attached to this operation</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getBoundParameter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Interfaces-PipeInterface.html"><abbr title="\Flat3\Lodata\Interfaces\PipeInterface">PipeInterface</abbr></a>|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getExternalArguments">
+        getExternalArguments()
+        <a href="classes/Flat3-Lodata-Operation.html#method_getExternalArguments" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">497</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Extract operation arguments for metadata
+Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getExternalArguments</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>|array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Helper-ObjectArray.html"><abbr title="\Flat3\Lodata\Helper\ObjectArray">ObjectArray</abbr></a>|array&lt;string|int, <a href="classes/Flat3-Lodata-Operation-Argument.html"><abbr title="\Flat3\Lodata\Operation\Argument">Argument</abbr></a>&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getKind">
         getKind()
         <a href="classes/Flat3-Lodata-Operation.html#method_getKind" class="headerlink"><i class="fas fa-link"></i></a>
@@ -391,7 +477,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">253</span>
+    <span class="phpdocumentor-element-found-in__line">256</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the OData kind of this operation</p>
@@ -426,7 +512,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">114</span>
+    <span class="phpdocumentor-element-found-in__line">117</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the OData return type of this operation, based on reflection of the invocation method</p>
@@ -461,7 +547,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">464</span>
+    <span class="phpdocumentor-element-found-in__line">467</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resource URL of this operation instance</p>
@@ -508,7 +594,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">100</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the OData return type of this operation</p>
@@ -543,7 +629,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">270</span>
+    <span class="phpdocumentor-element-found-in__line">273</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the arguments being provided by the transaction attached to this operation instance</p>
@@ -578,7 +664,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether the result of this operation can be null</p>
@@ -612,7 +698,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">290</span>
+    <span class="phpdocumentor-element-found-in__line">293</span>
 </aside>
 
         <p class="phpdocumentor-summary">Path component handler</p>
@@ -686,7 +772,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">141</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether the result of this operation is a collection</p>
@@ -720,7 +806,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">197</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the name of the invocation method parameter used to receive the binding parameter</p>
@@ -766,7 +852,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">226</span>
+    <span class="phpdocumentor-element-found-in__line">229</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the bound parameter on an instance of this operation</p>
@@ -812,7 +898,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">243</span>
+    <span class="phpdocumentor-element-found-in__line">246</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the URL inline parameters on an instance of this operation</p>
@@ -858,7 +944,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Operation.php"><a href="files/src-operation.html"><abbr title="src/Operation.php">Operation.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">474</span>
+    <span class="phpdocumentor-element-found-in__line">477</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set the OData type that will be returned by this operation</p>

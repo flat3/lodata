@@ -1,6 +1,51 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\BatchSupportType",
+            "name": "BatchSupportType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\BatchSupportType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\BatchSupportType\u003A\u003ASupported",
+            "name": "Supported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html#constant_Supported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\BatchSupportType\u003A\u003AReferencesInRequestBodiesSupported",
+            "name": "ReferencesInRequestBodiesSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html#constant_ReferencesInRequestBodiesSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\BatchSupportType\u003A\u003AEtagReferencesSupported",
+            "name": "EtagReferencesSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html#constant_EtagReferencesSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\BatchSupportType\u003A\u003ASupportedFormats",
+            "name": "SupportedFormats",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html#constant_SupportedFormats"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CountRestrictionsType",
+            "name": "CountRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CountRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CountRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CountRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CountRestrictionsType\u003A\u003ACountable",
+            "name": "Countable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CountRestrictionsType.html#constant_Countable"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeepInsertSupportType",
             "name": "DeepInsertSupportType",
             "summary": "Complex\u0020Type",
@@ -21,6 +66,146 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeepInsertSupportType.html#constant_ContentIDSupported"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeleteRestrictionsType",
+            "name": "DeleteRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeleteRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeleteRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeleteRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\DeleteRestrictionsType\u003A\u003ADeletable",
+            "name": "Deletable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-DeleteRestrictionsType.html#constant_Deletable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\ExpandRestrictionsType",
+            "name": "ExpandRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-ExpandRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\ExpandRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-ExpandRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\ExpandRestrictionsType\u003A\u003AExpandable",
+            "name": "Expandable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-ExpandRestrictionsType.html#constant_Expandable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\FilterRestrictionsType",
+            "name": "FilterRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-FilterRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\FilterRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-FilterRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\FilterRestrictionsType\u003A\u003AFilterable",
+            "name": "Filterable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-FilterRestrictionsType.html#constant_Filterable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\InsertRestrictionsType",
+            "name": "InsertRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-InsertRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\InsertRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-InsertRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\InsertRestrictionsType\u003A\u003AInsertable",
+            "name": "Insertable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-InsertRestrictionsType.html#constant_Insertable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\ReadRestrictionsType",
+            "name": "ReadRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-ReadRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\ReadRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-ReadRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\ReadRestrictionsType\u003A\u003AReadable",
+            "name": "Readable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-ReadRestrictionsType.html#constant_Readable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SearchRestrictionsType",
+            "name": "SearchRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SearchRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SearchRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SearchRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SearchRestrictionsType\u003A\u003ASearchable",
+            "name": "Searchable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SearchRestrictionsType.html#constant_Searchable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SelectSupportType",
+            "name": "SelectSupportType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SelectSupportType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SelectSupportType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SelectSupportType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SelectSupportType\u003A\u003ASupported",
+            "name": "Supported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SelectSupportType.html#constant_Supported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SortRestrictionsType",
+            "name": "SortRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SortRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SortRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SortRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\SortRestrictionsType\u003A\u003ASortable",
+            "name": "Sortable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-SortRestrictionsType.html#constant_Sortable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\UpdateRestrictionsType",
+            "name": "UpdateRestrictionsType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-UpdateRestrictionsType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\UpdateRestrictionsType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-UpdateRestrictionsType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\UpdateRestrictionsType\u003A\u003AUpdatable",
+            "name": "Updatable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-UpdateRestrictionsType.html#constant_Updatable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\UpdateRestrictionsType\u003A\u003ADeltaUpdateSupported",
+            "name": "DeltaUpdateSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-UpdateRestrictionsType.html#constant_DeltaUpdateSupported"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\AsynchronousRequestsSupported",
             "name": "AsynchronousRequestsSupported",
             "summary": "Asynchronous\u0020Requests\u0020Supported",
@@ -35,6 +220,36 @@ Search.appendIndex(
             "name": "name",
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-AsynchronousRequestsSupported.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\BatchSupport",
+            "name": "BatchSupport",
+            "summary": "Batch\u0020support",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-BatchSupport.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\BatchSupport\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-BatchSupport.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\BatchSupport\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-BatchSupport.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\BatchSupported",
+            "name": "BatchSupported",
+            "summary": "Batch\u0020Supported",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-BatchSupported.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\BatchSupported\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-BatchSupported.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\BatchSupported\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-BatchSupported.html#property_name"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CallbackSupported",
             "name": "CallbackSupported",
@@ -66,6 +281,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ConformanceLevel.html#property_name"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CountRestrictions",
+            "name": "CountRestrictions",
+            "summary": "Count\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-CountRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CountRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-CountRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CountRestrictions\u003A\u003AsetCountable\u0028\u0029",
+            "name": "setCountable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-CountRestrictions.html#method_setCountable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\CountRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-CountRestrictions.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeepInsertSupport",
             "name": "DeepInsertSupport",
             "summary": "Deep\u0020insert\u0020support",
@@ -91,6 +326,101 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeepInsertSupport.html#property_name"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeleteRestrictions",
+            "name": "DeleteRestrictions",
+            "summary": "Delete\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeleteRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeleteRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeleteRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeleteRestrictions\u003A\u003AsetDeletable\u0028\u0029",
+            "name": "setDeletable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeleteRestrictions.html#method_setDeletable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\DeleteRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-DeleteRestrictions.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ExpandRestrictions",
+            "name": "ExpandRestrictions",
+            "summary": "Expand\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ExpandRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ExpandRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ExpandRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ExpandRestrictions\u003A\u003AsetExpandable\u0028\u0029",
+            "name": "setExpandable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ExpandRestrictions.html#method_setExpandable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ExpandRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ExpandRestrictions.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\FilterRestrictions",
+            "name": "FilterRestrictions",
+            "summary": "Filter\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-FilterRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\FilterRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-FilterRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\FilterRestrictions\u003A\u003AsetFilterable\u0028\u0029",
+            "name": "setFilterable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-FilterRestrictions.html#method_setFilterable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\FilterRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-FilterRestrictions.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\IndexableByKey",
+            "name": "IndexableByKey",
+            "summary": "IndexableByKey\u0020Supported",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-IndexableByKey.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\IndexableByKey\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-IndexableByKey.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\IndexableByKey\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-IndexableByKey.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\InsertRestrictions",
+            "name": "InsertRestrictions",
+            "summary": "Insert\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-InsertRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\InsertRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-InsertRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\InsertRestrictions\u003A\u003AsetInsertable\u0028\u0029",
+            "name": "setInsertable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-InsertRestrictions.html#method_setInsertable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\InsertRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-InsertRestrictions.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\KeyAsSegmentSupported",
             "name": "KeyAsSegmentSupported",
             "summary": "Key\u002Das\u002Dsegment\u0020support",
@@ -105,6 +435,41 @@ Search.appendIndex(
             "name": "name",
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-KeyAsSegmentSupported.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\QuerySegmentSupported",
+            "name": "QuerySegmentSupported",
+            "summary": "Query\u0020segment\u0020support",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-QuerySegmentSupported.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\QuerySegmentSupported\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-QuerySegmentSupported.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\QuerySegmentSupported\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-QuerySegmentSupported.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ReadRestrictions",
+            "name": "ReadRestrictions",
+            "summary": "Read\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ReadRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ReadRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ReadRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ReadRestrictions\u003A\u003AsetReadable\u0028\u0029",
+            "name": "setReadable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ReadRestrictions.html#method_setReadable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\ReadRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-ReadRestrictions.html#property_name"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\Reference",
             "name": "Reference",
@@ -121,6 +486,86 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-Reference.html#property_namespace"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SearchRestrictions",
+            "name": "SearchRestrictions",
+            "summary": "Search\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SearchRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SearchRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SearchRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SearchRestrictions\u003A\u003AsetSearchable\u0028\u0029",
+            "name": "setSearchable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SearchRestrictions.html#method_setSearchable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SearchRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SearchRestrictions.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SelectSupport",
+            "name": "SelectSupport",
+            "summary": "SelectSupport",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SelectSupport.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SelectSupport\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SelectSupport.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SelectSupport\u003A\u003AsetSupported\u0028\u0029",
+            "name": "setSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SelectSupport.html#method_setSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SelectSupport\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SelectSupport.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SkipSupported",
+            "name": "SkipSupported",
+            "summary": "Skip\u0020Supported",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SkipSupported.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SkipSupported\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SkipSupported.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SkipSupported\u003A\u003AsetSupported\u0028\u0029",
+            "name": "setSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SkipSupported.html#method_setSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SkipSupported\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SkipSupported.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SortRestrictions",
+            "name": "SortRestrictions",
+            "summary": "Sort\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SortRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SortRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SortRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SortRestrictions\u003A\u003AsetSortable\u0028\u0029",
+            "name": "setSortable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SortRestrictions.html#method_setSortable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SortRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SortRestrictions.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SupportedFormats",
             "name": "SupportedFormats",
             "summary": "Supported\u0020Formats",
@@ -135,6 +580,66 @@ Search.appendIndex(
             "name": "name",
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedFormats.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SupportedMetadataFormats",
+            "name": "SupportedMetadataFormats",
+            "summary": "Supported\u0020Metadata\u0020Formats",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedMetadataFormats.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SupportedMetadataFormats\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedMetadataFormats.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\SupportedMetadataFormats\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-SupportedMetadataFormats.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\TopSupported",
+            "name": "TopSupported",
+            "summary": "Top\u0020Supported",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-TopSupported.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\TopSupported\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-TopSupported.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\TopSupported\u003A\u003AsetSupported\u0028\u0029",
+            "name": "setSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-TopSupported.html#method_setSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\TopSupported\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-TopSupported.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\UpdateRestrictions",
+            "name": "UpdateRestrictions",
+            "summary": "Update\u0020Restrictions",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-UpdateRestrictions.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\UpdateRestrictions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-UpdateRestrictions.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\UpdateRestrictions\u003A\u003AsetUpdatable\u0028\u0029",
+            "name": "setUpdatable",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-UpdateRestrictions.html#method_setUpdatable"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\UpdateRestrictions\u003A\u003AsetDeltaUpdateSupported\u0028\u0029",
+            "name": "setDeltaUpdateSupported",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-UpdateRestrictions.html#method_setDeltaUpdateSupported"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\V1\\UpdateRestrictions\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-V1-UpdateRestrictions.html#property_name"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Computed",
             "name": "Computed",
@@ -196,6 +701,36 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-DereferencableIDs.html#property_name"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Description",
+            "name": "Description",
+            "summary": "Description",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Description.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Description\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Description.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Description\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Description.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\LongDescription",
+            "name": "LongDescription",
+            "summary": "LongDescription",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-LongDescription.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\LongDescription\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-LongDescription.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\LongDescription\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-LongDescription.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\ODataVersions",
             "name": "ODataVersions",
             "summary": "OData\u0020Versions",
@@ -225,6 +760,21 @@ Search.appendIndex(
             "name": "namespace",
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-Reference.html#property_namespace"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\SchemaVersion",
+            "name": "SchemaVersion",
+            "summary": "SchemaVersion",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-SchemaVersion.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\SchemaVersion\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-SchemaVersion.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\SchemaVersion\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-SchemaVersion.html#property_name"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Record",
             "name": "Record",
@@ -260,6 +810,26 @@ Search.appendIndex(
             "name": "appendXml",
             "summary": "Append\u0020the\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
             "url": "classes/Flat3-Lodata-Annotation.html#method_appendXml"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AgetValue\u0028\u0029",
+            "name": "getValue",
+            "summary": "Get\u0020the\u0020value\u0020of\u0020the\u0020annotation",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_getValue"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AtoJson\u0028\u0029",
+            "name": "toJson",
+            "summary": "Get\u0020the\u0020value\u0020of\u0020this\u0020annotation\u0020suitable\u0020for\u0020JSON",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_toJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AgetModelAnnotation\u0028\u0029",
+            "name": "getModelAnnotation",
+            "summary": "Get\u0020the\u0020model\u0020annotation\u0020represented\u0020by\u0020this\u0020class",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_getModelAnnotation"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation.html#constant_identifier"
         },                {
             "fqsen": "\\Flat3\\Lodata\\ComplexType",
             "name": "ComplexType",
@@ -340,6 +910,16 @@ Search.appendIndex(
             "name": "getResourceUrl",
             "summary": "Get\u0020the\u0020resource\u0020URL\u0020for\u0020this\u0020type",
             "url": "classes/Flat3-Lodata-ComplexType.html#method_getResourceUrl"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\ComplexType\u003A\u003AtoOpenAPISchema\u0028\u0029",
+            "name": "toOpenAPISchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema",
+            "url": "classes/Flat3-Lodata-ComplexType.html#method_toOpenAPISchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\ComplexType\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-ComplexType.html#constant_identifier"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async",
             "name": "Async",
@@ -565,6 +1145,16 @@ Search.appendIndex(
             "name": "getContentType",
             "summary": "Get\u0020the\u0020response\u0020content\u0020type",
             "url": "classes/Flat3-Lodata-Controller-Response.html#method_getContentType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AHTTP_OK_ANY",
+            "name": "HTTP_OK_ANY",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Controller-Response.html#constant_HTTP_OK_ANY"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Response\u003A\u003AHTTP_ERROR_ANY",
+            "name": "HTTP_ERROR_ANY",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Controller-Response.html#constant_HTTP_ERROR_ANY"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Transaction",
             "name": "Transaction",
@@ -1936,6 +2526,11 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-EntityType.html#method_pipe"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\EntityType\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-EntityType.html#constant_identifier"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\EnumerationType",
             "name": "EnumerationType",
             "summary": "Enumeration\u0020Type",
@@ -2721,15 +3316,10 @@ Search.appendIndex(
             "summary": "Split\u0020a\u0020semicolon\u0020separated\u0020query\u0020string",
             "url": "classes/Flat3-Lodata-Expression-Lexer.html#method_splitSemicolonSeparatedQueryString"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AOPEN_PAREN",
-            "name": "OPEN_PAREN",
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ABASE64",
+            "name": "BASE64",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_OPEN_PAREN"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003APATH_SEPARATOR",
-            "name": "PATH_SEPARATOR",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_PATH_SEPARATOR"
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_BASE64"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AIDENTIFIER",
             "name": "IDENTIFIER",
@@ -2741,30 +3331,20 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_QUALIFIED_IDENTIFIER"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AISO8601_DURATION",
-            "name": "ISO8601_DURATION",
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003APARAMETER_ALIAS",
+            "name": "PARAMETER_ALIAS",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_ISO8601_DURATION"
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_PARAMETER_ALIAS"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ADATETIMEOFFSET",
-            "name": "DATETIMEOFFSET",
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ADURATION",
+            "name": "DURATION",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_DATETIMEOFFSET"
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_DURATION"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AHOUR",
-            "name": "HOUR",
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ADATE_TIME_OFFSET",
+            "name": "DATE_TIME_OFFSET",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_HOUR"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003AMINUTE",
-            "name": "MINUTE",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_MINUTE"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ATIMEOFDAY",
-            "name": "TIMEOFDAY",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_TIMEOFDAY"
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_DATE_TIME_OFFSET"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ADATE",
             "name": "DATE",
@@ -2776,25 +3356,20 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_GUID"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ACLOSE_PAREN",
-            "name": "CLOSE_PAREN",
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ATIME_OF_DAY",
+            "name": "TIME_OF_DAY",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_CLOSE_PAREN"
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_TIME_OF_DAY"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ADIGIT",
             "name": "DIGIT",
             "summary": "",
             "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_DIGIT"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003ABASE64",
-            "name": "BASE64",
+            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003APATH_SEPARATOR",
+            "name": "PATH_SEPARATOR",
             "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_BASE64"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\Expression\\Lexer\u003A\u003APARAMETER_ALIAS",
-            "name": "PARAMETER_ALIAS",
-            "summary": "",
-            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_PARAMETER_ALIAS"
+            "url": "classes/Flat3-Lodata-Expression-Lexer.html#constant_PATH_SEPARATOR"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Expression\\Node\\Field",
             "name": "Field",
@@ -4086,6 +4661,51 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_IF_NONE_MATCH"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AOAPI_STRING",
+            "name": "OAPI_STRING",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_OAPI_STRING"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AOAPI_NUMBER",
+            "name": "OAPI_NUMBER",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_OAPI_NUMBER"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AOAPI_BOOLEAN",
+            "name": "OAPI_BOOLEAN",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_OAPI_BOOLEAN"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AOAPI_ARRAY",
+            "name": "OAPI_ARRAY",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_OAPI_ARRAY"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AOAPI_INTEGER",
+            "name": "OAPI_INTEGER",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_OAPI_INTEGER"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AOAPI_OBJECT",
+            "name": "OAPI_OBJECT",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_OAPI_OBJECT"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003AINFINITY",
+            "name": "INFINITY",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_INFINITY"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003ANEG_INFINITY",
+            "name": "NEG_INFINITY",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_NEG_INFINITY"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\Constants\u003A\u003ANOT_A_NUMBER",
+            "name": "NOT_A_NUMBER",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Helper-Constants.html#constant_NOT_A_NUMBER"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\ETag",
             "name": "ETag",
             "summary": "ETag",
@@ -4326,6 +4946,11 @@ Search.appendIndex(
             "summary": "Filter\u0020the\u0020objects\u0020in\u0020the\u0020array",
             "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_filter"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Amap\u0028\u0029",
+            "name": "map",
+            "summary": "Map\u0020over\u0020the\u0020objects\u0020in\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_map"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Asort\u0028\u0029",
             "name": "sort",
             "summary": "Sort\u0020the\u0020objects\u0020in\u0020the\u0020array",
@@ -4345,6 +4970,11 @@ Search.appendIndex(
             "name": "clear",
             "summary": "Clear\u0020the\u0020array",
             "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_clear"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Helper\\ObjectArray\u003A\u003Afirst\u0028\u0029",
+            "name": "first",
+            "summary": "Get\u0020the\u0020first\u0020element\u0020of\u0020the\u0020array",
+            "url": "classes/Flat3-Lodata-Helper-ObjectArray.html#method_first"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Helper\\PropertyValue",
             "name": "PropertyValue",
@@ -5001,6 +5631,11 @@ Search.appendIndex(
             "summary": "Generate\u0020a\u0020property\u0020value\u0020from\u0020this\u0020property",
             "url": "classes/Flat3-Lodata-NavigationProperty.html#method_generatePropertyValue"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\NavigationProperty\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-NavigationProperty.html#constant_identifier"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Operation\\Argument",
             "name": "Argument",
             "summary": "Argument",
@@ -5171,6 +5806,16 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020OData\u0020type\u0020that\u0020will\u0020be\u0020returned\u0020by\u0020this\u0020operation",
             "url": "classes/Flat3-Lodata-Operation.html#method_setReturnType"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Operation\u003A\u003AgetBoundParameter\u0028\u0029",
+            "name": "getBoundParameter",
+            "summary": "Retrieve\u0020the\u0020bound\u0020parameter\u0020attached\u0020to\u0020this\u0020operation",
+            "url": "classes/Flat3-Lodata-Operation.html#method_getBoundParameter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Operation\u003A\u003AgetExternalArguments\u0028\u0029",
+            "name": "getExternalArguments",
+            "summary": "Extract\u0020operation\u0020arguments\u0020for\u0020metadata\nEnsure\u0020the\u0020binding\u0020parameter\u0020is\u0020first,\u0020if\u0020it\u0020exists.\u0020Filter\u0020out\u0020non\u002Dodata\u0020arguments.",
+            "url": "classes/Flat3-Lodata-Operation.html#method_getExternalArguments"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Batch\\JSON",
             "name": "JSON",
             "summary": "JSON",
@@ -5311,10 +5956,75 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_pipe"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\PathSegment\\Metadata\u003A\u003AgetOperationArguments\u0028\u0029",
-            "name": "getOperationArguments",
-            "summary": "Extract\u0020operation\u0020arguments\u0020for\u0020metadata\nEnsure\u0020the\u0020binding\u0020parameter\u0020is\u0020first,\u0020if\u0020it\u0020exists.\u0020Filter\u0020out\u0020non\u002Dodata\u0020arguments.",
-            "url": "classes/Flat3-Lodata-PathSegment-Metadata.html#method_getOperationArguments"
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI",
+            "name": "OpenAPI",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003Apipe\u0028\u0029",
+            "name": "pipe",
+            "summary": "Path\u0020component\u0020handler",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_pipe"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003Aresponse\u0028\u0029",
+            "name": "response",
+            "summary": "Generate\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_response"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AemitJson\u0028\u0029",
+            "name": "emitJson",
+            "summary": "Emit\u0020this\u0020item\u0020as\u0020valid\u0020JSON\u0020to\u0020the\u0020client\u0020response",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_emitJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgetExpandParameterObject\u0028\u0029",
+            "name": "getExpandParameterObject",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_getExpandParameterObject"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgetSelectParameterObject\u0028\u0029",
+            "name": "getSelectParameterObject",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_getSelectParameterObject"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgetOrderbyParameterObject\u0028\u0029",
+            "name": "getOrderbyParameterObject",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_getOrderbyParameterObject"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgenerateQueryRoutes\u0028\u0029",
+            "name": "generateQueryRoutes",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_generateQueryRoutes"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgenerateCreateRoutes\u0028\u0029",
+            "name": "generateCreateRoutes",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_generateCreateRoutes"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgenerateReadRoutes\u0028\u0029",
+            "name": "generateReadRoutes",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_generateReadRoutes"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgenerateUpdateRoutes\u0028\u0029",
+            "name": "generateUpdateRoutes",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_generateUpdateRoutes"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgenerateDeleteRoutes\u0028\u0029",
+            "name": "generateDeleteRoutes",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_generateDeleteRoutes"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AgenerateKeyParameter\u0028\u0029",
+            "name": "generateKeyParameter",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#method_generateKeyParameter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PathSegment\\OpenAPI\u003A\u003AOPENAPI_VERSION",
+            "name": "OPENAPI_VERSION",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PathSegment-OpenAPI.html#constant_OPENAPI_VERSION"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PathSegment\\Query",
             "name": "Query",
@@ -5431,6 +6141,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020value\u0020in\u0020a\u0020format\u0020suitable\u0020for\u0020JSON\u0020encoding\u0020in\u0020IEEE754\u0020mode",
             "url": "classes/Flat3-Lodata-Primitive.html#method_toJsonIeee754"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003AtoEtag\u0028\u0029",
+            "name": "toEtag",
+            "summary": "Return\u0020a\u0020value\u0020suitable\u0020for\u0020ETag\u0020checking",
+            "url": "classes/Flat3-Lodata-Primitive.html#method_toEtag"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003AtoJson\u0028\u0029",
             "name": "toJson",
             "summary": "Get\u0020the\u0020value\u0020in\u0020a\u0020format\u0020suitable\u0020for\u0020JSON\u0020encoding",
@@ -5503,8 +6218,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Primitive.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Primitive.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PrimitiveType",
             "name": "PrimitiveType",
@@ -5561,6 +6281,16 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020resolved\u0020name\u0020of\u0020this\u0020primitive\u0020type\u0020based\u0020on\u0020the\u0020provided\u0020namespace",
             "url": "classes/Flat3-Lodata-PrimitiveType.html#method_getResolvedName"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\PrimitiveType\u003A\u003AtoOpenAPISchema\u0028\u0029",
+            "name": "toOpenAPISchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema",
+            "url": "classes/Flat3-Lodata-PrimitiveType.html#method_toOpenAPISchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\PrimitiveType\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-PrimitiveType.html#constant_identifier"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Property",
             "name": "Property",
             "summary": "Property",
@@ -5600,6 +6330,11 @@ Search.appendIndex(
             "name": "setType",
             "summary": "Set\u0020the\u0020type\u0020this\u0020property\u0020is\u0020attached\u0020to",
             "url": "classes/Flat3-Lodata-Property.html#method_setType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Property\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Property.html#constant_identifier"
         },                {
             "fqsen": "\\Flat3\\Lodata\\ReferentialConstraint",
             "name": "ReferentialConstraint",
@@ -5980,6 +6715,26 @@ Search.appendIndex(
             "name": "dropParameter",
             "summary": "Drop\u0020a\u0020parameter",
             "url": "classes/Flat3-Lodata-Transaction-MediaType.html#method_dropParameter"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MediaType\u003A\u003Axml",
+            "name": "xml",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MediaType.html#constant_xml"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MediaType\u003A\u003Ajson",
+            "name": "json",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MediaType.html#constant_json"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MediaType\u003A\u003Atext",
+            "name": "text",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MediaType.html#constant_text"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Transaction\\MediaType\u003A\u003AmultipartMixed",
+            "name": "multipartMixed",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Transaction-MediaType.html#constant_multipartMixed"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Transaction\\MediaType\u003A\u003A\u0024original",
             "name": "original",
@@ -6648,8 +7403,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Binary\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Binary.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Binary\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Binary.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Binary\u003A\u003A\u0024value",
             "name": "value",
@@ -6683,8 +7443,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Boolean\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Boolean.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Boolean\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Boolean.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Boolean\u003A\u003A\u0024value",
             "name": "value",
@@ -6723,8 +7488,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Byte\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Byte.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Byte\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Byte.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Byte\u003A\u003Aformat",
             "name": "format",
@@ -6741,10 +7511,15 @@ Search.appendIndex(
             "summary": "Collection",
             "url": "classes/Flat3-Lodata-Type-Collection.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Type\\Collection\u003A\u003Aset\u0028\u0029",
-            "name": "set",
-            "summary": "Set\u0020the\u0020value\u0020of\u0020this\u0020primitive",
-            "url": "classes/Flat3-Lodata-Type-Collection.html#method_set"
+            "fqsen": "\\Flat3\\Lodata\\Type\\Collection\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-Collection.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Collection\u003A\u003Aadd\u0028\u0029",
+            "name": "add",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-Collection.html#method_add"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Collection\u003A\u003AtoUrl\u0028\u0029",
             "name": "toUrl",
@@ -6776,6 +7551,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Type-Collection.html#method_offsetUnset"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Collection\u003A\u003Aset\u0028\u0029",
+            "name": "set",
+            "summary": "Set\u0020the\u0020value\u0020of\u0020this\u0020primitive",
+            "url": "classes/Flat3-Lodata-Type-Collection.html#method_set"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Collection\u003A\u003A\u0024value",
             "name": "value",
             "summary": "",
@@ -6793,8 +7573,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Date\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Date.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Date\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Date.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Date\u003A\u003ADATE_FORMAT",
             "name": "DATE_FORMAT",
@@ -6833,8 +7618,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\DateTimeOffset\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-DateTimeOffset.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\DateTimeOffset\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-DateTimeOffset.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\DateTimeOffset\u003A\u003ADATE_FORMAT",
             "name": "DATE_FORMAT",
@@ -6878,8 +7668,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Decimal\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Decimal.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Decimal\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Decimal.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Decimal\u003A\u003A\u0024value",
             "name": "value",
@@ -6893,8 +7688,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Double\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Double.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Double\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Double.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Duration",
             "name": "Duration",
@@ -6933,8 +7733,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Duration\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Duration.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Duration\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Duration.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Duration\u003A\u003A\u0024value",
             "name": "value",
@@ -7073,8 +7878,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Guid\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Guid.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Guid\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Guid.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Guid\u003A\u003A\u0024value",
             "name": "value",
@@ -7088,8 +7898,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Int16\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Int16.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Int16\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Int16.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Int16\u003A\u003Aformat",
             "name": "format",
@@ -7103,8 +7918,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Int32\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Int32.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Int32\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Int32.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Int32\u003A\u003Aformat",
             "name": "format",
@@ -7123,8 +7943,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Int64\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Int64.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Int64\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Int64.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\SByte",
             "name": "SByte",
@@ -7133,8 +7958,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\SByte\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-SByte.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\SByte\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-SByte.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\SByte\u003A\u003Aformat",
             "name": "format",
@@ -7148,8 +7978,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Single\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Single.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Single\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Single.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Stream",
             "name": "Stream",
@@ -7208,8 +8043,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-Stream.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-Stream.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Stream\u003A\u003A\u0024value",
             "name": "value",
@@ -7248,8 +8088,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\String_\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-String.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\String_\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-String.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\String_\u003A\u003A\u0024value",
             "name": "value",
@@ -7268,8 +8113,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\TimeOfDay\u003A\u003Aidentifier",
             "name": "identifier",
-            "summary": "The\u0020OData\u0020type\u0020name\u0020of\u0020this\u0020primitive",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
             "url": "classes/Flat3-Lodata-Type-TimeOfDay.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\TimeOfDay\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-TimeOfDay.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\TimeOfDay\u003A\u003ADATE_FORMAT",
             "name": "DATE_FORMAT",
@@ -7290,6 +8140,11 @@ Search.appendIndex(
             "name": "instance",
             "summary": "Generate\u0020a\u0020new\u0020primitive\u0020instance\u0020of\u0020this\u0020type\u0020from\u0020the\u0020provided\u0020value",
             "url": "classes/Flat3-Lodata-Type.html#method_instance"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\u003A\u003AtoOpenAPISchema\u0028\u0029",
+            "name": "toOpenAPISchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema",
+            "url": "classes/Flat3-Lodata-Type.html#method_toOpenAPISchema"
         },                {
             "fqsen": "\\",
             "name": "\\",

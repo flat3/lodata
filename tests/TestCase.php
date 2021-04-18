@@ -268,7 +268,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->assertResponseMetadata($response);
     }
 
-    protected function assertMetadataDocuments() {
+    protected function assertMetadataDocuments()
+    {
         $this->assertXmlResponse(
             Request::factory()
                 ->path('/$metadata')

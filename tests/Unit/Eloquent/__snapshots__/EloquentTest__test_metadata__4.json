@@ -184,7 +184,7 @@
         "/Airports/{id}": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -308,7 +308,7 @@
         "/Airports/{id}/flights": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -470,7 +470,7 @@
         "/Airports/{id}/country": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -766,7 +766,7 @@
         "/Flights/{id}": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -887,7 +887,7 @@
         "/Flights/{id}/passengers": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -1043,7 +1043,7 @@
         "/Flights/{id}/originAirport": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -1216,7 +1216,7 @@
         "/Flights/{id}/destinationAirport": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -1523,7 +1523,7 @@
         "/Countries/{id}": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -1639,7 +1639,7 @@
         "/Countries/{id}/airports": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -1951,7 +1951,7 @@
         "/Passengers/{id}": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -2070,7 +2070,7 @@
         "/Passengers/{id}/flight": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -2232,7 +2232,7 @@
         "/Passengers/{id}/originAirport": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -2405,7 +2405,7 @@
         "/Passengers/{id}/destinationAirport": {
             "parameters": [
                 {
-                    "description": "key: id",
+                    "description": "Key: id",
                     "in": "path",
                     "name": "id",
                     "required": true,
@@ -2720,7 +2720,7 @@
                     "duration": {
                         "type": "string",
                         "format": "duration",
-                        "pattern": "^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$",
+                        "pattern": "^-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?$",
                         "nullable": true
                     }
                 }
@@ -2831,7 +2831,7 @@
             "Edm.Duration": {
                 "type": "string",
                 "format": "duration",
-                "pattern": "^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$"
+                "pattern": "^-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?$"
             },
             "Edm.Guid": {
                 "type": "string",
@@ -2984,6 +2984,14 @@
                 },
                 "in": "query",
                 "description": "Skip the first n items, see [OData Paging - Skip](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionskip)"
+            },
+            "skiptoken": {
+                "name": "skiptoken",
+                "schema": {
+                    "type": "string"
+                },
+                "in": "query",
+                "description": "Skip using a skip token, see [OData Server Driven Paging](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServerDrivenPaging)"
             },
             "count": {
                 "name": "count",
