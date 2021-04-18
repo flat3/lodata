@@ -139,7 +139,7 @@ class JSON extends Metadata implements JsonInterface
                     $resourceElement->{'$Kind'} = $resource->getKind();
                     $resourceElement->{'$IsBound'} = $isBound;
 
-                    $arguments = $this->getOperationArguments($resource);
+                    $arguments = $resource->getExternalArguments();
 
                     if ($arguments) {
                         $argumentsElement = [];

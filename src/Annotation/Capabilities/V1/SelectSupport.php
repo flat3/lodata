@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
-use Flat3\Lodata\Annotation\Capabilities\CountRestrictionsType;
 use Flat3\Lodata\Annotation\Capabilities\SelectSupportType;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;

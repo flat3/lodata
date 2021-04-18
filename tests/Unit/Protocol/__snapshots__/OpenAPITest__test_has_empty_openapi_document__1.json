@@ -1,5 +1,5 @@
 {
-    "openapi": "3.0.1",
+    "openapi": "3.0.3",
     "info": {
         "title": "OData Service for namespace com.example.odata",
         "version": "1.0.0",
@@ -11,7 +11,49 @@
         }
     ],
     "tags": [],
-    "paths": {},
+    "paths": {
+        "/$batch": {
+            "post": {
+                "summary": "Send a group of requests",
+                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "tags": [
+                    "Batch Requests"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Batch Request",
+                    "content": {
+                        "multipart/mixed;boundary=request-separator": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Batch response",
+                        "content": {
+                            "multipart/mixed": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "--response-separator\\nContent-Type: application/http\\n\\nHTTP/1.1 200 OK\\nContent-Type: application/json\\n\\n{...}\\n--response-separator--"
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        }
+    },
     "components": {
         "schemas": {
             "Edm.ComplexType": {
@@ -157,52 +199,6 @@
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
             },
-            "odata.error": {
-                "type": "object",
-                "properties": {
-                    "error": {
-                        "$ref": "#/components/schemas/odata.error.main"
-                    }
-                }
-            },
-            "odata.error.main": {
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "target": {
-                        "type": "string"
-                    },
-                    "details": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/odata.error.detail"
-                        }
-                    },
-                    "innererror": {
-                        "type": "object",
-                        "description": "The structure of this object is service-specific"
-                    }
-                }
-            },
-            "odata.error.detail": {
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "target": {
-                        "type": "string"
-                    }
-                }
-            },
             "count": {
                 "anyOf": [
                     {
@@ -221,7 +217,44 @@
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/odata.error"
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "target": {
+                                            "type": "string"
+                                        },
+                                        "details": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "string"
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
+                                                    },
+                                                    "target": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "innererror": {
+                                            "type": "object",
+                                            "description": "The structure of this object is service-specific"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -488,4 +488,34 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     {
         return $this->boundParameter;
     }
+
+    /**
+     * Extract operation arguments for metadata
+     * Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
+     * @return ObjectArray|Argument[]
+     */
+    public function getExternalArguments()
+    {
+        return $this->getArguments()->sort(function (Argument $a, Argument $b) {
+            if ($a->getName() === $this->getBindingParameterName()) {
+                return -1;
+            }
+
+            if ($b->getName() === $this->getBindingParameterName()) {
+                return 1;
+            }
+
+            return 0;
+        })->filter(function ($argument) {
+            if ($argument instanceof PrimitiveArgument) {
+                return true;
+            }
+
+            if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $this->getBindingParameterName() === $argument->getName()) {
+                return true;
+            }
+
+            return false;
+        });
+    }
 }

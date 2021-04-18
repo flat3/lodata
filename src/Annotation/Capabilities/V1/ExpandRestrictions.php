@@ -4,7 +4,6 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Capabilities\ExpandRestrictionsType;
-use Flat3\Lodata\Annotation\Capabilities\FilterRestrictionsType;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;
 

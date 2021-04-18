@@ -186,7 +186,7 @@ class XML extends Metadata implements StreamInterface
                     $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
                     $resourceElement->addAttribute('IsBound', Boolean::factory($isBound)->toUrl());
 
-                    foreach ($this->getOperationArguments($resource) as $argument) {
+                    foreach ($resource->getExternalArguments() as $argument) {
                         $parameterElement = $resourceElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
                         $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());
