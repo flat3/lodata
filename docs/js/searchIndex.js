@@ -5551,6 +5551,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020Office\u0020Data\u0020Connection\u0020URL\u0020of\u0020the\u0020provided\u0020entity\u0020set",
             "url": "classes/Flat3-Lodata-Model.html#method_getOdcUrl"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetOpenApiUrl\u0028\u0029",
+            "name": "getOpenApiUrl",
+            "summary": "Get\u0020the\u0020OpenAPI\u0020specification\u0020document\u0020URL\u0020of\u0020this\u0020service",
+            "url": "classes/Flat3-Lodata-Model.html#method_getOpenApiUrl"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003A\u0024references",
             "name": "references",
             "summary": "References\u0020to\u0020external\u0020CSDL\u0020documents",
