@@ -10,8 +10,50 @@
             "url": "http://localhost/odata"
         }
     ],
-    "tags": [],
+    "tags": [
+        {
+            "name": "atest"
+        }
+    ],
     "paths": {
+        "/atest": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "b"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.a"
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
@@ -64,6 +106,15 @@
     },
     "components": {
         "schemas": {
+            "com.example.odata.a": {
+                "type": "object",
+                "properties": {
+                    "b": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
             "Edm.ComplexType": {
                 "type": "object"
             },

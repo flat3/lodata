@@ -10,8 +10,161 @@
             "url": "http://localhost/odata"
         }
     ],
-    "tags": [],
+    "tags": [
+        {
+            "name": "csv"
+        }
+    ],
     "paths": {
+        "/csv": {
+            "get": {
+                "summary": "Get entities from csv",
+                "tags": [
+                    "csv"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "offset",
+                                    "name",
+                                    "datetime",
+                                    "duration"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "offset",
+                                    "offset desc",
+                                    "name",
+                                    "name desc",
+                                    "datetime",
+                                    "datetime desc",
+                                    "duration",
+                                    "duration desc"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of csv",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.entry"
+                                            }
+                                        },
+                                        "@count": {
+                                            "$ref": "#/components/schemas/count"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/csv/{offset}": {
+            "parameters": [
+                {
+                    "description": "key: offset",
+                    "in": "path",
+                    "name": "offset",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entity from csv by key",
+                "tags": [
+                    "csv"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "offset",
+                                    "name",
+                                    "datetime",
+                                    "duration"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.entry"
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
@@ -64,6 +217,34 @@
     },
     "components": {
         "schemas": {
+            "com.example.odata.entry": {
+                "type": "object",
+                "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "datetime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                        "nullable": true
+                    },
+                    "duration": {
+                        "type": "string",
+                        "format": "duration",
+                        "pattern": "^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$",
+                        "nullable": true
+                    }
+                }
+            },
             "Edm.ComplexType": {
                 "type": "object"
             },

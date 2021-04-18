@@ -43,11 +43,7 @@ class RedisTest extends TestCase
 
     public function test_metadata()
     {
-        $this->assertXmlResponse(
-            Request::factory()
-                ->path('/$metadata')
-                ->xml()
-        );
+        $this->assertMetadataDocuments();
     }
 
     public function test_set()

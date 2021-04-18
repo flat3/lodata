@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
-use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\GeneratedProperty;

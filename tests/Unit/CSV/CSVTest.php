@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\CSV;
 
-use DateTime;
 use Flat3\Lodata\Drivers\CSVEntitySet;
 use Flat3\Lodata\Drivers\CSVEntityType;
 use Flat3\Lodata\Facades\Lodata;
@@ -28,7 +27,7 @@ class CSVTest extends TestCase
         for ($id = 0; $id < 99; $id++) {
             $csv->insertOne([
                 $this->faker->name(),
-                $this->faker->dateTime('2014-02-25 08:37:17')->format(DateTime::ATOM),
+                $this->faker->dateTime('2014-02-25 08:37:17')->format('Y-m-d\TH:i:sP'),
                 $this->faker->randomFloat(),
             ]);
         }
@@ -47,11 +46,7 @@ class CSVTest extends TestCase
 
     public function test_metadata()
     {
-        $this->assertXmlResponse(
-            Request::factory()
-                ->path('/$metadata')
-                ->xml()
-        );
+        $this->assertMetadataDocuments();
     }
 
     public function test_set()

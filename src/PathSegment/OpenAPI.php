@@ -32,11 +32,13 @@ use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\Option\Count;
@@ -98,11 +100,20 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
     public function emitJson(Transaction $transaction): void
     {
-        $oas = new stdClass();
-        $oas->openapi = self::OPENAPI_VERSION;
+        $document = new stdClass();
 
+        /**
+         * 4.1 Field openapi
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldopenapi
+         */
+        $document->openapi = self::OPENAPI_VERSION;
+
+        /**
+         * 4.2 Field info
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldinfo
+         */
         $info = new stdClass();
-        $oas->info = $info;
+        $document->info = $info;
 
         $endpoint = rtrim(Lodata::getEndpoint(), '/');
 
@@ -129,12 +140,20 @@ DESC, [
 
         $info->description = $longDescription ? $longDescription->toJson() : $standardDescription;
 
-        $oas->servers = [
+        /**
+         * 4.3 Field servers
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldservers
+         */
+        $document->servers = [
             [
                 'url' => $endpoint,
             ]
         ];
 
+        /**
+         * 4.4 Field tags
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldtags
+         */
         $tags = [];
 
         /** @var EntitySet|Singleton $resource */
@@ -151,167 +170,125 @@ DESC, [
             $tags[] = $tag;
         }
 
-        $oas->tags = $tags;
-
-        $paths = new stdClass();
-        $oas->paths = $paths;
+        $document->tags = $tags;
 
         /**
-         * 4.5.1
+         * 4.5 Field paths
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldpaths
+         */
+        $paths = new stdClass();
+        $document->paths = $paths;
+
+        /**
+         * 4.5.1 Paths for Collections of Entities
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforCollectionsofEntities
          * @var EntitySet $entitySet
          */
         foreach (Lodata::getResources()->sliceByClass(EntitySet::class) as $entitySet) {
             $pathItemObject = new stdClass();
             $paths->{"/{$entitySet->getName()}"} = $pathItemObject;
 
-            // 4.5.1.1 Query a Collection of Entities
             if ($entitySet instanceof QueryInterface) {
                 $this->generateQueryRoutes($pathItemObject, $entitySet);
             }
 
-            // 4.5.1.2 Create an Entity
             if ($entitySet instanceof CreateInterface) {
                 $this->generateCreateRoutes($pathItemObject, $entitySet);
             }
 
-            $entityType = $entitySet->getType();
-
+            /**
+             * 4.5.2 Paths for Single Entities
+             * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforSingleEntities
+             */
             if ($entitySet instanceof ReadInterface || $entitySet instanceof UpdateInterface || $entitySet instanceof DeleteInterface) {
                 $pathItemObject = new stdClass();
                 $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}"} = $pathItemObject;
 
-                $pathItemObject->parameters = [
-                    [
-                        'description' => __('key: :key', ['key' => $entityType->getKey()->getName()]),
-                        'in' => 'path',
-                        'name' => $entityType->getKey()->getName(),
-                        'required' => true,
-                        'schema' => $entityType->getKey()->getType()->toOpenAPISchema(),
-                    ],
-                ];
+                $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
                 if ($entitySet instanceof ReadInterface) {
-                    $queryObject = new stdClass();
-                    $pathItemObject->{'get'} = $queryObject;
-                    $queryObject->summary = __('Get entity from :set by key', ['set' => $entitySet->getName()]);
-                    $queryObject->tags = [$entitySet->getName()];
-
-                    $parameters = [];
-
-                    $parameters[] = $this->getSelectParameterObject($entitySet);
-
-                    if ($entitySet instanceof ExpandInterface && $entitySet->getType()->getNavigationProperties()->hasEntries()) {
-                        $parameters[] = $this->getExpandParameterObject($entitySet);
-                    }
-
-                    $queryObject->parameters = $parameters;
-
-                    $queryObject->responses = [
-                        Response::HTTP_OK => [
-                            'description' => __('Retrieved entity'),
-                            'content' => [
-                                MediaType::json => [
-                                    'schema' => [
-                                        '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
-                                    ],
-                                ],
-                            ],
-                        ],
-                        Response::HTTP_ERROR_ANY => [
-                            '$ref' => '#/components/responses/error',
-                        ],
-                    ];
+                    $this->generateReadRoutes($pathItemObject, $entitySet);
                 }
 
                 if ($entitySet instanceof UpdateInterface) {
-                    $queryObject = new stdClass();
-                    $pathItemObject->{'patch'} = $queryObject;
-
-                    $queryObject->summary = __('Update entity in :set', ['set' => $entitySet->getName()]);
-                    $queryObject->tags = [$entitySet->getName()];
-
-                    $queryObject->requestBody = [
-                        'description' => __('New property values'),
-                        'required' => true,
-                        'content' => [
-                            MediaType::json => [
-                                'schema' => [
-                                    '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
-                                ],
-                            ],
-                        ],
-                    ];
-
-                    $queryObject->responses = [
-                        Response::HTTP_OK => [
-                            '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
-                        ],
-                        Response::HTTP_NO_CONTENT => [
-                            'description' => __('Success'),
-                        ],
-                        Response::HTTP_ERROR_ANY => [
-                            '$ref' => '#/components/responses/error',
-                        ],
-                    ];
+                    $this->generateUpdateRoutes($pathItemObject, $entitySet);
                 }
 
                 if ($entitySet instanceof DeleteInterface) {
-                    $queryObject = new stdClass();
-                    $pathItemObject->{'delete'} = $queryObject;
-
-                    $queryObject->summary = __('Delete entity from :set', ['set' => $entitySet->getName()]);
-                    $queryObject->tags = [$entitySet->getName()];
-
-                    $queryObject->responses = [
-                        Response::HTTP_NO_CONTENT => [
-                            'description' => __('Success'),
-                        ],
-                        Response::HTTP_ERROR_ANY => [
-                            '$ref' => '#/components/responses/error',
-                        ],
-                    ];
+                    $this->generateDeleteRoutes($pathItemObject, $entitySet);
                 }
             }
 
             foreach ($entitySet->getType()->getNavigationProperties() as $navigationProperty) {
                 $navigationSet = $entitySet->getBindingByNavigationProperty($navigationProperty)->getTarget();
-                $entityType = $navigationSet->getType();
 
                 $pathItemObject = new stdClass();
                 $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
 
-                $pathItemObject->parameters = [
-                    [
-                        'description' => __('key: :key', ['key' => $entityType->getKey()->getName()]),
-                        'in' => 'path',
-                        'name' => $entityType->getKey()->getName(),
-                        'required' => true,
-                        'schema' => $entityType->getKey()->getType()->toOpenAPISchema(),
-                    ],
-                ];
+                $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
-                // 4.5.1.1 Query a Collection of Entities
                 if ($entitySet instanceof QueryInterface) {
                     $this->generateQueryRoutes($pathItemObject, $navigationSet, $entitySet);
                 }
 
-                // 4.5.1.2 Create an Entity
                 if ($entitySet instanceof CreateInterface) {
                     $this->generateCreateRoutes($pathItemObject, $navigationSet, $entitySet);
                 }
             }
         }
 
-        /*
+        /** @var Singleton $singleton */
         foreach (Lodata::getResources()->sliceByClass(Singleton::class) as $singleton) {
             $pathItemObject = new stdClass();
+            $paths->{'/'.$singleton->getName()} = $pathItemObject;
+
+            $parameters = [];
+
             $queryObject = new stdClass();
             $pathItemObject->{'get'} = $queryObject;
-            $paths->{'/'.$singleton->getName()} = $pathItemObject;
-        }
-        */
 
-        /** @var Operation $operation */
+            if ($singleton instanceof DeleteInterface) {
+                $this->generateDeleteRoutes($pathItemObject, $singleton);
+            }
+
+            if ($singleton instanceof ExpandInterface && $singleton->getType()->getNavigationProperties()->hasEntries()) {
+                $parameters[] = $this->getExpandParameterObject($singleton);
+            }
+
+            $parameters[] = $this->getSelectParameterObject($singleton);
+
+            if ($singleton instanceof UpdateInterface) {
+                $this->generateUpdateRoutes($pathItemObject, $singleton);
+            }
+
+            $queryObject->parameters = $parameters;
+
+            $responses = [
+                Response::HTTP_OK => [
+                    'description' => '',
+                    'content' => [
+                        MediaType::json => [
+                            'schema' => [
+                                '$ref' => '#/components/schemas/'.$singleton->getType()->getIdentifier(),
+                            ],
+                        ],
+                    ],
+                ],
+                Response::HTTP_ERROR_ANY => [
+                    '$ref' => '#/components/responses/error',
+                ],
+            ];
+
+            $queryObject->responses = $responses;
+        }
+
+        /**
+         * 4.5.3 Paths for Action Imports
+         * 4.5.4 Paths for Function Imports
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforActionImports
+         * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforFunctionImports
+         * @var Operation $operation
+         */
         foreach (Lodata::getResources()->sliceByClass(Operation::class) as $operation) {
             $boundParameter = $operation->getBoundParameter();
             $pathItemObject = new stdClass();
@@ -335,8 +312,10 @@ DESC, [
                 $tag['summary'] = $summary->toJson();
             } else {
                 $__args = ['name' => $operation->getName()];
-                $tag['summary'] = $operation instanceof FunctionInterface ? __('Invoke function :name',
-                    $__args) : __('Invoke action :name', $__args);
+
+                $tag['summary'] = $operation instanceof FunctionInterface
+                    ? __('Invoke function :name', $__args)
+                    : __('Invoke action :name', $__args);
             }
 
             $tags = [];
@@ -365,8 +344,10 @@ DESC, [
             $queryObject->tags = $tags;
             $queryObject->parameters = $parameters;
 
-            $responses = [
-                Response::HTTP_OK => [
+            $responses = [];
+
+            if ($returnType) {
+                $responses[Response::HTTP_OK] = [
                     'description' => '',
                     'content' => [
                         MediaType::json => [
@@ -375,16 +356,23 @@ DESC, [
                             ],
                         ],
                     ],
-                ],
-                Response::HTTP_ERROR_ANY => [
-                    '$ref' => '#/components/responses/error',
+                ];
+            }
 
-                ],
+            $responses[Response::HTTP_NO_CONTENT] = [
+                'description' => __('Success'),
+            ];
+
+            $responses[Response::HTTP_ERROR_ANY] = [
+                '$ref' => '#/components/responses/error',
             ];
 
             $queryObject->responses = $responses;
         }
 
+        /**
+         * Batch support
+         */
         $pathItemObject = new stdClass();
         $paths->{'/$batch'} = $pathItemObject;
 
@@ -400,27 +388,7 @@ DESC, [
 
         $queryObject->tags = [__('Batch Requests')];
 
-        $firstEntitySet = Lodata::getResources()->first();
-
-        $multipartBodyContent = [
-            'schema' => [
-                'type' => Constants::OAPI_STRING,
-            ],
-        ];
-
-        if ($firstEntitySet) {
-            $multipartBodyContent['example'] = implode('\n', [
-                '--request-separator',
-                'Content-Type: application/http',
-                'Content-Transfer-Encoding: binary',
-                '',
-                "GET {$firstEntitySet->getName()} HTTP/1.1",
-                'Accept: application/json',
-                '',
-                '',
-                '-request-separator--',
-            ]);
-        }
+        $route = ServiceProvider::route();
 
         $requestBody = [
             'required' => true,
@@ -428,11 +396,44 @@ DESC, [
             'content' => [
                 (string) MediaType::factory()
                     ->parse(MediaType::multipartMixed)
-                    ->setParameter('boundary', 'request-separator') => $multipartBodyContent,
+                    ->setParameter('boundary', 'request-separator') => [
+                    'schema' => [
+                        'type' => Constants::OAPI_STRING,
+                    ],
+                    'example' => implode("\n", [
+                        '--request-separator',
+                        'Content-Type: application/http',
+                        'Content-Transfer-Encoding: binary',
+                        '',
+                        "GET {$route}/resource HTTP/1.1",
+                        'Accept: application/json',
+                        '',
+                        '',
+                        '-request-separator--',
+                    ])
+                ],
                 MediaType::json => [
                     'schema' => [
                         'type' => Constants::OAPI_STRING,
                     ],
+                    'example' => json_encode([
+                        'requests' => [
+                            [
+                                'id' => '0',
+                                'method' => 'get',
+                                'url' => "{$route}/resource(1)"
+                            ],
+                            [
+                                'id' => '1',
+                                'method' => 'patch',
+                                'url' => "{$route}/resource(2)",
+                                'headers' => [
+                                    'Prefer' => 'return=minimal'
+                                ],
+                                'body' => '<JSON representation of changes to entity>'
+                            ],
+                        ],
+                    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),
                 ],
             ],
         ];
@@ -447,7 +448,7 @@ DESC, [
                         'schema' => [
                             'type' => Constants::OAPI_STRING,
                         ],
-                        'example' => implode('\n', [
+                        'example' => implode("\n", [
                             '--response-separator',
                             'Content-Type: application/http',
                             '',
@@ -458,6 +459,24 @@ DESC, [
                             '--response-separator--'
                         ]),
                     ],
+                    MediaType::json => [
+                        'schema' => [
+                            'type' => Constants::OAPI_STRING,
+                        ],
+                        'example' => json_encode([
+                            'responses' => [
+                                [
+                                    'id' => '0',
+                                    'status' => 200,
+                                    'body' => '<JSON representation of the entity with key 1>',
+                                ],
+                                [
+                                    'id' => '1',
+                                    'status' => 204
+                                ],
+                            ]
+                        ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),
+                    ],
                 ],
             ],
             Response::HTTP_ERROR_ANY => [
@@ -466,7 +485,7 @@ DESC, [
         ];
 
         $components = new stdClass();
-        $oas->components = $components;
+        $document->components = $components;
 
         $schemas = new stdClass();
         $components->schemas = $schemas;
@@ -617,10 +636,10 @@ DESC, [
             ),
         ];
 
-        $transaction->sendJson($oas);
+        $transaction->sendJson($document);
     }
 
-    protected function getExpandParameterObject(EntitySet $entitySet): array
+    protected function getExpandParameterObject(ResourceInterface $resource): array
     {
         return [
             'name' => 'expand',
@@ -635,13 +654,13 @@ DESC, [
                 'uniqueItems' => true,
                 'items' => [
                     'type' => Constants::OAPI_STRING,
-                    'enum' => $entitySet->getType()->getNavigationProperties()->keys(),
+                    'enum' => $resource->getType()->getNavigationProperties()->keys(),
                 ]
             ]
         ];
     }
 
-    protected function getSelectParameterObject(EntitySet $entitySet): array
+    protected function getSelectParameterObject(ResourceInterface $resource): array
     {
         return [
             'name' => 'select',
@@ -656,7 +675,7 @@ DESC, [
                 'uniqueItems' => true,
                 'items' => [
                     'type' => Constants::OAPI_STRING,
-                    'enum' => array_merge(['*'], $entitySet->getType()->getDeclaredProperties()->keys()),
+                    'enum' => array_merge(['*'], $resource->getType()->getDeclaredProperties()->keys()),
                 ]
             ]
         ];
@@ -842,6 +861,107 @@ DESC, [
                 '$ref' => '#/components/responses/error',
             ],
         ];
+
         $operationObject->responses = $responses;
+    }
+
+    protected function generateReadRoutes(stdClass $pathItemObject, ResourceInterface $resource): void
+    {
+        $entityType = $resource->getType();
+        $queryObject = new stdClass();
+        $pathItemObject->{'get'} = $queryObject;
+        $queryObject->summary = __('Get entity from :set by key', ['set' => $resource->getName()]);
+        $queryObject->tags = [$resource->getName()];
+
+        $parameters = [];
+
+        $parameters[] = $this->getSelectParameterObject($resource);
+
+        if ($resource instanceof ExpandInterface && $resource->getType()->getNavigationProperties()->hasEntries()) {
+            $parameters[] = $this->getExpandParameterObject($resource);
+        }
+
+        $queryObject->parameters = $parameters;
+
+        $queryObject->responses = [
+            Response::HTTP_OK => [
+                'description' => __('Retrieved entity'),
+                'content' => [
+                    MediaType::json => [
+                        'schema' => [
+                            '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
+                        ],
+                    ],
+                ],
+            ],
+            Response::HTTP_ERROR_ANY => [
+                '$ref' => '#/components/responses/error',
+            ],
+        ];
+    }
+
+    protected function generateUpdateRoutes(stdClass $pathItemObject, ResourceInterface $resource): void
+    {
+        $entityType = $resource->getType();
+        $queryObject = new stdClass();
+        $pathItemObject->{'patch'} = $queryObject;
+
+        $queryObject->summary = __('Update entity in :set', ['set' => $resource->getName()]);
+        $queryObject->tags = [$resource->getName()];
+
+        $queryObject->requestBody = [
+            'description' => __('New property values'),
+            'required' => true,
+            'content' => [
+                MediaType::json => [
+                    'schema' => [
+                        '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
+                    ],
+                ],
+            ],
+        ];
+
+        $queryObject->responses = [
+            Response::HTTP_OK => [
+                '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
+            ],
+            Response::HTTP_NO_CONTENT => [
+                'description' => __('Success'),
+            ],
+            Response::HTTP_ERROR_ANY => [
+                '$ref' => '#/components/responses/error',
+            ],
+        ];
+    }
+
+    protected function generateDeleteRoutes(stdClass $pathItemObject, ResourceInterface $resource): void
+    {
+        $queryObject = new stdClass();
+        $pathItemObject->{'delete'} = $queryObject;
+
+        $queryObject->summary = __('Delete entity from :set', ['set' => $resource->getName()]);
+        $queryObject->tags = [$resource->getName()];
+
+        $queryObject->responses = [
+            Response::HTTP_NO_CONTENT => [
+                'description' => __('Success'),
+            ],
+            Response::HTTP_ERROR_ANY => [
+                '$ref' => '#/components/responses/error',
+            ],
+        ];
+    }
+
+    protected function generateKeyParameter(EntitySet $entitySet): array
+    {
+        $key = $entitySet->getType()->getKey();
+
+        return [
+            'description' => __('key: :key', ['key' => $key->getName()]),
+            'in' => 'path',
+            'name' => $key->getName(),
+            'required' => true,
+            'schema' => $key->getType()->toOpenAPISchema(),
+        ];
     }
 }

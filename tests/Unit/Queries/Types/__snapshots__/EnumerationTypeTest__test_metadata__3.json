@@ -353,25 +353,10 @@
             "$Nullable": true
         }
     },
-    "f1": {
-        "$Kind": "Function",
-        "$IsBound": true,
-        "$Parameter": [
-            {
-                "$Name": "flights",
-                "$Nullable": false,
-                "$Type": "com.example.odata.flight"
-            },
-            {
-                "$Name": "b",
-                "$Nullable": true,
-                "$Type": "Edm.Decimal"
-            }
-        ],
-        "$ReturnType": {
-            "$Collection": false,
-            "$Type": "Edm.Duration",
-            "$Nullable": false
-        }
+    "hello": {
+        "$UnderlyingType": "Edm.Int32",
+        "$IsFlags": false,
+        "aaa": {},
+        "bbb": {}
     }
 }

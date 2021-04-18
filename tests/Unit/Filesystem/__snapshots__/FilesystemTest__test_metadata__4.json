@@ -10,8 +10,204 @@
             "url": "http://localhost/odata"
         }
     ],
-    "tags": [],
+    "tags": [
+        {
+            "name": "files"
+        }
+    ],
     "paths": {
+        "/files": {
+            "get": {
+                "summary": "Get entities from files",
+                "tags": [
+                    "files"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "path",
+                                    "type",
+                                    "name",
+                                    "timestamp",
+                                    "size",
+                                    "content"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of files",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.file"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new entity to files",
+                "tags": [
+                    "files"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "New entity",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.file"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.file"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/files/{path}": {
+            "parameters": [
+                {
+                    "description": "key: path",
+                    "in": "path",
+                    "name": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entity from files by key",
+                "tags": [
+                    "files"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "path",
+                                    "type",
+                                    "name",
+                                    "timestamp",
+                                    "size",
+                                    "content"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.file"
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update entity in files",
+                "tags": [
+                    "files"
+                ],
+                "requestBody": {
+                    "description": "New property values",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.file"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/schemas/com.example.odata.file"
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete entity from files",
+                "tags": [
+                    "files"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
@@ -64,6 +260,41 @@
     },
     "components": {
         "schemas": {
+            "com.example.odata.file": {
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "type": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                        "nullable": false
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    },
+                    "content": {
+                        "type": "string",
+                        "format": "base64url",
+                        "nullable": true
+                    }
+                }
+            },
             "Edm.ComplexType": {
                 "type": "object"
             },

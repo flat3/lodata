@@ -1501,90 +1501,71 @@
                 }
             }
         },
-        "/add": {
+        "/f1": {
             "get": {
                 "tags": [
                     "Service Operations",
-                    "add",
-                    "a",
+                    "f1",
+                    "flights",
                     "b"
                 ],
                 "parameters": [
                     {
                         "required": false,
                         "in": "query",
-                        "name": "a",
+                        "name": "flights",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "minimum": -2147483648,
-                            "maximum": 2147483647,
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "required": false,
-                        "in": "query",
-                        "name": "b",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "minimum": -2147483648,
-                            "maximum": 2147483647,
-                            "nullable": true
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Edm.Int32"
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "minimum": -2147483648,
+                                    "maximum": 2147483647,
+                                    "nullable": false
+                                },
+                                "origin": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "destination": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "gate": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "minimum": -2147483648,
+                                    "maximum": 2147483647,
+                                    "nullable": true
+                                },
+                                "duration": {
+                                    "type": "string",
+                                    "format": "duration",
+                                    "pattern": "^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$",
+                                    "nullable": true
                                 }
                             }
                         }
                     },
-                    "204": {
-                        "description": "Success"
-                    },
-                    "4XX": {
-                        "$ref": "#/components/responses/error"
-                    }
-                }
-            }
-        },
-        "/div": {
-            "get": {
-                "tags": [
-                    "Service Operations",
-                    "div",
-                    "a",
-                    "b"
-                ],
-                "parameters": [
                     {
-                        "required": false,
-                        "in": "query",
-                        "name": "a",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "minimum": -2147483648,
-                            "maximum": 2147483647,
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "b",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "minimum": -2147483648,
-                            "maximum": 2147483647,
+                            "anyOf": [
+                                {
+                                    "type": "number",
+                                    "format": "decimal"
+                                },
+                                {
+                                    "enum": [
+                                        "-INF",
+                                        "INF",
+                                        "NaN"
+                                    ]
+                                }
+                            ],
                             "nullable": true
                         }
                     }
@@ -1595,7 +1576,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Edm.Decimal"
+                                    "$ref": "#/components/schemas/Edm.Duration"
                                 }
                             }
                         }

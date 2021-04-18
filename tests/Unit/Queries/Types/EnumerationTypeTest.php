@@ -26,11 +26,7 @@ class EnumerationTypeTest extends TestCase
         $type[] = 'bbb';
         Lodata::add($type);
 
-        $this->assertXmlResponse(
-            Request::factory()
-                ->xml()
-                ->path('$metadata')
-        );
+        $this->assertMetadataDocuments();
     }
 
     public function test_metadata_flags()
@@ -41,11 +37,7 @@ class EnumerationTypeTest extends TestCase
         $type[] = 'bbb';
         Lodata::add($type);
 
-        $this->assertXmlResponse(
-            Request::factory()
-                ->xml()
-                ->path('$metadata')
-        );
+        $this->assertMetadataDocuments();
     }
 
     public function test_value_invalid_name()

@@ -1,0 +1,123 @@
+{
+    "$Version": "4.01",
+    "$EntityContainer": "com.example.odata.DefaultContainer",
+    "$Reference": {
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Core.V1"
+                }
+            ]
+        },
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Capabilities.V1"
+                }
+            ]
+        }
+    },
+    "com.example.odata": {
+        "$Kind": "EntityContainer",
+        "files": {
+            "$EntityType": "com.example.odata.file",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": false
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": false,
+            "@Org.OData.Capabilities.V1.SkipSupported": false,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": false
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": false
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": false
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": false
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            }
+        },
+        "$Annotations": {
+            "com.example.odata.DefaultContainer": {
+                "@Org.OData.Core.V1.ConventionalIDs": true,
+                "@Org.OData.Core.V1.DefaultNamespace": true,
+                "@Org.OData.Core.V1.DereferencableIDs": true,
+                "@Org.OData.Core.V1.ODataVersions": "4.01",
+                "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.CallbackSupported": [],
+                "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
+                "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
+                "@Org.OData.Capabilities.V1.SupportedFormats": [
+                    "application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true",
+                    "application/json;odata.metadata=minimal;IEEE754Compatible=true;odata.streaming=true",
+                    "application/json;odata.metadata=none;IEEE754Compatible=true;odata.streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
+                ]
+            }
+        }
+    },
+    "file": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "path"
+        ],
+        "path": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "type": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "timestamp": {
+            "$Type": "Edm.DateTimeOffset",
+            "$Nullable": false
+        },
+        "size": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "content": {
+            "$Type": "Edm.Stream",
+            "$Nullable": true
+        }
+    }
+}

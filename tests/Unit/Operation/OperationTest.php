@@ -48,11 +48,7 @@ class OperationTest extends TestCase
             }
         }));
 
-        $this->assertXmlResponse(
-            Request::factory()
-                ->xml()
-                ->path('/$metadata')
-        );
+        $this->assertMetadataDocuments();
     }
 
     public function test_parameter_order_bound()
@@ -64,11 +60,7 @@ class OperationTest extends TestCase
             }
         })->setBindingParameterName('b'));
 
-        $this->assertXmlResponse(
-            Request::factory()
-                ->xml()
-                ->path('/$metadata')
-        );
+        $this->assertMetadataDocuments();
     }
 
     public function test_parameter_bound_passthru()
@@ -82,11 +74,7 @@ class OperationTest extends TestCase
             }
         })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
-        $this->assertXmlResponse(
-            Request::factory()
-                ->xml()
-                ->path('/$metadata')
-        );
+        $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
             Request::factory()
@@ -107,11 +95,7 @@ class OperationTest extends TestCase
             }
         })->setBindingParameterName('flights'));
 
-        $this->assertXmlResponse(
-            Request::factory()
-                ->xml()
-                ->path('/$metadata')
-        );
+        $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
             Request::factory()

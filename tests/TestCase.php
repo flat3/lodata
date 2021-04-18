@@ -268,6 +268,24 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->assertResponseMetadata($response);
     }
 
+    protected function assertMetadataDocuments() {
+        $this->assertXmlResponse(
+            Request::factory()
+                ->path('/$metadata')
+                ->xml()
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/$metadata')
+        );
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/openapi.json')
+        );
+    }
+
     protected function assertResponseMetadata(TestResponse $response)
     {
         $this->assertMatchesSnapshot([
