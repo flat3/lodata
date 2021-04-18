@@ -1,6 +1,7 @@
 # Lodata - The OData v4.01 Producer for Laravel
 
 <a href="https://github.com/flat3/lodata/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/flat3/lodata/Tests"></a>
+<img alt="OpenAPI Validator" src="https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fflat3%2Flodata%2Fdevelop%2Ftests%2FUnit%2FProtocol%2F__snapshots__%2FServiceMetadataTest__test_has_flight_metadata_document_at_document_root__4.json"/>
 <a href="https://packagist.org/packages/flat3/lodata"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/flat3/lodata"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
 <img alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability-percentage/flat3/lodata">
@@ -179,12 +180,41 @@ document.
 
 ### Applications
 
+#### Using Lodata with OpenAPI / Swagger
+
+Lodata can render an OpenAPI Specification Document modelling the entity sets, entity types and operations available
+in the service. The URL to the document is available at `http://127.0.0.1:8000/odata/openapi.json`. A helper method
+
+The OpenAPI Specification (OAS, formerly known as Swagger RESTful API Documentation Specification) defines a standard,
+language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the
+capabilities of the service without access to source code, documentation, or through network traffic inspection.
+
+Lodata implements the mapping of OData service descriptions to OAS documents as described in
+[OData to OpenAPI Mapping Version 1.0](https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html).
+This mapping only translates the basic features of an OData service into OpenAPI terms to allow an easy “first contact”
+by exploring it e.g. with the [Swagger UI](https://github.com/swagger-api/swagger-ui), rather than trying to capture
+all features of an OData service in an unmanageably long OAS document.
+
+Given the different goals of and levels of abstractions used by OData and OpenAPI, this mapping of OData metadata
+documents into OAS documents is intentionally lossy and only tries to preserve the main features of an OData service:
+- The entity container is translated into an OpenAPI Paths Object with path templates and operation objects
+for all top-level resources described by the entity container
+- Structure-describing CSDL elements (structured types, type definitions, enumerations) are translated
+into OpenAPI Schema Objects within the OpenAPI Components Object
+- CSDL constructs that don’t have an OpenAPI counterpart are omitted
+
+Lodata provides an easy way to reference the OAS document URL in your application:
+
+```
+\Lodata::getOpenApiUrl()
+```
+
 #### Using Lodata with Excel
 
-[Excel 2019](https://www.microsoft.com/en-gb/microsoft-365/excel) (and some earlier versions) support [OData Feeds](https://docs.microsoft.com/en-us/power-query/connectors/odatafeed)
-natively using Power Query.
+[Excel 2019](https://www.microsoft.com/en-gb/microsoft-365/excel) (and some earlier versions) support
+[OData Feeds](https://docs.microsoft.com/en-us/power-query/connectors/odatafeed) natively using Power Query.
 
-As well as being able to create a connection in Excel using the UI, Lodata provides an easy to add an
+As well as being able to create a connection in Excel using the UI, Lodata provides an easy way to add an
 "Open in Excel" button in your application. The URL provided for this button will be for a specific entity
 set, for example for the `Flights` entity set:
 
@@ -571,11 +601,13 @@ The relevant parts of the specification used for Lodata are:
 * https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html
 * https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html
 * https://docs.oasis-open.org/odata/odata-vocabularies/v4.0/csprd01/odata-vocabularies-v4.0-csprd01.html
+* https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html
 
 Lodata supports many sections of the OData specification, these are the major areas of support:
 
 * Publishing a [service document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358840) at the service root
 * Publishing a [metadata document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_MetadataRequests) in both [JSON](http://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) and [XML](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html) formats
+* Publishing an [OpenAPI specification document](https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html) at the service root
 * Adding custom [annotations](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Annotation)
 * Strict type model for primitive types, supporting Eloquent casts and getter/setters
 * Returning data according to the [OData-JSON](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html) specification

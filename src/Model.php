@@ -261,4 +261,13 @@ class Model implements AnnotationInterface
     {
         return sprintf("%s_lodata/%s.odc", ServiceProvider::endpoint(), $set);
     }
+
+    /**
+     * Get the OpenAPI specification document URL of this service
+     * @return string
+     */
+    public function getOpenApiUrl(): string
+    {
+        return ServiceProvider::endpoint().'openapi.json';
+    }
 }

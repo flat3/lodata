@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getEndpoint() Get the REST endpoint of this OData model
  * @method static string getOdcUrl(string $set) Get the Office Data Connection URL of the provided entity set
  * @method static string getPbidsUrl() Get the PowerBI discovery URL of this service
+ * @method static string getOpenApiUrl() Get the OpenAPI specification document URL of this service
  * @package Flat3\Lodata\Facades
  */
 class Lodata extends Facade
