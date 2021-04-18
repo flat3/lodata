@@ -14,7 +14,6 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
-use stdClass;
 
 /**
  * JSON
@@ -29,7 +28,7 @@ class JSON extends Metadata implements JsonInterface
      */
     public function emitJson(Transaction $transaction): void
     {
-        $schema = new stdClass();
+        $schema = (object) [];
 
         $version = $transaction->getVersion();
         $namespace = Lodata::getNamespace();
@@ -42,12 +41,12 @@ class JSON extends Metadata implements JsonInterface
             $reference->appendJson($schema);
         }
 
-        $entityContainer = new stdClass();
+        $entityContainer = (object) [];
         $entityContainer->{'$Kind'} = 'EntityContainer';
         $schema->{$namespace} = $entityContainer;
 
         foreach (Lodata::getEntityTypes() as $entityType) {
-            $entityTypeElement = new stdClass();
+            $entityTypeElement = (object) [];
             $schema->{$entityType->getName()} = $entityTypeElement;
             $entityTypeElement->{'$Kind'} = 'EntityType';
 
@@ -60,7 +59,7 @@ class JSON extends Metadata implements JsonInterface
             }
 
             foreach ($entityType->getDeclaredProperties() as $property) {
-                $entityTypeProperty = new stdClass();
+                $entityTypeProperty = (object) [];
                 $entityTypeElement->{$property->getName()} = $entityTypeProperty;
                 $entityTypeProperty->{'$Type'} = $property->getType()->getIdentifier();
                 $entityTypeProperty->{'$Nullable'} = $property->isNullable();
@@ -73,7 +72,7 @@ class JSON extends Metadata implements JsonInterface
             foreach ($entityType->getNavigationProperties() as $navigationProperty) {
                 $targetEntityType = $navigationProperty->getType();
 
-                $navigationPropertyElement = new stdClass();
+                $navigationPropertyElement = (object) [];
                 $entityTypeElement->{$navigationProperty->getName()} = $navigationPropertyElement;
                 $navigationPropertyElement->{'$Collection'} = $navigationProperty->isCollection();
 
@@ -87,7 +86,7 @@ class JSON extends Metadata implements JsonInterface
 
                 $constraints = $navigationProperty->getConstraints();
                 if ($constraints) {
-                    $constraintsElement = new stdClass();
+                    $constraintsElement = (object) [];
                     $navigationPropertyElement->{'$ReferentialConstraint'} = $constraintsElement;
                     foreach ($navigationProperty->getConstraints() as $constraint) {
                         $constraintsElement->{$constraint->getProperty()->getName()} = $constraint->getReferencedProperty()->getName();
@@ -97,7 +96,7 @@ class JSON extends Metadata implements JsonInterface
         }
 
         foreach (Lodata::getEnumerationTypes() as $enumerationType) {
-            $enumerationTypeElement = new stdClass();
+            $enumerationTypeElement = (object) [];
             $schema->{$enumerationType->getName()} = $enumerationTypeElement;
 
             $enumerationTypeElement->{'$UnderlyingType'} = $enumerationType->getUnderlyingType()->getResolvedName($namespace);
@@ -109,7 +108,7 @@ class JSON extends Metadata implements JsonInterface
         }
 
         foreach (Lodata::getResources() as $resource) {
-            $resourceElement = new stdClass();
+            $resourceElement = (object) [];
 
             switch (true) {
                 case $resource instanceof Singleton:
@@ -123,7 +122,7 @@ class JSON extends Metadata implements JsonInterface
 
                     $navigationBindings = $resource->getNavigationBindings();
                     if ($navigationBindings) {
-                        $navigationPropertyBindingElement = new stdClass();
+                        $navigationPropertyBindingElement = (object) [];
                         $resourceElement->{'$NavigationPropertyBinding'} = $navigationPropertyBindingElement;
 
                         foreach ($resource->getNavigationBindings() as $binding) {
@@ -156,7 +155,7 @@ class JSON extends Metadata implements JsonInterface
                     $returnType = $resource->getReturnType();
 
                     if (null !== $returnType) {
-                        $returnTypeElement = new stdClass();
+                        $returnTypeElement = (object) [];
                         $resourceElement->{'$ReturnType'} = $returnTypeElement;
                         $returnTypeElement->{'$Collection'} = $resource->returnsCollection();
                         $returnTypeElement->{'$Type'} = $returnType->getIdentifier();
@@ -164,7 +163,7 @@ class JSON extends Metadata implements JsonInterface
                     }
 
                     if (!$isBound) {
-                        $operationImportElement = new stdClass();
+                        $operationImportElement = (object) [];
                         $entityContainer->{$resource->getResolvedName($namespace).'Import'} = $operationImportElement;
                         $operationImportElement->{$resource instanceof ActionInterface ? '$Action' : '$Function'} = $resource->getIdentifier();
 
@@ -182,10 +181,10 @@ class JSON extends Metadata implements JsonInterface
             }
         }
 
-        $schemaAnnotationsElement = new stdClass();
+        $schemaAnnotationsElement = (object) [];
         $entityContainer->{'$Annotations'} = $schemaAnnotationsElement;
 
-        $targetElement = new stdClass();
+        $targetElement = (object) [];
         $schemaAnnotationsElement->{$namespace.'.'.'DefaultContainer'} = $targetElement;
 
         foreach (Lodata::getAnnotations() as $annotation) {

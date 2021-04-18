@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Annotation;
 
 use SimpleXMLElement;
-use stdClass;
 
 /**
  * Reference to an external CSDL document
@@ -42,10 +41,10 @@ class Reference
 
     /**
      * Append this reference to the provided JSON class
-     * @param  stdClass  $json
+     * @param  object  $json
      * @return $this
      */
-    public function appendJson(stdClass $json): self
+    public function appendJson(object $json): self
     {
         $json->{'$Reference'}[$this->uri.'.json'] = [
             '$Include' => [

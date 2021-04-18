@@ -64,9 +64,13 @@ class Duration extends Primitive
 
     public static function durationToNumber(string $duration): ?float
     {
-        $result = preg_match('@^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$@', $duration, $matches);
+        $result = preg_match(
+            '@^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$@',
+            $duration,
+            $matches
+        );
 
-        $matches =  $result === 1 ? $matches : null;
+        $matches = $result === 1 ? $matches : null;
 
         if (!$matches) {
             return null;

@@ -65,7 +65,6 @@ use Flat3\Lodata\Type\Stream;
 use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
 use Illuminate\Http\Request;
-use stdClass;
 
 class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 {
@@ -101,7 +100,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
     public function emitJson(Transaction $transaction): void
     {
-        $document = new stdClass();
+        $document = (object) [];
 
         /**
          * 4.1 Field openapi
@@ -113,7 +112,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
          * 4.2 Field info
          * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldinfo
          */
-        $info = new stdClass();
+        $info = (object) [];
         $document->info = $info;
 
         $endpoint = rtrim(Lodata::getEndpoint(), '/');
@@ -177,7 +176,7 @@ DESC, [
          * 4.5 Field paths
          * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldpaths
          */
-        $paths = new stdClass();
+        $paths = (object) [];
         $document->paths = $paths;
 
         /**
@@ -186,7 +185,7 @@ DESC, [
          * @var EntitySet $entitySet
          */
         foreach (Lodata::getResources()->sliceByClass(EntitySet::class) as $entitySet) {
-            $pathItemObject = new stdClass();
+            $pathItemObject = (object) [];
             $paths->{"/{$entitySet->getName()}"} = $pathItemObject;
 
             if ($entitySet instanceof QueryInterface) {
@@ -202,7 +201,7 @@ DESC, [
              * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforSingleEntities
              */
             if ($entitySet instanceof ReadInterface || $entitySet instanceof UpdateInterface || $entitySet instanceof DeleteInterface) {
-                $pathItemObject = new stdClass();
+                $pathItemObject = (object) [];
                 $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}"} = $pathItemObject;
 
                 $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
@@ -223,7 +222,7 @@ DESC, [
             foreach ($entitySet->getType()->getNavigationProperties() as $navigationProperty) {
                 $navigationSet = $entitySet->getBindingByNavigationProperty($navigationProperty)->getTarget();
 
-                $pathItemObject = new stdClass();
+                $pathItemObject = (object) [];
                 $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
 
                 $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
@@ -240,12 +239,12 @@ DESC, [
 
         /** @var Singleton $singleton */
         foreach (Lodata::getResources()->sliceByClass(Singleton::class) as $singleton) {
-            $pathItemObject = new stdClass();
+            $pathItemObject = (object) [];
             $paths->{'/'.$singleton->getName()} = $pathItemObject;
 
             $parameters = [];
 
-            $queryObject = new stdClass();
+            $queryObject = (object) [];
             $pathItemObject->{'get'} = $queryObject;
 
             if ($singleton instanceof DeleteInterface) {
@@ -292,7 +291,7 @@ DESC, [
          */
         foreach (Lodata::getResources()->sliceByClass(Operation::class) as $operation) {
             $boundParameter = $operation->getBoundParameter();
-            $pathItemObject = new stdClass();
+            $pathItemObject = (object) [];
 
             switch (true) {
                 case null === $boundParameter:
@@ -304,7 +303,7 @@ DESC, [
                     break;
             }
 
-            $queryObject = new stdClass();
+            $queryObject = (object) [];
             $pathItemObject->{$operation instanceof FunctionInterface ? 'get' : 'post'} = $queryObject;
 
             $summary = $operation->getAnnotations()->sliceByClass(Description::class)->first();
@@ -374,10 +373,10 @@ DESC, [
         /**
          * Batch support
          */
-        $pathItemObject = new stdClass();
+        $pathItemObject = (object) [];
         $paths->{'/$batch'} = $pathItemObject;
 
-        $queryObject = new stdClass();
+        $queryObject = (object) [];
         $pathItemObject->{'post'} = $queryObject;
 
         $queryObject->summary = __('Send a group of requests');
@@ -485,10 +484,10 @@ DESC, [
             ],
         ];
 
-        $components = new stdClass();
+        $components = (object) [];
         $document->components = $components;
 
-        $schemas = new stdClass();
+        $schemas = (object) [];
         $components->schemas = $schemas;
 
         foreach (Lodata::getEntityTypes() as $entityType) {
@@ -536,7 +535,7 @@ DESC, [
             ),
         ];
 
-        $responses = new stdClass();
+        $responses = (object) [];
         $components->responses = $responses;
 
         $responses->error = [
@@ -575,7 +574,7 @@ DESC, [
             ],
         ];
 
-        $parameters = new stdClass();
+        $parameters = (object) [];
         $components->parameters = $parameters;
         $parameters->top = [
             'name' => Top::param,
@@ -728,11 +727,11 @@ DESC, [
     }
 
     protected function generateQueryRoutes(
-        stdClass $pathItemObject,
+        object $pathItemObject,
         EntitySet $entitySet,
         ?EntitySet $relatedSet = null
     ): void {
-        $queryObject = new stdClass();
+        $queryObject = (object) [];
         $pathItemObject->{'get'} = $queryObject;
 
         $tags = [
@@ -823,11 +822,11 @@ DESC, [
     }
 
     protected function generateCreateRoutes(
-        stdClass $pathItemObject,
+        object $pathItemObject,
         EntitySet $entitySet,
         ?EntitySet $relatedSet = null
     ): void {
-        $operationObject = new stdClass();
+        $operationObject = (object) [];
         $pathItemObject->{'post'} = $operationObject;
 
         $tags = [
@@ -878,10 +877,10 @@ DESC, [
         $operationObject->responses = $responses;
     }
 
-    protected function generateReadRoutes(stdClass $pathItemObject, ResourceInterface $resource): void
+    protected function generateReadRoutes(object $pathItemObject, ResourceInterface $resource): void
     {
         $entityType = $resource->getType();
-        $queryObject = new stdClass();
+        $queryObject = (object) [];
         $pathItemObject->{'get'} = $queryObject;
         $queryObject->summary = __('Get entity from :set by key', ['set' => $resource->getName()]);
         $queryObject->tags = [$resource->getName()];
@@ -913,10 +912,10 @@ DESC, [
         ];
     }
 
-    protected function generateUpdateRoutes(stdClass $pathItemObject, ResourceInterface $resource): void
+    protected function generateUpdateRoutes(object $pathItemObject, ResourceInterface $resource): void
     {
         $entityType = $resource->getType();
-        $queryObject = new stdClass();
+        $queryObject = (object) [];
         $pathItemObject->{'patch'} = $queryObject;
 
         $queryObject->summary = __('Update entity in :set', ['set' => $resource->getName()]);
@@ -947,9 +946,9 @@ DESC, [
         ];
     }
 
-    protected function generateDeleteRoutes(stdClass $pathItemObject, ResourceInterface $resource): void
+    protected function generateDeleteRoutes(object $pathItemObject, ResourceInterface $resource): void
     {
-        $queryObject = new stdClass();
+        $queryObject = (object) [];
         $pathItemObject->{'delete'} = $queryObject;
 
         $queryObject->summary = __('Delete entity from :set', ['set' => $resource->getName()]);

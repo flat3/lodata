@@ -6,7 +6,6 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Contracts\Support\Responsable;
 use RuntimeException;
-use stdClass;
 
 /**
  * Protocol Exception
@@ -156,7 +155,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
             'message' => $this->message,
             'target' => $this->target,
             'details' => $this->details,
-            'innererror' => $this->innerError ?: new stdClass(),
+            'innererror' => $this->innerError ?: (object) [],
         ];
     }
 

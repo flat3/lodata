@@ -26,7 +26,6 @@ use PDOException;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
 use Spatie\Snapshots\MatchesSnapshots;
-use stdClass;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use VirtualFileSystem\FileSystem as VirtualFileSystem;
@@ -236,9 +235,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * @param  TestResponse  $response
-     * @return stdClass
+     * @return object
      */
-    public function jsonResponse(TestResponse $response): stdClass
+    public function jsonResponse(TestResponse $response): object
     {
         return json_decode($this->responseContent($response));
     }

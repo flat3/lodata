@@ -11,7 +11,6 @@ use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Enum;
 use Flat3\Lodata\Type\String_;
 use SimpleXMLElement;
-use stdClass;
 
 /**
  * Annotation
@@ -36,10 +35,10 @@ abstract class Annotation
 
     /**
      * Append the annotation to the provided schema element
-     * @param  stdClass  $schema
+     * @param  object  $schema
      * @return $this
      */
-    public function appendJson(stdClass $schema): self
+    public function appendJson(object $schema): self
     {
         switch (true) {
             case $this->value instanceof Boolean:
