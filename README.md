@@ -115,12 +115,24 @@ Both Excel and PowerBI can now refresh the data source themselves using the Refr
 Any other consumer service requesting your "OData Endpoint" should accept the service document at
 `http://127.0.0.1:8000/odata/`
 
-To make changes from this point, you should install Lodata's configuration into your
-Laravel application:
+**Step 4: View your OpenAPI description**
+
+Lodata can render the OData API documented as an OpenAPI specification. The URL to the specification document is presented
+at `http://127.0.0.1:8000/odata/openapi.json`.
+
+To preview the specification you can use a tool such as [Swagger UI](https://petstore.swagger.io).
+To expose your API to the Internet you can use a tool such as [ngrok](https://ngrok.com).
+To use these tools you may have to configure Laravel to use [CORS](https://laravel.com/docs/8.x/routing#cors).
+
+**Step 5: Continue your configuration**
+
+To make changes from this point, it is recommended to install Lodata's configuration into your Laravel application:
 
 ```
 php artisan vendor:publish --provider="Flat3\Lodata\ServiceProvider" --tag="config"
 ```
+
+This will allow you to enable a read/write service, add authentication and other features.
 
 ### Authentication
 
@@ -183,7 +195,7 @@ document.
 #### Using Lodata with OpenAPI / Swagger
 
 Lodata can render an OpenAPI Specification Document modelling the entity sets, entity types and operations available
-in the service. The URL to the document is available at `http://127.0.0.1:8000/odata/openapi.json`. A helper method
+in the service. The URL to the document is available at `http://127.0.0.1:8000/odata/openapi.json`.
 
 The OpenAPI Specification (OAS, formerly known as Swagger RESTful API Documentation Specification) defines a standard,
 language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the
