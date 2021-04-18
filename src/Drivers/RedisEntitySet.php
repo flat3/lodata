@@ -161,6 +161,10 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
         do {
             list($token, $keys) = $this->getConnection()->scan($token, ['COUNT' => $pageSize]);
 
+            if ($keys === null) {
+                break;
+            }
+
             foreach ($keys as $key) {
                 $keyValue = new PropertyValue();
                 $keyValue->setProperty($this->getType()->getKey());

@@ -198,6 +198,10 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return new ObjectArray();
     }
 
+    /**
+     * Render this type as an OpenAPI schema
+     * @return array
+     */
     public function toOpenAPISchema(): array
     {
         return [

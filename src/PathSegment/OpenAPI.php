@@ -45,6 +45,7 @@ use Flat3\Lodata\Transaction\Option\Count;
 use Flat3\Lodata\Transaction\Option\Filter;
 use Flat3\Lodata\Transaction\Option\Search;
 use Flat3\Lodata\Transaction\Option\Skip;
+use Flat3\Lodata\Transaction\Option\SkipToken;
 use Flat3\Lodata\Transaction\Option\Top;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
@@ -600,6 +601,18 @@ DESC, [
             ),
         ];
 
+        $parameters->skiptoken = [
+            'name' => SkipToken::param,
+            'schema' => [
+                'type' => Constants::OAPI_STRING,
+            ],
+            'in' => 'query',
+            'description' => __(
+                'Skip using a skip token, see :ref',
+                ['ref' => '[OData Server Driven Paging](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServerDrivenPaging)'],
+            ),
+        ];
+
         $parameters->count = [
             'name' => Count::param,
             'schema' => [
@@ -957,7 +970,7 @@ DESC, [
         $key = $entitySet->getType()->getKey();
 
         return [
-            'description' => __('key: :key', ['key' => $key->getName()]),
+            'description' => __('Key: :key', ['key' => $key->getName()]),
             'in' => 'path',
             'name' => $key->getName(),
             'required' => true,

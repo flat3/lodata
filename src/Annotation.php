@@ -179,7 +179,7 @@ abstract class Annotation
 
     /**
      * Get the model annotation represented by this class
-     * @return static|null
+     * @return Annotation|null
      */
     public static function getModelAnnotation(): ?Annotation
     {

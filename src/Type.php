@@ -115,5 +115,9 @@ abstract class Type
      */
     abstract public function instance($value = null);
 
+    /**
+     * Render this type as an OpenAPI schema
+     * @return array
+     */
     abstract public function toOpenAPISchema(): array;
 }
