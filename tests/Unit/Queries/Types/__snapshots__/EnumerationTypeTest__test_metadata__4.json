@@ -1512,17 +1512,34 @@
                     "required": true,
                     "description": "Batch Request",
                     "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string"
+                            },
+                            "example": {
+                                "requests": [
+                                    {
+                                        "id": "0",
+                                        "method": "get",
+                                        "url": "/odata/resource(1)"
+                                    },
+                                    {
+                                        "id": "1",
+                                        "method": "patch",
+                                        "url": "/odata/resource(2)",
+                                        "headers": {
+                                            "Prefer": "return=minimal"
+                                        },
+                                        "body": "<JSON representation of changes to entity>"
+                                    }
+                                ]
+                            }
+                        },
                         "multipart/mixed;boundary=request-separator": {
                             "schema": {
                                 "type": "string"
                             },
                             "example": "--request-separator\nContent-Type: application/http\nContent-Transfer-Encoding: binary\n\nGET odata/resource HTTP/1.1\nAccept: application/json\n\n\n-request-separator--"
-                        },
-                        "application/json": {
-                            "schema": {
-                                "type": "string"
-                            },
-                            "example": "{\n    \"requests\": [\n        {\n            \"id\": \"0\",\n            \"method\": \"get\",\n            \"url\": \"odata/resource(1)\"\n        },\n        {\n            \"id\": \"1\",\n            \"method\": \"patch\",\n            \"url\": \"odata/resource(2)\",\n            \"headers\": {\n                \"Prefer\": \"return=minimal\"\n            },\n            \"body\": \"<JSON representation of changes to entity>\"\n        }\n    ]\n}"
                         }
                     }
                 },
@@ -1530,17 +1547,29 @@
                     "200": {
                         "description": "Batch response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": {
+                                    "responses": [
+                                        {
+                                            "id": "0",
+                                            "status": 200,
+                                            "body": "<JSON representation of the entity with key 1>"
+                                        },
+                                        {
+                                            "id": "1",
+                                            "status": 204
+                                        }
+                                    ]
+                                }
+                            },
                             "multipart/mixed": {
                                 "schema": {
                                     "type": "string"
                                 },
                                 "example": "--response-separator\nContent-Type: application/http\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{...}\n--response-separator--"
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "string"
-                                },
-                                "example": "{\n    \"responses\": [\n        {\n            \"id\": \"0\",\n            \"status\": 200,\n            \"body\": \"<JSON representation of the entity with key 1>\"\n        },\n        {\n            \"id\": \"1\",\n            \"status\": 204\n        }\n    ]\n}"
                             }
                         }
                     },

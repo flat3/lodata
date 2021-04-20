@@ -394,6 +394,29 @@ DESC, [
             'required' => true,
             'description' => __('Batch Request'),
             'content' => [
+                MediaType::json => [
+                    'schema' => [
+                        'type' => Constants::OAPI_STRING,
+                    ],
+                    'example' => [
+                        'requests' => [
+                            [
+                                'id' => '0',
+                                'method' => 'get',
+                                'url' => "/{$route}/resource(1)"
+                            ],
+                            [
+                                'id' => '1',
+                                'method' => 'patch',
+                                'url' => "/{$route}/resource(2)",
+                                'headers' => [
+                                    'Prefer' => 'return=minimal'
+                                ],
+                                'body' => '<JSON representation of changes to entity>'
+                            ],
+                        ],
+                    ],
+                ],
                 (string) MediaType::factory()
                     ->parse(MediaType::multipartMixed)
                     ->setParameter('boundary', 'request-separator') => [
@@ -412,29 +435,6 @@ DESC, [
                         '-request-separator--',
                     ])
                 ],
-                MediaType::json => [
-                    'schema' => [
-                        'type' => Constants::OAPI_STRING,
-                    ],
-                    'example' => json_encode([
-                        'requests' => [
-                            [
-                                'id' => '0',
-                                'method' => 'get',
-                                'url' => "{$route}/resource(1)"
-                            ],
-                            [
-                                'id' => '1',
-                                'method' => 'patch',
-                                'url' => "{$route}/resource(2)",
-                                'headers' => [
-                                    'Prefer' => 'return=minimal'
-                                ],
-                                'body' => '<JSON representation of changes to entity>'
-                            ],
-                        ],
-                    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),
-                ],
             ],
         ];
 
@@ -444,6 +444,24 @@ DESC, [
             Response::HTTP_OK => [
                 'description' => __('Batch response'),
                 'content' => [
+                    MediaType::json => [
+                        'schema' => [
+                            'type' => Constants::OAPI_STRING,
+                        ],
+                        'example' => [
+                            'responses' => [
+                                [
+                                    'id' => '0',
+                                    'status' => 200,
+                                    'body' => '<JSON representation of the entity with key 1>',
+                                ],
+                                [
+                                    'id' => '1',
+                                    'status' => 204
+                                ],
+                            ]
+                        ],
+                    ],
                     MediaType::multipartMixed => [
                         'schema' => [
                             'type' => Constants::OAPI_STRING,
@@ -458,24 +476,6 @@ DESC, [
                             '{...}',
                             '--response-separator--'
                         ]),
-                    ],
-                    MediaType::json => [
-                        'schema' => [
-                            'type' => Constants::OAPI_STRING,
-                        ],
-                        'example' => json_encode([
-                            'responses' => [
-                                [
-                                    'id' => '0',
-                                    'status' => 200,
-                                    'body' => '<JSON representation of the entity with key 1>',
-                                ],
-                                [
-                                    'id' => '1',
-                                    'status' => 204
-                                ],
-                            ]
-                        ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),
                     ],
                 ],
             ],
