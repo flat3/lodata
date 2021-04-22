@@ -7,7 +7,7 @@ use Flat3\Lodata\Operation;
 
 class DummyClass extends Operation implements ActionInterface
 {
-    public function invoke(): void
+    public function invoke()
     {
     }
 }

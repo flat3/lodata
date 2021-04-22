@@ -451,6 +451,13 @@ convention operations that define themselves as Functions MUST return data and M
 MAY have side effects when invoked and MAY return data. Lodata does not enforce the side-effect restriction, but does enforce the return
 data requirement.
 
+Actions and Function classes can be generated through `artisan` commands, and can then be added to Lodata in the `boot()` method of a service provider:
+
+```
+php artisan lodata:function Add
+php artisan lodata:action Subtract
+```
+
 Operations extend the `\Flat3\Lodata\Operation` class, and implement one of the `\Flat3\Lodata\Interfaces\Operation\ActionInterface` or
 `\Flat3\Lodata\Interfaces\Operation\FunctionInterface` interfaces. The class must also implement an `invoke()` method, which takes
 primitive type parameters. These parameter types and names will be read through [PHP reflection](https://www.php.net/manual/en/book.reflection.php)
