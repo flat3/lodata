@@ -10,6 +10,8 @@ use Illuminate\Console\GeneratorCommand;
  */
 abstract class ClassCreator extends GeneratorCommand
 {
+    protected $stub = null;
+
     protected function getStub(): string
     {
         return $this->stub;
