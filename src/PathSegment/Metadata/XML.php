@@ -234,11 +234,19 @@ class XML extends Metadata implements StreamInterface
             }
         }
 
+        if (!$entityContainer->count()) {
+            unset($entityContainer[0]);
+        }
+
         $schemaAnnotations = $schema->addChild('Annotations');
         $schemaAnnotations->addAttribute('Target', $namespace.'.'.'DefaultContainer');
 
         foreach (Lodata::getAnnotations() as $annotation) {
             $annotation->appendXml($schemaAnnotations);
+        }
+
+        if (!$schemaAnnotations->count()) {
+            unset($schemaAnnotations[0]);
         }
 
         $transaction->sendOutput($root->asXML());

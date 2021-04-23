@@ -51,7 +51,8 @@
         "josiasmontag/laravel-redis-mock": "^1.2",
         "league/flysystem-vfs": "^1.1",
         "nunomaduro/collision": "^5.3",
-        "brianium/paratest": "^6.2"
+        "brianium/paratest": "^6.2",
+        "eclipxe/xmlschemavalidator": "^3.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

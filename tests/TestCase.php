@@ -2,6 +2,8 @@
 
 namespace Flat3\Lodata\Tests;
 
+use DOMDocument;
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
 use Exception;
 use Faker\Factory;
 use Faker\Generator;
@@ -269,11 +271,23 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function assertMetadataDocuments()
     {
-        $this->assertXmlResponse(
+        $response = $this->req(
             Request::factory()
                 ->path('/$metadata')
                 ->xml()
         );
+
+        $xml = $this->responseContent($response);
+        $this->assertMatchesXmlSnapshot($xml);
+        $this->assertResponseMetadata($response);
+
+        $document = new DOMDocument();
+        $document->loadXML($xml);
+        $validator = new SchemaValidator($document);
+        $schemas = $validator->buildSchemas();
+        $schemas->create('http://docs.oasis-open.org/odata/ns/edm', __DIR__.'/schemas/edm.xsd');
+        $schemas->create('http://docs.oasis-open.org/odata/ns/edmx', __DIR__.'/schemas/edmx.xsd');
+        $validator->validateWithSchemas($schemas);
 
         $this->assertJsonResponse(
             Request::factory()

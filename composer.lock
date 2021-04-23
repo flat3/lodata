@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27e1312047517c21c518c20b8b280a41",
+    "content-hash": "df87d39e5807394db9d8c3cc5c3395e3",
     "packages": [
         {
             "name": "brick/math",
@@ -4943,6 +4943,58 @@
                 }
             ],
             "time": "2020-11-10T18:47:58+00:00"
+        },
+        {
+            "name": "eclipxe/xmlschemavalidator",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eclipxe13/XmlSchemaValidator.git",
+                "reference": "4a5af6b8e854c63bbc58ae161eee9176390a0e85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eclipxe13/XmlSchemaValidator/zipball/4a5af6b8e854c63bbc58ae161eee9176390a0e85",
+                "reference": "4a5af6b8e854c63bbc58ae161eee9176390a0e85",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Eclipxe\\XmlSchemaValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carlos C Soto",
+                    "email": "eclipxe13@gmail.com"
+                }
+            ],
+            "description": "PHP Library for XML Schema Validations",
+            "homepage": "https://github.com/eclipxe13/XmlSchemaValidator",
+            "keywords": [
+                "validation",
+                "xml",
+                "xmlschema",
+                "xsd"
+            ],
+            "support": {
+                "issues": "https://github.com/eclipxe13/XmlSchemaValidator/issues",
+                "source": "https://github.com/eclipxe13/XmlSchemaValidator"
+            },
+            "time": "2020-04-08T21:55:42+00:00"
         },
         {
             "name": "facade/ignition-contracts",

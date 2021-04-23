@@ -40,43 +40,43 @@ abstract class Annotation
      */
     public function appendJson(object $schema): self
     {
-        switch (true) {
-            case $this->value instanceof Boolean:
-            case $this->value instanceof String_:
-                $schema->{"@{$this->name}"} = $this->value->toJson();
-                break;
-
-            case $this->value instanceof Enum:
-                $schema->{"@{$this->name}"} = $this->value->getIdentifier().'/'.$this->value->toUrl();
-                break;
-
-            case $this->value instanceof Record:
-                $record = [];
-
-                /** @var PropertyValue $propertyValue */
-                foreach ($this->value as $propertyValue) {
-                    $record[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue()->toJson();
-                }
-
-                $schema->{"@{$this->name}"} = $record;
-                break;
-
-            case $this->value instanceof Collection:
-                $collection = [];
-
-                foreach ($this->value->get() as $member) {
-                    switch (true) {
-                        case $member instanceof String_:
-                            $collection[] = $member->get();
-                            break;
-                    }
-                }
-
-                $schema->{"@{$this->name}"} = $collection;
-                break;
-        }
+        $schema->{'@'.$this->name} = $this->appendJsonValue($this->value);
 
         return $this;
+    }
+
+    /**
+     * Append a JSON annotation value
+     * @param $value
+     * @return mixed
+     */
+    public function appendJsonValue($value)
+    {
+        switch (true) {
+            case $value instanceof Enum:
+                return $value->getIdentifier().'/'.$value->toJson();
+
+            case $value instanceof Record:
+                $record = (object) [];
+
+                foreach ($value as $propertyValue) {
+                    $record->{$propertyValue->getProperty()->getName()} = $this->appendJsonValue($propertyValue->getPrimitiveValue());
+                }
+
+                return $record;
+
+            case $value instanceof Collection:
+                $collection = [];
+
+                foreach ($value->get() as $member) {
+                    $collection[] = $this->appendJsonValue($member);
+                }
+
+                return $collection;
+
+            default:
+                return $value->toJson();
+        }
     }
 
     /**
@@ -88,65 +88,72 @@ abstract class Annotation
     {
         $annotationElement = $schema->addChild('Annotation');
         $annotationElement->addAttribute('Term', $this->name);
+        $this->appendXmlValue($annotationElement, $this->value);
 
+        return $this;
+    }
+
+    /**
+     * Append the value to the annotation element
+     * @param  SimpleXMLElement  $element
+     * @param $value
+     */
+    protected function appendXmlValue(SimpleXMLElement $element, $value)
+    {
         switch (true) {
-            case $this->value instanceof Boolean:
-                $annotationElement->addAttribute('Bool', $this->value->toUrl());
+            case $value instanceof Boolean:
+                $element->addAttribute('Bool', $value->toUrl());
                 break;
 
-            case $this->value instanceof String_:
-                $annotationElement->addAttribute('String', $this->value->get());
+            case $value instanceof Byte:
+                $element->addAttribute('Int', $value->toUrl());
                 break;
 
-            case $this->value instanceof Enum:
-                $annotationElement->addAttribute('EnumMember', $this->value->getIdentifier().'/'.$this->value->toUrl());
+            case $value instanceof String_:
+                $element->addAttribute('String', $value->get());
                 break;
 
-            case $this->value instanceof Record:
-                $recordElement = $annotationElement->addChild('Record');
-
-                /** @var PropertyValue $propertyValue */
-                foreach ($this->value as $propertyValue) {
-                    $propertyValueElement = $recordElement->addChild('PropertyValue');
-                    $propertyValueElement->addAttribute('Property', $propertyValue->getProperty()->getName());
-
-                    switch (true) {
-                        case $propertyValue->getProperty()->getType()->instance() instanceof Boolean:
-                            $propertyValueElement->addAttribute('Bool', $propertyValue->getPrimitiveValue()->toUrl());
-                            break;
-
-                        case $propertyValue->getProperty()->getType()->instance() instanceof Byte:
-                            $propertyValueElement->addAttribute('Int', $propertyValue->getPrimitiveValue()->toUrl());
-                            break;
-
-                        case $propertyValue->getProperty()->getType()->instance() instanceof Collection:
-                            $collection = $propertyValue->getPrimitiveValue();
-                            $collectionElement = $propertyValueElement->addChild('Collection');
-                            foreach ($collection->get() as $member) {
-                                switch (true) {
-                                    case $member instanceof String_:
-                                        $collectionElement->addChild('String', $member->get());
-                                        break;
-                                }
-                            }
-                            break;
-                    }
-                }
+            case $value instanceof Enum:
+                $element->addAttribute('EnumMember', $value->getIdentifier().'/'.$value->toUrl());
                 break;
 
-            case $this->value instanceof Collection:
-                $collection = $annotationElement->addChild('Collection');
-                foreach ($this->value->get() as $member) {
+            case $value instanceof Record:
+                $this->appendXmlRecord($element, $value);
+                break;
+
+            case $value instanceof Collection:
+                $collectionElement = $element->addChild('Collection');
+
+                foreach ($value->get() as $member) {
                     switch (true) {
                         case $member instanceof String_:
-                            $collection->addChild('String', $member->get());
+                            $collectionElement->addChild('String', $member->get());
+                            break;
+
+                        case $member instanceof Record:
+                            $this->appendXmlRecord($collectionElement, $member);
                             break;
                     }
                 }
                 break;
         }
+    }
 
-        return $this;
+    /**
+     * Append the record to the element
+     * @param  SimpleXMLElement  $element
+     * @param  Record  $record
+     */
+    protected function appendXmlRecord(SimpleXMLElement $element, Record $record)
+    {
+        $recordElement = $element->addChild('Record');
+
+        /** @var PropertyValue $propertyValue */
+        foreach ($record as $propertyValue) {
+            $propertyValueElement = $recordElement->addChild('PropertyValue');
+            $propertyValueElement->addAttribute('Property', $propertyValue->getProperty()->getName());
+            $this->appendXmlValue($propertyValueElement, $propertyValue->getValue());
+        }
     }
 
     /**

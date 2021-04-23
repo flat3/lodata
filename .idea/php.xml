@@ -122,6 +122,12 @@
       <path value="$PROJECT_DIR$/vendor/php-vfs/php-vfs" />
       <path value="$PROJECT_DIR$/vendor/league/flysystem-vfs" />
       <path value="$PROJECT_DIR$/vendor/league/csv" />
+      <path value="$PROJECT_DIR$/vendor/facade/ignition-contracts" />
+      <path value="$PROJECT_DIR$/vendor/brianium/paratest" />
+      <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
+      <path value="$PROJECT_DIR$/vendor/filp/whoops" />
+      <path value="$PROJECT_DIR$/vendor/swoole/ide-helper" />
+      <path value="$PROJECT_DIR$/vendor/eclipxe/xmlschemavalidator" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

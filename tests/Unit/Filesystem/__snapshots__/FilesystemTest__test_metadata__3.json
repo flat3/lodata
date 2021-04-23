@@ -73,7 +73,13 @@
                         "multipart/mixed"
                     ]
                 },
-                "@Org.OData.Capabilities.V1.CallbackSupported": [],
+                "@Org.OData.Capabilities.V1.CallbackSupported": {
+                    "CallbackProtocols": [
+                        {
+                            "Id": "http"
+                        }
+                    ]
+                },
                 "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
                 "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
                 "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,

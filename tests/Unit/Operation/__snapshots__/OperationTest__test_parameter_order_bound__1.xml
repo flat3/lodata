@@ -8,7 +8,6 @@
   </edmx:Reference>
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
-      <EntityContainer Name="DefaultContainer"/>
       <Function Name="f1" IsBound="true">
         <Parameter Name="b" Type="Edm.Decimal" Nullable="false"/>
         <Parameter Name="a" Type="Edm.Int32" Nullable="false"/>
@@ -34,7 +33,15 @@
           </Record>
         </Annotation>
         <Annotation Term="Org.OData.Capabilities.V1.CallbackSupported">
-          <Collection/>
+          <Record>
+            <PropertyValue Property="CallbackProtocols">
+              <Collection>
+                <Record>
+                  <PropertyValue Property="Id" String="http"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
         </Annotation>
         <Annotation Term="Org.OData.Capabilities.V1.ConformanceLevel" EnumMember="Org.OData.Capabilities.V1.ConformanceLevelType/Advanced"/>
         <Annotation Term="Org.OData.Capabilities.V1.KeyAsSegmentSupported" Bool="true"/>

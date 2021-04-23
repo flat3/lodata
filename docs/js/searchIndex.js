@@ -31,6 +31,41 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Capabilities-BatchSupportType.html#constant_SupportedFormats"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackProtocol",
+            "name": "CallbackProtocol",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackProtocol.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackProtocol\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackProtocol.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackProtocol\u003A\u003AId",
+            "name": "Id",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackProtocol.html#constant_Id"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackProtocol\u003A\u003AHTTP",
+            "name": "HTTP",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackProtocol.html#constant_HTTP"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackType",
+            "name": "CallbackType",
+            "summary": "Complex\u0020Type",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackType.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackType\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "ComplexType\u0020constructor.",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackType.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CallbackType\u003A\u003ACallbackProtocols",
+            "name": "CallbackProtocols",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Capabilities-CallbackType.html#constant_CallbackProtocols"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Capabilities\\CountRestrictionsType",
             "name": "CountRestrictionsType",
             "summary": "Complex\u0020Type",
@@ -806,10 +841,25 @@ Search.appendIndex(
             "summary": "Append\u0020the\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
             "url": "classes/Flat3-Lodata-Annotation.html#method_appendJson"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AappendJsonValue\u0028\u0029",
+            "name": "appendJsonValue",
+            "summary": "Append\u0020a\u0020JSON\u0020annotation\u0020value",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_appendJsonValue"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AappendXml\u0028\u0029",
             "name": "appendXml",
             "summary": "Append\u0020the\u0020annotation\u0020to\u0020the\u0020provided\u0020schema\u0020element",
             "url": "classes/Flat3-Lodata-Annotation.html#method_appendXml"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AappendXmlValue\u0028\u0029",
+            "name": "appendXmlValue",
+            "summary": "Append\u0020the\u0020value\u0020to\u0020the\u0020annotation\u0020element",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_appendXmlValue"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AappendXmlRecord\u0028\u0029",
+            "name": "appendXmlRecord",
+            "summary": "Append\u0020the\u0020record\u0020to\u0020the\u0020element",
+            "url": "classes/Flat3-Lodata-Annotation.html#method_appendXmlRecord"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
@@ -920,6 +970,71 @@ Search.appendIndex(
             "name": "identifier",
             "summary": "",
             "url": "classes/Flat3-Lodata-ComplexType.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ActionCommand",
+            "name": "ActionCommand",
+            "summary": "Class\u0020ActionCommand",
+            "url": "classes/Flat3-Lodata-Console-ActionCommand.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ActionCommand\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ActionCommand.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ActionCommand\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ActionCommand.html#property_description"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ActionCommand\u003A\u003A\u0024stub",
+            "name": "stub",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ActionCommand.html#property_stub"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ClassCreator",
+            "name": "ClassCreator",
+            "summary": "Class\u0020ClassCreator",
+            "url": "classes/Flat3-Lodata-Console-ClassCreator.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ClassCreator\u003A\u003AgetStub\u0028\u0029",
+            "name": "getStub",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ClassCreator.html#method_getStub"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ClassCreator\u003A\u003AgetDefaultNamespace\u0028\u0029",
+            "name": "getDefaultNamespace",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ClassCreator.html#method_getDefaultNamespace"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ClassCreator\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ClassCreator.html#method_handle"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\ClassCreator\u003A\u003A\u0024stub",
+            "name": "stub",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-ClassCreator.html#property_stub"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\FunctionCommand",
+            "name": "FunctionCommand",
+            "summary": "Class\u0020FunctionCommand",
+            "url": "classes/Flat3-Lodata-Console-FunctionCommand.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\FunctionCommand\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-FunctionCommand.html#property_name"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\FunctionCommand\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-FunctionCommand.html#property_description"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console\\FunctionCommand\u003A\u003A\u0024stub",
+            "name": "stub",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Console-FunctionCommand.html#property_stub"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Async",
             "name": "Async",
@@ -8190,6 +8305,11 @@ Search.appendIndex(
             "name": "Flat3",
             "summary": "",
             "url": "namespaces/flat3.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Console",
+            "name": "Console",
+            "summary": "",
+            "url": "namespaces/flat3-lodata-console.html"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Controller",
             "name": "Controller",
