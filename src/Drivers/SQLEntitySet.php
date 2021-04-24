@@ -43,7 +43,7 @@ use PDOStatement;
  * SQL Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class SQLEntitySet extends EntitySet implements SearchInterface, FilterInterface, CountInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, ExpandInterface, TransactionInterface
+class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface
 {
     use SQLConnection;
     use SQLFilter;
