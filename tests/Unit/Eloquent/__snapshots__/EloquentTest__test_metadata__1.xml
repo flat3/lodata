@@ -17,8 +17,8 @@
               <PropertyValue Property="Countable" Bool="true"/>
             </Record>
           </Annotation>
-          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="false"/>
-          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="false"/>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
           <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
             <Record>
               <PropertyValue Property="Filterable" Bool="true"/>
@@ -76,8 +76,8 @@
               <PropertyValue Property="Countable" Bool="true"/>
             </Record>
           </Annotation>
-          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="false"/>
-          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="false"/>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
           <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
             <Record>
               <PropertyValue Property="Filterable" Bool="true"/>
@@ -133,8 +133,8 @@
               <PropertyValue Property="Countable" Bool="true"/>
             </Record>
           </Annotation>
-          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="false"/>
-          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="false"/>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
           <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
             <Record>
               <PropertyValue Property="Filterable" Bool="true"/>
@@ -192,8 +192,8 @@
               <PropertyValue Property="Countable" Bool="true"/>
             </Record>
           </Annotation>
-          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="false"/>
-          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="false"/>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
           <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
             <Record>
               <PropertyValue Property="Filterable" Bool="true"/>

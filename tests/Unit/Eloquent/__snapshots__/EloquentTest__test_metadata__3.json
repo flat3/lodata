@@ -28,8 +28,8 @@
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
-            "@Org.OData.Capabilities.V1.TopSupported": false,
-            "@Org.OData.Capabilities.V1.SkipSupported": false,
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
             "@Org.OData.Capabilities.V1.FilterRestrictions": {
                 "Filterable": true
             },
@@ -70,8 +70,8 @@
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
-            "@Org.OData.Capabilities.V1.TopSupported": false,
-            "@Org.OData.Capabilities.V1.SkipSupported": false,
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
             "@Org.OData.Capabilities.V1.FilterRestrictions": {
                 "Filterable": true
             },
@@ -110,8 +110,8 @@
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
-            "@Org.OData.Capabilities.V1.TopSupported": false,
-            "@Org.OData.Capabilities.V1.SkipSupported": false,
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
             "@Org.OData.Capabilities.V1.FilterRestrictions": {
                 "Filterable": true
             },
@@ -152,8 +152,8 @@
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
-            "@Org.OData.Capabilities.V1.TopSupported": false,
-            "@Org.OData.Capabilities.V1.SkipSupported": false,
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
             "@Org.OData.Capabilities.V1.FilterRestrictions": {
                 "Filterable": true
             },

@@ -84,6 +84,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -377,6 +383,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -534,6 +546,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -672,6 +690,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
                     },
                     {
                         "name": "orderby",
@@ -954,6 +978,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -1113,6 +1143,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
                     },
                     {
                         "name": "orderby",
@@ -1288,6 +1324,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -1435,6 +1477,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
                     },
                     {
                         "name": "orderby",
@@ -1711,6 +1759,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -1861,6 +1915,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
                     },
                     {
                         "name": "orderby",
@@ -2139,6 +2199,12 @@
                         "$ref": "#/components/parameters/search"
                     },
                     {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
                         "name": "orderby",
                         "in": "query",
                         "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
@@ -2302,6 +2368,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
                     },
                     {
                         "name": "orderby",
@@ -2475,6 +2547,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
                     },
                     {
                         "name": "orderby",
