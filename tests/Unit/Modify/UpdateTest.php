@@ -46,6 +46,18 @@ class UpdateTest extends TestCase
         );
     }
 
+    public function test_update_post()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)')
+                ->post()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
     public function test_validate_etag()
     {
         $response = $this->req(
