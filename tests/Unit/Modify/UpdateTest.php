@@ -58,7 +58,8 @@ class UpdateTest extends TestCase
         );
     }
 
-    public function test_update_post_via_tunnel() {
+    public function test_update_post_via_tunnel()
+    {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')

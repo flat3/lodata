@@ -8,7 +8,7 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\ParserException;
-use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Tests\LoopbackEntitySet;
 use Flat3\Lodata\Tests\TestCase;
@@ -18,242 +18,242 @@ class FilterTest extends TestCase
 {
     public function test_0()
     {
-        $this->assertResult('title eq "test"',);
+        $this->assertResult('title eq "test"');
     }
 
     public function test_1()
     {
-        $this->assertResult("title eq 'test'",);
+        $this->assertResult("title eq 'test'");
     }
 
     public function test_2()
     {
-        $this->assertResult("title eq 'test",);
+        $this->assertResult("title eq 'test");
     }
 
     public function test_3()
     {
-        $this->assertResult('id eq 4',);
+        $this->assertResult('id eq 4');
     }
 
     public function test_4()
     {
-        $this->assertResult('id gt 4',);
+        $this->assertResult('id gt 4');
     }
 
     public function test_5()
     {
-        $this->assertResult('id lt 4',);
+        $this->assertResult('id lt 4');
     }
 
     public function test_6()
     {
-        $this->assertResult('id ge 4',);
+        $this->assertResult('id ge 4');
     }
 
     public function test_7()
     {
-        $this->assertResult('id le 4',);
+        $this->assertResult('id le 4');
     }
 
     public function test_8()
     {
-        $this->assertResult('id eq test',);
+        $this->assertResult('id eq test');
     }
 
     public function test_9()
     {
-        $this->assertResult("title in ('a', 'b', 'c')",);
+        $this->assertResult("title in ('a', 'b', 'c')");
     }
 
     public function test_a()
     {
-        $this->assertResult("title in ('a')",);
+        $this->assertResult("title in ('a')");
     }
 
     public function test_b()
     {
-        $this->assertResult('id in (4, 3)',);
+        $this->assertResult('id in (4, 3)');
     }
 
     public function test_c()
     {
-        $this->assertResult('id lt 4 and id gt 2',);
+        $this->assertResult('id lt 4 and id gt 2');
     }
 
     public function test_d()
     {
-        $this->assertResult('id lt 4 or id gt 2',);
+        $this->assertResult('id lt 4 or id gt 2');
     }
 
     public function test_e()
     {
-        $this->assertResult('id lt 4 or id lt 3 or id lt 2',);
+        $this->assertResult('id lt 4 or id lt 3 or id lt 2');
     }
 
     public function test_f()
     {
-        $this->assertResult('id lt 4 or id lt 3 and id lt 2',);
+        $this->assertResult('id lt 4 or id lt 3 and id lt 2');
     }
 
     public function test_10()
     {
-        $this->assertResult('id lt 4 or id in (3, 1) and id ge 2',);
+        $this->assertResult('id lt 4 or id in (3, 1) and id ge 2');
     }
 
     public function test_11()
     {
-        $this->assertResult('(id lt 4 and (id ge 7 or id gt 3)',);
+        $this->assertResult('(id lt 4 and (id ge 7 or id gt 3)');
     }
 
     public function test_12()
     {
-        $this->assertResult('(id lt 4 a',);
+        $this->assertResult('(id lt 4 a');
     }
 
     public function test_13()
     {
-        $this->assertResult('(id lt 4 and id ge 7) or id gt 3',);
+        $this->assertResult('(id lt 4 and id ge 7) or id gt 3');
     }
 
     public function test_14()
     {
-        $this->assertResult('id lt 4 or (id gt 3 and id gt 2)',);
+        $this->assertResult('id lt 4 or (id gt 3 and id gt 2)');
     }
 
     public function test_15()
     {
-        $this->assertResult('(id lt 4 and id ge 7) or (id gt 3 and id gt 2)',);
+        $this->assertResult('(id lt 4 and id ge 7) or (id gt 3 and id gt 2)');
     }
 
     public function test_16()
     {
-        $this->assertResult('id add 3.14 eq 1.59',);
+        $this->assertResult('id add 3.14 eq 1.59');
     }
 
     public function test_17()
     {
-        $this->assertResult('id in (1.59, 2.14)',);
+        $this->assertResult('id in (1.59, 2.14)');
     }
 
     public function test_18()
     {
-        $this->assertResult('(id add 3.14) in (1.59, 2.14) or (id gt -2.40 and id gt 4 add 5)',);
+        $this->assertResult('(id add 3.14) in (1.59, 2.14) or (id gt -2.40 and id gt 4 add 5)');
     }
 
     public function test_19()
     {
-        $this->assertResult('id add 3.14 add 5 in (1.59, 2.14)',);
+        $this->assertResult('id add 3.14 add 5 in (1.59, 2.14)');
     }
 
     public function test_1a()
     {
-        $this->assertResult('id add 3.14 in (1.59, 2.14)',);
+        $this->assertResult('id add 3.14 in (1.59, 2.14)');
     }
 
     public function test_1b()
     {
-        $this->assertResult('id add 3.14 in (1.59, 2.14) or (id gt -2.40 and id gt 4 add 5)',);
+        $this->assertResult('id add 3.14 in (1.59, 2.14) or (id gt -2.40 and id gt 4 add 5)');
     }
 
     public function test_1c()
     {
-        $this->assertResult("not(contains(title,'a')) and ((title eq 'abcd') or (title eq 'e'))",);
+        $this->assertResult("not(contains(title,'a')) and ((title eq 'abcd') or (title eq 'e'))");
     }
 
     public function test_1d()
     {
-        $this->assertResult("not(title eq 'a')",);
+        $this->assertResult("not(title eq 'a')");
     }
 
     public function test_1e()
     {
-        $this->assertResult("title eq 'b' and not(title eq 'a')",);
+        $this->assertResult("title eq 'b' and not(title eq 'a')");
     }
 
     public function test_1f()
     {
-        $this->assertResult("title eq 'b' or not(title eq 'a')",);
+        $this->assertResult("title eq 'b' or not(title eq 'a')");
     }
 
     public function test_20()
     {
-        $this->assertResult("contains(title, 'b')",);
+        $this->assertResult("contains(title, 'b')");
     }
 
     public function test_21()
     {
-        $this->assertResult("endswith(title, 'b')",);
+        $this->assertResult("endswith(title, 'b')");
     }
 
     public function test_22()
     {
-        $this->assertResult("concat(title, 'abc') eq '123abc'",);
+        $this->assertResult("concat(title, 'abc') eq '123abc'");
     }
 
     public function test_23()
     {
-        $this->assertResult("concat(title, 'abc', 4.0) eq '123abc'",);
+        $this->assertResult("concat(title, 'abc', 4.0) eq '123abc'");
     }
 
     public function test_24()
     {
-        $this->assertResult("concat(title, id) eq '123abc'",);
+        $this->assertResult("concat(title, id) eq '123abc'");
     }
 
     public function test_25()
     {
-        $this->assertResult("concat(title, concat(id, 4)) eq '123abc'",);
+        $this->assertResult("concat(title, concat(id, 4)) eq '123abc'");
     }
 
     public function test_26()
     {
-        $this->assertResult("indexof(title,'abc123') eq 1",);
+        $this->assertResult("indexof(title,'abc123') eq 1");
     }
 
     public function test_27()
     {
-        $this->assertResult("length(title) eq 1",);
+        $this->assertResult("length(title) eq 1");
     }
 
     public function test_28()
     {
-        $this->assertResult("substring(title,1) eq 'abc123'",);
+        $this->assertResult("substring(title,1) eq 'abc123'");
     }
 
     public function test_29()
     {
-        $this->assertResult("substring(title,1,4) eq 'abc123'",);
+        $this->assertResult("substring(title,1,4) eq 'abc123'");
     }
 
     public function test_2a()
     {
-        $this->assertResult("matchesPattern(title,'^A.*e$')",);
+        $this->assertResult("matchesPattern(title,'^A.*e$')");
     }
 
     public function test_2b()
     {
-        $this->assertResult("tolower(title) eq 'abc123'",);
+        $this->assertResult("tolower(title) eq 'abc123'");
     }
 
     public function test_2c()
     {
-        $this->assertResult("toupper(title) eq 'abc123'",);
+        $this->assertResult("toupper(title) eq 'abc123'");
     }
 
     public function test_2d()
     {
-        $this->assertResult("trim(title) eq 'abc123'",);
+        $this->assertResult("trim(title) eq 'abc123'");
     }
 
     public function test_2e()
     {
-        $this->assertResult('ceiling(title) eq 4',);
+        $this->assertResult('ceiling(title) eq 4');
     }
 
     public function test_2f()
     {
-        $this->assertResult('floor(title) eq 4',);
+        $this->assertResult('floor(title) eq 4');
     }
 
     public function test_30()
@@ -441,6 +441,36 @@ class FilterTest extends TestCase
         $this->assertResult('title eq 2000-01-01T12:34:59-01:00');
     }
 
+    public function test_55()
+    {
+        $this->assertResult("startswith(title,'Veniam et') eq true");
+    }
+
+    public function test_56()
+    {
+        $this->assertResult("true eq startswith(title,'Veniam et')");
+    }
+
+    public function test_57()
+    {
+        $this->assertResult("startswith(title,'Veniam et') gt 4");
+    }
+
+    public function test_58()
+    {
+        $this->assertResult("4 lt startswith(title,'Veniam et')");
+    }
+
+    public function test_59()
+    {
+        $this->assertResult("endswith(title,'Veniam et') eq true and startswith(title,'Veniam et') eq true");
+    }
+
+    public function test_5a()
+    {
+        $this->assertResult("endswith(title,'Veniam et') eq true and not(startswith(title,'Veniam et') eq true)");
+    }
+
     public function assertLoopbackSet($input)
     {
         $type = new class('test') extends EntityType {
@@ -549,9 +579,7 @@ class FilterTest extends TestCase
 
             $this->assertMatchesSnapshot($queryString);
             $this->assertMatchesSnapshot($queryParameters);
-        } catch (ParserException $exception) {
-            $this->assertMatchesSnapshot($exception->getMessage());
-        } catch (NotImplementedException $exception) {
+        } catch (ParserException | ProtocolException $exception) {
             $this->assertMatchesSnapshot($exception->getMessage());
         }
     }

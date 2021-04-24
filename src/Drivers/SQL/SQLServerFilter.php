@@ -20,11 +20,8 @@ use Flat3\Lodata\Expression\Node\Func\String\ToLower;
 use Flat3\Lodata\Expression\Node\Func\String\ToUpper;
 use Flat3\Lodata\Expression\Node\Func\String\Trim;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Concat;
-use Flat3\Lodata\Expression\Node\Func\StringCollection\Contains;
-use Flat3\Lodata\Expression\Node\Func\StringCollection\EndsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\IndexOf;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
-use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 
 /**
@@ -123,28 +120,6 @@ trait SQLServerFilter
                         $this->addWhere('CONCAT(');
 
                         return true;
-
-                    case $func instanceof Contains:
-                    case $func instanceof EndsWith:
-                    case $func instanceof StartsWith:
-                        $arguments = $func->getArguments();
-                        list($arg1, $arg2) = $arguments;
-
-                        $arg1->compute();
-                        $this->addWhere('LIKE');
-                        $value = $arg2->getValue();
-
-                        if ($func instanceof StartsWith || $func instanceof Contains) {
-                            $value .= '%';
-                        }
-
-                        if ($func instanceof EndsWith || $func instanceof Contains) {
-                            $value = '%'.$value;
-                        }
-
-                        $arg2->setValue($value);
-                        $arg2->compute();
-                        throw new NodeHandledException();
 
                     case $func instanceof IndexOf:
                         $this->addWhere('CHARINDEX(');

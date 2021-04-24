@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Event\ArgumentSeparator;
@@ -12,7 +13,11 @@ use Flat3\Lodata\Expression\Event\EndGroup;
 use Flat3\Lodata\Expression\Event\Field;
 use Flat3\Lodata\Expression\Event\Literal;
 use Flat3\Lodata\Expression\Event\Operator;
+use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\Contains;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\EndsWith;
+use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
@@ -23,6 +28,7 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mod;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mul;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Sub;
+use Flat3\Lodata\Expression\Node\Operator\Comparison;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
@@ -119,6 +125,31 @@ trait SQLFilter
             case $event instanceof Operator:
                 $operator = $event->getNode();
 
+                $left = $operator->getLeftNode();
+                $right = $operator->getRightNode();
+
+                if (
+                    !$operator instanceof Comparison
+                    && (
+                        $left instanceof StartsWith
+                        || $left instanceof EndsWith
+                        || $left instanceof Contains
+                        || $right instanceof StartsWith
+                        || $right instanceof EndsWith
+                        || $right instanceof Contains
+                    )
+                ) {
+                    if (!($operator instanceof Equal && $right instanceof Boolean && $right->getValue() === true)) {
+                        throw new BadRequestException(
+                            'This entity set does not support expression operators with startswith, endswith, contains other than x eq true'
+                        );
+                    }
+
+                    $this->addWhere(')');
+
+                    throw new NodeHandledException();
+                }
+
                 switch (true) {
                     case $operator instanceof Add:
                         $this->addWhere('+');
@@ -201,6 +232,33 @@ trait SQLFilter
                 $this->addWhere('(');
 
                 return true;
+
+            case $event instanceof StartFunction:
+                $func = $event->getNode();
+
+                switch (true) {
+                    case $func instanceof Contains:
+                    case $func instanceof EndsWith:
+                    case $func instanceof StartsWith:
+                        $arguments = $func->getArguments();
+                        list($arg1, $arg2) = $arguments;
+
+                        $arg1->compute();
+                        $this->addWhere('LIKE');
+                        $value = $arg2->getValue();
+
+                        if ($func instanceof StartsWith || $func instanceof Contains) {
+                            $value .= '%';
+                        }
+
+                        if ($func instanceof EndsWith || $func instanceof Contains) {
+                            $value = '%'.$value;
+                        }
+
+                        $arg2->setValue($value);
+                        $arg2->compute();
+                        throw new NodeHandledException();
+                }
         }
 
         switch ($this->getDriver()) {
