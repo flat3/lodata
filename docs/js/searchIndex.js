@@ -1226,6 +1226,11 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020request\u0020content",
             "url": "classes/Flat3-Lodata-Controller-Request.html#method_setContent"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003AgetMethod\u0028\u0029",
+            "name": "getMethod",
+            "summary": "Implement\u0020x\u002Dhttp\u002Dmethod\u0020tunnelling",
+            "url": "classes/Flat3-Lodata-Controller-Request.html#method_getMethod"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Controller\\Request\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",

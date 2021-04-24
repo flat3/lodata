@@ -48,10 +48,22 @@ class UpdateTest extends TestCase
 
     public function test_update_post()
     {
+        $this->assertMethodNotAllowed(
+            Request::factory()
+                ->path('/flights(1)')
+                ->post()
+                ->body([
+                    'origin' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_update_post_via_tunnel() {
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights(1)')
                 ->post()
+                ->header('x-http-method', 'patch')
                 ->body([
                     'origin' => 'ooo',
                 ])

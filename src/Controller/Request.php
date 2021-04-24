@@ -35,6 +35,27 @@ class Request extends IlluminateRequest implements RequestInterface
         return $this;
     }
 
+    /**
+     * Implement x-http-method tunnelling
+     * @return string
+     */
+    public function getMethod()
+    {
+        $method = parent::getMethod();
+
+        if ($method !== self::METHOD_POST) {
+            return $method;
+        }
+
+        $x_http_method = $this->headers->get('x-http-method');
+
+        if ($x_http_method) {
+            return strtoupper($x_http_method);
+        }
+
+        return $method;
+    }
+
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(IlluminateRequest $request)
     {

@@ -527,7 +527,6 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
         switch ($transaction->getMethod()) {
             case Request::METHOD_PATCH:
-            case Request::METHOD_POST:
             case Request::METHOD_PUT:
                 return $this->patch($transaction, $context);
 
