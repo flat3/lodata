@@ -477,11 +477,11 @@ Lodata::add((new class('helloworld') extends Operation implements FunctionInterf
     {
         return new String_('Hello world!');
     }
-});
+}));
 ```
 
 This Function receives two Edm.String parameters, and returns an Edm.String that concatenates them. The names of the parameters
-and their types are resolved through reflection. This function can be invoked via `http://localhost/odata/helloworld(one='hello',two='world)`
+and their types are resolved through reflection. This function can be invoked via `http://localhost/odata/concat(one='hello',two='world')`
 
 ```
 Lodata::add((new class('concat') extends Operation implements FunctionInterface {
@@ -489,7 +489,7 @@ Lodata::add((new class('concat') extends Operation implements FunctionInterface 
     {
         return new String_($one->get().$two->get());
     }
-})
+}));
 ```
 
 This Function requests that the bound parameter be provided as the 'code' parameter to the method, and sends it back unmodified.
@@ -501,7 +501,7 @@ Lodata::add((new class('identity') extends Operation implements FunctionInterfac
     {
       return $code;
     }
-})->setBoundParameter('code');
+}))->setBoundParameter('code');
 ```
 
 This Function requests the bound parameter be provided as the 'entity' parameter to the method, and additionally defines a provided
@@ -509,12 +509,12 @@ parameter 'prefix' and then returns an Edm.String.
 This can be invoked via a URL for example `http://localhost/odata/Airports(1)/codeprefix(prefix='example')`.
 
 ```
-Lodata::add((new class('code') extends Operation implements FunctionInterface {
+Lodata::add((new class('codeprefix') extends Operation implements FunctionInterface {
     public function invoke(Entity $entity, String_ $prefix): String_
     {
       return $prefix->get() . $entity->code->get();
     }
-})->setBoundParameter('entity');
+}))->setBoundParameter('entity');
 ```
 
 Finally, entities can themselves be generated and returned. This Function requests the bound parameter be provided as the `text`s
