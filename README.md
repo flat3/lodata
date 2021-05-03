@@ -501,7 +501,7 @@ Lodata::add((new class('identity') extends Operation implements FunctionInterfac
     {
       return $code;
     }
-}))->setBoundParameter('code');
+}))->setBindingParameterName('code');
 ```
 
 This Function requests the bound parameter be provided as the 'entity' parameter to the method, and additionally defines a provided
@@ -514,7 +514,7 @@ Lodata::add((new class('codeprefix') extends Operation implements FunctionInterf
     {
       return $prefix->get() . $entity->code->get();
     }
-}))->setBoundParameter('entity');
+}))->setBindingParameterName('entity');
 ```
 
 Finally, entities can themselves be generated and returned. This Function requests the bound parameter be provided as the `text`s
