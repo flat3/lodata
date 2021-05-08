@@ -615,6 +615,23 @@ Edm.Double (and similar) types as strings if requested to do so by the client.
 Lodata implements Edm.Date, Edm.DateTimeOffset and Edm.TimeOfDay using [DateTime](https://www.php.net/manual/en/book.datetime.php)
 objects, and retrieving the value of (eg) a `\Flat3\Lodata\Type\DateTimeOffset` using its get() method will return a DateTime.
 
+Lodata includes type extensions to support unsigned integer types `UInt16`, `UInt32` and `UInt64` which are
+extensions of the underlying canonical types `Edm.Int16`, `Edm.Int32` and `Edm.Int64`.
+
+These type definitions are not added by default in the model as not all OData clients interpret them correctly, but if
+they exist they will be used during automatic entity type property detection.
+
+To add one or more of these types, use `Lodata::add()` to add a new `PrimitiveType` passing in the class type name:
+```
+Lodata::add(new \Flat3\Lodata\PrimitiveType(\Flat3\Lodata\Type\UInt16::class))
+```
+
+Lodata supports changing the type of a property after definition or discovery using a call such as:
+
+```
+Lodata::getEntityType('Flight')->getProperty('duration')->setType(Type::uint32());
+```
+
 ## Specification compliance
 
 The relevant parts of the specification used for Lodata are:

@@ -5,6 +5,9 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\Laravel;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -23,13 +26,21 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 {
     /**
      * The OData name of this primitive type
+     * @type string identifier
      */
     const identifier = 'Edm.None';
 
     /**
      * The OpenAPI schema definition of this type
+     * @type array openApiSchema
      */
     const openApiSchema = [];
+
+    /**
+     * The underlying type class of this type
+     * @type ?PrimitiveType underlyingType
+     */
+    const underlyingType = null;
 
     /**
      * Whether the value can be made null
@@ -207,7 +218,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      */
     public function getIdentifier(): string
     {
-        return $this::identifier;
+        return new Identifier($this::identifier);
     }
 
     /**
@@ -251,6 +262,16 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
             $transaction->outputJsonObjectEnd();
         });
+    }
+
+    /**
+     * Return a primitive using the supplied Lexer state
+     * @param  Lexer  $lexer  Lexer
+     * @return Primitive
+     */
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        throw new NotImplementedException();
     }
 
     public static function pipe(

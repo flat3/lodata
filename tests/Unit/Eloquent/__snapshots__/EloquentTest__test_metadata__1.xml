@@ -248,14 +248,14 @@
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Int64" Nullable="false"/>
-        <Property Name="name" Type="Edm.String" Nullable="true"/>
-        <Property Name="code" Type="Edm.String" Nullable="true"/>
+        <Property Name="name" Type="Edm.String" Nullable="false"/>
+        <Property Name="code" Type="Edm.String" Nullable="false"/>
         <Property Name="construction_date" Type="Edm.Date" Nullable="true"/>
         <Property Name="sam_datetime" Type="Edm.DateTimeOffset" Nullable="true"/>
         <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
         <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
-        <Property Name="country_id" Type="Edm.Int64" Nullable="true"/>
+        <Property Name="country_id" Type="Edm.Int32" Nullable="true"/>
         <NavigationProperty Name="flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
           <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
         </NavigationProperty>
@@ -268,7 +268,7 @@
         <Property Name="id" Type="Edm.Int64" Nullable="false"/>
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
-        <Property Name="gate" Type="Edm.Int64" Nullable="true"/>
+        <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
         <Property Name="duration" Type="Edm.Duration" Nullable="true"/>
         <NavigationProperty Name="passengers" Type="Collection(com.example.odata.Passenger)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="flight_id"/>
@@ -285,7 +285,7 @@
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Int64" Nullable="false"/>
-        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="name" Type="Edm.String" Nullable="false"/>
         <NavigationProperty Name="airports" Type="Collection(com.example.odata.Airport)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="country_id"/>
         </NavigationProperty>
@@ -295,8 +295,8 @@
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Int64" Nullable="false"/>
-        <Property Name="flight_id" Type="Edm.Int64" Nullable="true"/>
-        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="flight_id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="false"/>
         <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true"/>
         <NavigationProperty Name="originAirport" Type="com.example.odata.Airport" Nullable="true"/>
         <NavigationProperty Name="destinationAirport" Type="com.example.odata.Airport" Nullable="true"/>

@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
@@ -31,6 +32,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Type;
 use Generator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +56,9 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     use SQLConnection;
     use SQLSearch;
     use SQLFilter;
-    use SQLSchema;
+    use SQLSchema {
+        columnToDeclaredProperty as protected schemaColumnToDeclaredProperty;
+    }
     use SQLWhere;
 
     /**
@@ -138,19 +142,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
          */
         $model = new $this->model();
         return $model->getTable();
-    }
-
-    /**
-     * Get the SQL type casts defined on this Eloquent model
-     * @return array Casts
-     */
-    public function getCasts(): array
-    {
-        /**
-         * @var Model $model
-         */
-        $model = new $this->model();
-        return $model->getCasts();
     }
 
     /**
@@ -464,5 +455,64 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         return $builder->count();
+    }
+
+    /**
+     * Convert an SQL column that may have an Eloquent cast to an OData declared property
+     * @link https://laravel.com/docs/8.x/eloquent-mutators#attribute-casting
+     * @param  Column  $column  SQL column
+     * @return DeclaredProperty OData declared property
+     */
+    public function columnToDeclaredProperty(Column $column): DeclaredProperty
+    {
+        /**
+         * @var Model $model
+         */
+        $model = new $this->model();
+        $casts = $model->getCasts();
+
+        if (!array_key_exists($column->getName(), $casts)) {
+            return $this->schemaColumnToDeclaredProperty($column);
+        }
+
+        switch ($casts[$column->getName()]) {
+            case 'string':
+            default:
+                $type = Type::string();
+                break;
+
+            case 'boolean':
+                $type = Type::boolean();
+                break;
+
+            case 'date':
+                $type = Type::date();
+                break;
+
+            case 'datetime':
+                $type = Type::datetimeoffset();
+                break;
+
+            case 'decimal':
+            case 'float':
+            case 'real':
+                $type = Type::decimal();
+                break;
+
+            case 'double':
+                $type = Type::double();
+                break;
+
+            case 'int':
+            case 'integer':
+                $type = PHP_INT_SIZE === 8 ? Type::int64() : Type::int32();
+                break;
+
+            case 'timestamp':
+                $type = Type::timeofday();
+                break;
+        }
+
+        return new DeclaredProperty($column->getName(), $type);
     }
 }

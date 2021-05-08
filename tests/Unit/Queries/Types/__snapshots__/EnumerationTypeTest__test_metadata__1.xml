@@ -261,6 +261,10 @@
           </Annotation>
         </EntitySet>
       </EntityContainer>
+      <EnumType Name="hello" UnderlyingType="Edm.Int32" IsFlags="false">
+        <Member Name="aaa" Value="1"/>
+        <Member Name="bbb" Value="2"/>
+      </EnumType>
       <EntityType Name="passenger">
         <Key>
           <PropertyRef Name="id"/>
@@ -311,10 +315,6 @@
         <Property Name="type" Type="Edm.String" Nullable="true"/>
         <Property Name="passenger_id" Type="Edm.Int32" Nullable="true"/>
       </EntityType>
-      <EnumType Name="hello" UnderlyingType="Edm.Int32" IsFlags="false">
-        <Member Name="aaa" Value="1"/>
-        <Member Name="bbb" Value="2"/>
-      </EnumType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
         <Annotation Term="Org.OData.Core.V1.DefaultNamespace" Bool="true"/>

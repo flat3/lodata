@@ -6,20 +6,7 @@ use Exception;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
-use Flat3\Lodata\PrimitiveType;
-use Flat3\Lodata\Type\Binary;
-use Flat3\Lodata\Type\Boolean;
-use Flat3\Lodata\Type\Byte;
-use Flat3\Lodata\Type\Date;
-use Flat3\Lodata\Type\DateTimeOffset;
-use Flat3\Lodata\Type\Decimal;
-use Flat3\Lodata\Type\Duration;
-use Flat3\Lodata\Type\Guid;
-use Flat3\Lodata\Type\Int16;
-use Flat3\Lodata\Type\Int32;
-use Flat3\Lodata\Type\Int64;
-use Flat3\Lodata\Type\String_;
-use Flat3\Lodata\Type\TimeOfDay;
+use Flat3\Lodata\Type;
 
 /**
  * Lexer
@@ -169,55 +156,15 @@ class Lexer
 
     /**
      * Match the provided type and return a primitive of that type
-     * @param  PrimitiveType  $type  Type
+     * @param  Type  $type  Type
      * @return Primitive Primitive
      * @throws LexerException
      */
-    public function type(PrimitiveType $type): Primitive
+    public function type(Type $type): Primitive
     {
-        $result = null;
-
-        switch ($type->getFactory()) {
-            case Binary::class:
-                $result = $type->instance($this->base64());
-                break;
-
-            case Boolean::class:
-                $result = $type->instance($this->boolean());
-                break;
-
-            case Byte::class:
-            case Int32::class:
-            case Int16::class:
-            case Int64::class:
-            case Decimal::class:
-                $result = $type->instance($this->number());
-                break;
-
-            case Date::class:
-                $result = $type->instance($this->date());
-                break;
-
-            case TimeOfDay::class:
-                $result = $type->instance($this->timeOfDay());
-                break;
-
-            case DateTimeOffset::class:
-                $result = $type->instance($this->datetimeoffset());
-                break;
-
-            case Duration::class:
-                $result = $type->instance($this->duration());
-                break;
-
-            case Guid::class:
-                $result = $type->instance($this->guid());
-                break;
-
-            case String_::class:
-                $result = $type->instance($this->quotedString());
-                break;
-        }
+        /** @var Primitive $factory */
+        $factory = $type->getFactory();
+        $result = $factory::fromLexer($this);
 
         if (!$result) {
             throw new LexerException($this->pos + 1, 'Unhandled type');

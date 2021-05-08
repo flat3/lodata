@@ -233,11 +233,11 @@
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "code": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "construction_date": {
             "$Type": "Edm.Date",
@@ -260,7 +260,7 @@
             "$Nullable": true
         },
         "country_id": {
-            "$Type": "Edm.Int64",
+            "$Type": "Edm.Int32",
             "$Nullable": true
         },
         "flights": {
@@ -296,7 +296,7 @@
             "$Nullable": true
         },
         "gate": {
-            "$Type": "Edm.Int64",
+            "$Type": "Edm.Int32",
             "$Nullable": true
         },
         "duration": {
@@ -339,7 +339,7 @@
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "airports": {
             "$Collection": true,
@@ -360,12 +360,12 @@
             "$Nullable": false
         },
         "flight_id": {
-            "$Type": "Edm.Int64",
-            "$Nullable": true
+            "$Type": "Edm.Int32",
+            "$Nullable": false
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "flight": {
             "$Collection": false,

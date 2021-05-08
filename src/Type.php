@@ -21,6 +21,9 @@ use Flat3\Lodata\Type\Single;
 use Flat3\Lodata\Type\Stream;
 use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
+use Flat3\Lodata\Type\UInt16;
+use Flat3\Lodata\Type\UInt32;
+use Flat3\Lodata\Type\UInt64;
 use TypeError;
 
 /**
@@ -43,6 +46,9 @@ use TypeError;
  * @method static PrimitiveType stream() Stream type
  * @method static PrimitiveType string() String type
  * @method static PrimitiveType timeofday() TimeOfDay type
+ * @method static PrimitiveType uint16() UInt16 type
+ * @method static PrimitiveType uint32() UInt32 type
+ * @method static PrimitiveType uint64() UInt64 type
  * @package Flat3\Lodata
  */
 abstract class Type
@@ -73,6 +79,9 @@ abstract class Type
             'stream' => Stream::class,
             'string' => String_::class,
             'timeofday' => TimeOfDay::class,
+            'uint16' => UInt16::class,
+            'uint32' => UInt32::class,
+            'uint64' => UInt64::class,
         ];
 
         if (!array_key_exists($name, $resolver)) {

@@ -26,13 +26,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     protected $members;
 
     /**
-     * The underlying type of this enumeration type
-     * @var PrimitiveType $underlyingType
-     * @internal
-     */
-    protected $underlyingType;
-
-    /**
      * Whether this enumeration type supports multiple values being selected in instances of the type
      * @var bool $isFlags
      */
@@ -43,7 +36,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
         $this->setIdentifier($identifier);
         $this->members = new ObjectArray();
         $this->underlyingType = Type::int32();
-        parent::__construct(Enum::class);
     }
 
     /**
@@ -55,27 +47,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     public static function factory(string $identifier): self
     {
         return new self($identifier);
-    }
-
-    /**
-     * Get the underlying type of this enumerated type
-     * @return Type Underlying type
-     */
-    public function getUnderlyingType(): Type
-    {
-        return $this->underlyingType;
-    }
-
-    /**
-     * Set the underlying type of this enumerated type
-     * @param  Type  $type  Underlying type
-     * @return $this
-     */
-    public function setUnderlyingType(Type $type): self
-    {
-        $this->underlyingType = $type;
-
-        return $this;
     }
 
     /**
@@ -137,7 +108,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     public function offsetSet($offset, $member)
     {
         if (!is_object($offset) || !$this->underlyingType->is(get_class($offset))) {
-            $offset = $this->underlyingType->instance($offset ? $offset : count($this->members) + 1);
+            $offset = $this->underlyingType->instance($offset ?: count($this->members) + 1);
         }
 
         if (!$member instanceof EnumMember) {

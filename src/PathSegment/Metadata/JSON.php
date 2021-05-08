@@ -5,13 +5,16 @@ namespace Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
+use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
+use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 
@@ -31,7 +34,7 @@ class JSON extends Metadata implements JsonInterface
         $schema = (object) [];
 
         $version = $transaction->getVersion();
-        $namespace = Lodata::getNamespace();
+        $namespace = Model::getNamespace();
 
         $schema->{'$Version'} = $version;
         $schema->{'$EntityContainer'} = $namespace.'.'.'DefaultContainer';
@@ -44,6 +47,28 @@ class JSON extends Metadata implements JsonInterface
         $entityContainer = (object) [];
         $entityContainer->{'$Kind'} = 'EntityContainer';
         $schema->{$namespace} = $entityContainer;
+
+        foreach (Lodata::getTypeDefinitions() as $typeDefinition) {
+            $typeDefinitionElement = (object) [];
+
+            switch (true) {
+                case $typeDefinition instanceof EnumerationType:
+                    $typeDefinitionElement->{'$Kind'} = 'EnumType';
+                    $typeDefinitionElement->{'$IsFlags'} = $typeDefinition->getIsFlags();
+
+                    foreach ($typeDefinition->getMembers() as $memberName => $memberValue) {
+                        $typeDefinitionElement->{$memberName} = $memberValue;
+                    }
+                    break;
+
+                case $typeDefinition instanceof PrimitiveType:
+                    $typeDefinitionElement->{'$Kind'} = 'TypeDefinition';
+                    break;
+            }
+
+            $typeDefinitionElement->{'$UnderlyingType'} = $typeDefinition->getUnderlyingType()->getResolvedName($namespace);
+            $schema->{$typeDefinition->getResolvedName($namespace)} = $typeDefinitionElement;
+        }
 
         foreach (Lodata::getEntityTypes() as $entityType) {
             $entityTypeElement = (object) [];
@@ -92,18 +117,6 @@ class JSON extends Metadata implements JsonInterface
                         $constraintsElement->{$constraint->getProperty()->getName()} = $constraint->getReferencedProperty()->getName();
                     }
                 }
-            }
-        }
-
-        foreach (Lodata::getEnumerationTypes() as $enumerationType) {
-            $enumerationTypeElement = (object) [];
-            $schema->{$enumerationType->getName()} = $enumerationTypeElement;
-
-            $enumerationTypeElement->{'$UnderlyingType'} = $enumerationType->getUnderlyingType()->getResolvedName($namespace);
-            $enumerationTypeElement->{'$IsFlags'} = $enumerationType->getIsFlags();
-
-            foreach ($enumerationType->getMembers() as $memberName => $memberValue) {
-                $enumerationTypeElement->{$memberName} = $memberValue;
             }
         }
 

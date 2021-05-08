@@ -72,19 +72,19 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     }
 
     /**
-     * Get the primitive type this property is attached to
-     * @return PrimitiveType Primitive type
+     * Get the type this property is attached to
+     * @return Type Type
      */
-    public function getPrimitiveType(): PrimitiveType
+    public function getType(): Type
     {
         return $this->type;
     }
 
     /**
-     * Get the type this property is attached to
-     * @return Type Type
+     * Get the primitive type this property is attached to
+     * @return PrimitiveType Primitive type
      */
-    public function getType(): Type
+    public function getPrimitiveType(): PrimitiveType
     {
         return $this->type;
     }

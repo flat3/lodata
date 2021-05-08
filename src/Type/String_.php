@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Type;
 
 use ErrorException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
@@ -46,5 +47,11 @@ class String_ extends Primitive
     public function toJson(): ?string
     {
         return $this->value;
+    }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->quotedString());
     }
 }

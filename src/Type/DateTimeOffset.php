@@ -83,4 +83,10 @@ class DateTimeOffset extends Primitive
 
         return $this->value->format($this::DATE_FORMAT);
     }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->datetimeoffset());
+    }
 }

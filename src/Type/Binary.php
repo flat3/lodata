@@ -49,4 +49,10 @@ class Binary extends Primitive
 
         return $this;
     }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->base64());
+    }
 }

@@ -34,6 +34,7 @@ use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\Model;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PrimitiveType;
@@ -120,7 +121,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
         $description = Description::getModelAnnotation();
         $info->title = $description
             ? $description->toJson()
-            : __('OData Service for namespace :namespace', ['namespace' => Lodata::getNamespace()]);
+            : __('OData Service for namespace :namespace', ['namespace' => Model::getNamespace()]);
 
         $schemaVersion = SchemaVersion::getModelAnnotation();
         $info->version = $schemaVersion ? $schemaVersion->toJson() : '1.0.0';

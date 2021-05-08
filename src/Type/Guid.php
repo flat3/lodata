@@ -66,4 +66,10 @@ class Guid extends Primitive
 
         return $this->binaryToString($this->value);
     }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->guid());
+    }
 }

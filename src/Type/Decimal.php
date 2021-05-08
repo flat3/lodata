@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
 
@@ -117,5 +118,11 @@ class Decimal extends Primitive
     protected function getEmpty()
     {
         return 0.0;
+    }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->number());
     }
 }

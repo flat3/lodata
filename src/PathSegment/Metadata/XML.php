@@ -7,6 +7,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -15,6 +16,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
+use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
@@ -53,6 +55,42 @@ class XML extends Metadata implements StreamInterface
         // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityContainer
         $entityContainer = $schema->addChild('EntityContainer');
         $entityContainer->addAttribute('Name', 'DefaultContainer');
+
+        foreach (Lodata::getTypeDefinitions() as $typeDefinition) {
+            switch (true) {
+                case $typeDefinition instanceof EnumerationType:
+                    $typeDefinitionElement = $schema->addChild('EnumType');
+                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getResolvedName($namespace));
+
+                    $typeDefinitionElement->addAttribute(
+                        'UnderlyingType',
+                        $typeDefinition->getUnderlyingType()->getResolvedName($namespace)
+                    );
+
+                    $typeDefinitionElement->addAttribute(
+                        'IsFlags',
+                        Boolean::factory($typeDefinition->getIsFlags())->toUrl()
+                    );
+
+                    /** @var EnumMember $memberValue */
+                    foreach ($typeDefinition->getMembers() as $memberName => $memberValue) {
+                        $memberElement = $typeDefinitionElement->addChild('Member');
+                        $memberElement->addAttribute('Name', $memberName);
+                        $memberElement->addAttribute('Value', $memberValue->getValue());
+                    }
+                    break;
+
+                case $typeDefinition instanceof PrimitiveType:
+                    $typeDefinitionElement = $schema->addChild('TypeDefinition');
+                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getResolvedName($namespace));
+
+                    $typeDefinitionElement->addAttribute(
+                        'UnderlyingType',
+                        $typeDefinition->getUnderlyingType()->getResolvedName($namespace)
+                    );
+                    break;
+            }
+        }
 
         // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
         foreach (Lodata::getEntityTypes() as $entityType) {
@@ -123,23 +161,6 @@ class XML extends Metadata implements StreamInterface
                         $constraint->getReferencedProperty()->getName()
                     );
                 }
-            }
-        }
-
-        foreach (Lodata::getEnumerationTypes() as $enumerationType) {
-            $enumerationTypeElement = $schema->addChild('EnumType');
-            $enumerationTypeElement->addAttribute('Name', $enumerationType->getResolvedName($namespace));
-            $enumerationTypeElement->addAttribute(
-                'UnderlyingType',
-                $enumerationType->getUnderlyingType()->getResolvedName($namespace)
-            );
-            $enumerationTypeElement->addAttribute('IsFlags', Boolean::factory($enumerationType->getIsFlags())->toUrl());
-
-            /** @var EnumMember $memberValue */
-            foreach ($enumerationType->getMembers() as $memberName => $memberValue) {
-                $memberElement = $enumerationTypeElement->addChild('Member');
-                $memberElement->addAttribute('Name', $memberName);
-                $memberElement->addAttribute('Value', $memberValue->getValue());
             }
         }
 

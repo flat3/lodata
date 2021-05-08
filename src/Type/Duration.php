@@ -97,4 +97,10 @@ class Duration extends Primitive
     {
         return 0;
     }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->duration());
+    }
 }

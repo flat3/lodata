@@ -15,6 +15,13 @@ class PrimitiveType extends Type implements IdentifierInterface
     const identifier = 'Edm.PrimitiveType';
 
     /**
+     * The underlying type of this type
+     * @var PrimitiveType $underlyingType
+     * @internal
+     */
+    protected $underlyingType;
+
+    /**
      * The factory class name to generate primitives of this type
      * @var string $factory Factory class
      * @internal
@@ -28,13 +35,17 @@ class PrimitiveType extends Type implements IdentifierInterface
      */
     private $nullable = true;
 
-    public function __construct(string $class)
+    public function __construct(string $factory)
     {
-        if (!is_a($class, Primitive::class, true)) {
+        if (!is_a($factory, Primitive::class, true)) {
             throw new RuntimeException('Invalid source for type definition');
         }
 
-        $this->factory = $class;
+        $this->factory = $factory;
+
+        if ($factory::underlyingType) {
+            $this->underlyingType = new self($factory::underlyingType);
+        }
     }
 
     /**
@@ -132,5 +143,23 @@ class PrimitiveType extends Type implements IdentifierInterface
         return array_merge($this->factory::openApiSchema, [
             'nullable' => $this->nullable,
         ]);
+    }
+
+    /**
+     * Get the underlying type of this enumerated type
+     * @return ?PrimitiveType Underlying type
+     */
+    public function getUnderlyingType(): ?PrimitiveType
+    {
+        return $this->underlyingType;
+    }
+
+    /**
+     * @return string
+     * @internal
+     */
+    public function __toString(): string
+    {
+        return (string) $this->getIdentifier();
     }
 }

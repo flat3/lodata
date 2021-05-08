@@ -2792,9 +2792,9 @@
                     },
                     "country_id": {
                         "type": "integer",
-                        "format": "int64",
-                        "minimum": -9223372036854775808,
-                        "maximum": 9223372036854775807,
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
                         "nullable": true
                     }
                 }
@@ -2819,9 +2819,9 @@
                     },
                     "gate": {
                         "type": "integer",
-                        "format": "int64",
-                        "minimum": -9223372036854775808,
-                        "maximum": 9223372036854775807,
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
                         "nullable": true
                     },
                     "duration": {
@@ -2860,9 +2860,9 @@
                     },
                     "flight_id": {
                         "type": "integer",
-                        "format": "int64",
-                        "minimum": -9223372036854775808,
-                        "maximum": 9223372036854775807,
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
                         "nullable": false
                     },
                     "name": {

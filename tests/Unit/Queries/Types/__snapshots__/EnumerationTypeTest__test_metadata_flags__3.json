@@ -230,6 +230,13 @@
             }
         }
     },
+    "hello": {
+        "$Kind": "EnumType",
+        "$IsFlags": true,
+        "aaa": {},
+        "bbb": {},
+        "$UnderlyingType": "Edm.Int32"
+    },
     "passenger": {
         "$Kind": "EntityType",
         "$Key": [
@@ -358,11 +365,5 @@
             "$Type": "Edm.Int32",
             "$Nullable": true
         }
-    },
-    "hello": {
-        "$UnderlyingType": "Edm.Int32",
-        "$IsFlags": true,
-        "aaa": {},
-        "bbb": {}
     }
 }

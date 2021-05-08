@@ -2,10 +2,12 @@
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Types;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Connection;
 
@@ -15,15 +17,6 @@ use Illuminate\Database\Connection;
  */
 trait SQLSchema
 {
-    /**
-     * Get list of defined type casts
-     * @return array Type casts
-     */
-    public function getCasts(): array
-    {
-        return [];
-    }
-
     /**
      * Discover SQL fields on this entity set as OData properties
      * @return $this
@@ -35,7 +28,6 @@ trait SQLSchema
         $manager = $connection->getDoctrineSchemaManager();
         $details = $manager->listTableDetails($this->getTable());
         $columns = $details->getColumns();
-        $casts = $this->getCasts();
 
         /** @var EntityType $type */
         $type = $this->getType();
@@ -47,18 +39,9 @@ trait SQLSchema
             }
 
             $column = $columns[$index->getColumns()[0]];
-            $columnName = $column->getName();
-            $sqlType = $column->getType()->getName();
-
-            if (array_key_exists($columnName, $casts)) {
-                $sqlType = $casts[$columnName];
-            }
 
             $type->setKey(
-                new DeclaredProperty(
-                    $columnName,
-                    $this->sqlTypeToPrimitiveType($sqlType),
-                )
+                $this->columnToDeclaredProperty($column)
             );
         }
 
@@ -82,18 +65,10 @@ trait SQLSchema
                 continue;
             }
 
-            $sqlType = $column->getType()->getName();
             $notnull = $column->getNotnull();
 
-            if (array_key_exists($columnName, $casts)) {
-                $sqlType = $casts[$columnName];
-            }
-
             $type->addProperty(
-                new DeclaredProperty(
-                    $columnName,
-                    $this->sqlTypeToPrimitiveType($sqlType)->setNullable(!$notnull)
-                )
+                $this->columnToDeclaredProperty($column)->setNullable(!$notnull)
             );
         }
 
@@ -101,43 +76,54 @@ trait SQLSchema
     }
 
     /**
-     * Convert an SQL type to an OData primitive type
-     * @param  string  $type  SQL type
-     * @return PrimitiveType OData type
+     * Convert an SQL column to an OData declared property
+     * @param  Column  $column  SQL column
+     * @return DeclaredProperty OData declared property
      */
-    public function sqlTypeToPrimitiveType(string $type): PrimitiveType
+    public function columnToDeclaredProperty(Column $column): DeclaredProperty
     {
-        switch ($type) {
-            case 'bool':
-            case 'boolean':
-                return Type::boolean();
+        $columnType = $column->getType();
 
-            case 'date':
-                return Type::date();
+        switch (true) {
+            case $columnType instanceof Types\BooleanType:
+                $type = Type::boolean();
+                break;
 
-            case 'datetime':
-                return Type::datetimeoffset();
+            case $columnType instanceof Types\DateType:
+                $type = Type::date();
+                break;
 
-            case 'decimal':
-            case 'float':
-            case 'real':
-                return Type::decimal();
+            case $columnType instanceof Types\DateTimeType:
+                $type = Type::datetimeoffset();
+                break;
 
-            case 'double':
-                return Type::double();
+            case $columnType instanceof Types\DecimalType:
+            case $columnType instanceof Types\FloatType:
+                $type = Type::decimal();
+                break;
 
-            case 'int':
-            case 'integer':
-                return PHP_INT_SIZE === 8 ? Type::int64() : Type::int32();
+            case $columnType instanceof Types\SmallIntType:
+                $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt16::identifier) ? Type::uint16() : Type::int16();
+                break;
 
-            case 'varchar':
-            case 'string':
-                return Type::string();
+            case $columnType instanceof Types\IntegerType:
+                $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
+                break;
 
-            case 'timestamp':
-                return Type::timeofday();
+            case $columnType instanceof Types\BigIntType:
+                $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
+                break;
+
+            case $columnType instanceof Types\TimeType:
+                $type = Type::timeofday();
+                break;
+
+            case $columnType instanceof Types\StringType:
+            default:
+                $type = Type::string();
+                break;
         }
 
-        return Type::string();
+        return new DeclaredProperty($column->getName(), $type);
     }
 }

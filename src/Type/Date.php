@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Type;
 use DateTime;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Primitive;
 
 /**
  * Date
@@ -26,5 +27,11 @@ class Date extends DateTimeOffset
     protected function repack(DateTime $dt)
     {
         return $dt->setTime(0, 0, 0, 0);
+    }
+
+    public static function fromLexer(Lexer $lexer): Primitive
+    {
+        /** @phpstan-ignore-next-line */
+        return new static($lexer->date());
     }
 }

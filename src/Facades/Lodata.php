@@ -16,6 +16,7 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
+use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Singleton;
 use Illuminate\Support\Facades\Facade;
 
@@ -27,11 +28,13 @@ use Illuminate\Support\Facades\Facade;
  * @method static ObjectArray|Reference[] getReferences() Get the annotation references attached to the model
  * @method static ObjectArray|Annotation[] getAnnotations() Get the annotations attached to the model
  * @method static ObjectArray|EnumerationType[] getEnumerationTypes() Get the enumeration types attached to the model
+ * @method static ObjectArray|PrimitiveType[] getTypeDefinitions() Get custom type definitions
  * @method static ResourceInterface getResource($name) Get a resource from the model
  * @method static EntitySet getEntitySet($name) Get an entity set from the model
  * @method static Operation getOperation($name) Get an operation from the model
  * @method static FunctionInterface getFunction($name) Get a function from the model
  * @method static ActionInterface getAction($name) Get an action from the model
+ * @method static PrimitiveType getTypeDefinition($name) Get a type definition from the model
  * @method static EntityType getEntityType($name) Get an entity type from the model
  * @method static Singleton getSingleton($name) Get a singleton from the model
  * @method static IdentifierInterface add(IdentifierInterface $item) Add a named resource or type to the OData model

@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Illuminate\Support\Arr;
 use Iterator;
 
 /**
@@ -330,6 +331,6 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      */
     public function first()
     {
-        return $this->array[0] ?? null;
+        return Arr::first($this->array);
     }
 }

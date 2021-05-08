@@ -147,10 +147,20 @@ class Model implements AnnotationInterface
     }
 
     /**
+     * Get a type definition from the model
+     * @param  string  $name  Action name
+     * @return PrimitiveType|null Action
+     */
+    public function getTypeDefinition(string $name): ?PrimitiveType
+    {
+        return $this->getTypeDefinitions()->get($name);
+    }
+
+    /**
      * Get the namespace of this model
      * @return string Namespace
      */
-    public function getNamespace(): string
+    public static function getNamespace(): string
     {
         return config('lodata.namespace');
     }
@@ -203,6 +213,15 @@ class Model implements AnnotationInterface
     }
 
     /**
+     * Get the type definitions attached to the model
+     * @return ObjectArray|PrimitiveType[]
+     */
+    public function getTypeDefinitions(): ObjectArray
+    {
+        return $this->model->sliceByClass(PrimitiveType::class);
+    }
+
+    /**
      * Get the document references attached to the model
      * @return Reference[]|ObjectArray References
      */
@@ -220,6 +239,18 @@ class Model implements AnnotationInterface
     public function addReference(Reference $reference): self
     {
         $this->references[] = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Add a new type definition
+     * @param  PrimitiveType  $typeDefinition  Type definition
+     * @return $this
+     */
+    public function addTypeDefinition(PrimitiveType $typeDefinition): self
+    {
+        $this->model[] = $typeDefinition;
 
         return $this;
     }
