@@ -505,7 +505,11 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             case 'int':
             case 'integer':
-                $type = PHP_INT_SIZE === 8 ? Type::int64() : Type::int32();
+                if (PHP_INT_SIZE === 8) {
+                    $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
+                } else {
+                    $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
+                }
                 break;
 
             case 'timestamp':

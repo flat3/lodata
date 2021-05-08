@@ -581,6 +581,7 @@ DESC, [
             'name' => Top::param,
             'schema' => [
                 'type' => Constants::OAPI_INTEGER,
+                'minimum' => 0,
             ],
             'in' => 'query',
             'description' => __(
@@ -593,6 +594,7 @@ DESC, [
             'name' => Skip::param,
             'schema' => [
                 'type' => Constants::OAPI_INTEGER,
+                'minimum' => 0,
             ],
             'in' => 'query',
             'description' => __(

@@ -40,9 +40,7 @@ trait SQLSchema
 
             $column = $columns[$index->getColumns()[0]];
 
-            $type->setKey(
-                $this->columnToDeclaredProperty($column)
-            );
+            $type->setKey($this->columnToDeclaredProperty($column));
         }
 
         if (!$type->getKey()) {
