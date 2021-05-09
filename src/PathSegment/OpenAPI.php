@@ -495,8 +495,8 @@ DESC, [
             $schemas->{$entityType->getIdentifier()} = $entityType->toOpenAPISchema();
         }
 
-        $schemas->{ComplexType::identifier} = ['type' => Constants::OAPI_OBJECT,];
-        $schemas->{EntityType::identifier} = ['type' => Constants::OAPI_OBJECT,];
+        $schemas->{ComplexType::identifier} = ['type' => Constants::OAPI_OBJECT];
+        $schemas->{EntityType::identifier} = ['type' => Constants::OAPI_OBJECT];
         $schemas->{PrimitiveType::identifier} = [
             'anyOf' => [
                 Boolean::openApiSchema,
@@ -549,17 +549,17 @@ DESC, [
                             'error' => [
                                 'type' => Constants::OAPI_OBJECT,
                                 'properties' => [
-                                    'code' => ['type' => Constants::OAPI_STRING,],
-                                    'message' => ['type' => Constants::OAPI_STRING,],
-                                    'target' => ['type' => Constants::OAPI_STRING,],
+                                    'code' => ['type' => Constants::OAPI_STRING],
+                                    'message' => ['type' => Constants::OAPI_STRING],
+                                    'target' => ['type' => Constants::OAPI_STRING],
                                     'details' => [
                                         'type' => Constants::OAPI_ARRAY,
                                         'items' => [
                                             'type' => Constants::OAPI_OBJECT,
                                             'properties' => [
-                                                'code' => ['type' => Constants::OAPI_STRING,],
-                                                'message' => ['type' => Constants::OAPI_STRING,],
-                                                'target' => ['type' => Constants::OAPI_STRING,],
+                                                'code' => ['type' => Constants::OAPI_STRING],
+                                                'message' => ['type' => Constants::OAPI_STRING],
+                                                'target' => ['type' => Constants::OAPI_STRING],
                                             ],
                                         ],
                                     ],

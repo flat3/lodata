@@ -45,7 +45,7 @@ class Multipart extends Batch implements StreamInterface
         array_unshift($this->boundaries, Str::uuid());
         $transaction->sendContentType(
             MediaType::factory()
-                ->parse('multipart/mixed')
+                ->parse(MediaType::multipartMixed)
                 ->setParameter('boundary', $this->boundaries[0])
         );
 
