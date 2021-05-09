@@ -102,7 +102,8 @@
         ],
         "offset": {
             "$Type": "Edm.Int64",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "name": {
             "$Type": "Edm.String",

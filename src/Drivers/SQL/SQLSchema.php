@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types;
+use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
@@ -39,8 +40,13 @@ trait SQLSchema
             }
 
             $column = $columns[$index->getColumns()[0]];
+            $property = $this->columnToDeclaredProperty($column);
 
-            $type->setKey($this->columnToDeclaredProperty($column));
+            if ($column->getAutoincrement()) {
+                $property->addAnnotation(new Computed());
+            }
+
+            $type->setKey($property);
         }
 
         if (!$type->getKey()) {

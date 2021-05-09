@@ -247,7 +247,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="name" Type="Edm.String" Nullable="false"/>
         <Property Name="code" Type="Edm.String" Nullable="false"/>
         <Property Name="construction_date" Type="Edm.Date" Nullable="true"/>
@@ -265,7 +267,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
         <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
@@ -284,7 +288,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="name" Type="Edm.String" Nullable="false"/>
         <NavigationProperty Name="airports" Type="Collection(com.example.odata.Airport)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="country_id"/>
@@ -294,7 +300,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="flight_id" Type="Edm.Int32" Nullable="false"/>
         <Property Name="name" Type="Edm.String" Nullable="false"/>
         <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true"/>

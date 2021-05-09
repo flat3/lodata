@@ -90,7 +90,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.passenger"
+                                "$ref": "#/components/schemas/com.example.odata.passenger~create"
                             }
                         }
                     }
@@ -180,7 +180,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.passenger"
+                                "$ref": "#/components/schemas/com.example.odata.passenger~update"
                             }
                         }
                     }
@@ -300,6 +300,28 @@
                         "type": "string",
                         "nullable": false
                     },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "com.example.odata.passenger~create": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "com.example.odata.passenger~update": {
+                "type": "object",
+                "properties": {
                     "name": {
                         "type": "string",
                         "nullable": true
@@ -452,7 +474,8 @@
             "count": {
                 "anyOf": [
                     {
-                        "type": "number"
+                        "type": "integer",
+                        "minimum": 0
                     },
                     {
                         "type": "string"

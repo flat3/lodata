@@ -129,4 +129,22 @@ abstract class Type
      * @return array
      */
     abstract public function toOpenAPISchema(): array;
+
+    /**
+     * Render this type as an OpenAPI schema for creation paths
+     * @return array
+     */
+    public function toOpenAPICreateSchema(): array
+    {
+        return $this->toOpenAPISchema();
+    }
+
+    /**
+     * Render this type as an OpenAPI schema for update paths
+     * @return array
+     */
+    public function toOpenAPIUpdateSchema(): array
+    {
+        return $this->toOpenAPISchema();
+    }
 }

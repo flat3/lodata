@@ -112,6 +112,44 @@
                     }
                 }
             },
+            "com.example.odata.a~create": {
+                "type": "object",
+                "properties": {
+                    "b": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    },
+                    "c": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    }
+                }
+            },
+            "com.example.odata.a~update": {
+                "type": "object",
+                "properties": {
+                    "b": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    },
+                    "c": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    }
+                }
+            },
             "Edm.ComplexType": {
                 "type": "object"
             },
@@ -258,7 +296,8 @@
             "count": {
                 "anyOf": [
                     {
-                        "type": "number"
+                        "type": "integer",
+                        "minimum": 0
                     },
                     {
                         "type": "string"

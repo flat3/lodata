@@ -2,13 +2,17 @@
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 
 /**
@@ -16,10 +20,11 @@ use Flat3\Lodata\Traits\HasIdentifier;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530372
  * @package Flat3\Lodata
  */
-class ComplexType extends Type implements ResourceInterface, ContextInterface, IdentifierInterface
+class ComplexType extends Type implements ResourceInterface, ContextInterface, IdentifierInterface, AnnotationInterface
 {
     const identifier = 'Edm.ComplexType';
 
+    use HasAnnotations;
     use HasIdentifier;
 
     /**
@@ -207,6 +212,38 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return [
             'type' => Constants::OAPI_OBJECT,
             'properties' => $this->getDeclaredProperties()->map(function (DeclaredProperty $property) {
+                return $property->getType()->toOpenAPISchema();
+            })
+        ];
+    }
+
+    /**
+     * Render this type as an OpenAPI schema for creation paths
+     * @return array
+     */
+    public function toOpenAPICreateSchema(): array
+    {
+        return [
+            'type' => Constants::OAPI_OBJECT,
+            'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
+                return !$property->getAnnotations()->sliceByClass(Computed::class)->hasEntries();
+            })->map(function (DeclaredProperty $property) {
+                return $property->getType()->toOpenAPISchema();
+            })
+        ];
+    }
+
+    /**
+     * Render this type as an OpenAPI schema for update paths
+     * @return array
+     */
+    public function toOpenAPIUpdateSchema(): array
+    {
+        return [
+            'type' => Constants::OAPI_OBJECT,
+            'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
+                return !$property->getAnnotations()->sliceByClass([Computed::class, Immutable::class])->hasEntries();
+            })->map(function (DeclaredProperty $property) {
                 return $property->getType()->toOpenAPISchema();
             })
         ];

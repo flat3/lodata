@@ -70,7 +70,9 @@
         <Key>
           <PropertyRef Name="offset"/>
         </Key>
-        <Property Name="offset" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="offset" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
         <Property Name="datetime" Type="Edm.DateTimeOffset" Nullable="true"/>
         <Property Name="duration" Type="Edm.Duration" Nullable="true"/>

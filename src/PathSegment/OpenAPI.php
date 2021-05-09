@@ -493,6 +493,8 @@ DESC, [
 
         foreach (Lodata::getEntityTypes() as $entityType) {
             $schemas->{$entityType->getIdentifier()} = $entityType->toOpenAPISchema();
+            $schemas->{$entityType->getIdentifier().'~create'} = $entityType->toOpenAPICreateSchema();
+            $schemas->{$entityType->getIdentifier().'~update'} = $entityType->toOpenAPIUpdateSchema();
         }
 
         $schemas->{ComplexType::identifier} = ['type' => Constants::OAPI_OBJECT];
@@ -527,8 +529,13 @@ DESC, [
 
         $schemas->{'count'} = [
             'anyOf' => [
-                ['type' => Constants::OAPI_NUMBER],
-                ['type' => Constants::OAPI_STRING],
+                [
+                    'type' => Constants::OAPI_INTEGER,
+                    'minimum' => 0,
+                ],
+                [
+                    'type' => Constants::OAPI_STRING
+                ],
             ],
             'description' => __(
                 'The number of entities in the collection. Available when using the :ref query option',
@@ -851,7 +858,7 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        '$ref' => '#/components/schemas/'.$entitySet->getType()->getIdentifier(),
+                        '$ref' => "#/components/schemas/{$entitySet->getType()->getIdentifier()}~create",
                     ]
                 ]
             ]
@@ -864,7 +871,7 @@ DESC, [
                 'content' => [
                     MediaType::json => [
                         'schema' => [
-                            '$ref' => '#/components/schemas/'.$entitySet->getType()->getIdentifier(),
+                            '$ref' => "#/components/schemas/{$entitySet->getType()->getIdentifier()}",
                         ]
                     ]
                 ]
@@ -904,7 +911,7 @@ DESC, [
                 'content' => [
                     MediaType::json => [
                         'schema' => [
-                            '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
+                            '$ref' => "#/components/schemas/{$entityType->getIdentifier()}",
                         ],
                     ],
                 ],
@@ -930,7 +937,7 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
+                        '$ref' => "#/components/schemas/{$entityType->getIdentifier()}~update",
                     ],
                 ],
             ],

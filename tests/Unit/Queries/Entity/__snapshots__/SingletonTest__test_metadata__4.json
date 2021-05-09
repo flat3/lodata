@@ -144,6 +144,24 @@
                     }
                 }
             },
+            "com.example.odata.a~create": {
+                "type": "object",
+                "properties": {
+                    "b": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "com.example.odata.a~update": {
+                "type": "object",
+                "properties": {
+                    "b": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
             "Edm.ComplexType": {
                 "type": "object"
             },
@@ -290,7 +308,8 @@
             "count": {
                 "anyOf": [
                     {
-                        "type": "number"
+                        "type": "integer",
+                        "minimum": 0
                     },
                     {
                         "type": "string"
