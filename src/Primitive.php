@@ -28,7 +28,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * The OData name of this primitive type
      * @type string identifier
      */
-    const identifier = 'Edm.None';
+    const identifier = 'Edm.PrimitiveType';
 
     /**
      * The OpenAPI schema definition of this type
