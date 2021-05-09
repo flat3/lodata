@@ -293,9 +293,9 @@
 <dd>Get the resolved name of this primitive type based on the provided namespace</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-EnumerationType.html#method_getUnderlyingType">getUnderlyingType()</a>
+    <a href="classes/Flat3-Lodata-PrimitiveType.html#method_getUnderlyingType">getUnderlyingType()</a>
     <span>
-                        &nbsp;: <a href="classes/Flat3-Lodata-Type.html"><abbr title="\Flat3\Lodata\Type">Type</abbr></a>    </span>
+                        &nbsp;: <a href="classes/Flat3-Lodata-PrimitiveType.html"><abbr title="\Flat3\Lodata\PrimitiveType">PrimitiveType</abbr></a>|null    </span>
 </dt>
 <dd>Get the underlying type of this enumerated type</dd>
 
@@ -398,13 +398,6 @@
 <dd>Set whether instances of this type can be made null</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-EnumerationType.html#method_setUnderlyingType">setUnderlyingType()</a>
-    <span>
-                        &nbsp;: $this    </span>
-</dt>
-<dd>Set the underlying type of this enumerated type</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Type.html#method_single">single()</a>
     <span>
                         &nbsp;: <a href=""><abbr title=""></abbr></a>    </span>
@@ -433,11 +426,46 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type.html#method_toOpenAPICreateSchema">toOpenAPICreateSchema()</a>
+    <span>
+                        &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Render this type as an OpenAPI schema for creation paths</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Type.html#method_toOpenAPISchema">toOpenAPISchema()</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Render this type as an OpenAPI schema</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type.html#method_toOpenAPIUpdateSchema">toOpenAPIUpdateSchema()</a>
+    <span>
+                        &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Render this type as an OpenAPI schema for update paths</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type.html#method_uint16">uint16()</a>
+    <span>
+                        &nbsp;: <a href=""><abbr title=""></abbr></a>    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type.html#method_uint32">uint32()</a>
+    <span>
+                        &nbsp;: <a href=""><abbr title=""></abbr></a>    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type.html#method_uint64">uint64()</a>
+    <span>
+                        &nbsp;: <a href=""><abbr title=""></abbr></a>    </span>
+</dt>
+<dd></dd>
 
         </dl>
 
@@ -498,7 +526,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether this enumeration type supports multiple values being selected in instances of the type</p>
@@ -534,7 +562,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new type container</p>
@@ -588,7 +616,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 </aside>
 
     
@@ -936,7 +964,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate a new enumerated type</p>
@@ -996,7 +1024,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the class factory for instances of this type</p>
@@ -1030,7 +1058,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">93</span>
+    <span class="phpdocumentor-element-found-in__line">104</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the fully qualified name of this primitive type</p>
@@ -1065,7 +1093,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get whether this enumerated type supports multiple members being selected in type instances</p>
@@ -1099,7 +1127,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">106</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the defined members of this enumerated type</p>
@@ -1134,7 +1162,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">102</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the name of this primitive type</p>
@@ -1169,7 +1197,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">111</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the namespace of this primitive typee</p>
@@ -1204,7 +1232,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">132</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the resolved name of this primitive type based on the provided namespace</p>
@@ -1246,19 +1274,19 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_getUnderlyingType">
         getUnderlyingType()
-        <a href="classes/Flat3-Lodata-EnumerationType.html#method_getUnderlyingType" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-PrimitiveType.html#method_getUnderlyingType" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">152</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the underlying type of this enumerated type</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getUnderlyingType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Type.html"><abbr title="\Flat3\Lodata\Type">Type</abbr></a></span></code>
+                <span class="phpdocumentor-signature__name">getUnderlyingType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-PrimitiveType.html"><abbr title="\Flat3\Lodata\PrimitiveType">PrimitiveType</abbr></a>|null</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1266,7 +1294,7 @@
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-Type.html"><abbr title="\Flat3\Lodata\Type">Type</abbr></a></span>
+    <span class="phpdocumentor-signature__response_type"><a href="classes/Flat3-Lodata-PrimitiveType.html"><abbr title="\Flat3\Lodata\PrimitiveType">PrimitiveType</abbr></a>|null</span>
             &mdash;
             <section class="phpdocumentor-description"><p>Underlying type</p>
 </section>
@@ -1320,7 +1348,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">165</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 </aside>
 
         <p class="phpdocumentor-summary">Create a new instance of the enumerated type</p>
@@ -1468,7 +1496,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">85</span>
 </aside>
 
         <p class="phpdocumentor-summary">Return whether the provided class name represents instances of this type</p>
@@ -1513,7 +1541,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get whether instances of this type can be made null</p>
@@ -1547,7 +1575,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 </aside>
 
         <p class="phpdocumentor-summary">Whether a member exists on this type with the given name</p>
@@ -1607,7 +1635,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the member identified by the given name</p>
@@ -1653,7 +1681,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">137</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add a new member of this enumerated type</p>
@@ -1708,7 +1736,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">126</span>
 </aside>
 
         <p class="phpdocumentor-summary">Remove a member of the enumerated type</p>
@@ -1802,7 +1830,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set whether this enumerated type supports multiple members being selected in type instances</p>
@@ -1847,7 +1875,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PrimitiveType.php"><a href="files/src-primitivetype.html"><abbr title="src/PrimitiveType.php">PrimitiveType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set whether instances of this type can be made null</p>
@@ -1866,52 +1894,6 @@
                  = <span class="phpdocumentor-signature__argument__default-value">true</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">$this</span>
-            &mdash;
-            <section class="phpdocumentor-description"></section>
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_setUnderlyingType">
-        setUnderlyingType()
-        <a href="classes/Flat3-Lodata-EnumerationType.html#method_setUnderlyingType" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EnumerationType.php"><a href="files/src-enumerationtype.html"><abbr title="src/EnumerationType.php">EnumerationType.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">74</span>
-</aside>
-
-        <p class="phpdocumentor-summary">Set the underlying type of this enumerated type</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setUnderlyingType</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Type.html"><abbr title="\Flat3\Lodata\Type">Type</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$type</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Flat3-Lodata-Type.html"><abbr title="\Flat3\Lodata\Type">Type</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Underlying type</p>
-</section>
 
             </dd>
             </dl>
@@ -2065,6 +2047,40 @@
         class="phpdocumentor-element
             -method
             -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_toOpenAPICreateSchema">
+        toOpenAPICreateSchema()
+        <a href="classes/Flat3-Lodata-Type.html#method_toOpenAPICreateSchema" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">137</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Render this type as an OpenAPI schema for creation paths</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">toOpenAPICreateSchema</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                         -abstract                                "
 >
     <h4 class="phpdocumentor-element__name" id="method_toOpenAPISchema">
@@ -2074,7 +2090,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">122</span>
+    <span class="phpdocumentor-element-found-in__line">131</span>
 </aside>
 
         <p class="phpdocumentor-summary">Render this type as an OpenAPI schema</p>
@@ -2090,6 +2106,142 @@
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_toOpenAPIUpdateSchema">
+        toOpenAPIUpdateSchema()
+        <a href="classes/Flat3-Lodata-Type.html#method_toOpenAPIUpdateSchema" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Render this type as an OpenAPI schema for update paths</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">toOpenAPIUpdateSchema</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_uint16">
+        uint16()
+        <a href="classes/Flat3-Lodata-Type.html#method_uint16" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">uint16</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span></code>
+
+        <section class="phpdocumentor-description"><p>UInt16 type</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_uint32">
+        uint32()
+        <a href="classes/Flat3-Lodata-Type.html#method_uint32" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">uint32</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span></code>
+
+        <section class="phpdocumentor-description"><p>UInt32 type</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_uint64">
+        uint64()
+        <a href="classes/Flat3-Lodata-Type.html#method_uint64" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type.php"><a href="files/src-type.html"><abbr title="src/Type.php">Type.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">uint64</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span></code>
+
+        <section class="phpdocumentor-description"><p>UInt64 type</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 

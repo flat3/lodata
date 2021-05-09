@@ -86,10 +86,10 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Int64
+    UInt32
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Flat3-Lodata-Type-Byte.html"><abbr title="\Flat3\Lodata\Type\Byte">Byte</abbr></a>
+        extends <a href="classes/Flat3-Lodata-Type-Int32.html"><abbr title="\Flat3\Lodata\Type\Int32">Int32</abbr></a>
     </span>
     
     
@@ -97,12 +97,12 @@
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Int64.php"><a href="files/src-type-int64.html"><abbr title="src/Type/Int64.php">Int64.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/UInt32.php"><a href="files/src-type-uint32.html"><abbr title="src/Type/UInt32.php">UInt32.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">12</span>
 </aside>
 
-            <p class="phpdocumentor-summary">Int64</p>
+            <p class="phpdocumentor-summary">UInt32</p>
 
     <section class="phpdocumentor-description"></section>
 
@@ -120,32 +120,32 @@
 
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Type-Byte.html#constant_format">format</a>
+    <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_format">format</a>
     <span>
-        &nbsp;= &#039;C&#039;                    </span>
+        &nbsp;= &#039;L&#039;                    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Type-Int64.html#constant_identifier">identifier</a>
+    <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_identifier">identifier</a>
     <span>
-        &nbsp;= &#039;Edm.Int64&#039;                    </span>
+        &nbsp;= &#039;UInt32&#039;                    </span>
 </dt>
 <dd>The OData name of this primitive type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Type-Int64.html#constant_openApiSchema">openApiSchema</a>
+    <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_openApiSchema">openApiSchema</a>
     <span>
-        &nbsp;= [&#039;type&#039; =&gt; Flat3LodataHelperConstants::OAPI_INTEGER, &#039;format&#039; =&gt; &#039;int64&#039;, &quot;minimum&quot; =&gt; PHP_INT_MIN, &quot;maximum&quot; =&gt; PHP_INT_MAX]                    </span>
+        &nbsp;= [&#039;type&#039; =&gt; Flat3LodataHelperConstants::OAPI_INTEGER, &#039;format&#039; =&gt; &#039;int32&#039;, &quot;minimum&quot; =&gt; 0, &quot;maximum&quot; =&gt; 2147483647]                    </span>
 </dt>
 <dd>The OpenAPI schema definition of this type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a href="classes/Flat3-Lodata-Primitive.html#constant_underlyingType">underlyingType</a>
+    <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_underlyingType">underlyingType</a>
     <span>
-        &nbsp;= null                    </span>
+        &nbsp;= Flat3LodataTypeInt32::class                    </span>
 </dt>
-<dd>The underlying type class of this type</dd>
+<dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/Flat3-Lodata-Type-Byte.html#property_value">$value</a>
@@ -176,7 +176,14 @@
 <dd>Generate a new primitive of this type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Flat3-Lodata-Type-Int64.html#method_factory">factory()</a>
+    <a href="classes/Flat3-Lodata-Type-UInt32.html#method_factory">factory()</a>
+    <span>
+                        &nbsp;: <a href=""><abbr title=""></abbr></a>    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Type-Int32.html#method_factory">factory()</a>
     <span>
                         &nbsp;: <a href=""><abbr title=""></abbr></a>    </span>
 </dt>
@@ -323,7 +330,7 @@
 <dd>Get the &quot;empty&quot; representation of this type if it cannot be made null</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Flat3-Lodata-Type-Int64.html#method_repack">repack()</a>
+    <a href="classes/Flat3-Lodata-Type-Byte.html#method_repack">repack()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
@@ -337,16 +344,16 @@
     <section class="phpdocumentor-constants">
         <h3 class="phpdocumentor-elements__header" id="constants">
             Constants
-            <a href="classes/Flat3-Lodata-Type-Int64.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-Type-UInt32.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_format">
         format
-        <a href="classes/Flat3-Lodata-Type-Byte.html#constant_format" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_format" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Byte.php"><a href="files/src-type-byte.html"><abbr title="src/Type/Byte.php">Byte.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/UInt32.php"><a href="files/src-type-uint32.html"><abbr title="src/Type/UInt32.php">UInt32.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">25</span>
 </aside>
@@ -356,7 +363,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">format</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;C&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;L&#039;</span>
 </code>
 
 
@@ -367,11 +374,11 @@
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_identifier">
         identifier
-        <a href="classes/Flat3-Lodata-Type-Int64.html#constant_identifier" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_identifier" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Int64.php"><a href="files/src-type-int64.html"><abbr title="src/Type/Int64.php">Int64.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/UInt32.php"><a href="files/src-type-uint32.html"><abbr title="src/Type/UInt32.php">UInt32.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">14</span>
 </aside>
@@ -382,7 +389,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">identifier</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;Edm.Int64&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;UInt32&#039;</span>
 </code>
 
 
@@ -394,13 +401,13 @@
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_openApiSchema">
         openApiSchema
-        <a href="classes/Flat3-Lodata-Type-Int64.html#constant_openApiSchema" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_openApiSchema" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Int64.php"><a href="files/src-type-int64.html"><abbr title="src/Type/Int64.php">Int64.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/UInt32.php"><a href="files/src-type-uint32.html"><abbr title="src/Type/UInt32.php">UInt32.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 </aside>
 
         <p class="phpdocumentor-summary">The OpenAPI schema definition of this type</p>
@@ -409,7 +416,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">openApiSchema</span>
-    = <span class="phpdocumentor-signature__default-value">[&#039;type&#039; =&gt; Flat3LodataHelperConstants::OAPI_INTEGER, &#039;format&#039; =&gt; &#039;int64&#039;, &quot;minimum&quot; =&gt; PHP_INT_MIN, &quot;maximum&quot; =&gt; PHP_INT_MAX]</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;type&#039; =&gt; Flat3LodataHelperConstants::OAPI_INTEGER, &#039;format&#039; =&gt; &#039;int32&#039;, &quot;minimum&quot; =&gt; 0, &quot;maximum&quot; =&gt; 2147483647]</span>
 </code>
 
 
@@ -421,43 +428,26 @@
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_underlyingType">
         underlyingType
-        <a href="classes/Flat3-Lodata-Primitive.html#constant_underlyingType" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Type-UInt32.html#constant_underlyingType" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Primitive.php"><a href="files/src-primitive.html"><abbr title="src/Primitive.php">Primitive.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/UInt32.php"><a href="files/src-type-uint32.html"><abbr title="src/Type/UInt32.php">UInt32.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">16</span>
 </aside>
 
-        <p class="phpdocumentor-summary">The underlying type class of this type</p>
-
+    
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">underlyingType</span>
-    = <span class="phpdocumentor-signature__default-value">null</span>
+    = <span class="phpdocumentor-signature__default-value">Flat3LodataTypeInt32::class</span>
 </code>
 
 
-        <section class="phpdocumentor-description"></section>
-
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">type</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>?PrimitiveType underlyingType</p>
-</section>
-
-                                    </dd>
-                        </dl>
+    
 
 </article>
             </section>
@@ -466,7 +456,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Flat3-Lodata-Type-Int64.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-Type-UInt32.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="
@@ -504,7 +494,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Flat3-Lodata-Type-Int64.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Flat3-Lodata-Type-UInt32.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -678,10 +668,60 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_factory">
         factory()
-        <a href="classes/Flat3-Lodata-Type-Int64.html#method_factory" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Type-UInt32.html#method_factory" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Int64.php"><a href="files/src-type-int64.html"><abbr title="src/Type/Int64.php">Int64.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/UInt32.php"><a href="files/src-type-uint32.html"><abbr title="src/Type/UInt32.php">UInt32.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">factory</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$nullable = true</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$nullable = true</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><a href=""><abbr title=""></abbr></a></span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_factory">
+        factory()
+        <a href="classes/Flat3-Lodata-Type-Int32.html#method_factory" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Int32.php"><a href="files/src-type-int32.html"><abbr title="src/Type/Int32.php">Int32.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 </aside>
@@ -1573,12 +1613,12 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_repack">
         repack()
-        <a href="classes/Flat3-Lodata-Type-Int64.html#method_repack" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Flat3-Lodata-Type-Byte.html#method_repack" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Int64.php"><a href="files/src-type-int64.html"><abbr title="src/Type/Int64.php">Int64.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Type/Byte.php"><a href="files/src-type-byte.html"><abbr title="src/Type/Byte.php">Byte.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 </aside>
 
     
@@ -1623,7 +1663,7 @@
 </section>
             </div>
         </div>
-        <a href="classes/Flat3-Lodata-Type-Int64.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Flat3-Lodata-Type-UInt32.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

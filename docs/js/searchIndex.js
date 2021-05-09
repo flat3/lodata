@@ -751,6 +751,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Annotation-Core-V1-Description.html#property_name"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Immutable",
+            "name": "Immutable",
+            "summary": "Annotation",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Immutable.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Immutable\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Immutable.html#method___construct"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\Immutable\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Annotation-Core-V1-Immutable.html#property_name"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Annotation\\Core\\V1\\LongDescription",
             "name": "LongDescription",
             "summary": "LongDescription",
@@ -965,6 +980,16 @@ Search.appendIndex(
             "name": "toOpenAPISchema",
             "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema",
             "url": "classes/Flat3-Lodata-ComplexType.html#method_toOpenAPISchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\ComplexType\u003A\u003AtoOpenAPICreateSchema\u0028\u0029",
+            "name": "toOpenAPICreateSchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema\u0020for\u0020creation\u0020paths",
+            "url": "classes/Flat3-Lodata-ComplexType.html#method_toOpenAPICreateSchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\ComplexType\u003A\u003AtoOpenAPIUpdateSchema\u0028\u0029",
+            "name": "toOpenAPIUpdateSchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema\u0020for\u0020update\u0020paths",
+            "url": "classes/Flat3-Lodata-ComplexType.html#method_toOpenAPIUpdateSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\ComplexType\u003A\u003Aidentifier",
             "name": "identifier",
@@ -1766,11 +1791,6 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020database\u0020table\u0020name\u0020used\u0020by\u0020the\u0020model",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getTable"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003AgetCasts\u0028\u0029",
-            "name": "getCasts",
-            "summary": "Get\u0020the\u0020SQL\u0020type\u0020casts\u0020defined\u0020on\u0020this\u0020Eloquent\u0020model",
-            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getCasts"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003Aread\u0028\u0029",
             "name": "read",
             "summary": "Read\u0020an\u0020Eloquent\u0020model",
@@ -1835,6 +1855,11 @@ Search.appendIndex(
             "name": "count",
             "summary": "Count\u0020the\u0020number\u0020of\u0020records\u0020matching\u0020the\u0020query",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_count"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003AcolumnToDeclaredProperty\u0028\u0029",
+            "name": "columnToDeclaredProperty",
+            "summary": "Convert\u0020an\u0020SQL\u0020column\u0020that\u0020may\u0020have\u0020an\u0020Eloquent\u0020cast\u0020to\u0020an\u0020OData\u0020declared\u0020property",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_columnToDeclaredProperty"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\FilesystemEntitySet",
             "name": "FilesystemEntitySet",
@@ -2091,20 +2116,15 @@ Search.appendIndex(
             "summary": "SQL\u0020Schema",
             "url": "classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\SQLSchema\u003A\u003AgetCasts\u0028\u0029",
-            "name": "getCasts",
-            "summary": "Get\u0020list\u0020of\u0020defined\u0020type\u0020casts",
-            "url": "classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_getCasts"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\SQLSchema\u003A\u003AdiscoverProperties\u0028\u0029",
             "name": "discoverProperties",
             "summary": "Discover\u0020SQL\u0020fields\u0020on\u0020this\u0020entity\u0020set\u0020as\u0020OData\u0020properties",
             "url": "classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_discoverProperties"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\SQLSchema\u003A\u003AsqlTypeToPrimitiveType\u0028\u0029",
-            "name": "sqlTypeToPrimitiveType",
-            "summary": "Convert\u0020an\u0020SQL\u0020type\u0020to\u0020an\u0020OData\u0020primitive\u0020type",
-            "url": "classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_sqlTypeToPrimitiveType"
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\SQLSchema\u003A\u003AcolumnToDeclaredProperty\u0028\u0029",
+            "name": "columnToDeclaredProperty",
+            "summary": "Convert\u0020an\u0020SQL\u0020column\u0020to\u0020an\u0020OData\u0020declared\u0020property",
+            "url": "classes/Flat3-Lodata-Drivers-SQL-SQLSchema.html#method_columnToDeclaredProperty"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\SQL\\SQLSearch",
             "name": "SQLSearch",
@@ -2646,6 +2666,11 @@ Search.appendIndex(
             "summary": "Path\u0020component\u0020handler",
             "url": "classes/Flat3-Lodata-EntityType.html#method_pipe"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\EntityType\u003A\u003AtoOpenAPIUpdateSchema\u0028\u0029",
+            "name": "toOpenAPIUpdateSchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema\u0020for\u0020update\u0020paths",
+            "url": "classes/Flat3-Lodata-EntityType.html#method_toOpenAPIUpdateSchema"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\EntityType\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "",
@@ -2665,16 +2690,6 @@ Search.appendIndex(
             "name": "factory",
             "summary": "Generate\u0020a\u0020new\u0020enumerated\u0020type",
             "url": "classes/Flat3-Lodata-EnumerationType.html#method_factory"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EnumerationType\u003A\u003AgetUnderlyingType\u0028\u0029",
-            "name": "getUnderlyingType",
-            "summary": "Get\u0020the\u0020underlying\u0020type\u0020of\u0020this\u0020enumerated\u0020type",
-            "url": "classes/Flat3-Lodata-EnumerationType.html#method_getUnderlyingType"
-        },                {
-            "fqsen": "\\Flat3\\Lodata\\EnumerationType\u003A\u003AsetUnderlyingType\u0028\u0029",
-            "name": "setUnderlyingType",
-            "summary": "Set\u0020the\u0020underlying\u0020type\u0020of\u0020this\u0020enumerated\u0020type",
-            "url": "classes/Flat3-Lodata-EnumerationType.html#method_setUnderlyingType"
         },                {
             "fqsen": "\\Flat3\\Lodata\\EnumerationType\u003A\u003AsetIsFlags\u0028\u0029",
             "name": "setIsFlags",
@@ -5611,6 +5626,11 @@ Search.appendIndex(
             "summary": "Get\u0020an\u0020action\u0020from\u0020the\u0020model",
             "url": "classes/Flat3-Lodata-Model.html#method_getAction"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetTypeDefinition\u0028\u0029",
+            "name": "getTypeDefinition",
+            "summary": "Get\u0020a\u0020type\u0020definition\u0020from\u0020the\u0020model",
+            "url": "classes/Flat3-Lodata-Model.html#method_getTypeDefinition"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetNamespace\u0028\u0029",
             "name": "getNamespace",
             "summary": "Get\u0020the\u0020namespace\u0020of\u0020this\u0020model",
@@ -5641,6 +5661,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020services\u0020attached\u0020to\u0020the\u0020model",
             "url": "classes/Flat3-Lodata-Model.html#method_getServices"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetTypeDefinitions\u0028\u0029",
+            "name": "getTypeDefinitions",
+            "summary": "Get\u0020the\u0020type\u0020definitions\u0020attached\u0020to\u0020the\u0020model",
+            "url": "classes/Flat3-Lodata-Model.html#method_getTypeDefinitions"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AgetReferences\u0028\u0029",
             "name": "getReferences",
             "summary": "Get\u0020the\u0020document\u0020references\u0020attached\u0020to\u0020the\u0020model",
@@ -5650,6 +5675,11 @@ Search.appendIndex(
             "name": "addReference",
             "summary": "Add\u0020a\u0020reference\u0020to\u0020an\u0020external\u0020CSDL\u0020document",
             "url": "classes/Flat3-Lodata-Model.html#method_addReference"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AaddTypeDefinition\u0028\u0029",
+            "name": "addTypeDefinition",
+            "summary": "Add\u0020a\u0020new\u0020type\u0020definition",
+            "url": "classes/Flat3-Lodata-Model.html#method_addTypeDefinition"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Model\u003A\u003AdiscoverEloquentModel\u0028\u0029",
             "name": "discoverEloquentModel",
@@ -6336,6 +6366,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Primitive.html#method_response"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Primitive.html#method_fromLexer"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003Apipe\u0028\u0029",
             "name": "pipe",
             "summary": "Path\u0020component\u0020handler",
@@ -6350,6 +6385,11 @@ Search.appendIndex(
             "name": "openApiSchema",
             "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
             "url": "classes/Flat3-Lodata-Primitive.html#constant_openApiSchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Primitive\u003A\u003AunderlyingType",
+            "name": "underlyingType",
+            "summary": "The\u0020underlying\u0020type\u0020class\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Primitive.html#constant_underlyingType"
         },                {
             "fqsen": "\\Flat3\\Lodata\\PrimitiveType",
             "name": "PrimitiveType",
@@ -6411,6 +6451,11 @@ Search.appendIndex(
             "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema",
             "url": "classes/Flat3-Lodata-PrimitiveType.html#method_toOpenAPISchema"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\PrimitiveType\u003A\u003AgetUnderlyingType\u0028\u0029",
+            "name": "getUnderlyingType",
+            "summary": "Get\u0020the\u0020underlying\u0020type\u0020of\u0020this\u0020enumerated\u0020type",
+            "url": "classes/Flat3-Lodata-PrimitiveType.html#method_getUnderlyingType"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\PrimitiveType\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "",
@@ -6441,15 +6486,15 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020entity\u0020type\u0020this\u0020property\u0020is\u0020attached\u0020to",
             "url": "classes/Flat3-Lodata-Property.html#method_getEntityType"
         },                {
-            "fqsen": "\\Flat3\\Lodata\\Property\u003A\u003AgetPrimitiveType\u0028\u0029",
-            "name": "getPrimitiveType",
-            "summary": "Get\u0020the\u0020primitive\u0020type\u0020this\u0020property\u0020is\u0020attached\u0020to",
-            "url": "classes/Flat3-Lodata-Property.html#method_getPrimitiveType"
-        },                {
             "fqsen": "\\Flat3\\Lodata\\Property\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
             "summary": "Get\u0020the\u0020type\u0020this\u0020property\u0020is\u0020attached\u0020to",
             "url": "classes/Flat3-Lodata-Property.html#method_getType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Property\u003A\u003AgetPrimitiveType\u0028\u0029",
+            "name": "getPrimitiveType",
+            "summary": "Get\u0020the\u0020primitive\u0020type\u0020this\u0020property\u0020is\u0020attached\u0020to",
+            "url": "classes/Flat3-Lodata-Property.html#method_getPrimitiveType"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Property\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
@@ -7526,6 +7571,11 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020value\u0020of\u0020this\u0020primitive",
             "url": "classes/Flat3-Lodata-Type-Binary.html#method_set"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Binary\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Binary.html#method_fromLexer"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Binary\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
@@ -7565,6 +7615,11 @@ Search.appendIndex(
             "name": "getEmpty",
             "summary": "Get\u0020the\u0020\u0022empty\u0022\u0020representation\u0020of\u0020this\u0020type\u0020if\u0020it\u0020cannot\u0020be\u0020made\u0020null",
             "url": "classes/Flat3-Lodata-Type-Boolean.html#method_getEmpty"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Boolean\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Boolean.html#method_fromLexer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Boolean\u003A\u003Aidentifier",
             "name": "identifier",
@@ -7610,6 +7665,11 @@ Search.appendIndex(
             "name": "getEmpty",
             "summary": "Get\u0020the\u0020\u0022empty\u0022\u0020representation\u0020of\u0020this\u0020type\u0020if\u0020it\u0020cannot\u0020be\u0020made\u0020null",
             "url": "classes/Flat3-Lodata-Type-Byte.html#method_getEmpty"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Byte\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Byte.html#method_fromLexer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Byte\u003A\u003Aidentifier",
             "name": "identifier",
@@ -7696,6 +7756,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Type-Date.html#method_repack"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Date\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Date.html#method_fromLexer"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Date\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
@@ -7740,6 +7805,11 @@ Search.appendIndex(
             "name": "toJson",
             "summary": "Get\u0020the\u0020value\u0020in\u0020a\u0020format\u0020suitable\u0020for\u0020JSON\u0020encoding",
             "url": "classes/Flat3-Lodata-Type-DateTimeOffset.html#method_toJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\DateTimeOffset\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-DateTimeOffset.html#method_fromLexer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\DateTimeOffset\u003A\u003Aidentifier",
             "name": "identifier",
@@ -7790,6 +7860,11 @@ Search.appendIndex(
             "name": "getEmpty",
             "summary": "Get\u0020the\u0020\u0022empty\u0022\u0020representation\u0020of\u0020this\u0020type\u0020if\u0020it\u0020cannot\u0020be\u0020made\u0020null",
             "url": "classes/Flat3-Lodata-Type-Decimal.html#method_getEmpty"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Decimal\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Decimal.html#method_fromLexer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Decimal\u003A\u003Aidentifier",
             "name": "identifier",
@@ -7855,6 +7930,11 @@ Search.appendIndex(
             "name": "getEmpty",
             "summary": "Get\u0020the\u0020\u0022empty\u0022\u0020representation\u0020of\u0020this\u0020type\u0020if\u0020it\u0020cannot\u0020be\u0020made\u0020null",
             "url": "classes/Flat3-Lodata-Type-Duration.html#method_getEmpty"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Duration\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Duration.html#method_fromLexer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Duration\u003A\u003Aidentifier",
             "name": "identifier",
@@ -8000,6 +8080,11 @@ Search.appendIndex(
             "name": "toJson",
             "summary": "Get\u0020the\u0020value\u0020in\u0020a\u0020format\u0020suitable\u0020for\u0020JSON\u0020encoding",
             "url": "classes/Flat3-Lodata-Type-Guid.html#method_toJson"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\Guid\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-Guid.html#method_fromLexer"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\Guid\u003A\u003Aidentifier",
             "name": "identifier",
@@ -8211,6 +8296,11 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020value\u0020in\u0020a\u0020format\u0020suitable\u0020for\u0020JSON\u0020encoding",
             "url": "classes/Flat3-Lodata-Type-String.html#method_toJson"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\String_\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-String.html#method_fromLexer"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\String_\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
@@ -8236,6 +8326,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Flat3-Lodata-Type-TimeOfDay.html#method_repack"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\TimeOfDay\u003A\u003AfromLexer\u0028\u0029",
+            "name": "fromLexer",
+            "summary": "Return\u0020a\u0020primitive\u0020using\u0020the\u0020supplied\u0020Lexer\u0020state",
+            "url": "classes/Flat3-Lodata-Type-TimeOfDay.html#method_fromLexer"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Type\\TimeOfDay\u003A\u003Aidentifier",
             "name": "identifier",
             "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
@@ -8250,6 +8345,81 @@ Search.appendIndex(
             "name": "DATE_FORMAT",
             "summary": "",
             "url": "classes/Flat3-Lodata-Type-TimeOfDay.html#constant_DATE_FORMAT"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt16",
+            "name": "UInt16",
+            "summary": "UInt16",
+            "url": "classes/Flat3-Lodata-Type-UInt16.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt16\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
+            "url": "classes/Flat3-Lodata-Type-UInt16.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt16\u003A\u003AunderlyingType",
+            "name": "underlyingType",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-UInt16.html#constant_underlyingType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt16\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-UInt16.html#constant_openApiSchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt16\u003A\u003Aformat",
+            "name": "format",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-UInt16.html#constant_format"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt32",
+            "name": "UInt32",
+            "summary": "UInt32",
+            "url": "classes/Flat3-Lodata-Type-UInt32.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt32\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
+            "url": "classes/Flat3-Lodata-Type-UInt32.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt32\u003A\u003AunderlyingType",
+            "name": "underlyingType",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-UInt32.html#constant_underlyingType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt32\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-UInt32.html#constant_openApiSchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt32\u003A\u003Aformat",
+            "name": "format",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-UInt32.html#constant_format"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt64",
+            "name": "UInt64",
+            "summary": "UInt64",
+            "url": "classes/Flat3-Lodata-Type-UInt64.html"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt64\u003A\u003Arepack\u0028\u0029",
+            "name": "repack",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-UInt64.html#method_repack"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt64\u003A\u003Aidentifier",
+            "name": "identifier",
+            "summary": "The\u0020OData\u0020name\u0020of\u0020this\u0020primitive\u0020type",
+            "url": "classes/Flat3-Lodata-Type-UInt64.html#constant_identifier"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt64\u003A\u003AunderlyingType",
+            "name": "underlyingType",
+            "summary": "",
+            "url": "classes/Flat3-Lodata-Type-UInt64.html#constant_underlyingType"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\\UInt64\u003A\u003AopenApiSchema",
+            "name": "openApiSchema",
+            "summary": "The\u0020OpenAPI\u0020schema\u0020definition\u0020of\u0020this\u0020type",
+            "url": "classes/Flat3-Lodata-Type-UInt64.html#constant_openApiSchema"
         },                {
             "fqsen": "\\Flat3\\Lodata\\Type",
             "name": "Type",
@@ -8270,6 +8440,16 @@ Search.appendIndex(
             "name": "toOpenAPISchema",
             "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema",
             "url": "classes/Flat3-Lodata-Type.html#method_toOpenAPISchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\u003A\u003AtoOpenAPICreateSchema\u0028\u0029",
+            "name": "toOpenAPICreateSchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema\u0020for\u0020creation\u0020paths",
+            "url": "classes/Flat3-Lodata-Type.html#method_toOpenAPICreateSchema"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Type\u003A\u003AtoOpenAPIUpdateSchema\u0028\u0029",
+            "name": "toOpenAPIUpdateSchema",
+            "summary": "Render\u0020this\u0020type\u0020as\u0020an\u0020OpenAPI\u0020schema\u0020for\u0020update\u0020paths",
+            "url": "classes/Flat3-Lodata-Type.html#method_toOpenAPIUpdateSchema"
         },                {
             "fqsen": "\\",
             "name": "\\",
