@@ -1010,16 +1010,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.41.0",
+            "version": "v8.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "05417155d886df8710e55c84e12622b52d83c47c"
+                "reference": "55b886683e0a019bcad0d9d70bb781a3de1a6755"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/05417155d886df8710e55c84e12622b52d83c47c",
-                "reference": "05417155d886df8710e55c84e12622b52d83c47c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/55b886683e0a019bcad0d9d70bb781a3de1a6755",
+                "reference": "55b886683e0a019bcad0d9d70bb781a3de1a6755",
                 "shasum": ""
             },
             "require": {
@@ -1174,7 +1174,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-05-11T14:00:02+00:00"
+            "time": "2021-05-18T15:37:44+00:00"
         },
         {
             "name": "league/commonmark",
@@ -5883,22 +5883,22 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v6.17.0",
+            "version": "v6.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "1782d7d54312ebbf3bf79d66e4ac46e7dee78e0f"
+                "reference": "d6df638c569899443a1e4dc14a33490837201784"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/1782d7d54312ebbf3bf79d66e4ac46e7dee78e0f",
-                "reference": "1782d7d54312ebbf3bf79d66e4ac46e7dee78e0f",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/d6df638c569899443a1e4dc14a33490837201784",
+                "reference": "d6df638c569899443a1e4dc14a33490837201784",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^8.25",
                 "mockery/mockery": "^1.4.2",
-                "orchestra/testbench-core": "^6.21",
+                "orchestra/testbench-core": "^6.21.3",
                 "php": "^7.3 || ^8.0",
                 "phpunit/phpunit": "^8.4 || ^9.3.3",
                 "spatie/laravel-ray": "^1.17.1"
@@ -5932,7 +5932,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v6.17.0"
+                "source": "https://github.com/orchestral/testbench/tree/v6.17.1"
             },
             "funding": [
                 {
@@ -5944,20 +5944,20 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2021-04-06T12:07:42+00:00"
+            "time": "2021-05-18T23:14:29+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v6.21.2",
+            "version": "v6.21.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "6b536a0f18227a156762e074f12bb17547eaf4f4"
+                "reference": "e20e4ed5586993940679119c4eeaed3b21037ac5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/6b536a0f18227a156762e074f12bb17547eaf4f4",
-                "reference": "6b536a0f18227a156762e074f12bb17547eaf4f4",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/e20e4ed5586993940679119c4eeaed3b21037ac5",
+                "reference": "e20e4ed5586993940679119c4eeaed3b21037ac5",
                 "shasum": ""
             },
             "require": {
@@ -6031,7 +6031,7 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2021-05-11T20:58:20+00:00"
+            "time": "2021-05-18T09:19:25+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -8080,20 +8080,20 @@
         },
         {
             "name": "spatie/macroable",
-            "version": "2.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/macroable.git",
-                "reference": "ec2c320f932e730607aff8052c44183cf3ecb072"
+                "reference": "7a99549fc001c925714b329220dea680c04bfa48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/macroable/zipball/ec2c320f932e730607aff8052c44183cf3ecb072",
-                "reference": "ec2c320f932e730607aff8052c44183cf3ecb072",
+                "url": "https://api.github.com/repos/spatie/macroable/zipball/7a99549fc001c925714b329220dea680c04bfa48",
+                "reference": "7a99549fc001c925714b329220dea680c04bfa48",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0"
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.0|^9.3"
@@ -8124,9 +8124,9 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/macroable/issues",
-                "source": "https://github.com/spatie/macroable/tree/2.0.0"
+                "source": "https://github.com/spatie/macroable/tree/1.0.1"
             },
-            "time": "2021-03-26T22:39:02+00:00"
+            "time": "2020-11-03T10:15:05+00:00"
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
