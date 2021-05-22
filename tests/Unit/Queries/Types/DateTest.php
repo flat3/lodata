@@ -11,7 +11,7 @@ class DateTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("construction_date eq 1946-03-25")
+                ->filter('construction_date eq 1946-03-25')
                 ->select('id,construction_date')
         );
     }
@@ -21,7 +21,7 @@ class DateTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("construction_date gt 1935-01-01")
+                ->filter('construction_date gt 1935-01-01')
                 ->select('id,construction_date')
         );
     }
@@ -31,7 +31,7 @@ class DateTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("construction_date lt 1935-01-01")
+                ->filter('construction_date lt 1935-01-01')
                 ->select('id,construction_date')
         );
     }
@@ -41,7 +41,7 @@ class DateTest extends TypeTest
         $this->assertBadRequest(
             Request::factory()
                 ->path('/airports')
-                ->filter("construction_date lt 1935-0x-")
+                ->filter('construction_date lt 1935-0x-')
         );
     }
 }

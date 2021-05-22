@@ -229,7 +229,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      */
     public function getResourceUrl(Transaction $transaction): string
     {
-        return sprintf("%s/%s", $this->entity->getResourceUrl($transaction), $this->property->getName());
+        return sprintf('%s/%s', $this->entity->getResourceUrl($transaction), $this->property->getName());
     }
 
     public static function pipe(

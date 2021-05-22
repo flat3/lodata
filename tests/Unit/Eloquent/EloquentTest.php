@@ -257,7 +257,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/Airports')
-                ->select("code")
+                ->select('code')
         );
     }
 

@@ -11,7 +11,7 @@ class DateTimeTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("sam_datetime eq 2001-11-10T14:00:00Z")
+                ->filter('sam_datetime eq 2001-11-10T14:00:00Z')
                 ->select('id,sam_datetime')
         );
     }
@@ -21,7 +21,7 @@ class DateTimeTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("sam_datetime gt 2001-11-10T14:00:00Z")
+                ->filter('sam_datetime gt 2001-11-10T14:00:00Z')
                 ->select('id,sam_datetime')
         );
     }
@@ -31,7 +31,7 @@ class DateTimeTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("sam_datetime lt 2001-01-01T00:00:00Z")
+                ->filter('sam_datetime lt 2001-01-01T00:00:00Z')
                 ->select('id,sam_datetime')
         );
     }

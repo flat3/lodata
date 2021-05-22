@@ -40,7 +40,7 @@ class Base64
 
             while (strlen($buf) < 3) {
                 $buf .= "\0";
-                $pad .= "=";
+                $pad .= '=';
             }
 
             $grp = (ord($buf[0]) << 16) | (ord($buf[1]) << 8) | ord($buf[2]);

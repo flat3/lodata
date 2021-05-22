@@ -321,7 +321,7 @@ class TypesTest extends TestCase
                 [null, null],
                 ['hello', 'aGVsbG8='],
                 ['', ''],
-                ["hell'o", "aGVsbCdv"],
+                ["hell'o", 'aGVsbCdv'],
                 [0, 'MA=='],
             ],
         ],
@@ -360,9 +360,9 @@ class TypesTest extends TestCase
     ];
     public $nulls = [
         Type\Binary::class => ['', ''],
-        Type\Boolean::class => [false, "false"],
+        Type\Boolean::class => [false, 'false'],
         Type\Byte::class => [0, '0'],
-        Type\Date::class => ['1970-01-01', "1970-01-01"],
+        Type\Date::class => ['1970-01-01', '1970-01-01'],
         Type\DateTimeOffset::class => ['1970-01-01T00:00:00+00:00', '1970-01-01T00%3A00%3A00%2B00%3A00'],
         Type\Decimal::class => [0.0, '0'],
         Type\Double::class => [0.0, '0'],

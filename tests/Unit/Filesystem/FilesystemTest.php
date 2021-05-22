@@ -74,7 +74,7 @@ class FilesystemTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/files/a1.txt")
+                ->path('/files/a1.txt')
         );
     }
 
@@ -99,7 +99,7 @@ class FilesystemTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/files/d1%2Fa1.txt")
+                ->path('/files/d1%2Fa1.txt')
         );
     }
 
@@ -123,7 +123,7 @@ class FilesystemTest extends TestCase
                     'timestamp' => DateTimeOffset::factory(Carbon::createFromTimeString('2020-01-01 01:01:01'))->toJson(),
                 ])
                 ->post()
-                ->path("/files"),
+                ->path('/files'),
             Response::HTTP_CREATED
         );
 
@@ -140,7 +140,7 @@ class FilesystemTest extends TestCase
                     '$value' => 'dGVzdA==',
                 ])
                 ->post()
-                ->path("/files"),
+                ->path('/files'),
             Response::HTTP_CREATED
         );
 
@@ -157,7 +157,7 @@ class FilesystemTest extends TestCase
                     'path' => 'c1.txt',
                 ])
                 ->post()
-                ->path("/files")
+                ->path('/files')
         );
     }
 

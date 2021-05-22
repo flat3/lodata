@@ -929,7 +929,7 @@ class Transaction implements ArgumentInterface
                 }
 
                 $properties[$navigationRequest->path()] = sprintf(
-                    "%s(%s)",
+                    '%s(%s)',
                     $navigationRequest->path(),
                     implode(',', $navigationProperties)
                 );

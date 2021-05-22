@@ -117,7 +117,7 @@ class CSVTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->path("/csv(2)")
+                ->path('/csv(2)')
         );
     }
 
@@ -126,7 +126,7 @@ class CSVTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->metadata(MetadataType\Full::name)
-                ->path("/csv(2)")
+                ->path('/csv(2)')
         );
     }
 }

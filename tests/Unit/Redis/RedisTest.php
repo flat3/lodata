@@ -158,7 +158,7 @@ class RedisTest extends TestCase
                     'name' => 'whammo',
                 ])
                 ->post()
-                ->path("/passengers"),
+                ->path('/passengers'),
             Response::HTTP_CREATED
         );
 

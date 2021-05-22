@@ -18,7 +18,7 @@ class ParameterAliasTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("code eq @code")
+                ->filter('code eq @code')
                 ->query('@code', "'sfo'")
         );
     }
@@ -28,7 +28,7 @@ class ParameterAliasTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("construction_date eq @code")
+                ->filter('construction_date eq @code')
                 ->query('@code', '1946-03-25')
         );
     }
@@ -38,7 +38,7 @@ class ParameterAliasTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports')
-                ->filter("is_big eq @code")
+                ->filter('is_big eq @code')
                 ->query('@code', 'true')
         );
     }
@@ -48,7 +48,7 @@ class ParameterAliasTest extends TestCase
         $this->assertBadRequest(
             Request::factory()
                 ->path('/airports')
-                ->filter("code eq @code")
+                ->filter('code eq @code')
         );
     }
 }

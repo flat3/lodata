@@ -305,16 +305,16 @@ class BatchJSONTest extends TestCase
                         [
                             'id' => 0,
                             'method' => 'get',
-                            'url' => "/odata/flights(1)",
+                            'url' => '/odata/flights(1)',
                         ],
                         [
                             'id' => 1,
                             'method' => 'post',
-                            'url' => "/odata/airports",
+                            'url' => '/odata/airports',
                             'headers' => ['content-type' => 'application/json'],
                             'body' => [
-                                "name" => "One",
-                                "code" => "one"
+                                'name' => 'One',
+                                'code' => 'one'
                             ]
                         ],
                         [
@@ -324,15 +324,15 @@ class BatchJSONTest extends TestCase
                                 'content-type' => 'application/json',
                                 'if-match' => 'W/"73fa0e567cdc8392d1869d47b3f0886db629d38780a5f2010ce767900cde7266"',
                             ],
-                            'url' => "/odata/airports(1)",
+                            'url' => '/odata/airports(1)',
                             'body' => [
-                                "code" => "xyz"
+                                'code' => 'xyz'
                             ]
                         ],
                         [
                             'id' => 3,
                             'method' => 'get',
-                            'url' => "/odata/airports",
+                            'url' => '/odata/airports',
                         ],
                     ]
                 ])
@@ -398,14 +398,14 @@ class BatchJSONTest extends TestCase
                         [
                             'id' => 0,
                             'method' => 'post',
-                            'url' => "/odata/airports",
+                            'url' => '/odata/airports',
                             'headers' => [
                                 'content-type' => 'application/json',
                                 'prefer' => 'return=minimal',
                             ],
                             'body' => [
-                                "name" => "One",
-                                "code" => "one"
+                                'name' => 'One',
+                                'code' => 'one'
                             ]
                         ],
                         [
@@ -415,9 +415,9 @@ class BatchJSONTest extends TestCase
                                 'content-type' => 'application/json',
                                 'prefer' => 'return=minimal',
                             ],
-                            'url' => "/odata/airports(1)",
+                            'url' => '/odata/airports(1)',
                             'body' => [
-                                "code" => "xyz"
+                                'code' => 'xyz'
                             ]
                         ]
                     ]
@@ -438,10 +438,10 @@ class BatchJSONTest extends TestCase
                         [
                             'id' => 0,
                             'method' => 'post',
-                            'url' => "airports",
+                            'url' => 'airports',
                             'body' => [
-                                "name" => "Test1",
-                                "code" => "xyz",
+                                'name' => 'Test1',
+                                'code' => 'xyz',
                             ]
                         ],
                         [
@@ -449,8 +449,8 @@ class BatchJSONTest extends TestCase
                             'method' => 'patch',
                             'url' => '$2',
                             'body' => [
-                                "name" => "Test2",
-                                "code" => "abc",
+                                'name' => 'Test2',
+                                'code' => 'abc',
                             ]
                         ],
                     ]
@@ -469,10 +469,10 @@ class BatchJSONTest extends TestCase
                         [
                             'id' => 0,
                             'method' => 'post',
-                            'url' => "airports",
+                            'url' => 'airports',
                             'body' => [
-                                "name" => "Test1",
-                                "code" => "xyz",
+                                'name' => 'Test1',
+                                'code' => 'xyz',
                             ]
                         ],
                         [
@@ -483,8 +483,8 @@ class BatchJSONTest extends TestCase
                                 'if-match' => 'xxx',
                             ],
                             'body' => [
-                                "name" => "Test2",
-                                "code" => "abc",
+                                'name' => 'Test2',
+                                'code' => 'abc',
                             ]
                         ],
                     ]
@@ -503,10 +503,10 @@ class BatchJSONTest extends TestCase
                         [
                             'id' => 0,
                             'method' => 'post',
-                            'url' => "airports",
+                            'url' => 'airports',
                             'body' => [
-                                "name" => "Test1",
-                                "code" => "xyz",
+                                'name' => 'Test1',
+                                'code' => 'xyz',
                             ]
                         ],
                         [
@@ -514,8 +514,8 @@ class BatchJSONTest extends TestCase
                             'method' => 'patch',
                             'url' => '$0',
                             'body' => [
-                                "name" => "Test2",
-                                "code" => "abc",
+                                'name' => 'Test2',
+                                'code' => 'abc',
                             ]
                         ],
                         [

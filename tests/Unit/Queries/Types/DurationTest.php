@@ -11,7 +11,7 @@ class DurationTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->filter("duration eq PT11H25M0S")
+                ->filter('duration eq PT11H25M0S')
         );
     }
 
@@ -20,7 +20,7 @@ class DurationTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->filter("duration gt PT39M")
+                ->filter('duration gt PT39M')
         );
     }
 
@@ -29,7 +29,7 @@ class DurationTest extends TypeTest
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/flights')
-                ->filter("duration lt PT38M")
+                ->filter('duration lt PT38M')
         );
     }
 }

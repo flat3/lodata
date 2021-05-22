@@ -154,7 +154,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
             if ($this->usesReferences()) {
                 $metadata['id'] = sprintf(
-                    "%s(%s)",
+                    '%s(%s)',
                     $this->entitySet->getName(),
                     $this->getEntityId()->getPrimitiveValue()->get()
                 );

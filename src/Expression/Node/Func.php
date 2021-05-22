@@ -51,6 +51,6 @@ class Func extends Operator
             return;
         }
 
-        throw new ParserException(sprintf("The %s function requires %d arguments", static::symbol, static::arguments));
+        throw new ParserException(sprintf('The %s function requires %d arguments', static::symbol, static::arguments));
     }
 }

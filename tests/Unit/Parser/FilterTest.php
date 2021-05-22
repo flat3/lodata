@@ -213,7 +213,7 @@ class FilterTest extends TestCase
 
     public function test_27()
     {
-        $this->assertResult("length(title) eq 1");
+        $this->assertResult('length(title) eq 1');
     }
 
     public function test_28()

@@ -290,7 +290,7 @@ class Model implements AnnotationInterface
      */
     public function getOdcUrl(string $set): string
     {
-        return sprintf("%s_lodata/%s.odc", ServiceProvider::endpoint(), $set);
+        return sprintf('%s_lodata/%s.odc', ServiceProvider::endpoint(), $set);
     }
 
     /**
