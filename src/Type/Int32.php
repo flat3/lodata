@@ -16,8 +16,8 @@ class Int32 extends Byte
     const openApiSchema = [
         'type' => Constants::OAPI_INTEGER,
         'format' => 'int32',
-        "minimum" => -2147483648,
-        "maximum" => 2147483647
+        'minimum' => -(2 ** 31),
+        'maximum' => (2 ** 31) - 1,
     ];
 
     public const format = 'l';

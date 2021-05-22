@@ -16,8 +16,8 @@ class Int64 extends Byte
     const openApiSchema = [
         'type' => Constants::OAPI_INTEGER,
         'format' => 'int64',
-        "minimum" => PHP_INT_MIN,
-        "maximum" => PHP_INT_MAX,
+        'minimum' => PHP_INT_MIN,
+        'maximum' => PHP_INT_MAX,
     ];
 
     protected function repack($value)

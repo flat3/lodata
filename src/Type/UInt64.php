@@ -18,8 +18,8 @@ class UInt64 extends Int64
     const openApiSchema = [
         'type' => Constants::OAPI_INTEGER,
         'format' => 'int64',
-        "minimum" => 0,
-        "maximum" => PHP_INT_MAX,
+        'minimum' => 0,
+        'maximum' => PHP_INT_MAX,
     ];
 
     protected function repack($value)

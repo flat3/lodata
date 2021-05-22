@@ -16,8 +16,8 @@ class Int16 extends Byte
     const openApiSchema = [
         'type' => Constants::OAPI_INTEGER,
         'format' => 'int16',
-        "minimum" => -32768,
-        "maximum" => 32767
+        'minimum' => -(2 ** 15),
+        'maximum' => (2 ** 15) - 1,
     ];
 
     public const format = 's';

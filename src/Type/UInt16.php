@@ -18,8 +18,8 @@ class UInt16 extends Int16
     const openApiSchema = [
         'type' => Constants::OAPI_INTEGER,
         'format' => 'int16',
-        "minimum" => 0,
-        "maximum" => 32767
+        'minimum' => 0,
+        'maximum' => (2 ** 15) - 1,
     ];
 
     public const format = 'S';

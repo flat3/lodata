@@ -16,8 +16,8 @@ class SByte extends Byte
     const openApiSchema = [
         'type' => Constants::OAPI_INTEGER,
         'format' => 'int8',
-        "minimum" => -128,
-        "maximum" => 127
+        'minimum' => -128,
+        'maximum' => 127
     ];
 
     public const format = 'c';
