@@ -30,6 +30,7 @@ use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
+use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Double;
 use Flat3\Lodata\Type\Int64;
 use Flat3\Lodata\Type\String_;
@@ -121,6 +122,9 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
             case 'int':
                 return new PrimitiveType(Int64::class);
+
+            case 'bool':
+                return new PrimitiveType(Boolean::class);
         }
 
         return null;

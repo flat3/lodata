@@ -385,6 +385,23 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_boolean_callback()
+    {
+        Lodata::add(new class('booleanv1') extends Operation implements FunctionInterface {
+            public function invoke(): bool
+            {
+                return true;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/booleanv1()')
+        );
+    }
+
     public function test_bad_null_argument()
     {
         Lodata::add(new class('textv1') extends Operation implements FunctionInterface {

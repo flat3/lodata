@@ -480,6 +480,23 @@ Lodata::add((new class('helloworld') extends Operation implements FunctionInterf
 }));
 ```
 
+To simplify the above, the Function could also set its return type to the PHP type `string`, and return a basic string.
+This would be internally converted into an OData `Edm.String`.
+
+This method also works with `int` (converted to `Edm.Int64`), `float` (converted to `Edm.Double`) and `bool`
+(converted to `Edm.Boolean`).
+
+In these cases the returned value is coerced into the correct OData type if required.
+
+```
+Lodata::add((new class('helloworld') extends Operation implements FunctionInterface {
+    public function invoke(): string
+    {
+        return 'hello world';
+    }
+}));
+```
+
 This Function receives two Edm.String parameters, and returns an Edm.String that concatenates them. The names of the parameters
 and their types are resolved through reflection. This function can be invoked via `http://localhost/odata/concat(one='hello',two='world')`
 
