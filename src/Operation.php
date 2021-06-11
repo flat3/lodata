@@ -30,6 +30,9 @@ use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
+use Flat3\Lodata\Type\Double;
+use Flat3\Lodata\Type\Int64;
+use Flat3\Lodata\Type\String_;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use ReflectionException;
@@ -103,8 +106,21 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             return $this->returnType;
         }
 
-        if (is_a($this->getReflectedReturnType(), Primitive::class, true)) {
+        $rrt = $this->getReflectedReturnType();
+
+        if (is_a($rrt, Primitive::class, true)) {
             return new PrimitiveType($this->getReflectedReturnType());
+        }
+
+        switch ($rrt) {
+            case 'string':
+                return new PrimitiveType(String_::class);
+
+            case 'float':
+                return new PrimitiveType(Double::class);
+
+            case 'int':
+                return new PrimitiveType(Int64::class);
         }
 
         return null;
@@ -146,15 +162,12 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         $returnType = $this->getReflectedReturnType();
 
         switch (true) {
+            case $returnType === 'array':
             case is_a($returnType, EntitySet::class, true);
                 return true;
-
-            case is_a($returnType, Entity::class, true);
-            case is_a($returnType, Primitive::class, true);
-                return false;
         }
 
-        throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
+        return false;
     }
 
     /**
@@ -451,6 +464,9 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             case $returnType instanceof EntityType && $result->getType() instanceof $returnType:
             case $returnType instanceof PrimitiveType && $result instanceof Primitive:
                 return $result;
+
+            case $returnType instanceof PrimitiveType:
+                return $returnType->instance($result);
         }
 
         throw new InternalServerErrorException(

@@ -308,8 +308,6 @@ class FunctionTest extends TestCase
 
     public function test_void_callback()
     {
-        $this->withTextModel();
-
         Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
             public function invoke(): void
             {
@@ -324,8 +322,6 @@ class FunctionTest extends TestCase
 
     public function test_default_null_callback()
     {
-        $this->withTextModel();
-
         Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
             public function invoke()
             {
@@ -338,10 +334,59 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_string_callback()
+    {
+        Lodata::add(new class('stringv1') extends Operation implements FunctionInterface {
+            public function invoke(): string
+            {
+                return 'hello world';
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/stringv1()')
+        );
+    }
+
+    public function test_int_callback()
+    {
+        Lodata::add(new class('intv1') extends Operation implements FunctionInterface {
+            public function invoke(): int
+            {
+                return 4;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/intv1()')
+        );
+    }
+
+    public function test_float_callback()
+    {
+        Lodata::add(new class('floatv1') extends Operation implements FunctionInterface {
+            public function invoke(): float
+            {
+                return 0.1;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/floatv1()')
+        );
+    }
+
     public function test_bad_null_argument()
     {
-        $this->withTextModel();
-
         Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
             public function invoke(String_ $a)
             {
@@ -356,8 +401,6 @@ class FunctionTest extends TestCase
 
     public function test_bad_argument_type()
     {
-        $this->withTextModel();
-
         Lodata::add(new class('textv1') extends Operation implements FunctionInterface {
             public function invoke(String_ $a)
             {
