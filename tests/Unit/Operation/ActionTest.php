@@ -253,4 +253,22 @@ class ActionTest extends TestCase
                 ->path('/aa1')
         );
     }
+
+    public function test_null_typed_callback()
+    {
+        Lodata::add(new class('booleanv1') extends Operation implements ActionInterface {
+            public function invoke(): ?bool
+            {
+                return null;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertNoContent(
+            Request::factory()
+                ->post()
+                ->path('/booleanv1()')
+        );
+    }
 }
