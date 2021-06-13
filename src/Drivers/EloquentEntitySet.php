@@ -111,7 +111,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @param  string  $model  Eloquent model class name
      * @return string OData identifier
      */
-    public static function getSetName(string $model)
+    public static function getSetName(string $model): string
     {
         return Str::pluralStudly(class_basename($model));
     }
@@ -123,10 +123,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function getModelByKey(PropertyValue $key): ?Model
     {
-        /**
-         * @var Model|Builder $model
-         */
-        $model = new $this->model();
+        $model = $this->getBuilder();
 
         return $model->where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
     }
@@ -137,10 +134,8 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function getTable(): string
     {
-        /**
-         * @var Model $model
-         */
-        $model = new $this->model();
+        $model = $this->getModel();
+
         return $model->getTable();
     }
 
@@ -202,10 +197,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function create(): Entity
     {
-        /**
-         * @var Model $model
-         */
-        $model = new $this->model();
+        $model = $this->getModel();
 
         $body = $this->transaction->getBody();
         $declaredProperties = $this->getType()->getDeclaredProperties()->pick(array_keys($body));
@@ -265,11 +257,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function query(): Generator
     {
-        /**
-         * @var Model $instance
-         */
-        $instance = new $this->model();
-        $builder = $instance->newQuery();
+        $builder = $this->getBuilder();
 
         if ($this->navigationPropertyValue) {
             $sourceEntity = $this->navigationPropertyValue->getEntity();
@@ -340,10 +328,8 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function propertyToField(Property $property): string
     {
-        /**
-         * @var Model $model
-         */
-        $model = new $this->model();
+        $model = $this->getModel();
+
         return $model->qualifyColumn($property->getName());
     }
 
@@ -354,10 +340,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function discoverRelationship(string $method): self
     {
-        /**
-         * @var Model $model
-         */
-        $model = new $this->model;
+        $model = $this->getModel();
 
         try {
             new ReflectionMethod($model, $method);
@@ -441,11 +424,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function count(): int
     {
-        /**
-         * @var Model $instance
-         */
-        $instance = new $this->model();
-        $builder = $instance->newQuery();
+        $builder = $this->getBuilder();
 
         $this->resetParameters();
         $this->generateWhere();
@@ -458,6 +437,30 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     }
 
     /**
+     * Provide a query builder
+     * Enables subclasses to apply filters and scopes to the builder
+     *
+     * @return Builder Query builder
+     */
+    public function getBuilder(): Builder
+    {
+        $instance = $this->getModel();
+
+        return $instance->newQuery();
+    }
+
+    /**
+     * Provide an instance of the model
+     * Enables subclasses to modify the model used by the set
+     *
+     * @return Model Model
+     */
+    public function getModel(): Model
+    {
+        return new $this->model();
+    }
+
+    /**
      * Convert an SQL column that may have an Eloquent cast to an OData declared property
      * @link https://laravel.com/docs/8.x/eloquent-mutators#attribute-casting
      * @param  Column  $column  SQL column
@@ -465,10 +468,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function columnToDeclaredProperty(Column $column): DeclaredProperty
     {
-        /**
-         * @var Model $model
-         */
-        $model = new $this->model();
+        $model = $this->getModel();
         $casts = $model->getCasts();
 
         if (!array_key_exists($column->getName(), $casts)) {
