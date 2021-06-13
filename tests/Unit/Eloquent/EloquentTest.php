@@ -14,6 +14,7 @@ use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type;
+use Illuminate\Database\Eloquent\Builder;
 
 class EloquentTest extends TestCase
 {
@@ -682,5 +683,34 @@ class EloquentTest extends TestCase
         );
 
         $this->assertDatabaseMatchesCapturedState();
+    }
+
+    public function test_scope()
+    {
+        $scoped = new class(Airport::class) extends EloquentEntitySet {
+            public function __construct(string $model)
+            {
+                parent::__construct($model);
+
+                $this->setIdentifier('Scoped');
+            }
+
+            public function getBuilder(): Builder
+            {
+                $builder = parent::getBuilder();
+                return $builder->modern();
+            }
+        };
+
+        Lodata::add($scoped);
+
+        $scoped->discoverProperties();
+
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Scoped')
+        );
     }
 }

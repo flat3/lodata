@@ -25,4 +25,9 @@ class Airport extends Model
     {
         return $this->hasMany(Flight::class, 'origin', 'code');
     }
+
+    public function scopeModern($query)
+    {
+        return $query->where('construction_date', '>', '1940-01-01');
+    }
 }
