@@ -629,8 +629,8 @@ an OData `Edm.Int16` may cause truncation or overflow, but will ensure the type 
 PHP supports higher precision floating point types than JSON itself, so Lodata implements IEEE754 compatibility in OData by returning
 Edm.Double (and similar) types as strings if requested to do so by the client.
 
-Lodata implements Edm.Date, Edm.DateTimeOffset and Edm.TimeOfDay using [DateTime](https://www.php.net/manual/en/book.datetime.php)
-objects, and retrieving the value of (eg) a `\Flat3\Lodata\Type\DateTimeOffset` using its get() method will return a DateTime.
+Lodata implements Edm.Date, Edm.DateTimeOffset and Edm.TimeOfDay using [Carbon](https://carbon.nesbot.com)
+objects, and retrieving the value of (eg) a `\Flat3\Lodata\Type\DateTimeOffset` using its get() method will return a `Carbon\Carbon`.
 
 Lodata includes type extensions to support unsigned integer types `UInt16`, `UInt32` and `UInt64` which are
 extensions of the underlying canonical types `Edm.Int16`, `Edm.Int32` and `Edm.Int64`.

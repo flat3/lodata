@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
-use DateTime;
+use Carbon\Carbon;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
@@ -24,7 +24,7 @@ class Date extends DateTimeOffset
 
     public const DATE_FORMAT = 'Y-m-d';
 
-    protected function repack(DateTime $dt)
+    protected function repack(Carbon $dt)
     {
         return $dt->setTime(0, 0, 0, 0);
     }

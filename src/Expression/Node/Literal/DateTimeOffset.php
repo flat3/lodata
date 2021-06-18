@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Expression\Node\Literal;
 
-use DateTime;
+use Carbon\Carbon;
 use Flat3\Lodata\Expression\Node\Literal;
 
 /**
@@ -11,7 +11,7 @@ use Flat3\Lodata\Expression\Node\Literal;
  */
 class DateTimeOffset extends Literal
 {
-    public function getValue(): DateTime
+    public function getValue(): Carbon
     {
         return \Flat3\Lodata\Type\DateTimeOffset::factory($this->value)->get();
     }

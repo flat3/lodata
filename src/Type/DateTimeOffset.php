@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
-use DateTime;
+use Carbon\Carbon;
 use Exception;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
@@ -25,7 +25,7 @@ class DateTimeOffset extends Primitive
 
     public const DATE_FORMAT = 'c';
 
-    /** @var ?DateTime $value */
+    /** @var ?Carbon $value */
     protected $value;
 
     public function set($value): self
@@ -34,7 +34,7 @@ class DateTimeOffset extends Primitive
             $value = $this->getEmpty();
         }
 
-        if ($value instanceof DateTime) {
+        if ($value instanceof Carbon) {
             $this->value = $value;
 
             return $this;
@@ -47,7 +47,7 @@ class DateTimeOffset extends Primitive
                 $decodedValue = '@'.$decodedValue;
             }
 
-            $dt = new DateTime($decodedValue);
+            $dt = new Carbon($decodedValue);
             $this->value = $this->maybeNull(null === $value ? null : $this->repack($dt));
         } catch (Exception $e) {
             $this->value = $this->getEmpty();
@@ -58,10 +58,10 @@ class DateTimeOffset extends Primitive
 
     protected function getEmpty()
     {
-        return (new DateTime())->setTimestamp(0);
+        return (new Carbon())->setTimestamp(0);
     }
 
-    protected function repack(DateTime $dt)
+    protected function repack(Carbon $dt)
     {
         return $dt;
     }
