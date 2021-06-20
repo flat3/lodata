@@ -254,6 +254,14 @@
 <dd>Read this entity set</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getBuilder">getBuilder()</a>
+    <span>
+                        &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Provide a query builder
+Enables subclasses to apply filters and scopes to the builder</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-EntitySet.html#method_getContextUrl">getContextUrl()</a>
     <span>
                         &nbsp;: string    </span>
@@ -280,6 +288,14 @@
                         &nbsp;: string    </span>
 </dt>
 <dd>Get the OData kind of this resource</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getModel">getModel()</a>
+    <span>
+                        &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>    </span>
+</dt>
+<dd>Provide an instance of the model
+Enables subclasses to modify the model used by the set</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getModelByKey">getModelByKey()</a>
@@ -693,7 +709,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">466</span>
+    <span class="phpdocumentor-element-found-in__line">469</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert an SQL column that may have an Eloquent cast to an OData declared property</p>
@@ -753,7 +769,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">433</span>
+    <span class="phpdocumentor-element-found-in__line">416</span>
 </aside>
 
     
@@ -785,7 +801,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">442</span>
+    <span class="phpdocumentor-element-found-in__line">425</span>
 </aside>
 
         <p class="phpdocumentor-summary">Count the number of records matching the query</p>
@@ -820,7 +836,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">203</span>
+    <span class="phpdocumentor-element-found-in__line">198</span>
 </aside>
 
         <p class="phpdocumentor-summary">Create an Eloquent model</p>
@@ -855,7 +871,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">252</span>
+    <span class="phpdocumentor-element-found-in__line">244</span>
 </aside>
 
         <p class="phpdocumentor-summary">Delete an Eloquent model</p>
@@ -901,7 +917,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">414</span>
+    <span class="phpdocumentor-element-found-in__line">397</span>
 </aside>
 
         <p class="phpdocumentor-summary">Create an entity set from the provided Eloquent model class and add it to the model</p>
@@ -947,7 +963,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">355</span>
+    <span class="phpdocumentor-element-found-in__line">341</span>
 </aside>
 
         <p class="phpdocumentor-summary">Discover an Eloquent relationship method and add it to the model</p>
@@ -1158,6 +1174,42 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getBuilder">
+        getBuilder()
+        <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getBuilder" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">445</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Provide a query builder
+Enables subclasses to apply filters and scopes to the builder</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getBuilder</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Query builder</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getContextUrl">
         getContextUrl()
         <a href="classes/Flat3-Lodata-EntitySet.html#method_getContextUrl" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1298,6 +1350,42 @@
     <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
             <section class="phpdocumentor-description"><p>Kind</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getModel">
+        getModel()
+        <a href="classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getModel" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">458</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Provide an instance of the model
+Enables subclasses to modify the model used by the set</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getModel</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr></span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr></span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Model</p>
 </section>
 
     
@@ -1661,7 +1749,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">138</span>
+    <span class="phpdocumentor-element-found-in__line">135</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the database table name used by the model</p>
@@ -1812,7 +1900,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">318</span>
+    <span class="phpdocumentor-element-found-in__line">306</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert an Eloquent model instance to an OData Entity</p>
@@ -2127,7 +2215,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">341</span>
+    <span class="phpdocumentor-element-found-in__line">329</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert an entity type property to a database field</p>
@@ -2174,7 +2262,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">266</span>
+    <span class="phpdocumentor-element-found-in__line">258</span>
 </aside>
 
         <p class="phpdocumentor-summary">Query eloquent models</p>
@@ -2208,7 +2296,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 </aside>
 
         <p class="phpdocumentor-summary">Read an Eloquent model</p>
@@ -2304,7 +2392,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">428</span>
+    <span class="phpdocumentor-element-found-in__line">411</span>
 </aside>
 
     
@@ -2474,7 +2562,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">423</span>
+    <span class="phpdocumentor-element-found-in__line">406</span>
 </aside>
 
     
@@ -2506,7 +2594,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Drivers/EloquentEntitySet.php"><a href="files/src-drivers-eloquententityset.html"><abbr title="src/Drivers/EloquentEntitySet.php">EloquentEntitySet.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">180</span>
+    <span class="phpdocumentor-element-found-in__line">175</span>
 </aside>
 
         <p class="phpdocumentor-summary">Update an Eloquent model</p>

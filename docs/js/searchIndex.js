@@ -1856,6 +1856,16 @@ Search.appendIndex(
             "summary": "Count\u0020the\u0020number\u0020of\u0020records\u0020matching\u0020the\u0020query",
             "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_count"
         },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003AgetBuilder\u0028\u0029",
+            "name": "getBuilder",
+            "summary": "Provide\u0020a\u0020query\u0020builder\nEnables\u0020subclasses\u0020to\u0020apply\u0020filters\u0020and\u0020scopes\u0020to\u0020the\u0020builder",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getBuilder"
+        },                {
+            "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003AgetModel\u0028\u0029",
+            "name": "getModel",
+            "summary": "Provide\u0020an\u0020instance\u0020of\u0020the\u0020model\nEnables\u0020subclasses\u0020to\u0020modify\u0020the\u0020model\u0020used\u0020by\u0020the\u0020set",
+            "url": "classes/Flat3-Lodata-Drivers-EloquentEntitySet.html#method_getModel"
+        },                {
             "fqsen": "\\Flat3\\Lodata\\Drivers\\EloquentEntitySet\u003A\u003AcolumnToDeclaredProperty\u0028\u0029",
             "name": "columnToDeclaredProperty",
             "summary": "Convert\u0020an\u0020SQL\u0020column\u0020that\u0020may\u0020have\u0020an\u0020Eloquent\u0020cast\u0020to\u0020an\u0020OData\u0020declared\u0020property",
