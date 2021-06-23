@@ -110,7 +110,7 @@ class MetadataContainer implements ArrayAccess
         $result = [];
 
         foreach ($properties as $key => $value) {
-            if (version_compare('4.0', $requestedODataVersion, '=')) {
+            if (version_compare($requestedODataVersion, '4.0', '>=')) {
                 $result[$this->prefix.'@odata.'.$key] = $value;
             } else {
                 $result[$this->prefix.'@'.$key] = $value;
