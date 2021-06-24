@@ -13,7 +13,7 @@
         </api>
         <guide>
             <source dsn=".">
-                <path>docs/src</path>
+                <path>doc</path>
             </source>
             <output>guide</output>
         </guide>

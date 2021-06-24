@@ -61,6 +61,7 @@
         "test-parallel": "vendor/bin/testbench package:test --parallel",
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml",
         "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
-        "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true --defaultpackagename=Flat3\\\\Lodata"
+        "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true --defaultpackagename=Flat3\\\\Lodata",
+        "doc-merge": "git push origin `git subtree split --prefix docs gh-pages`:gh-pages --force"
     }
 }

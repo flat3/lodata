@@ -14,3 +14,4 @@ vendor/
 *.iws
 coverage.xml
 out/
+docs/
