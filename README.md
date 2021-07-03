@@ -698,6 +698,7 @@ Lodata supports many sections of the OData specification, these are the major ar
 * [Stream](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358992) properties in the payload and via read links
 * Edit links, and POST/PATCH/DELETE requests for new or existing entities
 * Use of [ETags](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358971) for avoiding update conflicts
+* [Lambda](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_LambdaOperators) operators `any` and `all`
 * Composable URLs
 * Declared and navigation properties
 * Referential constraints
