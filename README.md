@@ -509,6 +509,17 @@ Lodata::add((new class('concat') extends Operation implements FunctionInterface 
 }));
 ```
 
+As with return types, PHP typed arguments can also be used in place of the strict OData types:
+
+```
+Lodata::add((new class('concat') extends Operation implements FunctionInterface {
+    public function invoke(string $one, string $two): string
+    {
+        return $one . $two;
+    }
+}));
+```
+
 This Function requests that the bound parameter be provided as the 'code' parameter to the method, and sends it back unmodified.
 This can be invoked via a URL for example `http://localhost/odata/Airports(1)/code/identity()`.
 

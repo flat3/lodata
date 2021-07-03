@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Operation;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Primitive;
@@ -65,12 +64,10 @@ abstract class Argument implements NameInterface
 
             case is_a($typeName, Primitive::class, true):
                 return new PrimitiveArgument($parameter);
-        }
 
-        throw new InternalServerErrorException(
-            'invalid_argument_type',
-            'Attempted to create an Argument with an unknown type'
-        );
+            default:
+                return new TypeArgument($parameter);
+        }
     }
 
     /**

@@ -429,4 +429,89 @@ class FunctionTest extends TestCase
                 ->path('/textv1(a=4)')
         );
     }
+
+    public function test_string_argument()
+    {
+        Lodata::add(new class('stringv1') extends Operation implements FunctionInterface {
+            public function invoke(string $arg): string
+            {
+                return $arg;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/stringv1(arg='hello world')")
+        );
+    }
+
+    public function test_int_argument()
+    {
+        Lodata::add(new class('intv1') extends Operation implements FunctionInterface {
+            public function invoke(int $arg): int
+            {
+                return $arg;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/intv1(arg=4)')
+        );
+    }
+
+    public function test_float_argument()
+    {
+        Lodata::add(new class('floatv1') extends Operation implements FunctionInterface {
+            public function invoke(float $arg): float
+            {
+                return $arg;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/floatv1(arg=4.2)')
+        );
+    }
+
+    public function test_boolean_argument()
+    {
+        Lodata::add(new class('booleanv1') extends Operation implements FunctionInterface {
+            public function invoke(bool $arg): bool
+            {
+                return $arg;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/booleanv1(arg=true)')
+        );
+    }
+
+    public function test_null_argument()
+    {
+        Lodata::add(new class('booleanv1') extends Operation implements FunctionInterface {
+            public function invoke(string $a, ?bool $arg, string $b): string
+            {
+                return $a.$b;
+            }
+        });
+
+        $this->assertMetadataDocuments();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path("/booleanv1(a='a',b='b')")
+        );
+    }
 }

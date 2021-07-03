@@ -3,7 +3,12 @@
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Type\Boolean;
+use Flat3\Lodata\Type\Double;
+use Flat3\Lodata\Type\Int64;
+use Flat3\Lodata\Type\String_;
 use RuntimeException;
+use TypeError;
 
 /**
  * Primitive Type
@@ -152,6 +157,31 @@ class PrimitiveType extends Type implements IdentifierInterface
     public function getUnderlyingType(): ?PrimitiveType
     {
         return $this->underlyingType;
+    }
+
+    /**
+     * Cast a PHP type to an OData primitive type
+     * @param  string  $type  PHP type
+     * @return PrimitiveType Primitive type representation
+     * @internal
+     */
+    public static function castInternalType(string $type): PrimitiveType
+    {
+        switch ($type) {
+            case 'string':
+                return new PrimitiveType(String_::class);
+
+            case 'float':
+                return new PrimitiveType(Double::class);
+
+            case 'int':
+                return new PrimitiveType(Int64::class);
+
+            case 'bool':
+                return new PrimitiveType(Boolean::class);
+        }
+
+        throw new TypeError('Could not cast the provided internal type');
     }
 
     /**

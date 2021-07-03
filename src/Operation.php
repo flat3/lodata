@@ -26,19 +26,17 @@ use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
+use Flat3\Lodata\Operation\TypeArgument;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
-use Flat3\Lodata\Type\Boolean;
-use Flat3\Lodata\Type\Double;
-use Flat3\Lodata\Type\Int64;
-use Flat3\Lodata\Type\String_;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
+use TypeError;
 
 /**
  * Operation
@@ -113,18 +111,9 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             return new PrimitiveType($this->getReflectedReturnType());
         }
 
-        switch ($rrt) {
-            case 'string':
-                return new PrimitiveType(String_::class);
-
-            case 'float':
-                return new PrimitiveType(Double::class);
-
-            case 'int':
-                return new PrimitiveType(Int64::class);
-
-            case 'bool':
-                return new PrimitiveType(Boolean::class);
+        try {
+            return PrimitiveType::castInternalType($rrt);
+        } catch (TypeError $e) {
         }
 
         return null;
@@ -432,6 +421,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
                 case $argumentDefinition instanceof EntityArgument:
                     $arguments[] = $argumentDefinition->generate();
+                    break;
+
+                case $argumentDefinition instanceof TypeArgument:
+                    $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null)->get();
                     break;
 
                 case $argumentDefinition instanceof PrimitiveArgument:

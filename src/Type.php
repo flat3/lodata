@@ -24,7 +24,6 @@ use Flat3\Lodata\Type\TimeOfDay;
 use Flat3\Lodata\Type\UInt16;
 use Flat3\Lodata\Type\UInt32;
 use Flat3\Lodata\Type\UInt64;
-use TypeError;
 
 /**
  * Type
@@ -89,32 +88,6 @@ abstract class Type
         }
 
         return new PrimitiveType($resolver[$name]);
-    }
-
-    /**
-     * Cast a PHP type to an OData primitive
-     * @param  string  $type  PHP type
-     * @param  mixed  $value  Value
-     * @return Primitive Primitive representation of type
-     * @internal
-     */
-    public static function castInternalType(string $type, $value): Primitive
-    {
-        switch ($type) {
-            case 'boolean':
-                return new Boolean($value);
-
-            case 'integer':
-                return PHP_INT_SIZE === 8 ? new Int64($value) : new Int32($value);
-
-            case 'float':
-                return new Double($value);
-
-            case 'string':
-                return new String_($value);
-        }
-
-        throw new TypeError('Could not cast the provided internal type');
     }
 
     /**
