@@ -1063,7 +1063,7 @@ class Transaction implements ArgumentInterface
      */
     public function getId(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**

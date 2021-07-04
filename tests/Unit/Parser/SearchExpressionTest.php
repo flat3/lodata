@@ -49,6 +49,16 @@ class SearchExpressionTest extends TestCase
         $this->assertFalseExpression('hell or ther not world');
     }
 
+    public function test_8()
+    {
+        $this->assertTrueExpression('ornot or andthis or ther not th');
+    }
+
+    public function test_9()
+    {
+        $this->assertTrueExpression('ornot OR ANDthis or ther NOT th');
+    }
+
     public function assertTrueExpression($expression): void
     {
         $this->assertTrue($this->evaluate($expression));

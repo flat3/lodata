@@ -11,6 +11,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\StreamInterface;
@@ -109,7 +110,10 @@ class XML extends Metadata implements StreamInterface
             }
 
             // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
-            foreach ($entityType->getDeclaredProperties() as $property) {
+            foreach (ObjectArray::merge(
+                $entityType->getDeclaredProperties(),
+                $entityType->getGeneratedProperties()
+            ) as $property) {
                 $entityTypeProperty = $entityTypeElement->addChild('Property');
                 $entityTypeProperty->addAttribute('Name', $property->getName());
 

@@ -289,10 +289,14 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         if ($this->getTop()->hasValue()) {
             $builder->limit($this->getTop()->getValue());
+        }
 
-            if ($this->getSkip()->hasValue()) {
-                $builder->skip($this->getSkip()->getValue());
+        if ($this->getSkip()->hasValue()) {
+            if (!$this->getTop()->hasValue()) {
+                $builder->limit(PHP_INT_MAX);
             }
+
+            $builder->skip($this->getSkip()->getValue());
         }
 
         foreach ($builder->getModels() as $model) {

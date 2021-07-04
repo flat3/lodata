@@ -60,7 +60,7 @@ trait SQLLambda
                             $this->addWhere($operatingTargetSet->where);
                             $this->parameters = array_merge($this->parameters, $operatingTargetSet->getParameters());
 
-                            $this->addWhere(')');
+                            $this->addWhere(') )');
 
                             if ($constraints) {
                                 $this->addWhere('OR ');

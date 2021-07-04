@@ -9,6 +9,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -85,7 +86,10 @@ class JSON extends Metadata implements JsonInterface
                 ];
             }
 
-            foreach ($entityType->getDeclaredProperties() as $property) {
+            foreach (ObjectArray::merge(
+                $entityType->getDeclaredProperties(),
+                $entityType->getGeneratedProperties()
+            ) as $property) {
                 $entityTypeProperty = (object) [];
                 $entityTypeElement->{$property->getName()} = $entityTypeProperty;
                 $entityTypeProperty->{'$Type'} = $property->getType()->getIdentifier();

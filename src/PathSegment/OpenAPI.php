@@ -18,6 +18,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
@@ -686,6 +687,13 @@ DESC, [
 
     protected function getSelectParameterObject(ResourceInterface $resource): array
     {
+        $entityType = $resource->getType();
+
+        $properties = ObjectArray::merge(
+            $entityType->getDeclaredProperties(),
+            $entityType->getGeneratedProperties()
+        );
+
         return [
             'name' => 'select',
             'in' => 'query',
@@ -699,7 +707,7 @@ DESC, [
                 'uniqueItems' => true,
                 'items' => [
                     'type' => Constants::OAPI_STRING,
-                    'enum' => array_merge(['*'], $resource->getType()->getDeclaredProperties()->keys()),
+                    'enum' => array_merge(['*'], $properties->keys()),
                 ]
             ]
         ];

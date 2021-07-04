@@ -79,7 +79,7 @@ trait SQLFilter
                 /** @var DeclaredProperty $property */
                 $property = $type->getProperty($event->getValue());
 
-                if (!$property->isFilterable()) {
+                if (!$property || !$property->isFilterable()) {
                     throw new BadRequestException(
                         sprintf('The provided property (%s) is not filterable', $property->getName())
                     );

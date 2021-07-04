@@ -240,6 +240,7 @@ class EntityTest extends TestCase
         };
 
         $airport->addProperty($property);
+        $this->assertMetadataDocuments();
         $this->assertJsonResponse(
             Request::factory()
                 ->path('/airports(1)')

@@ -677,13 +677,20 @@ abstract class Parser
         return true;
     }
 
+
     /**
-     * Tokenize a string
+     * Tokenize a search string, where any literal string but an operator followed by a word boundary is valid
      * @return bool
      */
-    public function tokenizeString(): bool
+    public function tokenizeNonOperatorString(): bool
     {
-        $token = $this->lexer->maybeString();
+        $exceptions = join('|', array_map(function ($operator) {
+            return $operator.'\b';
+        }, array_keys($this->operators)));
+
+        $expression = '(?!'.$exceptions.')([^ \'"\(\)]+)';
+
+        $token = $this->lexer->maybeExpression($expression, false);
 
         if (!$token) {
             return false;

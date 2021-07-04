@@ -33,6 +33,10 @@ abstract class GeneratedProperty extends Property
         $propertyValue->setProperty($this);
         $result = $this->invoke($entity);
 
+        if (!is_a($result, Primitive::class, true)) {
+            $result = PrimitiveType::castInternalType(gettype($result))->instance($result);
+        }
+
         if (
             !is_a($result, $type->getFactory(), true) ||
             $result === null && $type instanceof PrimitiveType && !$type->isNullable()

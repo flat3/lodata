@@ -215,18 +215,19 @@ class Lexer
     /**
      * Parse the provided regular expression
      * @param  string  $pattern  Expression
-     * @param  bool  $wrapped  Whether the expression needs to be wrapped in escape characters
      * @return string
      * @throws LexerException
      */
-    public function expression(string $pattern, bool $wrapped = false): string
+    public function expression(string $pattern, bool $caseSensitive = true): string
     {
         if ($this->pos >= $this->len) {
             throw new LexerException($this->pos + 1, 'Expected %s but got end of string', $pattern);
         }
 
-        if (!$wrapped) {
-            $pattern = '@^'.$pattern.'@';
+        $pattern = '@^'.$pattern.'@';
+
+        if (!$caseSensitive) {
+            $pattern .= 'i';
         }
 
         $result = preg_match($pattern, substr($this->text, $this->pos + 1), $matches);
@@ -646,29 +647,6 @@ class Lexer
         } catch (LexerException $e) {
             return null;
         }
-    }
-
-    /**
-     * Maybe match a string
-     * @return string|null
-     */
-    public function maybeString(): ?string
-    {
-        try {
-            return $this->string_();
-        } catch (LexerException $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Match a string
-     * @return string
-     * @throws LexerException
-     */
-    public function string_(): string
-    {
-        return $this->expression('[^ \'"\(\)]+');
     }
 
     /**

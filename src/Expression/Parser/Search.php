@@ -60,8 +60,8 @@ class Search extends Parser
         return $this->tokenizeSpace() ||
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
+            $this->tokenizeNonOperatorString() ||
             $this->tokenizeOperator() ||
-            $this->tokenizeDoubleQuotedString() ||
-            $this->tokenizeString();
+            $this->tokenizeDoubleQuotedString();
     }
 }

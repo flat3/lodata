@@ -26,6 +26,18 @@ class OperationTest extends TestCase
         }
     }
 
+    public function test_void_uses_string()
+    {
+        Lodata::add((new class('f1') extends Operation implements FunctionInterface {
+            public function invoke()
+            {
+                return 'hello';
+            }
+        }));
+
+        $this->assertMetadataDocuments();
+    }
+
     public function test_binding_did_not_exist()
     {
         try {

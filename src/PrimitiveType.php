@@ -170,6 +170,7 @@ class PrimitiveType extends Type implements IdentifierInterface
     public static function castInternalType(string $type): PrimitiveType
     {
         switch ($type) {
+            case 'void':
             case 'string':
                 return new PrimitiveType(String_::class);
 

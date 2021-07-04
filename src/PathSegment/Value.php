@@ -39,17 +39,22 @@ class Value implements PipeInterface, StreamInterface
             throw new PathNotHandledException();
         }
 
-        if (!$argument instanceof PropertyValue) {
-            throw new BadRequestException(
-                'bad_value_argument',
-                '$value was not passed a valid argument',
-            );
+        $result = new self();
+
+        switch (true) {
+            case $argument instanceof PropertyValue:
+                $result->primitive = $argument->getPrimitiveValue();
+                return $result;
+
+            case $argument instanceof Primitive:
+                $result->primitive = $argument;
+                return $result;
         }
 
-        $result = new self();
-        $result->primitive = $argument->getPrimitiveValue();
-
-        return $result;
+        throw new BadRequestException(
+            'bad_value_argument',
+            '$value was not passed a valid argument',
+        );
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response

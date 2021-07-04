@@ -41,6 +41,9 @@ class EloquentTest extends TestCase
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getDeclaredProperty('code')->setAlternativeKey();
+
+        $passenger = Lodata::getEntityType('Passenger');
+        $passenger->getDeclaredProperty('name')->setSearchable();
     }
 
     public function test_failed_relationship()
@@ -230,6 +233,17 @@ class EloquentTest extends TestCase
             Request::factory()
                 ->path('/Airports')
                 ->filter("code eq 'elo'")
+        );
+    }
+
+    public function test_search()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Passengers')
+                ->query('$search', 'rr')
         );
     }
 

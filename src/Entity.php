@@ -245,6 +245,11 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         }
 
         $key = $this->getType()->getKey();
+
+        if (!$key) {
+            return $this;
+        }
+
         $type = $key->getType();
 
         $propertyValue = $this->newPropertyValue();
