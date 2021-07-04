@@ -5,6 +5,7 @@ namespace Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Interfaces\PipeInterface;
 
@@ -26,6 +27,13 @@ class Filter implements PipeInterface
             $lexer->keyword('$filter');
         } catch (LexerException $e) {
             throw new PathNotHandledException();
+        }
+
+        if (!$argument) {
+            throw new BadRequestException(
+                'missing_filter_argument',
+                'The $filter segment must have an argument',
+            );
         }
 
         $filter = $lexer->matchingParenthesis();

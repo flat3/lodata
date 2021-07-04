@@ -29,4 +29,12 @@ class EntitySetFilterTest extends TestCase
                 ->query('$filter', "code eq 'lhr'")
         );
     }
+
+    public function test_path_filter_no_argument()
+    {
+        $this->assertBadRequest(
+            Request::factory()
+                ->path("\$filter(code eq 'lhr')")
+        );
+    }
 }
