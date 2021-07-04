@@ -1,9 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#airports(id,construction_date)",
-    "value": [
-        {
-            "id": 1,
-            "construction_date": "1946-03-25"
-        }
-    ]
-}

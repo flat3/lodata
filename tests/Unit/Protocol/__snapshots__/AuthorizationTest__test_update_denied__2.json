@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "forbidden",
-        "message": "This request is not permitted",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

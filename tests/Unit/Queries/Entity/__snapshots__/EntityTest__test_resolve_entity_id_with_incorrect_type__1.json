@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "invalid_entity_type",
-        "message": "The provided type did not match the entity type",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

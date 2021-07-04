@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "openapi_argument",
-        "message": "openapi.json must be the only argument in the path",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

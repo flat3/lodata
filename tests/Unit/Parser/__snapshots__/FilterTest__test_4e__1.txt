@@ -1,1 +1,0 @@
-( time( origin ) eq 10:00:00 )

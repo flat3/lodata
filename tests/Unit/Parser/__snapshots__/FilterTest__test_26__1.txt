@@ -1,1 +1,0 @@
-( indexof( origin , 'abc123' ) eq 1 )

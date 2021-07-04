@@ -1,4 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#com.example.odata.example",
-    "value": "aaa,bbb"
-}

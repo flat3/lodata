@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "invalid_json",
-        "message": "Invalid JSON was provided",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

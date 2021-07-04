@@ -1,6 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#passengers/$entity",
-    "id": 1,
-    "name": "Anne Arbor",
-    "flight_id": 1
-}

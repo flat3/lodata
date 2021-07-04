@@ -1,1 +1,0 @@
-( ( not contains( origin , 'a' ) ) and ( ( origin eq 'abcd' ) or ( origin eq 'e' ) ) )

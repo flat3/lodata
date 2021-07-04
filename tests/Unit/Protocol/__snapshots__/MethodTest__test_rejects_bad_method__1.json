@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "method_not_allowed",
-        "message": "The PATCH method is not allowed",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

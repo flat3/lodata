@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "accepted",
-        "message": "Accepted",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

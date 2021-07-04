@@ -1,1 +1,0 @@
-( substring( origin , 1 , 4 ) eq 'abc123' )

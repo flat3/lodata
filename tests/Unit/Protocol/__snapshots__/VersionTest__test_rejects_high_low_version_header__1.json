@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "version_not_supported",
-        "message": "Requested OData version (4.02) is not supported",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

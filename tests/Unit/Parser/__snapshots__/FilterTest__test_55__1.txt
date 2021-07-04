@@ -1,1 +1,0 @@
-( startswith( origin , 'Veniam et' ) eq true )

@@ -1,1 +1,0 @@
-( concat( origin , id ) eq '123abc' )

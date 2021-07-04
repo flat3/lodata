@@ -1,1 +1,0 @@
-( origin eq PT1M0S )

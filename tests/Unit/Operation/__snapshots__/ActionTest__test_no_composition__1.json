@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "cannot_compose_action",
-        "message": "It is not permitted to further compose the result of an action",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

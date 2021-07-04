@@ -1,3 +1,0 @@
-httpCode: 500
-odataCode: cannot_find_binding_parameter
-message: 'The requested binding parameter did not exist on the invoke method'

@@ -1,1 +1,0 @@
-( minute( origin ) eq 33 )

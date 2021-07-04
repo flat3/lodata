@@ -1,1 +1,0 @@
-( ( id lt 4 ) or ( ( id lt 3 ) and ( id lt 2 ) ) )

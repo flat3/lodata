@@ -1,3 +1,0 @@
-httpCode: 500
-odataCode: invalid_enumeration_value
-message: 'Could not find the enumeration member for the provided value: bbb'

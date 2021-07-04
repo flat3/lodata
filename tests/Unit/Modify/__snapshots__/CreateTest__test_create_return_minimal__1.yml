@@ -1,5 +1,0 @@
-headers:
-    preference-applied: [return=minimal]
-    odata-entityid: ['http://localhost/odata/flights(4)']
-    cache-control: ['no-cache, private']
-status: 204

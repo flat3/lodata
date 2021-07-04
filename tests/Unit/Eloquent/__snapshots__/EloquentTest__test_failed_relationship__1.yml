@@ -1,3 +1,0 @@
-httpCode: 500
-odataCode: cannot_add_constraint
-message: 'The constraint method did not exist on the model: Flat3\Lodata\Tests\Models\Country'

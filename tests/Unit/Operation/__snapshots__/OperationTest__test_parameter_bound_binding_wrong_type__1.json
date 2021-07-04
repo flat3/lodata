@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "invalid_bound_argument_type",
-        "message": "The provided bound argument was not of the correct type for this function",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

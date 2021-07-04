@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "invalid_argument_type",
-        "message": "The provided argument a was not of type Edm.String",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

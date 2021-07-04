@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "missing_boundary",
-        "message": "The provided content type had no boundary parameter",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

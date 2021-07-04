@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "atomicity_not_available",
-        "message": "Atomicity groups are not supported",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

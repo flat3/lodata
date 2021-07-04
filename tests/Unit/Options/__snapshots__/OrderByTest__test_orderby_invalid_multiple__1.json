@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "invalid_orderby_syntax",
-        "message": "The requested orderby syntax is invalid",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

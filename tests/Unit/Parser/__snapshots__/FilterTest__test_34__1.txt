@@ -1,1 +1,0 @@
-( origin eq ( 4 mul 3 ) )

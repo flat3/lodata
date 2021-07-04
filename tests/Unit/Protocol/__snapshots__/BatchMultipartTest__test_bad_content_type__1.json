@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "unknown_batch_type",
-        "message": "The requested batch content type was not known",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}
