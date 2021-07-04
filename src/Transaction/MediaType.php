@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
+use Flat3\Lodata\Helper\Constants;
 
 /**
  * Media Type
@@ -52,17 +53,17 @@ class MediaType
 
         // Order by priority
         usort($types, function (MediaType $a, MediaType $b) {
-            return $b->getParameter('q') <=> $a->getParameter('q');
+            return $b->getParameter(Constants::Q) <=> $a->getParameter(Constants::Q);
         });
 
         foreach ($types as $type) {
             // Reject formats with unknown format parameters
             if (array_diff($type->getParameterKeys(), [
-                'IEEE754Compatible',
-                'odata.metadata',
-                'odata.streaming',
-                'charset',
-                'q',
+                Constants::IEEE_754_COMPATIBLE,
+                Constants::ODATA_METADATA,
+                Constants::ODATA_STREAMING,
+                Constants::CHARSET,
+                Constants::Q,
             ])) {
                 continue;
             }

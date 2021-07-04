@@ -1095,9 +1095,9 @@ class Transaction implements ArgumentInterface
 
         $requiredType = MediaType::factory()
             ->parse(MediaType::json)
-            ->setParameter('odata.streaming', Constants::TRUE)
-            ->setParameter('odata.metadata', MetadataType\Minimal::name)
-            ->setParameter('IEEE754Compatible', Constants::FALSE);
+            ->setParameter(Constants::ODATA_STREAMING, Constants::TRUE)
+            ->setParameter(Constants::ODATA_METADATA, MetadataType\Minimal::name)
+            ->setParameter(Constants::IEEE_754_COMPATIBLE, Constants::FALSE);
 
         if ($this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS) {
             $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
@@ -1127,8 +1127,16 @@ class Transaction implements ArgumentInterface
         $requiredType->setParameter('charset', 'utf-8');
         $contentType = $requiredType->negotiate($this->getAcceptedContentType()->getOriginal());
 
-        $this->metadataType = MetadataType::factory($contentType->getParameter('odata.metadata'), $this->version);
-        $this->ieee754compatible = new IEEE754Compatible($contentType->getParameter('IEEE754Compatible'));
+        $this->metadataType = MetadataType::factory(
+            $contentType->getParameter(
+                Constants::ODATA_METADATA
+            ),
+            $this->version
+        );
+
+        $this->ieee754compatible = new IEEE754Compatible(
+            $contentType->getParameter(Constants::IEEE_754_COMPATIBLE)
+        );
 
         $this->sendContentType($contentType);
         $this->sendHeader(Version::versionHeader, $this->getVersion());

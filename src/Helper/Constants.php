@@ -32,4 +32,9 @@ class Constants
     public const INFINITY = 'INF';
     public const NEG_INFINITY = '-INF';
     public const NOT_A_NUMBER = 'NaN';
+    public const IEEE_754_COMPATIBLE = 'IEEE754Compatible';
+    public const ODATA_METADATA = 'odata.metadata';
+    public const ODATA_STREAMING = 'odata.streaming';
+    public const CHARSET = 'charset';
+    public const Q = 'q';
 }
