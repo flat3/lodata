@@ -18,6 +18,12 @@ trait HasTransaction
     protected $transaction;
 
     /**
+     * Flag that this object has been cloned
+     * @var bool $cloned
+     */
+    protected $cloned = false;
+
+    /**
      * Ensure that this instance has an associated transaction
      * @throws InternalServerErrorException
      */
@@ -49,6 +55,8 @@ trait HasTransaction
      */
     public function setTransaction(Transaction $transaction)
     {
+        assert($this->cloned);
+
         $this->transaction = $transaction;
         return $this;
     }
@@ -59,8 +67,8 @@ trait HasTransaction
      */
     public function __clone()
     {
-        if ($this->transaction) {
-            throw new InternalServerErrorException('cannot_clone', 'Cannot clone instance with configured transaction');
-        }
+        assert(!$this->transaction);
+
+        $this->cloned = true;
     }
 }
