@@ -119,18 +119,20 @@ class Filter extends Parser
 
     /**
      * Tokenize a literal
+     * @url https://github.com/oasis-tcs/odata-abnf/blob/master/abnf/odata-abnf-construction-rules.txt#L871
      * @return bool
      */
-    public function findLiteral(): bool
+    public function tokenizeLiteral(): bool
     {
-        return $this->tokenizeDateTimeOffset() ||
+        return $this->tokenizeNull() ||
+            $this->tokenizeBoolean() ||
+            $this->tokenizeGuid() ||
+            $this->tokenizeDateTimeOffset() ||
             $this->tokenizeDate() ||
             $this->tokenizeTimeOfDay() ||
-            $this->tokenizeSingleQuotedString() ||
-            $this->tokenizeGuid() ||
-            $this->tokenizeDuration() ||
             $this->tokenizeNumber() ||
-            $this->tokenizeBoolean();
+            $this->tokenizeSingleQuotedString() ||
+            $this->tokenizeDuration();
     }
 
     /**
@@ -141,7 +143,6 @@ class Filter extends Parser
     protected function findToken(): bool
     {
         return $this->tokenizeSpace() ||
-            $this->tokenizeNull() ||
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
@@ -151,7 +152,7 @@ class Filter extends Parser
             $this->tokenizeDeclaredProperty() ||
             $this->tokenizeOperator() ||
             $this->tokenizeNavigationPropertyPath() ||
-            $this->findLiteral();
+            $this->tokenizeLiteral();
     }
 
     /**
@@ -173,7 +174,7 @@ class Filter extends Parser
         $this->lexer = new Lexer($referencedValue);
 
         while (!$this->lexer->finished()) {
-            if ($this->findLiteral()) {
+            if ($this->tokenizeLiteral()) {
                 continue;
             }
 

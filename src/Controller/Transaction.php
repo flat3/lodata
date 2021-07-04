@@ -228,6 +228,7 @@ class Transaction implements ArgumentInterface
         PathSegment\OpenAPI::class,
         PathSegment\Value::class,
         PathSegment\Count::class,
+        PathSegment\All::class,
         PathSegment\Filter::class,
         PathSegment\Query::class,
         PathSegment\Reference::class,

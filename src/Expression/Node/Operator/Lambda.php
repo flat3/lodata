@@ -62,7 +62,7 @@ abstract class Lambda extends Operator
 
     /**
      * Set the lambda variable
-     * @param  LambdaVariable  $variable Lambda variable
+     * @param  LambdaVariable  $variable  Lambda variable
      * @return $this
      */
     public function setVariable(LambdaVariable $variable): self

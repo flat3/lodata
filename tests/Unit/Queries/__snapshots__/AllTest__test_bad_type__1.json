@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "bad_entity_type",
+        "message": "The requested entity type does not exist",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}
