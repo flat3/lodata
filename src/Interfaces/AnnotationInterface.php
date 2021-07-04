@@ -13,5 +13,8 @@ interface AnnotationInterface
 {
     public function addAnnotation(Annotation $annotation);
 
+    /**
+     * @return ObjectArray|Annotation[] Annotations
+     */
     public function getAnnotations(): ObjectArray;
 }

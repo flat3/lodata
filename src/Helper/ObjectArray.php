@@ -340,6 +340,6 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      */
     public function all(): array
     {
-        return $this->array;
+        return array_merge([], $this->array);
     }
 }
