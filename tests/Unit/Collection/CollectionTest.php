@@ -21,14 +21,17 @@ class CollectionTest extends TestCase
             'alpha' => [
                 'name' => 'Alpha',
                 'age' => 4,
+                'dob' => '2000-01-01 04:04:04',
             ],
             'beta' => [
                 'name' => 'Beta',
                 'age' => 3,
+                'dob' => '2001-02-02 05:05:05',
             ],
             'gamma' => [
                 'name' => 'Gamma',
-                'age' => 2
+                'age' => 2,
+                'dob' => '2002-03-03 06:06:06',
             ],
             'delta' => [
                 'name' => 'Delta',
@@ -36,6 +39,7 @@ class CollectionTest extends TestCase
             'epsilon' => [
                 'name' => 'Epsilon',
                 'age' => 2.4,
+                'dob' => '2003-04-04 07:07:07',
             ],
         ]);
 
@@ -44,6 +48,7 @@ class CollectionTest extends TestCase
         $entityType->addDeclaredProperty('name', Type::string());
         $entityType->getDeclaredProperty('name')->setSearchable();
         $entityType->addDeclaredProperty('age', Type::double());
+        $entityType->addDeclaredProperty('dob', Type::datetimeoffset());
         $entitySet = new CollectionEntitySet('examples', $entityType);
         $entitySet->setCollection($collection);
 
@@ -424,6 +429,78 @@ class CollectionTest extends TestCase
         $this->assertJsonResponse(
             Request::factory()
                 ->query('$filter', "endswith(name, 'ta') or name eq 'Alpha'")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_day()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "day(dob) eq 4")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_date()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "date(dob) eq '2000-01-01'")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_hour()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "hour(dob) eq 1")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_minute()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "minute(dob) eq 1")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_month()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "month(dob) eq 4")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_second()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "second(dob) eq 4")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_time()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "time(dob) eq '06:06:06.000000'")
+                ->path('/examples')
+        );
+    }
+
+    public function test_filter_year()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$filter', "year(dob) eq 2000")
                 ->path('/examples')
         );
     }

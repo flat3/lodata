@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Drivers;
 
+use Carbon\Carbon;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -11,6 +12,14 @@ use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Round;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Date;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Day;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Hour;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Minute;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Month;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Second;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Time;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Year;
 use Flat3\Lodata\Expression\Node\Func\String\MatchesPattern;
 use Flat3\Lodata\Expression\Node\Func\String\ToLower;
 use Flat3\Lodata\Expression\Node\Func\String\ToUpper;
@@ -23,10 +32,21 @@ use Flat3\Lodata\Expression\Node\Func\StringCollection\Length;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Substring;
 use Flat3\Lodata\Expression\Node\Literal;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Div;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\DivBy;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mod;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Mul;
+use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Sub;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
 use Flat3\Lodata\Expression\Node\Operator\Logical\Equal;
+use Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThan;
+use Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThanOrEqual;
+use Flat3\Lodata\Expression\Node\Operator\Logical\In;
+use Flat3\Lodata\Expression\Node\Operator\Logical\LessThan;
+use Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\Lodata\Expression\Node\Property;
 use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
@@ -42,6 +62,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Type\TimeOfDay;
 use Generator;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Arr;
@@ -99,26 +120,98 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
                     $right = !$node->getRightNode() ?: $eval($node->getRightNode());
                     $args = array_map($eval, $node->getArguments());
 
+                    /** @var Carbon|null $carbon */
+                    $carbon = null;
+
+                    // String functions
+                    switch (true) {
+                        case $node instanceof ToLower:
+                        case $node instanceof ToUpper:
+                        case $node instanceof Trim:
+                        case $node instanceof MatchesPattern:
+                            if (!in_array(gettype($args[0]), ['int', 'string', 'float'])) {
+                                return false;
+                            }
+
+                            $args[0] = (string) $args[0];
+                            break;
+                    }
+
+                    // String and collection functions
+                    switch (true) {
+                        case $node instanceof StartsWith:
+                        case $node instanceof EndsWith:
+                        case $node instanceof Substring:
+                        case $node instanceof Contains:
+                        case $node instanceof Concat:
+                        case $node instanceof Length:
+                        case $node instanceof IndexOf:
+                            if (!in_array(gettype($args[0]), ['int', 'string', 'float'])) {
+                                return false;
+                            }
+
+                            $args[0] = (string) $args[0];
+                            break;
+                    }
+
+                    // Arithmetic functions
+                    switch (true) {
+                        case $node instanceof Round:
+                        case $node instanceof Ceiling:
+                        case $node instanceof Floor:
+                            if (!is_numeric($args[0])) {
+                                return 0;
+                            }
+
+                            break;
+                    }
+
+                    // Arithmetic operators
+                    switch (true) {
+                        case $node instanceof Add:
+                        case $node instanceof Sub:
+                        case $node instanceof Div:
+                        case $node instanceof DivBy:
+                        case $node instanceof Mul:
+                            $left = +$left;
+                            $right = +$right;
+                            break;
+                    }
+
+                    // Datetime functions
+                    switch (true) {
+                        case $node instanceof Day:
+                        case $node instanceof Date:
+                        case $node instanceof Hour:
+                        case $node instanceof Minute:
+                        case $node instanceof Month:
+                        case $node instanceof Second:
+                        case $node instanceof Time:
+                        case $node instanceof Year:
+                            $carbon = new Carbon($args[0]);
+                            break;
+                    }
+
                     switch (true) {
                         case $node instanceof Equal:
-                            return $left === null || $right === null ? $left === $right : $left == $right;
+                            return $left == $right;
 
                         case $node instanceof NotEqual:
-                            return $left === null || $right === null ? $left !== $right : $left != $right;
+                            return $left != $right;
 
-                        case $node instanceof Node\Operator\Logical\GreaterThan:
-                            return $left !== null && $right !== null && $left > $right;
+                        case $node instanceof GreaterThan:
+                            return $left > $right;
 
-                        case $node instanceof Node\Operator\Logical\GreaterThanOrEqual:
-                            return $left !== null && $right !== null && $left >= $right;
+                        case $node instanceof GreaterThanOrEqual:
+                            return $left >= $right;
 
-                        case $node instanceof Node\Operator\Logical\LessThan:
-                            return $left !== null && $right !== null && $left < $right;
+                        case $node instanceof LessThan:
+                            return $left < $right;
 
-                        case $node instanceof Node\Operator\Logical\LessThanOrEqual:
-                            return $left !== null && $right !== null && $left <= $right;
+                        case $node instanceof LessThanOrEqual:
+                            return $left <= $right;
 
-                        case $node instanceof Node\Operator\Logical\In:
+                        case $node instanceof In:
                             return in_array($left, $args);
 
                         case $node instanceof Or_:
@@ -178,23 +271,47 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
                         case $node instanceof MatchesPattern:
                             return 1 === preg_match('/'.$args[1].'/', $args[0]);
 
-                        case $node instanceof Node\Operator\Arithmetic\Add:
+                        case $node instanceof Add:
                             return $left + $right;
 
-                        case $node instanceof Node\Operator\Arithmetic\Sub:
+                        case $node instanceof Sub:
                             return $left - $right;
 
-                        case $node instanceof Node\Operator\Arithmetic\Div:
+                        case $node instanceof Div:
                             return $left / $right;
 
-                        case $node instanceof Node\Operator\Arithmetic\DivBy:
+                        case $node instanceof DivBy:
                             return (float) $left / (float) $right;
 
-                        case $node instanceof Node\Operator\Arithmetic\Mul:
+                        case $node instanceof Mul:
                             return $left * $right;
 
-                        case $node instanceof Node\Operator\Arithmetic\Mod:
-                            return ($left !== null && $right !== null) ? $left % $right : null;
+                        case $node instanceof Mod:
+                            return $left % $right;
+
+                        case $node instanceof Day:
+                            return $carbon->day;
+
+                        case $node instanceof Date:
+                            return $carbon->format(\Flat3\Lodata\Type\Date::DATE_FORMAT);
+
+                        case $node instanceof Hour:
+                            return $carbon->hour;
+
+                        case $node instanceof Minute:
+                            return $carbon->minute;
+
+                        case $node instanceof Month:
+                            return $carbon->month;
+
+                        case $node instanceof Second:
+                            return $carbon->second;
+
+                        case $node instanceof Time:
+                            return $carbon->format(TimeOfDay::DATE_FORMAT);
+
+                        case $node instanceof Year:
+                            return $carbon->year;
                     }
 
                     throw new NotImplementedException();

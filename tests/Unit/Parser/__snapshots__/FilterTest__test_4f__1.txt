@@ -1,1 +1,1 @@
-Encountered an invalid symbol at: >y<ear(origin) eq 1999
+( year( origin ) eq 1999 )
