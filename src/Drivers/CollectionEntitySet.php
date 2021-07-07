@@ -43,6 +43,8 @@ use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Generator;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -248,11 +250,32 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
         }
 
         if ($this->getOrderBy()->hasValue()) {
+            $orders = $this->getOrderBy()->getSortOrders();
+
             $collection = $collection->map(function ($item, $key) {
                 return array_merge(['__id' => $key], $item);
-            })
-                ->sortBy($this->getOrderBy()->getSortOrders())
-                ->keyBy('__id');
+            });
+
+            if (version_compare(Application::VERSION, '8', '<')) {
+                if (count($orders) > 1) {
+                    throw new NotImplementedException(
+                        'no_multiple_orderby',
+                        'This version of Laravel does not support multiple sort criteria'
+                    );
+                }
+
+                $orders = Arr::first($orders);
+
+                if ($orders[1] === 'asc') {
+                    $collection = $collection->sortBy($orders[0]);
+                } else {
+                    $collection = $collection->sortByDesc($orders[0]);
+                }
+            } else {
+                $collection = $collection->sortBy($orders);
+            }
+
+            $collection = $collection->keyBy('__id');
         }
 
         if ($this->getSkip()->hasValue()) {

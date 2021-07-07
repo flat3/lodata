@@ -9,6 +9,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
+use Illuminate\Foundation\Application;
 
 class CollectionTest extends TestCase
 {
@@ -79,11 +80,15 @@ class CollectionTest extends TestCase
 
     public function test_orderby_multiple()
     {
-        $this->assertJsonResponse(
-            Request::factory()
-                ->query('$orderby', 'name desc, age asc')
-                ->path('/examples')
-        );
+        $request = Request::factory()
+            ->query('$orderby', 'name desc, age asc')
+            ->path('/examples');
+
+        if (version_compare(Application::VERSION, '8', '<')) {
+            $this->assertNotImplemented($request);
+        } else {
+            $this->assertJsonResponse($request);
+        }
     }
 
     public function test_search()
