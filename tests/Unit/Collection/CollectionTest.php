@@ -78,17 +78,30 @@ class CollectionTest extends TestCase
         );
     }
 
-    public function test_orderby_multiple()
+    public function test_orderby_multiple_7()
     {
-        $request = Request::factory()
-            ->query('$orderby', 'name desc, age asc')
-            ->path('/examples');
-
-        if (version_compare(Application::VERSION, '8', '<')) {
-            $this->assertNotImplemented($request);
-        } else {
-            $this->assertJsonResponse($request);
+        if (version_compare(Application::VERSION, '8', '>')) {
+            return;
         }
+
+        $this->assertTextMetadataResponse(
+            Request::factory()
+                ->query('$orderby', 'name desc, age asc')
+                ->path('/examples')
+        );
+    }
+
+    public function test_orderby_multiple_8()
+    {
+        if (version_compare(Application::VERSION, '8', '<')) {
+            return;
+        }
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->query('$orderby', 'name desc, age asc')
+                ->path('/examples')
+        );
     }
 
     public function test_search()
