@@ -3,6 +3,8 @@
 namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
+use Flat3\Lodata\Expression\Parser\Search as SearchParser;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
@@ -39,10 +41,17 @@ trait SQLWhere
 
         if ($this instanceof FilterInterface) {
             $filter = $this->getFilter();
+
             if ($filter->hasValue()) {
                 $this->whereMaybeAnd();
 
-                $this->applyFilterQueryOption();
+                $filter = $this->getFilter();
+
+                $parser = new FilterParser($this->getTransaction());
+                $parser->pushEntitySet($this);
+
+                $tree = $parser->generateTree($filter->getValue());
+                $tree->compute();
             }
         }
 
@@ -59,7 +68,13 @@ trait SQLWhere
                 }
 
                 $this->whereMaybeAnd();
-                $this->applySearchQueryOption();
+                $search = $this->getSearch();
+
+                $parser = new SearchParser();
+                $parser->pushEntitySet($this);
+
+                $tree = $parser->generateTree($search->getValue());
+                $tree->compute();
             }
         }
     }

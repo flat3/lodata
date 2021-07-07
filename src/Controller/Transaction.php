@@ -703,7 +703,7 @@ class Transaction implements ArgumentInterface
      */
     public function getPathSegments(): array
     {
-        return array_map('rawurldecode', array_filter(explode('/', $this->getPath())));
+        return array_map('rawurldecode', array_filter(explode('/', $this->getPath()), 'strlen'));
     }
 
     /**

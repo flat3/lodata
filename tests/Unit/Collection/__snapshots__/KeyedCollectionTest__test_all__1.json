@@ -1,0 +1,21 @@
+{
+    "@context": "http://localhost/odata/$metadata#examples",
+    "value": [
+        {
+            "id": "alpha",
+            "name": "Alpha"
+        },
+        {
+            "id": "beta",
+            "name": "Beta"
+        },
+        {
+            "id": "gamma",
+            "name": "Gamma"
+        },
+        {
+            "id": "delta",
+            "name": "Delta"
+        }
+    ]
+}

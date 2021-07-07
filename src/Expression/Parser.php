@@ -400,7 +400,7 @@ abstract class Parser
             return false;
         }
 
-        $operand = new Literal\Double($this);
+        $operand = is_int($token) || $token == 0 ? new Literal\Int32($this) : new Literal\Double($this);
         $operand->setValue($token);
 
         $this->operandStack[] = $operand;

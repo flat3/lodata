@@ -14,8 +14,6 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
-use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
-use Flat3\Lodata\Expression\Parser\Search as SearchParser;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
@@ -720,42 +718,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         return $properties;
-    }
-
-    /**
-     * Apply the filter system query option
-     */
-    public function applyFilterQueryOption(): void
-    {
-        $filter = $this->getFilter();
-
-        if (!$filter->hasValue()) {
-            return;
-        }
-
-        $parser = new FilterParser($this->getTransaction());
-        $parser->pushEntitySet($this);
-
-        $tree = $parser->generateTree($filter->getValue());
-        $tree->compute();
-    }
-
-    /**
-     * Apply the search system query option
-     */
-    public function applySearchQueryOption(): void
-    {
-        $search = $this->getSearch();
-
-        if (!$search->hasValue()) {
-            return;
-        }
-
-        $parser = new SearchParser();
-        $parser->pushEntitySet($this);
-
-        $tree = $parser->generateTree($search->getValue());
-        $tree->compute();
     }
 
     /**

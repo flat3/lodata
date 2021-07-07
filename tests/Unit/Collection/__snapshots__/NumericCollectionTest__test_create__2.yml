@@ -1,0 +1,7 @@
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+    odata-version: ['4.01']
+    location: ['http://localhost/odata/examples(4)']
+    etag: ['W/"7496ef5abbc3083f799d02438d6b6c6ee0e5b79752638050e15082796d134e4a"']
+status: 201
