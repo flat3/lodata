@@ -4934,25 +4934,25 @@
         },
         {
             "name": "zbateson/stream-decorators",
-            "version": "1.0.4",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zbateson/stream-decorators.git",
-                "reference": "6f54738dfecc65e1d5bfb855035836748083a6dd"
+                "reference": "3403c4323bd1cd15fe54348b031b26b064c706af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zbateson/stream-decorators/zipball/6f54738dfecc65e1d5bfb855035836748083a6dd",
-                "reference": "6f54738dfecc65e1d5bfb855035836748083a6dd",
+                "url": "https://api.github.com/repos/zbateson/stream-decorators/zipball/3403c4323bd1cd15fe54348b031b26b064c706af",
+                "reference": "3403c4323bd1cd15fe54348b031b26b064c706af",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/psr7": "^1.0.0",
+                "guzzlehttp/psr7": "^1.7.0|^2.0",
                 "php": ">=5.4",
                 "zbateson/mb-wrapper": "^1.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5"
+                "sanmai/phpunit-legacy-adapter": "^6.3 || ^8"
             },
             "type": "library",
             "autoload": {
@@ -4983,7 +4983,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zbateson/stream-decorators/issues",
-                "source": "https://github.com/zbateson/stream-decorators/tree/master"
+                "source": "https://github.com/zbateson/stream-decorators/tree/1.0.6"
             },
             "funding": [
                 {
@@ -4991,7 +4991,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-10T18:59:43+00:00"
+            "time": "2021-07-08T19:01:59+00:00"
         }
     ],
     "packages-dev": [
