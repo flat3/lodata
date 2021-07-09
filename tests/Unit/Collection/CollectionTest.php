@@ -446,7 +446,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->query('$filter', "date(dob) eq '2000-01-01'")
+                ->query('$filter', "date(dob) eq 2000-01-01")
                 ->path('/examples')
         );
     }
@@ -491,7 +491,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->query('$filter', "time(dob) eq '06:06:06.000000'")
+                ->query('$filter', "time(dob) eq 06:06:06")
                 ->path('/examples')
         );
     }
