@@ -84,15 +84,15 @@ class Evaluate
 
             // 5.1.1.1 Logical operators
             case $node instanceof Operator\Logical\Equal:
+                if ($lValue === null || $rValue === null) {
+                    return $lValue === $rValue;
+                }
+
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
                         if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
                             self::incompatible($node);
-                        }
-
-                        if ($lValue === null || $rValue === null) {
-                            return $lValue === $rValue;
                         }
 
                         return $lValue->equalTo($rValue);
@@ -101,6 +101,10 @@ class Evaluate
                 return $lValue == $rValue;
 
             case $node instanceof Operator\Logical\NotEqual:
+                if ($lValue === null || $rValue === null) {
+                    return $lValue !== $rValue;
+                }
+
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
