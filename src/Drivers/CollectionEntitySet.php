@@ -85,112 +85,24 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
 
                     $args = array_map($eval, $node->getArguments());
 
-                    /** @var Carbon|null $carbon */
-                    $carbon = null;
-
-                    if ($left instanceof Carbon and !$right instanceof Carbon) {
-                        $right = new Carbon($right);
-                    }
-
-                    if ($right instanceof Carbon and !$left instanceof Carbon) {
-                        $left = new Carbon($left);
-                    }
-
-                    // String functions
                     switch (true) {
-                        case $node instanceof Node\Func\String\ToLower:
-                        case $node instanceof Node\Func\String\ToUpper:
-                        case $node instanceof Node\Func\String\Trim:
-                        case $node instanceof Node\Func\String\MatchesPattern:
-                            if (!in_array(gettype($args[0]), ['int', 'string', 'float'])) {
-                                return false;
-                            }
+                        // Deserialization
+                        case $node instanceof Property:
+                            return $item[$node->getValue()] ?? null;
 
-                            $args[0] = (string) $args[0];
-                            break;
-                    }
+                        case $node instanceof Literal\Date:
+                            return $node->getValue()->format(Type\Date::DATE_FORMAT);
 
-                    // String and collection functions
-                    switch (true) {
-                        case $node instanceof Node\Func\StringCollection\StartsWith:
-                        case $node instanceof Node\Func\StringCollection\EndsWith:
-                        case $node instanceof Node\Func\StringCollection\Substring:
-                        case $node instanceof Node\Func\StringCollection\Contains:
-                        case $node instanceof Node\Func\StringCollection\Concat:
-                        case $node instanceof Node\Func\StringCollection\Length:
-                        case $node instanceof Node\Func\StringCollection\IndexOf:
-                            if (!in_array(gettype($args[0]), ['int', 'string', 'float'])) {
-                                return false;
-                            }
+                        case $node instanceof Literal\TimeOfDay:
+                            return $node->getValue()->format(Type\TimeOfDay::DATE_FORMAT);
 
-                            $args[0] = (string) $args[0];
-                            break;
-                    }
+                        case $node instanceof Literal\DateTimeOffset:
+                            return $node->getValue()->format(Type\DateTimeOffset::DATE_FORMAT);
 
-                    // Arithmetic functions
-                    switch (true) {
-                        case $node instanceof Node\Func\Arithmetic\Round:
-                        case $node instanceof Node\Func\Arithmetic\Ceiling:
-                        case $node instanceof Node\Func\Arithmetic\Floor:
-                            if (!is_numeric($args[0])) {
-                                return 0;
-                            }
+                        case $node instanceof Literal:
+                            return $node->getValue();
 
-                            break;
-                    }
-
-                    // Arithmetic operators
-                    switch (true) {
-                        case $node instanceof Operator\Arithmetic\Add:
-                        case $node instanceof Operator\Arithmetic\Sub:
-                        case $node instanceof Operator\Arithmetic\Div:
-                        case $node instanceof Operator\Arithmetic\DivBy:
-                        case $node instanceof Operator\Arithmetic\Mul:
-                            $left = +$left;
-                            $right = +$right;
-                            break;
-                    }
-
-                    // Datetime functions
-                    switch (true) {
-                        case $node instanceof Node\Func\DateTime\Day:
-                        case $node instanceof Node\Func\DateTime\Date:
-                        case $node instanceof Node\Func\DateTime\Hour:
-                        case $node instanceof Node\Func\DateTime\Minute:
-                        case $node instanceof Node\Func\DateTime\Month:
-                        case $node instanceof Node\Func\DateTime\Second:
-                        case $node instanceof Node\Func\DateTime\Time:
-                        case $node instanceof Node\Func\DateTime\Year:
-                            $carbon = new Carbon($args[0]);
-                            break;
-                    }
-
-                    // Type conversion
-                    if ($leftNode instanceof Type\Decimal && $leftNode->get() === NAN) {
-                        $left = NAN;
-                    }
-
-                    if ($rightNode instanceof Type\Decimal && $rightNode->get() === NAN) {
-                        $right = NAN;
-                    }
-
-                    if ($leftNode instanceof Literal\TimeOfDay || $leftNode instanceof Node\Func\DateTime\Time || $leftNode instanceof Type\TimeOfDay) {
-                        $left = $left->toTimeString('microsecond');
-                    }
-
-                    if ($rightNode instanceof Literal\TimeOfDay || $rightNode instanceof Node\Func\DateTime\Time || $rightNode instanceof Type\TimeOfDay) {
-                        $right = $right->toTimeString('microsecond');
-                    }
-
-                    if ($leftNode instanceof Node\Func\DateTime\Date || $leftNode instanceof Literal\Date || $leftNode instanceof Type\Date) {
-                        $left = $left->toDateString();
-                    }
-
-                    if ($rightNode instanceof Node\Func\DateTime\Date || $rightNode instanceof Literal\Date || $rightNode instanceof Type\Date) {
-                        $right = $right->toDateString();
-                    }
-
-                    switch (true) {
+                        // 5.1.1.1 Logical operators
                         case $node instanceof Operator\Logical\Equal:
                             return $left == $right;
 
@@ -209,17 +121,52 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
                         case $node instanceof Operator\Logical\LessThanOrEqual:
                             return $left <= $right;
 
-                        case $node instanceof Operator\Logical\In:
-                            return in_array($left, $args);
+                        case $node instanceof Operator\Comparison\And_:
+                            return $left && $right;
 
                         case $node instanceof Operator\Comparison\Or_:
                             return $left || $right;
 
-                        case $node instanceof Operator\Comparison\And_:
-                            return $left && $right;
-
                         case $node instanceof Operator\Comparison\Not_:
                             return !$left;
+
+                        case $node instanceof Operator\Logical\In:
+                            return in_array($left, $args);
+
+                        // 5.1.1.2 Arithmetic operators
+                        case $node instanceof Operator\Arithmetic\Add:
+                            return $left + $right;
+
+                        case $node instanceof Operator\Arithmetic\Sub:
+                            return $left - $right;
+
+                        case $node instanceof Operator\Arithmetic\Mul:
+                            return $left * $right;
+
+                        case $node instanceof Operator\Arithmetic\Div:
+                            return $left / $right;
+
+                        case $node instanceof Operator\Arithmetic\DivBy:
+                            return (float) $left / (float) $right;
+
+                        case $node instanceof Operator\Arithmetic\Mod:
+                            return $left % $right;
+
+                        // 5.1.1.5 String and Collection Functions
+                        case $node instanceof Node\Func\StringCollection\Concat:
+                            return join('', $args);
+
+                        case $node instanceof Node\Func\StringCollection\Contains:
+                            return Str::contains(...$args);
+
+                        case $node instanceof Node\Func\StringCollection\EndsWith:
+                            return Str::endsWith(...$args);
+
+                        case $node instanceof Node\Func\StringCollection\IndexOf:
+                            return strpos(...$args);
+
+                        case $node instanceof Node\Func\StringCollection\Length:
+                            return Str::length(...$args);
 
                         case $node instanceof Node\Func\StringCollection\StartsWith:
                             return Str::startsWith(...$args);
@@ -227,35 +174,9 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
                         case $node instanceof Node\Func\StringCollection\Substring:
                             return substr(...$args);
 
-                        case $node instanceof Node\Func\StringCollection\EndsWith:
-                            return Str::endsWith(...$args);
-
-                        case $node instanceof Node\Func\StringCollection\Contains:
-                            return Str::contains(...$args);
-
-                        case $node instanceof Node\Func\StringCollection\Concat:
-                            return join('', $args);
-
-                        case $node instanceof Node\Func\StringCollection\Length:
-                            return Str::length(...$args);
-
-                        case $node instanceof Node\Func\StringCollection\IndexOf:
-                            return strpos(...$args);
-
-                        case $node instanceof Property:
-                            return $item[$node->getValue()] ?? null;
-
-                        case $node instanceof Literal:
-                            return $node->getValue();
-
-                        case $node instanceof Node\Func\Arithmetic\Round:
-                            return round(...$args);
-
-                        case $node instanceof Node\Func\Arithmetic\Ceiling:
-                            return ceil(...$args);
-
-                        case $node instanceof Node\Func\Arithmetic\Floor:
-                            return floor(...$args);
+                        // 5.1.1.7 String functions
+                        case $node instanceof Node\Func\String\MatchesPattern:
+                            return 1 === preg_match('/'.$args[1].'/', $args[0]);
 
                         case $node instanceof Node\Func\String\ToLower:
                             return strtolower(...$args);
@@ -266,50 +187,40 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
                         case $node instanceof Node\Func\String\Trim:
                             return trim(...$args);
 
-                        case $node instanceof Node\Func\String\MatchesPattern:
-                            return 1 === preg_match('/'.$args[1].'/', $args[0]);
-
-                        case $node instanceof Operator\Arithmetic\Add:
-                            return $left + $right;
-
-                        case $node instanceof Operator\Arithmetic\Sub:
-                            return $left - $right;
-
-                        case $node instanceof Operator\Arithmetic\Div:
-                            return $left / $right;
-
-                        case $node instanceof Operator\Arithmetic\DivBy:
-                            return (float) $left / (float) $right;
-
-                        case $node instanceof Operator\Arithmetic\Mul:
-                            return $left * $right;
-
-                        case $node instanceof Operator\Arithmetic\Mod:
-                            return $left % $right;
+                        // 5.1.1.8 Date and time functions
+                        case $node instanceof Node\Func\DateTime\Date:
+                            return Carbon::parse($args[0])->format(Type\Date::DATE_FORMAT);
 
                         case $node instanceof Node\Func\DateTime\Day:
-                            return $carbon->day;
-
-                        case $node instanceof Node\Func\DateTime\Date:
-                            return $carbon->format(Type\Date::DATE_FORMAT);
+                            return Carbon::parse($args[0])->day;
 
                         case $node instanceof Node\Func\DateTime\Hour:
-                            return $carbon->hour;
+                            return Carbon::parse($args[0])->hour;
 
                         case $node instanceof Node\Func\DateTime\Minute:
-                            return $carbon->minute;
+                            return Carbon::parse($args[0])->minute;
 
                         case $node instanceof Node\Func\DateTime\Month:
-                            return $carbon->month;
+                            return Carbon::parse($args[0])->month;
 
                         case $node instanceof Node\Func\DateTime\Second:
-                            return $carbon->second;
+                            return Carbon::parse($args[0])->second;
 
                         case $node instanceof Node\Func\DateTime\Time:
-                            return $carbon->format(Type\TimeOfDay::DATE_FORMAT);
+                            return Carbon::parse($args[0])->format(Type\TimeOfDay::DATE_FORMAT);
 
                         case $node instanceof Node\Func\DateTime\Year:
-                            return $carbon->year;
+                            return Carbon::parse($args[0])->year;
+
+                        // 5.1.1.9 Arithmetic functions
+                        case $node instanceof Node\Func\Arithmetic\Ceiling:
+                            return ceil(...$args);
+
+                        case $node instanceof Node\Func\Arithmetic\Floor:
+                            return floor(...$args);
+
+                        case $node instanceof Node\Func\Arithmetic\Round:
+                            return round(...$args);
                     }
 
                     throw new NotImplementedException();
