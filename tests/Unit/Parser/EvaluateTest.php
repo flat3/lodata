@@ -511,7 +511,7 @@ class EvaluateTest extends TestCase
 
     public function test_100()
     {
-        $this->assertSameExpression(1.3333333333333333, '4 div 3');
+        $this->assertSameExpression(1, '4 div 3');
     }
 
     public function test_101()
@@ -562,6 +562,76 @@ class EvaluateTest extends TestCase
     public function test_110()
     {
         $this->assertBadExpression('0 div 0');
+    }
+
+    public function test_111()
+    {
+        $this->assertSameExpression(1.3333333333333333, '4 divby 3');
+    }
+
+    public function test_112()
+    {
+        $this->assertSameExpression(-1.2903225806451613, '-4 divby 3.1');
+    }
+
+    public function test_113()
+    {
+        $this->assertSameExpression(28800.0, 'P1D divby 3');
+    }
+
+    public function test_114()
+    {
+        $this->assertSameExpression(-28800.0, 'P1D divby -3');
+    }
+
+    public function test_115()
+    {
+        $this->assertSameExpression(-24685.714285714286, 'P1D divby -3.5');
+    }
+
+    public function test_116()
+    {
+        $this->assertBadExpression('P1D divby PT4H');
+    }
+
+    public function test_117()
+    {
+        $this->assertBadExpression('4 divby 0');
+    }
+
+    public function test_118()
+    {
+        $this->assertSameExpression(INF, '4.1 divby 0');
+    }
+
+    public function test_119()
+    {
+        $this->assertSameExpression(-INF, '-4.1 divby 0');
+    }
+
+    public function test_120()
+    {
+        $this->assertNan($this->evaluate('0.0 divby 0'));
+    }
+
+    public function test_121()
+    {
+        $this->assertBadExpression('0 divby 0');
+    }
+
+    public function test_122()
+    {
+        $this->assertSameExpression(1.0, '4 mod 3');
+    }
+
+    public function test_123()
+    {
+        $this->assertSameExpression(-1.0, '-4 mod 3');
+    }
+
+    public function test_124()
+    {
+        $this->assertBadExpression('4 mod 0');
     }
 
     public function assertTrueExpression($expression): void

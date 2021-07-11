@@ -330,13 +330,64 @@ class Evaluate
                         break;
                 }
 
+                if ($left instanceof Type\Byte && $right instanceof Type\Byte) {
+                    return Type\Int64::factory($lValue / $rValue);
+                }
+
                 return $primitive->set($lValue / $rValue);
 
             case $node instanceof Operator\Arithmetic\DivBy:
-                return (float) $lValue / (float) $rValue;
+                if (!(
+                    ($left instanceof Type\Numeric && $right instanceof Type\Numeric) ||
+                    ($left instanceof Type\Numeric && $right instanceof Type\Duration) ||
+                    ($left instanceof Type\Duration && $right instanceof Type\Numeric)
+                )) {
+                    throw new BadRequestException(
+                        'incompatible_types',
+                        'Incompatible types were provided for operation'
+                    );
+                }
+
+                if ($rValue == 0) {
+                    if (!$left instanceof Type\Decimal) {
+                        throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
+                    }
+
+                    switch (true) {
+                        case $lValue > 0:
+                            return Type\Decimal::factory(INF);
+
+                        case $lValue < 0:
+                            return Type\Decimal::factory(-INF);
+
+                        case $lValue == 0:
+                            return Type\Decimal::factory(NAN);
+                    }
+                }
+
+                $primitive = new Type\Decimal();
+
+                switch (true) {
+                    case $left instanceof Type\Duration || $right instanceof Type\Duration:
+                        $primitive = new Type\Duration();
+                        break;
+                }
+
+                return $primitive->set((float) $lValue / (float) $rValue);
 
             case $node instanceof Operator\Arithmetic\Mod:
-                return $lValue % $rValue;
+                if (!($left instanceof Type\Numeric && $right instanceof Type\Numeric)) {
+                    throw new BadRequestException(
+                        'incompatible_types',
+                        'Incompatible types were provided for operation'
+                    );
+                }
+
+                if ($rValue == 0) {
+                    throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
+                }
+
+                return Type\Double::factory($lValue % $rValue);
 
             // 5.1.1.5 String and Collection Functions
             case $node instanceof Node\Func\StringCollection\Concat:
