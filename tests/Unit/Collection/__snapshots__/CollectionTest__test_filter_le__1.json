@@ -14,10 +14,6 @@
             "dob": "2002-03-03T06:06:06+00:00"
         },
         {
-            "id": "delta",
-            "name": "Delta"
-        },
-        {
             "id": "epsilon",
             "name": "Epsilon",
             "age": 2.4,

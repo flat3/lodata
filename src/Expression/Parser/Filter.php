@@ -143,6 +143,7 @@ class Filter extends Parser
     protected function findToken(): bool
     {
         return $this->tokenizeSpace() ||
+            $this->tokenizeLiteral() ||
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||
@@ -151,8 +152,7 @@ class Filter extends Parser
             $this->tokenizeLambdaProperty() ||
             $this->tokenizeDeclaredProperty() ||
             $this->tokenizeOperator() ||
-            $this->tokenizeNavigationPropertyPath() ||
-            $this->tokenizeLiteral();
+            $this->tokenizeNavigationPropertyPath();
     }
 
     /**

@@ -303,7 +303,20 @@ class Lexer
     public function number(): float
     {
         $chars = [];
+
+        $nan = $this->maybeKeyword(Constants::NOT_A_NUMBER);
+
+        if ($nan) {
+            return NAN;
+        }
+
         $sign = $this->maybeKeyword('+', '-');
+
+        $inf = $this->maybeKeyword(Constants::INFINITY);
+
+        if ($inf) {
+            return $sign === '-' ? -INF : INF;
+        }
 
         if (null !== $sign) {
             $chars[] = $sign;

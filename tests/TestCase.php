@@ -13,6 +13,7 @@ use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
+use Flat3\Lodata\Type\Guid;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -405,5 +406,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         } catch (PDOException $e) {
             $this->fail('A transaction was in progress');
         }
+    }
+
+    protected function assertGuid(string $expected, string $actual)
+    {
+        $this->assertSame($expected, Guid::binaryToString($actual));
     }
 }

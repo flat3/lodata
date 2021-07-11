@@ -13,6 +13,7 @@ use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Operator\Logical;
 use Flat3\Lodata\Expression\Node\Property;
 use Flat3\Lodata\Expression\Node\RightParen;
+use Flat3\Lodata\Helper\Constants;
 use Illuminate\Support\Arr;
 
 /**
@@ -400,7 +401,7 @@ abstract class Parser
             return false;
         }
 
-        $operand = is_int($token) || $token == 0 ? new Literal\Int32($this) : new Literal\Double($this);
+        $operand = ((int) $token == $token) || ($token == 0) ? new Literal\Int32($this) : new Literal\Double($this);
         $operand->setValue($token);
 
         $this->operandStack[] = $operand;
@@ -535,7 +536,13 @@ abstract class Parser
      */
     public function tokenizeNavigationPropertyPath(): bool
     {
-        $navigationProperties = $this->getCurrentResource()->getType()->getNavigationProperties();
+        $currentResource = $this->getCurrentResource();
+
+        if (!$currentResource) {
+            return false;
+        }
+
+        $navigationProperties = $currentResource->getType()->getNavigationProperties();
 
         $token = $this->lexer->maybeKeyword(...$navigationProperties->keys());
 
@@ -615,7 +622,7 @@ abstract class Parser
      * Get the entity set currently being operated on
      * @return EntitySet Entity set
      */
-    public function getCurrentResource(): EntitySet
+    public function getCurrentResource(): ?EntitySet
     {
         return Arr::last($this->entitySets);
     }
@@ -647,7 +654,13 @@ abstract class Parser
      */
     public function tokenizeDeclaredProperty(): bool
     {
-        $properties = $this->getCurrentResource()->getType()->getDeclaredProperties()->keys();
+        $currentResource = $this->getCurrentResource();
+
+        if (!$currentResource) {
+            return false;
+        }
+
+        $properties = $currentResource->getType()->getDeclaredProperties()->keys();
 
         $token = $this->lexer->maybeKeyword(...$properties);
 
