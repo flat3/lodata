@@ -10,8 +10,8 @@ use Flat3\Lodata\Expression\Node\Literal;
  */
 class Int32 extends Literal
 {
-    public function getValue(): int
+    public function getValue(): \Flat3\Lodata\Type\Int32
     {
-        return (int) $this->value;
+        return \Flat3\Lodata\Type\Int32::factory($this->value);
     }
 }

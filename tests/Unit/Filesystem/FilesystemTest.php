@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Filesystem;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable as Carbon;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Drivers\FilesystemEntitySet;
 use Flat3\Lodata\Drivers\FilesystemEntityType;

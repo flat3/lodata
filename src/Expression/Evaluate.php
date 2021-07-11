@@ -2,11 +2,13 @@
 
 namespace Flat3\Lodata\Expression;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable as Carbon;
+use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Operator;
 use Flat3\Lodata\Expression\Node\Property;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type;
 use Illuminate\Support\Str;
 
@@ -17,31 +19,30 @@ use Illuminate\Support\Str;
  */
 class Evaluate
 {
-    public static function eval(Node $node, ?array $item = null)
+    public static function eval(Node $node, ?Entity $entity = null)
     {
-        $left = !$node->getLeftNode() ?: self::eval($node->getLeftNode(), $item);
-        $right = !$node->getRightNode() ?: self::eval($node->getRightNode(), $item);
+        $leftP = !$node->getLeftNode() ?: self::eval($node->getLeftNode(), $entity);
+        $rightP = !$node->getRightNode() ?: self::eval($node->getRightNode(), $entity);
 
-        $args = array_map(function ($arg) use ($item) {
-            return self::eval($arg, $item);
+        $left = $leftP instanceof Primitive ? $leftP->get() : $leftP;
+        $right = $rightP instanceof Primitive ? $rightP->get() : $rightP;
+
+        $args = array_map(function ($arg) use ($entity) {
+            $primitive = self::eval($arg, $entity);
+
+            if ($primitive instanceof Primitive) {
+                return $primitive->get();
+            }
+
+            return $primitive;
         }, $node->getArguments());
 
         switch (true) {
             // Deserialization
             case $node instanceof Property:
-                return $item[$node->getValue()] ?? null;
+                $propertyValue = $entity[$node->getValue()];
+                return $propertyValue === null ? null : $propertyValue->getPrimitiveValue();
 
-            case $node instanceof Literal\Date:
-                return $node->getValue()->format(Type\Date::DATE_FORMAT);
-
-            case $node instanceof Literal\TimeOfDay:
-                return $node->getValue()->format(Type\TimeOfDay::DATE_FORMAT);
-
-            case $node instanceof Literal\DateTimeOffset:
-                return $node->getValue()->format(Type\DateTimeOffset::DATE_FORMAT);
-
-            case $node instanceof Literal\Guid:
-            case $node instanceof Literal\Duration:
             case $node instanceof Literal:
                 return $node->getValue();
 
@@ -94,22 +95,42 @@ class Evaluate
 
             // 5.1.1.2 Arithmetic operators
             case $node instanceof Operator\Arithmetic\Add:
+                switch (true) {
+                    case $left === null || $right === null:
+                        return null;
+
+                    case $leftP instanceof Type\Duration && $rightP instanceof Type\Duration:
+                        return Type\Duration::factory($left->addMilliseconds($right->totalMilliseconds));
+
+                    case $leftP instanceof Type\Date && $rightP instanceof Type\Duration:
+                        return Type\Date::factory($left->addMilliseconds($right->totalMilliseconds));
+
+                    case $leftP instanceof Type\Duration && $rightP instanceof Type\Date:
+                        return Type\Date::factory($right->addMilliseconds($left->totalMilliseconds));
+
+                    case $leftP instanceof Type\Duration && $rightP instanceof Type\DateTimeOffset:
+                        return Type\DateTimeOffset::factory($right->add($left));
+
+                    case $leftP instanceof Type\DateTimeOffset && $rightP instanceof Type\Duration:
+                        return Type\DateTimeOffset::factory($left->add($right));
+                }
+
                 return $left + $right;
 
             case $node instanceof Operator\Arithmetic\Sub:
-                return $left - $right;
+                return ($left === null || $right === null) ? null : $left - $right;
 
             case $node instanceof Operator\Arithmetic\Mul:
-                return $left * $right;
+                return ($left === null || $right === null) ? null : $left * $right;
 
             case $node instanceof Operator\Arithmetic\Div:
-                return $left / $right;
+                return ($left === null || $right === null) ? null : $left / $right;
 
             case $node instanceof Operator\Arithmetic\DivBy:
-                return (float) $left / (float) $right;
+                return ($left === null || $right === null) ? null : (float) $left / (float) $right;
 
             case $node instanceof Operator\Arithmetic\Mod:
-                return $left % $right;
+                return ($left === null || $right === null) ? null : $left % $right;
 
             // 5.1.1.5 String and Collection Functions
             case $node instanceof Node\Func\StringCollection\Concat:

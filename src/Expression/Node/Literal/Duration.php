@@ -10,8 +10,8 @@ use Flat3\Lodata\Expression\Node\Literal;
  */
 class Duration extends Literal
 {
-    public function getValue(): float
+    public function getValue(): \Flat3\Lodata\Type\Duration
     {
-        return \Flat3\Lodata\Type\Duration::factory($this->value)->get();
+        return \Flat3\Lodata\Type\Duration::factory($this->value);
     }
 }

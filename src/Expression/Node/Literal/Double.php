@@ -10,8 +10,8 @@ use Flat3\Lodata\Expression\Node\Literal;
  */
 class Double extends Literal
 {
-    public function getValue(): float
+    public function getValue(): \Flat3\Lodata\Type\Double
     {
-        return (float) $this->value;
+        return \Flat3\Lodata\Type\Double::factory($this->value);
     }
 }

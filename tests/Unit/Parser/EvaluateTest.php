@@ -3,9 +3,15 @@
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Entity;
 use Flat3\Lodata\Expression\Evaluate;
 use Flat3\Lodata\Expression\Parser\Filter;
+use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type\Date;
+use Flat3\Lodata\Type\DateTimeOffset;
+use Flat3\Lodata\Type\Duration;
+use Flat3\Lodata\Type\TimeOfDay;
 
 class EvaluateTest extends TestCase
 {
@@ -76,7 +82,7 @@ class EvaluateTest extends TestCase
 
     public function test_13()
     {
-        $this->assertSameExpression(367485.122, 'P4DT6H4M45.121999999974S');
+        $this->assertSameExpression(367485122, 'P4DT6H4M45.121999999974S');
     }
 
     public function test_14()
@@ -322,6 +328,51 @@ class EvaluateTest extends TestCase
         $this->assertTrueExpression("1 in ('1',2)");
     }
 
+    public function test_70()
+    {
+        $this->assertNullExpression('1 add null');
+    }
+
+    public function test_71()
+    {
+        $this->assertSameExpression(3, '1 add 2');
+    }
+
+    public function test_72()
+    {
+        $this->assertSameExpression(3.1, '1 add 2.1');
+    }
+
+    public function test_73()
+    {
+        $this->assertSameExpression('2020-01-01T23:24:27+00:00','2020-01-01T23:23:23+00:00 add PT1M4S');
+    }
+
+    public function test_74()
+    {
+        $this->assertSameExpression(7000, 'PT3.5S add PT3.5S');
+    }
+
+    public function test_75()
+    {
+        $this->assertSameExpression('2001-01-01', '2001-01-01 add PT3.5S');
+    }
+
+    public function test_76()
+    {
+        $this->assertSameExpression('2001-01-01', 'PT3.5S add 2001-01-01');
+    }
+
+    public function test_77()
+    {
+        $this->assertSameExpression('2001-01-02', '2001-01-01 add P1D');
+    }
+
+    public function test_78()
+    {
+        $this->assertSameExpression('2001-01-02', 'P1D add 2001-01-01');
+    }
+
     public function assertTrueExpression($expression): void
     {
         $this->assertTrue($this->evaluate($expression));
@@ -342,12 +393,32 @@ class EvaluateTest extends TestCase
         $this->assertSame($expected, $this->evaluate($expression));
     }
 
-    public function evaluate(string $expression, ?array $item = null)
+    public function evaluate(string $expression, ?Entity $item = null)
     {
         $transaction = new Transaction();
         $parser = new Filter($transaction);
         $tree = $parser->generateTree($expression);
 
-        return Evaluate::eval($tree, $item);
+        $result = Evaluate::eval($tree, $item);
+
+        switch (true) {
+            case $result instanceof Duration:
+                return $result->get()->totalMilliseconds;
+                return $result->get()->format('%Y:%M:%D:%H:%M:%S.%F');
+
+            case $result instanceof TimeOfDay:
+                return $result->get()->toTimeString('microseconds');
+
+            case $result instanceof Date:
+                return $result->get()->toDateString();
+
+            case $result instanceof DateTimeOffset:
+                return $result->get()->format('c');
+
+            case $result instanceof Primitive:
+                return $result->get();
+        }
+
+        return $result;
     }
 }

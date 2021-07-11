@@ -3,7 +3,6 @@
 namespace Flat3\Lodata\Expression\Node\Literal;
 
 use Flat3\Lodata\Expression\Node\Literal;
-use Flat3\Lodata\Helper\Constants;
 
 /**
  * Boolean
@@ -11,8 +10,8 @@ use Flat3\Lodata\Helper\Constants;
  */
 class Boolean extends Literal
 {
-    public function getValue(): bool
+    public function getValue(): \Flat3\Lodata\Type\Boolean
     {
-        return Constants::TRUE === $this->value;
+        return \Flat3\Lodata\Type\Boolean::factory($this->value);
     }
 }

@@ -10,8 +10,8 @@ use Flat3\Lodata\Expression\Node\Literal;
  */
 class Guid extends Literal
 {
-    public function getValue(): string
+    public function getValue(): \Flat3\Lodata\Type\Guid
     {
-        return \Flat3\Lodata\Type\Guid::factory($this->value)->get();
+        return \Flat3\Lodata\Type\Guid::factory($this->value);
     }
 }

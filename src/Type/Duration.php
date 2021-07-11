@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
+use Carbon\CarbonInterval;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
@@ -21,7 +22,7 @@ class Duration extends Primitive
         'pattern' => '^'.Lexer::DURATION.'$',
     ];
 
-    /** @var ?double $value */
+    /** @var ?CarbonInterval $value */
     protected $value;
 
     public function toUrl(): string
@@ -33,7 +34,7 @@ class Duration extends Primitive
         return sprintf("'%s'", $this::numberToDuration($this->value));
     }
 
-    public static function numberToDuration($seconds): string
+    public static function numberToDuration($seconds): CarbonInterval
     {
         $r = 'P';
 
@@ -52,17 +53,25 @@ class Duration extends Primitive
         $seconds -= ($m * 60);
         $r .= $seconds >= 0 ? $seconds.'S' : '';
 
-        return $r;
+        return CarbonInterval::seconds($r);
     }
 
     public function set($value): self
     {
-        $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this::durationToNumber($value)));
+        if (is_numeric($value)) {
+            $value = CarbonInterval::seconds($value);
+        }
+
+        if (is_string($value)) {
+            $value = $this::durationToNumber($value);
+        }
+
+        $this->value = $this->maybeNull(null === $value ? null : $value);
 
         return $this;
     }
 
-    public static function durationToNumber(string $duration): ?float
+    public static function durationToNumber(string $duration): ?CarbonInterval
     {
         $result = preg_match(
             '@^-?P((?P<d>[0-9]+)D)?(T((?P<h>[0-9]+)H)?((?P<m>[0-9]+)M)?((?P<s>[0-9]+([.][0-9]+)?)S)?)?$@',
@@ -76,12 +85,18 @@ class Duration extends Primitive
             return null;
         }
 
-        return (double) (
+        $interval = new CarbonInterval(0);
+
+        $seconds = (double) (
             ((int) ($matches['d'] ?? 0)) * 86400 +
             ((int) ($matches['h'] ?? 0)) * 3600 +
             ((int) ($matches['m'] ?? 0)) * 60 +
             ((float) ($matches['s'] ?? 0))
         );
+
+        $interval->addSeconds($seconds);
+
+        return $interval;
     }
 
     public function toJson(): ?string

@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable as Carbon;
 use Exception;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
