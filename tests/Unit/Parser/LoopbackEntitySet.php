@@ -104,7 +104,7 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
 
                 switch (true) {
                     case $node instanceof Boolean:
-                        $this->addFilter($node->getValue() ? 'true' : 'false');
+                        $this->addFilter($node->getValue()->get() ? 'true' : 'false');
                         return true;
 
                     case $node instanceof Guid:
@@ -112,23 +112,23 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
                         return true;
 
                     case $node instanceof Date:
-                        $this->addFilter($node->getValue()->format('Y-m-d'));
+                        $this->addFilter($node->getValue()->get()->format('Y-m-d'));
                         return true;
 
                     case $node instanceof DateTimeOffset:
-                        $this->addFilter($node->getValue()->format('c'));
+                        $this->addFilter($node->getValue()->get()->format('c'));
                         return true;
 
                     case $node instanceof TimeOfDay:
-                        $this->addFilter($node->getValue()->format('h:i:s'));
+                        $this->addFilter($node->getValue()->get()->format('h:i:s'));
                         return true;
 
                     case $node instanceof String_:
-                        $this->addFilter("'".str_replace("'", "''", $event->getValue())."'");
+                        $this->addFilter("'".str_replace("'", "''", $event->getValue()->get())."'");
                         return true;
 
                     case $node instanceof Duration:
-                        $this->addFilter(\Flat3\Lodata\Type\Duration::numberToDuration($node->getValue()));
+                        $this->addFilter(\Flat3\Lodata\Type\Duration::numberToDuration($node->getValue()->get()));
                         return true;
                 }
 

@@ -82,7 +82,7 @@ class EvaluateTest extends TestCase
 
     public function test_13()
     {
-        $this->assertSameExpression(367485122, 'P4DT6H4M45.121999999974S');
+        $this->assertSameExpression(367485.122, 'P4DT6H4M45.121999999974S');
     }
 
     public function test_14()
@@ -350,7 +350,7 @@ class EvaluateTest extends TestCase
 
     public function test_74()
     {
-        $this->assertSameExpression(7000, 'PT3.5S add PT3.5S');
+        $this->assertSameExpression(7.0, 'PT3.5S add PT3.5S');
     }
 
     public function test_75()
@@ -403,8 +403,7 @@ class EvaluateTest extends TestCase
 
         switch (true) {
             case $result instanceof Duration:
-                return $result->get()->totalMilliseconds;
-                return $result->get()->format('%Y:%M:%D:%H:%M:%S.%F');
+                return $result->get();
 
             case $result instanceof TimeOfDay:
                 return $result->get()->toTimeString('microseconds');

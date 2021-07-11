@@ -100,19 +100,19 @@ class Evaluate
                         return null;
 
                     case $leftP instanceof Type\Duration && $rightP instanceof Type\Duration:
-                        return Type\Duration::factory($left->addMilliseconds($right->totalMilliseconds));
+                        return Type\Duration::factory($left + $right);
 
                     case $leftP instanceof Type\Date && $rightP instanceof Type\Duration:
-                        return Type\Date::factory($left->addMilliseconds($right->totalMilliseconds));
+                        return Type\Date::factory($left->addSeconds($right));
 
                     case $leftP instanceof Type\Duration && $rightP instanceof Type\Date:
-                        return Type\Date::factory($right->addMilliseconds($left->totalMilliseconds));
+                        return Type\Date::factory($right->addSeconds($left));
 
                     case $leftP instanceof Type\Duration && $rightP instanceof Type\DateTimeOffset:
-                        return Type\DateTimeOffset::factory($right->add($left));
+                        return Type\DateTimeOffset::factory($right->addSeconds($left));
 
                     case $leftP instanceof Type\DateTimeOffset && $rightP instanceof Type\Duration:
-                        return Type\DateTimeOffset::factory($left->add($right));
+                        return Type\DateTimeOffset::factory($left->addSeconds($right));
                 }
 
                 return $left + $right;
@@ -169,7 +169,7 @@ class Evaluate
 
             // 5.1.1.8 Date and time functions
             case $node instanceof Node\Func\DateTime\Date:
-                return Carbon::parse($args[0])->format(Type\Date::DATE_FORMAT);
+                return Type\Date::factory(Carbon::parse($args[0])->format(Type\Date::DATE_FORMAT));
 
             case $node instanceof Node\Func\DateTime\Day:
                 return Carbon::parse($args[0])->day;
@@ -187,7 +187,7 @@ class Evaluate
                 return Carbon::parse($args[0])->second;
 
             case $node instanceof Node\Func\DateTime\Time:
-                return Carbon::parse($args[0])->format(Type\TimeOfDay::DATE_FORMAT);
+                return Type\TimeOfDay::factory(Carbon::parse($args[0])->format(Type\TimeOfDay::DATE_FORMAT));
 
             case $node instanceof Node\Func\DateTime\Year:
                 return Carbon::parse($args[0])->year;

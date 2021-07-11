@@ -96,27 +96,27 @@ trait SQLFilter
 
                 switch (true) {
                     case $node instanceof Boolean:
-                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue());
+                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue()->get());
                         break;
 
                     case $node instanceof Date:
-                        $this->addParameter($node->getValue()->format('Y-m-d 00:00:00'));
+                        $this->addParameter($node->getValue()->get()->format('Y-m-d 00:00:00'));
                         break;
 
                     case $node instanceof Duration:
-                        $this->addParameter($node->getValue());
+                        $this->addParameter($node->getValue()->get());
                         break;
 
                     case $node instanceof DateTimeOffset:
-                        $this->addParameter($node->getValue()->format('Y-m-d H:i:s'));
+                        $this->addParameter($node->getValue()->get()->format('Y-m-d H:i:s'));
                         break;
 
                     case $node instanceof TimeOfDay:
-                        $this->addParameter($node->getValue()->format('H:i:s'));
+                        $this->addParameter($node->getValue()->get()->format('H:i:s'));
                         break;
 
                     default:
-                        $this->addParameter($event->getValue());
+                        $this->addParameter($event->getValue()->get());
                         break;
                 }
 
@@ -139,7 +139,7 @@ trait SQLFilter
                         || $right instanceof Contains
                     )
                 ) {
-                    if (!($operator instanceof Equal && $right instanceof Boolean && $right->getValue() === true)) {
+                    if (!($operator instanceof Equal && $right instanceof Boolean && $right->getValue()->get() === true)) {
                         throw new BadRequestException(
                             'This entity set does not support expression operators with startswith, endswith, contains other than x eq true'
                         );
