@@ -4,7 +4,9 @@ namespace Flat3\Lodata\Expression;
 
 use Carbon\CarbonImmutable as Carbon;
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Operator;
 use Flat3\Lodata\Expression\Node\Property;
@@ -19,13 +21,21 @@ use Illuminate\Support\Str;
  */
 class Evaluate
 {
+    public static function incompatible(Node $node)
+    {
+        throw new BadRequestException(
+            'incompatible_types',
+            'Incompatible types were provided for operation '.$node::symbol
+        );
+    }
+
     public static function eval(Node $node, ?Entity $entity = null)
     {
-        $leftP = !$node->getLeftNode() ?: self::eval($node->getLeftNode(), $entity);
-        $rightP = !$node->getRightNode() ?: self::eval($node->getRightNode(), $entity);
+        $left = !$node->getLeftNode() ?: self::eval($node->getLeftNode(), $entity);
+        $right = !$node->getRightNode() ?: self::eval($node->getRightNode(), $entity);
 
-        $left = $leftP instanceof Primitive ? $leftP->get() : $leftP;
-        $right = $rightP instanceof Primitive ? $rightP->get() : $rightP;
+        $lValue = $left instanceof Primitive ? $left->get() : $left;
+        $rValue = $right instanceof Primitive ? $right->get() : $right;
 
         $args = array_map(function ($arg) use ($entity) {
             $primitive = self::eval($arg, $entity);
@@ -38,6 +48,34 @@ class Evaluate
         }, $node->getArguments());
 
         switch (true) {
+            case $node instanceof Operator\Logical\GreaterThan:
+            case $node instanceof Operator\Logical\GreaterThanOrEqual:
+            case $node instanceof Operator\Logical\LessThan:
+            case $node instanceof Operator\Logical\LessThanOrEqual:
+                if ($lValue === null || $rValue === null) {
+                    return false;
+                }
+                break;
+
+            case $node instanceof Operator\Arithmetic\Add:
+            case $node instanceof Operator\Arithmetic\Sub:
+            case $node instanceof Operator\Arithmetic\Mul:
+            case $node instanceof Operator\Arithmetic\Div:
+            case $node instanceof Operator\Arithmetic\DivBy:
+            case $node instanceof Operator\Arithmetic\Mod:
+                if ($lValue === null || $rValue === null) {
+                    return null;
+                }
+                break;
+
+            case $node instanceof Operator\Comparison\Not_:
+                if ($lValue === null) {
+                    return null;
+                }
+                break;
+        }
+
+        switch (true) {
             // Deserialization
             case $node instanceof Property:
                 $propertyValue = $entity[$node->getValue()];
@@ -48,89 +86,175 @@ class Evaluate
 
             // 5.1.1.1 Logical operators
             case $node instanceof Operator\Logical\Equal:
-                return $left == $right;
+                switch (true) {
+                    case $left instanceof Type\DateTimeOffset:
+                    case $right instanceof Type\DateTimeOffset:
+                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
+                            self::incompatible($node);
+                        }
+
+                        return $lValue->equalTo($rValue);
+                }
+
+                return $lValue == $rValue;
 
             case $node instanceof Operator\Logical\NotEqual:
-                return $left != $right;
+                switch (true) {
+                    case $left instanceof Type\DateTimeOffset:
+                    case $right instanceof Type\DateTimeOffset:
+                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
+                            self::incompatible($node);
+                        }
+
+                        return $lValue->notEqualTo($rValue);
+                }
+
+                return $lValue != $rValue;
 
             case $node instanceof Operator\Logical\GreaterThan:
-                return $left !== null && $right !== null && $left > $right;
+                switch (true) {
+                    case $left instanceof Type\DateTimeOffset:
+                    case $right instanceof Type\DateTimeOffset:
+                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
+                            self::incompatible($node);
+                        }
+
+                        return $lValue->greaterThan($rValue);
+                }
+
+                return $lValue > $rValue;
 
             case $node instanceof Operator\Logical\GreaterThanOrEqual:
-                return $left !== null && $right !== null && $left >= $right;
+                switch (true) {
+                    case $left instanceof Type\DateTimeOffset:
+                    case $right instanceof Type\DateTimeOffset:
+                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
+                            self::incompatible($node);
+                        }
+
+                        return $lValue->greaterThanOrEqualTo($rValue);
+                }
+
+                return $lValue >= $rValue;
 
             case $node instanceof Operator\Logical\LessThan:
-                return $left !== null && $right !== null && $left < $right;
+                switch (true) {
+                    case $left instanceof Type\DateTimeOffset:
+                    case $right instanceof Type\DateTimeOffset:
+                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
+                            self::incompatible($node);
+                        }
+
+                        return $lValue->lessThan($rValue);
+                }
+
+                return $lValue < $rValue;
 
             case $node instanceof Operator\Logical\LessThanOrEqual:
-                return $left !== null && $right !== null && $left <= $right;
+                switch (true) {
+                    case $left instanceof Type\DateTimeOffset:
+                    case $right instanceof Type\DateTimeOffset:
+                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
+                            self::incompatible($node);
+                        }
+
+                        return $lValue->lessThanOrEqualTo($rValue);
+                }
+
+                return $lValue <= $rValue;
 
             case $node instanceof Operator\Comparison\And_:
-                if (($left === null && $right === false) || ($left === false && $right === null)) {
+                if (($lValue === null && $rValue === false) || ($lValue === false && $rValue === null)) {
                     return false;
                 }
 
-                if ($left === null || $right === null) {
+                if ($lValue === null || $rValue === null) {
                     return null;
                 }
 
-                return $left && $right;
+                return $lValue && $rValue;
 
             case $node instanceof Operator\Comparison\Or_:
-                if (($left === null && $right === true) || ($left === true && $right === null)) {
+                if (($lValue === null && $rValue === true) || ($lValue === true && $rValue === null)) {
                     return true;
                 }
 
-                if ($left === null || $right === null) {
+                if ($lValue === null || $rValue === null) {
                     return null;
                 }
 
-                return $left || $right;
+                return $lValue || $rValue;
 
             case $node instanceof Operator\Comparison\Not_:
-                return $left === null ? null : !$left;
+                return !$lValue;
 
             case $node instanceof Operator\Logical\In:
-                return in_array($left, $args);
+                return in_array($lValue, $args);
 
             // 5.1.1.2 Arithmetic operators
             case $node instanceof Operator\Arithmetic\Add:
                 switch (true) {
-                    case $left === null || $right === null:
-                        return null;
+                    case $left instanceof Type\Duration && $right instanceof Type\Duration:
+                        return Type\Duration::factory($lValue + $rValue);
 
-                    case $leftP instanceof Type\Duration && $rightP instanceof Type\Duration:
-                        return Type\Duration::factory($left + $right);
+                    case $left instanceof Type\Date && $right instanceof Type\Duration:
+                        return Type\Date::factory($lValue->addSeconds($rValue));
 
-                    case $leftP instanceof Type\Date && $rightP instanceof Type\Duration:
-                        return Type\Date::factory($left->addSeconds($right));
+                    case $left instanceof Type\Duration && $right instanceof Type\Date:
+                        return Type\Date::factory($rValue->addSeconds($lValue));
 
-                    case $leftP instanceof Type\Duration && $rightP instanceof Type\Date:
-                        return Type\Date::factory($right->addSeconds($left));
+                    case $left instanceof Type\Duration && $right instanceof Type\DateTimeOffset:
+                        return Type\DateTimeOffset::factory($rValue->addSeconds($lValue));
 
-                    case $leftP instanceof Type\Duration && $rightP instanceof Type\DateTimeOffset:
-                        return Type\DateTimeOffset::factory($right->addSeconds($left));
+                    case $left instanceof Type\DateTimeOffset && $right instanceof Type\Duration:
+                        return Type\DateTimeOffset::factory($lValue->addSeconds($rValue));
 
-                    case $leftP instanceof Type\DateTimeOffset && $rightP instanceof Type\Duration:
-                        return Type\DateTimeOffset::factory($left->addSeconds($right));
+                    case !$left instanceof Type\Numeric || !$right instanceof Type\Numeric:
+                        throw new BadRequestException(
+                            'incompatible_types',
+                            'Incompatible types were provided for operation'
+                        );
                 }
 
-                return $left + $right;
+                return $lValue + $rValue;
 
             case $node instanceof Operator\Arithmetic\Sub:
-                return ($left === null || $right === null) ? null : $left - $right;
+                switch (true) {
+                    case $left instanceof Type\Duration && $right instanceof Type\Duration:
+                        return Type\Duration::factory($lValue - $rValue);
+
+                    case $left instanceof Type\Date && $right instanceof Type\Duration:
+                        return Type\Date::factory($lValue->subSeconds($rValue));
+
+                    case $left instanceof Type\Duration && $right instanceof Type\Date:
+                        return Type\Date::factory($rValue->subSeconds($lValue));
+
+                    case $left instanceof Type\Duration && $right instanceof Type\DateTimeOffset:
+                        return Type\DateTimeOffset::factory($rValue->subSeconds($lValue));
+
+                    case $left instanceof Type\DateTimeOffset && $right instanceof Type\Duration:
+                        return Type\DateTimeOffset::factory($lValue->subSeconds($rValue));
+
+                    case !$left instanceof Type\Numeric || !$right instanceof Type\Numeric:
+                        throw new BadRequestException(
+                            'incompatible_types',
+                            'Incompatible types were provided for operation'
+                        );
+                }
+
+                return $lValue - $rValue;
 
             case $node instanceof Operator\Arithmetic\Mul:
-                return ($left === null || $right === null) ? null : $left * $right;
+                return $lValue * $rValue;
 
             case $node instanceof Operator\Arithmetic\Div:
-                return ($left === null || $right === null) ? null : $left / $right;
+                return $lValue / $rValue;
 
             case $node instanceof Operator\Arithmetic\DivBy:
-                return ($left === null || $right === null) ? null : (float) $left / (float) $right;
+                return (float) $lValue / (float) $rValue;
 
             case $node instanceof Operator\Arithmetic\Mod:
-                return ($left === null || $right === null) ? null : $left % $right;
+                return $lValue % $rValue;
 
             // 5.1.1.5 String and Collection Functions
             case $node instanceof Node\Func\StringCollection\Concat:

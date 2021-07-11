@@ -11,7 +11,7 @@ use Flat3\Lodata\Primitive;
  * @package Flat3\Lodata\Type
  * @method static self factory($value = null, ?bool $nullable = true)
  */
-class Byte extends Primitive
+class Byte extends Numeric
 {
     const identifier = 'Edm.Byte';
 

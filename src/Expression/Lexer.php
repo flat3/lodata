@@ -322,7 +322,15 @@ class Lexer
             $chars[] = $sign;
         }
 
-        $chars[] = $this->expression(self::DIGIT);
+        try {
+            $chars[] = $this->expression(self::DIGIT);
+        } catch (LexerException $e) {
+            if ($sign) {
+                $this->pos--;
+            }
+
+            throw $e;
+        }
 
         while (true) {
             $char = $this->maybeExpression(self::DIGIT);

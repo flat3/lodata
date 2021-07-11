@@ -4,14 +4,15 @@ namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Evaluate;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Date;
 use Flat3\Lodata\Type\DateTimeOffset;
-use Flat3\Lodata\Type\Duration;
 use Flat3\Lodata\Type\TimeOfDay;
+use RuntimeException;
 
 class EvaluateTest extends TestCase
 {
@@ -105,7 +106,7 @@ class EvaluateTest extends TestCase
 
     public function test_22()
     {
-        $this->assertTrueExpression('1 eq 1.0');
+        $this->assertTrueExpression('1.0 eq 1.0');
     }
 
     public function test_23()
@@ -138,6 +139,26 @@ class EvaluateTest extends TestCase
         $this->assertFalseExpression('NaN eq NaN');
     }
 
+    public function test_28a()
+    {
+        $this->assertTrueExpression('2001-01-01 eq 2001-01-01');
+    }
+
+    public function test_28b()
+    {
+        $this->assertTrueExpression('14:14:00 eq 14:14:00');
+    }
+
+    public function test_28c()
+    {
+        $this->assertTrueExpression('P1D eq P1D');
+    }
+
+    public function test_28d()
+    {
+        $this->assertTrueExpression('2001-01-01T14:14:00+00:00 eq 2001-01-01T14:14:00+00:00');
+    }
+
     public function test_29()
     {
         $this->assertTrueExpression('4 gt 3');
@@ -166,6 +187,26 @@ class EvaluateTest extends TestCase
     public function test_34()
     {
         $this->assertFalseExpression('null gt 4');
+    }
+
+    public function test_34a()
+    {
+        $this->assertTrueExpression('2001-01-02 gt 2001-01-01');
+    }
+
+    public function test_34b()
+    {
+        $this->assertTrueExpression('14:14:01 gt 14:14:00');
+    }
+
+    public function test_34c()
+    {
+        $this->assertTrueExpression('P4DT6H4M45S gt P1D');
+    }
+
+    public function test_34d()
+    {
+        $this->assertTrueExpression('2001-01-02T14:14:00+00:00 gt 2001-01-01T14:14:00+00:00');
     }
 
     public function test_35()
@@ -226,6 +267,26 @@ class EvaluateTest extends TestCase
     public function test_46()
     {
         $this->assertFalseExpression('4 lt null');
+    }
+
+    public function test_46a()
+    {
+        $this->assertTrueExpression('2001-01-01 lt 2001-01-02');
+    }
+
+    public function test_46b()
+    {
+        $this->assertTrueExpression('14:14:00 lt 14:14:01');
+    }
+
+    public function test_46c()
+    {
+        $this->assertTrueExpression('P4DT6H4M45S lt P5D');
+    }
+
+    public function test_46d()
+    {
+        $this->assertTrueExpression('2001-01-01T14:14:00+00:00 lt 2001-01-01T14:15:00+00:00');
     }
 
     public function test_47()
@@ -345,7 +406,7 @@ class EvaluateTest extends TestCase
 
     public function test_73()
     {
-        $this->assertSameExpression('2020-01-01T23:24:27+00:00','2020-01-01T23:23:23+00:00 add PT1M4S');
+        $this->assertSameExpression('2020-01-01T23:24:27+00:00', '2020-01-01T23:23:23+00:00 add PT1M4S');
     }
 
     public function test_74()
@@ -355,22 +416,72 @@ class EvaluateTest extends TestCase
 
     public function test_75()
     {
-        $this->assertSameExpression('2001-01-01', '2001-01-01 add PT3.5S');
+        $this->assertSameExpression('2001-01-02', '2001-01-01 add P1D');
     }
 
     public function test_76()
     {
-        $this->assertSameExpression('2001-01-01', 'PT3.5S add 2001-01-01');
+        $this->assertSameExpression('2001-01-02', 'P1D add 2001-01-01');
     }
 
     public function test_77()
     {
-        $this->assertSameExpression('2001-01-02', '2001-01-01 add P1D');
+        $this->assertBadExpression("4 add 'a'");
     }
 
     public function test_78()
     {
-        $this->assertSameExpression('2001-01-02', 'P1D add 2001-01-01');
+        $this->assertNullExpression('1 sub null');
+    }
+
+    public function test_79()
+    {
+        $this->assertSameExpression(-1, '1 sub 2');
+    }
+
+    public function test_80()
+    {
+        $this->assertSameExpression(-1.1, '1 sub 2.1');
+    }
+
+    public function test_81()
+    {
+        $this->assertSameExpression('2020-01-01T23:22:19+00:00', '2020-01-01T23:23:23+00:00 sub PT1M4S');
+    }
+
+    public function test_82()
+    {
+        $this->assertSameExpression(0.0, 'PT3.5S sub PT3.5S');
+    }
+
+    public function test_83()
+    {
+        $this->assertSameExpression('2000-12-31', '2001-01-01 sub P1D');
+    }
+
+    public function test_84()
+    {
+        $this->assertSameExpression('2000-12-31', 'P1D sub 2001-01-01');
+    }
+
+    public function test_85()
+    {
+        $this->assertBadExpression("4 sub 'a'");
+    }
+
+    public function test_86()
+    {
+        $this->assertSameExpression(-4, '-4');
+    }
+
+    public function test_87()
+    {
+        $this->assertSameExpression(-4.1, '-4.1');
+    }
+
+    public function test_88()
+    {
+        $this->assertSameExpression(-64.0, '-PT1M4S');
     }
 
     public function assertTrueExpression($expression): void
@@ -393,6 +504,16 @@ class EvaluateTest extends TestCase
         $this->assertSame($expected, $this->evaluate($expression));
     }
 
+    public function assertBadExpression($expression): void
+    {
+        try {
+            $this->evaluate($expression);
+            throw new RuntimeException('Failed to throw exception');
+        } catch (BadRequestException $e) {
+            return;
+        }
+    }
+
     public function evaluate(string $expression, ?Entity $item = null)
     {
         $transaction = new Transaction();
@@ -402,9 +523,6 @@ class EvaluateTest extends TestCase
         $result = Evaluate::eval($tree, $item);
 
         switch (true) {
-            case $result instanceof Duration:
-                return $result->get();
-
             case $result instanceof TimeOfDay:
                 return $result->get()->toTimeString('microseconds');
 
