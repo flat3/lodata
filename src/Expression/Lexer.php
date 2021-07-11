@@ -297,10 +297,10 @@ class Lexer
 
     /**
      * Match a float
-     * @return float
+     * @return float|int
      * @throws LexerException
      */
-    public function number(): float
+    public function number()
     {
         $chars = [];
 
@@ -353,6 +353,8 @@ class Lexer
 
                 $chars[] = $char;
             }
+        } else {
+            return (int) implode('', $chars);
         }
 
         return (float) implode('', $chars);
@@ -682,9 +684,9 @@ class Lexer
 
     /**
      * Maybe match a number
-     * @return float|null
+     * @return float|int|null
      */
-    public function maybeNumber(): ?float
+    public function maybeNumber()
     {
         try {
             return $this->number();

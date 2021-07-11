@@ -5,13 +5,13 @@ namespace Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Literal;
 
 /**
- * Int32
+ * Int64
  * @package Flat3\Lodata\Expression\Node\Literal
  */
-class Int32 extends Literal
+class Int64 extends Literal
 {
-    public function getValue(): \Flat3\Lodata\Type\Int32
+    public function getValue(): \Flat3\Lodata\Type\Int64
     {
-        return \Flat3\Lodata\Type\Int32::factory($this->value);
+        return \Flat3\Lodata\Type\Int64::factory($this->value);
     }
 }

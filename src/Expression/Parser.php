@@ -13,7 +13,6 @@ use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Operator\Logical;
 use Flat3\Lodata\Expression\Node\Property;
 use Flat3\Lodata\Expression\Node\RightParen;
-use Flat3\Lodata\Helper\Constants;
 use Illuminate\Support\Arr;
 
 /**
@@ -401,7 +400,7 @@ abstract class Parser
             return false;
         }
 
-        $operand = ((int) $token == $token) || ($token == 0) ? new Literal\Int32($this) : new Literal\Double($this);
+        $operand = is_int($token) ? new Literal\Int64($this) : new Literal\Double($this);
         $operand->setValue($token);
 
         $this->operandStack[] = $operand;

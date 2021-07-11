@@ -484,6 +484,86 @@ class EvaluateTest extends TestCase
         $this->assertSameExpression(-64.0, '-PT1M4S');
     }
 
+    public function test_90()
+    {
+        $this->assertSameExpression(12, '4 mul 3');
+    }
+
+    public function test_91()
+    {
+        $this->assertSameExpression(-12.4, '-4 mul 3.1');
+    }
+
+    public function test_92()
+    {
+        $this->assertSameExpression(259200.0, 'P1D mul 3');
+    }
+
+    public function test_93()
+    {
+        $this->assertSameExpression(-259200.0, 'P1D mul -3');
+    }
+
+    public function test_94()
+    {
+        $this->assertSameExpression(-302400.0, 'P1D mul -3.5');
+    }
+
+    public function test_100()
+    {
+        $this->assertSameExpression(1.3333333333333333, '4 div 3');
+    }
+
+    public function test_101()
+    {
+        $this->assertSameExpression(-1.2903225806451613, '-4 div 3.1');
+    }
+
+    public function test_102()
+    {
+        $this->assertSameExpression(28800.0, 'P1D div 3');
+    }
+
+    public function test_103()
+    {
+        $this->assertSameExpression(-28800.0, 'P1D div -3');
+    }
+
+    public function test_104()
+    {
+        $this->assertSameExpression(-24685.714285714286, 'P1D div -3.5');
+    }
+
+    public function test_105()
+    {
+        $this->assertBadExpression('P1D div PT4H');
+    }
+
+    public function test_106()
+    {
+        $this->assertBadExpression('4 div 0');
+    }
+
+    public function test_107()
+    {
+        $this->assertSameExpression(INF, '4.1 div 0');
+    }
+
+    public function test_108()
+    {
+        $this->assertSameExpression(-INF, '-4.1 div 0');
+    }
+
+    public function test_109()
+    {
+        $this->assertNan($this->evaluate('0.0 div 0'));
+    }
+
+    public function test_110()
+    {
+        $this->assertBadExpression('0 div 0');
+    }
+
     public function assertTrueExpression($expression): void
     {
         $this->assertTrue($this->evaluate($expression));

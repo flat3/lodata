@@ -6,7 +6,6 @@ use Carbon\CarbonImmutable as Carbon;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
-use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Operator;
 use Flat3\Lodata\Expression\Node\Property;
@@ -216,7 +215,19 @@ class Evaluate
                         );
                 }
 
-                return $lValue + $rValue;
+                $primitive = new Type\Int64();
+
+                switch (true) {
+                    case $left instanceof Type\Duration || $right instanceof Type\Duration:
+                        $primitive = new Type\Duration();
+                        break;
+
+                    case $left instanceof Type\Decimal || $right instanceof Type\Decimal:
+                        $primitive = new Type\Double();
+                        break;
+                }
+
+                return $primitive->set($lValue + $rValue);
 
             case $node instanceof Operator\Arithmetic\Sub:
                 switch (true) {
@@ -242,13 +253,84 @@ class Evaluate
                         );
                 }
 
-                return $lValue - $rValue;
+                $primitive = new Type\Int64();
+
+                switch (true) {
+                    case $left instanceof Type\Duration || $right instanceof Type\Duration:
+                        $primitive = new Type\Duration();
+                        break;
+
+                    case $left instanceof Type\Decimal || $right instanceof Type\Decimal:
+                        $primitive = new Type\Double();
+                        break;
+                }
+
+                return $primitive->set($lValue - $rValue);
 
             case $node instanceof Operator\Arithmetic\Mul:
-                return $lValue * $rValue;
+                if (!(
+                    ($left instanceof Type\Numeric && $right instanceof Type\Numeric) ||
+                    ($left instanceof Type\Numeric && $right instanceof Type\Duration) ||
+                    ($left instanceof Type\Duration && $right instanceof Type\Numeric)
+                )) {
+                    throw new BadRequestException(
+                        'incompatible_types',
+                        'Incompatible types were provided for operation'
+                    );
+                }
+
+                $primitive = new Type\Int64();
+
+                switch (true) {
+                    case $left instanceof Type\Duration || $right instanceof Type\Duration:
+                        $primitive = new Type\Duration();
+                        break;
+
+                    case $left instanceof Type\Decimal || $right instanceof Type\Decimal:
+                        $primitive = new Type\Double();
+                        break;
+                }
+
+                return $primitive->set($lValue * $rValue);
 
             case $node instanceof Operator\Arithmetic\Div:
-                return $lValue / $rValue;
+                if (!(
+                    ($left instanceof Type\Numeric && $right instanceof Type\Numeric) ||
+                    ($left instanceof Type\Numeric && $right instanceof Type\Duration) ||
+                    ($left instanceof Type\Duration && $right instanceof Type\Numeric)
+                )) {
+                    throw new BadRequestException(
+                        'incompatible_types',
+                        'Incompatible types were provided for operation'
+                    );
+                }
+
+                if ($rValue == 0) {
+                    if (!$left instanceof Type\Decimal) {
+                        throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
+                    }
+
+                    switch (true) {
+                        case $lValue > 0:
+                            return Type\Decimal::factory(INF);
+
+                        case $lValue < 0:
+                            return Type\Decimal::factory(-INF);
+
+                        case $lValue == 0:
+                            return Type\Decimal::factory(NAN);
+                    }
+                }
+
+                $primitive = new Type\Decimal();
+
+                switch (true) {
+                    case $left instanceof Type\Duration || $right instanceof Type\Duration:
+                        $primitive = new Type\Duration();
+                        break;
+                }
+
+                return $primitive->set($lValue / $rValue);
 
             case $node instanceof Operator\Arithmetic\DivBy:
                 return (float) $lValue / (float) $rValue;
