@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Expression;
 
-use Carbon\CarbonImmutable as Carbon;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
@@ -37,14 +36,14 @@ class Evaluate
         $rValue = $right instanceof Primitive ? $right->get() : $right;
 
         $args = array_map(function ($arg) use ($entity) {
-            $primitive = self::eval($arg, $entity);
-
-            if ($primitive instanceof Primitive) {
-                return $primitive->get();
-            }
-
-            return $primitive;
+            return self::eval($arg, $entity);
         }, $node->getArguments());
+
+        $argv = array_map(function (?Primitive $arg = null) {
+            return $arg ? $arg->get() : null;
+        }, $args);
+
+        $arg0 = $args[0] ?? null;
 
         switch (true) {
             case $node instanceof Operator\Logical\GreaterThan:
@@ -90,6 +89,10 @@ class Evaluate
                     case $right instanceof Type\DateTimeOffset:
                         if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
                             self::incompatible($node);
+                        }
+
+                        if ($lValue === null || $rValue === null) {
+                            return $lValue === $rValue;
                         }
 
                         return $lValue->equalTo($rValue);
@@ -188,7 +191,7 @@ class Evaluate
                 return !$lValue;
 
             case $node instanceof Operator\Logical\In:
-                return in_array($lValue, $args);
+                return in_array($lValue, $argv);
 
             // 5.1.1.2 Arithmetic operators
             case $node instanceof Operator\Arithmetic\Add:
@@ -391,73 +394,73 @@ class Evaluate
 
             // 5.1.1.5 String and Collection Functions
             case $node instanceof Node\Func\StringCollection\Concat:
-                return join('', $args);
+                return join('', $argv);
 
             case $node instanceof Node\Func\StringCollection\Contains:
-                return Str::contains(...$args);
+                return Str::contains(...$argv);
 
             case $node instanceof Node\Func\StringCollection\EndsWith:
-                return Str::endsWith(...$args);
+                return Str::endsWith(...$argv);
 
             case $node instanceof Node\Func\StringCollection\IndexOf:
-                return strpos(...$args);
+                return strpos(...$argv);
 
             case $node instanceof Node\Func\StringCollection\Length:
-                return Str::length(...$args);
+                return Str::length(...$argv);
 
             case $node instanceof Node\Func\StringCollection\StartsWith:
-                return Str::startsWith(...$args);
+                return Str::startsWith(...$argv);
 
             case $node instanceof Node\Func\StringCollection\Substring:
-                return substr(...$args);
+                return substr(...$argv);
 
             // 5.1.1.7 String functions
             case $node instanceof Node\Func\String\MatchesPattern:
-                return 1 === preg_match('/'.$args[1].'/', $args[0]);
+                return 1 === preg_match('/'.$argv[1].'/', $argv[0]);
 
             case $node instanceof Node\Func\String\ToLower:
-                return strtolower(...$args);
+                return strtolower(...$argv);
 
             case $node instanceof Node\Func\String\ToUpper:
-                return strtoupper(...$args);
+                return strtoupper(...$argv);
 
             case $node instanceof Node\Func\String\Trim:
-                return trim(...$args);
+                return trim(...$argv);
 
             // 5.1.1.8 Date and time functions
             case $node instanceof Node\Func\DateTime\Date:
-                return Type\Date::factory(Carbon::parse($args[0])->format(Type\Date::DATE_FORMAT));
+                return Type\Date::factory($arg0 ? $arg0->get()->format(Type\Date::DATE_FORMAT) : null);
 
             case $node instanceof Node\Func\DateTime\Day:
-                return Carbon::parse($args[0])->day;
+                return Type\Int32::factory($arg0 ? $arg0->get()->day : null);
 
             case $node instanceof Node\Func\DateTime\Hour:
-                return Carbon::parse($args[0])->hour;
+                return Type\Int32::factory($arg0 ? $arg0->get()->hour : null);
 
             case $node instanceof Node\Func\DateTime\Minute:
-                return Carbon::parse($args[0])->minute;
+                return Type\Int32::factory($arg0 ? $arg0->get()->minute : null);
 
             case $node instanceof Node\Func\DateTime\Month:
-                return Carbon::parse($args[0])->month;
+                return Type\Int32::factory($arg0 ? $arg0->get()->month : null);
 
             case $node instanceof Node\Func\DateTime\Second:
-                return Carbon::parse($args[0])->second;
+                return Type\Int32::factory($arg0 ? $arg0->get()->second : null);
 
             case $node instanceof Node\Func\DateTime\Time:
-                return Type\TimeOfDay::factory(Carbon::parse($args[0])->format(Type\TimeOfDay::DATE_FORMAT));
+                return Type\TimeOfDay::factory($arg0 ? $arg0->get()->format(Type\TimeOfDay::DATE_FORMAT) : null);
 
             case $node instanceof Node\Func\DateTime\Year:
-                return Carbon::parse($args[0])->year;
+                return Type\Int32::factory($arg0 ? $arg0->get()->year : null);
 
             // 5.1.1.9 Arithmetic functions
             case $node instanceof Node\Func\Arithmetic\Ceiling:
-                return ceil(...$args);
+                return ceil(...$argv);
 
             case $node instanceof Node\Func\Arithmetic\Floor:
-                return floor(...$args);
+                return floor(...$argv);
 
             case $node instanceof Node\Func\Arithmetic\Round:
-                return round(...$args);
+                return round(...$argv);
         }
 
         throw new NotImplementedException();
