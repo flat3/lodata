@@ -9,7 +9,6 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
-use Illuminate\Foundation\Application;
 
 class CollectionTest extends TestCase
 {
