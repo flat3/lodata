@@ -268,12 +268,8 @@ abstract class Node
                     return Type\Boolean::factory($lValue === $rValue);
                 }
 
-                switch (true) {
-                    case $left instanceof Type\DateTimeOffset:
-                    case $right instanceof Type\DateTimeOffset:
-                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
-
-                        return Type\Boolean::factory($lValue->equalTo($rValue));
+                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                    return Type\Boolean::factory($lValue->equalTo($rValue));
                 }
 
                 return Type\Boolean::factory($lValue == $rValue);
@@ -283,56 +279,36 @@ abstract class Node
                     return Type\Boolean::factory($lValue !== $rValue);
                 }
 
-                switch (true) {
-                    case $left instanceof Type\DateTimeOffset:
-                    case $right instanceof Type\DateTimeOffset:
-                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
-
-                        return Type\Boolean::factory($lValue->notEqualTo($rValue));
+                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                    return Type\Boolean::factory($lValue->notEqualTo($rValue));
                 }
 
                 return Type\Boolean::factory($lValue != $rValue);
 
             case $this instanceof Operator\Logical\GreaterThan:
-                switch (true) {
-                    case $left instanceof Type\DateTimeOffset:
-                    case $right instanceof Type\DateTimeOffset:
-                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
-
-                        return Type\Boolean::factory($lValue->greaterThan($rValue));
+                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                    return Type\Boolean::factory($lValue->greaterThan($rValue));
                 }
 
                 return Type\Boolean::factory($lValue > $rValue);
 
             case $this instanceof Operator\Logical\GreaterThanOrEqual:
-                switch (true) {
-                    case $left instanceof Type\DateTimeOffset:
-                    case $right instanceof Type\DateTimeOffset:
-                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
-
-                        return Type\Boolean::factory($lValue->greaterThanOrEqualTo($rValue));
+                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                    return Type\Boolean::factory($lValue->greaterThanOrEqualTo($rValue));
                 }
 
                 return Type\Boolean::factory($lValue >= $rValue);
 
             case $this instanceof Operator\Logical\LessThan:
-                switch (true) {
-                    case $left instanceof Type\DateTimeOffset:
-                    case $right instanceof Type\DateTimeOffset:
-                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
-
-                        return Type\Boolean::factory($lValue->lessThan($rValue));
+                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                    return Type\Boolean::factory($lValue->lessThan($rValue));
                 }
 
                 return Type\Boolean::factory($lValue < $rValue);
 
             case $this instanceof Operator\Logical\LessThanOrEqual:
-                switch (true) {
-                    case $left instanceof Type\DateTimeOffset:
-                    case $right instanceof Type\DateTimeOffset:
-                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
-
-                        return Type\Boolean::factory($lValue->lessThanOrEqualTo($rValue));
+                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                    return Type\Boolean::factory($lValue->lessThanOrEqualTo($rValue));
                 }
 
                 return Type\Boolean::factory($lValue <= $rValue);
@@ -382,13 +358,9 @@ abstract class Node
 
                     case $left instanceof Type\DateTimeOffset && $right instanceof Type\Duration:
                         return Type\DateTimeOffset::factory($lValue->addSeconds($rValue));
-
-                    case !$left instanceof Type\Numeric || !$right instanceof Type\Numeric:
-                        throw new BadRequestException(
-                            'incompatible_types',
-                            'Incompatible types were provided for operation'
-                        );
                 }
+
+                $this->assertTypes([$left, $right], [Type\Numeric::class, Type\Numeric::class]);
 
                 $primitive = new Type\Int64();
 
@@ -420,13 +392,9 @@ abstract class Node
 
                     case $left instanceof Type\DateTimeOffset && $right instanceof Type\Duration:
                         return Type\DateTimeOffset::factory($lValue->subSeconds($rValue));
-
-                    case !$left instanceof Type\Numeric || !$right instanceof Type\Numeric:
-                        throw new BadRequestException(
-                            'incompatible_types',
-                            'Incompatible types were provided for operation'
-                        );
                 }
+
+                $this->assertTypes([$left, $right], [Type\Numeric::class, Type\Numeric::class]);
 
                 $primitive = new Type\Int64();
 
