@@ -202,36 +202,21 @@ abstract class Node
         }
     }
 
-
-    public function incompatible()
+    /**
+     * Evaluate this node using internal logic
+     * @param  Entity|null  $entity
+     * @return Primitive|null
+     */
+    public function evaluate(?Entity $entity = null): ?Primitive
     {
-        throw new BadRequestException(
-            'incompatible_types',
-            'Incompatible types were provided for operation '.$this::symbol
-        );
-    }
-
-    public function assertArgumentType($args, $types): bool
-    {
-        for ($i = 0; $i < count($args); $i++) {
-            if (!$args[$i] instanceof $types[$i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function eval(?Entity $entity = null)
-    {
-        $left = !$this->getLeftNode() ?: $this->getLeftNode()->eval($entity);
-        $right = !$this->getRightNode() ?: $this->getRightNode()->eval($entity);
+        $left = !$this->getLeftNode() ?: $this->getLeftNode()->evaluate($entity);
+        $right = !$this->getRightNode() ?: $this->getRightNode()->evaluate($entity);
 
         $lValue = $left instanceof Primitive ? $left->get() : $left;
         $rValue = $right instanceof Primitive ? $right->get() : $right;
 
         $args = array_map(function (Node $arg) use ($entity) {
-            return $arg->eval($entity);
+            return $arg->evaluate($entity);
         }, $this->getArguments());
 
         $argv = array_map(function (?Primitive $arg = null) {
@@ -246,7 +231,7 @@ abstract class Node
             case $this instanceof Operator\Logical\LessThan:
             case $this instanceof Operator\Logical\LessThanOrEqual:
                 if ($lValue === null || $rValue === null) {
-                    return Type\Boolean::factory(false);
+                    return Type\Boolean::false();
                 }
                 break;
 
@@ -286,9 +271,7 @@ abstract class Node
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
-                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
-                            $this->incompatible();
-                        }
+                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
 
                         return Type\Boolean::factory($lValue->equalTo($rValue));
                 }
@@ -303,9 +286,7 @@ abstract class Node
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
-                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
-                            $this->incompatible();
-                        }
+                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
 
                         return Type\Boolean::factory($lValue->notEqualTo($rValue));
                 }
@@ -316,9 +297,7 @@ abstract class Node
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
-                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
-                            $this->incompatible();
-                        }
+                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
 
                         return Type\Boolean::factory($lValue->greaterThan($rValue));
                 }
@@ -329,9 +308,7 @@ abstract class Node
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
-                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
-                            $this->incompatible();
-                        }
+                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
 
                         return Type\Boolean::factory($lValue->greaterThanOrEqualTo($rValue));
                 }
@@ -342,9 +319,7 @@ abstract class Node
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
-                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
-                            $this->incompatible();
-                        }
+                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
 
                         return Type\Boolean::factory($lValue->lessThan($rValue));
                 }
@@ -355,9 +330,7 @@ abstract class Node
                 switch (true) {
                     case $left instanceof Type\DateTimeOffset:
                     case $right instanceof Type\DateTimeOffset:
-                        if (!$left instanceof Type\DateTimeOffset || !$right instanceof Type\DateTimeOffset) {
-                            $this->incompatible();
-                        }
+                        $this->assertTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class]);
 
                         return Type\Boolean::factory($lValue->lessThanOrEqualTo($rValue));
                 }
@@ -366,7 +339,7 @@ abstract class Node
 
             case $this instanceof Operator\Comparison\And_:
                 if (($lValue === null && $rValue === false) || ($lValue === false && $rValue === null)) {
-                    return Type\Boolean::factory(false);
+                    return Type\Boolean::false();
                 }
 
                 if ($lValue === null || $rValue === null) {
@@ -377,7 +350,7 @@ abstract class Node
 
             case $this instanceof Operator\Comparison\Or_:
                 if (($lValue === null && $rValue === true) || ($lValue === true && $rValue === null)) {
-                    return Type\Boolean::factory(true);
+                    return Type\Boolean::true();
                 }
 
                 if ($lValue === null || $rValue === null) {
@@ -470,16 +443,12 @@ abstract class Node
                 return $primitive->set($lValue - $rValue);
 
             case $this instanceof Operator\Arithmetic\Mul:
-                if (!(
-                    ($left instanceof Type\Numeric && $right instanceof Type\Numeric) ||
-                    ($left instanceof Type\Numeric && $right instanceof Type\Duration) ||
-                    ($left instanceof Type\Duration && $right instanceof Type\Numeric)
-                )) {
-                    throw new BadRequestException(
-                        'incompatible_types',
-                        'Incompatible types were provided for operation'
-                    );
-                }
+                $this->assertTypes(
+                    [$left, $right],
+                    [Type\Numeric::class, Type\Numeric::class],
+                    [Type\Numeric::class, Type\Duration::class],
+                    [Type\Duration::class, Type\Numeric::class]
+                );
 
                 $primitive = new Type\Int64();
 
@@ -496,21 +465,15 @@ abstract class Node
                 return $primitive->set($lValue * $rValue);
 
             case $this instanceof Operator\Arithmetic\Div:
-                if (!(
-                    ($left instanceof Type\Numeric && $right instanceof Type\Numeric) ||
-                    ($left instanceof Type\Numeric && $right instanceof Type\Duration) ||
-                    ($left instanceof Type\Duration && $right instanceof Type\Numeric)
-                )) {
-                    throw new BadRequestException(
-                        'incompatible_types',
-                        'Incompatible types were provided for operation'
-                    );
-                }
+                $this->assertTypes(
+                    [$left, $right],
+                    [Type\Numeric::class, Type\Numeric::class],
+                    [Type\Numeric::class, Type\Duration::class],
+                    [Type\Duration::class, Type\Numeric::class]
+                );
 
                 if ($rValue == 0) {
-                    if (!$left instanceof Type\Decimal) {
-                        throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
-                    }
+                    $this->assertTypes([$left], [Type\Decimal::class]);
 
                     switch (true) {
                         case $lValue > 0:
@@ -539,21 +502,15 @@ abstract class Node
                 return $primitive->set($lValue / $rValue);
 
             case $this instanceof Operator\Arithmetic\DivBy:
-                if (!(
-                    ($left instanceof Type\Numeric && $right instanceof Type\Numeric) ||
-                    ($left instanceof Type\Numeric && $right instanceof Type\Duration) ||
-                    ($left instanceof Type\Duration && $right instanceof Type\Numeric)
-                )) {
-                    throw new BadRequestException(
-                        'incompatible_types',
-                        'Incompatible types were provided for operation'
-                    );
-                }
+                $this->assertTypes(
+                    [$left, $right],
+                    [Type\Numeric::class, Type\Numeric::class],
+                    [Type\Numeric::class, Type\Duration::class],
+                    [Type\Duration::class, Type\Numeric::class],
+                );
 
                 if ($rValue == 0) {
-                    if (!$left instanceof Type\Decimal) {
-                        throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
-                    }
+                    $this->assertTypes([$left], [Type\Decimal::class]);
 
                     switch (true) {
                         case $lValue > 0:
@@ -578,12 +535,7 @@ abstract class Node
                 return $primitive->set((float) $lValue / (float) $rValue);
 
             case $this instanceof Operator\Arithmetic\Mod:
-                if (!($left instanceof Type\Numeric && $right instanceof Type\Numeric)) {
-                    throw new BadRequestException(
-                        'incompatible_types',
-                        'Incompatible types were provided for operation'
-                    );
-                }
+                $this->assertTypes([$left, $right], [Type\Numeric::class, Type\Numeric::class]);
 
                 if ($rValue == 0) {
                     throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
@@ -593,85 +545,53 @@ abstract class Node
 
             // 5.1.1.5 String and Collection Functions
             case $this instanceof Node\Func\StringCollection\Concat:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 return Type\String_::factory(join('', $argv));
 
             case $this instanceof Node\Func\StringCollection\Contains:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 return Type\Boolean::factory(Str::contains(...$argv));
 
             case $this instanceof Node\Func\StringCollection\EndsWith:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 return Type\Boolean::factory(Str::endsWith(...$argv));
 
             case $this instanceof Node\Func\StringCollection\IndexOf:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 $position = strpos(...$argv);
                 return $position === false ? Type\Int32::factory(-1) : Type\Int32::factory($position);
 
             case $this instanceof Node\Func\StringCollection\Length:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class]);
                 return Type\Int32::factory(Str::length(...$argv));
 
             case $this instanceof Node\Func\StringCollection\StartsWith:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 return Type\Boolean::factory(Str::startsWith(...$argv));
 
             case $this instanceof Node\Func\StringCollection\Substring:
-                ($this->assertArgumentType(
-                        $args,
-                        [Type\String_::class, Type\Int32::class]
-                    ) === false && $this->assertArgumentType(
-                        $args,
-                        [Type\String_::class, Type\Int32::class, Type\Int32::class]
-                    ) === false) || $this->incompatible();
+                $this->assertTypes(
+                    $args,
+                    [Type\String_::class, Type\Byte::class],
+                    [Type\String_::class, Type\Byte::class, Type\Byte::class]
+                );
                 return Type\String_::factory(substr(...$argv));
 
             // 5.1.1.7 String functions
             case $this instanceof Node\Func\String\MatchesPattern:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class, Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 return Type\Boolean::factory(1 === preg_match('/'.$argv[1].'/', $argv[0]));
 
             case $this instanceof Node\Func\String\ToLower:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class]);
                 return Type\String_::factory(strtolower(...$argv));
 
             case $this instanceof Node\Func\String\ToUpper:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class]);
                 return Type\String_::factory(strtoupper(...$argv));
 
             case $this instanceof Node\Func\String\Trim:
-                $this->assertArgumentType(
-                    $args,
-                    [Type\String_::class]
-                ) || $this->incompatible();
+                $this->assertTypes($args, [Type\String_::class]);
                 return Type\String_::factory(trim(...$argv));
 
             // 5.1.1.8 Date and time functions
@@ -711,5 +631,36 @@ abstract class Node
         }
 
         throw new NotImplementedException();
+    }
+
+    public function ensureTypes($args, ...$typeMaps): bool
+    {
+        foreach ($typeMaps as $typeMap) {
+            $matches = 0;
+
+            for ($i = 0; $i < count($typeMap); $i++) {
+                if (($args[$i] ?? null) instanceof $typeMap[$i]) {
+                    $matches++;
+                }
+            }
+
+            if ($matches === count($typeMap)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function assertTypes($args, ...$maps): void
+    {
+        if ($this->ensureTypes($args, ...$maps)) {
+            return;
+        }
+
+        throw new BadRequestException(
+            'incompatible_types',
+            'Incompatible types were provided for operation '.$this::symbol
+        );
     }
 }

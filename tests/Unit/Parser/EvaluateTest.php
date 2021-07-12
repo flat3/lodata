@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Tests\Unit\Parser;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Tests\TestCase;
@@ -744,6 +743,11 @@ class EvaluateTest extends TestCase
         $this->assertSameExpression('hello world', "trim(' hello world  ')");
     }
 
+    public function test_155()
+    {
+        $this->assertBadExpression("trim(4)");
+    }
+
     public function assertTrueExpression($expression): void
     {
         $this->assertTrue($this->evaluate($expression));
@@ -780,7 +784,7 @@ class EvaluateTest extends TestCase
         $parser = new Filter($transaction);
         $tree = $parser->generateTree($expression);
 
-        $result = $tree->eval($item);
+        $result = $tree->evaluate($item);
 
         switch (true) {
             case $result instanceof TimeOfDay:

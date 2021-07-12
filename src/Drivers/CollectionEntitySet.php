@@ -73,7 +73,7 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
             $tree = $parser->generateTree($this->getFilter()->getValue());
 
             $collection = $collection->filter(function ($item) use ($tree) {
-                $result = $tree->eval($this->newEntity()->fromArray($item));
+                $result = $tree->evaluate($this->newEntity()->fromArray($item));
                 return $result !== null && !!$result->get();
             });
         }
