@@ -375,7 +375,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             Request::factory()
-                ->query('$filter', "age div 10 eq 0.3")
+                ->query('$filter', "age div 4 eq 0")
                 ->path('/examples')
         );
     }

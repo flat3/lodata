@@ -621,13 +621,16 @@ abstract class Node
 
             // 5.1.1.9 Arithmetic functions
             case $this instanceof Node\Func\Arithmetic\Ceiling:
-                return ceil(...$argv);
+                $this->assertTypes($args, [Type\Numeric::class]);
+                return $arg0 ? $arg0::factory(ceil($arg0->get())) : null;
 
             case $this instanceof Node\Func\Arithmetic\Floor:
-                return floor(...$argv);
+                $this->assertTypes($args, [Type\Numeric::class]);
+                return $arg0 ? $arg0::factory(floor($arg0->get())) : null;
 
             case $this instanceof Node\Func\Arithmetic\Round:
-                return round(...$argv);
+                $this->assertTypes($args, [Type\Numeric::class]);
+                return $arg0 ? $arg0::factory(round($arg0->get())) : null;
         }
 
         throw new NotImplementedException();
@@ -639,7 +642,8 @@ abstract class Node
             $matches = 0;
 
             for ($i = 0; $i < count($typeMap); $i++) {
-                if (($args[$i] ?? null) instanceof $typeMap[$i]) {
+                $arg = $args[$i] ?? null;
+                if ($arg === null || $arg instanceof $typeMap[$i]) {
                     $matches++;
                 }
             }
