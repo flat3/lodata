@@ -2,10 +2,10 @@
     "@context": "http://localhost/odata/$metadata#examples",
     "value": [
         {
-            "id": "beta",
-            "name": "Beta",
-            "age": 3,
-            "dob": "2001-02-02T05:05:05+00:00"
+            "id": "epsilon",
+            "name": "Epsilon",
+            "age": 2.4,
+            "dob": "2003-04-04T07:07:07+00:00"
         }
     ]
 }
