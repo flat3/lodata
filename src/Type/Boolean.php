@@ -71,4 +71,14 @@ class Boolean extends Primitive
         /** @phpstan-ignore-next-line */
         return new static($lexer->boolean());
     }
+
+    public static function false(): self
+    {
+        return new self(false);
+    }
+
+    public static function true(): self
+    {
+        return new self(true);
+    }
 }

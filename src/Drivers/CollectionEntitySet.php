@@ -6,7 +6,6 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
-use Flat3\Lodata\Expression\Evaluate;
 use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Node\Literal;
@@ -74,7 +73,8 @@ class CollectionEntitySet extends EntitySet implements CountInterface, CreateInt
             $tree = $parser->generateTree($this->getFilter()->getValue());
 
             $collection = $collection->filter(function ($item) use ($tree) {
-                return !!Evaluate::eval($tree, $this->newEntity()->fromArray($item));
+                $result = $tree->eval($this->newEntity()->fromArray($item));
+                return $result !== null && !!$result->get();
             });
         }
 

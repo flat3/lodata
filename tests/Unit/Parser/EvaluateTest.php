@@ -5,7 +5,7 @@ namespace Flat3\Lodata\Tests\Unit\Parser;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Expression\Evaluate;
+use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Tests\TestCase;
@@ -780,7 +780,7 @@ class EvaluateTest extends TestCase
         $parser = new Filter($transaction);
         $tree = $parser->generateTree($expression);
 
-        $result = Evaluate::eval($tree, $item);
+        $result = $tree->eval($item);
 
         switch (true) {
             case $result instanceof TimeOfDay:
@@ -794,8 +794,11 @@ class EvaluateTest extends TestCase
 
             case $result instanceof Primitive:
                 return $result->get();
+
+            case $result === null:
+                return null;
         }
 
-        return $result;
+        throw new RuntimeException('Incorrect type returned');
     }
 }
