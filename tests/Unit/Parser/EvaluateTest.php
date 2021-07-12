@@ -634,6 +634,116 @@ class EvaluateTest extends TestCase
         $this->assertBadExpression('4 mod 0');
     }
 
+    public function test_130()
+    {
+        $this->assertSameExpression('hello world', "concat(concat('hello', ' '), 'world')");
+    }
+
+    public function test_131()
+    {
+        $this->assertBadExpression('concat(1,2)');
+    }
+
+    public function test_132()
+    {
+        $this->assertSameExpression(true, "contains('hello', 'hell')");
+    }
+
+    public function test_133()
+    {
+        $this->assertSameExpression(false, "contains('hello', 'world')");
+    }
+
+    public function test_134()
+    {
+        $this->assertBadExpression("contains('hello', 4)");
+    }
+
+    public function test_135()
+    {
+        $this->assertSameExpression(true, "endswith('hello', 'ello')");
+    }
+
+    public function test_136()
+    {
+        $this->assertSameExpression(false, "endswith('hello', 'hel')");
+    }
+
+    public function test_137()
+    {
+        $this->assertBadExpression("endswith('hello', 3)");
+    }
+
+    public function test_138()
+    {
+        $this->assertSameExpression(2, "indexof('hello', 'll')");
+    }
+
+    public function test_139()
+    {
+        $this->assertSameExpression(-1, "indexof('hello', 'world')");
+    }
+
+    public function test_140()
+    {
+        $this->assertSameExpression(3, "indexof('helLo', 'L')");
+    }
+
+    public function test_141()
+    {
+        $this->assertSameExpression(11, "length('hello world')");
+    }
+
+    public function test_142()
+    {
+        $this->assertSameExpression(true, "startswith('hello', 'hell')");
+    }
+
+    public function test_143()
+    {
+        $this->assertSameExpression(false, "startswith('hello', 'world')");
+    }
+
+    public function test_144()
+    {
+        $this->assertSameExpression('lo', "substring('hello', 3)");
+    }
+
+    public function test_145()
+    {
+        $this->assertSameExpression('l', "substring('hello', 3, 1)");
+    }
+
+    public function test_146()
+    {
+        $this->assertSameExpression('lo', "substring('hello', 3, 99)");
+    }
+
+    public function test_150()
+    {
+        $this->assertSameExpression(true, "matchesPattern('Aire', '^A.*e$')");
+    }
+
+    public function test_151()
+    {
+        $this->assertSameExpression(false, "matchesPattern('hello', '^A.*e$')");
+    }
+
+    public function test_152()
+    {
+        $this->assertSameExpression('hello world', "tolower('Hello World')");
+    }
+
+    public function test_153()
+    {
+        $this->assertSameExpression('HELLO WORLD', "toupper('Hello World')");
+    }
+
+    public function test_154()
+    {
+        $this->assertSameExpression('hello world', "trim(' hello world  ')");
+    }
+
     public function assertTrueExpression($expression): void
     {
         $this->assertTrue($this->evaluate($expression));

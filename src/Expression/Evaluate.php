@@ -27,6 +27,17 @@ class Evaluate
         );
     }
 
+    public static function assertArgumentType($args, $types): bool
+    {
+        for ($i = 0; $i < count($args); $i++) {
+            if (!$args[$i] instanceof $types[$i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static function eval(Node $node, ?Entity $entity = null)
     {
         $left = !$node->getLeftNode() ?: self::eval($node->getLeftNode(), $entity);
@@ -84,7 +95,7 @@ class Evaluate
 
             // 5.1.1.1 Logical operators
             case $node instanceof Operator\Logical\Equal:
-                if ($lValue === null || $rValue === null) {
+                if ($lValue === null || $rValue === null || $lValue === INF || $rValue === INF || $lValue === -INF || $rValue === -INF) {
                     return $lValue === $rValue;
                 }
 
@@ -101,7 +112,7 @@ class Evaluate
                 return $lValue == $rValue;
 
             case $node instanceof Operator\Logical\NotEqual:
-                if ($lValue === null || $rValue === null) {
+                if ($lValue === null || $rValue === null || $lValue === INF || $rValue === INF || $lValue === -INF || $rValue === -INF) {
                     return $lValue !== $rValue;
                 }
 
@@ -398,38 +409,86 @@ class Evaluate
 
             // 5.1.1.5 String and Collection Functions
             case $node instanceof Node\Func\StringCollection\Concat:
-                return join('', $argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\String_::factory(join('', $argv));
 
             case $node instanceof Node\Func\StringCollection\Contains:
-                return Str::contains(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\Boolean::factory(Str::contains(...$argv));
 
             case $node instanceof Node\Func\StringCollection\EndsWith:
-                return Str::endsWith(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\Boolean::factory(Str::endsWith(...$argv));
 
             case $node instanceof Node\Func\StringCollection\IndexOf:
-                return strpos(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                $position = strpos(...$argv);
+                return $position === false ? Type\Int32::factory(-1) : Type\Int32::factory($position);
 
             case $node instanceof Node\Func\StringCollection\Length:
-                return Str::length(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\Int32::factory(Str::length(...$argv));
 
             case $node instanceof Node\Func\StringCollection\StartsWith:
-                return Str::startsWith(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\Boolean::factory(Str::startsWith(...$argv));
 
             case $node instanceof Node\Func\StringCollection\Substring:
-                return substr(...$argv);
+                (self::assertArgumentType(
+                        $args,
+                        [Type\String_::class, Type\Int32::class]
+                    ) === false && self::assertArgumentType(
+                        $args,
+                        [Type\String_::class, Type\Int32::class, Type\Int32::class]
+                    ) === false) || self::incompatible($node);
+                return Type\String_::factory(substr(...$argv));
 
             // 5.1.1.7 String functions
             case $node instanceof Node\Func\String\MatchesPattern:
-                return 1 === preg_match('/'.$argv[1].'/', $argv[0]);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class, Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\Boolean::factory(1 === preg_match('/'.$argv[1].'/', $argv[0]));
 
             case $node instanceof Node\Func\String\ToLower:
-                return strtolower(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\String_::factory(strtolower(...$argv));
 
             case $node instanceof Node\Func\String\ToUpper:
-                return strtoupper(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\String_::factory(strtoupper(...$argv));
 
             case $node instanceof Node\Func\String\Trim:
-                return trim(...$argv);
+                self::assertArgumentType(
+                    $args,
+                    [Type\String_::class]
+                ) || self::incompatible($node);
+                return Type\String_::factory(trim(...$argv));
 
             // 5.1.1.8 Date and time functions
             case $node instanceof Node\Func\DateTime\Date:
