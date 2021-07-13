@@ -42,7 +42,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             $tree = $parser->generateTree($this->getFilter()->getValue());
 
             $collection = $collection->filter(function ($item) use ($tree) {
-                $result = $tree->evaluate($this->newEntity()->fromArray($item));
+                $result = $tree->evaluateCommonExpression($this->newEntity()->fromArray($item));
                 return $result !== null && !!$result->get();
             });
         }
@@ -56,39 +56,8 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             $tree = $parser->generateTree($search->getValue());
 
             $collection = $collection->filter(function ($item) use ($tree) {
-                $eval = function (Node $node) use (&$eval, $item) {
-                    $left = !$node->getLeftNode() ?: $eval($node->getLeftNode());
-                    $right = !$node->getRightNode() ?: $eval($node->getRightNode());
-
-                    switch (true) {
-                        case $node instanceof Literal\String_:
-                            /** @var DeclaredProperty[] $props */
-                            $props = $this->getType()->getDeclaredProperties()->filter(function ($property) {
-                                return $property->isSearchable();
-                            });
-
-                            foreach ($props as $prop) {
-                                if (Str::contains($item[$prop->getName()], $node->getValue())) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-
-                        case $node instanceof Operator\Comparison\And_:
-                            return $left && $right;
-
-                        case $node instanceof Operator\Comparison\Or_:
-                            return $left || $right;
-
-                        case $node instanceof Operator\Comparison\Not_:
-                            return !$left;
-                    }
-
-                    throw new NotImplementedException();
-                };
-
-                return !!$eval($tree);
+                $result = $tree->evaluateSearchExpression($this->newEntity()->fromArray($item));
+                return $result !== null && !!$result->get();
             });
         }
 

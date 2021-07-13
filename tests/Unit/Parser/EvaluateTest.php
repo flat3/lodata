@@ -784,7 +784,7 @@ class EvaluateTest extends TestCase
         $parser = new Filter($transaction);
         $tree = $parser->generateTree($expression);
 
-        $result = $tree->evaluate($item);
+        $result = $tree->evaluateCommonExpression($item);
 
         switch (true) {
             case $result instanceof TimeOfDay:

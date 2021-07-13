@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Expression;
 
+use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
@@ -10,6 +11,7 @@ use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Operator;
 use Flat3\Lodata\Expression\Node\Property;
 use Flat3\Lodata\Expression\Operator as OperatorExpression;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type;
 use Illuminate\Support\Str;
@@ -202,21 +204,60 @@ abstract class Node
         }
     }
 
+    public function evaluateSearchExpression(?Entity $entity = null): ?Primitive
+    {
+        $left = !$this->getLeftNode() ?: $this->getLeftNode()->evaluateSearchExpression($entity);
+        $right = !$this->getRightNode() ?: $this->getRightNode()->evaluateSearchExpression($entity);
+
+        $lValue = $left instanceof Primitive ? $left->get() : $left;
+        $rValue = $right instanceof Primitive ? $right->get() : $right;
+
+        switch (true) {
+            case $this instanceof Literal\String_:
+                /** @var DeclaredProperty[] $props */
+                $props = $entity->getType()->getDeclaredProperties()->filter(function ($property) {
+                    return $property->isSearchable();
+                });
+
+                foreach ($props as $prop) {
+                    $value = $entity[$prop->getName()];
+                    if ($value instanceof PropertyValue) {
+                        if (Str::contains($value->getPrimitiveValue()->get(), $this->getValue()->get())) {
+                            return Type\Boolean::true();
+                        }
+                    }
+                }
+
+                return Type\Boolean::false();
+
+            case $this instanceof Operator\Comparison\And_:
+                return Type\Boolean::factory($lValue && $rValue);
+
+            case $this instanceof Operator\Comparison\Or_:
+                return Type\Boolean::factory($lValue || $rValue);
+
+            case $this instanceof Operator\Comparison\Not_:
+                return Type\Boolean::factory(!$lValue);
+        }
+
+        throw new NotImplementedException();
+    }
+
     /**
      * Evaluate this node using internal logic
      * @param  Entity|null  $entity
      * @return Primitive|null
      */
-    public function evaluate(?Entity $entity = null): ?Primitive
+    public function evaluateCommonExpression(?Entity $entity = null): ?Primitive
     {
-        $left = !$this->getLeftNode() ?: $this->getLeftNode()->evaluate($entity);
-        $right = !$this->getRightNode() ?: $this->getRightNode()->evaluate($entity);
+        $left = !$this->getLeftNode() ?: $this->getLeftNode()->evaluateCommonExpression($entity);
+        $right = !$this->getRightNode() ?: $this->getRightNode()->evaluateCommonExpression($entity);
 
         $lValue = $left instanceof Primitive ? $left->get() : $left;
         $rValue = $right instanceof Primitive ? $right->get() : $right;
 
         $args = array_map(function (Node $arg) use ($entity) {
-            return $arg->evaluate($entity);
+            return $arg->evaluateCommonExpression($entity);
         }, $this->getArguments());
 
         $argv = array_map(function (?Primitive $arg = null) {
