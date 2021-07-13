@@ -652,7 +652,7 @@ abstract class Node
 
             for ($i = 0; $i < count($typeMap); $i++) {
                 $arg = $args[$i] ?? null;
-                if ($arg === $typeMap[$i] || $arg instanceof $typeMap[$i]) {
+                if ($arg === null || $arg instanceof $typeMap[$i]) {
                     $matches++;
                 }
             }
