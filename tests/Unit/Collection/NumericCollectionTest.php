@@ -36,7 +36,7 @@ class NumericCollectionTest extends TestCase
         $entityType->addDeclaredProperty('name', Type::string());
         $entityType->getDeclaredProperty('name')->setSearchable();
         $entitySet = new CollectionEntitySet('examples', $entityType);
-        $entitySet->setEnumerable($collection);
+        $entitySet->setCollection($collection);
 
         Lodata::add($entitySet);
     }
