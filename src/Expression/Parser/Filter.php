@@ -40,13 +40,18 @@ class Filter extends Parser
         Node\Func\String\Trim::class,
 
         Node\Func\DateTime\Day::class,
+        Node\Func\DateTime\FractionalSeconds::class,
         Node\Func\DateTime\Date::class,
         Node\Func\DateTime\Hour::class,
+        Node\Func\DateTime\MaxDateTime::class,
+        Node\Func\DateTime\MinDateTime::class,
         Node\Func\DateTime\Minute::class,
         Node\Func\DateTime\Month::class,
         Node\Func\DateTime\Now::class,
         Node\Func\DateTime\Second::class,
         Node\Func\DateTime\Time::class,
+        Node\Func\DateTime\TotalOffsetMinutes::class,
+        Node\Func\DateTime\TotalSeconds::class,
         Node\Func\DateTime\Year::class,
 
         // Unary

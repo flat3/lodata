@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Expression;
 
+use Carbon\Carbon;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -605,27 +606,56 @@ abstract class Node
 
             // 5.1.1.8 Date and time functions
             case $this instanceof Node\Func\DateTime\Date:
+                $this->assertTypes($args, [Type\DateTimeOffset::class]);
                 return Type\Date::factory($arg0 ? $arg0->get()->format(Type\Date::DATE_FORMAT) : null);
 
             case $this instanceof Node\Func\DateTime\Day:
+                $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
                 return Type\Int32::factory($arg0 ? $arg0->get()->day : null);
 
+            case $this instanceof Node\Func\DateTime\FractionalSeconds:
+                $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
+                return Type\Decimal::factory($arg0 ? $arg0->get()->micro / 1000000 : null);
+
             case $this instanceof Node\Func\DateTime\Hour:
+                $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
                 return Type\Int32::factory($arg0 ? $arg0->get()->hour : null);
 
+            case $this instanceof Node\Func\DateTime\MaxDateTime:
+                return Type\DateTimeOffset::factory(Carbon::maxValue());
+
+            case $this instanceof Node\Func\DateTime\MinDateTime:
+                return Type\DateTimeOffset::factory(Carbon::minValue());
+
             case $this instanceof Node\Func\DateTime\Minute:
+                $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
                 return Type\Int32::factory($arg0 ? $arg0->get()->minute : null);
 
             case $this instanceof Node\Func\DateTime\Month:
+                $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
                 return Type\Int32::factory($arg0 ? $arg0->get()->month : null);
 
+            case $this instanceof Node\Func\DateTime\Now:
+                return Type\DateTimeOffset::factory(Carbon::now());
+
             case $this instanceof Node\Func\DateTime\Second:
+                $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
                 return Type\Int32::factory($arg0 ? $arg0->get()->second : null);
 
             case $this instanceof Node\Func\DateTime\Time:
+                $this->assertTypes($args, [Type\DateTimeOffset::class]);
                 return Type\TimeOfDay::factory($arg0 ? $arg0->get()->format(Type\TimeOfDay::DATE_FORMAT) : null);
 
+            case $this instanceof Node\Func\DateTime\TotalOffsetMinutes:
+                $this->assertTypes($args, [Type\DateTimeOffset::class]);
+                return Type\Int32::factory($arg0 ? $arg0->get()->utcOffset() : null);
+
+            case $this instanceof Node\Func\DateTime\TotalSeconds:
+                $this->assertTypes($args, [Type\Duration::class]);
+                return Type\Decimal::factory($arg0 ? $arg0->get() : null);
+
             case $this instanceof Node\Func\DateTime\Year:
+                $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
                 return Type\Int32::factory($arg0 ? $arg0->get()->year : null);
 
             // 5.1.1.9 Arithmetic functions

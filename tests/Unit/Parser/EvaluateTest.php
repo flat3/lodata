@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
+use Carbon\Carbon;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -746,6 +747,153 @@ class EvaluateTest extends TestCase
     public function test_155()
     {
         $this->assertBadExpression("trim(4)");
+    }
+
+    public function test_156()
+    {
+        $this->assertSameExpression('2001-01-01', 'date(2001-01-01T00:01:02+00:00)');
+    }
+
+    public function test_157()
+    {
+        $this->assertBadExpression("date('hello')");
+    }
+
+    public function test_158()
+    {
+        $this->assertSameExpression(1, 'day(2001-01-01T00:01:02+00:00)');
+    }
+
+    public function test_159()
+    {
+        $this->assertSameExpression(1, 'day(2001-01-01)');
+    }
+
+    public function test_160()
+    {
+        $this->assertBadExpression("day('hello')");
+    }
+
+    public function test_161()
+    {
+        $this->assertSameExpression(0.4, 'fractionalseconds(13:13:13.4)');
+    }
+
+    public function test_162()
+    {
+        $this->assertSameExpression(0.4, 'fractionalseconds(2001-01-01T00:01:02.400Z)');
+    }
+
+    public function test_163()
+    {
+        $this->assertBadExpression('fractionalseconds(8)');
+    }
+
+    public function test_164()
+    {
+        $this->assertSameExpression(9, 'hour(2001-01-01T09:01:02.400Z)');
+    }
+
+    public function test_165()
+    {
+        $this->assertSameExpression(9, 'hour(09:01:02.400)');
+    }
+
+    public function test_166()
+    {
+        $this->assertBadExpression('hour(9)');
+    }
+
+    public function test_167()
+    {
+        $this->assertSameExpression(1, 'minute(2001-01-01T09:01:02.400Z)');
+    }
+
+    public function test_168()
+    {
+        $this->assertSameExpression(1, 'minute(09:01:02.400)');
+    }
+
+    public function test_169()
+    {
+        $this->assertBadExpression('minute(9)');
+    }
+
+    public function test_170()
+    {
+        $this->assertSameExpression(1, 'month(2001-01-01T09:01:02.400Z)');
+    }
+
+    public function test_171()
+    {
+        $this->assertSameExpression(7, 'month(1980-07-02)');
+    }
+
+    public function test_172()
+    {
+        $this->assertBadExpression('month(9)');
+    }
+
+    public function test_173()
+    {
+        $this->assertSameExpression(2, 'second(2001-01-01T09:01:02.400Z)');
+    }
+
+    public function test_174()
+    {
+        $this->assertSameExpression(2, 'second(09:01:02.400)');
+    }
+
+    public function test_175()
+    {
+        $this->assertBadExpression('second(9)');
+    }
+
+    public function test_176()
+    {
+        $this->assertSameExpression('09:01:02.000000', 'time(09:01:02)');
+    }
+
+    public function test_177()
+    {
+        $this->assertSameExpression(2001, 'year(2001-01-01T09:01:02.400Z)');
+    }
+
+    public function test_178()
+    {
+        $this->assertSameExpression(1980, 'year(1980-07-02)');
+    }
+
+    public function test_179()
+    {
+        $this->assertBadExpression('year(9)');
+    }
+
+    public function test_180()
+    {
+        $this->assertSameExpression('9999-12-31T23:59:59+00:00', 'maxdatetime()');
+    }
+
+    public function test_181()
+    {
+        $this->assertSameExpression('0001-01-01T00:00:00+00:00', 'mindatetime()');
+    }
+
+    public function test_182()
+    {
+        Carbon::withTestNow('2021-07-13T19:22:45+00:00', function () {
+            $this->assertSameExpression('2021-07-13T19:22:45+00:00', 'now()');
+        });
+    }
+
+    public function test_183()
+    {
+        $this->assertSameExpression(242, 'totaloffsetminutes(2001-01-01T00:01:02+04:02)');
+    }
+
+    public function test_184()
+    {
+        $this->assertSameExpression(86402.2, 'totalseconds(P1DT2.2S)');
     }
 
     public function assertTrueExpression($expression): void
