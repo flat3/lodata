@@ -36,7 +36,7 @@ class KeyedCollectionTest extends TestCase
         $entityType->addDeclaredProperty('name', Type::string());
         $entityType->getDeclaredProperty('name')->setSearchable();
         $entitySet = new CollectionEntitySet('examples', $entityType);
-        $entitySet->setCollection($collection);
+        $entitySet->setEnumerable($collection);
 
         Lodata::add($entitySet);
     }
