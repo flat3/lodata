@@ -694,6 +694,11 @@ class EvaluateTest extends TestCase
         $this->assertSameExpression(11, "length('hello world')");
     }
 
+    public function test_141a()
+    {
+        $this->assertSameExpression(0, "length(null)");
+    }
+
     public function test_142()
     {
         $this->assertSameExpression(true, "startswith('hello', 'hell')");
