@@ -305,7 +305,7 @@ abstract class Node
 
             // 5.1.1.1 Logical operators
             case $this instanceof Operator\Logical\Equal:
-                if ($lValue === null || $rValue === null || $lValue === INF || $rValue === INF || $lValue === -INF || $rValue === -INF) {
+                if (array_intersect([$lValue, $rValue], [null, INF, -INF])) {
                     return Type\Boolean::factory($lValue === $rValue);
                 }
 
@@ -316,7 +316,7 @@ abstract class Node
                 return Type\Boolean::factory($lValue == $rValue);
 
             case $this instanceof Operator\Logical\NotEqual:
-                if ($lValue === null || $rValue === null || $lValue === INF || $rValue === INF || $lValue === -INF || $rValue === -INF) {
+                if (array_intersect([$lValue, $rValue], [null, INF, -INF])) {
                     return Type\Boolean::factory($lValue !== $rValue);
                 }
 
@@ -652,7 +652,7 @@ abstract class Node
 
             for ($i = 0; $i < count($typeMap); $i++) {
                 $arg = $args[$i] ?? null;
-                if ($arg === null || $arg instanceof $typeMap[$i]) {
+                if ($arg === $typeMap[$i] || $arg instanceof $typeMap[$i]) {
                     $matches++;
                 }
             }
