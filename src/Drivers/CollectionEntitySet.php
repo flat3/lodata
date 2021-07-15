@@ -15,6 +15,11 @@ use Illuminate\Support\Collection;
  */
 class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface, DeleteInterface, UpdateInterface
 {
+    /**
+     * Set the collection for this entity set
+     * @param  Collection  $collection Collection
+     * @return $this
+     */
     public function setCollection(Collection $collection): self
     {
         $this->enumerable = $collection;
@@ -22,11 +27,19 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         return $this;
     }
 
+    /**
+     * Get the collection for this entity set
+     * @return Collection Collection
+     */
     public function getCollection(): Collection
     {
         return $this->enumerable;
     }
 
+    /**
+     * Create a new entity
+     * @return Entity
+     */
     public function create(): Entity
     {
         $entity = $this->newEntity();
@@ -45,11 +58,20 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         return $entity;
     }
 
+    /**
+     * Delete an entity
+     * @param  PropertyValue  $key
+     */
     public function delete(PropertyValue $key): void
     {
         $this->enumerable->forget($key->getPrimitiveValue()->get());
     }
 
+    /**
+     * Update an entity
+     * @param  PropertyValue  $key
+     * @return Entity
+     */
     public function update(PropertyValue $key): Entity
     {
         $entity = $this->read($key);

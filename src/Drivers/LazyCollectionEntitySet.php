@@ -6,6 +6,11 @@ use Illuminate\Support\LazyCollection;
 
 class LazyCollectionEntitySet extends EnumerableEntitySet
 {
+    /**
+     * Set the LazyCollection for this entity set
+     * @param  LazyCollection  $collection
+     * @return $this
+     */
     public function setCollection(LazyCollection $collection): self
     {
         $this->enumerable = $collection;
@@ -13,6 +18,10 @@ class LazyCollectionEntitySet extends EnumerableEntitySet
         return $this;
     }
 
+    /**
+     * Get the LazyCollection for this entity set
+     * @return LazyCollection
+     */
     public function getCollection(): LazyCollection
     {
         return $this->enumerable;

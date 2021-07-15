@@ -2,14 +2,9 @@
 
 namespace Flat3\Lodata\Drivers;
 
-use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Node;
-use Flat3\Lodata\Expression\Node\Literal;
-use Flat3\Lodata\Expression\Node\Operator;
 use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
 use Flat3\Lodata\Expression\Parser\Search as SearchParser;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -24,16 +19,19 @@ use Generator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
-use Illuminate\Support\Str;
 
 abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, QueryInterface, CountInterface, PaginationInterface, OrderByInterface, SearchInterface, FilterInterface
 {
     /** @var Enumerable|Collection|LazyCollection $enumerable */
     protected $enumerable;
 
+    /**
+     * Query this entity set
+     * @return Generator
+     */
     public function query(): Generator
     {
-        $collection = $this->enumerable;
+        $enumerable = $this->enumerable;
 
         if ($this->getFilter()->hasValue()) {
             $parser = new FilterParser($this->getTransaction());
@@ -41,7 +39,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
 
             $tree = $parser->generateTree($this->getFilter()->getValue());
 
-            $collection = $collection->filter(function ($item) use ($tree) {
+            $enumerable = $enumerable->filter(function ($item) use ($tree) {
                 $result = $tree->evaluateCommonExpression($this->newEntity()->fromArray($item));
                 return $result !== null && !!$result->get();
             });
@@ -55,14 +53,14 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
 
             $tree = $parser->generateTree($search->getValue());
 
-            $collection = $collection->filter(function ($item) use ($tree) {
+            $enumerable = $enumerable->filter(function ($item) use ($tree) {
                 $result = $tree->evaluateSearchExpression($this->newEntity()->fromArray($item));
                 return $result !== null && !!$result->get();
             });
         }
 
         if ($this->getOrderBy()->hasValue()) {
-            $collection = $collection->map(function ($item, $key) {
+            $enumerable = $enumerable->map(function ($item, $key) {
                 return array_merge(['__id' => $key], $item);
             })
                 ->sortBy($this->getOrderBy()->getSortOrders())
@@ -70,14 +68,14 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         }
 
         if ($this->getSkip()->hasValue()) {
-            $collection = $collection->skip($this->getSkip()->getValue());
+            $enumerable = $enumerable->skip($this->getSkip()->getValue());
         }
 
         if ($this->getTop()->hasValue()) {
-            $collection = $collection->slice(0, $this->getTop()->getValue());
+            $enumerable = $enumerable->slice(0, $this->getTop()->getValue());
         }
 
-        foreach ($collection->all() as $key => $item) {
+        foreach ($enumerable->all() as $key => $item) {
             $entity = $this->newEntity();
             $entity->setEntityId($key);
             $entity->fromArray($item);
@@ -86,6 +84,10 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         }
     }
 
+    /**
+     * Count entities in this set
+     * @return int
+     */
     public function count(): int
     {
         return $this->enumerable->count();
@@ -101,6 +103,11 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         return true;
     }
 
+    /**
+     * Read an entity from the set
+     * @param  PropertyValue  $key
+     * @return Entity|null
+     */
     public function read(PropertyValue $key): ?Entity
     {
         $item = $this->enumerable->get($key->getPrimitiveValue()->get());
