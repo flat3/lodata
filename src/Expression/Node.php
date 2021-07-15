@@ -205,6 +205,11 @@ abstract class Node
         }
     }
 
+    /**
+     * Evaluate a search expression
+     * @param  Entity|null  $entity
+     * @return Primitive|null
+     */
     public function evaluateSearchExpression(?Entity $entity = null): ?Primitive
     {
         $left = !$this->getLeftNode() ?: $this->getLeftNode()->evaluateSearchExpression($entity);
@@ -310,7 +315,7 @@ abstract class Node
                     return Type\Boolean::factory($lValue === $rValue);
                 }
 
-                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
                     return Type\Boolean::factory($lValue->equalTo($rValue));
                 }
 
@@ -321,35 +326,35 @@ abstract class Node
                     return Type\Boolean::factory($lValue !== $rValue);
                 }
 
-                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
                     return Type\Boolean::factory($lValue->notEqualTo($rValue));
                 }
 
                 return Type\Boolean::factory($lValue != $rValue);
 
             case $this instanceof Operator\Logical\GreaterThan:
-                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
                     return Type\Boolean::factory($lValue->greaterThan($rValue));
                 }
 
                 return Type\Boolean::factory($lValue > $rValue);
 
             case $this instanceof Operator\Logical\GreaterThanOrEqual:
-                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
                     return Type\Boolean::factory($lValue->greaterThanOrEqualTo($rValue));
                 }
 
                 return Type\Boolean::factory($lValue >= $rValue);
 
             case $this instanceof Operator\Logical\LessThan:
-                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
                     return Type\Boolean::factory($lValue->lessThan($rValue));
                 }
 
                 return Type\Boolean::factory($lValue < $rValue);
 
             case $this instanceof Operator\Logical\LessThanOrEqual:
-                if ($this->ensureTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
+                if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
                     return Type\Boolean::factory($lValue->lessThanOrEqualTo($rValue));
                 }
 
@@ -675,7 +680,13 @@ abstract class Node
         throw new NotImplementedException();
     }
 
-    public function ensureTypes($args, ...$typeMaps): bool
+    /**
+     * Confirm the provided arguments fit one of the provided type maps
+     * @param  array  $args  arguments
+     * @param  string[]  ...$typeMaps  Typemaps
+     * @return bool
+     */
+    public function ifTypes(array $args, array ...$typeMaps): bool
     {
         foreach ($typeMaps as $typeMap) {
             $matches = 0;
@@ -695,9 +706,14 @@ abstract class Node
         return false;
     }
 
-    public function assertTypes($args, ...$maps): void
+    /**
+     * Throw an exception if the provided types do not match any type map
+     * @param  array  $args  Arguments
+     * @param  string[]  ...$typeMaps  Typemaps
+     */
+    public function assertTypes(array $args, array ...$typeMaps): void
     {
-        if ($this->ensureTypes($args, ...$maps)) {
+        if ($this->ifTypes($args, ...$typeMaps)) {
             return;
         }
 
