@@ -96,9 +96,14 @@ class Duration extends Primitive
         return $this::numberToDuration($this->value);
     }
 
-    protected function getEmpty()
+    protected function getEmpty(): float
     {
-        return 0;
+        return 0.0;
+    }
+
+    public function get(): ?float
+    {
+        return parent::get();
     }
 
     public static function fromLexer(Lexer $lexer): Primitive

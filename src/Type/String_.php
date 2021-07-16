@@ -44,6 +44,11 @@ class String_ extends Primitive
         return $this;
     }
 
+    public function get(): ?string
+    {
+        return parent::get();
+    }
+
     public function toJson(): ?string
     {
         return $this->value;

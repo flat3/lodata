@@ -24,7 +24,7 @@ class Date extends DateTimeOffset
 
     public const DATE_FORMAT = 'Y-m-d';
 
-    protected function repack(Carbon $dt)
+    protected function repack(Carbon $dt): Carbon
     {
         return $dt->setTime(0, 0, 0, 0);
     }

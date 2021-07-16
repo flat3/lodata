@@ -56,12 +56,17 @@ class DateTimeOffset extends Primitive
         return $this;
     }
 
-    protected function getEmpty()
+    protected function getEmpty(): Carbon
     {
         return (new Carbon())->setTimestamp(0);
     }
 
-    protected function repack(Carbon $dt)
+    public function get(): ?Carbon
+    {
+        return parent::get();
+    }
+
+    protected function repack(Carbon $dt): Carbon
     {
         return $dt;
     }

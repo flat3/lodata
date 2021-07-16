@@ -53,9 +53,14 @@ class Guid extends Primitive
         return pack('H*', str_replace('-', '', $guid));
     }
 
-    public function getEmpty()
+    public function getEmpty(): string
     {
         return $this::stringToBinary('00000000-0000-0000-0000-000000000000');
+    }
+
+    public function get(): ?string
+    {
+        return parent::get();
     }
 
     public function toJson(): ?string

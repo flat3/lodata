@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Type;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonImmutable as Carbon;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
@@ -24,7 +24,7 @@ class TimeOfDay extends DateTimeOffset
 
     public const DATE_FORMAT = 'H:i:s.u';
 
-    protected function repack(CarbonImmutable $dt)
+    protected function repack(Carbon $dt): Carbon
     {
         return $dt->setDate(1970, 1, 1);
     }

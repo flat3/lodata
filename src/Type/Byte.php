@@ -53,9 +53,14 @@ class Byte extends Numeric
         return unpack($this::format, pack('i', $value))[1];
     }
 
-    protected function getEmpty()
+    protected function getEmpty(): int
     {
         return 0;
+    }
+
+    public function get(): ?int
+    {
+        return parent::get();
     }
 
     public static function fromLexer(Lexer $lexer): Primitive

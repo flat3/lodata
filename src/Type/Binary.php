@@ -50,6 +50,11 @@ class Binary extends Primitive
         return $this;
     }
 
+    public function get(): ?string
+    {
+        return parent::get();
+    }
+
     public static function fromLexer(Lexer $lexer): Primitive
     {
         /** @phpstan-ignore-next-line */

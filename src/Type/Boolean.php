@@ -61,9 +61,14 @@ class Boolean extends Primitive
         return $this;
     }
 
-    protected function getEmpty()
+    protected function getEmpty(): bool
     {
         return false;
+    }
+
+    public function get(): ?bool
+    {
+        return parent::get();
     }
 
     public static function fromLexer(Lexer $lexer): Primitive
