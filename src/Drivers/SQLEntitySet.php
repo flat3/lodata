@@ -386,14 +386,12 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
         $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->getTable(), $fieldsList, $valuesList);
         $id = $this->pdoModify($query);
-        if ($id) {
+
+        if (!$entity->getEntityId() && $id) {
             $entity->setEntityId($id);
         }
 
-        $key = $entity->getEntityId();
-        $key->getPrimitiveValue()->set($id);
-
-        $entity = $this->read($key);
+        $entity = $this->read($entity->getEntityId());
 
         $this->transaction->processDeltaPayloads($entity);
 
