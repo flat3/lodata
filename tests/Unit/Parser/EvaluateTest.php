@@ -901,6 +901,21 @@ class EvaluateTest extends TestCase
         $this->assertSameExpression(86402.2, 'totalseconds(P1DT2.2S)');
     }
 
+    public function test_190()
+    {
+        $this->assertSameExpression(5.0, 'ceiling(4.4)');
+    }
+
+    public function test_191()
+    {
+        $this->assertSameExpression(4.0, 'floor(4.8)');
+    }
+
+    public function test_192()
+    {
+        $this->assertSameExpression(5.0, 'round(4.5)');
+    }
+
     public function assertTrueExpression($expression): void
     {
         $this->assertTrue($this->evaluate($expression));

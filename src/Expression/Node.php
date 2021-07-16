@@ -271,6 +271,9 @@ abstract class Node
         }, $args);
 
         $arg0 = $args[0] ?? null;
+        if ($arg0) {
+            $arg0 = $arg0->get();
+        }
 
         switch (true) {
             case $this instanceof Operator\Logical\GreaterThan:
@@ -612,19 +615,19 @@ abstract class Node
             // 5.1.1.8 Date and time functions
             case $this instanceof Node\Func\DateTime\Date:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\Date::factory($arg0 ? $arg0->get()->format(Type\Date::DATE_FORMAT) : null);
+                return Type\Date::factory($arg0 ? $arg0->format(Type\Date::DATE_FORMAT) : null);
 
             case $this instanceof Node\Func\DateTime\Day:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->day : null);
+                return Type\Int32::factory($arg0 ? $arg0->day : null);
 
             case $this instanceof Node\Func\DateTime\FractionalSeconds:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Decimal::factory($arg0 ? $arg0->get()->micro / 1000000 : null);
+                return Type\Decimal::factory($arg0 ? $arg0->micro / 1000000 : null);
 
             case $this instanceof Node\Func\DateTime\Hour:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->hour : null);
+                return Type\Int32::factory($arg0 ? $arg0->hour : null);
 
             case $this instanceof Node\Func\DateTime\MaxDateTime:
                 return Type\DateTimeOffset::factory(Carbon::maxValue());
@@ -634,47 +637,47 @@ abstract class Node
 
             case $this instanceof Node\Func\DateTime\Minute:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->minute : null);
+                return Type\Int32::factory($arg0 ? $arg0->minute : null);
 
             case $this instanceof Node\Func\DateTime\Month:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->month : null);
+                return Type\Int32::factory($arg0 ? $arg0->month : null);
 
             case $this instanceof Node\Func\DateTime\Now:
                 return Type\DateTimeOffset::factory(Carbon::now());
 
             case $this instanceof Node\Func\DateTime\Second:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->second : null);
+                return Type\Int32::factory($arg0 ? $arg0->second : null);
 
             case $this instanceof Node\Func\DateTime\Time:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\TimeOfDay::factory($arg0 ? $arg0->get()->format(Type\TimeOfDay::DATE_FORMAT) : null);
+                return Type\TimeOfDay::factory($arg0 ? $arg0->format(Type\TimeOfDay::DATE_FORMAT) : null);
 
             case $this instanceof Node\Func\DateTime\TotalOffsetMinutes:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->utcOffset() : null);
+                return Type\Int32::factory($arg0 ? $arg0->utcOffset() : null);
 
             case $this instanceof Node\Func\DateTime\TotalSeconds:
                 $this->assertTypes($args, [Type\Duration::class]);
-                return Type\Decimal::factory($arg0 ? $arg0->get() : null);
+                return Type\Decimal::factory($arg0);
 
             case $this instanceof Node\Func\DateTime\Year:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->get()->year : null);
+                return Type\Int32::factory($arg0 ? $arg0->year : null);
 
             // 5.1.1.9 Arithmetic functions
             case $this instanceof Node\Func\Arithmetic\Ceiling:
                 $this->assertTypes($args, [Type\Numeric::class]);
-                return $arg0 ? $arg0::factory(ceil($arg0->get())) : null;
+                return $arg0 ? $args[0]::factory(ceil($arg0)) : null;
 
             case $this instanceof Node\Func\Arithmetic\Floor:
                 $this->assertTypes($args, [Type\Numeric::class]);
-                return $arg0 ? $arg0::factory(floor($arg0->get())) : null;
+                return $arg0 ? $args[0]::factory(floor($arg0)) : null;
 
             case $this instanceof Node\Func\Arithmetic\Round:
                 $this->assertTypes($args, [Type\Numeric::class]);
-                return $arg0 ? $arg0::factory(round($arg0->get())) : null;
+                return $arg0 ? $args[0]::factory(round($arg0)) : null;
         }
 
         throw new NotImplementedException();
