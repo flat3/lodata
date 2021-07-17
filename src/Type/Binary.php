@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Expression\Lexer;
@@ -40,7 +42,7 @@ class Binary extends Primitive
 
     public function set($value): self
     {
-        $result = base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
+        $result = base64_decode(str_replace(['-', '_'], ['+', '/'], (string) $value));
         if (false === $result) {
             $result = null;
         }

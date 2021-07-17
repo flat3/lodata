@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Controller\Response;

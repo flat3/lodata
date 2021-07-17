@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Helper;
 
 class Base64
@@ -17,7 +19,7 @@ class Base64
 
     public function fread($length)
     {
-        $result = substr($this->inputBuffer, $this->inputBufferPosition, $length);
+        $result = substr($this->inputBuffer, (int) $this->inputBufferPosition, $length);
         $this->inputBufferPosition += $length;
 
         return $result;

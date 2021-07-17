@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\PathSegment\Batch;
 
 use Flat3\Lodata\Controller\Request;

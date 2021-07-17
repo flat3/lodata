@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Traits;
 
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
@@ -89,7 +91,7 @@ trait HasNavigation
         $targetConstraint = null;
         /** @var ReferentialConstraint $constraint */
         foreach ($navigationProperty->getConstraints() as $constraint) {
-            if ($this->getType()->getProperty($constraint->getReferencedProperty()) && $sourceEntity->getEntitySet()->getType()->getProperty($constraint->getProperty())) {
+            if ($this->getType()->getProperty($constraint->getReferencedProperty()->getName()) && $sourceEntity->getEntitySet()->getType()->getProperty($constraint->getProperty()->getName())) {
                 $targetConstraint = $constraint;
                 break;
             }

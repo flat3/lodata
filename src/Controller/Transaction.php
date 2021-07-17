@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Controller;
 
 use Exception;
@@ -724,8 +726,8 @@ class Transaction implements ArgumentInterface
 
         foreach ($unreservedChars as $unreservedChar) {
             $path = str_replace(
-                '%'.str_pad(dechex(ord($unreservedChar)), 2, '0', STR_PAD_LEFT),
-                $unreservedChar,
+                '%'.str_pad(dechex(ord((string) $unreservedChar)), 2, '0', STR_PAD_LEFT),
+                (string) $unreservedChar,
                 $path
             );
         }

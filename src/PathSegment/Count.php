@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Response;
@@ -32,7 +34,7 @@ class Count implements StreamInterface, PipeInterface
 
     public function emitStream(Transaction $transaction): void
     {
-        $transaction->sendOutput($this->countable->count());
+        $transaction->sendOutput((string) $this->countable->count());
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response

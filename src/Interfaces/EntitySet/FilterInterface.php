@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Interfaces\EntitySet;
 
 use Flat3\Lodata\Expression\Event;

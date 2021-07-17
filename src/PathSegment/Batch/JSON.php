@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\PathSegment\Batch;
 
 use Flat3\Lodata\Controller\Request;
@@ -141,7 +143,8 @@ class JSON extends Batch implements JsonInterface
             }
 
             if ($response->getResource() instanceof ResourceInterface) {
-                $this->setReference($requestData['id'], $response->getResource()->getResourceUrl($requestTransaction));
+                $this->setReference((string) $requestData['id'],
+                    $response->getResource()->getResourceUrl($requestTransaction));
             }
 
             $transaction->outputJsonObjectEnd();

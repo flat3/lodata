@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Response;
@@ -218,7 +220,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      */
     public function getIdentifier(): string
     {
-        return new Identifier($this::identifier);
+        return (string) new Identifier($this::identifier);
     }
 
     /**

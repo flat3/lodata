@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Traits;
 
 use Flat3\Lodata\Helper\Name;
@@ -23,7 +25,7 @@ trait HasName
      */
     public function getName(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

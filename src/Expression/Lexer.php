@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Expression;
 
 use Exception;
@@ -61,7 +63,7 @@ class Lexer
      * @param ?string  $value  Value
      * @return bool
      */
-    public static function patternCheck(string $expression, ?string $value): bool
+    public static function patternCheck(string $expression, string $value): bool
     {
         return preg_match('@^'.$expression.'$@', $value) === 1;
     }

@@ -44,7 +44,7 @@ class EnumerationTypeTest extends TestCase
     {
         try {
             $type = new EnumerationType('hello');
-            $type['aaa'] = 1;
+            $type['aaa'] = '1';
         } catch (InternalServerErrorException $e) {
             $this->assertProtocolExceptionSnapshot($e);
         }

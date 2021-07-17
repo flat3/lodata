@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Controller\Transaction;
@@ -59,7 +61,7 @@ class Stream extends Primitive
             return base64_encode(stream_get_contents($this->value));
         }
 
-        return base64_encode($this->value);
+        return base64_encode((string) $this->value);
     }
 
     public function set($value): self

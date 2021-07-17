@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
@@ -153,7 +155,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $this->resetParameters();
 
         $query = $this->pdoSelect($this->getRowCountQueryString());
-        return $query->fetchColumn();
+        return (int) $query->fetchColumn();
     }
 
     /**
@@ -161,7 +163,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      * @param  string  $queryString  Query string
      * @return int|null Affected row ID
      */
-    private function pdoModify(string $queryString): ?int
+    private function pdoModify(string $queryString): ?string
     {
         $dbh = $this->getHandle();
 

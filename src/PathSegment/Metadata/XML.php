@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\PathSegment\Metadata;
 
 use Flat3\Lodata\Annotation;
@@ -76,7 +78,7 @@ class XML extends Metadata implements StreamInterface
                     foreach ($typeDefinition->getMembers() as $memberName => $memberValue) {
                         $memberElement = $typeDefinitionElement->addChild('Member');
                         $memberElement->addAttribute('Name', $memberName);
-                        $memberElement->addAttribute('Value', $memberValue->getValue());
+                        $memberElement->addAttribute('Value', (string) $memberValue->getValue()->get());
                     }
                     break;
 

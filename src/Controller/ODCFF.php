@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Controller;
 
 use DOMDocument;
@@ -25,7 +27,7 @@ class ODCFF extends Controller
      * @param  string  $identifier  Identifier
      * @return Response Client response
      */
-    public function get($identifier)
+    public function get(string $identifier): Response
     {
         $response = new Response();
         $response->header('content-type', self::content_type);
@@ -109,7 +111,7 @@ class ODCFF extends Controller
             'Provider' => 'Microsoft.Mashup.OleDb.1',
             'Data Source' => '$Workbook$',
             'Location' => $resourceId,
-        ], null, ';'));
+        ], '', ';'));
         $powerQueryConnection->appendChild($connectionString);
 
         $commandType = $htmlDoc->createElement('odc:CommandType');
@@ -197,6 +199,7 @@ class ODCFF extends Controller
         );
         $response->headers->set('Content-Disposition', $disposition);
         $response->setContent($htmlDoc->saveHTML());
+
         return $response;
     }
 }

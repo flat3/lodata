@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Interfaces;
 
 use Flat3\Lodata\Controller\Transaction;

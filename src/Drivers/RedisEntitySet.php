@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
@@ -173,7 +175,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
                 yield $this->read($keyValue);
             }
 
-            $this->getSkipToken()->setValue($token);
+            $this->getSkipToken()->setValue((string) $token);
         } while ($token > 0);
 
         $this->getSkipToken()->clearValue();

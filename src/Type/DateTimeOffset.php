@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Type;
 
 use Carbon\CarbonImmutable as Carbon;
@@ -41,7 +43,7 @@ class DateTimeOffset extends Primitive
         }
 
         try {
-            $decodedValue = rawurldecode($value);
+            $decodedValue = rawurldecode((string) $value);
 
             if (is_numeric($decodedValue)) {
                 $decodedValue = '@'.$decodedValue;

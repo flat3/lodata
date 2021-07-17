@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Response;
@@ -58,7 +60,7 @@ class Value implements PipeInterface, StreamInterface
         }
 
         if ($primitive instanceof Stream && $primitive->getReadLink()) {
-            throw new FoundException($primitive->getReadLink());
+            throw new FoundException((string) $primitive->getReadLink());
         }
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
@@ -68,6 +70,6 @@ class Value implements PipeInterface, StreamInterface
 
     public function emitStream(Transaction $transaction): void
     {
-        $transaction->sendOutput($this->primitive->toJson());
+        $transaction->sendOutput((string) $this->primitive->toJson());
     }
 }

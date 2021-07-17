@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Expression\Parser;
 
 use Flat3\Lodata\Controller\Transaction;

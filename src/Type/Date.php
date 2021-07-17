@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Type;
 
 use Carbon\CarbonImmutable as Carbon;

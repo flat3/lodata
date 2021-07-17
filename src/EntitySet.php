@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Annotation\Capabilities;
@@ -664,7 +666,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     [
                         'query' => http_build_query(
                             array_merge($transactionParams, $paginationParams),
-                            null,
+                            '',
                             '&',
                             PHP_QUERY_RFC3986
                         ),

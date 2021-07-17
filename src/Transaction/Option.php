@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Controller\Transaction;
@@ -45,7 +47,7 @@ abstract class Option
      */
     public function getCommaSeparatedValues(): array
     {
-        return array_filter(array_map('trim', explode(',', $this->value)));
+        return array_filter(array_map('trim', explode(',', (string) $this->value)));
     }
 
     /**

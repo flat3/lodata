@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Traits;
 
 use Flat3\Lodata\Helper\Identifier;
@@ -23,7 +25,7 @@ trait HasIdentifier
      */
     public function getIdentifier(): string
     {
-        return $this->identifier;
+        return (string) $this->identifier;
     }
 
     /**

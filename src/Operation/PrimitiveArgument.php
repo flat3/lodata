@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Operation;
 
 use Flat3\Lodata\Exception\Internal\LexerException;
@@ -18,12 +20,12 @@ class PrimitiveArgument extends Argument
 {
     /**
      * Generate a primitive argument
-     * @param  null  $source
+     * @param  string|null  $source
      * @return ArgumentInterface|Primitive
      */
     public function generate($source = null): ArgumentInterface
     {
-        $lexer = new Lexer($source);
+        $lexer = new Lexer((string) $source);
 
         $type = $this->getType();
 

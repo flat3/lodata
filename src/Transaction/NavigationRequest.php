@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Expression\Lexer;

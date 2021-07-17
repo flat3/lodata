@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\ServiceProvider;
@@ -19,7 +21,7 @@ class PBIDS extends Controller
      * Generate a PowerBI data source discovery file
      * @return Response Client response
      */
-    public function get()
+    public function get(): Response
     {
         $response = new Response();
         $response->header('content-type', MediaType::json);
