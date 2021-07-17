@@ -143,8 +143,10 @@ class JSON extends Batch implements JsonInterface
             }
 
             if ($response->getResource() instanceof ResourceInterface) {
-                $this->setReference((string) $requestData['id'],
-                    $response->getResource()->getResourceUrl($requestTransaction));
+                $this->setReference(
+                    (string) $requestData['id'],
+                    $response->getResource()->getResourceUrl($requestTransaction)
+                );
             }
 
             $transaction->outputJsonObjectEnd();

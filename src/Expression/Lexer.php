@@ -60,7 +60,7 @@ class Lexer
     /**
      * Check the provided pattern against the value
      * @param  string  $expression  Expression
-     * @param ?string  $value  Value
+     * @param  string  $value  Value
      * @return bool
      */
     public static function patternCheck(string $expression, string $value): bool
