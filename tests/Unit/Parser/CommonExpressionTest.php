@@ -14,7 +14,7 @@ use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\TimeOfDay;
 use RuntimeException;
 
-class EvaluateTest extends TestCase
+class CommonExpressionTest extends TestCase
 {
     public function test_0()
     {
