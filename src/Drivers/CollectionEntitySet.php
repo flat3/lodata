@@ -17,7 +17,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
 {
     /**
      * Set the collection for this entity set
-     * @param  Collection  $collection Collection
+     * @param  Collection  $collection  Collection
      * @return $this
      */
     public function setCollection(Collection $collection): self

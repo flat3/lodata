@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
@@ -23,6 +22,31 @@ class SearchExpressionTest extends TestCase
     public function test_2()
     {
         $this->assertFalseExpression('there');
+    }
+
+    public function test_3()
+    {
+        $this->assertTrueExpression('hell or wor');
+    }
+
+    public function test_4()
+    {
+        $this->assertTrueExpression('hell and wor');
+    }
+
+    public function test_5()
+    {
+        $this->assertFalseExpression('hell and ther');
+    }
+
+    public function test_6()
+    {
+        $this->assertTrueExpression('hell or ther not th');
+    }
+
+    public function test_7()
+    {
+        $this->assertFalseExpression('hell or ther not world');
     }
 
     public function assertTrueExpression($expression): void
