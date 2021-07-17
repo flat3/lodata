@@ -10,7 +10,6 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Identifier;
-use Flat3\Lodata\Helper\Laravel;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -187,7 +186,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      */
     public function getNamespace(): string
     {
-        return Laravel::beforeLast($this->getIdentifier(), '.');
+        return Str::beforeLast($this->getIdentifier(), '.');
     }
 
     /**
