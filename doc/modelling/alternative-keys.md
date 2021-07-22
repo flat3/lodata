@@ -7,7 +7,7 @@ be used to reference an entity.
 The properties that should be used as alternative keys can be "tagged" using this example. Here the entity type 'airport' is retrieved,
 which may have been generated via autodiscovery. The 'name' property is also retrieved, and its 'alternativeKey' property is updated.
 
-```
+```php
 $airportType = Lodata::getEntityType('airport');
 $airportType->getProperty('code')->setAlternativeKey();
 ```

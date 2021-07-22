@@ -9,7 +9,7 @@ of a primitive type. The resulting instance of the custom generated property can
 This example creates and attaches a generated property named `cp` with the type `int32` on the `airport` entity type
 as an anonymous class. This property will be represented in the metadata alongside the other declared properties.
 
-```
+```php
 $airport = Lodata::getEntityType('airport');
 
 $property = new class('cp', Type::int32()) extends GeneratedProperty {

@@ -51,7 +51,7 @@ This method also works with `int` (converted to `Edm.Int64`), `float` (converted
 
 In these cases the returned value is coerced into the correct OData type if required.
 
-```
+```php
 Lodata::add((new class('helloworld') extends Operation implements FunctionInterface {
     public function invoke(): string
     {
@@ -63,7 +63,7 @@ Lodata::add((new class('helloworld') extends Operation implements FunctionInterf
 This Function receives two Edm.String parameters, and returns an Edm.String that concatenates them. The names of the parameters
 and their types are resolved through reflection. This function can be invoked via `http://localhost/odata/concat(one='hello',two='world')`
 
-```
+```php
 Lodata::add((new class('concat') extends Operation implements FunctionInterface {
     public function invoke(String_ $one, String_ $two): String_
     {
@@ -74,7 +74,7 @@ Lodata::add((new class('concat') extends Operation implements FunctionInterface 
 
 As with return types, PHP typed arguments can also be used in place of the strict OData types:
 
-```
+```php
 Lodata::add((new class('concat') extends Operation implements FunctionInterface {
     public function invoke(string $one, string $two): string
     {
@@ -86,7 +86,7 @@ Lodata::add((new class('concat') extends Operation implements FunctionInterface 
 This Function requests that the bound parameter be provided as the 'code' parameter to the method, and sends it back unmodified.
 This can be invoked via a URL for example `http://localhost/odata/Airports(1)/code/identity()`.
 
-```
+```php
 Lodata::add((new class('identity') extends Operation implements FunctionInterface {
     public function invoke(String_ $code): String_
     {
@@ -99,7 +99,7 @@ This Function requests the bound parameter be provided as the 'entity' parameter
 parameter 'prefix' and then returns an Edm.String.
 This can be invoked via a URL for example `http://localhost/odata/Airports(1)/codeprefix(prefix='example')`.
 
-```
+```php
 Lodata::add((new class('codeprefix') extends Operation implements FunctionInterface {
     public function invoke(Entity $entity, String_ $prefix): String_
     {
@@ -114,7 +114,7 @@ explicitly pulled from the model and provided to the operation.
 This can be invoked using a URL for example `http://localhost/odata/Airports/egen()` which would provide the `Airports` entity set
 to the `egen` function as the bound parameter.
 
-```
+```php
 Lodata::add((new class('egen') extends Operation implements FunctionInterface {
     public function invoke(EntitySet $texts): Entity
     {
@@ -130,7 +130,7 @@ argument to the invoke method. In this example the invoke method would receive t
 parameter. The transaction contains all of the available context for the request, and can provide items such as the current system
 query options.
 
-```
+```php
 Lodata::add((new class('hello') extends Operation implements FunctionInterface {
     public function invoke(Transaction $transaction): String_
     {

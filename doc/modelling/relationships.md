@@ -1,11 +1,28 @@
 # Relationships
 
-OData describes properties that allow navigation to related entities. These are powerful, but are more complicated to
-set up than other modelling activities. If you're using Eloquent entity sets then most of the time this can be
-automatically configured via discovery.
+## Navigation properties
 
-In this example we have two related entity types (and sets). A collection of people, and their pets. One person has
-many pets
+OData describes [Navigation Properties](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365)
+that allow URL navigation from one entity to its related entities.
+
+This allows you to make a request similar to:
+[`http://localhost:8000/odata/people/4/pets`](http://localhost:8000/odata/people/4/pets),
+which will return the collection of pets owned by the person with ID 4.
+In this case `pets` is the name of the navigation property on the `person` entity type.
+
+The metadata document contains representations of navigation properties, and the relationships between types and sets, so that
+clients can discover these capabilities. These are powerful features, but are a little more complicated to set up than
+other modelling activities.
+
+::: tip
+If you're using [Eloquent entity sets](./drivers/eloquent.md) then most of the time these relationships can be automatically configured via discovery.
+:::
+
+In this example we have two related entity types (and sets).
+A collection of people and their pets. In this case one person has many pets.
+
+As you step through this example it is
+useful to observe changes to the model in the CSDL [metadata documents](./README.md).
 
 ```php
 class LodataServiceProvider extends ServiceProvider
@@ -23,7 +40,7 @@ class LodataServiceProvider extends ServiceProvider
         $pet = EntityType::factory('pet')
             ->setKey(new DeclaredProperty('id', Type::int32())) // Primary key
             ->addDeclaredProperty('name', Type::string())
-            ->addDeclaredProperty('owner_id', Type::int32()); // Foreign key
+            ->addDeclaredProperty('owner_id', Type::int32());   // Foreign key
 
         // Add the entity types to the model
         Lodata::add($person);
@@ -39,19 +56,12 @@ class LodataServiceProvider extends ServiceProvider
 
         /* Step 2: Create the navigation property on the source type */
 
-        // Create the referential constraint (optional)
-        $petPersonConstraint = new ReferentialConstraint(
-            $person->getProperty('id'),   // Primary property
-            $pet->getProperty('owner_id') // Referenced property
-        );
-
         // Create the navigation property
         $toPet = new NavigationProperty(
-            'pets', // Target entity set
-            $pet          // Target entity type
+            'pets', // Navigation property name
+            $pet    // Target entity type
         );
-        $toPet->setCollection(true);        // Navigates to a collection of entities
-        $toPet->addConstraint($petPersonConstraint); // Use this constraint
+        $toPet->setCollection(true); // Navigates to a collection of entities
 
         // Add the navigation property to the source entity type
         $person->addProperty($toPet);
@@ -70,6 +80,40 @@ class LodataServiceProvider extends ServiceProvider
 }
 ```
 
-### Bindings
-### Navigation properties
-### Referential constraints
+## Constraints
+
+OData supports advertising the referential constraint between two properties, as a type of annotation of the navigation property.
+This is commonly needed for tools that interpret the OData feeds as relational models.
+
+```php
+$petPersonConstraint = new ReferentialConstraint(
+    $person->getProperty('id'),   // Primary property
+    $pet->getProperty('owner_id') // Referenced property
+);
+$toPet->addConstraint($petPersonConstraint); // Use this constraint
+```
+
+## Partners
+
+OData also supports combining the definition of two bindings in a "partner" configuration. This is used by the
+client to navigate in both directions on a single relationship.
+
+```php
+// Create one navigation property
+$toPet = new NavigationProperty(
+    'pets', // Navigation property name
+    $pet    // Target entity type
+);
+
+$toPet->setCollection(true);
+
+// Create the reverse navigation property
+$toPerson = new NavigationProperty(
+    'person', // Navigation property name
+    $person   // Target entity type
+);
+
+// Set the properties as partners
+$toPet->setPartner($toPerson);
+$toPerson->setPartner($toPet);
+```
