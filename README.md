@@ -47,4 +47,4 @@ where Lodata could be a great fit for your application:
 You can construct OData requests using any HTTP client, but there are also many developer-friendly
 [OData libraries](https://www.odata.org/libraries/) for different programming languages.
 
-Now go check out the five-minute [getting started](https://lodata.io/getting-started/README.md) guide!
+Now go check out the five-minute [getting started](https://lodata.io/getting-started/) guide!
