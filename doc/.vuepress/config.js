@@ -6,7 +6,7 @@ module.exports = {
         '@vuepress/back-to-top',
         '@vuepress/nprogress',
         ['@vuepress/google-analytics', {
-            id: 'G-2BL177945B'
+            ga: 'G-MVEQSHFCV9'
         }],
         ['container', {
             type: 'vue',
