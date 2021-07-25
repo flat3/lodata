@@ -13,6 +13,7 @@ module.exports = {
         ['sitemap', {
             hostname: 'https://lodata.io/',
         }],
+        "@kawarimidoll/tailwind",
     ],
 
     markdown: {
