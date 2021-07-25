@@ -5,9 +5,6 @@ module.exports = {
     plugins: [
         '@vuepress/back-to-top',
         '@vuepress/nprogress',
-        ['@vuepress/google-analytics', {
-            ga: 'G-MVEQSHFCV9'
-        }],
         ['container', {
             type: 'vue',
             before: '<pre class="vue-container"><code>',
@@ -30,7 +27,23 @@ module.exports = {
                 rel: 'stylesheet',
                 type: 'text/css',
             },
-        ]
+        ],
+        ...(process.env.NODE_ENV === 'production' ? [
+            [
+                'script',
+                {
+                    async: true,
+                    src: 'https://www.googletagmanager.com/gtag/js?id=G-MVEQSHFCV9',
+                },
+            ],
+            [
+                'script',
+                {},
+                [
+                    "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-MVEQSHFCV9');",
+                ],
+            ]
+        ] : []),
     ],
 
     themeConfig: {
