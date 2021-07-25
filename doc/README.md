@@ -6,9 +6,9 @@ actionText: Get started →
 actionLink: /introduction/
 features:
 - title: Supercharged REST API
-  details: Use a rich expression language to provide your data and services through a REST API with built-in filtering, pagination and searching.
-- title: Interoperable
-  details: Easily integrate your Laravel application with professional third-party software from Microsoft, SalesForce, SAP and a variety of open source packages.
-- title: Microservices
-  details: Lodata implements the majority of the OData standard, providing out-of-the-box interoperability with a wide range of third party consumers.
+  details: Develop single page and mobile applications with OData-supporting UI frameworks.
+- title: Big data 
+  details: Make live connections to business intelligence tools including PowerBI, Tableau and Excel.
+- title: Integrate your app
+  details: Create real simple integrations with enterprise applications from SAP, Salesforce and Microsoft without writing a single line of code.
 ---
