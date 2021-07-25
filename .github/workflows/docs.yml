@@ -1,0 +1,25 @@
+name: Documentation
+on:
+  push:
+    branches:
+      - develop
+      - main
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+
+      - name: Install and Build
+        working-directory: doc
+        run: |
+          yarn
+          yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: .vuepress/dist
+
