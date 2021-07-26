@@ -16,6 +16,7 @@ features:
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8 mb-16">
 <div>
 <h2>Powerful IDE support <span class="hidden sm:inline">&rarr;</span></h2>
+
 Lodata is strongly typed throughout and contains docblocks on every function.
 
 IDEs including [PhpStorm](https://www.jetbrains.com/phpstorm/) and
@@ -30,6 +31,7 @@ can pick up this documentation and provide autocompletion to guide you through c
 
 <div>
 <h2><span class="hidden sm:inline">&larr;</span> Discoverable APIs</h2>
+
 OData RESTful APIs are easy to consume. The OData metadata, a machine-readable description of the data model of the APIs,
 enables the creation of powerful generic client proxies and tools.
 
