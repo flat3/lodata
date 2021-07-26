@@ -9,10 +9,13 @@
 
 [Lodata](https://lodata.io) is an implementation of the OData v4.01 Producer protocol, designed for use with the Laravel framework.
 
+[See the documentation here!](https://lodata.io/introduction/)
+
 [OData](https://www.odata.org) (Open Data Protocol) is an
 [ISO/IEC approved](https://www.oasis-open.org/news/pr/iso-iec-jtc-1-approves-oasis-odata-standard-for-open-data-exchange),
 [OASIS standard](https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=odata) that defines a set of best practices for building and
 consuming RESTful APIs.
+
 OData helps you focus on your business logic while building RESTful APIs without having to worry about the various approaches to define request
 and response headers, status codes, HTTP methods, URL conventions, media types, payload formats, query options, etc. OData also provides guidance
 for tracking changes, defining functions/actions for reusable procedures, and sending asynchronous/batch requests.
