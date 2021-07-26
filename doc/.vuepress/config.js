@@ -41,9 +41,23 @@ module.exports = {
                 'script',
                 {},
                 [
-                    "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-MVEQSHFCV9');",
+                    "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-MVEQSHFCV9');",
                 ],
-            ]
+            ],
+            [
+                'script',
+                {
+                    defer: true,
+                    src: 'https://cdn.websitepolicies.io/lib/cookieconsent/1.0.3/cookieconsent.min.js',
+                }
+            ],
+            [
+                'script',
+                {},
+                [
+                    'window.addEventListener("load",function(){window.wpcc.init({"border":"thin","corners":"small","colors":{"popup":{"background":"#0396A6","text":"#fff","border":"#0396A6"},"button":{"background":"#f6f7ff","text":"#4e6e8e"}},"position":"bottom-right"})});',
+                ],
+            ],
         ] : []),
     ],
 
