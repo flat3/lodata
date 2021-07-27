@@ -32,6 +32,9 @@ GET http://localhost:8000/odata/People
 </code-block>
 </code-group>
 
+OData URLs are case-sensitive, make sure you're using the right casing
+for your entity sets!
+
 ## Individual Entity by ID
 
 The requests below return an individual entity of type Person by the given ID 'michael-caine'.

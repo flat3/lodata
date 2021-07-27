@@ -16,7 +16,7 @@ Now (re)start your app. The OData API endpoint will be available at: [`http://12
 
 Accessing that endpoint in a browser or an API client such as [Postman](https://www.postman.com/product/api-client/) will show you
 the [Service Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ServiceDocumentRequest)
-that describes the services available at this endpoint. This will be empty at the moment.
+that describes the services available at this endpoint. This will show an empty array of services at the moment.
 
 ## Step 2: Discovery
 
@@ -33,6 +33,9 @@ Open this file and add the following to the `boot()` method.
 
 You can now access [`http://127.0.0.1:8000/odata/Users`](http://127.0.0.1:8000/odata/Users) and see the users in your database.
 Note that the properties of the model have been discovered, and their types automatically detected.
+
+Lodata uses the same casing and pluralisation approach as Laravel, and OData URLs are **case-sensitive**.
+Therefore, the `User` model is exposed as `Users` in the URL.
 
 ## Step 3: Try a query
 
