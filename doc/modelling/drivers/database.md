@@ -27,3 +27,5 @@ types discovered by the entity set.
 
 Almost all the available `$filter` capabilities are mapped into SQL expressions, supporting all the same database
 backends that Laravel does.
+
+This driver supports `$search` by passing the provided search term into `field LIKE %param%` requests.

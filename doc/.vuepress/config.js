@@ -160,6 +160,7 @@ module.exports = {
                     'modelling/singletons',
                     'modelling/alternative-keys',
                     'modelling/generated-properties',
+                    'modelling/search',
                 ],
             },
             {
