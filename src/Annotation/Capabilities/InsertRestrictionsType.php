@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class InsertRestrictionsType extends ComplexType
 {
-    const Insertable = 'Insertable';
+    const insertable = 'Insertable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.InsertRestrictionsType');
 
-        $this->addDeclaredProperty(self::Insertable, Type::boolean());
+        $this->addDeclaredProperty(self::insertable, Type::boolean());
     }
 }

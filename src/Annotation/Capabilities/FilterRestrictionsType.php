@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class FilterRestrictionsType extends ComplexType
 {
-    const Filterable = 'Filterable';
+    const filterable = 'Filterable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.FilterRestrictionsType');
 
-        $this->addDeclaredProperty(self::Filterable, Type::boolean());
+        $this->addDeclaredProperty(self::filterable, Type::boolean());
     }
 }

@@ -435,16 +435,16 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             }
         }
 
-        Gate::check(Gate::EXECUTE, $operation, $transaction, $arguments);
+        Gate::check(Gate::execute, $operation, $transaction, $arguments);
 
         $result = call_user_func_array([$operation, 'invoke'], array_values($arguments));
 
         if ($operation instanceof ActionInterface) {
-            $returnPreference = $transaction->getPreferenceValue(Constants::RETURN);
+            $returnPreference = $transaction->getPreferenceValue(Constants::return);
 
-            if ($returnPreference === Constants::MINIMAL) {
+            if ($returnPreference === Constants::minimal) {
                 throw NoContentException::factory()
-                    ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL);
+                    ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal);
             }
         }
 

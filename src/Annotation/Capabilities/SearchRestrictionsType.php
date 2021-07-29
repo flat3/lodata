@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class SearchRestrictionsType extends ComplexType
 {
-    const Searchable = 'Searchable';
+    const searchable = 'Searchable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.SearchRestrictionsType');
 
-        $this->addDeclaredProperty(self::Searchable, Type::boolean());
+        $this->addDeclaredProperty(self::searchable, Type::boolean());
     }
 }

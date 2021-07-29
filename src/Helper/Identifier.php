@@ -34,7 +34,7 @@ final class Identifier
             $identifier = config('lodata.namespace').'.'.$identifier;
         }
 
-        if (!Lexer::patternCheck(Lexer::QUALIFIED_IDENTIFIER, $identifier)) {
+        if (!Lexer::patternCheck(Lexer::qualifiedIdentifier, $identifier)) {
             throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$identifier);
         }
 

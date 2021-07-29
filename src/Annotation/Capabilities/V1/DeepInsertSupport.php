@@ -25,11 +25,11 @@ class DeepInsertSupport extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(DeepInsertSupportType::Supported))
+            ->setProperty($type->getProperty(DeepInsertSupportType::supported))
             ->setValue(Boolean::factory(true));
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(DeepInsertSupportType::ContentIDSupported))
+            ->setProperty($type->getProperty(DeepInsertSupportType::contentIdSupported))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -37,14 +37,14 @@ class DeepInsertSupport extends Annotation
 
     public function setSupported(bool $supported): self
     {
-        $this->value[DeepInsertSupportType::Supported]->setValue(Boolean::factory($supported));
+        $this->value[DeepInsertSupportType::supported]->setValue(Boolean::factory($supported));
 
         return $this;
     }
 
     public function setContentIDSupported(bool $contentIDSupported): self
     {
-        $this->value[DeepInsertSupportType::ContentIDSupported]->setValue(Boolean::factory($contentIDSupported));
+        $this->value[DeepInsertSupportType::contentIdSupported]->setValue(Boolean::factory($contentIDSupported));
 
         return $this;
     }

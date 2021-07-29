@@ -25,11 +25,11 @@ class UpdateRestrictions extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(UpdateRestrictionsType::Updatable))
+            ->setProperty($type->getProperty(UpdateRestrictionsType::updatable))
             ->setValue(Boolean::factory(true));
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(UpdateRestrictionsType::DeltaUpdateSupported))
+            ->setProperty($type->getProperty(UpdateRestrictionsType::deltaUpdateSupported))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -37,14 +37,14 @@ class UpdateRestrictions extends Annotation
 
     public function setUpdatable(bool $updatable): self
     {
-        $this->value[UpdateRestrictionsType::Updatable]->setValue(Boolean::factory($updatable));
+        $this->value[UpdateRestrictionsType::updatable]->setValue(Boolean::factory($updatable));
 
         return $this;
     }
 
     public function setDeltaUpdateSupported(bool $deltaUpdateSupported): self
     {
-        $this->value[UpdateRestrictionsType::DeltaUpdateSupported]->setValue(Boolean::factory($deltaUpdateSupported));
+        $this->value[UpdateRestrictionsType::deltaUpdateSupported]->setValue(Boolean::factory($deltaUpdateSupported));
 
         return $this;
     }

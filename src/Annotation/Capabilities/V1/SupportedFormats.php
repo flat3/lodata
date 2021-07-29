@@ -30,9 +30,9 @@ class SupportedFormats extends Annotation
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
             $this->value->add(new String_(
                 MediaType::factory()->parse(MediaType::json)
-                    ->setParameter(Constants::ODATA_METADATA, $attribute::name)
-                    ->setParameter(Constants::IEEE_754_COMPATIBLE, Constants::TRUE)
-                    ->setParameter(Constants::ODATA_STREAMING, Constants::TRUE)
+                    ->setParameter(Constants::odataMetadata, $attribute::name)
+                    ->setParameter(Constants::ieee754Compatible, Constants::true)
+                    ->setParameter(Constants::odataStreaming, Constants::true)
             ));
         }
     }

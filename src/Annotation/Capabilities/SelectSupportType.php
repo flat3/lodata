@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class SelectSupportType extends ComplexType
 {
-    const Supported = 'Supported';
+    const supported = 'Supported';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.SelectSupportType');
 
-        $this->addDeclaredProperty(self::Supported, Type::boolean());
+        $this->addDeclaredProperty(self::supported, Type::boolean());
     }
 }

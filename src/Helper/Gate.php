@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Gate as LaravelGate;
  */
 class Gate
 {
-    const READ = 'read';
-    const CREATE = 'create';
-    const DELETE = 'delete';
-    const UPDATE = 'update';
-    const QUERY = 'query';
-    const EXECUTE = 'execute';
+    const read = 'read';
+    const create = 'create';
+    const delete = 'delete';
+    const update = 'update';
+    const query = 'query';
+    const execute = 'execute';
 
     protected $access;
     protected $resource;
@@ -83,7 +83,7 @@ class Gate
         $gate->transaction = $transaction;
         $gate->arguments = $arguments;
 
-        if (!in_array($access, [self::READ, self::QUERY]) && config('lodata.readonly') === true) {
+        if (!in_array($access, [self::read, self::query]) && config('lodata.readonly') === true) {
             throw new ForbiddenException('forbidden', 'This service is read-only');
         }
 

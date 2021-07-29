@@ -1,5 +1,6 @@
 headers:
     cache-control: ['no-cache, private']
+    trailer: [odata-error]
     preference-applied: [omit-values=nulls]
     vary: [prefer]
     content-type: [application/json]

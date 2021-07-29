@@ -20,12 +20,12 @@ class DateTimeOffset extends Primitive
     const identifier = 'Edm.DateTimeOffset';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'date-time',
-        'pattern' => '^'.Lexer::DATE_TIME_OFFSET.'$',
+        'pattern' => '^'.Lexer::dateTimeOffset.'$',
     ];
 
-    public const DATE_FORMAT = 'c';
+    public const dateFormat = 'c';
 
     /** @var ?Carbon $value */
     protected $value;
@@ -76,10 +76,10 @@ class DateTimeOffset extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
-        return rawurlencode($this->value->format($this::DATE_FORMAT));
+        return rawurlencode($this->value->format($this::dateFormat));
     }
 
     public function toJson(): ?string
@@ -88,7 +88,7 @@ class DateTimeOffset extends Primitive
             return null;
         }
 
-        return $this->value->format($this::DATE_FORMAT);
+        return $this->value->format($this::dateFormat);
     }
 
     public static function fromLexer(Lexer $lexer): Primitive

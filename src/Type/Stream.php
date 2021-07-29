@@ -22,7 +22,7 @@ class Stream extends Primitive
     const identifier = 'Edm.Stream';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'base64url',
     ];
 
@@ -38,7 +38,7 @@ class Stream extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         return sprintf("'%s'", $this->getEncodedValueAsString());

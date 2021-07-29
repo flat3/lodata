@@ -18,14 +18,14 @@ class Double extends Decimal
     const openApiSchema = [
         'anyOf' => [
             [
-                'type' => Constants::OAPI_NUMBER,
+                'type' => Constants::oapiNumber,
                 'format' => 'double',
             ],
             [
                 'enum' => [
-                    Constants::NEG_INFINITY,
-                    Constants::INFINITY,
-                    Constants::NOT_A_NUMBER,
+                    Constants::negativeInfinity,
+                    Constants::infinity,
+                    Constants::notANumber,
                 ],
             ]
         ],

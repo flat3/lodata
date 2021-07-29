@@ -55,17 +55,17 @@ class MediaType
 
         // Order by priority
         usort($types, function (MediaType $a, MediaType $b) {
-            return $b->getParameter(Constants::Q) <=> $a->getParameter(Constants::Q);
+            return $b->getParameter(Constants::q) <=> $a->getParameter(Constants::q);
         });
 
         foreach ($types as $type) {
             // Reject formats with unknown format parameters
             if (array_diff($type->getParameterKeys(), [
-                Constants::IEEE_754_COMPATIBLE,
-                Constants::ODATA_METADATA,
-                Constants::ODATA_STREAMING,
-                Constants::CHARSET,
-                Constants::Q,
+                Constants::ieee754Compatible,
+                Constants::odataMetadata,
+                Constants::odataStreaming,
+                Constants::charset,
+                Constants::q,
             ])) {
                 continue;
             }

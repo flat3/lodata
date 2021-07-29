@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class SortRestrictionsType extends ComplexType
 {
-    const Sortable = 'Sortable';
+    const sortable = 'Sortable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.SortRestrictionsType');
 
-        $this->addDeclaredProperty(self::Sortable, Type::boolean());
+        $this->addDeclaredProperty(self::sortable, Type::boolean());
     }
 }

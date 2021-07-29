@@ -16,7 +16,7 @@ class Int16 extends Byte
     const identifier = 'Edm.Int16';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_INTEGER,
+        'type' => Constants::oapiInteger,
         'format' => 'int16',
         'minimum' => -(2 ** 15),
         'maximum' => (2 ** 15) - 1,

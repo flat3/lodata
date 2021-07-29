@@ -20,7 +20,7 @@ class String_ extends Primitive
     const identifier = 'Edm.String';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
     ];
 
     /** @var ?string $value */
@@ -29,7 +29,7 @@ class String_ extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         return "'".str_replace("'", "''", $this->value)."'";

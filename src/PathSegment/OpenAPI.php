@@ -72,7 +72,7 @@ use Illuminate\Http\Request;
 
 class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 {
-    const OPENAPI_VERSION = '3.0.3';
+    const openapiVersion = '3.0.3';
 
     public static function pipe(
         Transaction $transaction,
@@ -110,7 +110,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
          * 4.1 Field openapi
          * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_Fieldopenapi
          */
-        $document->openapi = self::OPENAPI_VERSION;
+        $document->openapi = self::openapiVersion;
 
         /**
          * 4.2 Field info
@@ -278,7 +278,7 @@ DESC, [
                         ],
                     ],
                 ],
-                Response::HTTP_ERROR_ANY => [
+                Response::httpErrorAny => [
                     '$ref' => '#/components/responses/error',
                 ],
             ];
@@ -367,7 +367,7 @@ DESC, [
                 'description' => __('Success'),
             ];
 
-            $responses[Response::HTTP_ERROR_ANY] = [
+            $responses[Response::httpErrorAny] = [
                 '$ref' => '#/components/responses/error',
             ];
 
@@ -400,7 +400,7 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        'type' => Constants::OAPI_STRING,
+                        'type' => Constants::oapiString,
                     ],
                     'example' => [
                         'requests' => [
@@ -425,7 +425,7 @@ DESC, [
                     ->parse(MediaType::multipartMixed)
                     ->setParameter('boundary', 'request-separator') => [
                     'schema' => [
-                        'type' => Constants::OAPI_STRING,
+                        'type' => Constants::oapiString,
                     ],
                     'example' => implode("\n", [
                         '--request-separator',
@@ -450,7 +450,7 @@ DESC, [
                 'content' => [
                     MediaType::json => [
                         'schema' => [
-                            'type' => Constants::OAPI_STRING,
+                            'type' => Constants::oapiString,
                         ],
                         'example' => [
                             'responses' => [
@@ -468,7 +468,7 @@ DESC, [
                     ],
                     MediaType::multipartMixed => [
                         'schema' => [
-                            'type' => Constants::OAPI_STRING,
+                            'type' => Constants::oapiString,
                         ],
                         'example' => implode("\n", [
                             '--response-separator',
@@ -483,7 +483,7 @@ DESC, [
                     ],
                 ],
             ],
-            Response::HTTP_ERROR_ANY => [
+            Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
             ],
         ];
@@ -500,13 +500,13 @@ DESC, [
             $schemas->{$entityType->getIdentifier().'~update'} = $entityType->toOpenAPIUpdateSchema();
         }
 
-        $schemas->{ComplexType::identifier} = ['type' => Constants::OAPI_OBJECT];
-        $schemas->{EntityType::identifier} = ['type' => Constants::OAPI_OBJECT];
+        $schemas->{ComplexType::identifier} = ['type' => Constants::oapiObject];
+        $schemas->{EntityType::identifier} = ['type' => Constants::oapiObject];
         $schemas->{PrimitiveType::identifier} = [
             'anyOf' => [
                 Boolean::openApiSchema,
                 String_::openApiSchema,
-                ['type' => Constants::OAPI_NUMBER],
+                ['type' => Constants::oapiNumber],
             ],
         ];
         $schemas->{Annotation::identifier} = String_::openApiSchema;
@@ -533,11 +533,11 @@ DESC, [
         $schemas->{'count'} = [
             'anyOf' => [
                 [
-                    'type' => Constants::OAPI_INTEGER,
+                    'type' => Constants::oapiInteger,
                     'minimum' => 0,
                 ],
                 [
-                    'type' => Constants::OAPI_STRING
+                    'type' => Constants::oapiString
                 ],
             ],
             'description' => __(
@@ -554,27 +554,27 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        'type' => Constants::OAPI_OBJECT,
+                        'type' => Constants::oapiObject,
                         'properties' => [
                             'error' => [
-                                'type' => Constants::OAPI_OBJECT,
+                                'type' => Constants::oapiObject,
                                 'properties' => [
-                                    'code' => ['type' => Constants::OAPI_STRING],
-                                    'message' => ['type' => Constants::OAPI_STRING],
-                                    'target' => ['type' => Constants::OAPI_STRING],
+                                    'code' => ['type' => Constants::oapiString],
+                                    'message' => ['type' => Constants::oapiString],
+                                    'target' => ['type' => Constants::oapiString],
                                     'details' => [
-                                        'type' => Constants::OAPI_ARRAY,
+                                        'type' => Constants::oapiArray,
                                         'items' => [
-                                            'type' => Constants::OAPI_OBJECT,
+                                            'type' => Constants::oapiObject,
                                             'properties' => [
-                                                'code' => ['type' => Constants::OAPI_STRING],
-                                                'message' => ['type' => Constants::OAPI_STRING],
-                                                'target' => ['type' => Constants::OAPI_STRING],
+                                                'code' => ['type' => Constants::oapiString],
+                                                'message' => ['type' => Constants::oapiString],
+                                                'target' => ['type' => Constants::oapiString],
                                             ],
                                         ],
                                     ],
                                     'innererror' => [
-                                        'type' => Constants::OAPI_OBJECT,
+                                        'type' => Constants::oapiObject,
                                         'description' => __('The structure of this object is service-specific'),
                                     ],
                                 ],
@@ -590,7 +590,7 @@ DESC, [
         $parameters->top = [
             'name' => Top::param,
             'schema' => [
-                'type' => Constants::OAPI_INTEGER,
+                'type' => Constants::oapiInteger,
                 'minimum' => 0,
             ],
             'in' => 'query',
@@ -603,7 +603,7 @@ DESC, [
         $parameters->skip = [
             'name' => Skip::param,
             'schema' => [
-                'type' => Constants::OAPI_INTEGER,
+                'type' => Constants::oapiInteger,
                 'minimum' => 0,
             ],
             'in' => 'query',
@@ -616,7 +616,7 @@ DESC, [
         $parameters->skiptoken = [
             'name' => SkipToken::param,
             'schema' => [
-                'type' => Constants::OAPI_STRING,
+                'type' => Constants::oapiString,
             ],
             'in' => 'query',
             'description' => __(
@@ -628,7 +628,7 @@ DESC, [
         $parameters->count = [
             'name' => Count::param,
             'schema' => [
-                'type' => Constants::OAPI_BOOLEAN,
+                'type' => Constants::oapiBoolean,
             ],
             'in' => 'query',
             'description' => __(
@@ -640,7 +640,7 @@ DESC, [
         $parameters->filter = [
             'name' => Filter::param,
             'schema' => [
-                'type' => Constants::OAPI_STRING,
+                'type' => Constants::oapiString,
             ],
             'in' => 'query',
             'description' => __(
@@ -652,7 +652,7 @@ DESC, [
         $parameters->search = [
             'name' => Search::param,
             'schema' => [
-                'type' => Constants::OAPI_STRING,
+                'type' => Constants::oapiString,
             ],
             'in' => 'query',
             'description' => __(
@@ -675,10 +675,10 @@ DESC, [
             ),
             'explode' => false,
             'schema' => [
-                'type' => Constants::OAPI_ARRAY,
+                'type' => Constants::oapiArray,
                 'uniqueItems' => true,
                 'items' => [
-                    'type' => Constants::OAPI_STRING,
+                    'type' => Constants::oapiString,
                     'enum' => $resource->getType()->getNavigationProperties()->keys(),
                 ]
             ]
@@ -703,10 +703,10 @@ DESC, [
             ),
             'explode' => false,
             'schema' => [
-                'type' => Constants::OAPI_ARRAY,
+                'type' => Constants::oapiArray,
                 'uniqueItems' => true,
                 'items' => [
-                    'type' => Constants::OAPI_STRING,
+                    'type' => Constants::oapiString,
                     'enum' => array_merge(['*'], $properties->keys()),
                 ]
             ]
@@ -736,10 +736,10 @@ DESC, [
             ),
             'explode' => false,
             'schema' => [
-                'type' => Constants::OAPI_ARRAY,
+                'type' => Constants::oapiArray,
                 'uniqueItems' => true,
                 'items' => [
-                    'type' => Constants::OAPI_STRING,
+                    'type' => Constants::oapiString,
                     'enum' => $orderable,
                 ]
             ]
@@ -809,7 +809,7 @@ DESC, [
 
         $properties = [
             'value' => [
-                'type' => Constants::OAPI_ARRAY,
+                'type' => Constants::oapiArray,
                 'items' => [
                     '$ref' => '#/components/schemas/'.$entitySet->getType()->getIdentifier(),
                 ]
@@ -828,14 +828,14 @@ DESC, [
                 'content' => [
                     MediaType::json => [
                         'schema' => [
-                            'type' => Constants::OAPI_OBJECT,
+                            'type' => Constants::oapiObject,
                             'title' => __('Collection of :name', ['name' => $entitySet->getName()]),
                             'properties' => $properties,
                         ]
                     ]
                 ]
             ],
-            Response::HTTP_ERROR_ANY => [
+            Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
             ],
         ];
@@ -889,7 +889,7 @@ DESC, [
             Response::HTTP_NO_CONTENT => [
                 'description' => __('Success'),
             ],
-            Response::HTTP_ERROR_ANY => [
+            Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
             ],
         ];
@@ -926,7 +926,7 @@ DESC, [
                     ],
                 ],
             ],
-            Response::HTTP_ERROR_ANY => [
+            Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
             ],
         ];
@@ -960,7 +960,7 @@ DESC, [
             Response::HTTP_NO_CONTENT => [
                 'description' => __('Success'),
             ],
-            Response::HTTP_ERROR_ANY => [
+            Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
             ],
         ];
@@ -978,7 +978,7 @@ DESC, [
             Response::HTTP_NO_CONTENT => [
                 'description' => __('Success'),
             ],
-            Response::HTTP_ERROR_ANY => [
+            Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
             ],
         ];

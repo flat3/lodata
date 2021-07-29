@@ -1,5 +1,6 @@
 headers:
     cache-control: ['no-cache, private']
+    trailer: [odata-error]
     content-type: [application/json]
     odata-version: ['4.01']
     location: ['http://localhost/odata/examples(''zeta'')']

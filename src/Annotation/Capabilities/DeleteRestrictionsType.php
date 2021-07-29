@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class DeleteRestrictionsType extends ComplexType
 {
-    const Deletable = 'Deletable';
+    const deletable = 'Deletable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.DeleteRestrictionsType');
 
-        $this->addDeclaredProperty(self::Deletable, Type::boolean());
+        $this->addDeclaredProperty(self::deletable, Type::boolean());
     }
 }

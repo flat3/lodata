@@ -190,7 +190,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $top = $transaction->getTop();
 
-        $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
+        $maxPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
         if (!$top->hasValue() && $maxPageSize) {
             $top->setValue($maxPageSize);
         }
@@ -235,13 +235,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        Gate::check(Gate::QUERY, $this, $transaction);
+        Gate::check(Gate::query, $this, $transaction);
 
         $top = $this->getTop();
-        $maxPageSize = $transaction->getPreferenceValue(Constants::MAX_PAGE_SIZE);
+        $maxPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
 
         if (!$top->hasValue() && $maxPageSize) {
-            $transaction->preferenceApplied(Constants::MAX_PAGE_SIZE, $maxPageSize);
+            $transaction->preferenceApplied(Constants::maxPageSize, $maxPageSize);
             $top->setValue($maxPageSize);
         }
 
@@ -299,7 +299,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
-                Gate::check(Gate::CREATE, $this, $transaction);
+                Gate::check(Gate::create, $this, $transaction);
 
                 $transaction->assertContentTypeJson();
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
@@ -307,13 +307,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 $result = $this->create();
 
                 if (
-                    $transaction->getPreferenceValue(Constants::RETURN) === Constants::MINIMAL &&
+                    $transaction->getPreferenceValue(Constants::return) === Constants::minimal &&
                     !$transaction->getSelect()->hasValue() &&
                     !$transaction->getExpand()->hasValue()
                 ) {
                     throw NoContentException::factory()
-                        ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL)
-                        ->header(Constants::ODATA_ENTITY_ID, $result->getResourceUrl($transaction));
+                        ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal)
+                        ->header(Constants::odataEntityId, $result->getResourceUrl($transaction));
                 }
 
                 $transaction->getResponse()->headers->add(['Location' => $result->getResourceUrl($transaction)]);
@@ -736,7 +736,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             );
         }
 
-        Gate::check(Gate::CREATE, $this, $transaction);
+        Gate::check(Gate::create, $this, $transaction);
 
         return $this->create();
     }
@@ -754,7 +754,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 'The requested entity set does not support update operations');
         }
 
-        Gate::check(Gate::UPDATE, $entity, $transaction);
+        Gate::check(Gate::update, $entity, $transaction);
 
         return $this->update($entity->getEntityId());
     }
@@ -776,7 +776,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
-                Gate::check(Gate::DELETE, $entity, $transaction);
+                Gate::check(Gate::delete, $entity, $transaction);
                 $this->delete($entity->getEntityId());
                 break;
 

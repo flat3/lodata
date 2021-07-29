@@ -18,7 +18,7 @@ class UInt64 extends Int64
     const underlyingType = Int64::class;
 
     const openApiSchema = [
-        'type' => Constants::OAPI_INTEGER,
+        'type' => Constants::oapiInteger,
         'format' => 'int64',
         'minimum' => 0,
         'maximum' => PHP_INT_MAX,

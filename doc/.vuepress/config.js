@@ -175,6 +175,7 @@ module.exports = {
                     'making-requests/asynchronous-requests',
                     'making-requests/batch',
                     'making-requests/metadata',
+                    'making-requests/error',
                 ]
             },
             {

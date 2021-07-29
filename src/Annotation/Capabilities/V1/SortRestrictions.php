@@ -25,7 +25,7 @@ class SortRestrictions extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(SortRestrictionsType::Sortable))
+            ->setProperty($type->getProperty(SortRestrictionsType::sortable))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -33,7 +33,7 @@ class SortRestrictions extends Annotation
 
     public function setSortable(bool $sortable): self
     {
-        $this->value[SortRestrictionsType::Sortable]->setValue(Boolean::factory($sortable));
+        $this->value[SortRestrictionsType::sortable]->setValue(Boolean::factory($sortable));
 
         return $this;
     }

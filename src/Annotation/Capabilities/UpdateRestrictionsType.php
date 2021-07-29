@@ -9,14 +9,14 @@ use Flat3\Lodata\Type;
 
 class UpdateRestrictionsType extends ComplexType
 {
-    const Updatable = 'Updatable';
-    const DeltaUpdateSupported = 'DeltaUpdateSupported';
+    const updatable = 'Updatable';
+    const deltaUpdateSupported = 'DeltaUpdateSupported';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.UpdateRestrictionsType');
 
-        $this->addDeclaredProperty(self::Updatable, Type::boolean());
-        $this->addDeclaredProperty(self::DeltaUpdateSupported, Type::boolean());
+        $this->addDeclaredProperty(self::updatable, Type::boolean());
+        $this->addDeclaredProperty(self::deltaUpdateSupported, Type::boolean());
     }
 }

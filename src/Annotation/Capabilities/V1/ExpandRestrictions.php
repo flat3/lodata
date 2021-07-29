@@ -25,7 +25,7 @@ class ExpandRestrictions extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(ExpandRestrictionsType::Expandable))
+            ->setProperty($type->getProperty(ExpandRestrictionsType::expandable))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -33,7 +33,7 @@ class ExpandRestrictions extends Annotation
 
     public function setExpandable(bool $expandable): self
     {
-        $this->value[ExpandRestrictionsType::Expandable]->setValue(Boolean::factory($expandable));
+        $this->value[ExpandRestrictionsType::expandable]->setValue(Boolean::factory($expandable));
 
         return $this;
     }

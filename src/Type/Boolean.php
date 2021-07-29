@@ -18,7 +18,7 @@ class Boolean extends Primitive
     const identifier = 'Edm.Boolean';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_BOOLEAN,
+        'type' => Constants::oapiBoolean,
     ];
 
     /** @var ?bool $value */
@@ -27,10 +27,10 @@ class Boolean extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
-        return $this->value ? Constants::TRUE : Constants::FALSE;
+        return $this->value ? Constants::true : Constants::false;
     }
 
     public function toJson(): ?bool
@@ -46,13 +46,13 @@ class Boolean extends Primitive
             return $this;
         }
 
-        if (Constants::TRUE === $value) {
+        if (Constants::true === $value) {
             $this->value = true;
 
             return $this;
         }
 
-        if (Constants::FALSE === $value) {
+        if (Constants::false === $value) {
             $this->value = false;
 
             return $this;

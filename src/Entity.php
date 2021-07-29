@@ -460,7 +460,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
         }
 
-        Gate::check(Gate::DELETE, $this, $transaction);
+        Gate::check(Gate::delete, $this, $transaction);
         $transaction->assertIfMatchHeader($this->getETag());
 
         $entitySet->delete($this->getEntityId());
@@ -482,7 +482,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
             throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
         }
 
-        Gate::check(Gate::UPDATE, $this, $transaction);
+        Gate::check(Gate::update, $this, $transaction);
 
         $transaction->assertContentTypeJson();
         $transaction->assertIfMatchHeader($this->getETag());
@@ -490,13 +490,13 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
         $entity = $entitySet->update($this->getEntityId());
 
         if (
-            $transaction->getPreferenceValue(Constants::RETURN) === Constants::MINIMAL &&
+            $transaction->getPreferenceValue(Constants::return) === Constants::minimal &&
             !$transaction->getSelect()->hasValue() &&
             !$transaction->getExpand()->hasValue()
         ) {
             throw NoContentException::factory()
-                ->header(Constants::PREFERENCE_APPLIED, Constants::RETURN.'='.Constants::MINIMAL)
-                ->header(Constants::ODATA_ENTITY_ID, $entity->getResourceUrl($transaction));
+                ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal)
+                ->header(Constants::odataEntityId, $entity->getResourceUrl($transaction));
         }
 
         return $entity->get($transaction, $context);
@@ -510,7 +510,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
      */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        Gate::check(Gate::READ, $this, $transaction);
+        Gate::check(Gate::read, $this, $transaction);
 
         $context = $context ?: $this;
 

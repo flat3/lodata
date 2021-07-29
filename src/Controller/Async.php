@@ -27,8 +27,8 @@ class Async implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    const STATUS_PENDING = 'pending';
-    const STATUS_COMPLETE = 'complete';
+    const pending = 'pending';
+    const complete = 'complete';
 
     /**
      * Job ID
@@ -201,7 +201,7 @@ class Async implements ShouldQueue
      */
     public function setPending(): self
     {
-        $this->setStatus(self::STATUS_PENDING);
+        $this->setStatus(self::pending);
         return $this;
     }
 
@@ -211,7 +211,7 @@ class Async implements ShouldQueue
      */
     public function setComplete(): self
     {
-        $this->setStatus(self::STATUS_COMPLETE);
+        $this->setStatus(self::complete);
         return $this;
     }
 
@@ -283,7 +283,7 @@ class Async implements ShouldQueue
      */
     public function isPending(): bool
     {
-        return $this->getStatus() === self::STATUS_PENDING;
+        return $this->getStatus() === self::pending;
     }
 
     /**

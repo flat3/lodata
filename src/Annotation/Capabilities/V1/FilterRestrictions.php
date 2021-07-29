@@ -25,7 +25,7 @@ class FilterRestrictions extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(FilterRestrictionsType::Filterable))
+            ->setProperty($type->getProperty(FilterRestrictionsType::filterable))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -33,7 +33,7 @@ class FilterRestrictions extends Annotation
 
     public function setFilterable(bool $filterable): self
     {
-        $this->value[FilterRestrictionsType::Filterable]->setValue(Boolean::factory($filterable));
+        $this->value[FilterRestrictionsType::filterable]->setValue(Boolean::factory($filterable));
 
         return $this;
     }

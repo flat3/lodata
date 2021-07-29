@@ -160,7 +160,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     public function shouldEmit(Transaction $transaction): bool
     {
         if ($this->value instanceof Primitive) {
-            $omitNulls = $transaction->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS;
+            $omitNulls = $transaction->getPreferenceValue(Constants::omitValues) === Constants::nulls;
 
             if ($omitNulls && $this->value->get() === null && $this->property->isNullable()) {
                 return false;
@@ -322,7 +322,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new BadRequestException('property_not_nullable', 'This property cannot be set to null');
         }
 
-        Gate::check(Gate::DELETE, $this, $transaction);
+        Gate::check(Gate::delete, $this, $transaction);
 
         $transaction->getRequest()->setContent([
             $this->getProperty()->getName() => null,
@@ -334,7 +334,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        Gate::check(Gate::READ, $this, $transaction);
+        Gate::check(Gate::read, $this, $transaction);
 
         $value = $this->value;
         $context = $context ?: $this;

@@ -20,7 +20,7 @@ abstract class Boolean
             return;
         }
 
-        $this->value = $value === Constants::TRUE;
+        $this->value = $value === Constants::true;
     }
 
     public function isTrue(): bool
@@ -30,6 +30,6 @@ abstract class Boolean
 
     public function __toString()
     {
-        return $this->value === true ? Constants::TRUE : Constants::FALSE;
+        return $this->value === true ? Constants::true : Constants::false;
     }
 }

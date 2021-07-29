@@ -19,12 +19,12 @@ class Date extends DateTimeOffset
     const identifier = 'Edm.Date';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'date',
-        'pattern' => '^'.Lexer::DATE.'$',
+        'pattern' => '^'.Lexer::date.'$',
     ];
 
-    public const DATE_FORMAT = 'Y-m-d';
+    public const dateFormat = 'Y-m-d';
 
     protected function repack(Carbon $dt): Carbon
     {

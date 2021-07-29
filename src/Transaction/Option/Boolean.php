@@ -22,7 +22,7 @@ abstract class Boolean extends Option
             return;
         }
 
-        if (!in_array($value, [Constants::TRUE, Constants::FALSE])) {
+        if (!in_array($value, [Constants::true, Constants::false])) {
             throw new BadRequestException(
                 'option_boolean_invalid',
                 sprintf('The value of $%s must be "true" or "false"', $this::param)

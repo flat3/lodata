@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class ReadRestrictionsType extends ComplexType
 {
-    const Readable = 'Readable';
+    const readable = 'Readable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.ReadRestrictionsType');
 
-        $this->addDeclaredProperty(self::Readable, Type::boolean());
+        $this->addDeclaredProperty(self::readable, Type::boolean());
     }
 }

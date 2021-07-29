@@ -25,7 +25,7 @@ class SearchRestrictions extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(SearchRestrictionsType::Searchable))
+            ->setProperty($type->getProperty(SearchRestrictionsType::searchable))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -33,7 +33,7 @@ class SearchRestrictions extends Annotation
 
     public function setSearchable(bool $searchable): self
     {
-        $this->value[SearchRestrictionsType::Searchable]->setValue(Boolean::factory($searchable));
+        $this->value[SearchRestrictionsType::searchable]->setValue(Boolean::factory($searchable));
 
         return $this;
     }

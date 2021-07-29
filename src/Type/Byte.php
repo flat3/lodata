@@ -18,7 +18,7 @@ class Byte extends Numeric
     const identifier = 'Edm.Byte';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_INTEGER,
+        'type' => Constants::oapiInteger,
         'format' => 'uint8',
         'minimum' => 0,
         'maximum' => 255,
@@ -32,7 +32,7 @@ class Byte extends Numeric
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         return (string) $this->value;

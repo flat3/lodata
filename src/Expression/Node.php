@@ -617,7 +617,7 @@ abstract class Node
             // 5.1.1.8 Date and time functions
             case $this instanceof Node\Func\DateTime\Date:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\Date::factory($arg0 ? $arg0->format(Type\Date::DATE_FORMAT) : null);
+                return Type\Date::factory($arg0 ? $arg0->format(Type\Date::dateFormat) : null);
 
             case $this instanceof Node\Func\DateTime\Day:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
@@ -654,7 +654,7 @@ abstract class Node
 
             case $this instanceof Node\Func\DateTime\Time:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\TimeOfDay::factory($arg0 ? $arg0->format(Type\TimeOfDay::DATE_FORMAT) : null);
+                return Type\TimeOfDay::factory($arg0 ? $arg0->format(Type\TimeOfDay::dateFormat) : null);
 
             case $this instanceof Node\Func\DateTime\TotalOffsetMinutes:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);

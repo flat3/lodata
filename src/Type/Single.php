@@ -18,14 +18,14 @@ class Single extends Decimal
     const openApiSchema = [
         'anyOf' => [
             [
-                'type' => Constants::OAPI_NUMBER,
+                'type' => Constants::oapiNumber,
                 'format' => 'single',
             ],
             [
                 'enum' => [
-                    Constants::NEG_INFINITY,
-                    Constants::INFINITY,
-                    Constants::NOT_A_NUMBER,
+                    Constants::negativeInfinity,
+                    Constants::infinity,
+                    Constants::notANumber,
                 ]
             ],
         ],

@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class ExpandRestrictionsType extends ComplexType
 {
-    const Expandable = 'Expandable';
+    const expandable = 'Expandable';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.ExpandRestrictionsType');
 
-        $this->addDeclaredProperty(self::Expandable, Type::boolean());
+        $this->addDeclaredProperty(self::expandable, Type::boolean());
     }
 }

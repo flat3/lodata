@@ -25,7 +25,7 @@ class CountRestrictions extends Annotation
         $value->setType($type);
 
         $value[] = (new PropertyValue())
-            ->setProperty($type->getProperty(CountRestrictionsType::Countable))
+            ->setProperty($type->getProperty(CountRestrictionsType::countable))
             ->setValue(Boolean::factory(true));
 
         $this->value = $value;
@@ -33,7 +33,7 @@ class CountRestrictions extends Annotation
 
     public function setCountable(bool $countable): self
     {
-        $this->value[CountRestrictionsType::Countable]->setValue(Boolean::factory($countable));
+        $this->value[CountRestrictionsType::countable]->setValue(Boolean::factory($countable));
 
         return $this;
     }

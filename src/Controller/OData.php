@@ -25,8 +25,9 @@ class OData extends Controller
     {
         try {
             $transaction->initialize($request);
+            $transaction->sendHeader(Constants::trailer, Constants::odataError);
 
-            if ($transaction->hasPreference(Constants::RESPOND_ASYNC)) {
+            if ($transaction->hasPreference(Constants::respondAsync)) {
                 $job->setTransaction($transaction);
                 $job->dispatch();
             }

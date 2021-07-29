@@ -9,6 +9,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Transaction\MediaType;
@@ -114,7 +115,7 @@ abstract class Batch implements PipeInterface, ResponseInterface
         $headers = [];
 
         foreach ($response->headers->allPreserveCaseWithoutCookies() as $key => $values) {
-            if (Str::contains(strtolower($key), ['date', 'cache-control', 'odata-version'])) {
+            if (Str::contains(strtolower($key), [Constants::date, Constants::cacheControl, Constants::odataVersion])) {
                 continue;
             }
 

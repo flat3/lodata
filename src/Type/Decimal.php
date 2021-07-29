@@ -20,14 +20,14 @@ class Decimal extends Numeric
     const openApiSchema = [
         'anyOf' => [
             [
-                'type' => Constants::OAPI_NUMBER,
+                'type' => Constants::oapiNumber,
                 'format' => 'decimal',
             ],
             [
                 'enum' => [
-                    Constants::NEG_INFINITY,
-                    Constants::INFINITY,
-                    Constants::NOT_A_NUMBER,
+                    Constants::negativeInfinity,
+                    Constants::infinity,
+                    Constants::notANumber,
                 ]
             ],
         ],
@@ -58,11 +58,11 @@ class Decimal extends Numeric
         }
 
         if (is_nan($this->value)) {
-            return Constants::NOT_A_NUMBER;
+            return Constants::notANumber;
         }
 
         if (is_infinite($this->value)) {
-            return ($this->value < 0) ? Constants::NEG_INFINITY : Constants::INFINITY;
+            return ($this->value < 0) ? Constants::negativeInfinity : Constants::infinity;
         }
 
         return $this->value;
@@ -71,15 +71,15 @@ class Decimal extends Numeric
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         if (is_nan($this->value)) {
-            return Constants::NOT_A_NUMBER;
+            return Constants::notANumber;
         }
 
         if (is_infinite($this->value)) {
-            return ($this->value < 0) ? Constants::NEG_INFINITY : Constants::INFINITY;
+            return ($this->value < 0) ? Constants::negativeInfinity : Constants::infinity;
         }
 
         return strtolower((string) $this->value);
@@ -95,17 +95,17 @@ class Decimal extends Numeric
 
         if (is_string($value)) {
             switch ($value) {
-                case Constants::INFINITY:
+                case Constants::infinity:
                     $this->value = INF;
 
                     return $this;
 
-                case Constants::NEG_INFINITY:
+                case Constants::negativeInfinity:
                     $this->value = -INF;
 
                     return $this;
 
-                case Constants::NOT_A_NUMBER:
+                case Constants::notANumber:
                     $this->value = NAN;
 
                     return $this;

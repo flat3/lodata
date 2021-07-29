@@ -9,13 +9,13 @@ use Flat3\Lodata\Type;
 
 class CallbackProtocol extends ComplexType
 {
-    const Id = 'Id';
-    const HTTP = 'http';
+    const id = 'Id';
+    const http = 'http';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.CallbackProtocol');
 
-        $this->addDeclaredProperty(self::Id, Type::string()->setNullable(true));
+        $this->addDeclaredProperty(self::id, Type::string()->setNullable(true));
     }
 }

@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
  */
 class ODCFF extends Controller
 {
-    public const content_type = 'text/x-ms-odc; charset=utf-8';
+    public const contentType = 'text/x-ms-odc; charset=utf-8';
 
     /**
      * Generate an ODCFF response for the provided entity set identifier
@@ -30,7 +30,7 @@ class ODCFF extends Controller
     public function get(string $identifier): Response
     {
         $response = new Response();
-        $response->header('content-type', self::content_type);
+        $response->header('content-type', self::contentType);
 
         $htmlDoc = new DOMDocument();
 
@@ -55,7 +55,7 @@ class ODCFF extends Controller
 
         $meta = $htmlDoc->createElement('meta');
         $meta->setAttribute('http-equiv', 'Content-Type');
-        $meta->setAttribute('content', $this::content_type);
+        $meta->setAttribute('content', $this::contentType);
         $head->appendChild($meta);
 
         $meta = $htmlDoc->createElement('meta');
@@ -153,7 +153,7 @@ class ODCFF extends Controller
         $mashup->appendChild($culture);
 
         $safeCombine = $mashupDoc->createElement('SafeCombine');
-        $safeCombine->textContent = Constants::TRUE;
+        $safeCombine->textContent = Constants::true;
         $mashup->appendChild($safeCombine);
 
         $items = $mashupDoc->createElement('Items');
@@ -172,11 +172,11 @@ class ODCFF extends Controller
         $query->appendChild($formula);
 
         $isParameterQuery = $mashupDoc->createElement('IsParameterQuery');
-        $isParameterQuery->setAttribute('xsi:nil', Constants::TRUE);
+        $isParameterQuery->setAttribute('xsi:nil', Constants::true);
         $query->appendChild($isParameterQuery);
 
         $isDirectQuery = $mashupDoc->createElement('IsDirectQuery');
-        $isDirectQuery->setAttribute('xsi:nil', Constants::TRUE);
+        $isDirectQuery->setAttribute('xsi:nil', Constants::true);
         $query->appendChild($isDirectQuery);
 
         $items->appendChild($query);

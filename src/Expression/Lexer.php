@@ -17,18 +17,18 @@ use Flat3\Lodata\Type;
  */
 class Lexer
 {
-    public const BASE64 = '([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?';
-    public const IDENTIFIER = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
-    public const QUALIFIED_IDENTIFIER = '(?:'.self::IDENTIFIER.'\.?)*'.self::IDENTIFIER;
-    public const PARAMETER_ALIAS = '\@'.self::IDENTIFIER;
-    public const DURATION = '-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?';
-    public const DATE_TIME_OFFSET = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])';
-    public const DATE = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])';
-    public const GUID = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
-    public const TIME_OF_DAY = '([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?';
-    public const DIGIT = '\d';
-    public const PATH_SEPARATOR = '/';
-    public const LAMBDA_VARIABLE = self::IDENTIFIER.'\:';
+    public const base64 = '([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?';
+    public const identifier = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
+    public const qualifiedIdentifier = '(?:'.self::identifier.'\.?)*'.self::identifier;
+    public const parameterAlias = '\@'.self::identifier;
+    public const duration = '-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?';
+    public const dateTimeOffset = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])';
+    public const date = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])';
+    public const guid = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
+    public const timeOfDay = '([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?';
+    public const digit = '\d';
+    public const pathSeparator = '/';
+    public const lambdaVariable = self::identifier.'\:';
 
     /**
      * The text passed to the Lexer
@@ -187,7 +187,7 @@ class Lexer
      */
     public function base64()
     {
-        return $this->expression(self::BASE64);
+        return $this->expression(self::base64);
     }
 
     /**
@@ -253,7 +253,7 @@ class Lexer
      */
     public function boolean(): string
     {
-        return $this->keyword(Constants::TRUE, Constants::FALSE);
+        return $this->keyword(Constants::true, Constants::false);
     }
 
     /**
@@ -307,7 +307,7 @@ class Lexer
     {
         $chars = [];
 
-        $nan = $this->maybeKeyword(Constants::NOT_A_NUMBER);
+        $nan = $this->maybeKeyword(Constants::notANumber);
 
         if ($nan) {
             return NAN;
@@ -315,7 +315,7 @@ class Lexer
 
         $sign = $this->maybeKeyword('+', '-');
 
-        $inf = $this->maybeKeyword(Constants::INFINITY);
+        $inf = $this->maybeKeyword(Constants::infinity);
 
         if ($inf) {
             return $sign === '-' ? -INF : INF;
@@ -326,7 +326,7 @@ class Lexer
         }
 
         try {
-            $chars[] = $this->expression(self::DIGIT);
+            $chars[] = $this->expression(self::digit);
         } catch (LexerException $e) {
             if ($sign) {
                 $this->pos--;
@@ -336,7 +336,7 @@ class Lexer
         }
 
         while (true) {
-            $char = $this->maybeExpression(self::DIGIT);
+            $char = $this->maybeExpression(self::digit);
             if (null === $char) {
                 break;
             }
@@ -346,10 +346,10 @@ class Lexer
 
         if ($this->maybeChar('.')) {
             $chars[] = '.';
-            $chars[] = $this->expression(self::DIGIT);
+            $chars[] = $this->expression(self::digit);
 
             while (true) {
-                $char = $this->maybeExpression(self::DIGIT);
+                $char = $this->maybeExpression(self::digit);
                 if (null === $char) {
                     break;
                 }
@@ -495,7 +495,7 @@ class Lexer
      */
     public function parameterAlias()
     {
-        return $this->expression(self::PARAMETER_ALIAS);
+        return $this->expression(self::parameterAlias);
     }
 
     /**
@@ -505,7 +505,7 @@ class Lexer
      */
     public function datetimeoffset()
     {
-        return $this->expression(self::DATE_TIME_OFFSET);
+        return $this->expression(self::dateTimeOffset);
     }
 
     /**
@@ -515,7 +515,7 @@ class Lexer
      */
     public function date()
     {
-        return $this->expression(self::DATE);
+        return $this->expression(self::date);
     }
 
     /**
@@ -525,7 +525,7 @@ class Lexer
      */
     public function timeOfDay()
     {
-        return $this->expression(self::TIME_OF_DAY);
+        return $this->expression(self::timeOfDay);
     }
 
     /**
@@ -535,7 +535,7 @@ class Lexer
      */
     public function duration()
     {
-        return $this->expression(self::DURATION);
+        return $this->expression(self::duration);
     }
 
     /**
@@ -545,7 +545,7 @@ class Lexer
      */
     public function guid(): string
     {
-        return $this->expression(self::GUID);
+        return $this->expression(self::guid);
     }
 
     /**
@@ -708,7 +708,7 @@ class Lexer
      */
     public function identifier(): string
     {
-        return $this->expression(self::IDENTIFIER);
+        return $this->expression(self::identifier);
     }
 
     /**
@@ -718,7 +718,7 @@ class Lexer
      */
     public function qualifiedIdentifier(): string
     {
-        return $this->expression(self::QUALIFIED_IDENTIFIER);
+        return $this->expression(self::qualifiedIdentifier);
     }
 
     /**
@@ -727,7 +727,7 @@ class Lexer
      */
     public function maybeLambdaVariable(): ?string
     {
-        return $this->maybeExpression(self::LAMBDA_VARIABLE);
+        return $this->maybeExpression(self::lambdaVariable);
     }
 
     /**

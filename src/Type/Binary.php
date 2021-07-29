@@ -18,9 +18,9 @@ class Binary extends Primitive
     const identifier = 'Edm.Binary';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'base64url',
-        'pattern' => '^'.Lexer::BASE64.'$',
+        'pattern' => '^'.Lexer::base64.'$',
     ];
 
     /** @var ?string $value */
@@ -29,7 +29,7 @@ class Binary extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($this->value));

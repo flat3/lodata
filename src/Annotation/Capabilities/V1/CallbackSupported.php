@@ -24,8 +24,8 @@ class CallbackSupported extends Annotation
         $callbackProtocol = new Annotation\Record();
         $callbackProtocol->setType($callbackProtocolType);
         $callbackProtocol[] = (new PropertyValue())
-            ->setProperty($callbackProtocolType->getProperty(Annotation\Capabilities\CallbackProtocol::Id))
-            ->setValue(String_::factory(Annotation\Capabilities\CallbackProtocol::HTTP));
+            ->setProperty($callbackProtocolType->getProperty(Annotation\Capabilities\CallbackProtocol::id))
+            ->setValue(String_::factory(Annotation\Capabilities\CallbackProtocol::http));
 
         $callbackProtocols = new Collection();
         $callbackProtocols->add($callbackProtocol);
@@ -34,7 +34,7 @@ class CallbackSupported extends Annotation
         $record = new Annotation\Record();
         $record->setType($callbackType);
         $record[] = (new PropertyValue())
-            ->setProperty($callbackType->getProperty(CallbackType::CallbackProtocols))
+            ->setProperty($callbackType->getProperty(CallbackType::callbackProtocols))
             ->setValue($callbackProtocols);
 
         $this->value = $record;

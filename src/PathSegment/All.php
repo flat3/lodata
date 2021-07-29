@@ -56,7 +56,7 @@ class All implements StreamInterface, PipeInterface, ContextInterface
             }
 
             try {
-                Gate::check(Gate::QUERY, $entitySet, $transaction);
+                Gate::check(Gate::query, $entitySet, $transaction);
             } catch (ForbiddenException $e) {
                 continue;
             }
@@ -97,7 +97,7 @@ class All implements StreamInterface, PipeInterface, ContextInterface
             $singleton = clone array_pop($singletons);
 
             try {
-                Gate::check(Gate::READ, $singleton, $transaction);
+                Gate::check(Gate::read, $singleton, $transaction);
             } catch (ForbiddenException $e) {
                 continue;
             }

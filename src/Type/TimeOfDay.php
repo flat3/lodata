@@ -19,12 +19,12 @@ class TimeOfDay extends DateTimeOffset
     const identifier = 'Edm.TimeOfDay';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'time',
-        'pattern' => '^'.Lexer::TIME_OF_DAY.'$',
+        'pattern' => '^'.Lexer::timeOfDay.'$',
     ];
 
-    public const DATE_FORMAT = 'H:i:s.u';
+    public const dateFormat = 'H:i:s.u';
 
     protected function repack(Carbon $dt): Carbon
     {

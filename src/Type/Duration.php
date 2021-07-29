@@ -18,9 +18,9 @@ class Duration extends Primitive
     const identifier = 'Edm.Duration';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'duration',
-        'pattern' => '^'.Lexer::DURATION.'$',
+        'pattern' => '^'.Lexer::duration.'$',
     ];
 
     /** @var ?float $value */
@@ -29,7 +29,7 @@ class Duration extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         return sprintf("'%s'", $this::numberToDuration($this->value));

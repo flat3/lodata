@@ -18,9 +18,9 @@ class Guid extends Primitive
     const identifier = 'Edm.Guid';
 
     const openApiSchema = [
-        'type' => Constants::OAPI_STRING,
+        'type' => Constants::oapiString,
         'format' => 'uuid',
-        'pattern' => '^'.Lexer::GUID.'$',
+        'pattern' => '^'.Lexer::guid.'$',
     ];
 
     /** @var ?string $value */
@@ -29,7 +29,7 @@ class Guid extends Primitive
     public function toUrl(): string
     {
         if (null === $this->value) {
-            return Constants::NULL;
+            return Constants::null;
         }
 
         return $this::binaryToString($this->value);
@@ -43,7 +43,7 @@ class Guid extends Primitive
     public function set($value): self
     {
         $this->value = $this->maybeNull(Lexer::patternCheck(
-            Lexer::GUID,
+            Lexer::guid,
             (string) $value
         ) ? $this::stringToBinary($value) : (null === $value ? null : (string) $value));
 

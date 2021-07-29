@@ -268,8 +268,8 @@ class Transaction implements ArgumentInterface
         $this->response = new Response();
 
         $this->version = new Version(
-            $this->getRequestHeader(Version::versionHeader),
-            $this->getRequestHeader(Version::maxVersionHeader)
+            $this->getRequestHeader(Constants::odataVersion),
+            $this->getRequestHeader(Constants::odataMaxVersion)
         );
 
         $this->preferences = new ParameterList();
@@ -1097,12 +1097,12 @@ class Transaction implements ArgumentInterface
 
         $requiredType = MediaType::factory()
             ->parse(MediaType::json)
-            ->setParameter(Constants::ODATA_STREAMING, Constants::TRUE)
-            ->setParameter(Constants::ODATA_METADATA, MetadataType\Minimal::name)
-            ->setParameter(Constants::IEEE_754_COMPATIBLE, Constants::FALSE);
+            ->setParameter(Constants::odataStreaming, Constants::true)
+            ->setParameter(Constants::odataMetadata, MetadataType\Minimal::name)
+            ->setParameter(Constants::ieee754Compatible, Constants::false);
 
-        if ($this->getPreferenceValue(Constants::OMIT_VALUES) === Constants::NULLS) {
-            $this->preferenceApplied(Constants::OMIT_VALUES, Constants::NULLS);
+        if ($this->getPreferenceValue(Constants::omitValues) === Constants::nulls) {
+            $this->preferenceApplied(Constants::omitValues, Constants::nulls);
         }
 
         $acceptedContentType = $this->getAcceptedContentType();
@@ -1131,17 +1131,17 @@ class Transaction implements ArgumentInterface
 
         $this->metadataType = MetadataType::factory(
             $contentType->getParameter(
-                Constants::ODATA_METADATA
+                Constants::odataMetadata
             ),
             $this->version
         );
 
         $this->ieee754compatible = new IEEE754Compatible(
-            $contentType->getParameter(Constants::IEEE_754_COMPATIBLE)
+            $contentType->getParameter(Constants::ieee754Compatible)
         );
 
         $this->sendContentType($contentType);
-        $this->sendHeader(Version::versionHeader, $this->getVersion());
+        $this->sendHeader(Constants::odataVersion, $this->getVersion());
         $this->response->setStatusCode(Response::HTTP_OK);
 
         if (!$pathSegments) {
@@ -1292,7 +1292,7 @@ class Transaction implements ArgumentInterface
      */
     public function setETagHeader(string $etag): self
     {
-        $this->sendHeader(Constants::ETAG, $etag);
+        $this->sendHeader(Constants::etag, $etag);
 
         return $this;
     }
@@ -1303,11 +1303,11 @@ class Transaction implements ArgumentInterface
      */
     public function assertIfMatchHeader(?string $etag): void
     {
-        $ifMatches = $this->getRequestHeaders(Constants::IF_MATCH);
-        $ifNoneMatches = $this->getRequestHeaders(Constants::IF_NONE_MATCH);
+        $ifMatches = $this->getRequestHeaders(Constants::ifMatch);
+        $ifNoneMatches = $this->getRequestHeaders(Constants::ifNoneMatch);
 
-        $this->request->headers->remove(Constants::IF_MATCH);
-        $this->request->headers->remove(Constants::IF_NONE_MATCH);
+        $this->request->headers->remove(Constants::ifMatch);
+        $this->request->headers->remove(Constants::ifNoneMatch);
 
         if ($ifMatches) {
             foreach ($ifMatches as $ifMatch) {

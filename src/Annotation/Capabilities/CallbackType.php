@@ -9,12 +9,12 @@ use Flat3\Lodata\Type;
 
 class CallbackType extends ComplexType
 {
-    const CallbackProtocols = 'CallbackProtocols';
+    const callbackProtocols = 'CallbackProtocols';
 
     public function __construct()
     {
         parent::__construct('Org.OData.Capabilities.CallbackType');
 
-        $this->addDeclaredProperty(self::CallbackProtocols, Type::collection());
+        $this->addDeclaredProperty(self::callbackProtocols, Type::collection());
     }
 }

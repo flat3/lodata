@@ -75,7 +75,7 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface,
             throw new PathNotHandledException();
         }
 
-        Gate::check(Gate::READ, $singleton, $transaction);
+        Gate::check(Gate::read, $singleton, $transaction);
 
         return $singleton;
     }
