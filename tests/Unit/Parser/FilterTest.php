@@ -495,6 +495,11 @@ class FilterTest extends TestCase
         $this->assertResult("da/all(d:d/name eq 'hello')");
     }
 
+    public function test_5f()
+    {
+        $this->assertResult('origin gt (now() sub PT3M)');
+    }
+
     /**
      * @param  EntitySet|string  $entitySetClass
      */

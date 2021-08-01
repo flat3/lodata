@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Node\Func\DateTime\Now;
 
 /**
  * SQLite Filter
@@ -21,6 +22,18 @@ trait SQLiteFilter
      */
     public function sqliteFilter(Event $event): ?bool
     {
+        switch (true) {
+            case $event instanceof Event\StartFunction:
+                $func = $event->getNode();
+
+                switch (true) {
+                    case $func instanceof Now:
+                        $this->addWhere("date('now'");
+
+                        return true;
+                }
+        }
+
         return false;
     }
 }
