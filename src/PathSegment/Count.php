@@ -23,7 +23,6 @@ class Count implements StreamInterface, PipeInterface
     /**
      * The countable value passed to this segment
      * @var CountInterface Countable
-     * @internal
      */
     protected $countable;
 

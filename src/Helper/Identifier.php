@@ -17,14 +17,12 @@ final class Identifier
     /**
      * Name
      * @var string $name
-     * @internal
      */
     private $name;
 
     /**
      * Namespace
      * @var string $namespace
-     * @internal
      */
     private $namespace;
 
@@ -62,7 +60,6 @@ final class Identifier
 
     /**
      * @return string
-     * @internal
      */
     public function __toString(): string
     {

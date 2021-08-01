@@ -48,35 +48,30 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     /**
      * The Entity ID
      * @var PropertyValue $id
-     * @internal
      */
     private $id;
 
     /**
      * Property values on this entity instance
      * @var ObjectArray $propertyValues
-     * @internal
      */
     private $propertyValues;
 
     /**
      * The entity set this entity belongs to
      * @var EntitySet $entitySet
-     * @internal
      */
     private $entitySet;
 
     /**
      * The entity type of this entity
      * @var EntityType $type
-     * @internal
      */
     private $type;
 
     /**
      * The metadata about this entity
      * @var MetadataContainer $metadata
-     * @internal
      */
     protected $metadata = null;
 
@@ -609,7 +604,6 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
 
     /**
      * @return string
-     * @internal
      */
     public function __toString(): string
     {

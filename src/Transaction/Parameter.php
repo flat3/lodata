@@ -112,7 +112,6 @@ class Parameter
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

@@ -60,14 +60,12 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     /**
      * Mapping of OData properties to source identifiers
      * @var ObjectArray $sourceMap
-     * @internal
      */
     protected $sourceMap;
 
     /**
      * Database table for this entity sett
      * @var string $table
-     * @internal
      */
     private $table;
 

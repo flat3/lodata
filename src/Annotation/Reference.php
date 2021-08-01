@@ -16,13 +16,11 @@ class Reference
     /**
      * URI of the service document, without the xml/json suffix
      * @var string $uri URI
-     * @internal
      */
     protected $uri;
 
     /**
      * @var string $namespace Namespace
-     * @internal
      */
     protected $namespace;
 
@@ -61,7 +59,6 @@ class Reference
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

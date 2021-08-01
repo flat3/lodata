@@ -25,14 +25,12 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     /**
      * Whether this property is nullable
      * @var bool $nullable
-     * @internal
      */
     protected $nullable = true;
 
     /**
      * The type this property is attached to
      * @var EntityType|PrimitiveType $type
-     * @internal
      */
     protected $type;
 

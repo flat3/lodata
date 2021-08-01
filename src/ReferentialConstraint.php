@@ -14,14 +14,12 @@ class ReferentialConstraint
     /**
      * The local property of the constraint
      * @var Property $property Local property
-     * @internal
      */
     protected $property;
 
     /**
      * The referenced property of the constraint
      * @var Property $referencedProperty Referenced property
-     * @internal
      */
     protected $referencedProperty;
 
@@ -51,7 +49,6 @@ class ReferentialConstraint
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

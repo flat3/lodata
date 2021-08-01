@@ -17,14 +17,12 @@ trait HasNavigation
     /**
      * Navigation bindings
      * @var ObjectArray $navigationBindings
-     * @internal
      */
     protected $navigationBindings;
 
     /**
      * The navigation property value that relates to this target
      * @var PropertyValue $navigationPropertyValue
-     * @internal
      */
     protected $navigationPropertyValue;
 

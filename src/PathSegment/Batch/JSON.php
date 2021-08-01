@@ -29,7 +29,6 @@ class JSON extends Batch implements JsonInterface
     /**
      * Requests in this batch
      * @var array $requests
-     * @internal
      */
     protected $requests = [];
 

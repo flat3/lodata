@@ -43,7 +43,6 @@ class Version
 
     /**
      * @return mixed|string
-     * @internal
      */
     public function __toString()
     {

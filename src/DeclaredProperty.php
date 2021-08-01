@@ -14,21 +14,18 @@ class DeclaredProperty extends Property
     /**
      * Whether this property is included as part of $search requests
      * @var bool $searchable
-     * @internal
      */
     protected $searchable = false;
 
     /**
      * Whether this property can be used in a $filter expression
      * @var bool $filterable
-     * @internal
      */
     protected $filterable = true;
 
     /**
      * Whether this property can be used as an alternative key
      * @var bool $alternativeKey
-     * @internal
      */
     protected $alternativeKey = false;
 

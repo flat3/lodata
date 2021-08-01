@@ -38,21 +38,18 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     /**
      * The entity that contains this property value
      * @var Entity $entity Entity
-     * @internal
      */
     protected $entity;
 
     /**
      * The entity type property
      * @var Property $property Property
-     * @internal
      */
     protected $property;
 
     /**
      * The value of this property
      * @var mixed $value Value
-     * @internal
      */
     protected $value;
 
@@ -145,7 +142,6 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

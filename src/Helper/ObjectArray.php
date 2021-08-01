@@ -20,7 +20,6 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     /**
      * Internal content
      * @var array
-     * @internal
      */
     private $array = [];
 

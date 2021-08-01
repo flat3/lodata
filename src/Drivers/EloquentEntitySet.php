@@ -66,7 +66,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     /**
      * Eloquent model class name
      * @var Model|Builder $model
-     * @internal
      */
     protected $model;
 

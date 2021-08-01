@@ -13,7 +13,6 @@ trait SQLParameters
     /**
      * Prepared statement parameters
      * @var string[] $parameters
-     * @internal
      */
     protected $parameters = [];
 

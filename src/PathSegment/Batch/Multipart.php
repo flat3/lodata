@@ -26,13 +26,11 @@ class Multipart extends Batch implements StreamInterface
 {
     /**
      * @var MultipartDocument[] $documents Discovered documents
-     * @internal
      */
     protected $documents = [];
 
     /**
      * @var string[] $boundaries Nested boundaries
-     * @internal
      */
     protected $boundaries = [];
 

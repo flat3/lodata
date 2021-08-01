@@ -61,7 +61,6 @@ abstract class MetadataType
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

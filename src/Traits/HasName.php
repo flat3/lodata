@@ -15,7 +15,6 @@ trait HasName
     /**
      * Resource identifier
      * @var Name $name
-     * @internal
      */
     protected $name;
 
@@ -30,7 +29,6 @@ trait HasName
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

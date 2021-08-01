@@ -29,7 +29,6 @@ class Model implements AnnotationInterface
     /**
      * The OData model
      * @var ObjectArray $model
-     * @internal
      */
     protected $model;
 

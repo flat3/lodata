@@ -16,7 +16,6 @@ final class Name
     /**
      * Name
      * @var string $name
-     * @internal
      */
     private $name;
 
@@ -40,7 +39,6 @@ final class Name
 
     /**
      * @return string
-     * @internal
      */
     public function __toString(): string
     {

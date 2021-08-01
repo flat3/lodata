@@ -31,7 +31,6 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * @var ObjectArray $properties Properties
-     * @internal
      */
     protected $properties;
 
@@ -198,7 +197,6 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      * Generate an instance of a complex type
      * @param  null  $value
      * @return ObjectArray
-     * @internal
      */
     public function instance($value = null)
     {

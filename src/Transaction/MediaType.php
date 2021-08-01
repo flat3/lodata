@@ -211,7 +211,6 @@ class MediaType
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

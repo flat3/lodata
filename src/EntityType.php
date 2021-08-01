@@ -26,7 +26,6 @@ class EntityType extends ComplexType implements PipeInterface
     /**
      * Primary key property
      * @var DeclaredProperty $key
-     * @internal
      */
     protected $key;
 

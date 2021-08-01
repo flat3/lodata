@@ -27,42 +27,36 @@ abstract class Parser
     /**
      * The list of operators understood by this parser
      * @var Operator[] $operators
-     * @internal
      */
     protected $operators = [];
 
     /**
      * The list of tokens discovered by this parser
      * @var Node[] $tokens
-     * @internal
      */
     protected $tokens = [];
 
     /**
      * The entity set this parser is being run on behalf of
      * @var EntitySet[] $entitySets
-     * @internal
      */
     protected $entitySets = [];
 
     /**
      * The operator stack
      * @var Operator[] $operatorStack
-     * @internal
      */
     private $operatorStack = [];
 
     /**
      * The operand stack
      * @var Node[] $operandStack
-     * @internal
      */
     private $operandStack = [];
 
     /**
      * The lexer instance
      * @var Lexer $lexer
-     * @internal
      */
     protected $lexer;
 

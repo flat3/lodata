@@ -25,13 +25,11 @@ abstract class Annotation
 
     /**
      * @var string $name Annotation name
-     * @internal
      */
     protected $name;
 
     /**
      * @var Primitive $value Annotation value
-     * @internal
      */
     protected $value;
 
@@ -160,7 +158,6 @@ abstract class Annotation
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

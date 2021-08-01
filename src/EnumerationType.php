@@ -23,7 +23,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     /**
      * Members of this enumeration type
      * @var ObjectArray $members
-     * @internal
      */
     protected $members;
 

@@ -46,14 +46,12 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     /**
      * Whether the value can be made null
      * @var bool $nullable
-     * @internal
      */
     protected $nullable = true;
 
     /**
      * Internal representation of the value
      * @var ?mixed $value
-     * @internal
      */
     protected $value;
 
@@ -286,7 +284,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {
