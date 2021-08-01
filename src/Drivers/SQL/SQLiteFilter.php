@@ -28,7 +28,7 @@ trait SQLiteFilter
 
                 switch (true) {
                     case $func instanceof Now:
-                        $this->addWhere("date('now'");
+                        $this->addWhere("datetime('now'");
 
                         return true;
                 }

@@ -206,20 +206,23 @@ DESC, [
              */
             if ($entitySet instanceof ReadInterface || $entitySet instanceof UpdateInterface || $entitySet instanceof DeleteInterface) {
                 $pathItemObject = (object) [];
-                $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}"} = $pathItemObject;
+                $entityType = $entitySet->getType();
+                if ($entityType->getKey()) {
+                    $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}"} = $pathItemObject;
 
-                $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
+                    $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
-                if ($entitySet instanceof ReadInterface) {
-                    $this->generateReadRoutes($pathItemObject, $entitySet);
-                }
+                    if ($entitySet instanceof ReadInterface) {
+                        $this->generateReadRoutes($pathItemObject, $entitySet);
+                    }
 
-                if ($entitySet instanceof UpdateInterface) {
-                    $this->generateUpdateRoutes($pathItemObject, $entitySet);
-                }
+                    if ($entitySet instanceof UpdateInterface) {
+                        $this->generateUpdateRoutes($pathItemObject, $entitySet);
+                    }
 
-                if ($entitySet instanceof DeleteInterface) {
-                    $this->generateDeleteRoutes($pathItemObject, $entitySet);
+                    if ($entitySet instanceof DeleteInterface) {
+                        $this->generateDeleteRoutes($pathItemObject, $entitySet);
+                    }
                 }
             }
 

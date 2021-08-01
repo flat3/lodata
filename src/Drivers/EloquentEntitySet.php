@@ -81,7 +81,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $this->model = $model;
 
-        $name = EloquentEntitySet::getSetName($model);
+        $name = $this->getSetName($model);
         $type = new EntityType(EloquentEntitySet::getTypeName($model));
 
         parent::__construct($name, $type);
@@ -113,7 +113,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @param  string  $model  Eloquent model class name
      * @return string OData identifier
      */
-    public static function getSetName(string $model): string
+    public function getSetName(string $model): string
     {
         return Str::pluralStudly(class_basename($model));
     }
@@ -311,7 +311,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function modelToEntity(Model $model): Entity
     {
-        $set = Lodata::getEntitySet(self::getSetName(get_class($model)));
+        $set = Lodata::getEntitySet($this->getSetName(get_class($model)));
         $entity = $set->newEntity();
 
         /** @var Property $property */
@@ -353,7 +353,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             /** @var Relation $r */
             $r = $model->$method();
-            $esn = self::getSetName(get_class($r->getRelated()));
+            $esn = $this->getSetName(get_class($r->getRelated()));
             $right = Lodata::getEntitySet($esn);
             if (!$right) {
                 throw new InternalServerErrorException('no_related_set', 'Could not find the related entity set '.$esn);
