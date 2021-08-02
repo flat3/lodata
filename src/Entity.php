@@ -272,7 +272,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
      */
     public function addProperty(PropertyValue $propertyValue): self
     {
-        $propertyValue->setEntity($this);
+        $propertyValue->setParent($this);
         $this->propertyValues[] = $propertyValue;
 
         return $this;
@@ -285,7 +285,7 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     public function newPropertyValue(): PropertyValue
     {
         $pv = new PropertyValue();
-        $pv->setEntity($this);
+        $pv->setParent($this);
         return $pv;
     }
 

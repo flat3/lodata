@@ -219,7 +219,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $model[$referencedProperty->getName()] = $this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get();
+                $model[$referencedProperty->getName()] = $this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get();
             }
         }
 
@@ -231,7 +231,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $key->setProperty($this->getType()->getKey());
         $key->setValue($key->getProperty()->getType()->instance($model->id));
         $entity = $this->read($key);
-        $key->setEntity($entity);
+        $key->setParent($entity);
 
         $this->transaction->processDeltaPayloads($entity);
 
@@ -261,7 +261,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $builder = $this->getBuilder();
 
         if ($this->navigationPropertyValue) {
-            $sourceEntity = $this->navigationPropertyValue->getEntity();
+            $sourceEntity = $this->navigationPropertyValue->getParent();
             $expansionPropertyName = $this->navigationPropertyValue->getProperty()->getName();
             $instance = $sourceEntity->getEntitySet()->getModelByKey($sourceEntity->getEntityId());
             $builder = $instance->$expansionPropertyName();

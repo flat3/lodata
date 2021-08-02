@@ -370,7 +370,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = $this->getPropertySourceName($referencedProperty);
-                $this->addParameter($this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get());
             }
         }
 
@@ -430,7 +430,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = sprintf('%s=?', $this->getPropertySourceName($referencedProperty));
-                $this->addParameter($this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get());
             }
         }
 

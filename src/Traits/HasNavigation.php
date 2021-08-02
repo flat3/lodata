@@ -84,7 +84,7 @@ trait HasNavigation
     {
         /** @var NavigationProperty $navigationProperty */
         $navigationProperty = $this->navigationPropertyValue->getProperty();
-        $sourceEntity = $this->navigationPropertyValue->getEntity();
+        $sourceEntity = $this->navigationPropertyValue->getParent();
 
         $targetConstraint = null;
         /** @var ReferentialConstraint $constraint */
