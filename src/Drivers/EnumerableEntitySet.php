@@ -42,7 +42,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             $tree = $parser->generateTree($this->getFilter()->getValue());
 
             $enumerable = $enumerable->filter(function ($item) use ($tree) {
-                $result = $tree->evaluateCommonExpression($this->newEntity()->fromArray($item));
+                $result = $tree->evaluateCommonExpression($this->newEntity()->fromSource($item));
                 return $result !== null && !!$result->get();
             });
         }
@@ -56,7 +56,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             $tree = $parser->generateTree($search->getValue());
 
             $enumerable = $enumerable->filter(function ($item) use ($tree) {
-                $result = $tree->evaluateSearchExpression($this->newEntity()->fromArray($item));
+                $result = $tree->evaluateSearchExpression($this->newEntity()->fromSource($item));
                 return $result !== null && !!$result->get();
             });
         }
@@ -80,7 +80,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         foreach ($enumerable->all() as $key => $item) {
             $entity = $this->newEntity();
             $entity->setEntityId($key);
-            $entity->fromArray($item);
+            $entity->fromSource($item);
 
             yield $entity;
         }
@@ -120,7 +120,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
 
         $entity = $this->newEntity();
         $entity['id'] = $key->getPrimitiveValue()->get();
-        $entity->fromArray($item);
+        $entity->fromSource($item);
 
         return $entity;
     }

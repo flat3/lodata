@@ -563,6 +563,41 @@ class Entity implements ResourceInterface, ReferenceInterface, EntityTypeInterfa
     }
 
     /**
+     * Generate an entity from an object
+     * @param  object  $object  Object
+     * @return $this
+     */
+    public function fromObject(object $object): self
+    {
+        foreach ($this->type->getDeclaredProperties()->keys() as $key) {
+            $this[$key] = $object->{$key};
+        }
+
+        return $this;
+    }
+
+    /**
+     * Generate an entity from the original source object
+     * @param  mixed  $object  Source object
+     * @return $this
+     */
+    public function fromSource($object): self
+    {
+        switch (true) {
+            case is_array($object):
+                return $this->fromArray($object);
+
+            case is_object($object):
+                return $this->fromObject($object);
+        }
+
+        throw new InternalServerErrorException(
+            'invalid_source',
+            'The provided source object could not be converted to an entity'
+        );
+    }
+
+    /**
      * Get the ETag for this entity
      * @return string ETag
      */
