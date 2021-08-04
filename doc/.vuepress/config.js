@@ -14,6 +14,7 @@ module.exports = {
             hostname: 'https://lodata.io/',
         }],
         "@kawarimidoll/tailwind",
+        require('./copy-to-clipboard'),
     ],
 
     markdown: {
@@ -28,6 +29,12 @@ module.exports = {
                 rel: 'stylesheet',
                 type: 'text/css',
             },
+        ],
+        [
+            'script',
+            {
+                src: 'https://code.jquery.com/jquery-3.4.1.min.js'
+            }
         ],
         ...(process.env.NODE_ENV === 'production' ? [
             [

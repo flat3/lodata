@@ -539,8 +539,10 @@ Actions and Function classes can be generated through `artisan` commands, and ca
 method of a service provider:
 
 ```sh
-$ php artisan lodata:function Add
-$ php artisan lodata:action Subtract
+php artisan lodata:function Add
+```
+```sh
+php artisan lodata:action Subtract
 ```
 
 ## Transaction
