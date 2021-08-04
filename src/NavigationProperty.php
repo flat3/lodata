@@ -23,28 +23,24 @@ class NavigationProperty extends Property
     /**
      * The partner property referring back to this property
      * @var self $partner
-     * @internal
      */
     protected $partner;
 
     /**
      * The referential constraints attached to this property
      * @var ObjectArray $constraints
-     * @internal
      */
     protected $constraints;
 
     /**
      * Whether the target of this navigation property refers to a collection
      * @var bool $collection
-     * @internal
      */
     protected $collection = false;
 
     /**
      * Whether this navigation property can be used as an expand request
      * @var bool $expandable
-     * @internal
      */
     protected $expandable = true;
 

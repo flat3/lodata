@@ -18,7 +18,6 @@ trait SQLConnection
     /**
      * Database connection name
      * @var string $connection
-     * @internal
      */
     protected $connection = null;
 

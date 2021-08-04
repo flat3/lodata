@@ -25,7 +25,6 @@ abstract class Batch implements PipeInterface, ResponseInterface
     /**
      * Content ID referenced resource URLs
      * @var array $references
-     * @internal
      */
     protected $references = [];
 

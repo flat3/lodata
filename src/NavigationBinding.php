@@ -14,14 +14,12 @@ class NavigationBinding
     /**
      * Navigation property representing the entity set path
      * @var NavigationProperty $path
-     * @internal
      */
     private $path;
 
     /**
      * The entity set that is the target of this navigation property
      * @var EntitySet $target
-     * @internal
      */
     private $target;
 
@@ -75,7 +73,6 @@ class NavigationBinding
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

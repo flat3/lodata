@@ -18,14 +18,12 @@ abstract class Option
     /**
      * Option value
      * @var mixed $value
-     * @internal
      */
     protected $value = null;
 
     /**
      * Transaction
      * @var Transaction $transaction
-     * @internal
      */
     protected $transaction;
 

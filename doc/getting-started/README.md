@@ -7,9 +7,13 @@ check out the rest of the docs!
 
 Install Lodata into your Laravel application using [Composer](https://getcomposer.org)
 
+<div data-event-label="composer-install">
+
 ```sh
-$ composer require flat3/lodata
+composer require flat3/lodata
 ```
+
+</div>
 
 Now (re)start your app. The OData API endpoint will be available at: [`http://127.0.0.1:8000/odata/`](http://127.0.0.1:8000/odata/)
 (or whichever URL prefix your application normally runs on).

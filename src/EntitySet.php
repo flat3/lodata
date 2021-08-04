@@ -74,25 +74,21 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     /**
      * Entity type of this entity set
      * @var EntityType $type
-     * @internal
      */
     protected $type;
 
     /**
      * Whether to apply system query options on this entity set instance
      * @var bool $applyQueryOptions
-     * @internal
      */
     protected $applyQueryOptions = true;
 
-    public function __construct(string $identifier, EntityType $entityType)
+    public function __construct(string $identifier, ?EntityType $entityType = null)
     {
         $this->setIdentifier($identifier);
 
-        $this->type = $entityType;
-
-        if (!Lodata::getEntityType($this->type->getIdentifier())) {
-            Lodata::add($entityType);
+        if ($entityType) {
+            $this->setType($entityType);
         }
 
         $this->addAnnotation(
@@ -534,6 +530,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function setType(EntityType $type): self
     {
         $this->type = $type;
+
+        if (!Lodata::getEntityType($type->getIdentifier())) {
+            Lodata::add($type);
+        }
 
         return $this;
     }

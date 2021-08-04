@@ -21,7 +21,6 @@ trait SQLWhere
     /**
      * The where clause
      * @var string $where
-     * @internal
      */
     protected $where = '';
 

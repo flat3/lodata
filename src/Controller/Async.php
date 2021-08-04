@@ -33,7 +33,6 @@ class Async implements ShouldQueue
     /**
      * Job ID
      * @var string $jobId
-     * @internal
      */
     protected $jobId;
 

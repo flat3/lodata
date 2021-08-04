@@ -22,13 +22,11 @@ abstract class Lambda extends Operator
 
     /**
      * @var Navigation $navigationProperty
-     * @internal
      */
     protected $navigationProperty;
 
     /**
      * @var LambdaVariable $variable
-     * @internal
      */
     protected $variable;
 

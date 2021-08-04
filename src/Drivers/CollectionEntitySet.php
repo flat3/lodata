@@ -46,7 +46,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     {
         $entity = $this->newEntity();
         $body = $this->transaction->getBody();
-        $entity->fromArray($body);
+        $entity->fromSource($body);
         $entityId = $entity->getEntityId();
 
         if ($entityId) {
@@ -78,7 +78,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     {
         $entity = $this->read($key);
         $body = $this->transaction->getBody();
-        $entity->fromArray($body);
+        $entity->fromSource($body);
         $item = $entity->toArray();
         unset($item['id']);
 

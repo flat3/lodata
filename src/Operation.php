@@ -55,28 +55,24 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     /**
      * The name of the binding parameter used in the invocation function
      * @var string $bindingParameterName
-     * @internal
      */
     protected $bindingParameterName;
 
     /**
      * The instance of the bound parameter provided to the instance of the operation
      * @var ?PipeInterface $boundParameter
-     * @internal
      */
     protected $boundParameter;
 
     /**
      * The URL inline parameters being provided to this operation
      * @var array $inlineParameters
-     * @internal
      */
     protected $inlineParameters = [];
 
     /**
      * The OData return type from this operation
      * @var Type $returnType
-     * @internal
      */
     protected $returnType;
 

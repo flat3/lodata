@@ -21,7 +21,6 @@ class Response extends StreamedResponse
     /**
      * The resource responding to this request
      * @var ResourceInterface $resource
-     * @internal
      */
     protected $resource;
 
@@ -85,7 +84,6 @@ class Response extends StreamedResponse
     /**
      * Encode this response as JSON
      * @return false|string
-     * @internal
      */
     public function toJson()
     {

@@ -13,7 +13,6 @@ trait UseReferences
     /**
      * Use references
      * @var bool
-     * @internal
      */
     protected $useReferences = false;
 

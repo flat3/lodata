@@ -33,21 +33,18 @@ class Lexer
     /**
      * The text passed to the Lexer
      * @var string|null
-     * @internal
      */
     private $text;
 
     /**
      * The position of the pointer
      * @var int
-     * @internal
      */
     private $pos = -1;
 
     /**
      * The length of the buffer
      * @var int
-     * @internal
      */
     private $len;
 

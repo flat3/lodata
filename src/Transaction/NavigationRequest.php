@@ -126,7 +126,6 @@ class NavigationRequest implements RequestInterface
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {

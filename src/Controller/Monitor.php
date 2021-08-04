@@ -67,7 +67,6 @@ class Monitor extends Controller
      * @param  string  $method
      * @param  array  $parameters
      * @return \Symfony\Component\HttpFoundation\Response
-     * @internal
      */
     public function callAction($method, $parameters)
     {

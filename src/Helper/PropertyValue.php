@@ -36,23 +36,20 @@ use Illuminate\Http\Request;
 class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, ResourceInterface
 {
     /**
-     * The entity that contains this property value
-     * @var Entity $entity Entity
-     * @internal
+     * The resource that contains this property value
+     * @var ResourceInterface $parent Resource
      */
-    protected $entity;
+    protected $parent;
 
     /**
      * The entity type property
      * @var Property $property Property
-     * @internal
      */
     protected $property;
 
     /**
      * The value of this property
      * @var mixed $value Value
-     * @internal
      */
     protected $value;
 
@@ -77,23 +74,23 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     }
 
     /**
-     * Set the attached entity
-     * @param  Entity  $entity  Entity
+     * Set the attached parent resource
+     * @param  ResourceInterface  $parent  Resource
      * @return $this
      */
-    public function setEntity(Entity $entity): self
+    public function setParent(ResourceInterface $parent): self
     {
-        $this->entity = $entity;
+        $this->parent = $parent;
         return $this;
     }
 
     /**
-     * Get the attached entity
-     * @return Entity Entity
+     * Get the attached parent resource
+     * @return ResourceInterface Resource
      */
-    public function getEntity(): Entity
+    public function getParent(): ResourceInterface
     {
-        return $this->entity;
+        return $this->parent;
     }
 
     /**
@@ -145,7 +142,6 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
     /**
      * @return string
-     * @internal
      */
     public function __toString()
     {
@@ -199,7 +195,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      */
     public function getContextUrl(Transaction $transaction): string
     {
-        $entity = $this->entity;
+        $entity = $this->parent;
 
         if (!$entity->getEntitySet()) {
             return $entity->getContextUrl($transaction);
@@ -231,7 +227,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      */
     public function getResourceUrl(Transaction $transaction): string
     {
-        return sprintf('%s/%s', $this->entity->getResourceUrl($transaction), $this->property->getName());
+        return sprintf('%s/%s', $this->parent->getResourceUrl($transaction), $this->property->getName());
     }
 
     public static function pipe(
@@ -309,7 +305,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
     public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $entitySet = $this->entity->getEntitySet();
+        $entitySet = $this->parent->getEntitySet();
 
         if (!$entitySet instanceof UpdateInterface) {
             throw new BadRequestException(
@@ -327,7 +323,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
         $transaction->getRequest()->setContent([
             $this->getProperty()->getName() => null,
         ]);
-        $entitySet->update($this->entity->getEntityId());
+        $entitySet->update($this->parent->getEntityId());
 
         throw new NoContentException();
     }
@@ -376,7 +372,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
         switch (true) {
             case $property instanceof NavigationProperty:
-                $metadata['navigationLink'] = $this->entity->getResourceUrl($transaction).'/'.$this->getProperty()->getName();
+                $metadata['navigationLink'] = $this->parent->getResourceUrl($transaction).'/'.$this->getProperty()->getName();
 
                 if ($this->getValue() instanceof EntitySet) {
                     $entitySet = $this->getEntitySetValue();

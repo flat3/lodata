@@ -72,147 +72,126 @@ class Transaction implements ArgumentInterface
     /**
      * Transaction ID
      * @var UuidInterface $id
-     * @internal
      */
     protected $id;
 
     /**
      * Request object
      * @var Request|RequestInterface $request
-     * @internal
      */
     private $request;
 
     /**
      * Response object
      * @var Response $response
-     * @internal
      */
     private $response;
 
     /**
      * Version object
      * @var Version $version
-     * @internal
      */
     private $version;
 
     /**
      * Prefer header
      * @var ParameterList $preferences
-     * @internal
      */
     private $preferences;
 
     /**
      * Requested metadata type
      * @var MetadataType $metadataType
-     * @internal
      */
     private $metadataType;
 
     /**
      * IEEE 754 requirement
      * @var IEEE754Compatible $ieee754compatible
-     * @internal
      */
     private $ieee754compatible;
 
     /**
      * Count system query option
      * @var Count $count
-     * @internal
      */
     private $count;
 
     /**
      * Expand system query option
      * @var Expand $expand
-     * @internal
      */
     private $expand;
 
     /**
      * Filter system query optioon
      * @var Filter $filter
-     * @internal
      */
     private $filter;
 
     /**
      * OrderBy system query option
      * @var OrderBy $orderby
-     * @internal
      */
     private $orderby;
 
     /**
      * Search system query option
      * @var Search $search
-     * @internal
      */
     private $search;
 
     /**
      * Select system query option
      * @var Select $select
-     * @internal
      */
     private $select;
 
     /**
      * Requested response format
      * @var Format $format
-     * @internal
      */
     private $format;
 
     /**
      * Skip system query option
      * @var Skip $skip
-     * @internal
      */
     private $skip;
 
     /**
      * Skip token system query option
      * @var SkipToken $skiptoken
-     * @internal
      */
     private $skiptoken;
 
     /**
      * Top system query option
      * @var Top $top
-     * @internal
      */
     private $top;
 
     /**
      * Id system query option
      * @var Id $idOption
-     * @internal
      */
     private $idOption;
 
     /**
      * Schema version system query option
      * @var SchemaVersion $schemaVersion
-     * @internal
      */
     private $schemaVersion;
 
     /**
      * List of entity sets attached to this transaction
      * @var EntitySet[]|TransactionInterface[] $attachedEntitySets
-     * @internal
      */
     private $attachedEntitySets = [];
 
     /**
      * List of entity sets with pending transactions
      * @var TransactionInterface[] $pendingEntitySets
-     * @internal
      */
     private $pendingEntitySets = [];
 

@@ -17,14 +17,12 @@ trait HasNavigation
     /**
      * Navigation bindings
      * @var ObjectArray $navigationBindings
-     * @internal
      */
     protected $navigationBindings;
 
     /**
      * The navigation property value that relates to this target
      * @var PropertyValue $navigationPropertyValue
-     * @internal
      */
     protected $navigationPropertyValue;
 
@@ -86,7 +84,7 @@ trait HasNavigation
     {
         /** @var NavigationProperty $navigationProperty */
         $navigationProperty = $this->navigationPropertyValue->getProperty();
-        $sourceEntity = $this->navigationPropertyValue->getEntity();
+        $sourceEntity = $this->navigationPropertyValue->getParent();
 
         $targetConstraint = null;
         /** @var ReferentialConstraint $constraint */

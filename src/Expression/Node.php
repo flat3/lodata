@@ -34,35 +34,30 @@ abstract class Node
     /**
      * Captured value
      * @var mixed $value
-     * @internal
      */
     protected $value = null;
 
     /**
      * Parser that generated this node
      * @var Parser $parser
-     * @internal
      */
     protected $parser = null;
 
     /**
      * List of arguments for this node
      * @var self[]
-     * @internal
      */
     private $args = [];
 
     /**
      * Left-hand argument for this node
      * @var self $arg1
-     * @internal
      */
     private $arg1 = null;
 
     /**
      * Right-hand argument for this node
      * @var self $arg2
-     * @internal
      */
     private $arg2 = null;
 

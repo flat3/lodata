@@ -92,7 +92,6 @@ class Filter extends Parser
 
     /**
      * @var Transaction $transaction
-     * @internal
      */
     protected $transaction;
 

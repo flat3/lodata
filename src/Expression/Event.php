@@ -13,7 +13,6 @@ abstract class Event
     /**
      * AST node
      * @var Node $node Node
-     * @internal
      */
     private $node;
 

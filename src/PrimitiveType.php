@@ -24,21 +24,18 @@ class PrimitiveType extends Type implements IdentifierInterface
     /**
      * The underlying type of this type
      * @var PrimitiveType $underlyingType
-     * @internal
      */
     protected $underlyingType;
 
     /**
      * The factory class name to generate primitives of this type
      * @var string $factory Factory class
-     * @internal
      */
     private $factory;
 
     /**
      * Whether instances of this type can be made null
      * @var bool $nullable
-     * @internal
      */
     private $nullable = true;
 
@@ -165,7 +162,6 @@ class PrimitiveType extends Type implements IdentifierInterface
      * Cast a PHP type to an OData primitive type
      * @param  string  $type  PHP type
      * @return PrimitiveType Primitive type representation
-     * @internal
      */
     public static function castInternalType(string $type): PrimitiveType
     {
@@ -189,7 +185,6 @@ class PrimitiveType extends Type implements IdentifierInterface
 
     /**
      * @return string
-     * @internal
      */
     public function __toString(): string
     {

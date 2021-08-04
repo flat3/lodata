@@ -60,14 +60,12 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     /**
      * Mapping of OData properties to source identifiers
      * @var ObjectArray $sourceMap
-     * @internal
      */
     protected $sourceMap;
 
     /**
      * Database table for this entity sett
      * @var string $table
-     * @internal
      */
     private $table;
 
@@ -372,7 +370,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = $this->getPropertySourceName($referencedProperty);
-                $this->addParameter($this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get());
             }
         }
 
@@ -432,7 +430,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = sprintf('%s=?', $this->getPropertySourceName($referencedProperty));
-                $this->addParameter($this->navigationPropertyValue->getEntity()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get());
             }
         }
 

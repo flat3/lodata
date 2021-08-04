@@ -49,7 +49,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
     public function create(): Entity
     {
         $entity = $this->newEntity();
-        $entity->fromArray($this->transaction->getBody());
+        $entity->fromSource($this->transaction->getBody());
 
         if (!$entity->getEntityId()) {
             throw new BadRequestException('missing_key', 'The required key must be provided to this entity set type');
@@ -209,6 +209,6 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             );
         }
 
-        return $this->newEntity()->fromArray($redisValue);
+        return $this->newEntity()->fromSource($redisValue);
     }
 }
