@@ -124,6 +124,14 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             Request::factory()
+                ->query('$format', 'application/json;metadata=full')
+        );
+    }
+
+    public function test_accepts_old_format_parameters()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
                 ->query('$format', 'application/json;odata.metadata=full')
         );
     }
@@ -203,6 +211,14 @@ class FormatTest extends TestCase
     }
 
     public function test_adds_streaming_parameter()
+    {
+        $this->assertMetadataResponse(
+            Request::factory()
+                ->accept('application/json;streaming=true')
+        );
+    }
+
+    public function test_adds_old_streaming_parameter()
     {
         $this->assertMetadataResponse(
             Request::factory()

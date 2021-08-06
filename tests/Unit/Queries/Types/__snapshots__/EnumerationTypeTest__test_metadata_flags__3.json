@@ -219,9 +219,9 @@
                 "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
                 "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
                 "@Org.OData.Capabilities.V1.SupportedFormats": [
-                    "application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true",
-                    "application/json;odata.metadata=minimal;IEEE754Compatible=true;odata.streaming=true",
-                    "application/json;odata.metadata=none;IEEE754Compatible=true;odata.streaming=true"
+                    "application/json;metadata=full;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=minimal;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=none;IEEE754Compatible=true;streaming=true"
                 ],
                 "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
                     "application/json",

@@ -51,9 +51,9 @@
         <Annotation Term="Org.OData.Capabilities.V1.QuerySegmentSupported" Bool="true"/>
         <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
           <Collection>
-            <String>application/json;odata.metadata=full;IEEE754Compatible=true;odata.streaming=true</String>
-            <String>application/json;odata.metadata=minimal;IEEE754Compatible=true;odata.streaming=true</String>
-            <String>application/json;odata.metadata=none;IEEE754Compatible=true;odata.streaming=true</String>
+            <String>application/json;metadata=full;IEEE754Compatible=true;streaming=true</String>
+            <String>application/json;metadata=minimal;IEEE754Compatible=true;streaming=true</String>
+            <String>application/json;metadata=none;IEEE754Compatible=true;streaming=true</String>
           </Collection>
         </Annotation>
         <Annotation Term="Org.OData.Capabilities.V1.SupportedMetadataFormats">

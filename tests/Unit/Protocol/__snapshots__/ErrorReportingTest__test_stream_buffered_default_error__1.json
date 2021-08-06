@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "not_implemented",
+        "message": "Error during stream",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

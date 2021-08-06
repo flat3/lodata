@@ -1,8 +1,8 @@
 headers:
     cache-control: ['no-cache, private']
-    trailer: [odata-error]
     content-type: [application/json]
     odata-version: ['4.01']
     location: ['http://localhost/odata/passengers(6)']
     etag: ['W/"e88f882cde348feade350b5458ac520276b60ea8210eb72b8778e6fee916fe11"']
+    trailer: [odata-error]
 status: 201

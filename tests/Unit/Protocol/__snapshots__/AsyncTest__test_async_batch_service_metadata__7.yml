@@ -1,7 +1,7 @@
 headers:
     cache-control: ['no-cache, private']
-    trailer: [odata-error]
     content-type: [multipart/mixed;boundary=00000000-0000-0000-0000-000000000001]
     odata-version: ['4.01']
     asyncresult: [200]
+    trailer: [odata-error]
 status: 200

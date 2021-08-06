@@ -1,4 +1,5 @@
 headers:
     cache-control: ['no-cache, private']
     content-type: [application/json]
+    trailer: [odata-error]
 status: 501

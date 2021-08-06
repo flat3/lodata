@@ -125,7 +125,7 @@ class Filter extends Parser
 
     /**
      * Tokenize a literal
-     * @url https://github.com/oasis-tcs/odata-abnf/blob/master/abnf/odata-abnf-construction-rules.txt#L871
+     * @link https://github.com/oasis-tcs/odata-abnf/blob/master/abnf/odata-abnf-construction-rules.txt#L871
      * @return bool
      */
     public function tokenizeLiteral(): bool

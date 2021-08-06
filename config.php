@@ -22,6 +22,12 @@ return [
     'authorization' => false,
 
     /*
+     * Whether to use streaming JSON responses by default.
+     * @link https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_PayloadOrderingConstraints
+     */
+    'streaming' => true,
+
+    /*
      * This is an OData concept to group your data model according to a globally unique namespace. Some clients may use this information for display purposes.
      */
     'namespace' => env('LODATA_NAMESPACE', 'com.example.odata'),

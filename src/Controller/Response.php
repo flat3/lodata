@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\MediaType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -25,12 +26,46 @@ class Response extends StreamedResponse
     protected $resource;
 
     /**
+     * Whether this response streams its output
+     * @var bool $streaming
+     */
+    protected $streaming = true;
+
+    public function __construct(callable $callback = null, int $status = 200, array $headers = [])
+    {
+        parent::__construct($callback, $status, $headers);
+
+        $this->streaming = config('lodata.streaming', true);
+    }
+
+    /**
      * Get the resource responding to this request
      * @return ResourceInterface|null
      */
     public function getResource(): ?ResourceInterface
     {
         return $this->resource;
+    }
+
+    /**
+     * Set whether this response will stream its output
+     * @param  bool  $streaming
+     * @return $this
+     */
+    public function setStreaming(bool $streaming): self
+    {
+        $this->streaming = $streaming;
+
+        return $this;
+    }
+
+    /**
+     * Return whether this response uses streaming
+     * @return bool Streaming
+     */
+    public function isStreaming(): bool
+    {
+        return $this->streaming;
     }
 
     /**
@@ -46,14 +81,14 @@ class Response extends StreamedResponse
     }
 
     /**
-     * Send the results to the client, implementing OData error handling
+     * Stream the results to the client, implementing OData error handling
      * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358909
      * @return Response
      */
-    public function sendContent()
+    public function sendContentStreamed(): Response
     {
         try {
-            return parent::sendContent();
+            parent::sendContent();
         } catch (ProtocolException $e) {
             flush();
             ob_flush();
@@ -61,6 +96,43 @@ class Response extends StreamedResponse
         }
 
         return $this;
+    }
+
+    /**
+     * Buffer the result before sending to the client, to enable clean error reporting
+     * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358909
+     * @return Response
+     */
+    public function sendContentBuffered(): Response
+    {
+        try {
+            ob_start();
+            parent::sendContent();
+            echo ob_get_clean();
+        } catch (ProtocolException $e) {
+            ob_end_clean();
+            $response = $e->toResponse();
+            $this->setStatusCode($response->getStatusCode());
+            $this->headers->replace($response->headers->all());
+            $response->sendHeaders();
+            $response->sendContentBuffered();
+            return $response;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Support buffered or streaming responses
+     * @return $this
+     */
+    public function sendContent(): Response
+    {
+        if ($this->streaming) {
+            $this->headers->set(Constants::trailer, Constants::odataError);
+        }
+
+        return $this->streaming ? $this->sendContentStreamed() : $this->sendContentBuffered();
     }
 
     /**

@@ -4,7 +4,7 @@
             "id": 0,
             "status": 200,
             "headers": {
-                "content-type": "application/json;odata.metadata=full",
+                "content-type": "application/json;metadata=full",
                 "etag": "W/\"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5\""
             },
             "body": {

@@ -1076,8 +1076,8 @@ class Transaction implements ArgumentInterface
 
         $requiredType = MediaType::factory()
             ->parse(MediaType::json)
-            ->setParameter(Constants::odataStreaming, Constants::true)
-            ->setParameter(Constants::odataMetadata, MetadataType\Minimal::name)
+            ->setParameter(Constants::streaming, Constants::true)
+            ->setParameter(Constants::metadata, MetadataType\Minimal::name)
             ->setParameter(Constants::ieee754Compatible, Constants::false);
 
         if ($this->getPreferenceValue(Constants::omitValues) === Constants::nulls) {
@@ -1109,9 +1109,7 @@ class Transaction implements ArgumentInterface
         $contentType = $requiredType->negotiate($this->getAcceptedContentType()->getOriginal());
 
         $this->metadataType = MetadataType::factory(
-            $contentType->getParameter(
-                Constants::odataMetadata
-            ),
+            $contentType->getParameter(Constants::metadata),
             $this->version
         );
 
@@ -1122,6 +1120,10 @@ class Transaction implements ArgumentInterface
         $this->sendContentType($contentType);
         $this->sendHeader(Constants::odataVersion, $this->getVersion());
         $this->response->setStatusCode(Response::HTTP_OK);
+
+        if ($requiredType->getParameter(Constants::streaming) === Constants::false) {
+            $this->response->setStreaming(false);
+        }
 
         if (!$pathSegments) {
             return new PathSegment\Service();

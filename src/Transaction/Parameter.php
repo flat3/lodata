@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Helper\Constants;
 
 /**
  * Parameter
@@ -36,6 +37,17 @@ class Parameter
                     if (!$value) {
                         $value = $lexer->expression('[^;]+');
                     }
+                }
+
+                // Parameters renamed in OData 4.01
+                switch ($key) {
+                    case Constants::odataStreaming:
+                        $key = Constants::streaming;
+                        break;
+
+                    case Constants::odataMetadata:
+                        $key = Constants::metadata;
+                        break;
                 }
 
                 $this->addParameter($key, $value);

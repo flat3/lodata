@@ -34,6 +34,8 @@ class Constants
     public const odataEntityId = 'odata-entityid';
     public const odataError = 'odata-error';
     public const odataMaxVersion = 'odata-maxversion';
+    public const metadata = 'metadata';
+    public const streaming = 'streaming';
     public const odataMetadata = 'odata.metadata';
     public const odataStreaming = 'odata.streaming';
     public const omitValues = 'omit-values';

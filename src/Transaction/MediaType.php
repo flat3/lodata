@@ -62,8 +62,8 @@ class MediaType
             // Reject formats with unknown format parameters
             if (array_diff($type->getParameterKeys(), [
                 Constants::ieee754Compatible,
-                Constants::odataMetadata,
-                Constants::odataStreaming,
+                Constants::metadata,
+                Constants::streaming,
                 Constants::charset,
                 Constants::q,
             ])) {

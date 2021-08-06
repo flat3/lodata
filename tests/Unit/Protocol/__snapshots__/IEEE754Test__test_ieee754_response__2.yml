@@ -1,7 +1,7 @@
 headers:
     cache-control: ['no-cache, private']
-    trailer: [odata-error]
     content-type: [application/json;IEEE754Compatible=true]
     odata-version: ['4.01']
     etag: ['W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"']
+    trailer: [odata-error]
 status: 200

@@ -1,8 +1,8 @@
 headers:
     cache-control: ['no-cache, private']
-    trailer: [odata-error]
     content-type: [application/json]
     odata-version: ['4.01']
     preference-applied: [maxpagesize=1]
     vary: [prefer]
+    trailer: [odata-error]
 status: 200
