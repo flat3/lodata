@@ -26,6 +26,8 @@ use Flat3\Lodata\Type\TimeOfDay;
 use Flat3\Lodata\Type\UInt16;
 use Flat3\Lodata\Type\UInt32;
 use Flat3\Lodata\Type\UInt64;
+use Flat3\Lodata\Type\Untyped;
+use TypeError;
 
 /**
  * Type
@@ -54,6 +56,12 @@ use Flat3\Lodata\Type\UInt64;
  */
 abstract class Type
 {
+    /**
+     * The factory class name to generate instances of this type
+     * @var string $factory Factory class
+     */
+    protected $factory;
+
     /**
      * Generate a new type container
      * @param  string  $name  Type name
@@ -121,5 +129,47 @@ abstract class Type
     public function toOpenAPIUpdateSchema(): array
     {
         return $this->toOpenAPISchema();
+    }
+
+    /**
+     * Cast a PHP type to an OData primitive type
+     * @param  string  $type  PHP type
+     * @return Type OData type representation
+     */
+    public static function castInternalType(string $type): Type
+    {
+        switch ($type) {
+            case 'void':
+            case 'string':
+                return new PrimitiveType(String_::class);
+
+            case 'float':
+            case 'double':
+                return new PrimitiveType(Double::class);
+
+            case 'int':
+            case 'integer':
+                return new PrimitiveType(Int64::class);
+
+            case 'bool':
+            case 'boolean':
+                return new PrimitiveType(Boolean::class);
+
+            case 'array':
+            case 'object':
+                return new Untyped();
+        }
+
+        throw new TypeError('Could not cast the provided internal type');
+    }
+
+    /**
+     * Return whether the provided class name represents instances of this type
+     * @param  string  $class
+     * @return bool
+     */
+    public function is(string $class): bool
+    {
+        return is_a($this->factory, $class, true);
     }
 }

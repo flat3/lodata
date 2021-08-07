@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Operation;
 
 use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Type;
 use ReflectionNamedType;
+use TypeError;
 
 /**
  * Type Argument
@@ -22,6 +24,12 @@ class TypeArgument extends PrimitiveArgument
         /** @var ReflectionNamedType $type */
         $type = $this->parameter->getType();
 
-        return PrimitiveType::castInternalType($type->getName());
+        $result = Type::castInternalType($type->getName());
+
+        if (!$result instanceof PrimitiveType) {
+            throw new TypeError('invalid_type', 'The provided argument was not a primitive type');
+        }
+
+        return $result;
     }
 }

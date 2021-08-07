@@ -883,7 +883,7 @@ class Transaction implements ArgumentInterface
      * Get request properties to expose in the context URL
      * @return array Properties
      */
-    public function getContextUrlProperties(): array
+    public function getProjectedProperties(): array
     {
         $properties = [];
 

@@ -149,21 +149,21 @@ class NavigationProperty extends Property
      * Generate a property value from this property
      * @param  Transaction  $transaction  Related transaction
      * @param  NavigationRequest  $navigationRequest  Navigation request
-     * @param  Entity  $entity  Entity this property is attached to
+     * @param  ComplexValue  $value  Entity this property is attached to
      * @return PropertyValue|null Property value
      */
     public function generatePropertyValue(
         Transaction $transaction,
         NavigationRequest $navigationRequest,
-        Entity $entity
+        ComplexValue $value
     ): ?PropertyValue {
         $expansionTransaction = clone $transaction;
         $expansionTransaction->setRequest($navigationRequest);
 
-        $propertyValue = $entity->newPropertyValue();
+        $propertyValue = $value->newPropertyValue();
         $propertyValue->setProperty($this);
 
-        $binding = $entity->getEntitySet()->getBindingByNavigationProperty($this);
+        $binding = $value->getEntitySet()->getBindingByNavigationProperty($this);
         $targetEntitySet = $binding->getTarget();
 
         $expansionSet = clone $targetEntitySet;
@@ -177,7 +177,7 @@ class NavigationProperty extends Property
             $propertyValue->setValue($expansionSingular);
         }
 
-        $entity->addProperty($propertyValue);
+        $value->addProperty($propertyValue);
 
         return $propertyValue;
     }

@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#Airports(1)/flights",
+    "@context": "http://localhost/odata/$metadata#Flights",
     "value": [
         {
             "id": 1,

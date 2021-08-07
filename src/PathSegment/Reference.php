@@ -15,12 +15,13 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 
 /**
  * Reference
  * @package Flat3\Lodata\PathSegment
  */
-class Reference implements JsonInterface, PipeInterface
+class Reference implements ResponseInterface, JsonInterface, PipeInterface
 {
     /**
      * The referencable item passed to this path segment

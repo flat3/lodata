@@ -15,23 +15,23 @@ abstract class GeneratedProperty extends Property
 {
     /**
      * Generate the property value for this property on the provided entity
-     * @param  Entity  $entity  Entity this property is generated on
+     * @param  ComplexValue  $value  Entity this property is generated on
      * @return PropertyValue
      */
-    abstract public function invoke(Entity $entity);
+    abstract public function invoke(ComplexValue $value);
 
     /**
      * Generate a property value for this entity
-     * @param  Entity  $entity  Entity
+     * @param  ComplexValue  $value  Entity
      * @return PropertyValue Property value
      */
-    public function generatePropertyValue(Entity $entity): PropertyValue
+    public function generatePropertyValue(ComplexValue $value): PropertyValue
     {
         /** @var PrimitiveType $type */
         $type = $this->getType();
-        $propertyValue = $entity->newPropertyValue();
+        $propertyValue = $value->newPropertyValue();
         $propertyValue->setProperty($this);
-        $result = $this->invoke($entity);
+        $result = $this->invoke($value);
 
         if (!is_a($result, Primitive::class, true)) {
             $result = PrimitiveType::castInternalType(gettype($result))->instance($result);
@@ -53,7 +53,7 @@ abstract class GeneratedProperty extends Property
 
         $propertyValue->setValue($result);
 
-        $entity->addProperty($propertyValue);
+        $value->addProperty($propertyValue);
 
         return $propertyValue;
     }

@@ -1,4 +1,4 @@
 {
-    "@context": "http://localhost/odata/$metadata#com.example.odata.atest",
+    "@context": "http://localhost/odata/$metadata#atest/b",
     "value": "c"
 }

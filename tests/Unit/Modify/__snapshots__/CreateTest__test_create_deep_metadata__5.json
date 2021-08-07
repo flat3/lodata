@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#passengers(6)/pets",
+    "@context": "http://localhost/odata/$metadata#pets",
     "value": [
         {
             "id": 1,

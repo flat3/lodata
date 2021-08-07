@@ -14,6 +14,7 @@ use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
@@ -26,7 +27,7 @@ use Flat3\Lodata\Transaction\MediaType;
  * @link https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html
  * @package Flat3\Lodata\PathSegment\Metadata
  */
-class JSON extends Metadata implements JsonInterface
+class JSON extends Metadata implements ResponseInterface, JsonInterface
 {
     /**
      * Emit the service metadata document

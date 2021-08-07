@@ -5,12 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Type\Boolean;
-use Flat3\Lodata\Type\Double;
-use Flat3\Lodata\Type\Int64;
-use Flat3\Lodata\Type\String_;
 use RuntimeException;
-use TypeError;
 
 /**
  * Primitive Type
@@ -26,12 +21,6 @@ class PrimitiveType extends Type implements IdentifierInterface
      * @var PrimitiveType $underlyingType
      */
     protected $underlyingType;
-
-    /**
-     * The factory class name to generate primitives of this type
-     * @var string $factory Factory class
-     */
-    private $factory;
 
     /**
      * Whether instances of this type can be made null
@@ -79,16 +68,6 @@ class PrimitiveType extends Type implements IdentifierInterface
     public function getFactory(): string
     {
         return $this->factory;
-    }
-
-    /**
-     * Return whether the provided class name represents instances of this type
-     * @param  string  $class
-     * @return bool
-     */
-    public function is(string $class): bool
-    {
-        return is_a($this->factory, $class, true);
     }
 
     /**
@@ -156,31 +135,6 @@ class PrimitiveType extends Type implements IdentifierInterface
     public function getUnderlyingType(): ?PrimitiveType
     {
         return $this->underlyingType;
-    }
-
-    /**
-     * Cast a PHP type to an OData primitive type
-     * @param  string  $type  PHP type
-     * @return PrimitiveType Primitive type representation
-     */
-    public static function castInternalType(string $type): PrimitiveType
-    {
-        switch ($type) {
-            case 'void':
-            case 'string':
-                return new PrimitiveType(String_::class);
-
-            case 'float':
-                return new PrimitiveType(Double::class);
-
-            case 'int':
-                return new PrimitiveType(Int64::class);
-
-            case 'bool':
-                return new PrimitiveType(Boolean::class);
-        }
-
-        throw new TypeError('Could not cast the provided internal type');
     }
 
     /**

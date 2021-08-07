@@ -195,12 +195,15 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Generate an instance of a complex type
-     * @param  null  $value
-     * @return ObjectArray
+     * @param  ComplexValue|null  $value
+     * @return ComplexValue
      */
-    public function instance($value = null)
+    public function instance($value = null): ComplexValue
     {
-        return new ObjectArray();
+        $value = new ComplexValue();
+        $value->setType($this);
+
+        return $value;
     }
 
     /**

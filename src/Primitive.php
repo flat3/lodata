@@ -10,12 +10,15 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Identifier;
+use Flat3\Lodata\Helper\Value;
 use Flat3\Lodata\Interfaces\ContextInterface;
+use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Illuminate\Support\Str;
 
 /**
@@ -23,7 +26,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530338
  * @package Flat3\Lodata
  */
-abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, JsonInterface, PipeInterface
+abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, ResponseInterface, JsonInterface, PipeInterface, ETagInterface
 {
     /**
      * The OData name of this primitive type

@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#Passengers(1)/flight",
+    "@context": "http://localhost/odata/$metadata#Flights/$entity",
     "@type": "#com.example.odata.Flight",
     "@id": "http://localhost/odata/Flights(1)",
     "@readLink": "http://localhost/odata/Flights(1)",

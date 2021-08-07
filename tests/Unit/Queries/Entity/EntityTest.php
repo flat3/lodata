@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
+use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\GeneratedProperty;
@@ -233,7 +234,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends GeneratedProperty {
-            public function invoke(Entity $entity)
+            public function invoke(ComplexValue $value)
             {
                 return new Int32(4);
             }
@@ -252,7 +253,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends GeneratedProperty {
-            public function invoke(Entity $entity)
+            public function invoke(ComplexValue $value)
             {
                 return new Int32(4);
             }
@@ -271,7 +272,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends GeneratedProperty {
-            public function invoke(Entity $entity)
+            public function invoke(ComplexValue $value)
             {
                 return new Int32(4);
             }
@@ -290,7 +291,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends GeneratedProperty {
-            public function invoke(Entity $entity)
+            public function invoke(ComplexValue $value)
             {
                 return new Int32(4);
             }
@@ -308,7 +309,7 @@ class EntityTest extends TestCase
         $airport = Lodata::getEntityType('airport');
 
         $property = new class('cp', Type::int32()) extends GeneratedProperty {
-            public function invoke(Entity $entity)
+            public function invoke(ComplexValue $value)
             {
                 return new String_(4);
             }

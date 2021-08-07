@@ -14,6 +14,7 @@ use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\PathSegment\Batch;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\MediaType;
@@ -24,7 +25,7 @@ use Illuminate\Support\Str;
  * JSON
  * @package Flat3\Lodata\PathSegment\Batch
  */
-class JSON extends Batch implements JsonInterface
+class JSON extends Batch implements JsonInterface, ResponseInterface
 {
     /**
      * Requests in this batch

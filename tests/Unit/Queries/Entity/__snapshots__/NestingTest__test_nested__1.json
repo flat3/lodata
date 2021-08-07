@@ -1,4 +1,7 @@
 {
     "@context": "http://localhost/odata/$metadata#atest",
-    "b": "c"
+    "b": "c",
+    "c": {
+        "d": "e"
+    }
 }

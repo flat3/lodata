@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Helper;
 
+use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Entity;
@@ -21,9 +22,11 @@ use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
+use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Type\Stream;
@@ -33,11 +36,11 @@ use Illuminate\Http\Request;
  * Property Value
  * @package Flat3\Lodata\Helper
  */
-class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, ResourceInterface
+class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, ResourceInterface, ResponseInterface
 {
     /**
-     * The resource that contains this property value
-     * @var ResourceInterface $parent Resource
+     * The complex value that contains this property value
+     * @var ComplexValue $parent Value
      */
     protected $parent;
 
@@ -78,9 +81,10 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      * @param  ResourceInterface  $parent  Resource
      * @return $this
      */
-    public function setParent(ResourceInterface $parent): self
+    public function setParent(ComplexValue $parent): self
     {
         $this->parent = $parent;
+
         return $this;
     }
 
@@ -88,7 +92,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      * Get the attached parent resource
      * @return ResourceInterface Resource
      */
-    public function getParent(): ResourceInterface
+    public function getParent(): ComplexValue
     {
         return $this->parent;
     }
@@ -101,6 +105,11 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     public function setValue(?JsonInterface $value): self
     {
         $this->value = $value;
+
+        if ($value instanceof ComplexValue) {
+            $value->setParent($this);
+        }
+
         return $this;
     }
 
@@ -171,7 +180,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
         $selected = $select->getCommaSeparatedValues();
 
         if (
-            $this->getProperty()->getPrimitiveType()->is(Stream::class) &&
+            $this->getProperty()->getType()->is(Stream::class) &&
             !in_array($this->property->getName(), $selected)
         ) {
             return false;
@@ -195,26 +204,58 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      */
     public function getContextUrl(Transaction $transaction): string
     {
-        $entity = $this->parent;
+        $projectedProperties = $transaction->getProjectedProperties();
 
-        if (!$entity->getEntitySet()) {
-            return $entity->getContextUrl($transaction);
+        if ($this->value instanceof Entity || $this->value instanceof EntitySet) {
+            return $this->value->getContextUrl($transaction);
         }
 
-        /** @var Primitive $value */
-        $value = $entity->getEntityId()->getValue();
+        $entity = null;
+        $propertyPath = [];
+        $current = $this;
 
-        $url = sprintf(
-            '%s(%s)/%s',
-            $transaction->getContextUrl().'#'.$entity->getEntitySet()->getName(),
-            $value->toUrl(),
-            $this->property
-        );
+        do {
+            if ($current instanceof self) {
+                array_unshift($propertyPath, $current);
+            }
 
-        $properties = $transaction->getContextUrlProperties();
+            if (!$entity && $current instanceof Entity) {
+                $entity = $current;
+            }
 
-        if ($properties) {
-            $url .= sprintf('(%s)', join(',', $properties));
+            if ($entity || $current->getParent() === null) {
+                break;
+            }
+        } while ($current = $current->getParent());
+
+        $url = $entity->getContextUrl($transaction);
+
+        $path = join('/', array_filter(array_map(function (PropertyValue $propertyValue) {
+            return $propertyValue->getProperty()->getName();
+        }, $propertyPath)));
+
+        switch (true) {
+            case $entity instanceof Singleton:
+                break;
+
+            case $entity instanceof Entity:
+                /** @var Primitive $value */
+                $value = $entity->getEntityId()->getValue();
+
+                $url = sprintf(
+                    '%s(%s)',
+                    $transaction->getContextUrl().'#'.$entity->getEntitySet()->getName(),
+                    $value->toUrl()
+                );
+                break;
+        }
+
+        if ($path) {
+            $url .= '/'.$path;
+        }
+
+        if ($projectedProperties) {
+            $url .= sprintf('(%s)', join(',', $projectedProperties));
         }
 
         return $url;
@@ -248,11 +289,11 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new PathNotHandledException();
         }
 
-        if ($argument instanceof self && $argument->getValue() instanceof Entity) {
-            $argument = $argument->getEntityValue();
+        if ($argument instanceof self && $argument->getValue() instanceof ComplexValue) {
+            $argument = $argument->getValue();
         }
 
-        if (!$argument instanceof Entity) {
+        if (!$argument instanceof ComplexValue) {
             throw new PathNotHandledException();
         }
 
@@ -305,6 +346,13 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
     public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
     {
+        if (!$this->parent instanceof Entity) {
+            throw new BadRequestException(
+                'property_not_deletable',
+                'This nested property cannot be deleted',
+            );
+        }
+
         $entitySet = $this->parent->getEntitySet();
 
         if (!$entitySet instanceof UpdateInterface) {
@@ -386,7 +434,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
                 }
                 break;
 
-            case $property->getPrimitiveType()->is(Stream::class):
+            case $property->getType()->is(Stream::class):
                 $metadata['mediaContentType'] = (string) $this->getPrimitiveValue()->getContentType();
                 $metadata['mediaReadLink'] = (string) $this->getPrimitiveValue()->getReadLink();
                 break;

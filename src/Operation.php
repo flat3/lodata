@@ -110,7 +110,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         }
 
         try {
-            return PrimitiveType::castInternalType($rrt);
+            return Type::castInternalType($rrt);
         } catch (TypeError $e) {
         }
 

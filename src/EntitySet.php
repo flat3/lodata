@@ -43,6 +43,7 @@ use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
@@ -62,7 +63,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface, ResponseInterface
 {
     use HasIdentifier;
     use UseReferences;
@@ -76,6 +77,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @var EntityType $type
      */
     protected $type;
+
+    /**
+     * Class of generated entities
+     * @var Entity string
+     */
+    protected $entityClass = Entity::class;
 
     /**
      * Whether to apply system query options on this entity set instance
@@ -332,7 +339,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         $url = $transaction->getContextUrl().'#'.$this->getName();
-        $properties = $transaction->getContextUrlProperties();
+        $properties = $transaction->getProjectedProperties();
 
         if ($properties) {
             $url .= sprintf('(%s)', join(',', $properties));
@@ -507,7 +514,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function newEntity(): Entity
     {
-        $entity = new Entity();
+        $entity = new $this->entityClass();
         $entity->setEntitySet($this);
 
         return $entity;
