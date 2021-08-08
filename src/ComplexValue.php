@@ -59,7 +59,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
     /**
      * Set the parent property value of this complex value
-     * @param  PropertyValue  $parent Parent property
+     * @param  PropertyValue  $parent  Parent property
      * @return $this
      */
     public function setParent(PropertyValue $parent): self
