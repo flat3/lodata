@@ -8,7 +8,8 @@ Lodata handles this by generating a Laravel [job](https://laravel.com/docs/8.x/q
 Laravel in the same way it handles any other queued job. For this to work your Laravel installation must have a working job queue.
 
 When the client sends a request in this way, the server dispatches the job and returns to the client a monitoring URL. The client
-can use this URL to retrieve the job output, or its status if not completed or failed.
+can use this URL to retrieve the job output, or its status if not completed or failed. The client can also provide a callback URL
+to be notified when the job is complete.
 
 The job runner will execute the OData request in the normal way, but will write the output to a Laravel [disk](https://laravel.com/docs/8.x/filesystem#obtaining-disk-instances)
 for it to be picked up later. The name of this disk is set in the `disk` option in `config/lodata.php`. In a multi-server environment
@@ -108,6 +109,13 @@ odata-version: 4.01
 </code-block>
 </code-group>
 
-Callbacks
-Respond-async
-Monitoring
+## Using a callback
+
+The client can be notified when the request is complete by providing a callback URL. When the request is complete
+the service will make a GET request to the provided callback. No payload or query parameters are added, the client
+must provide a callback URL that contains any tracking information needed to match the original request.
+
+```uri
+GET http://localhost:8000/odata/People
+Prefer: respond-async,callback;url=https://client.example.com/callback
+```
