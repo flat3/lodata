@@ -1,5 +1,6 @@
 {
     "@context": "http://localhost/odata/$metadata#example",
     "@type": "#com.example.odata.outer",
+    "@readLink": "http://localhost/odata/example",
     "inner": "aaa,bbb"
 }

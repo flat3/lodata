@@ -11,6 +11,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -58,16 +59,22 @@ class Reference implements ResponseInterface, JsonInterface, PipeInterface
             throw new BadRequestException('no_next_segment', 'Reference request must be the last segment');
         }
 
-        if (!$argument instanceof Entity && !$argument instanceof EntitySet) {
+        $reference = $argument;
+
+        if ($argument instanceof PropertyValue) {
+            $reference = $argument->getValue();
+        }
+
+        if (!$reference instanceof Entity && !$reference instanceof EntitySet) {
             throw new NotFoundException(
                 'not_entity_or_entity_set',
                 'Can only ask for a reference for an entity set or entity'
             );
         }
 
-        /** @var ReferenceInterface $argument */
-        $argument->useReferences();
+        /** @var ReferenceInterface $reference */
+        $reference->useReferences();
 
-        return new self($argument);
+        return new self($reference);
     }
 }

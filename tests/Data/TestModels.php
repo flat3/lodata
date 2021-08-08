@@ -14,6 +14,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
 use Flat3\Lodata\Tests\Models\Passenger as PassengerEModel;
@@ -159,6 +160,16 @@ trait TestModels
         (new PetEModel([
             'name' => 'Bob',
         ]))->save();
+    }
+
+    public function withSingleton(): void
+    {
+        $type = new EntityType('sType');
+        $type->addProperty(new DeclaredProperty('name', Type::string()));
+        $singleton = new Singleton('sInstance', $type);
+        $singleton['name'] = 'Bob';
+
+        Lodata::add($singleton);
     }
 
     public function withFlightModel(): void

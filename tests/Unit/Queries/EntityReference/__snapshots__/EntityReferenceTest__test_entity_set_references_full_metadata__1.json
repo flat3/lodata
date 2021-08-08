@@ -4,18 +4,15 @@
     "value": [
         {
             "@type": "#com.example.odata.flight",
-            "@id": "flights(1)",
-            "@readLink": "flights(1)"
+            "@id": "flights(1)"
         },
         {
             "@type": "#com.example.odata.flight",
-            "@id": "flights(2)",
-            "@readLink": "flights(2)"
+            "@id": "flights(2)"
         },
         {
             "@type": "#com.example.odata.flight",
-            "@id": "flights(3)",
-            "@readLink": "flights(3)"
+            "@id": "flights(3)"
         }
     ]
 }

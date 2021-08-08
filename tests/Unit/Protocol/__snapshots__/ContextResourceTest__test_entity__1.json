@@ -1,0 +1,11 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights/$entity",
+    "@type": "#com.example.odata.flight",
+    "@id": "http://localhost/odata/flights(1)",
+    "@readLink": "http://localhost/odata/flights(1)",
+    "id": 1,
+    "origin": "lhr",
+    "destination": "lax",
+    "gate": null,
+    "duration": "PT11H25M0S"
+}

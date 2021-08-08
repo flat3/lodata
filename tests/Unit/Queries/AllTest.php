@@ -15,20 +15,6 @@ use Flat3\Lodata\Type;
 
 class AllTest extends TestCase
 {
-    public function withSingleton()
-    {
-        $type = new EntityType('a');
-        $type->addProperty(new DeclaredProperty('b', Type::string()));
-        Lodata::add($type);
-
-        $entity = new Singleton('atest', $type);
-        $pv = new PropertyValue();
-        $pv->setProperty($type->getProperty('b'));
-        $pv->setValue(new Type\String_('c'));
-        $entity->addProperty($pv);
-        Lodata::add($entity);
-    }
-
     public function test_read_all()
     {
         $this->withFlightModel();

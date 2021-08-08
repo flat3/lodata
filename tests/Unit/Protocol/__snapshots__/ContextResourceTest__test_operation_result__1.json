@@ -1,0 +1,10 @@
+{
+    "@context": "http://localhost/odata/$metadata#texts",
+    "@readLink": "http://localhost/odata/texts",
+    "value": [
+        {
+            "@type": "#com.example.odata.text",
+            "a": "a"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "@context": "http://localhost/odata/$metadata#airports(name,code)",
+    "@readLink": "http://localhost/odata/airports",
+    "value": [
+        {
+            "@type": "#com.example.odata.airport",
+            "@id": "http://localhost/odata/airports(1)",
+            "@readLink": "http://localhost/odata/airports(1)",
+            "name": "Heathrow",
+            "code": "lhr"
+        },
+        {
+            "@type": "#com.example.odata.airport",
+            "@id": "http://localhost/odata/airports(2)",
+            "@readLink": "http://localhost/odata/airports(2)",
+            "name": "Los Angeles",
+            "code": "lax"
+        },
+        {
+            "@type": "#com.example.odata.airport",
+            "@id": "http://localhost/odata/airports(3)",
+            "@readLink": "http://localhost/odata/airports(3)",
+            "name": "San Francisco",
+            "code": "sfo"
+        },
+        {
+            "@type": "#com.example.odata.airport",
+            "@id": "http://localhost/odata/airports(4)",
+            "@readLink": "http://localhost/odata/airports(4)",
+            "name": "O'Hare",
+            "code": "ohr"
+        }
+    ]
+}

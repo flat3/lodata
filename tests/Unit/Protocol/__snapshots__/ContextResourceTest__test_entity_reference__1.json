@@ -1,0 +1,5 @@
+{
+    "@context": "http://localhost/odata/$metadata#$ref",
+    "@type": "#com.example.odata.flight",
+    "@id": "flights(1)"
+}

@@ -15,6 +15,7 @@ use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
+use Flat3\Lodata\Transaction\MetadataContainer;
 
 /**
  * Singleton
@@ -69,6 +70,21 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface,
         }
 
         return $url;
+    }
+
+    /**
+     * @param  Transaction  $transaction
+     * @return MetadataContainer
+     */
+    protected function getMetadata(Transaction $transaction): MetadataContainer
+    {
+        $metadata = parent::getMetadata($transaction);
+
+        if (!$this->usesReferences()) {
+            $metadata['readLink'] = $this->getResourceUrl($transaction);
+        }
+
+        return $metadata;
     }
 
     public static function pipe(

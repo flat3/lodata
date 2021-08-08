@@ -1,0 +1,6 @@
+{
+    "@context": "http://localhost/odata/$metadata#sInstance",
+    "@type": "#com.example.odata.sType",
+    "@readLink": "http://localhost/odata/sInstance",
+    "name": "Bob"
+}

@@ -344,9 +344,9 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
             );
 
             $metadata->addRequiredProperty('id');
+        } else {
+            $metadata['readLink'] = $this->getResourceUrl($transaction);
         }
-
-        $metadata['readLink'] = $metadata['id'];
 
         return $metadata;
     }

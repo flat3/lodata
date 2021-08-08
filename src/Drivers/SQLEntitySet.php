@@ -36,6 +36,7 @@ use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Transaction\NavigationRequest;
 use Generator;
 use PDO;
 use PDOException;
@@ -298,6 +299,25 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
         if (!$properties[$key]) {
             $properties[] = $key;
+        }
+
+        $navigationRequests = $this->getTransaction()->getNavigationRequests();
+
+        foreach ($this->getType()->getNavigationProperties() as $navigationProperty) {
+            /** @var NavigationRequest $navigationRequest */
+            $navigationRequest = $navigationRequests->get($navigationProperty->getName());
+
+            if (!$navigationRequest) {
+                continue;
+            }
+
+            foreach ($navigationProperty->getConstraints() as $constraint) {
+                $property = $constraint->getProperty();
+
+                if (!$properties[$property]) {
+                    $properties[] = $property;
+                }
+            }
         }
 
         return $this->propertiesToColumns($properties);

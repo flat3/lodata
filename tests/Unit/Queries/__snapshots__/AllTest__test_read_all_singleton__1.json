@@ -2,7 +2,7 @@
     "@context": "http://localhost/odata/$metadata#Collection(Edm.EntityType)",
     "value": [
         {
-            "b": "c"
+            "name": "Bob"
         }
     ]
 }
