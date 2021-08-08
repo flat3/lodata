@@ -210,30 +210,6 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
     }
 
     /**
-     * Read this entity
-     * @param  Transaction  $transaction  Related transaction
-     * @param  ContextInterface|null  $context  Current context
-     * @return Response Client response
-     */
-    public function get(Transaction $transaction, ?ContextInterface $context = null): Response
-    {
-        Gate::check(Gate::read, $this, $transaction);
-
-        $context = $context ?: $this;
-
-        $this->metadata = $transaction->createMetadataContainer();
-        $this->metadata['context'] = $context->getContextUrl($transaction);
-
-        $response = $transaction->getResponse();
-        $transaction->assertIfMatchHeader($this->getETag());
-        $transaction->setETagHeader($this->getETag());
-
-        return $response->setResourceCallback($this, function () use ($transaction) {
-            $this->emitJson($transaction);
-        });
-    }
-
-    /**
      * Delete this entity
      * @param  Transaction  $transaction  Related transaction
      * @param  ContextInterface|null  $context  Current context
@@ -287,6 +263,30 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
         }
 
         return $entity->get($transaction, $context);
+    }
+
+    /**
+     * Read this entity
+     * @param  Transaction  $transaction  Related transaction
+     * @param  ContextInterface|null  $context  Current context
+     * @return Response Client response
+     */
+    public function get(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        Gate::check(Gate::read, $this, $transaction);
+
+        $context = $context ?: $this;
+
+        $this->metadata = $transaction->createMetadataContainer();
+        $this->metadata['context'] = $context->getContextUrl($transaction);
+
+        $response = $transaction->getResponse();
+        $transaction->assertIfMatchHeader($this->getETag());
+        $transaction->setETagHeader($this->getETag());
+
+        return $response->setResourceCallback($this, function () use ($transaction) {
+            $this->emitJson($transaction);
+        });
     }
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response

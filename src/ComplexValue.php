@@ -29,7 +29,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     use HasTransaction;
 
     /**
-     * Property values on this entity instance
+     * Property values on this complex value instance
      * @var ObjectArray $propertyValues
      */
     protected $propertyValues;
@@ -41,7 +41,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     protected $type;
 
     /**
-     * The metadata about this entity
+     * The metadata about this complex value
      * @var MetadataContainer $metadata
      */
     protected $metadata = null;
@@ -51,18 +51,6 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
      */
     protected $parent = null;
 
-    public function setParent(PropertyValue $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    public function getParent(): ?PropertyValue
-    {
-        return $this->parent;
-    }
-
     public function __construct()
     {
         $this->propertyValues = new ObjectArray();
@@ -70,7 +58,28 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Get the type of this entity set
+     * Set the parent property value of this complex value
+     * @param  PropertyValue  $parent Parent property
+     * @return $this
+     */
+    public function setParent(PropertyValue $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent property of this complex value
+     * @return PropertyValue|null
+     */
+    public function getParent(): ?PropertyValue
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Get the type of this complex value
      * @return ComplexType Complex type
      */
     public function getType(): ComplexType
@@ -79,8 +88,8 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Set the type of this entity set
-     * @param  Type  $type  Type
+     * Set the type of this complex value
+     * @param  ComplexType  $type  Type
      * @return $this
      */
     public function setType(ComplexType $type): self
@@ -91,7 +100,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Whether the provided property value exists on this entity
+     * Whether the provided property value exists on this complex value
      * @param  mixed  $offset  Property name
      * @return bool
      */
@@ -101,7 +110,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Add a property value to this entity
+     * Add a property value to this complex value
      * @param  PropertyValue  $propertyValue  Property value
      * @return $this
      */
@@ -114,7 +123,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Get all property values attached to this entity
+     * Get all property values attached to this complex value
      * @return ObjectArray Property values
      */
     public function getPropertyValues(): ObjectArray
@@ -123,7 +132,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Get a property value attached to this entity
+     * Get a property value attached to this complex value
      * @param  Property  $property  Property
      * @return Primitive|ComplexValue|null Property value
      */
@@ -133,7 +142,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Get a property value from this entity
+     * Get a property value from this complex value
      * @param  mixed  $offset  Property name
      * @return PropertyValue Property value
      */
@@ -143,7 +152,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Create a new property value on this entity
+     * Create a new property value on this complex value
      * @param  mixed  $offset  Property name
      * @param  mixed  $value  Property value
      */
@@ -172,7 +181,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Remove a property value from this entity
+     * Remove a property value from this complex value
      * @param  mixed  $offset  Property name
      */
     public function offsetUnset($offset)
@@ -181,7 +190,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Generate a new property value attached to this entity
+     * Generate a new property value attached to this complex value
      * @return PropertyValue Property value
      */
     public function newPropertyValue(): PropertyValue
@@ -192,7 +201,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Convert this entity to a PHP array of key/value pairs
+     * Convert this complex value to a PHP array of key/value pairs
      * @return array Record
      */
     public function toArray(): array
@@ -216,7 +225,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
             $generatedProperty->generatePropertyValue($this);
         }
 
-        $entityType = $this->getType();
+        $complexType = $this->getType();
         $navigationRequests = $transaction->getNavigationRequests();
 
         /** @var NavigationProperty $navigationProperty */
@@ -231,14 +240,14 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
             $navigationPath = $navigationRequest->path();
 
             /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $entityType->getNavigationProperties()->get($navigationPath);
+            $navigationProperty = $complexType->getNavigationProperties()->get($navigationPath);
             $navigationRequest->setNavigationProperty($navigationProperty);
 
             if (null === $navigationProperty) {
                 throw new BadRequestException(
                     'nonexistent_expand_path',
                     sprintf(
-                        'The requested expand path "%s" does not exist on this entity type',
+                        'The requested expand path "%s" does not exist on this type',
                         $navigationPath
                     )
                 );
@@ -248,7 +257,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
                 throw new BadRequestException(
                     'path_not_expandable',
                     sprintf(
-                        'The requested path "%s" is not available for expansion on this entity type',
+                        'The requested path "%s" is not available for expansion on this type',
                         $navigationPath
                     )
                 );
@@ -317,7 +326,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Generate an entity from an array of key/values
+     * Generate a complex value from an array of key/values
      * @param  array  $object  Key/value array
      * @return $this
      */
@@ -331,7 +340,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Generate an entity from an object
+     * Generate a complex value from an object
      * @param  object  $object  Object
      * @return $this
      */
@@ -345,7 +354,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Generate an entity from the original source object
+     * Generate a complex value from a source object
      * @param  mixed  $object  Source object
      * @return $this
      */
@@ -361,12 +370,12 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
         throw new InternalServerErrorException(
             'invalid_source',
-            'The provided source object could not be converted to an entity'
+            'The provided source object could not be converted to a resource'
         );
     }
 
     /**
-     * Get the ETag for this entity
+     * Get the ETag for this complex value
      * @return string ETag
      */
     public function getETag(): string
@@ -388,6 +397,10 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
         return sprintf('W/"%s"', ETag::hash($input));
     }
 
+    /**
+     * @param  Transaction  $transaction
+     * @return MetadataContainer
+     */
     protected function getMetadata(Transaction $transaction): MetadataContainer
     {
         $metadata = $this->metadata ?: $transaction->createMetadataContainer();

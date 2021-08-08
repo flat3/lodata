@@ -77,8 +77,8 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     }
 
     /**
-     * Set the attached parent resource
-     * @param  ResourceInterface  $parent  Resource
+     * Set the parent complex value of this property value
+     * @param  ComplexValue  $parent  Complex value
      * @return $this
      */
     public function setParent(ComplexValue $parent): self
@@ -89,8 +89,8 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     }
 
     /**
-     * Get the attached parent resource
-     * @return ResourceInterface Resource
+     * Get the attached parent complex value
+     * @return ComplexValue Complex value
      */
     public function getParent(): ComplexValue
     {
