@@ -10,15 +10,16 @@ export default {
     },
     methods: {
         update() {
-            document.querySelectorAll('div[class*="language-"] pre:not(.code-copy-added)').forEach(el => {
-                let ComponentClass = Vue.extend(CodeCopy)
-                let instance = new ComponentClass()
+            jQuery('div[class*="language-"]:not(.code-copy-added)').each((i, el) => {
+                const $el = jQuery(el);
+                let ComponentClass = Vue.extend(CodeCopy);
+                let instance = new ComponentClass();
 
-                instance.code = el.innerText
-                instance.parent = el
-                instance.$mount()
-                el.classList.add('code-copy-added')
-                el.appendChild(instance.$el)
+                instance.code = $el.find('code').text();
+                instance.parent = el;
+                instance.$mount();
+                $el.addClass('code-copy-added');
+                $el.append(instance.$el);
             })
         }
     }
