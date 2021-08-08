@@ -169,7 +169,7 @@ GET http://localhost:8000/odata/People?$count=true
 </code-block>
 
 <code-block title="Response">
-```
+```json
 {
   "@context": "http://localhost:8000/odata/$metadata#People",
   "value": [
@@ -211,7 +211,7 @@ GET http://localhost:8000/odata/flights?$expand=passengers
 </code-block>
 
 <code-block title="Response">
-```
+```json
 {
   "@context": "http://localhost:8000/odata/$metadata#flights(passengers())",
   "value": [
@@ -286,7 +286,7 @@ GET http://localhost:8000/odata/flights?$select=origin,destination
 </code-block>
 
 <code-block title="Response">
-```
+```json
 {
     "@context": "http://localhost:8000/odata/$metadata#flights(origin,destination)",
     "value": [
@@ -322,7 +322,7 @@ GET http://localhost:8000/odata/flights?$search=fo OR lh
 </code-block>
 
 <code-block title="Response">
-```
+```json
 {
     "@context": "http://localhost:8000/odata/$metadata#airports",
     "value": [
@@ -357,7 +357,7 @@ GET http://localhost:8000/odata/People?$filter=pets/any(s:endswith(s/Name, 'The 
 </code-block>
 
 <code-block title="Response">
-```
+```json
 {
   "@context": "http://localhost:8000/odata/$metadata#People",
   "value": [
