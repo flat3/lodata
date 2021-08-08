@@ -1,7 +1,10 @@
 {
     "name": "flat3/lodata",
     "description": "OData v4.01 Producer for Laravel",
-    "keywords": ["odata", "laravel"],
+    "keywords": [
+        "odata",
+        "laravel"
+    ],
     "homepage": "https://github.com/flat3/lodata",
     "license": "MIT",
     "authors": [
@@ -30,8 +33,7 @@
         "ext-dom": "*",
         "ext-pdo": "*",
         "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
-        "zbateson/stream-decorators": "^1.0",
-        "league/csv": "^9.7"
+        "zbateson/stream-decorators": "^1.0"
     },
     "extra": {
         "laravel": {
@@ -52,7 +54,11 @@
         "league/flysystem-vfs": "^1.1",
         "nunomaduro/collision": "^5.3",
         "brianium/paratest": "^6.2",
-        "eclipxe/xmlschemavalidator": "^3.0"
+        "eclipxe/xmlschemavalidator": "^3.0",
+        "league/csv": "^9.7"
+    },
+    "suggest": {
+        "league/csv": "To use the CSV entity set"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

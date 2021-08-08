@@ -132,7 +132,7 @@ abstract class Type
     }
 
     /**
-     * Cast a PHP type to an OData primitive type
+     * Cast a PHP type to an OData type
      * @param  string  $type  PHP type
      * @return Type OData type representation
      */
