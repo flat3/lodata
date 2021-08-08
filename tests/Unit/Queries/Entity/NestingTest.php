@@ -32,6 +32,7 @@ class NestingTest extends TestCase
         $c = new ComplexValue();
         $c->setType($d);
         $c['d'] = 'e';
+        $c['dyni'] = 4;
 
         $singleton['c'] = $c;
 

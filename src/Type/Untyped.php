@@ -2,16 +2,22 @@
 
 namespace Flat3\Lodata\Type;
 
+use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Type;
+use Flat3\Lodata\Helper\ObjectArray;
 
-class Untyped extends Type
+class Untyped extends ComplexType
 {
     const identifier = 'Edm.Untyped';
 
-    public function instance($value = null)
+    public function __construct()
     {
-        return new Collection($value);
+        $this->properties = new ObjectArray();
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this::identifier;
     }
 
     public function toOpenAPISchema(): array

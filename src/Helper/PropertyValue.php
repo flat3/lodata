@@ -297,7 +297,11 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new PathNotHandledException();
         }
 
-        $property = $argument->getType()->getProperty($propertyName);
+        $property = $argument[$propertyName];
+
+        if (null === $property) {
+            $property = $argument->getType()->getProperty($propertyName);
+        }
 
         if (null === $property) {
             throw new NotFoundException(

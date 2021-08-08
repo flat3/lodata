@@ -22,7 +22,6 @@ use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Transaction\MetadataContainer;
-use Flat3\Lodata\Transaction\NavigationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -120,12 +119,9 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
     {
         parent::offsetSet($offset, $value);
 
-        $property = $this->getType()->getProperty($offset);
-        $propertyValue = $this->getPropertyValue($property);
-
         $keyProperty = $this->getType()->getKey();
         if ($keyProperty && $offset === $keyProperty->getName()) {
-            $this->setEntityId($propertyValue);
+            $this->setEntityId($this[$offset]);
         }
     }
 

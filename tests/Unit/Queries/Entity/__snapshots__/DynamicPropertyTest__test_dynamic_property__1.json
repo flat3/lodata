@@ -1,0 +1,12 @@
+{
+    "@context": "http://localhost/odata/$metadata#cset",
+    "value": [
+        {
+            "id": "first",
+            "defined": "c",
+            "dynamicstring": "b",
+            "dynamicint": 4,
+            "dynamicfloat": 2.2
+        }
+    ]
+}

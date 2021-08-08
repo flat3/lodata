@@ -110,7 +110,8 @@ class ContextResourceTest extends TestCase
         );
     }
 
-    public function test_entity_reference() {
+    public function test_entity_reference()
+    {
         $this->assertJsonResponse(
             Request::factory()
                 ->metadata(MetadataType\Full::name)
@@ -118,7 +119,8 @@ class ContextResourceTest extends TestCase
         );
     }
 
-    public function test_property_value() {
+    public function test_property_value()
+    {
         $this->assertJsonResponse(
             Request::factory()
                 ->metadata(MetadataType\Full::name)
@@ -126,7 +128,8 @@ class ContextResourceTest extends TestCase
         );
     }
 
-    public function test_operation_result() {
+    public function test_operation_result()
+    {
         Lodata::add((new class('textf1') extends Operation implements FunctionInterface {
             public function invoke(EntitySet $texts): EntitySet
             {
@@ -141,7 +144,8 @@ class ContextResourceTest extends TestCase
         );
     }
 
-    public function test_all() {
+    public function test_all()
+    {
         $this->assertJsonResponse(
             Request::factory()
                 ->metadata(MetadataType\Full::name)

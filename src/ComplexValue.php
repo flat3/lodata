@@ -21,6 +21,7 @@ use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Type\Untyped;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 
 class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInterface, ReferenceInterface
 {
@@ -148,7 +149,16 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
      */
     public function offsetSet($offset, $value)
     {
+        if (Str::startsWith($offset, '@')) {
+            return;
+        }
+
         $property = $this->getType()->getProperty($offset);
+
+        if ($property === null) {
+            $property = new DynamicProperty($offset, Type::castInternalType(gettype($value)));
+        }
+
         $propertyValue = $this->newPropertyValue();
         $propertyValue->setProperty($property);
 
@@ -313,13 +323,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
      */
     public function fromArray(array $object): self
     {
-        // Only pick declared properties of this type
-        $declaredPropertyValues = array_intersect_key(
-            $object,
-            array_flip($this->type->getDeclaredProperties()->keys())
-        );
-
-        foreach ($declaredPropertyValues as $key => $value) {
+        foreach ($object as $key => $value) {
             $this[$key] = $value;
         }
 

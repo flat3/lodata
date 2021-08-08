@@ -66,7 +66,11 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
                 return array_merge(['__id' => $key], $item);
             })
                 ->sortBy($this->getOrderBy()->getSortOrders())
-                ->keyBy('__id');
+                ->mapWithKeys(function ($item) {
+                    $key = $item['__id'];
+                    unset($item['__id']);
+                    return [$key => $item];
+                });
         }
 
         if ($this->getSkip()->hasValue()) {

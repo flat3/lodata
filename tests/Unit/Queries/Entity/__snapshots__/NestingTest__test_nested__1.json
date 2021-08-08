@@ -2,6 +2,7 @@
     "@context": "http://localhost/odata/$metadata#atest",
     "b": "c",
     "c": {
-        "d": "e"
+        "d": "e",
+        "dyni": 4
     }
 }

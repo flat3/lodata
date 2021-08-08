@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use ArrayAccess;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Transaction;
@@ -200,10 +201,16 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      */
     public function instance($value = null): ComplexValue
     {
-        $value = new ComplexValue();
-        $value->setType($this);
+        $instance = new ComplexValue();
+        $instance->setType($this);
 
-        return $value;
+        if ($value instanceof ArrayAccess) {
+            foreach ($value as $k => $v) {
+                $instance[$k] = $v;
+            }
+        }
+
+        return $instance;
     }
 
     /**
