@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Facades;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Reference;
+use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Lodata
  * @method static ObjectArray|EntityType[] getEntityTypes() Get the entity types attached to the model
+ * @method static ObjectArray|ComplexType[] getComplexTypes() Get the complex types attached to the model
  * @method static ObjectArray|ResourceInterface[] getResources() Get the resources attached to the model
  * @method static ObjectArray|ServiceInterface[] getServices() Get the services attached to the model
  * @method static ObjectArray|Reference[] getReferences() Get the annotation references attached to the model
@@ -39,6 +41,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static ActionInterface getAction(Identifier|string $name) Get an action from the model
  * @method static PrimitiveType getTypeDefinition(Identifier|string $name) Get a type definition from the model
  * @method static EntityType getEntityType(Identifier|string $name) Get an entity type from the model
+ * @method static ComplexType getComplexType(Identifier|string $name) Get a complex type from the model
  * @method static Singleton getSingleton(Identifier|string $name) Get a singleton from the model
  * @method static IdentifierInterface add(IdentifierInterface $item) Add a named resource or type to the model
  * @method static Model drop(Identifier|string $key) Drop a named resource or type from the model

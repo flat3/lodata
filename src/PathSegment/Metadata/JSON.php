@@ -7,6 +7,7 @@ namespace Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\ObjectArray;
@@ -74,38 +75,40 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
             $schema->{$typeDefinition->getResolvedName($namespace)} = $typeDefinitionElement;
         }
 
-        foreach (Lodata::getEntityTypes() as $entityType) {
-            $entityTypeElement = (object) [];
-            $schema->{$entityType->getName()} = $entityTypeElement;
-            $entityTypeElement->{'$Kind'} = 'EntityType';
+        foreach (Lodata::getComplexTypes() as $complexType) {
+            $complexTypeElement = (object) [];
+            $schema->{$complexType->getName()} = $complexTypeElement;
+            $complexTypeElement->{'$Kind'} = $complexType instanceof EntityType ? 'EntityType' : 'ComplexType';
 
-            $keyField = $entityType->getKey();
+            if ($complexType instanceof EntityType) {
+                $keyField = $complexType->getKey();
 
-            if ($keyField) {
-                $entityTypeElement->{'$Key'} = [
-                    $keyField->getName(),
-                ];
-            }
-
-            foreach (ObjectArray::merge(
-                $entityType->getDeclaredProperties(),
-                $entityType->getGeneratedProperties()
-            ) as $property) {
-                $entityTypeProperty = (object) [];
-                $entityTypeElement->{$property->getName()} = $entityTypeProperty;
-                $entityTypeProperty->{'$Type'} = $property->getType()->getIdentifier();
-                $entityTypeProperty->{'$Nullable'} = $property->isNullable();
-
-                foreach ($property->getAnnotations() as $annotation) {
-                    $annotation->appendJson($entityTypeProperty);
+                if ($keyField) {
+                    $complexTypeElement->{'$Key'} = [
+                        $keyField->getName(),
+                    ];
                 }
             }
 
-            foreach ($entityType->getNavigationProperties() as $navigationProperty) {
-                $targetEntityType = $navigationProperty->getType();
+            foreach (ObjectArray::merge(
+                $complexType->getDeclaredProperties(),
+                $complexType->getGeneratedProperties()
+            ) as $property) {
+                $complexTypeProperty = (object) [];
+                $complexTypeElement->{$property->getName()} = $complexTypeProperty;
+                $complexTypeProperty->{'$Type'} = $property->getType()->getIdentifier();
+                $complexTypeProperty->{'$Nullable'} = $property->isNullable();
+
+                foreach ($property->getAnnotations() as $annotation) {
+                    $annotation->appendJson($complexTypeProperty);
+                }
+            }
+
+            foreach ($complexType->getNavigationProperties() as $navigationProperty) {
+                $targetComplexType = $navigationProperty->getType();
 
                 $navigationPropertyElement = (object) [];
-                $entityTypeElement->{$navigationProperty->getName()} = $navigationPropertyElement;
+                $complexTypeElement->{$navigationProperty->getName()} = $navigationPropertyElement;
                 $navigationPropertyElement->{'$Collection'} = $navigationProperty->isCollection();
 
                 $navigationPropertyPartner = $navigationProperty->getPartner();
@@ -113,7 +116,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     $navigationPropertyElement->{'$Partner'} = $navigationPropertyPartner->getName();
                 }
 
-                $navigationPropertyElement->{'$Type'} = $targetEntityType->getIdentifier();
+                $navigationPropertyElement->{'$Type'} = $targetComplexType->getIdentifier();
                 $navigationPropertyElement->{'$Nullable'} = $navigationProperty->isNullable();
 
                 $constraints = $navigationProperty->getConstraints();

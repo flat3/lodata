@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\PathSegment\Metadata;
 
 use Flat3\Lodata\Annotation;
+use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
@@ -96,25 +97,27 @@ class XML extends Metadata implements StreamInterface
         }
 
         // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
-        foreach (Lodata::getEntityTypes() as $entityType) {
-            $entityTypeElement = $schema->addChild('EntityType');
-            $entityTypeElement->addAttribute('Name', $entityType->getResolvedName($namespace));
+        foreach (Lodata::getComplexTypes() as $complexType) {
+            $complexTypeElement = $schema->addChild($complexType instanceof EntityType ? 'EntityType' : 'ComplexType');
+            $complexTypeElement->addAttribute('Name', $complexType->getResolvedName($namespace));
 
-            // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
-            $keyField = $entityType->getKey();
+            if ($complexType instanceof EntityType) {
+                // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
+                $keyField = $complexType->getKey();
 
-            if ($keyField) {
-                $entityTypeKey = $entityTypeElement->addChild('Key');
-                $entityTypeKeyPropertyRef = $entityTypeKey->addChild('PropertyRef');
-                $entityTypeKeyPropertyRef->addAttribute('Name', $keyField->getName());
+                if ($keyField) {
+                    $entityTypeKey = $complexTypeElement->addChild('Key');
+                    $entityTypeKeyPropertyRef = $entityTypeKey->addChild('PropertyRef');
+                    $entityTypeKeyPropertyRef->addAttribute('Name', $keyField->getName());
+                }
             }
 
             // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
             foreach (ObjectArray::merge(
-                $entityType->getDeclaredProperties(),
-                $entityType->getGeneratedProperties()
+                $complexType->getDeclaredProperties(),
+                $complexType->getGeneratedProperties()
             ) as $property) {
-                $entityTypeProperty = $entityTypeElement->addChild('Property');
+                $entityTypeProperty = $complexTypeElement->addChild('Property');
                 $entityTypeProperty->addAttribute('Name', $property->getName());
 
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
@@ -133,13 +136,13 @@ class XML extends Metadata implements StreamInterface
 
             // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530365
             /** @var NavigationProperty $navigationProperty */
-            foreach ($entityType->getNavigationProperties() as $navigationProperty) {
-                /** @var EntityType $targetEntityType */
-                $targetEntityType = $navigationProperty->getType();
+            foreach ($complexType->getNavigationProperties() as $navigationProperty) {
+                /** @var ComplexType $targetComplexType */
+                $targetComplexType = $navigationProperty->getType();
 
-                $navigationPropertyElement = $entityTypeElement->addChild('NavigationProperty');
+                $navigationPropertyElement = $complexTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getName());
-                $navigationPropertyType = $targetEntityType->getIdentifier();
+                $navigationPropertyType = $targetComplexType->getIdentifier();
                 if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }

@@ -8,6 +8,7 @@ use ArrayAccess;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -95,6 +96,10 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     public function setType(ComplexType $type): self
     {
         $this->type = $type;
+
+        if (!Lodata::getComplexType($type->getIdentifier())) {
+            Lodata::add($type);
+        }
 
         return $this;
     }

@@ -83,6 +83,16 @@ class Model implements AnnotationInterface
     }
 
     /**
+     * Get a complex type from the model
+     * @param  string  $name  Complex type name
+     * @return ComplexType|null Complex type
+     */
+    public function getComplexType(string $name): ?ComplexType
+    {
+        return $this->getComplexTypes()->get($name);
+    }
+
+    /**
      * Get a singleton from the model
      * @param  string  $name  Singleton name
      * @return Singleton|null Singleton
@@ -184,6 +194,15 @@ class Model implements AnnotationInterface
     public function getEntityTypes(): ObjectArray
     {
         return $this->model->sliceByClass(EntityType::class);
+    }
+
+    /**
+     * Get the complex types attached to the model
+     * @return ObjectArray Complex types
+     */
+    public function getComplexTypes(): ObjectArray
+    {
+        return $this->model->sliceByClass(ComplexType::class);
     }
 
     /**

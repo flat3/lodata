@@ -39,6 +39,11 @@ class NestingTest extends TestCase
         Lodata::add($singleton);
     }
 
+    public function test_schema()
+    {
+        $this->assertMetadataDocuments();
+    }
+
     public function test_nested()
     {
         $this->assertJsonResponse(
