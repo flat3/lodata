@@ -177,7 +177,7 @@ class NavigationProperty extends Property
             $propertyValue->setValue($expansionSingular);
         }
 
-        $value->addProperty($propertyValue);
+        $value->addPropertyValue($propertyValue);
 
         return $propertyValue;
     }

@@ -1398,7 +1398,7 @@ class Transaction implements ArgumentInterface
             $deltaProperty = $parentEntity->newPropertyValue();
             $deltaProperty->setProperty($navigationProperty);
             $deltaProperty->setValue($deltaResponseSet);
-            $parentEntity->addProperty($deltaProperty);
+            $parentEntity->addPropertyValue($deltaProperty);
         }
     }
 }

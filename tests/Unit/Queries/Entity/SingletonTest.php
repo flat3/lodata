@@ -25,7 +25,7 @@ class SingletonTest extends TestCase
         $pv = new PropertyValue();
         $pv->setProperty($type->getProperty('b'));
         $pv->setValue(new Type\String_('c'));
-        $entity->addProperty($pv);
+        $entity->addPropertyValue($pv);
         Lodata::add($entity);
     }
 

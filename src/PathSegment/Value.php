@@ -43,7 +43,7 @@ class Value implements PipeInterface, StreamInterface
 
         switch (true) {
             case $argument instanceof PropertyValue:
-                $result->primitive = $argument->getPrimitiveValue();
+                $result->primitive = $argument->getPrimitive();
                 return $result;
 
             case $argument instanceof Primitive:

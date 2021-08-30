@@ -133,7 +133,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $this->getTable(),
             $this->propertyToField($key->getProperty())
         );
-        $this->addParameter($key->getPrimitiveValue()->get());
+        $this->addParameter($key->getPrimitiveValue());
         $stmt = $this->pdoSelect($query);
         $this->bindParameters($stmt);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -261,7 +261,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $key = $this->resolveExpansionKey();
         $this->whereMaybeAnd();
         $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
-        $this->addParameter($key->getPrimitiveValue()->get());
+        $this->addParameter($key->getPrimitiveValue());
     }
 
     /**
@@ -390,7 +390,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = $this->getPropertySourceName($referencedProperty);
-                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
             }
         }
 
@@ -450,14 +450,14 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $fields[] = sprintf('%s=?', $this->getPropertySourceName($referencedProperty));
-                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get());
+                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
             }
         }
 
         if ($fields) {
             $fields = implode(',', $fields);
 
-            $this->addParameter($key->getPrimitiveValue()->get());
+            $this->addParameter($key->getPrimitiveValue());
 
             $query = sprintf(
                 'UPDATE %s SET %s WHERE %s=?',
@@ -485,7 +485,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $this->resetParameters();
         $type = $this->getType();
 
-        $this->addParameter($key->getPrimitiveValue()->get());
+        $this->addParameter($key->getPrimitiveValue());
 
         $query = sprintf(
             'DELETE FROM %s WHERE %s=?',

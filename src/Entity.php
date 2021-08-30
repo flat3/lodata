@@ -232,7 +232,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
         return sprintf(
             '%s(%s)',
             $this->entitySet->getResourceUrl($transaction),
-            $this->getEntityId()->getPrimitiveValue()->toUrl()
+            $this->getEntityId()->getPrimitive()->toUrl()
         );
     }
 
@@ -342,7 +342,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
      */
     public function __toString(): string
     {
-        return $this->getEntityId()->getPrimitiveValue()->get();
+        return $this->getEntityId()->getPrimitiveValue();
     }
 
     /**
@@ -363,7 +363,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
             $metadata['id'] = sprintf(
                 '%s(%s)',
                 $this->entitySet->getName(),
-                $this->getEntityId()->getPrimitiveValue()->get()
+                $this->getEntityId()->getPrimitiveValue()
             );
 
             $metadata->addRequiredProperty('id');

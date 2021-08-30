@@ -59,8 +59,9 @@ abstract class Annotation
             case $value instanceof Record:
                 $record = (object) [];
 
+                /** @var PropertyValue $propertyValue */
                 foreach ($value as $propertyValue) {
-                    $record->{$propertyValue->getProperty()->getName()} = $this->appendJsonValue($propertyValue->getPrimitiveValue());
+                    $record->{$propertyValue->getProperty()->getName()} = $this->appendJsonValue($propertyValue->getPrimitive());
                 }
 
                 return $record;

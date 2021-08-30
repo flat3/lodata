@@ -50,7 +50,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         $entityId = $entity->getEntityId();
 
         if ($entityId) {
-            $key = $entityId->getPrimitiveValue()->get();
+            $key = $entityId->getPrimitiveValue();
             $this->enumerable[$key] = $entity->toArray();
         } else {
             $this->enumerable[] = $entity->toArray();
@@ -66,7 +66,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
      */
     public function delete(PropertyValue $key): void
     {
-        $this->enumerable->forget($key->getPrimitiveValue()->get());
+        $this->enumerable->forget($key->getPrimitiveValue());
     }
 
     /**
@@ -82,7 +82,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         $item = $entity->toArray();
         unset($item['id']);
 
-        $this->enumerable[$key->getPrimitiveValue()->get()] = $item;
+        $this->enumerable[$key->getPrimitiveValue()] = $item;
 
         return $this->read($key);
     }

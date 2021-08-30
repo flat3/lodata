@@ -123,12 +123,21 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     }
 
     /**
-     * Get the attached primitive value
-     * @return Primitive Value
+     * Get the attached primitive
+     * @return Primitive Primitive
      */
-    public function getPrimitiveValue(): Primitive
+    public function getPrimitive(): Primitive
     {
         return $this->value;
+    }
+
+    /**
+     * Get the attached primitive internal value
+     * @return mixed|null
+     */
+    public function getPrimitiveValue()
+    {
+        return $this->getPrimitive()->get();
     }
 
     /**
@@ -439,8 +448,8 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
                 break;
 
             case $property->getType()->is(Stream::class):
-                $metadata['mediaContentType'] = (string) $this->getPrimitiveValue()->getContentType();
-                $metadata['mediaReadLink'] = (string) $this->getPrimitiveValue()->getReadLink();
+                $metadata['mediaContentType'] = (string) $this->getPrimitive()->getContentType();
+                $metadata['mediaReadLink'] = (string) $this->getPrimitive()->getReadLink();
                 break;
         }
 

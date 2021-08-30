@@ -108,7 +108,7 @@ trait HasNavigation
 
         /** @var PropertyValue $keyPropertyValue */
         $keyPropertyValue = $sourceEntity->getPropertyValues()->get($targetConstraint->getProperty());
-        if ($keyPropertyValue->getPrimitiveValue()->get() === null) {
+        if ($keyPropertyValue->getPrimitiveValue() === null) {
             throw new InternalServerErrorException('missing_expansion_key', 'The target constraint key is null');
         }
 

@@ -363,7 +363,7 @@ trait TestModels
                     $pv = $entity->newPropertyValue();
                     $pv->setValue(new Int32(3));
                     $pv->setProperty(new DynamicProperty('dynamic', Type::int32()));
-                    $entity->addProperty($pv);
+                    $entity->addPropertyValue($pv);
                     yield $entity;
                 }
             });

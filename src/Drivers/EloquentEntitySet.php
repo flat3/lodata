@@ -126,7 +126,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $model = $this->getBuilder();
 
-        return $model->where($key->getProperty()->getName(), $key->getPrimitiveValue()->get())->first();
+        return $model->where($key->getProperty()->getName(), $key->getPrimitiveValue())->first();
     }
 
     /**
@@ -207,7 +207,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $model[$referencedProperty->getName()] = $this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue()->get();
+                $model[$referencedProperty->getName()] = $this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue();
             }
         }
 
@@ -306,7 +306,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $propertyValue = $entity->newPropertyValue();
             $propertyValue->setProperty($property);
             $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
-            $entity->addProperty($propertyValue);
+            $entity->addPropertyValue($propertyValue);
         }
 
         $entity->setEntityId($model->getKey());

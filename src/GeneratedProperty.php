@@ -53,7 +53,7 @@ abstract class GeneratedProperty extends Property
 
         $propertyValue->setValue($result);
 
-        $value->addProperty($propertyValue);
+        $value->addPropertyValue($propertyValue);
 
         return $propertyValue;
     }

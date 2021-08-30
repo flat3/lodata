@@ -106,7 +106,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
     public function read(PropertyValue $key): ?Entity
     {
         $csv = $this->getCsvStatement();
-        $row = $csv->fetchOne($key->getPrimitiveValue()->get());
+        $row = $csv->fetchOne($key->getPrimitiveValue());
         return $this->newEntity()->setEntityId($key)->fromArray($row);
     }
 }

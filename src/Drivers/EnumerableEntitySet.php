@@ -116,14 +116,14 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
      */
     public function read(PropertyValue $key): ?Entity
     {
-        $item = $this->enumerable->get($key->getPrimitiveValue()->get());
+        $item = $this->enumerable->get($key->getPrimitiveValue());
 
         if ($item === null) {
             return null;
         }
 
         $entity = $this->newEntity();
-        $entity['id'] = $key->getPrimitiveValue()->get();
+        $entity['id'] = $key->getPrimitiveValue();
         $entity->fromSource($item);
 
         return $entity;

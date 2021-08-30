@@ -396,7 +396,7 @@ class NextBirthday extends Operation implements FunctionInterface
     public function invoke( Entity $person ): Duration
     {
         /** @var Carbon $dob */
-        $dob = $person['dob']->getPrimitiveValue()->get();
+        $dob = $person['dob']->getPrimitiveValue();
 
         $now = Carbon::now();
 

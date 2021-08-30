@@ -55,7 +55,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             throw new BadRequestException('missing_key', 'The required key must be provided to this entity set type');
         }
 
-        $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
+        $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue(), $this->serialize($entity));
 
         return $entity;
     }
@@ -108,7 +108,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function delete(PropertyValue $key): void
     {
-        $this->getConnection()->del($key->getPrimitiveValue()->get());
+        $this->getConnection()->del($key->getPrimitiveValue());
     }
 
     /**
@@ -118,7 +118,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function read(PropertyValue $key): ?Entity
     {
-        $record = $this->getConnection()->get($key->getPrimitiveValue()->get());
+        $record = $this->getConnection()->get($key->getPrimitiveValue());
 
         if (null === $record) {
             return null;
@@ -143,7 +143,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             $entity[$property] = $value;
         }
 
-        $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue()->get(), $this->serialize($entity));
+        $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue(), $this->serialize($entity));
 
         return $entity;
     }
