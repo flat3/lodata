@@ -163,17 +163,15 @@ abstract class Node
     }
 
     /**
-     * Handle an expression event
-     * @param  Event  $event  Event
+     * Emit a node
+     * @param  Node  $node  Node
      * @throws NotImplementedException
      */
-    protected function expressionEvent(Event $event): void
+    protected function emit(Node $node): void
     {
-        if ($this->parser->expressionEvent($event) === true) {
+        if ($this->parser->emit($node) === true) {
             return;
         }
-
-        $node = $event->getNode();
 
         switch (true) {
             case $node instanceof OperatorExpression:

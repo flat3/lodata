@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
 use Flat3\Lodata\Expression\Parser\Search as SearchParser;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -99,12 +99,12 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         return $this->enumerable->count();
     }
 
-    public function search(Event $event): ?bool
+    public function search(Node $node): ?bool
     {
         return true;
     }
 
-    public function filter(Event $event): ?bool
+    public function filter(Node $node): ?bool
     {
         return true;
     }

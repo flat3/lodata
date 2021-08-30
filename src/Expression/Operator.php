@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Expression;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Event\ArgumentSeparator;
-use Flat3\Lodata\Expression\Event\EndGroup;
-use Flat3\Lodata\Expression\Event\Operator as OperatorEvent;
-use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node\Group;
 
 /**
  * Operator
@@ -66,11 +63,11 @@ abstract class Operator extends Node
     public function compute(): void
     {
         try {
-            $this->expressionEvent(new StartGroup());
+            $this->emit(new Group\Start($this->parser));
             $this->getLeftNode()->compute();
-            $this->expressionEvent(new OperatorEvent($this));
+            $this->emit($this);
             $this->getRightNode()->compute();
-            $this->expressionEvent(new EndGroup());
+            $this->emit(new Group\End($this->parser));
         } catch (NodeHandledException $e) {
             return;
         }
@@ -88,7 +85,7 @@ abstract class Operator extends Node
             $arg->compute();
 
             if ($arguments) {
-                $this->expressionEvent(new ArgumentSeparator());
+                $this->emit(new Group\Separator($this->parser));
             }
         }
     }

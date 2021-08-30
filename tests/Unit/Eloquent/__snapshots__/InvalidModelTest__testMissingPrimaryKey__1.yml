@@ -1,3 +1,0 @@
-httpCode: 500
-odataCode: missing_primary_key
-message: 'The primary key of this table could not be detected'

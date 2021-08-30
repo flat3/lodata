@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\StartFunction;
+use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Round;
@@ -36,114 +35,107 @@ trait SQLServerFilter
 
     /**
      * Microsoft SQL Server-specific SQL filter generation
-     * @param  Event  $event  Filter event
+     * @param  Node  $node
      * @return bool|null
-     * @throws NodeHandledException
      */
-    public function sqlsrvFilter(Event $event): ?bool
+    public function sqlsrvFilter(Node $node): ?bool
     {
         switch (true) {
-            case $event instanceof StartFunction:
-                $func = $event->getNode();
+            case $node instanceof Ceiling:
+                $this->addWhere('CEILING(');
 
-                switch (true) {
-                    case $func instanceof Ceiling:
-                        $this->addWhere('CEILING(');
+                return true;
 
-                        return true;
+            case $node instanceof Floor:
+                $this->addWhere('FLOOR(');
 
-                    case $func instanceof Floor:
-                        $this->addWhere('FLOOR(');
+                return true;
 
-                        return true;
+            case $node instanceof Round:
+                $this->addWhere('ROUND(');
 
-                    case $func instanceof Round:
-                        $this->addWhere('ROUND(');
+                return true;
 
-                        return true;
+            case $node instanceof Day:
+                $this->addWhere('DATEPART(day, ');
 
-                    case $func instanceof Day:
-                        $this->addWhere('DATEPART(day, ');
+                return true;
 
-                        return true;
+            case $node instanceof Hour:
+                $this->addWhere('DATEPART(hour, ');
 
-                    case $func instanceof Hour:
-                        $this->addWhere('DATEPART(hour, ');
+                return true;
 
-                        return true;
+            case $node instanceof Minute:
+                $this->addWhere('DATEPART(minute, ');
 
-                    case $func instanceof Minute:
-                        $this->addWhere('DATEPART(minute, ');
+                return true;
 
-                        return true;
+            case $node instanceof Month:
+                $this->addWhere('DATEPART(month, ');
 
-                    case $func instanceof Month:
-                        $this->addWhere('DATEPART(month, ');
+                return true;
 
-                        return true;
+            case $node instanceof Now:
+                $this->addWhere('CURRENT_TIMESTAMP(');
 
-                    case $func instanceof Now:
-                        $this->addWhere('CURRENT_TIMESTAMP(');
+                return true;
 
-                        return true;
+            case $node instanceof Second:
+                $this->addWhere('DATEPART(second, ');
 
-                    case $func instanceof Second:
-                        $this->addWhere('DATEPART(second, ');
+                return true;
 
-                        return true;
+            case $node instanceof Year:
+                $this->addWhere('DATEPART(year, ');
 
-                    case $func instanceof Year:
-                        $this->addWhere('DATEPART(year, ');
+                return true;
 
-                        return true;
+            case $node instanceof MatchesPattern:
+                $arguments = $node->getArguments();
+                list($arg1, $arg2) = $arguments;
+                $arg1->compute();
+                $this->addWhere('LIKE');
+                $arg2->compute();
+                throw new NodeHandledException();
 
-                    case $func instanceof MatchesPattern:
-                        $arguments = $func->getArguments();
-                        list($arg1, $arg2) = $arguments;
-                        $arg1->compute();
-                        $this->addWhere('LIKE');
-                        $arg2->compute();
-                        throw new NodeHandledException();
+            case $node instanceof ToLower:
+                $this->addWhere('LOWER(');
 
-                    case $func instanceof ToLower:
-                        $this->addWhere('LOWER(');
+                return true;
 
-                        return true;
+            case $node instanceof ToUpper:
+                $this->addWhere('UPPER(');
 
-                    case $func instanceof ToUpper:
-                        $this->addWhere('UPPER(');
+                return true;
 
-                        return true;
+            case $node instanceof Trim:
+                $this->addWhere('TRIM(');
 
-                    case $func instanceof Trim:
-                        $this->addWhere('TRIM(');
+                return true;
 
-                        return true;
+            case $node instanceof Concat:
+                $this->addWhere('CONCAT(');
 
-                    case $func instanceof Concat:
-                        $this->addWhere('CONCAT(');
+                return true;
 
-                        return true;
+            case $node instanceof IndexOf:
+                $this->addWhere('CHARINDEX(');
 
-                    case $func instanceof IndexOf:
-                        $this->addWhere('CHARINDEX(');
+                return true;
 
-                        return true;
+            case $node instanceof Length:
+                $this->addWhere('LEN(');
 
-                    case $func instanceof Length:
-                        $this->addWhere('LEN(');
+                return true;
 
-                        return true;
+            case $node instanceof Substring:
+                $this->addWhere('SUBSTRING(');
 
-                    case $func instanceof Substring:
-                        $this->addWhere('SUBSTRING(');
-
-                        return true;
-                }
-                break;
+                return true;
         }
 
-        $this->sqlLambdaFilter($event);
+        $this->sqlLambdaFilter($node);
 
         return false;
     }

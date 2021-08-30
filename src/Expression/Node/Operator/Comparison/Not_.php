@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Expression\Node\Operator\Comparison;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Event\EndGroup;
-use Flat3\Lodata\Expression\Event\Operator;
-use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Node\Operator\Comparison;
 
 /**
@@ -23,10 +21,10 @@ class Not_ extends Comparison
     public function compute(): void
     {
         try {
-            $this->expressionEvent(new StartGroup());
-            $this->expressionEvent(new Operator($this));
+            $this->emit(new Group\Start($this->parser));
+            $this->emit($this);
             $this->getLeftNode()->compute();
-            $this->expressionEvent(new EndGroup());
+            $this->emit(new Group\End($this->parser));
         } catch (NodeHandledException $e) {
             return;
         }

@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Flat3\Lodata\Expression\Node;
+namespace Flat3\Lodata\Expression\Node\Group;
 
+use Flat3\Lodata\Expression\Node\Func;
+use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Operator;
 
 /**
- * Left Parenthesis
- * @package Flat3\Lodata\Expression\Node
+ * Start of a group
+ * @package Flat3\Lodata\Expression\Node\Group
  */
-class LeftParen extends Group
+class Start extends Group
 {
     public const symbol = '(';
 
@@ -18,7 +20,7 @@ class LeftParen extends Group
     private $func = null;
 
     /**
-     * Get the function attached to this parenthesis
+     * Get the function attached to this group
      *
      * @return Operator|null
      */
@@ -28,7 +30,7 @@ class LeftParen extends Group
     }
 
     /**
-     * Set the function attached to this parenthesis
+     * Set the function attached to this group
      *
      * @param  Operator  $func
      */

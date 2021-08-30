@@ -9,12 +9,10 @@ use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Node\Func;
 use Flat3\Lodata\Expression\Node\Group;
-use Flat3\Lodata\Expression\Node\LeftParen;
 use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Operator\Logical;
 use Flat3\Lodata\Expression\Node\Property;
-use Flat3\Lodata\Expression\Node\RightParen;
 use Illuminate\Support\Arr;
 
 /**
@@ -107,7 +105,7 @@ abstract class Parser
      */
     private function applyOperator(Operator $operator): void
     {
-        if ($operator instanceof LeftParen || $operator instanceof RightParen) {
+        if ($operator instanceof Group\Start || $operator instanceof Group\End) {
             throw new ParserException('Expression has unbalanced parentheses');
         }
 
@@ -180,7 +178,7 @@ abstract class Parser
             return false;
         }
 
-        $token = new LeftParen($this);
+        $token = new Group\Start($this);
         $this->operatorStack[] = $token;
         $this->tokens[] = $token;
 
@@ -210,12 +208,12 @@ abstract class Parser
             return false;
         }
 
-        $this->tokens[] = new RightParen($this);
+        $this->tokens[] = new Group\End($this);
 
         while ($this->operatorStack) {
             $headOperator = $this->getOperatorStackHead();
-            if ($headOperator instanceof LeftParen) {
-                /** @var LeftParen $paren */
+            if ($headOperator instanceof Group\Start) {
+                /** @var Group\Start $paren */
                 $paren = array_pop($this->operatorStack);
                 $func = $paren->getFunc();
                 if ($func && $this->operandStack && ($func instanceof Lambda || $func instanceof Logical\In || ($func instanceof Func && $func::arguments > 0))) {
@@ -260,7 +258,7 @@ abstract class Parser
 
         while ($this->operatorStack) {
             $headOperator = $this->getOperatorStackHead();
-            if ($headOperator instanceof LeftParen) {
+            if ($headOperator instanceof Group\Start) {
                 $arg = array_pop($this->operandStack);
                 $headOperator->getFunc()->addArgument($arg);
 
@@ -700,9 +698,9 @@ abstract class Parser
     }
 
     /**
-     * Dispatch an expression event
-     * @param  Event  $event  Event
+     * Emit an expression node
+     * @param  Node  $node  Node
      * @return bool|null
      */
-    abstract public function expressionEvent(Event $event): ?bool;
+    abstract public function emit(Node $node): ?bool;
 }

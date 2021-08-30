@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Expression\Parser;
 
 use Flat3\Lodata\Exception\Internal\ParserException;
-use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Operator;
 use Flat3\Lodata\Expression\Parser;
@@ -35,16 +34,16 @@ class Search extends Parser
     }
 
     /**
-     * Handle an expression event
-     * @param  Event  $event  Event
+     * Emit an expression node
+     * @param  Node  $node  Node
      * @return bool|null
      */
-    public function expressionEvent(Event $event): ?bool
+    public function emit(Node $node): ?bool
     {
         $entitySet = $this->getCurrentResource();
 
         if ($entitySet instanceof SearchInterface) {
-            return $entitySet->search($event);
+            return $entitySet->search($node);
         }
 
         return false;

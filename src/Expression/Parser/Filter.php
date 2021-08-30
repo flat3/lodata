@@ -6,7 +6,6 @@ namespace Flat3\Lodata\Expression\Parser;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\ParserException;
-use Flat3\Lodata\Expression\Event;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Operator;
@@ -108,16 +107,16 @@ class Filter extends Parser
     }
 
     /**
-     * Handle an expression event
-     * @param  Event  $event  Event
+     * Handle an expression node
+     * @param  Node  $node  Node
      * @return bool|null
      */
-    public function expressionEvent(Event $event): ?bool
+    public function emit(Node $node): ?bool
     {
         $entitySet = $this->getCurrentResource();
 
         if ($entitySet instanceof FilterInterface) {
-            return $entitySet->filter($event);
+            return $entitySet->filter($node);
         }
 
         return false;

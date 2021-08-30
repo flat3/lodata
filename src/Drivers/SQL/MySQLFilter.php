@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\Operator;
-use Flat3\Lodata\Expression\Event\StartFunction;
+use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Ceiling;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Floor;
 use Flat3\Lodata\Expression\Node\Func\Arithmetic\Round;
@@ -40,132 +38,120 @@ trait MySQLFilter
 
     /**
      * MySQL-specific SQL filter generation
-     * @param  Event  $event  Filter event
+     * @param  Node  $node  Node
      * @return bool|null
      * @throws NodeHandledException
      */
-    public function mysqlFilter(Event $event): ?bool
+    public function mysqlFilter(Node $node): ?bool
     {
         switch (true) {
-            case $event instanceof Operator:
-                $operator = $event->getNode();
+            case $node instanceof Div:
+                $this->addWhere('DIV');
 
-                switch (true) {
-                    case $operator instanceof Div:
-                        $this->addWhere('DIV');
+                return true;
 
-                        return true;
-                }
-                break;
+            case $node instanceof Ceiling:
+                $this->addWhere('CEILING(');
 
-            case $event instanceof StartFunction:
-                $func = $event->getNode();
+                return true;
 
-                switch (true) {
-                    case $func instanceof Ceiling:
-                        $this->addWhere('CEILING(');
+            case $node instanceof Floor:
+                $this->addWhere('FLOOR(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Floor:
-                        $this->addWhere('FLOOR(');
+            case $node instanceof Round:
+                $this->addWhere('ROUND(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Round:
-                        $this->addWhere('ROUND(');
+            case $node instanceof Date:
+                $this->addWhere('DATE(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Date:
-                        $this->addWhere('DATE(');
+            case $node instanceof Day:
+                $this->addWhere('DAY(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Day:
-                        $this->addWhere('DAY(');
+            case $node instanceof Hour:
+                $this->addWhere('HOUR(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Hour:
-                        $this->addWhere('HOUR(');
+            case $node instanceof Minute:
+                $this->addWhere('MINUTE(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Minute:
-                        $this->addWhere('MINUTE(');
+            case $node instanceof Month:
+                $this->addWhere('MONTH(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Month:
-                        $this->addWhere('MONTH(');
+            case $node instanceof Now:
+                $this->addWhere('NOW(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Now:
-                        $this->addWhere('NOW(');
+            case $node instanceof Second:
+                $this->addWhere('SECOND(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Second:
-                        $this->addWhere('SECOND(');
+            case $node instanceof Time:
+                $this->addWhere('TIME(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Time:
-                        $this->addWhere('TIME(');
+            case $node instanceof Year:
+                $this->addWhere('YEAR(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Year:
-                        $this->addWhere('YEAR(');
+            case $node instanceof MatchesPattern:
+                $this->addWhere('REGEXP_LIKE(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof MatchesPattern:
-                        $this->addWhere('REGEXP_LIKE(');
+            case $node instanceof ToLower:
+                $this->addWhere('LOWER(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof ToLower:
-                        $this->addWhere('LOWER(');
+            case $node instanceof ToUpper:
+                $this->addWhere('UPPER(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof ToUpper:
-                        $this->addWhere('UPPER(');
+            case $node instanceof Trim:
+                $this->addWhere('TRIM(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Trim:
-                        $this->addWhere('TRIM(');
+            case $node instanceof Concat:
+                $this->addWhere('CONCAT(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Concat:
-                        $this->addWhere('CONCAT(');
+            case $node instanceof IndexOf:
+                $this->addWhere('INSTR(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof IndexOf:
-                        $this->addWhere('INSTR(');
+            case $node instanceof Length:
+                $this->addWhere('LENGTH(');
 
-                        return true;
+                return true;
 
-                    case $func instanceof Length:
-                        $this->addWhere('LENGTH(');
+            case $node instanceof Substring:
+                $this->addWhere('SUBSTRING(');
 
-                        return true;
-
-                    case $func instanceof Substring:
-                        $this->addWhere('SUBSTRING(');
-
-                        return true;
-                }
-                break;
+                return true;
         }
 
-        $this->sqlLambdaFilter($event);
+        $this->sqlLambdaFilter($node);
 
         return false;
     }

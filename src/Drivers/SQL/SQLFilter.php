@@ -8,18 +8,12 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\ArgumentSeparator;
-use Flat3\Lodata\Expression\Event\EndFunction;
-use Flat3\Lodata\Expression\Event\EndGroup;
-use Flat3\Lodata\Expression\Event\Literal;
-use Flat3\Lodata\Expression\Event\Operator;
-use Flat3\Lodata\Expression\Event\Property;
-use Flat3\Lodata\Expression\Event\StartFunction;
-use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\Contains;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\EndsWith;
 use Flat3\Lodata\Expression\Node\Func\StringCollection\StartsWith;
+use Flat3\Lodata\Expression\Node\Group;
+use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
@@ -41,6 +35,8 @@ use Flat3\Lodata\Expression\Node\Operator\Logical\In;
 use Flat3\Lodata\Expression\Node\Operator\Logical\LessThan;
 use Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
+use Flat3\Lodata\Expression\Node\Property;
+use Flat3\Lodata\Expression\Operator;
 
 /**
  * SQL Filter
@@ -55,29 +51,33 @@ trait SQLFilter
 
     /**
      * Generate SQL fragments for filters
-     * @param  Event  $event  Filter event
+     * @param  Node  $node  Node
      * @return bool|null
      */
-    public function filter(Event $event): ?bool
+    public function filter(Node $node): ?bool
     {
         switch (true) {
-            case $event instanceof ArgumentSeparator:
+            case $node instanceof Group\Separator:
                 $this->addWhere(',');
 
                 return true;
 
-            case $event instanceof EndGroup:
-            case $event instanceof EndFunction:
+            case $node instanceof Group\Start:
+                $this->addWhere('(');
+
+                return true;
+
+            case $node instanceof Group\End:
                 $this->addWhere(')');
 
                 return true;
 
-            case $event instanceof Property:
+            case $node instanceof Property:
                 /** @var EntityType $type */
                 $type = $this->getType();
 
                 /** @var DeclaredProperty $property */
-                $property = $type->getProperty($event->getValue());
+                $property = $type->getProperty($node->getValue());
 
                 if (!$property || !$property->isFilterable()) {
                     throw new BadRequestException(
@@ -91,14 +91,12 @@ trait SQLFilter
 
                 return true;
 
-            case $event instanceof Literal:
+            case $node instanceof Literal:
                 $this->addWhere('?');
-
-                $node = $event->getNode();
 
                 switch (true) {
                     case $node instanceof Boolean:
-                        $this->addParameter(null === $event->getValue() ? null : (int) $event->getValue()->get());
+                        $this->addParameter(null === $node->getValue() ? null : (int) $node->getValue()->get());
                         break;
 
                     case $node instanceof Date:
@@ -118,20 +116,18 @@ trait SQLFilter
                         break;
 
                     default:
-                        $this->addParameter($event->getValue()->get());
+                        $this->addParameter($node->getValue()->get());
                         break;
                 }
 
                 return true;
 
-            case $event instanceof Operator:
-                $operator = $event->getNode();
-
-                $left = $operator->getLeftNode();
-                $right = $operator->getRightNode();
+            case $node instanceof Operator:
+                $left = $node->getLeftNode();
+                $right = $node->getRightNode();
 
                 if (
-                    !$operator instanceof Comparison
+                    !$node instanceof Comparison
                     && (
                         $left instanceof StartsWith
                         || $left instanceof EndsWith
@@ -141,7 +137,7 @@ trait SQLFilter
                         || $right instanceof Contains
                     )
                 ) {
-                    if (!($operator instanceof Equal && $right instanceof Boolean && $right->getValue()->get() === true)) {
+                    if (!($node instanceof Equal && $right instanceof Boolean && $right->getValue()->get() === true)) {
                         throw new BadRequestException(
                             'This entity set does not support expression operators with startswith, endswith, contains other than x eq true'
                         );
@@ -153,128 +149,120 @@ trait SQLFilter
                 }
 
                 switch (true) {
-                    case $operator instanceof Add:
+                    case $node instanceof Add:
                         $this->addWhere('+');
 
                         return true;
 
-                    case $operator instanceof DivBy:
+                    case $node instanceof DivBy:
                         $this->addWhere('/');
 
                         return true;
 
-                    case $operator instanceof Mod:
+                    case $node instanceof Mod:
                         $this->addWhere('%');
 
                         return true;
 
-                    case $operator instanceof Mul:
+                    case $node instanceof Mul:
                         $this->addWhere('*');
 
                         return true;
 
-                    case $operator instanceof Sub:
+                    case $node instanceof Sub:
                         $this->addWhere('-');
 
                         return true;
 
-                    case $operator instanceof And_:
+                    case $node instanceof And_:
                         $this->addWhere('AND');
 
                         return true;
 
-                    case $operator instanceof Not_:
+                    case $node instanceof Not_:
                         $this->addWhere('NOT');
 
                         return true;
 
-                    case $operator instanceof Or_:
+                    case $node instanceof Or_:
                         $this->addWhere('OR');
 
                         return true;
 
-                    case $operator instanceof Equal:
+                    case $node instanceof Equal:
                         $this->addWhere('=');
 
                         return true;
 
-                    case $operator instanceof GreaterThan:
+                    case $node instanceof GreaterThan:
                         $this->addWhere('>');
 
                         return true;
 
-                    case $operator instanceof GreaterThanOrEqual:
+                    case $node instanceof GreaterThanOrEqual:
                         $this->addWhere('>=');
 
                         return true;
 
-                    case $operator instanceof In:
+                    case $node instanceof In:
                         $this->addWhere('IN');
 
                         return true;
 
-                    case $operator instanceof LessThan:
+                    case $node instanceof LessThan:
                         $this->addWhere('<');
 
                         return true;
 
-                    case $operator instanceof LessThanOrEqual:
+                    case $node instanceof LessThanOrEqual:
                         $this->addWhere('<=');
 
                         return true;
 
-                    case $operator instanceof NotEqual:
+                    case $node instanceof NotEqual:
                         $this->addWhere('!=');
 
                         return true;
                 }
                 break;
+        }
 
-            case $event instanceof StartGroup:
-                $this->addWhere('(');
+        switch (true) {
+            case $node instanceof Contains:
+            case $node instanceof EndsWith:
+            case $node instanceof StartsWith:
+                $arguments = $node->getArguments();
+                list($arg1, $arg2) = $arguments;
 
-                return true;
+                $arg1->compute();
+                $this->addWhere('LIKE');
+                $value = $arg2->getValue();
 
-            case $event instanceof StartFunction:
-                $func = $event->getNode();
-
-                switch (true) {
-                    case $func instanceof Contains:
-                    case $func instanceof EndsWith:
-                    case $func instanceof StartsWith:
-                        $arguments = $func->getArguments();
-                        list($arg1, $arg2) = $arguments;
-
-                        $arg1->compute();
-                        $this->addWhere('LIKE');
-                        $value = $arg2->getValue();
-
-                        if ($func instanceof StartsWith || $func instanceof Contains) {
-                            $value .= '%';
-                        }
-
-                        if ($func instanceof EndsWith || $func instanceof Contains) {
-                            $value = '%'.$value;
-                        }
-
-                        $arg2->setValue($value);
-                        $arg2->compute();
-                        throw new NodeHandledException();
+                if ($node instanceof StartsWith || $node instanceof Contains) {
+                    $value .= '%';
                 }
+
+                if ($node instanceof EndsWith || $node instanceof Contains) {
+                    $value = '%'.$value;
+                }
+
+                $arg2->setValue($value);
+                $arg2->compute();
+                throw new NodeHandledException();
         }
 
         switch ($this->getDriver()) {
             case 'mysql':
-                return $this->mysqlFilter($event);
+                return $this->mysqlFilter($node);
 
             case 'sqlite':
-                return $this->sqliteFilter($event);
+                return $this->sqliteFilter($node);
 
             case 'pgsql':
-                return $this->pgsqlFilter($event);
+                return $this->pgsqlFilter($node);
 
             case 'sqlsrv':
-                return $this->sqlsrvFilter($event);
+                return $this->sqlsrvFilter($node);
         }
 
         return false;

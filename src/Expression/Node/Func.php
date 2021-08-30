@@ -6,8 +6,6 @@ namespace Flat3\Lodata\Expression\Node;
 
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Exception\Internal\ParserException;
-use Flat3\Lodata\Expression\Event\EndFunction;
-use Flat3\Lodata\Expression\Event\StartFunction;
 use Flat3\Lodata\Expression\Operator;
 
 /**
@@ -27,9 +25,9 @@ class Func extends Operator
         $this->validateArguments();
 
         try {
-            $this->expressionEvent(new StartFunction($this));
+            $this->emit($this);
             $this->computeCommaSeparatedArguments();
-            $this->expressionEvent(new EndFunction($this));
+            $this->emit(new Group\End($this->parser));
         } catch (NodeHandledException $e) {
             return;
         }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Interfaces\EntitySet;
 
-use Flat3\Lodata\Expression\Event;
+use Flat3\Lodata\Expression\Node;
 
 /**
  * Search Interface
@@ -14,8 +14,8 @@ interface SearchInterface
 {
     /**
      * Handle a discovered expression symbol in the search query
-     * @param  Event  $event  Event
-     * @return bool True if the event was handled
+     * @param  Node  $node  Node
+     * @return bool True if the node was handled
      */
-    public function search(Event $event): ?bool;
+    public function search(Node $node): ?bool;
 }

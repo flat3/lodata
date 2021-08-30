@@ -4,15 +4,9 @@ namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Event;
-use Flat3\Lodata\Expression\Event\ArgumentSeparator;
-use Flat3\Lodata\Expression\Event\EndFunction;
-use Flat3\Lodata\Expression\Event\EndGroup;
-use Flat3\Lodata\Expression\Event\Literal;
-use Flat3\Lodata\Expression\Event\Operator;
-use Flat3\Lodata\Expression\Event\Property;
-use Flat3\Lodata\Expression\Event\StartFunction;
-use Flat3\Lodata\Expression\Event\StartGroup;
+use Flat3\Lodata\Expression\Node;
+use Flat3\Lodata\Expression\Node\Group;
+use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
@@ -33,42 +27,36 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
     public $searchBuffer;
     public $filterBuffer;
 
-    public function search(Event $event): ?bool
+    public function search(Node $node): ?bool
     {
         switch (true) {
-            case $event instanceof StartGroup:
+            case $node instanceof Group\Start:
                 $this->addSearch('(');
 
                 return true;
 
-            case $event instanceof EndGroup:
+            case $node instanceof Group\End:
                 $this->addSearch(')');
 
                 return true;
 
-            case $event instanceof Operator:
-                $node = $event->getNode();
+            case $node instanceof Or_:
+                $this->addSearch('OR');
 
-                switch (true) {
-                    case $node instanceof Or_:
-                        $this->addSearch('OR');
+                return true;
 
-                        return true;
+            case $node instanceof And_:
+                $this->addSearch('AND');
 
-                    case $node instanceof And_:
-                        $this->addSearch('AND');
+                return true;
 
-                        return true;
+            case $node instanceof Not_:
+                $this->addSearch('NOT');
 
-                    case $node instanceof Not_:
-                        $this->addSearch('NOT');
+                return true;
 
-                        return true;
-                }
-                break;
-
-            case $event instanceof Literal:
-                $value = $event->getValue();
+            case $node instanceof Literal:
+                $value = $node->getValue();
 
                 $value = sprintf('"%s"', str_replace('"', '""', $value));
 
@@ -85,23 +73,25 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
         $this->searchBuffer .= ' '.$s;
     }
 
-    public function filter(Event $event): ?bool
+    public function filter(Node $node): ?bool
     {
         switch (true) {
-            case $event instanceof ArgumentSeparator:
+            case $node instanceof Group\Separator:
                 $this->addFilter(',');
 
                 return true;
 
-            case $event instanceof EndGroup:
-            case $event instanceof EndFunction:
+            case $node instanceof Group\Start:
+                $this->addFilter('(');
+
+                return true;
+
+            case $node instanceof Group\End:
                 $this->addFilter(')');
 
                 return true;
 
-            case $event instanceof Literal:
-                $node = $event->getNode();
-
+            case $node instanceof Literal:
                 switch (true) {
                     case $node instanceof Boolean:
                         $this->addFilter($node->getValue()->get() ? 'true' : 'false');
@@ -124,7 +114,7 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
                         return true;
 
                     case $node instanceof String_:
-                        $this->addFilter("'".str_replace("'", "''", $event->getValue()->get())."'");
+                        $this->addFilter("'".str_replace("'", "''", $node->getValue()->get())."'");
                         return true;
 
                     case $node instanceof Duration:
@@ -132,67 +122,48 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
                         return true;
                 }
 
-                $this->addFilter($event->getValue());
+                $this->addFilter($node->getValue());
 
                 return true;
 
-            case $event instanceof Property:
-                $node = $event->getNode();
-
-                switch (true) {
-                    case $node instanceof LambdaProperty:
-                        $this->addFilter(sprintf(
-                            '%s/%s',
-                            $node->getVariable(),
-                            $node->getValue()
-                        ));
-                        return true;
-                }
-
-                $this->addFilter($event->getValue());
+            case $node instanceof LambdaProperty:
+                $this->addFilter(sprintf(
+                    '%s/%s',
+                    $node->getVariable(),
+                    $node->getValue()
+                ));
                 return true;
 
-            case $event instanceof Operator:
-                $operator = $event->getNode();
+            case $node instanceof Node\Property:
+                $this->addFilter($node->getValue());
+                return true;
 
-                switch (true) {
-                    case $operator instanceof Lambda:
-                        list ($lambdaExpression) = $operator->getArguments();
+            case $node instanceof Lambda:
+                list ($lambdaExpression) = $node->getArguments();
 
-                        $this->addFilter(
-                            sprintf(
-                                '%s/%s(%s:',
-                                $operator->getNavigationProperty()->getValue(),
-                                $operator::symbol,
-                                $operator->getVariable()
-                            )
-                        );
-                        $lambdaExpression->compute();
-                        $this->addFilter(')');
+                $this->addFilter(
+                    sprintf(
+                        '%s/%s(%s:',
+                        $node->getNavigationProperty()->getValue(),
+                        $node::symbol,
+                        $node->getVariable()
+                    )
+                );
+                $lambdaExpression->compute();
+                $this->addFilter(')');
 
-                        throw new NodeHandledException();
+                throw new NodeHandledException();
 
-                    default:
-                        $this->addFilter($operator::symbol);
-                        break;
-                }
+            case $node instanceof Node\Func:
+                $this->addFilter($node::symbol.'(');
 
                 return true;
 
-            case $event instanceof StartFunction:
-                $func = $event->getNode();
-
-                $this->addFilter($func::symbol.'(');
-
-                return true;
-
-            case $event instanceof StartGroup:
-                $this->addFilter('(');
+            default:
+                $this->addFilter($node::symbol);
 
                 return true;
         }
-
-        return false;
     }
 
     public function addFilter(string $s)
