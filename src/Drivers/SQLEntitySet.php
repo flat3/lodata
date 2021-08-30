@@ -20,6 +20,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
@@ -297,7 +298,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
         $key = $this->getType()->getKey();
 
-        if (!$properties[$key]) {
+        if ($key && !$properties[$key]) {
             $properties[] = $key;
         }
 
@@ -325,10 +326,10 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
     /**
      * Convert the provided entity type property list to a list of SQL fields
-     * @param  ObjectArray  $properties  Properties
+     * @param  Properties  $properties  Properties
      * @return string SQL fields
      */
-    protected function propertiesToColumns(ObjectArray $properties): string
+    protected function propertiesToColumns(Properties $properties): string
     {
         $columns = [];
 

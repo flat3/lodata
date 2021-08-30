@@ -12,9 +12,9 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Arguments;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
-use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -177,13 +177,13 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
 
     /**
      * Get the reflected arguments of the invocation of this operation
-     * @return Argument[]|ObjectArray Arguments
+     * @return Argument[]|Arguments Arguments
      */
-    public function getArguments(): ObjectArray
+    public function getArguments(): Arguments
     {
         try {
             $rfn = new ReflectionMethod($this, 'invoke');
-            $args = new ObjectArray();
+            $args = new Arguments();
 
             foreach ($rfn->getParameters() as $parameter) {
                 $args[] = Argument::factory($parameter);
@@ -503,7 +503,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     /**
      * Extract operation arguments for metadata
      * Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
-     * @return ObjectArray|Argument[]
+     * @return Arguments|Argument[]
      */
     public function getExternalArguments()
     {

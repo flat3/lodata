@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Interfaces;
 
 use Flat3\Lodata\Annotation;
-use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\Annotations;
 
 /**
  * Annotation Interface
@@ -16,7 +16,7 @@ interface AnnotationInterface
     public function addAnnotation(Annotation $annotation);
 
     /**
-     * @return ObjectArray|Annotation[] Annotations
+     * @return Annotations|Annotation[] Annotations
      */
-    public function getAnnotations(): ObjectArray;
+    public function getAnnotations(): Annotations;
 }

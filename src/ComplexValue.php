@@ -10,8 +10,8 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\ETag;
-use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
@@ -31,7 +31,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
     /**
      * Property values on this complex value instance
-     * @var ObjectArray $propertyValues
+     * @var PropertyValues $propertyValues
      */
     protected $propertyValues;
 
@@ -54,7 +54,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
     public function __construct()
     {
-        $this->propertyValues = new ObjectArray();
+        $this->propertyValues = new PropertyValues();
         $this->type = new Untyped();
     }
 
@@ -129,9 +129,9 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
     /**
      * Get all property values attached to this complex value
-     * @return ObjectArray Property values
+     * @return PropertyValues Property values
      */
-    public function getPropertyValues(): ObjectArray
+    public function getPropertyValues(): PropertyValues
     {
         return $this->propertyValues;
     }

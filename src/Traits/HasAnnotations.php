@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Traits;
 
 use Flat3\Lodata\Annotation;
-use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\Annotations;
 
 /**
  * Has Annotations
@@ -15,7 +15,7 @@ trait HasAnnotations
 {
     /**
      * Annotations
-     * @var ObjectArray $annotations
+     * @var Annotations $annotations
      */
     protected $annotations;
 
@@ -27,7 +27,7 @@ trait HasAnnotations
     public function addAnnotation(Annotation $annotation)
     {
         if (!$this->annotations) {
-            $this->annotations = new ObjectArray();
+            $this->annotations = new Annotations();
         }
 
         $this->annotations[] = $annotation;
@@ -37,10 +37,10 @@ trait HasAnnotations
 
     /**
      * Get the annotations
-     * @return Annotation[]|ObjectArray Annotation
+     * @return Annotations Annotations
      */
-    public function getAnnotations(): ObjectArray
+    public function getAnnotations(): Annotations
     {
-        return $this->annotations ?: new ObjectArray();
+        return $this->annotations ?: new Annotations();
     }
 }

@@ -10,6 +10,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Illuminate\Support\Arr;
 use Iterator;
+use TypeError;
 
 /**
  * Object Array
@@ -22,6 +23,12 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @var array
      */
     private $array = [];
+
+    /**
+     * List of valid types for this object array
+     * @var string[] Types
+     */
+    protected $types = [];
 
     /**
      * Merge two object arrays
@@ -57,6 +64,16 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
 
         if (!$value) {
             $value = $key;
+        }
+
+        if ($this->types) {
+            foreach ($this->types as $type) {
+                if ($value instanceof $type) {
+                    break;
+                }
+
+                throw new TypeError('The provided class type was not valid for this object array');
+            }
         }
 
         $this->array[(string) $key] = $value;
@@ -235,7 +252,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      */
     public function sliceByClass($class): self
     {
-        $result = new self();
+        $result = new $this();
         $classes = is_array($class) ? $class : [$class];
 
         foreach ($this->array as $key => $value) {
@@ -256,7 +273,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      */
     public function filter(callable $callback): self
     {
-        $result = new self();
+        $result = new $this();
 
         foreach ($this->array as $key => $value) {
             if ($callback($value, $key)) {
@@ -284,7 +301,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      */
     public function sort(callable $callback): self
     {
-        $result = new self();
+        $result = new $this();
 
         foreach ($this->array as $key => $value) {
             $result->array[$key] = $value;

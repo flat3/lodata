@@ -9,6 +9,7 @@ use Flat3\Lodata\Annotation\Core;
 use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\References;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
@@ -34,14 +35,14 @@ class Model implements AnnotationInterface
 
     /**
      * References to external CSDL documents
-     * @var Reference[]|ObjectArray $references
+     * @var Reference[]|References $references
      */
     protected $references;
 
     public function __construct()
     {
         $this->model = new ObjectArray();
-        $this->references = new ObjectArray();
+        $this->references = new References();
 
         $this->addReference(new Core\V1\Reference());
         $this->addReference(new Capabilities\V1\Reference());
@@ -243,9 +244,9 @@ class Model implements AnnotationInterface
 
     /**
      * Get the document references attached to the model
-     * @return Reference[]|ObjectArray References
+     * @return Reference[]|References References
      */
-    public function getReferences(): ObjectArray
+    public function getReferences(): References
     {
         return $this->references;
     }

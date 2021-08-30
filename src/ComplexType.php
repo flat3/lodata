@@ -10,7 +10,7 @@ use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
-use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -31,7 +31,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     use HasIdentifier;
 
     /**
-     * @var ObjectArray $properties Properties
+     * @var Properties $properties Properties
      */
     protected $properties;
 
@@ -42,7 +42,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     public function __construct($identifier)
     {
         $this->setIdentifier($identifier);
-        $this->properties = new ObjectArray();
+        $this->properties = new Properties();
     }
 
     /**
@@ -82,7 +82,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Create and add a declared property
-     * @param  mixed  $name  Property name
+     * @param  Identifier|string  $name  Property name
      * @param  Type  $type  Property type
      * @return $this
      */
@@ -94,18 +94,18 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Get all declared properties on this type
-     * @return ObjectArray|DeclaredProperty[] Declared properties
+     * @return Properties|DeclaredProperty[] Declared properties
      */
-    public function getDeclaredProperties(): ObjectArray
+    public function getDeclaredProperties(): Properties
     {
         return $this->properties->sliceByClass(DeclaredProperty::class);
     }
 
     /**
      * Get all generated properties on this type
-     * @return ObjectArray Generated properties
+     * @return Properties Generated properties
      */
-    public function getGeneratedProperties(): ObjectArray
+    public function getGeneratedProperties(): Properties
     {
         return $this->properties->sliceByClass(GeneratedProperty::class);
     }
@@ -158,18 +158,18 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Get all properties defined on this type
-     * @return ObjectArray Properties
+     * @return Properties Properties
      */
-    public function getProperties(): ObjectArray
+    public function getProperties(): Properties
     {
         return $this->properties;
     }
 
     /**
      * Get all navigation properties defined on this type
-     * @return ObjectArray|NavigationProperty[] Navigation properties
+     * @return Properties|NavigationProperty[] Navigation properties
      */
-    public function getNavigationProperties(): ObjectArray
+    public function getNavigationProperties(): Properties
     {
         return $this->properties->sliceByClass(NavigationProperty::class);
     }

@@ -11,8 +11,10 @@ use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\References;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
@@ -30,8 +32,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static ObjectArray|ComplexType[] getComplexTypes() Get the complex types attached to the model
  * @method static ObjectArray|ResourceInterface[] getResources() Get the resources attached to the model
  * @method static ObjectArray|ServiceInterface[] getServices() Get the services attached to the model
- * @method static ObjectArray|Reference[] getReferences() Get the annotation references attached to the model
- * @method static ObjectArray|Annotation[] getAnnotations() Get the annotations attached to the model
+ * @method static References|Reference[] getReferences() Get the annotation references attached to the model
+ * @method static Annotations|Annotation[] getAnnotations() Get the annotations attached to the model
  * @method static ObjectArray|EnumerationType[] getEnumerationTypes() Get the enumeration types attached to the model
  * @method static ObjectArray|PrimitiveType[] getTypeDefinitions() Get custom type definitions
  * @method static ResourceInterface getResource(Identifier|string $name) Get a resource from the model
