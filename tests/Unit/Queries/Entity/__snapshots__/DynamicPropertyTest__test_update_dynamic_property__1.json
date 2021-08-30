@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#cset('first')/dynamicint",
+    "value": 5
+}

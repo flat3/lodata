@@ -368,9 +368,6 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
         switch (true) {
             case is_array($object):
                 return $this->fromArray($object);
-
-            case is_object($object):
-                return $this->fromObject($object);
         }
 
         throw new InternalServerErrorException(

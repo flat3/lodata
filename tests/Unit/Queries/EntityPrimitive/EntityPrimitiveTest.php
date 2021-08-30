@@ -33,6 +33,16 @@ class EntityPrimitiveTest extends TestCase
         $this->assertDatabaseSnapshot();
     }
 
+    public function test_update_an_entity_set_primitive()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/flights(1)/origin')
+                ->patch()
+                ->body('sfo')
+        );
+    }
+
     public function test_null_no_content()
     {
         $flight = (new Flight([

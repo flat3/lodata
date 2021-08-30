@@ -7,6 +7,8 @@ namespace Flat3\Lodata\Helper;
 use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\LexerException;
@@ -350,6 +352,9 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             case Request::METHOD_GET:
                 return $this->get($transaction, $context);
 
+            case Request::METHOD_PATCH:
+                return $this->patch($transaction, $context);
+
             case Request::METHOD_DELETE:
                 return $this->delete($transaction, $context);
         }
@@ -419,6 +424,40 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
             $transaction->outputJsonObjectEnd();
         });
+    }
+
+    public function patch(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if (!$this->parent instanceof Entity) {
+            throw new BadRequestException(
+                'property_not_updatable',
+                'This nested property cannot be updated',
+            );
+        }
+
+        $entitySet = $this->parent->getEntitySet();
+
+        if (!$entitySet instanceof UpdateInterface) {
+            throw new BadRequestException(
+                'entity_set_not_updatable',
+                'The entity set for this entity does not support updates'
+            );
+        }
+
+        if (!$this->getProperty() instanceof DeclaredProperty && !$this->getProperty() instanceof DynamicProperty) {
+            throw new BadRequestException('property_not_updatable', 'This property cannot be updated');
+        }
+
+        Gate::check(Gate::update, $this, $transaction);
+
+        $this->setValue($this->getProperty()->getType()->instance($transaction->getBody()));
+
+        $propertyValues = new PropertyValues();
+        $propertyValues[] = $this;
+
+        $entitySet->update($this->parent->getEntityId(), $propertyValues);
+
+        return $this->get($transaction, $context);
     }
 
     /**

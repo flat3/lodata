@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests;
 
+use Closure;
 use DOMDocument;
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
 use Exception;
@@ -82,6 +83,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->withoutExceptionHandling();
         $this->uuid = 0;
         $this->faker->seed(1234);
+        $this->trackQueries();
     }
 
     public function incrementUuid()
@@ -411,5 +413,82 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertGuid(string $expected, string $actual)
     {
         $this->assertSame($expected, Guid::binaryToString($actual));
+    }
+
+    // https://github.com/mattiasgeniar/phpunit-query-count-assertions/blob/master/src/AssertsQueryCounts.php
+    protected function assertNoQueriesExecuted(Closure $closure = null): void
+    {
+        if ($closure) {
+            self::trackQueries();
+
+            $closure();
+        }
+
+        $this->assertQueryCountMatches(0);
+
+        if ($closure) {
+            DB::flushQueryLog();
+        }
+    }
+
+    protected function assertQueryCountMatches(int $count, Closure $closure = null): void
+    {
+        if ($closure) {
+            self::trackQueries();
+
+            $closure();
+        }
+
+        $this->assertEquals($count, self::getQueryCount());
+
+        if ($closure) {
+            DB::flushQueryLog();
+        }
+    }
+
+    protected function assertQueryCountLessThan(int $count, Closure $closure = null): void
+    {
+        if ($closure) {
+            self::trackQueries();
+
+            $closure();
+        }
+
+        $this->assertLessThan($count, self::getQueryCount());
+
+        if ($closure) {
+            DB::flushQueryLog();
+        }
+    }
+
+    protected function assertQueryCountGreaterThan(int $count, Closure $closure = null): void
+    {
+        if ($closure) {
+            self::trackQueries();
+
+            $closure();
+        }
+
+        $this->assertGreaterThan($count, self::getQueryCount());
+
+        if ($closure) {
+            DB::flushQueryLog();
+        }
+    }
+
+    protected static function trackQueries(): void
+    {
+        DB::flushQueryLog();
+        DB::enableQueryLog();
+    }
+
+    protected static function getQueriesExecuted(): array
+    {
+        return DB::getQueryLog();
+    }
+
+    protected static function getQueryCount(): int
+    {
+        return count(self::getQueriesExecuted());
     }
 }

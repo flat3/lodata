@@ -51,4 +51,14 @@ class DynamicPropertyTest extends TestCase
                 ->path("cset('first')/dynamicint")
         );
     }
+
+    public function test_update_dynamic_property()
+    {
+        $this->assertJsonResponse(
+            Request::factory()
+                ->patch()
+                ->path("cset('first')/dynamicint")
+                ->body(5)
+        );
+    }
 }

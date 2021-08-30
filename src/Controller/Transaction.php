@@ -1330,6 +1330,7 @@ class Transaction implements ArgumentInterface
     public function processDeltaPayloads(Entity $parentEntity): void
     {
         $body = $this->getBody();
+
         $navigationProperties = $parentEntity->getType()->getNavigationProperties()->pick(array_keys($body));
 
         /** @var NavigationProperty $navigationProperty */

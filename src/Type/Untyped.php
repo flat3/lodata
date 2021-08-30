@@ -4,7 +4,6 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Helper\ObjectArray;
 
 class Untyped extends ComplexType
 {
@@ -12,7 +11,7 @@ class Untyped extends ComplexType
 
     public function __construct()
     {
-        $this->properties = new ObjectArray();
+        parent::__construct($this::identifier);
     }
 
     public function getIdentifier(): string
