@@ -153,19 +153,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             return null;
         }
 
-        $entity = $this->newEntity();
-
-        /** @var Property $property */
-        foreach ($this->getType()->getDeclaredProperties() as $property) {
-            $propertyValue = $entity->newPropertyValue();
-            $propertyValue->setProperty($property);
-            $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
-            $entity->addProperty($propertyValue);
-        }
-
-        $entity->setEntityId($model->getKey());
-
-        return $entity;
+        return $this->modelToEntity($model);
     }
 
     /**
@@ -261,10 +249,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $builder = $this->getBuilder();
 
         if ($this->navigationPropertyValue) {
+            /** @var Entity $sourceEntity */
             $sourceEntity = $this->navigationPropertyValue->getParent();
             $expansionPropertyName = $this->navigationPropertyValue->getProperty()->getName();
-            $instance = $sourceEntity->getEntitySet()->getModelByKey($sourceEntity->getEntityId());
-            $builder = $instance->$expansionPropertyName();
+            $builder = $sourceEntity->getSource()->$expansionPropertyName();
 
             if ($builder instanceof HasManyThrough) {
                 $builder->select($builder->getRelated()->getTable().'.*');
@@ -298,7 +286,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $builder->skip($this->getSkip()->getValue());
         }
 
-        foreach ($builder->getModels() as $model) {
+        foreach ($builder->lazy() as $model) {
             yield $this->modelToEntity($model);
         }
     }
@@ -310,11 +298,11 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function modelToEntity(Model $model): Entity
     {
-        $set = Lodata::getEntitySet($this->getSetName(get_class($model)));
-        $entity = $set->newEntity();
+        $entity = $this->newEntity();
+        $entity->setSource($model);
 
         /** @var Property $property */
-        foreach ($set->getType()->getDeclaredProperties() as $property) {
+        foreach ($this->getType()->getDeclaredProperties() as $property) {
             $propertyValue = $entity->newPropertyValue();
             $propertyValue->setProperty($property);
             $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));

@@ -51,6 +51,12 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
     protected $entitySet;
 
     /**
+     * Reference to the original source
+     * @var mixed $source
+     */
+    protected $source;
+
+    /**
      * Set the entity set that contains this entity
      * @param  EntitySet  $entitySet  Entity set
      * @return $this
@@ -108,6 +114,27 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
     public function getEntitySet(): ?EntitySet
     {
         return $this->entitySet;
+    }
+
+    /**
+     * Get the source object this entity was created from
+     * @return mixed Source object
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Set the source object this entity was created from
+     * @param mixed $source Source object
+     * @return $this
+     */
+    public function setSource($source): self
+    {
+        $this->source = $source;
+
+        return $this;
     }
 
     /**
