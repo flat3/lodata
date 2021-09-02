@@ -627,12 +627,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     {
         $count = null;
 
-        if ($this instanceof CountInterface) {
+        if (
+            ($this instanceof CountInterface && $transaction->getCount()->hasValue()) ||
+            ($this instanceof PaginationInterface && $transaction->getTop()->hasValue())
+        ) {
             $count = $this->count();
+        }
 
-            if ($transaction->getCount()->hasValue()) {
-                $metadata->offsetSet('count', $count);
-            }
+        if ($this instanceof CountInterface && $transaction->getCount()->hasValue()) {
+            $metadata->offsetSet('count', $count);
         }
 
         if ($this instanceof PaginationInterface) {
