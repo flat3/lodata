@@ -727,4 +727,49 @@ class EloquentTest extends TestCase
                 ->path('/Scoped')
         );
     }
+
+    public function test_skip()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->query('$skip', '1')
+        );
+    }
+
+    public function test_top()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->query('$top', '2')
+        );
+    }
+
+    public function test_top_skip()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->query('$top', '1')
+                ->query('$skip', '1')
+        );
+    }
+
+    public function test_skip_two()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            Request::factory()
+                ->path('/Airports')
+                ->query('$skip', '2')
+        );
+    }
 }
