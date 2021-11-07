@@ -45,6 +45,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionException;
@@ -438,7 +439,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function getModel(): Model
     {
-        return new $this->model();
+        return App::make($this->model);
     }
 
     /**

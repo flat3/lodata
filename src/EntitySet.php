@@ -58,6 +58,7 @@ use Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Type\Stream;
 use Generator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 /**
@@ -554,7 +555,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function newEntity(): Entity
     {
-        $entity = new $this->entityClass();
+        $entity = App::make($this->entityClass);
         $entity->setEntitySet($this);
 
         return $entity;
