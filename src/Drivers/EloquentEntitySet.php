@@ -18,6 +18,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -159,20 +160,15 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     /**
      * Update an Eloquent model
      * @param  PropertyValue  $key  Model key
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity Entity
      */
-    public function update(PropertyValue $key): Entity
+    public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $model = $this->getModelByKey($key);
 
-        $body = $this->transaction->getBody();
-        $entity = $this->newEntity()->fromArray($body);
-
-        /** @var Property $property */
-        foreach ($this->getType()->getDeclaredProperties() as $property) {
-            if (array_key_exists($property->getName(), $body)) {
-                $model[$property->getName()] = $entity->getPropertyValue($property)->get();
-            }
+        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
+            $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
         }
 
         $model->save();
@@ -182,22 +178,16 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
     /**
      * Create an Eloquent model
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity Entity
      */
-    public function create(): Entity
+    public function create(PropertyValues $propertyValues): Entity
     {
         $model = $this->getModel();
 
-        $body = $this->transaction->getBody();
-        $declaredProperties = $this->getType()->getDeclaredProperties()->pick(array_keys($body));
-
-        $entity = $this->newEntity()->fromArray($body);
-
         /** @var DeclaredProperty $declaredProperty */
-        foreach ($declaredProperties as $declaredProperty) {
-            if (array_key_exists($declaredProperty->getName(), $body)) {
-                $model[$declaredProperty->getName()] = $entity->getPropertyValue($declaredProperty)->get();
-            }
+        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
+            $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
         }
 
         if ($this->navigationPropertyValue) {
@@ -220,8 +210,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $key->setValue($key->getProperty()->getType()->instance($model->id));
         $entity = $this->read($key);
         $key->setParent($entity);
-
-        $this->transaction->processDeltaPayloads($entity);
 
         return $entity;
     }

@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
@@ -40,13 +41,17 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
 
     /**
      * Create a new entity
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity
      */
-    public function create(): Entity
+    public function create(PropertyValues $propertyValues): Entity
     {
         $entity = $this->newEntity();
-        $body = $this->transaction->getBody();
-        $entity->fromSource($body);
+
+        foreach ($propertyValues as $propertyValue) {
+            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getValue();
+        }
+
         $entityId = $entity->getEntityId();
 
         if ($entityId) {
@@ -72,13 +77,17 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     /**
      * Update an entity
      * @param  PropertyValue  $key
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity
      */
-    public function update(PropertyValue $key): Entity
+    public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $entity = $this->read($key);
-        $body = $this->transaction->getBody();
-        $entity->fromSource($body);
+
+        foreach ($propertyValues as $propertyValue) {
+            $entity->addPropertyValue($propertyValue);
+        }
+
         $item = $entity->toArray();
         unset($item['id']);
 

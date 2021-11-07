@@ -10,6 +10,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -44,12 +45,16 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
 
     /**
      * Create a new record
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity
      */
-    public function create(): Entity
+    public function create(PropertyValues $propertyValues): Entity
     {
         $entity = $this->newEntity();
-        $entity->fromSource($this->transaction->getBody());
+
+        foreach ($propertyValues as $propertyValue) {
+            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getValue();
+        }
 
         if (!$entity->getEntityId()) {
             throw new BadRequestException('missing_key', 'The required key must be provided to this entity set type');
@@ -133,14 +138,15 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
     /**
      * Update a record in the database
      * @param  PropertyValue  $key  Key
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity Entity
      */
-    public function update(PropertyValue $key): Entity
+    public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $entity = $this->read($key);
 
-        foreach ($this->transaction->getBody() as $property => $value) {
-            $entity[$property] = $value;
+        foreach ($propertyValues as $propertyValue) {
+            $entity->addPropertyValue($propertyValue);
         }
 
         $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue(), $this->serialize($entity));

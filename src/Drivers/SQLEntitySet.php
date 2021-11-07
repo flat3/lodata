@@ -22,6 +22,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -363,24 +364,23 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
     /**
      * Create a new record
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity Entity
      */
-    public function create(): Entity
+    public function create(PropertyValues $propertyValues): Entity
     {
-        $entity = $this->newEntity();
-        $body = $this->transaction->getBody();
-        $entity->fromArray($body);
-
-        $type = $this->getType();
-        $declaredProperties = $type->getDeclaredProperties()->pick(array_keys($body));
-        $propertyValues = $entity->getPropertyValues();
-
         $fields = [];
+
+        $declaredProperties = $this->getType()->getDeclaredProperties();
 
         /** @var DeclaredProperty $declaredProperty */
         foreach ($declaredProperties as $declaredProperty) {
+            if (!$propertyValues->exists($declaredProperty)) {
+                continue;
+            }
+
             $fields[] = $this->getPropertySourceName($declaredProperty);
-            $this->addParameter($propertyValues->get($declaredProperty->getName())->getValue()->get());
+            $this->addParameter($propertyValues[$declaredProperty->getName()]->getPrimitiveValue());
         }
 
         if ($this->navigationPropertyValue) {
@@ -408,39 +408,32 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->getTable(), $fieldsList, $valuesList);
         $id = $this->pdoModify($query);
 
-        if (!$entity->getEntityId() && $id) {
-            $entity->setEntityId($id);
+        $entityId = $propertyValues[$this->getType()->getKey()] ?? null;
+
+        if (!$entityId) {
+            $entityId = new PropertyValue();
+            $entityId->setProperty($this->getType()->getKey());
+            $entityId->setValue($this->getType()->getKey()->getType()->instance($id));
         }
 
-        $entity = $this->read($entity->getEntityId());
-
-        $this->transaction->processDeltaPayloads($entity);
-
-        return $entity;
+        return $this->read($entityId);
     }
 
     /**
      * Update an existing record
      * @param  PropertyValue  $key  Key
+     * @param  PropertyValues  $propertyValues  Property values
      * @return Entity Entity
      */
-    public function update(PropertyValue $key): Entity
+    public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $this->resetParameters();
-        $entity = $this->newEntity();
-        $entity->fromArray($this->transaction->getBody());
-
-        $type = $this->getType();
-        $properties = $type->getDeclaredProperties()->pick($entity->getPropertyValues()->keys());
-
-        $primitives = $entity->getPropertyValues();
 
         $fields = [];
 
-        /** @var Property $property */
-        foreach ($properties as $property) {
-            $fields[] = sprintf('%s=?', $this->getPropertySourceName($property));
-            $this->addParameter($primitives->get($property->getName())->getValue()->get());
+        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
+            $fields[] = sprintf('%s=?', $this->getPropertySourceName($propertyValue->getProperty()));
+            $this->addParameter($propertyValue->getPrimitiveValue());
         }
 
         if ($this->navigationPropertyValue) {
@@ -464,17 +457,13 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 'UPDATE %s SET %s WHERE %s=?',
                 $this->getTable(),
                 $fields,
-                $this->propertyToField($type->getKey())
+                $this->propertyToField($this->getType()->getKey())
             );
 
             $this->pdoModify($query);
         }
 
-        $entity = $this->read($key);
-
-        $this->transaction->processDeltaPayloads($entity);
-
-        return $entity;
+        return $this->read($key);
     }
 
     /**

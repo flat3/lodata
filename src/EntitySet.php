@@ -22,6 +22,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -315,7 +316,9 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 $transaction->assertContentTypeJson();
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
 
-                $result = $this->create();
+                $propertyValues = $this->arrayToPropertyValues($this->getTransaction()->getBody());
+                $entity = $this->create($propertyValues);
+                $transaction->processDeltaPayloads($entity);
 
                 if (
                     $transaction->getPreferenceValue(Constants::return) === Constants::minimal &&
@@ -324,15 +327,44 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 ) {
                     throw NoContentException::factory()
                         ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal)
-                        ->header(Constants::odataEntityId, $result->getResourceUrl($transaction));
+                        ->header(Constants::odataEntityId, $entity->getResourceUrl($transaction));
                 }
 
-                $transaction->getResponse()->headers->add(['Location' => $result->getResourceUrl($transaction)]);
+                $transaction->getResponse()->headers->add(['Location' => $entity->getResourceUrl($transaction)]);
 
-                return $result->get($transaction, $context);
+                return $entity->get($transaction, $context);
         }
 
         throw new MethodNotAllowedException();
+    }
+
+    /**
+     * Convert the provided PHP array to a set of property values for the entity type attached to this set
+     * @param  array  $values  PHP values
+     * @return PropertyValues Property value array
+     */
+    public function arrayToPropertyValues(array $values): PropertyValues
+    {
+        $propertyValues = new PropertyValues();
+
+        foreach ($values as $key => $value) {
+            $propertyValue = new PropertyValue();
+            $property = $this->getType()->getProperty($key);
+
+            if (Str::startsWith($key, ['$', '@'])) {
+                continue;
+            }
+
+            if (!$property) {
+                $property = new DynamicProperty($key, Type::castInternalType(gettype($value)));
+            }
+
+            $propertyValue->setProperty($property);
+            $propertyValue->setValue($property->getType()->instance($value));
+            $propertyValues[] = $propertyValue;
+        }
+
+        return $propertyValues;
     }
 
     /**
@@ -756,7 +788,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         Gate::check(Gate::create, $this, $transaction);
 
-        return $this->create();
+        $propertyValues = $this->arrayToPropertyValues($this->transaction->getBody());
+        $entity = $this->create($propertyValues);
+        $transaction->processDeltaPayloads($entity);
+
+        return $entity;
     }
 
     /**
@@ -774,7 +810,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         Gate::check(Gate::update, $entity, $transaction);
 
-        return $this->update($entity->getEntityId());
+        $propertyValues = $this->arrayToPropertyValues($transaction->getBody());
+        $entity = $this->update($entity->getEntityId(), $propertyValues);
+        $transaction->processDeltaPayloads($entity);
+
+        return $entity;
     }
 
     /**

@@ -381,10 +381,12 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
         Gate::check(Gate::delete, $this, $transaction);
 
-        $transaction->getRequest()->setContent([
-            $this->getProperty()->getName() => null,
-        ]);
-        $entitySet->update($this->parent->getEntityId());
+        $this->setValue($this->getProperty()->getType()->instance());
+
+        $propertyValues = new PropertyValues();
+        $propertyValues[] = $this;
+
+        $entitySet->update($this->parent->getEntityId(), $propertyValues);
 
         throw new NoContentException();
     }
