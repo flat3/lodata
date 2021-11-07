@@ -9,6 +9,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\MediaType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * Response
@@ -102,6 +103,7 @@ class Response extends StreamedResponse
      * Buffer the result before sending to the client, to enable clean error reporting
      * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358909
      * @return Response
+     * @throws Throwable
      */
     public function sendContentBuffered(): Response
     {
@@ -117,6 +119,9 @@ class Response extends StreamedResponse
             $response->sendHeaders();
             $response->sendContentBuffered();
             return $response;
+        } catch (Throwable $t) {
+            ob_end_clean();
+            throw $t;
         }
 
         return $this;
