@@ -8,8 +8,6 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\DeclaredProperty;
-use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Connection;
@@ -31,9 +29,10 @@ trait SQLSchema
         $manager = $connection->getDoctrineSchemaManager();
         $details = $manager->listTableDetails($this->getTable());
         $columns = $details->getColumns();
-
-        /** @var EntityType $type */
         $type = $this->getType();
+
+        /** @var DeclaredProperty $key */
+        $key = null;
 
         $indexes = $manager->listTableIndexes($this->getTable());
         foreach ($indexes as $index) {
@@ -42,20 +41,13 @@ trait SQLSchema
             }
 
             $column = $columns[$index->getColumns()[0]];
-            $property = $this->columnToDeclaredProperty($column);
+            $key = $this->columnToDeclaredProperty($column);
 
             if ($column->getAutoincrement()) {
-                $property->addAnnotation(new Computed());
+                $key->addAnnotation(new Computed());
             }
 
-            $type->setKey($property);
-        }
-
-        if (!$type->getKey()) {
-            throw new InternalServerErrorException(
-                'missing_primary_key',
-                'The primary key of this table could not be detected'
-            );
+            $type->setKey($key);
         }
 
         $blacklist = config('lodata.discovery.blacklist', []);
@@ -63,7 +55,7 @@ trait SQLSchema
         foreach ($columns as $column) {
             $columnName = $column->getName();
 
-            if ($columnName === $type->getKey()->getName()) {
+            if ($key && $columnName === $key->getName()) {
                 continue;
             }
 

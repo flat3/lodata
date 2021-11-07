@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#names",
+    "value": [
+        {
+            "first_name": "Grace",
+            "last_name": "Gumbo"
+        }
+    ]
+}

@@ -302,6 +302,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
+                if (!$this->getType()->getKey()) {
+                    throw new BadRequestException(
+                        'entityset_missing_key',
+                        'The type of this entity set has no key'
+                    );
+                }
+
                 Gate::check(Gate::create, $this, $transaction);
 
                 $transaction->assertContentTypeJson();

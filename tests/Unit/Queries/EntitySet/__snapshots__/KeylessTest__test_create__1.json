@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "entityset_missing_key",
+        "message": "The type of this entity set has no key",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

@@ -17,6 +17,7 @@ use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
+use Flat3\Lodata\Tests\Models\Name as NameEModel;
 use Flat3\Lodata\Tests\Models\Passenger as PassengerEModel;
 use Flat3\Lodata\Tests\Models\Pet as PetEModel;
 use Flat3\Lodata\Type;
@@ -170,6 +171,38 @@ trait TestModels
         $singleton['name'] = 'Bob';
 
         Lodata::add($singleton);
+    }
+
+    public function withNamesDatabase(): void
+    {
+        Schema::create('names', function (Blueprint $table) {
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+        });
+
+        (new NameEModel([
+            'first_name' => 'Alice',
+            'last_name' => 'Moran',
+        ]))->save();
+
+        (new NameEModel([
+            'first_name' => 'Grace',
+            'last_name' => 'Gumbo',
+        ]))->save();
+    }
+
+    public function withNamesModel(): void
+    {
+        $this->withNamesDatabase();
+
+        /** @var EntityType $nameType */
+        $nameType = Lodata::add(
+            EntityType::factory('name')
+                ->addDeclaredProperty('first_name', Type::string())
+                ->addDeclaredProperty('last_name', Type::string())
+        );
+
+        Lodata::add(SQLEntitySet::factory('names', $nameType));
     }
 
     public function withFlightModel(): void

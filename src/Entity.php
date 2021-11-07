@@ -127,7 +127,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
 
     /**
      * Set the source object this entity was created from
-     * @param mixed $source Source object
+     * @param  mixed  $source  Source object
      * @return $this
      */
     public function setSource($source): self
