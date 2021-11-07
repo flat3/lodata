@@ -10,7 +10,6 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Identifier;
-use Flat3\Lodata\Helper\Value;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
