@@ -41,6 +41,22 @@ trait HasAnnotations
      */
     public function getAnnotations(): Annotations
     {
-        return $this->annotations ?: new Annotations();
+        if (!$this->annotations) {
+            $this->annotations = new Annotations();
+        }
+
+        return $this->annotations;
+    }
+
+    /**
+     * Clear all annotations
+     */
+    public function clearAnnotations(): void
+    {
+        if (!$this->annotations) {
+            $this->annotations = new Annotations();
+        }
+
+        $this->annotations->clear();
     }
 }
