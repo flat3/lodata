@@ -305,7 +305,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
-                if (!$this->getType()->getKey()) {
+                if (!$this->getType()->hasKey()) {
                     throw new BadRequestException(
                         'entityset_missing_key',
                         'The type of this entity set has no key'

@@ -39,6 +39,15 @@ class EntityType extends ComplexType implements PipeInterface
     }
 
     /**
+     * Return whether this type has a defined key
+     * @return bool
+     */
+    public function hasKey(): bool
+    {
+        return $this->key instanceof DeclaredProperty;
+    }
+
+    /**
      * Generate a new entity type
      * @param  string|Identifier  $identifier
      * @return EntityType Entity Type

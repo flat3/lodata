@@ -46,7 +46,7 @@ class NavigationProperty extends Property
 
     public function __construct($name, EntityType $entityType)
     {
-        if (!$entityType->getKey()) {
+        if (!$entityType->hasKey()) {
             throw new InternalServerErrorException(
                 'missing_entity_type_key',
                 'The specified entity type must have a key defined'
