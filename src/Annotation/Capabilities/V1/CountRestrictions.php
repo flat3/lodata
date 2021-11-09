@@ -37,4 +37,9 @@ class CountRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isCountable(): bool
+    {
+        return $this->value[CountRestrictionsType::countable]->getPrimitiveValue();
+    }
 }

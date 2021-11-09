@@ -103,41 +103,6 @@
                         "$ref": "#/components/responses/error"
                     }
                 }
-            },
-            "post": {
-                "summary": "Add new entity to names",
-                "tags": [
-                    "names"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "description": "New entity",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.name~create"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/com.example.odata.name"
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "Success"
-                    },
-                    "4XX": {
-                        "$ref": "#/components/responses/error"
-                    }
-                }
             }
         },
         "/$batch": {

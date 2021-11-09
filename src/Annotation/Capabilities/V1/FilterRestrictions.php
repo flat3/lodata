@@ -37,4 +37,9 @@ class FilterRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isFilterable(): bool
+    {
+        return $this->value[FilterRestrictionsType::filterable]->getPrimitiveValue();
+    }
 }

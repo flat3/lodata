@@ -48,4 +48,9 @@ class UpdateRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isUpdatable(): bool
+    {
+        return $this->value[UpdateRestrictionsType::updatable]->getPrimitiveValue();
+    }
 }

@@ -40,25 +40,25 @@
                 "Searchable": true
             },
             "@Org.OData.Capabilities.V1.InsertRestrictions": {
-                "Insertable": true
+                "Insertable": false
             },
             "@Org.OData.Capabilities.V1.UpdateRestrictions": {
-                "Updatable": true,
+                "Updatable": false,
                 "DeltaUpdateSupported": true
             },
             "@Org.OData.Capabilities.V1.DeleteRestrictions": {
-                "Deletable": true
+                "Deletable": false
             },
             "@Org.OData.Capabilities.V1.ReadRestrictions": {
-                "Readable": true
+                "Readable": false
             },
-            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.IndexableByKey": false,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
             },
             "@Org.OData.Capabilities.V1.DeepInsertSupport": {
-                "Supported": true,
-                "ContentIDSupported": true
+                "Supported": false,
+                "ContentIDSupported": false
             }
         },
         "$Annotations": {

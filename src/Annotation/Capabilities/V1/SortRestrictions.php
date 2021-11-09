@@ -37,4 +37,9 @@ class SortRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isSortable(): bool
+    {
+        return $this->value[SortRestrictionsType::sortable]->getPrimitiveValue();
+    }
 }

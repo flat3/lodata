@@ -37,4 +37,9 @@ class ReadRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isReadable(): bool
+    {
+        return $this->value[ReadRestrictionsType::readable]->getPrimitiveValue();
+    }
 }

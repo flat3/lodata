@@ -37,4 +37,9 @@ class DeleteRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isDeletable(): bool
+    {
+        return $this->value[DeleteRestrictionsType::deletable]->getPrimitiveValue();
+    }
 }

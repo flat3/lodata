@@ -17,6 +17,7 @@ use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
@@ -853,5 +854,25 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     'The delta payload did not include a removal reason'
                 );
         }
+    }
+
+    /**
+     * Get the annotations in this entity set
+     * @return Annotations Annotations
+     */
+    public function getAnnotations(): Annotations
+    {
+        $annotations = $this->annotations;
+
+        if (!$this->getType()->hasKey()) {
+            $annotations->firstByClass(Capabilities\V1\ReadRestrictions::class)->setReadable(false);
+            $annotations->firstByClass(Capabilities\V1\InsertRestrictions::class)->setInsertable(false);
+            $annotations->firstByClass(Capabilities\V1\DeleteRestrictions::class)->setDeletable(false);
+            $annotations->firstByClass(Capabilities\V1\UpdateRestrictions::class)->setUpdatable(false);
+            $annotations->firstByClass(Capabilities\V1\IndexableByKey::class)->setIndexable(false);
+            $annotations->firstByClass(Capabilities\V1\DeepInsertSupport::class)->setSupported(false)->setContentIDSupported(false);
+        }
+
+        return $annotations;
     }
 }

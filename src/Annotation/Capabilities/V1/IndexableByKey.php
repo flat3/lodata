@@ -19,4 +19,11 @@ class IndexableByKey extends Annotation
     {
         $this->value = new Boolean(true);
     }
+
+    public function setIndexable(bool $indexable): self
+    {
+        $this->value->set($indexable);
+
+        return $this;
+    }
 }

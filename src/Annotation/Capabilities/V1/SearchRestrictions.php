@@ -37,4 +37,9 @@ class SearchRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isSearchable(): bool
+    {
+        return $this->value[SearchRestrictionsType::searchable]->getPrimitiveValue();
+    }
 }

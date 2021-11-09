@@ -17,19 +17,13 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
-use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
-use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
-use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
-use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
-use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
-use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -191,12 +185,14 @@ DESC, [
         foreach (Lodata::getResources()->sliceByClass(EntitySet::class) as $entitySet) {
             $pathItemObject = (object) [];
             $paths->{"/{$entitySet->getName()}"} = $pathItemObject;
+            $annotations = $entitySet->getAnnotations();
+            $entityType = $entitySet->getType();
 
             if ($entitySet instanceof QueryInterface) {
                 $this->generateQueryRoutes($pathItemObject, $entitySet);
             }
 
-            if ($entitySet instanceof CreateInterface) {
+            if ($annotations->supportsInsert()) {
                 $this->generateCreateRoutes($pathItemObject, $entitySet);
             }
 
@@ -204,33 +200,30 @@ DESC, [
              * 4.5.2 Paths for Single Entities
              * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforSingleEntities
              */
-            if ($entitySet instanceof ReadInterface || $entitySet instanceof UpdateInterface || $entitySet instanceof DeleteInterface) {
+            if ($entityType->hasKey() && ($annotations->supportsRead() || $annotations->supportsUpdate() || $annotations->supportsDelete())) {
                 $pathItemObject = (object) [];
-                $entityType = $entitySet->getType();
-                if ($entityType->getKey()) {
-                    $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}"} = $pathItemObject;
+                $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}"} = $pathItemObject;
 
-                    $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
+                $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
-                    if ($entitySet instanceof ReadInterface) {
-                        $this->generateReadRoutes($pathItemObject, $entitySet);
-                    }
+                if ($annotations->supportsRead()) {
+                    $this->generateReadRoutes($pathItemObject, $entitySet);
+                }
 
-                    if ($entitySet instanceof UpdateInterface) {
-                        $this->generateUpdateRoutes($pathItemObject, $entitySet);
-                    }
+                if ($annotations->supportsUpdate()) {
+                    $this->generateUpdateRoutes($pathItemObject, $entitySet);
+                }
 
-                    if ($entitySet instanceof DeleteInterface) {
-                        $this->generateDeleteRoutes($pathItemObject, $entitySet);
-                    }
+                if ($annotations->supportsDelete()) {
+                    $this->generateDeleteRoutes($pathItemObject, $entitySet);
                 }
             }
 
-            foreach ($entitySet->getType()->getNavigationProperties() as $navigationProperty) {
+            foreach ($entityType->getNavigationProperties() as $navigationProperty) {
                 $navigationSet = $entitySet->getBindingByNavigationProperty($navigationProperty)->getTarget();
 
                 $pathItemObject = (object) [];
-                $paths->{"/{$entitySet->getName()}/{{$entitySet->getType()->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
+                $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
 
                 $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
@@ -238,7 +231,7 @@ DESC, [
                     $this->generateQueryRoutes($pathItemObject, $navigationSet, $entitySet);
                 }
 
-                if ($entitySet instanceof CreateInterface) {
+                if ($annotations->supportsInsert()) {
                     $this->generateCreateRoutes($pathItemObject, $navigationSet, $entitySet);
                 }
             }
@@ -756,6 +749,7 @@ DESC, [
     ): void {
         $queryObject = (object) [];
         $pathItemObject->{'get'} = $queryObject;
+        $annotations = $entitySet->getAnnotations();
 
         $tags = [
             $entitySet->getName(),
@@ -774,23 +768,23 @@ DESC, [
 
         $parameters[] = $this->getSelectParameterObject($entitySet);
 
-        if ($entitySet instanceof CountInterface) {
+        if ($annotations->supportsCount()) {
             $parameters[] = ['$ref' => '#/components/parameters/count'];
         }
 
-        if ($entitySet instanceof ExpandInterface && $entitySet->getType()->getNavigationProperties()->hasEntries()) {
+        if ($annotations->supportsExpand() && $entitySet->getType()->getNavigationProperties()->hasEntries()) {
             $parameters[] = $this->getExpandParameterObject($entitySet);
         }
 
-        if ($entitySet instanceof FilterInterface) {
+        if ($annotations->supportsFilter()) {
             $parameters[] = ['$ref' => '#/components/parameters/filter'];
         }
 
-        if ($entitySet instanceof SearchInterface) {
+        if ($annotations->supportsSearch()) {
             $parameters[] = ['$ref' => '#/components/parameters/search'];
         }
 
-        if ($entitySet instanceof PaginationInterface) {
+        if ($annotations->supportsTop()) {
             $parameters[] = ['$ref' => '#/components/parameters/top'];
             if ($entitySet instanceof TokenPaginationInterface) {
                 $parameters[] = ['$ref' => '#/components/parameters/skiptoken'];
@@ -800,7 +794,7 @@ DESC, [
         }
 
         if (
-            $entitySet instanceof OrderByInterface &&
+            $annotations->supportsSort() &&
             $entitySet->getType()->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
                 return $property->isFilterable();
             })->hasEntries()
@@ -819,7 +813,7 @@ DESC, [
             ]
         ];
 
-        if ($entitySet instanceof CountInterface) {
+        if ($annotations->supportsCount()) {
             $properties['@count'] = [
                 '$ref' => '#/components/schemas/count',
             ];
@@ -908,11 +902,14 @@ DESC, [
         $queryObject->summary = __('Get entity from :set by key', ['set' => $resource->getName()]);
         $queryObject->tags = [$resource->getName()];
 
+        /** @var Annotations $annotations */
+        $annotations = $resource->getAnnotations();
+
         $parameters = [];
 
         $parameters[] = $this->getSelectParameterObject($resource);
 
-        if ($resource instanceof ExpandInterface && $resource->getType()->getNavigationProperties()->hasEntries()) {
+        if ($annotations->supportsExpand() && $resource->getType()->getNavigationProperties()->hasEntries()) {
             $parameters[] = $this->getExpandParameterObject($resource);
         }
 

@@ -37,4 +37,9 @@ class ExpandRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isExpandable(): bool
+    {
+        return $this->value[ExpandRestrictionsType::expandable]->getPrimitiveValue();
+    }
 }

@@ -353,6 +353,16 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     }
 
     /**
+     * Get the first value of a class type
+     * @param  string  $class
+     * @return mixed|null
+     */
+    public function firstByClass(string $class)
+    {
+        return $this->sliceByClass($class)->first();
+    }
+
+    /**
      * Return the array
      * @return array
      */

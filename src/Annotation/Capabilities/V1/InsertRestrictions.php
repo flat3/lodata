@@ -37,4 +37,9 @@ class InsertRestrictions extends Annotation
 
         return $this;
     }
+
+    public function isInsertable(): bool
+    {
+        return $this->value[InsertRestrictionsType::insertable]->getPrimitiveValue();
+    }
 }

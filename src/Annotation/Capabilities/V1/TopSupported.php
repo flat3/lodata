@@ -26,4 +26,9 @@ class TopSupported extends Annotation
 
         return $this;
     }
+
+    public function isSupported(): bool
+    {
+        return true === $this->value->get();
+    }
 }
