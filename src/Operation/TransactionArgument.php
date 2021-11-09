@@ -22,7 +22,8 @@ class TransactionArgument extends Argument
     public function generate($source = null): ArgumentInterface
     {
         if (!$source instanceof Transaction) {
-            throw new InternalServerErrorException('invalid_transaction',
+            throw new InternalServerErrorException(
+                'invalid_transaction',
                 'The source of the transaction type argument was not a Transaction'
             );
         }

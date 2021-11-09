@@ -281,8 +281,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
                 $body = $this->transaction->getBody();
 
                 if ($body && !is_array($body)) {
-                    throw new BadRequestException('invalid_action_arguments',
-                        'The arguments to the action were not correctly formed as an array');
+                    throw new BadRequestException(
+                        'invalid_action_arguments',
+                        'The arguments to the action were not correctly formed as an array'
+                    );
                 }
 
                 return $body ?: [];
@@ -343,8 +345,10 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
                 $kv = array_map('trim', explode('=', $pair));
 
                 if (count($kv) !== 2) {
-                    throw new BadRequestException('invalid_arguments',
-                        'The arguments provided to the operation were not valid');
+                    throw new BadRequestException(
+                        'invalid_arguments',
+                        'The arguments provided to the operation were not valid'
+                    );
                 }
 
                 list($key, $value) = $kv;

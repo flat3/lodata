@@ -488,8 +488,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $keyProperty = $entitySet->getType()->getKey();
 
         if (!$keyProperty) {
-            throw new InternalServerErrorException('invalid_key_property',
-                'The key property defined on this entity type is not valid');
+            throw new InternalServerErrorException(
+                'invalid_key_property',
+                'The key property defined on this entity type is not valid'
+            );
         }
 
         // Test for alternative key syntax

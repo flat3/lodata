@@ -173,8 +173,10 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $this->bindParameters($stmt);
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new InternalServerErrorException('query_error',
-                sprintf('The executed query returned an error: %s', $e->getMessage()));
+            throw new InternalServerErrorException(
+                'query_error',
+                sprintf('The executed query returned an error: %s', $e->getMessage())
+            );
         }
 
         return $dbh->lastInsertId();

@@ -735,8 +735,10 @@ class Transaction implements ArgumentInterface
         $value = $this->getQueryParam('@'.ltrim($key, '@'));
 
         if (null === $value) {
-            throw new BadRequestException('reference_value_missing',
-                sprintf('The requested reference value %s did not exist', $key));
+            throw new BadRequestException(
+                'reference_value_missing',
+                sprintf('The requested reference value %s did not exist', $key)
+            );
         }
 
         return $value;
