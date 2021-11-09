@@ -384,7 +384,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new BadRequestException('property_not_nullable', 'This property cannot be set to null');
         }
 
-        Gate::check(Gate::delete, $this, $transaction);
+        Gate::delete($this, $transaction)->ensure();
 
         $this->setValue($this->getProperty()->getType()->instance());
 
@@ -398,7 +398,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        Gate::check(Gate::read, $this, $transaction);
+        Gate::read($this, $transaction)->ensure();
 
         $value = $this->value;
         $context = $context ?: $this;
@@ -448,7 +448,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new BadRequestException('property_not_updatable', 'This property cannot be updated');
         }
 
-        Gate::check(Gate::update, $this, $transaction);
+        Gate::update($this, $transaction)->ensure();
 
         $this->setValue($this->getProperty()->getType()->instance($transaction->getBody()));
 

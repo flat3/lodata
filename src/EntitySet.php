@@ -241,7 +241,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        Gate::check(Gate::query, $this, $transaction);
+        Gate::query($this, $transaction)->ensure();
 
         $top = $this->getTop();
         $maxPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
@@ -312,7 +312,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
-                Gate::check(Gate::create, $this, $transaction);
+                Gate::create($this, $transaction)->ensure();
 
                 $transaction->assertContentTypeJson();
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
@@ -787,7 +787,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             );
         }
 
-        Gate::check(Gate::create, $this, $transaction);
+        Gate::create($this, $transaction)->ensure();
 
         $propertyValues = $this->arrayToPropertyValues($this->transaction->getBody());
         $entity = $this->create($propertyValues);
@@ -809,7 +809,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 'The requested entity set does not support update operations');
         }
 
-        Gate::check(Gate::update, $entity, $transaction);
+        Gate::update($entity, $transaction)->ensure();
 
         $propertyValues = $this->arrayToPropertyValues($transaction->getBody());
         $entity = $this->update($entity->getEntityId(), $propertyValues);
@@ -835,7 +835,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
-                Gate::check(Gate::delete, $entity, $transaction);
+                Gate::delete($entity, $transaction)->ensure();
                 $this->delete($entity->getEntityId());
                 break;
 

@@ -11,7 +11,6 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\ForbiddenException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -55,9 +54,7 @@ class All implements StreamInterface, PipeInterface, ContextInterface
                 continue;
             }
 
-            try {
-                Gate::check(Gate::query, $entitySet, $transaction);
-            } catch (ForbiddenException $e) {
+            if (!Gate::query($entitySet, $transaction)->allows()) {
                 continue;
             }
 
@@ -96,9 +93,7 @@ class All implements StreamInterface, PipeInterface, ContextInterface
         while ($singletons) {
             $singleton = clone array_pop($singletons);
 
-            try {
-                Gate::check(Gate::read, $singleton, $transaction);
-            } catch (ForbiddenException $e) {
+            if (!Gate::read($singleton, $transaction)->allows()) {
                 continue;
             }
 

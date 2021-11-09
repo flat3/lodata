@@ -250,7 +250,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
             throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
         }
 
-        Gate::check(Gate::delete, $this, $transaction);
+        Gate::delete($this, $transaction)->ensure();
         $transaction->assertIfMatchHeader($this->getETag());
 
         $entitySet->delete($this->getEntityId());
@@ -272,7 +272,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
             throw new NotImplementedException('entityset_cannot_update', 'This entity set cannot update');
         }
 
-        Gate::check(Gate::update, $this, $transaction);
+        Gate::update($this, $transaction)->ensure();
 
         $transaction->assertContentTypeJson();
         $transaction->assertIfMatchHeader($this->getETag());
@@ -302,7 +302,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
      */
     public function get(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        Gate::check(Gate::read, $this, $transaction);
+        Gate::read($this, $transaction)->ensure();
 
         $context = $context ?: $this;
 

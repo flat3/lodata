@@ -431,7 +431,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             }
         }
 
-        Gate::check(Gate::execute, $operation, $transaction, $arguments);
+        Gate::execute($operation, $transaction, $arguments)->ensure();
 
         $result = call_user_func_array([$operation, 'invoke'], array_values($arguments));
 
