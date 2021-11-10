@@ -443,7 +443,7 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             $returnPreference = $transaction->getPreferenceValue(Constants::return);
 
             if ($returnPreference === Constants::minimal) {
-                throw NoContentException::factory()
+                throw (new NoContentException)
                     ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal);
             }
         }

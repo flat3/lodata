@@ -27,7 +27,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -42,7 +42,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -57,7 +57,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -72,7 +72,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -87,7 +87,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -102,7 +102,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -117,7 +117,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -132,7 +132,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -147,7 +147,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -162,7 +162,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -177,7 +177,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -192,7 +192,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -207,7 +207,7 @@ class TypeResponsesTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }

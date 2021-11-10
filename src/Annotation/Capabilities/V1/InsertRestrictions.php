@@ -26,14 +26,14 @@ class InsertRestrictions extends Annotation
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(InsertRestrictionsType::insertable))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $this->value = $value;
     }
 
     public function setInsertable(bool $searchable): self
     {
-        $this->value[InsertRestrictionsType::insertable]->setValue(Boolean::factory($searchable));
+        $this->value[InsertRestrictionsType::insertable]->setValue(new Boolean($searchable));
 
         return $this;
     }

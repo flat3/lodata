@@ -17,7 +17,7 @@ class EntityPrimitiveTest extends TestCase
     public function test_read_an_entity_set_primitive()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/id')
         );
     }
@@ -25,7 +25,7 @@ class EntityPrimitiveTest extends TestCase
     public function test_delete_an_entity_set_primitive()
     {
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path('/flights(1)/origin')
         );
@@ -36,7 +36,7 @@ class EntityPrimitiveTest extends TestCase
     public function test_update_an_entity_set_primitive()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/origin')
                 ->patch()
                 ->body('sfo')
@@ -51,7 +51,7 @@ class EntityPrimitiveTest extends TestCase
         $flight->save();
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/flights('.$flight->id.')/origin')
         );
     }

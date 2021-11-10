@@ -32,7 +32,7 @@ class SingletonTest extends TestCase
     public function test_service_document()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
@@ -44,7 +44,7 @@ class SingletonTest extends TestCase
     public function test_singleton()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('atest')
         );
     }
@@ -52,7 +52,7 @@ class SingletonTest extends TestCase
     public function test_singleton_property()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('atest/b')
         );
     }

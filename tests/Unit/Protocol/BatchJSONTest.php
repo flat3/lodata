@@ -22,7 +22,7 @@ class BatchJSONTest extends TestCase
     public function test_missing_requests()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([])
@@ -32,7 +32,7 @@ class BatchJSONTest extends TestCase
     public function test_bad_request_format()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -48,7 +48,7 @@ class BatchJSONTest extends TestCase
     public function test_full_url()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -66,7 +66,7 @@ class BatchJSONTest extends TestCase
     public function test_absolute_path()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -84,7 +84,7 @@ class BatchJSONTest extends TestCase
     public function test_partial_failure()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -115,7 +115,7 @@ class BatchJSONTest extends TestCase
     public function test_service_document()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -133,7 +133,7 @@ class BatchJSONTest extends TestCase
     public function test_metadata_document()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -158,7 +158,7 @@ class BatchJSONTest extends TestCase
         });
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -188,7 +188,7 @@ class BatchJSONTest extends TestCase
         });
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -206,7 +206,7 @@ class BatchJSONTest extends TestCase
     public function test_relative_path()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -224,7 +224,7 @@ class BatchJSONTest extends TestCase
     public function test_prefer_metadata()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -243,7 +243,7 @@ class BatchJSONTest extends TestCase
     public function test_no_accept_header()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -261,7 +261,7 @@ class BatchJSONTest extends TestCase
     public function test_not_found()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -279,7 +279,7 @@ class BatchJSONTest extends TestCase
     public function test_bad_request()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -297,7 +297,7 @@ class BatchJSONTest extends TestCase
     public function test_batch()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -344,7 +344,7 @@ class BatchJSONTest extends TestCase
     public function test_bad_document_content_type()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -366,7 +366,7 @@ class BatchJSONTest extends TestCase
     public function test_atomicity_group()
     {
         $this->assertNotImplemented(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -389,7 +389,7 @@ class BatchJSONTest extends TestCase
     public function test_prefer_minimal()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->preference('return', 'minimal')
@@ -430,7 +430,7 @@ class BatchJSONTest extends TestCase
     public function test_missing_reference()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -461,7 +461,7 @@ class BatchJSONTest extends TestCase
     public function test_ifmatch_failed()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -495,7 +495,7 @@ class BatchJSONTest extends TestCase
     public function test_reference_returned_entity()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([

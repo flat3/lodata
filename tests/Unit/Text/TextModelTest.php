@@ -12,7 +12,7 @@ class TextModelTest extends TestCase
         $this->withTextModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/texts')
         );
     }
@@ -22,7 +22,7 @@ class TextModelTest extends TestCase
         $this->withTextModel();
 
         $this->assertNotImplemented(
-            Request::factory()
+            (new Request)
                 ->path('/texts')
                 ->filter("a eq 'b'")
         );

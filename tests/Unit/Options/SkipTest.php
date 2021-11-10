@@ -16,7 +16,7 @@ class SkipTest extends TestCase
     public function test_skip()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$skip', '1')
         );
@@ -25,7 +25,7 @@ class SkipTest extends TestCase
     public function test_top_skip()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', '1')
                 ->query('$skip', '1')
@@ -35,7 +35,7 @@ class SkipTest extends TestCase
     public function test_skip_two()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$skip', '2')
         );
@@ -44,7 +44,7 @@ class SkipTest extends TestCase
     public function test_skip_many()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$skip', '999')
         );
@@ -53,7 +53,7 @@ class SkipTest extends TestCase
     public function test_skip_invalid_type()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$skip', 'xyz')
         );
@@ -62,7 +62,7 @@ class SkipTest extends TestCase
     public function test_skip_invalid_negative()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$skip', '-2')
         );

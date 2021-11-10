@@ -286,7 +286,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
             !$transaction->getSelect()->hasValue() &&
             !$transaction->getExpand()->hasValue()
         ) {
-            throw NoContentException::factory()
+            throw (new NoContentException)
                 ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal)
                 ->header(Constants::odataEntityId, $entity->getResourceUrl($transaction));
         }

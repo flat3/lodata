@@ -71,23 +71,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     abstract public function set($value);
 
     /**
-     * Generate a new primitive of this type
-     * @param  mixed|null  $value  Value
-     * @param  bool|null  $nullable  Whether this instance of the primitive supports null
-     * @return Primitive
-     * @codeCoverageIgnore
-     */
-    public static function factory($value = null, ?bool $nullable = true): self
-    {
-        if ($value instanceof Primitive) {
-            return $value;
-        }
-
-        /** @phpstan-ignore-next-line */
-        return new static($value, $nullable);
-    }
-
-    /**
      * Get the internal representation of the value
      * @return mixed
      */

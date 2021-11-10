@@ -9,7 +9,7 @@ class DurationTest extends TypeTest
     public function test_filter_duration_eq()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->filter('duration eq PT11H25M0S')
         );
@@ -18,7 +18,7 @@ class DurationTest extends TypeTest
     public function test_filter_duration_gt()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->filter('duration gt PT39M')
         );
@@ -27,7 +27,7 @@ class DurationTest extends TypeTest
     public function test_filter_duration_lt()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->filter('duration lt PT38M')
         );

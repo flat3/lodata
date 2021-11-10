@@ -16,7 +16,7 @@ class AllTest extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
         );
     }
@@ -26,7 +26,7 @@ class AllTest extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
                 ->query('$select', 'id')
         );
@@ -37,7 +37,7 @@ class AllTest extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
                 ->query('$orderby', 'id desc')
         );
@@ -48,7 +48,7 @@ class AllTest extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
                 ->metadata(MetadataType\Full::name)
         );
@@ -59,7 +59,7 @@ class AllTest extends TestCase
         $this->withSingleton();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
         );
     }
@@ -69,7 +69,7 @@ class AllTest extends TestCase
         $this->withSingleton();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
                 ->metadata(MetadataType\Full::name)
         );
@@ -80,7 +80,7 @@ class AllTest extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all/flight')
         );
     }
@@ -88,7 +88,7 @@ class AllTest extends TestCase
     public function test_bad_type()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/$all/flight')
         );
     }
@@ -98,7 +98,7 @@ class AllTest extends TestCase
         Lodata::add(new StaticEntitySet(new EntityType('basic')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$all')
         );
     }

@@ -31,7 +31,7 @@ class UrlTest extends TestCase
     public function test_valid_1()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/airports(name='O''Hare')")
         );
     }
@@ -39,7 +39,7 @@ class UrlTest extends TestCase
     public function test_valid_2()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports(name%3D%27O%27%27Hare%27)')
         );
     }
@@ -47,7 +47,7 @@ class UrlTest extends TestCase
     public function test_valid_3()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports%28name%3D%27O%27%27Hare%27%29')
         );
     }
@@ -55,7 +55,7 @@ class UrlTest extends TestCase
     public function test_valid_4()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/airports(name='Air%2FPort')")
         );
     }
@@ -63,7 +63,7 @@ class UrlTest extends TestCase
     public function test_invalid_urls_1()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path("/airports('O'Hare')")
         );
     }
@@ -71,7 +71,7 @@ class UrlTest extends TestCase
     public function test_invalid_urls_2()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path("/airports(name='O%27Hare')")
         );
     }
@@ -79,7 +79,7 @@ class UrlTest extends TestCase
     public function test_invalid_urls_3()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path("/airports('Air/Port')")
         );
     }

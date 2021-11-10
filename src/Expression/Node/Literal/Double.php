@@ -14,6 +14,6 @@ class Double extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\Double
     {
-        return \Flat3\Lodata\Type\Double::factory($this->value);
+        return new \Flat3\Lodata\Type\Double($this->value);
     }
 }

@@ -10,7 +10,7 @@ class SchemaVersionTest extends TestCase
     public function test_schema_version_star()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->query('$schemaversion', '*')
         );
     }
@@ -18,7 +18,7 @@ class SchemaVersionTest extends TestCase
     public function test_schema_version_invalid()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->query('$schemaversion', '1')
         );
     }

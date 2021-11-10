@@ -22,12 +22,12 @@ class FunctionTest extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): String_
             {
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -37,12 +37,12 @@ class FunctionTest extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): String_
             {
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1')
         );
     }
@@ -52,12 +52,12 @@ class FunctionTest extends TestCase
         Lodata::add(new class('exf1') extends Operation implements FunctionInterface {
             function invoke(): String_
             {
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
@@ -76,7 +76,7 @@ class FunctionTest extends TestCase
         })->setReturnType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/exf3(code='xyz')")
         );
     }
@@ -93,7 +93,7 @@ class FunctionTest extends TestCase
         })->setReturnType(Lodata::getEntityType('text')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/textf1()')
         );
     }
@@ -103,7 +103,7 @@ class FunctionTest extends TestCase
         $this->withMathFunctions();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/add(a=3,b=4)')
         );
     }
@@ -113,12 +113,12 @@ class FunctionTest extends TestCase
         $this->withMathFunctions();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/div(a=3,b=4)')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/div(b=3,a=4)')
         );
     }
@@ -128,7 +128,7 @@ class FunctionTest extends TestCase
         $this->withMathFunctions();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/add(a=@c,b=@d)')
                 ->query('@c', 1)
                 ->query('@d', 2)
@@ -140,7 +140,7 @@ class FunctionTest extends TestCase
         $this->withMathFunctions();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/add(a=@c,b=@c)')
                 ->query('@c', 1)
         );
@@ -151,7 +151,7 @@ class FunctionTest extends TestCase
         $this->withMathFunctions();
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/add(a=@c,b=@e)')
                 ->query('@c', 1)
                 ->query('@d', 2)
@@ -163,7 +163,7 @@ class FunctionTest extends TestCase
         $this->withMathFunctions();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/add')
                 ->query('a', 1)
                 ->query('b', 2)
@@ -175,12 +175,12 @@ class FunctionTest extends TestCase
         Lodata::add(new class('add') extends Operation implements FunctionInterface {
             public function invoke(Int32 $apply, Int32 $compute): Int32
             {
-                return Int32::factory($apply->get() + $compute->get());
+                return new Int32($apply->get() + $compute->get());
             }
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/add')
                 ->query('@apply', 1)
                 ->query('@compute', 2)
@@ -192,19 +192,19 @@ class FunctionTest extends TestCase
         Lodata::add(new class('identity') extends Operation implements FunctionInterface {
             public function invoke(Int32 $i): Int32
             {
-                return Int32::factory($i->get());
+                return new Int32($i->get());
             }
         });
 
         Lodata::add((new class('increment') extends Operation implements FunctionInterface {
             public function invoke(Int32 $i): Int32
             {
-                return Int32::factory($i->get() + 1);
+                return new Int32($i->get() + 1);
             }
         })->setBindingParameterName('i'));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/identity(i=1)/increment/increment')
         );
     }
@@ -222,7 +222,7 @@ class FunctionTest extends TestCase
         })->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/ffn1()')
         );
     }
@@ -239,7 +239,7 @@ class FunctionTest extends TestCase
         })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/ffb1()')
         );
     }
@@ -267,7 +267,7 @@ class FunctionTest extends TestCase
         })->setBindingParameterName('airports')->setReturnType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/airports/\$filter(is_big eq true)/sorter(field='construction_date')")
         );
     }
@@ -284,7 +284,7 @@ class FunctionTest extends TestCase
         })->setBindingParameterName('flight')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/ffb1()')
         );
     }
@@ -301,7 +301,7 @@ class FunctionTest extends TestCase
         })->setBindingParameterName('origin'));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/origin/ffb1()')
         );
     }
@@ -315,7 +315,7 @@ class FunctionTest extends TestCase
         });
 
         $this->assertInternalServerError(
-            Request::factory()
+            (new Request)
                 ->path('/textv1()')
         );
     }
@@ -329,7 +329,7 @@ class FunctionTest extends TestCase
         });
 
         $this->assertInternalServerError(
-            Request::factory()
+            (new Request)
                 ->path('/textv1()')
         );
     }
@@ -346,7 +346,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/stringv1()')
         );
     }
@@ -363,7 +363,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/intv1()')
         );
     }
@@ -380,7 +380,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/floatv1()')
         );
     }
@@ -397,7 +397,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/booleanv1()')
         );
     }
@@ -411,7 +411,7 @@ class FunctionTest extends TestCase
         });
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/textv1()')
         );
     }
@@ -425,7 +425,7 @@ class FunctionTest extends TestCase
         });
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/textv1(a=4)')
         );
     }
@@ -442,7 +442,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/stringv1(arg='hello world')")
         );
     }
@@ -459,7 +459,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/intv1(arg=4)')
         );
     }
@@ -476,7 +476,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/floatv1(arg=4.2)')
         );
     }
@@ -493,7 +493,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/booleanv1(arg=true)')
         );
     }
@@ -510,7 +510,7 @@ class FunctionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/booleanv1(a='a',b='b')")
         );
     }

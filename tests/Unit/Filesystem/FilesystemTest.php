@@ -39,7 +39,7 @@ class FilesystemTest extends TestCase
     public function test_set()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/files')
         );
     }
@@ -47,7 +47,7 @@ class FilesystemTest extends TestCase
     public function test_set_with_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/files')
         );
@@ -56,7 +56,7 @@ class FilesystemTest extends TestCase
     public function test_count()
     {
         $this->assertNotImplemented(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/files/$count')
         );
@@ -65,7 +65,7 @@ class FilesystemTest extends TestCase
     public function test_read()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/files('a1.txt')")
         );
     }
@@ -73,7 +73,7 @@ class FilesystemTest extends TestCase
     public function test_read_key_as_segment()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/files/a1.txt')
         );
     }
@@ -81,7 +81,7 @@ class FilesystemTest extends TestCase
     public function test_read_with_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path("/files('a1.txt')")
         );
@@ -90,7 +90,7 @@ class FilesystemTest extends TestCase
     public function test_read_file_in_directory()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/files('d1%2Fa1.txt')")
         );
     }
@@ -98,7 +98,7 @@ class FilesystemTest extends TestCase
     public function test_read_file_in_directory_key_as_segment()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/files/d1%2Fa1.txt')
         );
     }
@@ -106,7 +106,7 @@ class FilesystemTest extends TestCase
     public function test_delete()
     {
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path("/files('a1.txt')")
         );
@@ -117,10 +117,10 @@ class FilesystemTest extends TestCase
     public function test_create()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->body([
                     'path' => 'd1/a2.txt',
-                    'timestamp' => DateTimeOffset::factory(Carbon::createFromTimeString('2020-01-01 01:01:01'))->toJson(),
+                    'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
                 ])
                 ->post()
                 ->path('/files'),
@@ -133,10 +133,10 @@ class FilesystemTest extends TestCase
     public function test_create_with_content()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->body([
                     'path' => 'd1/a3.txt',
-                    'timestamp' => DateTimeOffset::factory(Carbon::createFromTimeString('2020-01-01 01:01:01'))->toJson(),
+                    'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
                     '$value' => 'dGVzdA==',
                 ])
                 ->post()
@@ -152,7 +152,7 @@ class FilesystemTest extends TestCase
         $this->getDisk()->put('c1.txt', '');
 
         $this->assertConflict(
-            Request::factory()
+            (new Request)
                 ->body([
                     'path' => 'c1.txt',
                 ])
@@ -165,7 +165,7 @@ class FilesystemTest extends TestCase
     {
         $this->getDisk()->put('c1.txt', '');
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->body([
                     '$value' => 'dGVzdA==',
                 ])
@@ -179,7 +179,7 @@ class FilesystemTest extends TestCase
     public function test_media_stream()
     {
         $this->assertFound(
-            Request::factory()
+            (new Request)
                 ->path("/files('a1.txt')/content/\$value")
         );
     }
@@ -187,7 +187,7 @@ class FilesystemTest extends TestCase
     public function test_read_with_embedded_stream()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->select('content')
                 ->path("/files('a1.txt')")
         );

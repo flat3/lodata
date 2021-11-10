@@ -11,7 +11,7 @@ class OpenAPITest extends TestCase
     public function test_has_empty_openapi_document()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/openapi.json')
         );
     }
@@ -22,7 +22,7 @@ class OpenAPITest extends TestCase
         $this->withMathFunctions();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/openapi.json')
         );
     }
@@ -32,7 +32,7 @@ class OpenAPITest extends TestCase
         $this->withFlightModel();
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights/openapi.json')
         );
     }

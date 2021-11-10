@@ -14,6 +14,6 @@ class String_ extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\String_
     {
-        return \Flat3\Lodata\Type\String_::factory($this->value);
+        return new \Flat3\Lodata\Type\String_($this->value);
     }
 }

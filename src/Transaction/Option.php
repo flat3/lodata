@@ -32,7 +32,7 @@ abstract class Option
      * @param  Transaction  $transaction  Transaction
      * @return $this Option
      */
-    public function transaction(Transaction $transaction): self
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
         $this->setValue($transaction->getSystemQueryOption($this::param));
@@ -81,18 +81,5 @@ abstract class Option
     public function clearValue(): void
     {
         $this->value = null;
-    }
-
-    /**
-     * Generate a new instance of this option type from the supplied transaction
-     * @param  Transaction  $transaction  Transaction
-     * @return static Option
-     */
-    public static function factory(Transaction $transaction): self
-    {
-        /** @phpstan-ignore-next-line */
-        $option = new static();
-        $option->transaction($transaction);
-        return $option;
     }
 }

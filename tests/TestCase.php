@@ -222,7 +222,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     public function urlToReq(string $url): Request
     {
-        $request = Request::factory();
+        $request = (new Request);
 
         $url = parse_url($url);
         $request->path($url['path'], false);
@@ -275,7 +275,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertMetadataDocuments()
     {
         $response = $this->req(
-            Request::factory()
+            (new Request)
                 ->path('/$metadata')
                 ->xml()
         );
@@ -293,12 +293,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $validator->validateWithSchemas($schemas);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$metadata')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/openapi.json')
         );
     }

@@ -12,11 +12,9 @@ class Request
     public $body = null;
     public $method = \Illuminate\Http\Request::METHOD_GET;
 
-    public static function factory(): Request
+    public function __construct()
     {
-        $request = new self();
-        $request->json();
-        return $request;
+        $this->json();
     }
 
     public function header($key, $value): Request

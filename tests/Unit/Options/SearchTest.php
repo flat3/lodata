@@ -17,7 +17,7 @@ class SearchTest extends TestCase
     public function test_search()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', 'sfo')
         );
@@ -28,7 +28,7 @@ class SearchTest extends TestCase
         Lodata::getEntityType('airport')->getDeclaredProperty('code')->setSearchable(false);
 
         $this->assertInternalServerError(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', 'sfo')
         );
@@ -37,7 +37,7 @@ class SearchTest extends TestCase
     public function test_search_not()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', 'NOT sfo')
         );
@@ -46,7 +46,7 @@ class SearchTest extends TestCase
     public function test_search_or()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', 'sfo OR lhr')
         );
@@ -55,7 +55,7 @@ class SearchTest extends TestCase
     public function test_search_and()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', 'sf AND sfo')
         );
@@ -64,7 +64,7 @@ class SearchTest extends TestCase
     public function test_search_invalid()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', 'sf AND sfo OR')
         );
@@ -73,7 +73,7 @@ class SearchTest extends TestCase
     public function test_search_quote()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', '"sfo "')
         );
@@ -82,7 +82,7 @@ class SearchTest extends TestCase
     public function test_search_paren()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$search', '(sfo OR lax) OR lhr')
         );

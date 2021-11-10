@@ -14,6 +14,6 @@ class TimeOfDay extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\TimeOfDay
     {
-        return \Flat3\Lodata\Type\TimeOfDay::factory($this->value);
+        return new \Flat3\Lodata\Type\TimeOfDay($this->value);
     }
 }

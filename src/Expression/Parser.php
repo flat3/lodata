@@ -228,10 +228,10 @@ abstract class Parser
             }
         }
 
-        throw BadRequestException::factory(
+        throw (new BadRequestException(
             'unbalanced_right_parentheses',
             'Unbalanced right parentheses'
-        )->lexer($this->lexer);
+        ))->lexer($this->lexer);
     }
 
     /**

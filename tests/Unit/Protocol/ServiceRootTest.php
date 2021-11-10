@@ -11,7 +11,7 @@ class ServiceRootTest extends TestCase
     public function test_has_empty_service_document_at_service_root()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
@@ -20,7 +20,7 @@ class ServiceRootTest extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
@@ -32,7 +32,7 @@ class ServiceRootTest extends TestCase
         $flights->setTitle('Floots');
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
         );
     }
 }

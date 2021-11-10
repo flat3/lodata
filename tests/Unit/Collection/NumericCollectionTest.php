@@ -44,7 +44,7 @@ class NumericCollectionTest extends TestCase
     public function test_count()
     {
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/examples/$count')
         );
@@ -53,7 +53,7 @@ class NumericCollectionTest extends TestCase
     public function test_all()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples')
         );
     }
@@ -61,7 +61,7 @@ class NumericCollectionTest extends TestCase
     public function test_all_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/examples')
         );
@@ -70,7 +70,7 @@ class NumericCollectionTest extends TestCase
     public function test_create()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/examples')
                 ->body([
@@ -79,12 +79,12 @@ class NumericCollectionTest extends TestCase
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples/3')
         );
     }
@@ -92,7 +92,7 @@ class NumericCollectionTest extends TestCase
     public function test_read()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples/2')
         );
     }
@@ -100,7 +100,7 @@ class NumericCollectionTest extends TestCase
     public function test_missing()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/examples/99')
         );
     }
@@ -108,13 +108,13 @@ class NumericCollectionTest extends TestCase
     public function test_delete()
     {
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path('/examples/1')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples')
         );
     }
@@ -122,7 +122,7 @@ class NumericCollectionTest extends TestCase
     public function test_update()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples/0')
                 ->patch()
                 ->body([
@@ -131,7 +131,7 @@ class NumericCollectionTest extends TestCase
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples')
         );
     }

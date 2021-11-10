@@ -14,6 +14,6 @@ class Guid extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\Guid
     {
-        return \Flat3\Lodata\Type\Guid::factory($this->value);
+        return new \Flat3\Lodata\Type\Guid($this->value);
     }
 }

@@ -25,7 +25,7 @@ class TransactionTest extends TestCase
     public function test_create_deep_failed()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->post()
                 ->body([

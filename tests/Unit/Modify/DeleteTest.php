@@ -22,7 +22,7 @@ class DeleteTest extends TestCase
     public function test_delete()
     {
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->delete()
         );
@@ -31,7 +31,7 @@ class DeleteTest extends TestCase
     public function test_delete_ref()
     {
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/$ref')
                 ->delete()
         );
@@ -40,7 +40,7 @@ class DeleteTest extends TestCase
     public function test_delete_not_found()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/flights(999)')
                 ->delete()
         );
@@ -49,21 +49,21 @@ class DeleteTest extends TestCase
     public function test_validate_etag()
     {
         $response = $this->req(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
 
         $etag = $response->headers->get('etag');
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-match', $etag)
                 ->delete()
         );
 
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->path('/flights(2)')
                 ->header('if-match', $etag)
                 ->delete()

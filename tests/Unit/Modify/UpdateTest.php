@@ -23,7 +23,7 @@ class UpdateTest extends TestCase
     public function test_update()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->patch()
                 ->body([
@@ -37,7 +37,7 @@ class UpdateTest extends TestCase
     public function test_update_put()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->put()
                 ->body([
@@ -49,7 +49,7 @@ class UpdateTest extends TestCase
     public function test_update_post()
     {
         $this->assertMethodNotAllowed(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->post()
                 ->body([
@@ -61,7 +61,7 @@ class UpdateTest extends TestCase
     public function test_update_post_via_tunnel()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->post()
                 ->header('x-http-method', 'patch')
@@ -74,14 +74,14 @@ class UpdateTest extends TestCase
     public function test_validate_etag()
     {
         $response = $this->req(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
 
         $etag = $response->headers->get('etag');
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-match', $etag)
                 ->put()
@@ -91,7 +91,7 @@ class UpdateTest extends TestCase
         );
 
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-match', $etag)
                 ->put()
@@ -101,7 +101,7 @@ class UpdateTest extends TestCase
         );
 
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-match', [$etag])
                 ->put()
@@ -114,14 +114,14 @@ class UpdateTest extends TestCase
     public function test_multiple_etag()
     {
         $response = $this->req(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
 
         $etag = $response->headers->get('etag');
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-match', ['xyz', $etag])
                 ->put()
@@ -134,7 +134,7 @@ class UpdateTest extends TestCase
     public function test_any_etag()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-match', '*')
                 ->put()
@@ -147,7 +147,7 @@ class UpdateTest extends TestCase
     public function test_any_if_none_match_any()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-none-match', '*')
                 ->put()
@@ -160,14 +160,14 @@ class UpdateTest extends TestCase
     public function test_any_if_none_match()
     {
         $response = $this->req(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
 
         $etag = $response->headers->get('etag');
 
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-none-match', $etag)
                 ->put()
@@ -180,7 +180,7 @@ class UpdateTest extends TestCase
     public function test_any_if_none_match_failed()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->header('if-none-match', 'xxx')
                 ->put()
@@ -193,7 +193,7 @@ class UpdateTest extends TestCase
     public function test_update_ref()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/$ref')
                 ->patch()
                 ->body([
@@ -205,7 +205,7 @@ class UpdateTest extends TestCase
     public function test_update_return_minimal()
     {
         $response = $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->preference('return', 'minimal')
                 ->patch()
@@ -220,7 +220,7 @@ class UpdateTest extends TestCase
     public function test_update_invalid_property()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/passengers(1)')
                 ->patch()
                 ->body([
@@ -232,7 +232,7 @@ class UpdateTest extends TestCase
     public function test_update_related()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/passengers(1)')
                 ->patch()
                 ->body([
@@ -262,7 +262,7 @@ class UpdateTest extends TestCase
     public function test_update_related_missing()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/passengers(1)')
                 ->patch()
                 ->body([
@@ -279,7 +279,7 @@ class UpdateTest extends TestCase
     public function test_update_removed_changed()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/passengers(1)')
                 ->patch()
                 ->body([

@@ -18,18 +18,18 @@ class GuidTest extends TypeTest
         DB::statement('CREATE TABLE examples (id BLOB NOT NULL)');
 
         Lodata::add(
-            SQLEntitySet::factory(
+            (new SQLEntitySet(
                 'examples',
-                EntityType::factory('example')
+                (new EntityType('example'))
                     ->setKey(new DeclaredProperty('id', Type::guid()))
-            )
+            ))
                 ->setTable('examples')
         );
 
         $this->uuid = 81237765883;
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples')
                 ->body([
                     'id' => Str::uuid(),
@@ -38,12 +38,12 @@ class GuidTest extends TypeTest
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/examples(00000000-0000-0000-0000-0012EA25EEFB)')
         );
     }

@@ -15,7 +15,7 @@ class ODCFFTest extends TestCase
     {
         $this->withFlightModel();
         $this->assertHtmlResponse(
-            Request::factory()
+            (new Request)
                 ->path('/_lodata/airports.odc')
         );
     }
@@ -23,7 +23,7 @@ class ODCFFTest extends TestCase
     public function test_odcff_missing()
     {
         $this->assertNotFoundException(
-            Request::factory()
+            (new Request)
                 ->path('/_lodata/missing.odc')
         );
     }

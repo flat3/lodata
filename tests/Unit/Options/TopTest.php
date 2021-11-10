@@ -16,7 +16,7 @@ class TopTest extends TestCase
     public function test_top()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', '2')
         );
@@ -25,7 +25,7 @@ class TopTest extends TestCase
     public function test_top_one()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', '1')
         );
@@ -34,7 +34,7 @@ class TopTest extends TestCase
     public function test_top_many()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', '999')
         );
@@ -43,7 +43,7 @@ class TopTest extends TestCase
     public function test_top_invalid_type()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', 'xyz')
         );
@@ -52,7 +52,7 @@ class TopTest extends TestCase
     public function test_top_invalid_negative()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', '-2')
         );
@@ -62,7 +62,7 @@ class TopTest extends TestCase
     {
         $page = $this->jsonResponse(
             $this->assertJsonResponse(
-                Request::factory()
+                (new Request)
                     ->path('/airports')
                     ->query('$top', '2')
             )
@@ -77,7 +77,7 @@ class TopTest extends TestCase
     {
         $page = $this->jsonResponse(
             $this->assertJsonResponse(
-                Request::factory()
+                (new Request)
                     ->path('/airports')
                     ->query('$top', '2')
                     ->query('$select', 'code')

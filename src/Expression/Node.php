@@ -232,13 +232,13 @@ abstract class Node
                 return Type\Boolean::false();
 
             case $this instanceof Operator\Comparison\And_:
-                return Type\Boolean::factory($lValue && $rValue);
+                return new Type\Boolean($lValue && $rValue);
 
             case $this instanceof Operator\Comparison\Or_:
-                return Type\Boolean::factory($lValue || $rValue);
+                return new Type\Boolean($lValue || $rValue);
 
             case $this instanceof Operator\Comparison\Not_:
-                return Type\Boolean::factory(!$lValue);
+                return new Type\Boolean(!$lValue);
         }
 
         throw new NotImplementedException();
@@ -310,53 +310,53 @@ abstract class Node
             // 5.1.1.1 Logical operators
             case $this instanceof Operator\Logical\Equal:
                 if (array_intersect([$lValue, $rValue], [null, INF, -INF])) {
-                    return Type\Boolean::factory($lValue === $rValue);
+                    return new Type\Boolean($lValue === $rValue);
                 }
 
                 if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
-                    return Type\Boolean::factory($lValue->equalTo($rValue));
+                    return new Type\Boolean($lValue->equalTo($rValue));
                 }
 
-                return Type\Boolean::factory($lValue == $rValue);
+                return new Type\Boolean($lValue == $rValue);
 
             case $this instanceof Operator\Logical\NotEqual:
                 if (array_intersect([$lValue, $rValue], [null, INF, -INF])) {
-                    return Type\Boolean::factory($lValue !== $rValue);
+                    return new Type\Boolean($lValue !== $rValue);
                 }
 
                 if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
-                    return Type\Boolean::factory($lValue->notEqualTo($rValue));
+                    return new Type\Boolean($lValue->notEqualTo($rValue));
                 }
 
-                return Type\Boolean::factory($lValue != $rValue);
+                return new Type\Boolean($lValue != $rValue);
 
             case $this instanceof Operator\Logical\GreaterThan:
                 if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
-                    return Type\Boolean::factory($lValue->greaterThan($rValue));
+                    return new Type\Boolean($lValue->greaterThan($rValue));
                 }
 
-                return Type\Boolean::factory($lValue > $rValue);
+                return new Type\Boolean($lValue > $rValue);
 
             case $this instanceof Operator\Logical\GreaterThanOrEqual:
                 if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
-                    return Type\Boolean::factory($lValue->greaterThanOrEqualTo($rValue));
+                    return new Type\Boolean($lValue->greaterThanOrEqualTo($rValue));
                 }
 
-                return Type\Boolean::factory($lValue >= $rValue);
+                return new Type\Boolean($lValue >= $rValue);
 
             case $this instanceof Operator\Logical\LessThan:
                 if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
-                    return Type\Boolean::factory($lValue->lessThan($rValue));
+                    return new Type\Boolean($lValue->lessThan($rValue));
                 }
 
-                return Type\Boolean::factory($lValue < $rValue);
+                return new Type\Boolean($lValue < $rValue);
 
             case $this instanceof Operator\Logical\LessThanOrEqual:
                 if ($this->ifTypes([$left, $right], [Type\DateTimeOffset::class, Type\DateTimeOffset::class])) {
-                    return Type\Boolean::factory($lValue->lessThanOrEqualTo($rValue));
+                    return new Type\Boolean($lValue->lessThanOrEqualTo($rValue));
                 }
 
-                return Type\Boolean::factory($lValue <= $rValue);
+                return new Type\Boolean($lValue <= $rValue);
 
             case $this instanceof Operator\Comparison\And_:
                 if (($lValue === null && $rValue === false) || ($lValue === false && $rValue === null)) {
@@ -367,7 +367,7 @@ abstract class Node
                     return null;
                 }
 
-                return Type\Boolean::factory($lValue && $rValue);
+                return new Type\Boolean($lValue && $rValue);
 
             case $this instanceof Operator\Comparison\Or_:
                 if (($lValue === null && $rValue === true) || ($lValue === true && $rValue === null)) {
@@ -378,31 +378,31 @@ abstract class Node
                     return null;
                 }
 
-                return Type\Boolean::factory($lValue || $rValue);
+                return new Type\Boolean($lValue || $rValue);
 
             case $this instanceof Operator\Comparison\Not_:
-                return Type\Boolean::factory(!$lValue);
+                return new Type\Boolean(!$lValue);
 
             case $this instanceof Operator\Logical\In:
-                return Type\Boolean::factory(in_array($lValue, $argv));
+                return new Type\Boolean(in_array($lValue, $argv));
 
             // 5.1.1.2 Arithmetic operators
             case $this instanceof Operator\Arithmetic\Add:
                 switch (true) {
                     case $left instanceof Type\Duration && $right instanceof Type\Duration:
-                        return Type\Duration::factory($lValue + $rValue);
+                        return new Type\Duration($lValue + $rValue);
 
                     case $left instanceof Type\Date && $right instanceof Type\Duration:
-                        return Type\Date::factory($lValue->addSeconds($rValue));
+                        return new Type\Date($lValue->addSeconds($rValue));
 
                     case $left instanceof Type\Duration && $right instanceof Type\Date:
-                        return Type\Date::factory($rValue->addSeconds($lValue));
+                        return new Type\Date($rValue->addSeconds($lValue));
 
                     case $left instanceof Type\Duration && $right instanceof Type\DateTimeOffset:
-                        return Type\DateTimeOffset::factory($rValue->addSeconds($lValue));
+                        return new Type\DateTimeOffset($rValue->addSeconds($lValue));
 
                     case $left instanceof Type\DateTimeOffset && $right instanceof Type\Duration:
-                        return Type\DateTimeOffset::factory($lValue->addSeconds($rValue));
+                        return new Type\DateTimeOffset($lValue->addSeconds($rValue));
                 }
 
                 $this->assertTypes([$left, $right], [Type\Numeric::class, Type\Numeric::class]);
@@ -424,19 +424,19 @@ abstract class Node
             case $this instanceof Operator\Arithmetic\Sub:
                 switch (true) {
                     case $left instanceof Type\Duration && $right instanceof Type\Duration:
-                        return Type\Duration::factory($lValue - $rValue);
+                        return new Type\Duration($lValue - $rValue);
 
                     case $left instanceof Type\Date && $right instanceof Type\Duration:
-                        return Type\Date::factory($lValue->subSeconds($rValue));
+                        return new Type\Date($lValue->subSeconds($rValue));
 
                     case $left instanceof Type\Duration && $right instanceof Type\Date:
-                        return Type\Date::factory($rValue->subSeconds($lValue));
+                        return new Type\Date($rValue->subSeconds($lValue));
 
                     case $left instanceof Type\Duration && $right instanceof Type\DateTimeOffset:
-                        return Type\DateTimeOffset::factory($rValue->subSeconds($lValue));
+                        return new Type\DateTimeOffset($rValue->subSeconds($lValue));
 
                     case $left instanceof Type\DateTimeOffset && $right instanceof Type\Duration:
-                        return Type\DateTimeOffset::factory($lValue->subSeconds($rValue));
+                        return new Type\DateTimeOffset($lValue->subSeconds($rValue));
                 }
 
                 $this->assertTypes([$left, $right], [Type\Numeric::class, Type\Numeric::class]);
@@ -490,13 +490,13 @@ abstract class Node
 
                     switch (true) {
                         case $lValue > 0:
-                            return Type\Decimal::factory(INF);
+                            return new Type\Decimal(INF);
 
                         case $lValue < 0:
-                            return Type\Decimal::factory(-INF);
+                            return new Type\Decimal(-INF);
 
                         case $lValue == 0:
-                            return Type\Decimal::factory(NAN);
+                            return new Type\Decimal(NAN);
                     }
                 }
 
@@ -509,7 +509,7 @@ abstract class Node
                 }
 
                 if ($left instanceof Type\Byte && $right instanceof Type\Byte) {
-                    return Type\Int64::factory($lValue / $rValue);
+                    return new Type\Int64($lValue / $rValue);
                 }
 
                 return $primitive->set($lValue / $rValue);
@@ -527,13 +527,13 @@ abstract class Node
 
                     switch (true) {
                         case $lValue > 0:
-                            return Type\Decimal::factory(INF);
+                            return new Type\Decimal(INF);
 
                         case $lValue < 0:
-                            return Type\Decimal::factory(-INF);
+                            return new Type\Decimal(-INF);
 
                         case $lValue == 0:
-                            return Type\Decimal::factory(NAN);
+                            return new Type\Decimal(NAN);
                     }
                 }
 
@@ -554,33 +554,33 @@ abstract class Node
                     throw new BadRequestException('division_by_zero', 'A division by zero was encountered');
                 }
 
-                return Type\Double::factory($lValue % $rValue);
+                return new Type\Double($lValue % $rValue);
 
             // 5.1.1.5 String and Collection Functions
             case $this instanceof Node\Func\StringCollection\Concat:
                 $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
-                return Type\String_::factory(join('', $argv));
+                return new Type\String_(join('', $argv));
 
             case $this instanceof Node\Func\StringCollection\Contains:
                 $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
-                return Type\Boolean::factory(Str::contains(...$argv));
+                return new Type\Boolean(Str::contains(...$argv));
 
             case $this instanceof Node\Func\StringCollection\EndsWith:
                 $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
-                return Type\Boolean::factory(Str::endsWith(...$argv));
+                return new Type\Boolean(Str::endsWith(...$argv));
 
             case $this instanceof Node\Func\StringCollection\IndexOf:
                 $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
                 $position = strpos(...$argv);
-                return $position === false ? Type\Int32::factory(-1) : Type\Int32::factory($position);
+                return $position === false ? new Type\Int32(-1) : new Type\Int32($position);
 
             case $this instanceof Node\Func\StringCollection\Length:
                 $this->assertTypes($args, [Type\String_::class]);
-                return Type\Int32::factory(Str::length(...$argv));
+                return new Type\Int32(Str::length(...$argv));
 
             case $this instanceof Node\Func\StringCollection\StartsWith:
                 $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
-                return Type\Boolean::factory(Str::startsWith(...$argv));
+                return new Type\Boolean(Str::startsWith(...$argv));
 
             case $this instanceof Node\Func\StringCollection\Substring:
                 $this->assertTypes(
@@ -588,91 +588,91 @@ abstract class Node
                     [Type\String_::class, Type\Byte::class],
                     [Type\String_::class, Type\Byte::class, Type\Byte::class]
                 );
-                return Type\String_::factory(substr(...$argv));
+                return new Type\String_(substr(...$argv));
 
             // 5.1.1.7 String functions
             case $this instanceof Node\Func\String\MatchesPattern:
                 $this->assertTypes($args, [Type\String_::class, Type\String_::class]);
-                return Type\Boolean::factory(1 === preg_match('/'.$argv[1].'/', $argv[0]));
+                return new Type\Boolean(1 === preg_match('/'.$argv[1].'/', $argv[0]));
 
             case $this instanceof Node\Func\String\ToLower:
                 $this->assertTypes($args, [Type\String_::class]);
-                return Type\String_::factory(strtolower(...$argv));
+                return new Type\String_(strtolower(...$argv));
 
             case $this instanceof Node\Func\String\ToUpper:
                 $this->assertTypes($args, [Type\String_::class]);
-                return Type\String_::factory(strtoupper(...$argv));
+                return new Type\String_(strtoupper(...$argv));
 
             case $this instanceof Node\Func\String\Trim:
                 $this->assertTypes($args, [Type\String_::class]);
-                return Type\String_::factory(trim(...$argv));
+                return new Type\String_(trim(...$argv));
 
             // 5.1.1.8 Date and time functions
             case $this instanceof Node\Func\DateTime\Date:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\Date::factory($arg0 ? $arg0->format(Type\Date::dateFormat) : null);
+                return new Type\Date($arg0 ? $arg0->format(Type\Date::dateFormat) : null);
 
             case $this instanceof Node\Func\DateTime\Day:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->day : null);
+                return new Type\Int32($arg0 ? $arg0->day : null);
 
             case $this instanceof Node\Func\DateTime\FractionalSeconds:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Decimal::factory($arg0 ? $arg0->micro / 1000000 : null);
+                return new Type\Decimal($arg0 ? $arg0->micro / 1000000 : null);
 
             case $this instanceof Node\Func\DateTime\Hour:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->hour : null);
+                return new Type\Int32($arg0 ? $arg0->hour : null);
 
             case $this instanceof Node\Func\DateTime\MaxDateTime:
-                return Type\DateTimeOffset::factory(Carbon::maxValue());
+                return new Type\DateTimeOffset(Carbon::maxValue());
 
             case $this instanceof Node\Func\DateTime\MinDateTime:
-                return Type\DateTimeOffset::factory(Carbon::minValue());
+                return new Type\DateTimeOffset(Carbon::minValue());
 
             case $this instanceof Node\Func\DateTime\Minute:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->minute : null);
+                return new Type\Int32($arg0 ? $arg0->minute : null);
 
             case $this instanceof Node\Func\DateTime\Month:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->month : null);
+                return new Type\Int32($arg0 ? $arg0->month : null);
 
             case $this instanceof Node\Func\DateTime\Now:
-                return Type\DateTimeOffset::factory(Carbon::now());
+                return new Type\DateTimeOffset(Carbon::now());
 
             case $this instanceof Node\Func\DateTime\Second:
                 $this->assertTypes($args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->second : null);
+                return new Type\Int32($arg0 ? $arg0->second : null);
 
             case $this instanceof Node\Func\DateTime\Time:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\TimeOfDay::factory($arg0 ? $arg0->format(Type\TimeOfDay::dateFormat) : null);
+                return new Type\TimeOfDay($arg0 ? $arg0->format(Type\TimeOfDay::dateFormat) : null);
 
             case $this instanceof Node\Func\DateTime\TotalOffsetMinutes:
                 $this->assertTypes($args, [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->utcOffset() : null);
+                return new Type\Int32($arg0 ? $arg0->utcOffset() : null);
 
             case $this instanceof Node\Func\DateTime\TotalSeconds:
                 $this->assertTypes($args, [Type\Duration::class]);
-                return Type\Decimal::factory($arg0);
+                return new Type\Decimal($arg0);
 
             case $this instanceof Node\Func\DateTime\Year:
                 $this->assertTypes($args, [Type\Date::class], [Type\DateTimeOffset::class]);
-                return Type\Int32::factory($arg0 ? $arg0->year : null);
+                return new Type\Int32($arg0 ? $arg0->year : null);
 
             // 5.1.1.9 Arithmetic functions
             case $this instanceof Node\Func\Arithmetic\Ceiling:
                 $this->assertTypes($args, [Type\Numeric::class]);
-                return $arg0 ? $args[0]::factory(ceil($arg0)) : null;
+                return $arg0 ? new $args[0](ceil($arg0)) : null;
 
             case $this instanceof Node\Func\Arithmetic\Floor:
                 $this->assertTypes($args, [Type\Numeric::class]);
-                return $arg0 ? $args[0]::factory(floor($arg0)) : null;
+                return $arg0 ? new $args[0](floor($arg0)) : null;
 
             case $this instanceof Node\Func\Arithmetic\Round:
                 $this->assertTypes($args, [Type\Numeric::class]);
-                return $arg0 ? $args[0]::factory(round($arg0)) : null;
+                return $arg0 ? new $args[0](round($arg0)) : null;
         }
 
         throw new NotImplementedException();

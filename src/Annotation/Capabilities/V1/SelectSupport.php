@@ -26,14 +26,14 @@ class SelectSupport extends Annotation
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(SelectSupportType::supported))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $this->value = $value;
     }
 
     public function setSupported(bool $supported): self
     {
-        $this->value[SelectSupportType::supported]->setValue(Boolean::factory($supported));
+        $this->value[SelectSupportType::supported]->setValue(new Boolean($supported));
 
         return $this;
     }

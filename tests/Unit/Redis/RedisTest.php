@@ -49,7 +49,7 @@ class RedisTest extends TestCase
     public function test_set()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/passengers')
         );
     }
@@ -58,7 +58,7 @@ class RedisTest extends TestCase
     {
         $page = $this->jsonResponse(
             $this->assertJsonResponse(
-                Request::factory()
+                (new Request)
                     ->query('$top', 2)
                     ->path('/passengers')
             )
@@ -84,7 +84,7 @@ class RedisTest extends TestCase
     public function test_count()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/passengers/$count')
         );
@@ -93,7 +93,7 @@ class RedisTest extends TestCase
     public function test_read()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/passengers('ilpmuf')")
         );
     }
@@ -101,7 +101,7 @@ class RedisTest extends TestCase
     public function test_read_select()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->select('key')
                 ->path("/passengers('ilpmuf')")
         );
@@ -110,7 +110,7 @@ class RedisTest extends TestCase
     public function test_read_missing()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path("/passengers('missing')")
         );
     }
@@ -118,7 +118,7 @@ class RedisTest extends TestCase
     public function test_update()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->body([
                     'name' => 'Diamond Jobleck',
                 ])
@@ -132,7 +132,7 @@ class RedisTest extends TestCase
     public function test_read_with_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path("/passengers('ilpmuf')")
         );
@@ -141,7 +141,7 @@ class RedisTest extends TestCase
     public function test_delete()
     {
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path("/passengers('ilpmuf')")
         );
@@ -152,7 +152,7 @@ class RedisTest extends TestCase
     public function test_create()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->body([
                     'key' => '734nt4',
                     'name' => 'whammo',
@@ -168,7 +168,7 @@ class RedisTest extends TestCase
     public function test_create_without_key()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->body([
                     'name' => 'hello',
                 ])

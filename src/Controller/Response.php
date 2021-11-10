@@ -155,7 +155,7 @@ class Response extends StreamedResponse
      */
     public function getContentType(): ?MediaType
     {
-        return MediaType::factory()->parse($this->headers->get('content-type'));
+        return (new MediaType)->parse($this->headers->get('content-type'));
     }
 
     /**

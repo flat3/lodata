@@ -34,12 +34,12 @@ class LodataServiceProvider extends ServiceProvider
         /* Step 1 - Create the standard types and sets */
        
         // Create the source entity type
-        $person = EntityType::factory('person')
+        $person = new EntityType('person')
             ->setKey(new DeclaredProperty('id', Type::int32())) // Primary key
             ->addDeclaredProperty('name', Type::string());
 
         // Create the related entity type
-        $pet = EntityType::factory('pet')
+        $pet = new EntityType('pet')
             ->setKey(new DeclaredProperty('id', Type::int32())) // Primary key
             ->addDeclaredProperty('name', Type::string())
             ->addDeclaredProperty('owner_id', Type::int32());   // Foreign key
@@ -49,8 +49,8 @@ class LodataServiceProvider extends ServiceProvider
         Lodata::add($pet);
 
         // Create the entity sets
-        $pets = SQLEntitySet::factory('pets', $pet);
-        $people = SQLEntitySet::factory('people', $person);
+        $pets = new SQLEntitySet('pets', $pet);
+        $people = new SQLEntitySet('people', $person);
 
         // Add the entity sets to the model
         Lodata::add($people);

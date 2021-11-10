@@ -29,15 +29,15 @@ class BatchSupport extends Annotation
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(BatchSupportType::supported))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(BatchSupportType::etagReferencesSupported))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $supportedFormats = new Collection();
-        $supportedFormats->add(String_::factory(MediaType::json));
-        $supportedFormats->add(String_::factory(MediaType::multipartMixed));
+        $supportedFormats->add(new String_(MediaType::json));
+        $supportedFormats->add(new String_(MediaType::multipartMixed));
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(BatchSupportType::supportedFormats))
             ->setValue($supportedFormats);

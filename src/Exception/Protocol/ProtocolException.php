@@ -39,18 +39,6 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     }
 
     /**
-     * Generate a new protocol exception
-     * @param  string|null  $code  OData code
-     * @param  string|null  $message  OData message
-     * @return ProtocolException
-     */
-    public static function factory(string $code = null, string $message = null): self
-    {
-        /** @phpstan-ignore-next-line */
-        return new static($code, $message);
-    }
-
-    /**
      * Set the OData error code
      * @param  string  $code  Code
      * @return $this

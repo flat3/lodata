@@ -10,7 +10,7 @@ class NotImplementedTest extends TestCase
     public function test_rejects_bad_method()
     {
         $this->assertNotImplemented(
-            Request::factory()
+            (new Request)
                 ->query('$compute', 'test')
         );
     }

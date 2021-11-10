@@ -14,6 +14,6 @@ class Int64 extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\Int64
     {
-        return \Flat3\Lodata\Type\Int64::factory($this->value);
+        return new \Flat3\Lodata\Type\Int64($this->value);
     }
 }

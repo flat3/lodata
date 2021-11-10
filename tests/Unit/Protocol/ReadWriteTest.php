@@ -18,7 +18,7 @@ class ReadWriteTest extends TestCase
         config(['lodata.readonly' => true]);
 
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
         );
     }
@@ -28,7 +28,7 @@ class ReadWriteTest extends TestCase
         config(['lodata.readonly' => true]);
 
         $this->assertForbidden(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->post()
                 ->body([

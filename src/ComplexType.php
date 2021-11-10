@@ -50,6 +50,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      * @param  string|Identifier  $identifier
      * @return ComplexType Complex Type
      * @codeCoverageIgnore
+     * @deprecated
      */
     public static function factory($identifier)
     {

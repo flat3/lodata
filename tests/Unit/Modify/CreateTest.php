@@ -23,7 +23,7 @@ class CreateTest extends TestCase
     public function test_create()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->post()
                 ->body([
@@ -35,7 +35,7 @@ class CreateTest extends TestCase
     public function test_create_content_type_error()
     {
         $this->assertNotAcceptable(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->text()
                 ->post()
@@ -48,7 +48,7 @@ class CreateTest extends TestCase
     public function test_create_return_minimal()
     {
         $response = $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->preference('return', 'minimal')
                 ->post()
@@ -64,7 +64,7 @@ class CreateTest extends TestCase
     public function test_create_related_entity()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/passengers')
                 ->post()
                 ->body([
@@ -73,7 +73,7 @@ class CreateTest extends TestCase
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/passengers')
         );
     }
@@ -81,7 +81,7 @@ class CreateTest extends TestCase
     public function test_create_entity_with_existing_related_entities()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->post()
                 ->body([
@@ -102,7 +102,7 @@ class CreateTest extends TestCase
     public function test_create_entity_cannot_modify_existing_related_entities()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->post()
                 ->body([
@@ -121,7 +121,7 @@ class CreateTest extends TestCase
     public function test_create_ref()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/$ref')
                 ->post()
                 ->body([
@@ -133,7 +133,7 @@ class CreateTest extends TestCase
     public function test_create_deep()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->post()
                 ->body([
@@ -160,7 +160,7 @@ class CreateTest extends TestCase
     public function test_create_deep_metadata()
     {
         $response = $this->jsonResponse($this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
                 ->post()

@@ -10,7 +10,7 @@ class HeaderTest extends TestCase
     public function test_rejects_isolation_header()
     {
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->path('/')
                 ->header('isolation', 'snapshot')
         );
@@ -19,7 +19,7 @@ class HeaderTest extends TestCase
     public function test_rejects_odata_isolation_header()
     {
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->path('/')
                 ->header('OData-Isolation', 'snapshot')
         );

@@ -23,7 +23,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
     }
@@ -31,7 +31,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_key_as_segment()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/1')
         );
     }
@@ -39,7 +39,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_property_key_as_segment()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/1/origin')
         );
     }
@@ -47,7 +47,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_key_as_segment_not_found()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/flights/99')
         );
     }
@@ -55,7 +55,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_etag()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
     }
@@ -63,7 +63,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_if_match()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('if-match', 'W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"')
                 ->path('/flights(1)')
         );
@@ -72,7 +72,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_if_match_failed()
     {
         $this->assertPreconditionFailed(
-            Request::factory()
+            (new Request)
                 ->header('if-match', 'xxx')
                 ->path('/flights(1)')
         );
@@ -81,7 +81,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_if_match_any()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('if-match', '*')
                 ->path('/flights(1)')
         );
@@ -90,7 +90,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_if_none_match_any()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('if-none-match', '*')
                 ->path('/flights(1)')
         );
@@ -99,7 +99,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_if_none_match()
     {
         $this->assertNotModified(
-            Request::factory()
+            (new Request)
                 ->header('if-none-match', 'W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"')
                 ->path('/flights(1)')
         );
@@ -108,7 +108,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_if_none_match_failed()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('if-none-match', 'xxx')
                 ->path('/flights(1)')
         );
@@ -117,7 +117,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_with_full_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights(1)')
         );
@@ -126,7 +126,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_with_no_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\None::name)
                 ->path('/flights(1)')
         );
@@ -135,7 +135,7 @@ class EntityTest extends TestCase
     public function test_read_a_qualified_entity()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/com.example.odata.flights(1)')
         );
     }
@@ -143,7 +143,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_with_referenced_key()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(id=@id)')
                 ->query('@id', 1)
         );
@@ -152,7 +152,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_with_invalid_key()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path("/flights(origin='lax')")
         );
     }
@@ -160,7 +160,7 @@ class EntityTest extends TestCase
     public function test_read_an_entity_with_invalid_referenced_key()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights(origin=@origin)')
                 ->query('@origin', 'lax')
         );
@@ -169,7 +169,7 @@ class EntityTest extends TestCase
     public function test_not_found()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/flights(99)')
         );
     }
@@ -177,7 +177,7 @@ class EntityTest extends TestCase
     public function test_read_with_select()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', 'destination')
         );
@@ -186,7 +186,7 @@ class EntityTest extends TestCase
     public function test_read_with_multiple_select()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', 'destination,origin')
         );
@@ -195,7 +195,7 @@ class EntityTest extends TestCase
     public function test_read_with_multiple_select_non_adjacent()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', 'origin,gate')
         );
@@ -204,7 +204,7 @@ class EntityTest extends TestCase
     public function test_rejects_invalid_select()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', 'nonexistent')
         );
@@ -213,7 +213,7 @@ class EntityTest extends TestCase
     public function test_empty_select_ignored()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', '')
         );
@@ -222,7 +222,7 @@ class EntityTest extends TestCase
     public function test_select_star()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', '*')
         );
@@ -242,7 +242,7 @@ class EntityTest extends TestCase
         $airport->addProperty($property);
         $this->assertMetadataDocuments();
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports(1)')
         );
     }
@@ -260,7 +260,7 @@ class EntityTest extends TestCase
 
         $airport->addProperty($property);
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports(1)')
                 ->query('$select', 'code,cp')
         );
@@ -279,7 +279,7 @@ class EntityTest extends TestCase
 
         $airport->addProperty($property);
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports(1)')
                 ->query('$select', 'code')
         );
@@ -298,7 +298,7 @@ class EntityTest extends TestCase
 
         $airport->addProperty($property);
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports(1)/cp')
         );
     }
@@ -319,7 +319,7 @@ class EntityTest extends TestCase
         ob_start();
 
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports(1)'));
 
         $this->assertMatchesSnapshot(ob_get_clean());
@@ -330,7 +330,7 @@ class EntityTest extends TestCase
         $this->withDynamicPropertyModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/example')
         );
     }
@@ -340,7 +340,7 @@ class EntityTest extends TestCase
         $this->withDynamicPropertyModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/example')
                 ->select('dynamic')
         );
@@ -349,7 +349,7 @@ class EntityTest extends TestCase
     public function test_resolve_entity_id()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$entity')
                 ->query('$id', 'flights(1)')
         );
@@ -358,7 +358,7 @@ class EntityTest extends TestCase
     public function test_resolve_absolute_entity_id()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$entity')
                 ->query('$id', 'http://localhost/odata/flights(1)')
         );
@@ -367,7 +367,7 @@ class EntityTest extends TestCase
     public function test_resolve_entity_id_with_select()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$entity')
                 ->query('$id', 'flights(1)')
                 ->query('$select', 'destination')
@@ -377,7 +377,7 @@ class EntityTest extends TestCase
     public function test_resolve_entity_id_with_expand()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$entity')
                 ->query('$id', 'flights(1)')
                 ->query('$expand', 'passengers')
@@ -387,7 +387,7 @@ class EntityTest extends TestCase
     public function test_resolve_entity_id_with_type()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$entity/com.example.odata.flight')
                 ->query('$id', 'flights(1)')
         );
@@ -396,7 +396,7 @@ class EntityTest extends TestCase
     public function test_resolve_entity_id_with_incorrect_type()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/$entity/com.example.odata.passenger')
                 ->query('$id', 'flights(1)')
         );

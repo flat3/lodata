@@ -11,14 +11,14 @@ class VersionTest extends TestCase
     public function test_has_standard_version_header()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
     public function test_rejects_bad_low_version_header()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->header(Constants::odataVersion, '3.0')
         );
     }
@@ -26,7 +26,7 @@ class VersionTest extends TestCase
     public function test_rejects_high_low_version_header()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->header(Constants::odataVersion, '4.02')
         );
     }
@@ -34,7 +34,7 @@ class VersionTest extends TestCase
     public function test_accepts_low_version_header()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header(Constants::odataVersion, '4.0')
         );
     }
@@ -42,7 +42,7 @@ class VersionTest extends TestCase
     public function test_accepts_maxversion_header()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header(Constants::odataMaxVersion, '4.0')
         );
     }

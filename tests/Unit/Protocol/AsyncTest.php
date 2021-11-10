@@ -31,7 +31,7 @@ class AsyncTest extends TestCase
         $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $acceptedResponse = $this->assertAccepted(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
         $this->assertResponseMetadata($acceptedResponse);
@@ -46,20 +46,20 @@ class AsyncTest extends TestCase
             $this->assertMatchesSnapshot($disk->get($job->ns('data')), new StreamingJsonDriver());
 
             $this->assertResponseMetadata($this->assertJsonResponse(
-                Request::factory()
+                (new Request)
                     ->path($location, false)
             ));
         } else {
             $this->assertMatchesSnapshot($disk->get($job->ns('data')));
 
             $this->assertResponseMetadata($this->assertTextResponse(
-                Request::factory()
+                (new Request)
                     ->path($location, false)
             ));
         }
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
     }
@@ -69,7 +69,7 @@ class AsyncTest extends TestCase
         $queue = Queue::fake();
 
         $acceptedResponse = $this->assertAccepted(
-            Request::factory()
+            (new Request)
                 ->header('prefer', 'respond-async')
         );
         $this->assertResponseMetadata($acceptedResponse);
@@ -77,13 +77,13 @@ class AsyncTest extends TestCase
         $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path($location, false)
         );
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
 
@@ -101,7 +101,7 @@ class AsyncTest extends TestCase
         $disk = $this->getDisk();
 
         $acceptedResponse = $this->assertAccepted(
-            Request::factory()
+            (new Request)
                 ->path('/nonexistent')
                 ->header('prefer', 'respond-async')
         );
@@ -110,7 +110,7 @@ class AsyncTest extends TestCase
         $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $this->assertAccepted(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
 
@@ -121,14 +121,14 @@ class AsyncTest extends TestCase
         $this->assertStoredResponseMetadata($disk->get($job->ns('meta')));
 
         $response = $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
 
         $response->streamedContent();
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
     }
@@ -142,7 +142,7 @@ class AsyncTest extends TestCase
         $url = 'http://localhost/example';
 
         $acceptedResponse = $this->assertAccepted(
-            Request::factory()
+            (new Request)
                 ->header('prefer', 'respond-async,callback;url="'.$url.'"')
         );
         $this->assertResponseMetadata($acceptedResponse);
@@ -150,7 +150,7 @@ class AsyncTest extends TestCase
         $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
         $this->assertAccepted(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
 
@@ -166,12 +166,12 @@ class AsyncTest extends TestCase
         $this->assertStoredResponseMetadata($disk->get($job->ns('meta')));
 
         $this->assertResponseMetadata($this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         ));
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path($location, false)
         );
     }
@@ -179,14 +179,14 @@ class AsyncTest extends TestCase
     public function test_async()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
         );
     }
 
     public function test_async_metadata()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
                 ->xml()
                 ->path('/$metadata')
         );
@@ -195,7 +195,7 @@ class AsyncTest extends TestCase
     public function test_async_entityset()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
         );
     }
@@ -203,7 +203,7 @@ class AsyncTest extends TestCase
     public function test_async_full_metadata()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->metadata(Full::name)
         );
@@ -212,7 +212,7 @@ class AsyncTest extends TestCase
     public function test_async_batch()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -233,7 +233,7 @@ MULTIPART
     public function test_async_batch_json()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->post()
                 ->body([
@@ -251,7 +251,7 @@ MULTIPART
     public function test_async_batch_service_metadata()
     {
         $this->async_request(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()

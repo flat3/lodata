@@ -14,6 +14,6 @@ class Boolean extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\Boolean
     {
-        return \Flat3\Lodata\Type\Boolean::factory($this->value);
+        return new \Flat3\Lodata\Type\Boolean($this->value);
     }
 }

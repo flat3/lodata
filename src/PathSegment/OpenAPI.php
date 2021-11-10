@@ -89,7 +89,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction->sendContentType(MediaType::factory()->parse(MediaType::json));
+        $transaction->sendContentType((new MediaType)->parse(MediaType::json));
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emitJson($transaction);
@@ -417,7 +417,7 @@ DESC, [
                         ],
                     ],
                 ],
-                (string) MediaType::factory()
+                (string) (new MediaType)
                     ->parse(MediaType::multipartMixed)
                     ->setParameter('boundary', 'request-separator') => [
                     'schema' => [

@@ -14,6 +14,6 @@ class Duration extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\Duration
     {
-        return \Flat3\Lodata\Type\Duration::factory($this->value);
+        return new \Flat3\Lodata\Type\Duration($this->value);
     }
 }

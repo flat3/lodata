@@ -16,7 +16,7 @@ class SelectTest extends TestCase
     public function test_selects_set()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->query('$select', 'origin,destination')
         );
@@ -25,7 +25,7 @@ class SelectTest extends TestCase
     public function test_selects_singular()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', 'origin,destination')
         );
@@ -34,7 +34,7 @@ class SelectTest extends TestCase
     public function test_selects_invalid()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('$select', 'invalid')
         );

@@ -519,7 +519,7 @@ class FilterTest extends TestCase
         }
 
         if (!$flightType) {
-            $flightType = EntityType::factory('flight')
+            $flightType = (new EntityType('flight'))
                 ->setKey(new DeclaredProperty('id', Type::int32()))
                 ->addDeclaredProperty('origin', Type::string())
                 ->addDeclaredProperty('destination', Type::string());
@@ -527,7 +527,7 @@ class FilterTest extends TestCase
         }
 
         if (!$airportType) {
-            $airportType = EntityType::factory('airport')
+            $airportType = (new EntityType('airport'))
                 ->setKey(new DeclaredProperty('id', Type::int32()))
                 ->addDeclaredProperty('name', Type::string())
                 ->addProperty((new DeclaredProperty('code', Type::string()))->setSearchable());
@@ -544,8 +544,8 @@ class FilterTest extends TestCase
             $airportType->getProperty('code')
         );
 
-        $flightSet = $entitySetClass::factory('flights', $flightType);
-        $airportSet = $entitySetClass::factory('airports', $airportType);
+        $flightSet = new $entitySetClass('flights', $flightType);
+        $airportSet = new $entitySetClass('airports', $airportType);
 
         Lodata::add($flightSet);
         Lodata::add($airportSet);

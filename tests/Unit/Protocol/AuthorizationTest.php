@@ -21,7 +21,7 @@ class AuthorizationTest extends TestCase
         config(['lodata.authorization' => false]);
 
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
         );
     }
@@ -43,7 +43,7 @@ class AuthorizationTest extends TestCase
     {
         $this->gateAssertion();
         $this->assertForbidden(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
         );
     }
@@ -52,7 +52,7 @@ class AuthorizationTest extends TestCase
     {
         $this->gateAssertion();
         $this->assertForbidden(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
         );
     }
@@ -61,7 +61,7 @@ class AuthorizationTest extends TestCase
     {
         $this->gateAssertion();
         $this->assertForbidden(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path('/flights(1)')
         );
@@ -71,7 +71,7 @@ class AuthorizationTest extends TestCase
     {
         $this->gateAssertion();
         $this->assertForbidden(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/flights')
         );
@@ -81,7 +81,7 @@ class AuthorizationTest extends TestCase
     {
         $this->gateAssertion();
         $this->assertForbidden(
-            Request::factory()
+            (new Request)
                 ->patch()
                 ->path('/flights(1)')
         );

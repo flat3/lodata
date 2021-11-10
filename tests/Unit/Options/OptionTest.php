@@ -16,7 +16,7 @@ class OptionTest extends TestCase
     public function test_invalid_query_option()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->query('$hello', 'origin')
         );
@@ -25,7 +25,7 @@ class OptionTest extends TestCase
     public function test_valid_nonstandard_query_option()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->query('hello', 'origin')
         );
@@ -34,7 +34,7 @@ class OptionTest extends TestCase
     public function test_noprefix_query_option()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)')
                 ->query('select', 'origin')
         );

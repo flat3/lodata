@@ -44,6 +44,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * @param  string  $identifier  Type name
      * @return static
      * @codeCoverageIgnore
+     * @deprecated
      */
     public static function factory(string $identifier): self
     {

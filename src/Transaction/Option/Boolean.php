@@ -29,7 +29,7 @@ abstract class Boolean extends Option
             );
         }
 
-        $this->value = \Flat3\Lodata\Type\Boolean::factory($value)->get();
+        $this->value = (new \Flat3\Lodata\Type\Boolean($value))->get();
     }
 
     public function getValue(): ?bool

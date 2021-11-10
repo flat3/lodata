@@ -9,13 +9,13 @@ extensively to capture the entire output of the API.
 
 Many examples exist in the test folder, for example [https://github.com/flat3/lodata/blob/develop/tests/Unit/Eloquent/EloquentTest.php](https://github.com/flat3/lodata/blob/develop/tests/Unit/Eloquent/EloquentTest.php)
 
-Test cases that generate snapshots can use the provided assertions and the `Request::factory()` method to generate and configure a request.
+Test cases that generate snapshots can use the provided assertions and the `Request` object to generate and configure a request.
 
 This example creates a POST request with a body, sending to a particular path.
 The assertion both checks the HTTP response code, and generates a snapshot.
 ```php
 $this->assertJsonResponse(
-    Request::factory()
+    (new Request)
         ->post()
         ->body([
             'name' => 'Harry Horse',

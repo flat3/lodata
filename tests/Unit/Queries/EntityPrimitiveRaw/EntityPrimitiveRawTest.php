@@ -17,7 +17,7 @@ class EntityPrimitiveRawTest extends TestCase
     public function test_read_an_entity_set_primitive_raw()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/flights(1)/id/$value')
         );
@@ -31,7 +31,7 @@ class EntityPrimitiveRawTest extends TestCase
         $flight->save();
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/flights(0)/origin/$value')
         );
@@ -45,7 +45,7 @@ class EntityPrimitiveRawTest extends TestCase
         $flight->save();
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/flights('.$flight->id.')/origin/$value')
         );
@@ -54,7 +54,7 @@ class EntityPrimitiveRawTest extends TestCase
     public function test_raw_custom_accept()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('accept', 'application/octet-stream')
                 ->path('/flights(1)/id/$value')
         );
@@ -63,7 +63,7 @@ class EntityPrimitiveRawTest extends TestCase
     public function test_raw_custom_format()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->query('$format', 'application/octet-stream')
                 ->path('/flights(1)/id/$value')
         );

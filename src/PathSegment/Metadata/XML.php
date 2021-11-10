@@ -73,7 +73,7 @@ class XML extends Metadata implements StreamInterface
 
                     $typeDefinitionElement->addAttribute(
                         'IsFlags',
-                        Boolean::factory($typeDefinition->getIsFlags())->toUrl()
+                        (new Boolean($typeDefinition->getIsFlags()))->toUrl()
                     );
 
                     /** @var EnumMember $memberValue */
@@ -126,7 +126,7 @@ class XML extends Metadata implements StreamInterface
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
                     'Nullable',
-                    Boolean::factory($property->isNullable())->toUrl()
+                    (new Boolean($property->isNullable()))->toUrl()
                 );
 
                 foreach ($property->getAnnotations() as $annotation) {
@@ -158,7 +158,7 @@ class XML extends Metadata implements StreamInterface
                 $navigationPropertyElement->addAttribute('Type', $navigationPropertyType);
                 $navigationPropertyElement->addAttribute(
                     'Nullable',
-                    Boolean::factory($navigationProperty->isNullable())->toUrl()
+                    (new Boolean($navigationProperty->isNullable()))->toUrl()
                 );
 
                 /** @var ReferentialConstraint $constraint */
@@ -214,7 +214,7 @@ class XML extends Metadata implements StreamInterface
 
                     $resourceElement = $schema->addChild($resource->getKind());
                     $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
-                    $resourceElement->addAttribute('IsBound', Boolean::factory($isBound)->toUrl());
+                    $resourceElement->addAttribute('IsBound', (new Boolean($isBound))->toUrl());
 
                     foreach ($resource->getExternalArguments() as $argument) {
                         $parameterElement = $resourceElement->addChild('Parameter');
@@ -222,7 +222,7 @@ class XML extends Metadata implements StreamInterface
                         $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());
                         $parameterElement->addAttribute(
                             'Nullable',
-                            Boolean::factory($argument->isNullable())->toUrl()
+                            (new Boolean($argument->isNullable()))->toUrl()
                         );
                     }
 
@@ -239,7 +239,7 @@ class XML extends Metadata implements StreamInterface
 
                         $returnTypeElement->addAttribute(
                             'Nullable',
-                            Boolean::factory($resource->isNullable())->toUrl()
+                            (new Boolean($resource->isNullable()))->toUrl()
                         );
                     }
 
@@ -284,7 +284,7 @@ class XML extends Metadata implements StreamInterface
 
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
-        $transaction->sendContentType(MediaType::factory()->parse(MediaType::xml));
+        $transaction->sendContentType((new MediaType)->parse(MediaType::xml));
 
         return $transaction->getResponse()->setCallback(function () use ($transaction) {
             $this->emitStream($transaction);

@@ -12,7 +12,7 @@ class IEEE754Test extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('accept', 'application/json;IEEE754Compatible=true')
                 ->path('/flights(1)')
         );
@@ -23,7 +23,7 @@ class IEEE754Test extends TestCase
         $this->withFlightModel();
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->header('accept', 'application/json;IEEE754Compatible=false')
                 ->path('/flights(1)')
         );

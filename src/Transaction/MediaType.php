@@ -32,15 +32,6 @@ class MediaType
     protected $parameter;
 
     /**
-     * Generate a new media type instance
-     * @return static
-     */
-    public static function factory(): self
-    {
-        return new self();
-    }
-
-    /**
      * Negotiate the value of the type based on the provided options
      * @param  string  $requestedTypes
      * @return $this
@@ -50,7 +41,7 @@ class MediaType
         $types = [];
 
         foreach (explode(',', $requestedTypes) as $type) {
-            $types[] = MediaType::factory()->parse($type);
+            $types[] = (new MediaType)->parse($type);
         }
 
         // Order by priority

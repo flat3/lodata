@@ -68,7 +68,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
         );
     }
@@ -78,7 +78,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/Airports/$count')
         );
@@ -92,7 +92,7 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)')
         );
     }
@@ -105,7 +105,7 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/Airports(code='elo')")
         );
     }
@@ -118,7 +118,7 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->patch()
                 ->body([
                     'code' => 'efo',
@@ -127,7 +127,7 @@ class EloquentTest extends TestCase
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)')
         );
 
@@ -137,7 +137,7 @@ class EloquentTest extends TestCase
     public function test_create()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->body([
                     'code' => 'efo',
@@ -148,7 +148,7 @@ class EloquentTest extends TestCase
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)')
         );
 
@@ -158,7 +158,7 @@ class EloquentTest extends TestCase
     public function test_create_deep()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights')
                 ->post()
                 ->body([
@@ -184,7 +184,7 @@ class EloquentTest extends TestCase
     {
         $this->withFlightData();
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->body([
                     'name' => 'Harry Horse',
@@ -194,7 +194,7 @@ class EloquentTest extends TestCase
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(1)/passengers')
         );
 
@@ -209,13 +209,13 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path('/Airports(1)')
         );
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)')
         );
 
@@ -230,7 +230,7 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->filter("code eq 'elo'")
         );
@@ -241,7 +241,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Passengers')
                 ->query('$search', 'rr')
         );
@@ -255,7 +255,7 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports/$count')
                 ->text()
                 ->filter("code eq 'elo'")
@@ -270,7 +270,7 @@ class EloquentTest extends TestCase
         $model->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->select('code')
         );
@@ -289,7 +289,7 @@ class EloquentTest extends TestCase
         $ap2->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->query('$orderby', 'code asc')
         );
@@ -320,7 +320,7 @@ class EloquentTest extends TestCase
         $fl3->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->query('$expand', 'flights')
         );
@@ -351,7 +351,7 @@ class EloquentTest extends TestCase
         $fl3->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)')
                 ->query('$expand', 'flights')
         );
@@ -370,7 +370,7 @@ class EloquentTest extends TestCase
         $ap1->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)')
                 ->query('$expand', 'country')
         );
@@ -389,7 +389,7 @@ class EloquentTest extends TestCase
         $ap1->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)/country')
         );
     }
@@ -399,7 +399,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(1)')
                 ->query('$expand', 'passengers')
         );
@@ -410,7 +410,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(2)')
                 ->query('$expand', 'passengers')
         );
@@ -421,7 +421,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(2)')
                 ->query('$expand', 'passengers($expand=flight)')
         );
@@ -432,7 +432,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights')
                 ->metadata(MetadataType\Full::name)
                 ->query('$expand', 'passengers($expand=flight)')
@@ -444,7 +444,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Passengers(1)')
                 ->query('$expand', 'flight')
         );
@@ -455,7 +455,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Passengers(1)/flight')
         );
     }
@@ -465,7 +465,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(1)/passengers')
                 ->query('$select', 'naame')
         );
@@ -476,7 +476,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(1)/passengers')
                 ->query('$select', 'name')
         );
@@ -487,7 +487,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights')
                 ->metadata(MetadataType\Full::name)
                 ->preference('omit-values', 'nulls')
@@ -500,7 +500,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/Passengers(1)/flight')
         );
@@ -511,7 +511,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/Countries/airports')
         );
     }
@@ -529,7 +529,7 @@ class EloquentTest extends TestCase
         $ap1->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Countries')
                 ->query('$expand', 'airports')
         );
@@ -540,7 +540,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Passengers')
                 ->query('$expand', 'originAirport,destinationAirport')
         );
@@ -551,7 +551,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(1)')
                 ->query('$expand', 'originAirport,destinationAirport')
         );
@@ -562,27 +562,27 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(1)/originAirport')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(3)/destinationAirport')
         );
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(2)/destinationAirport')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights(3)/destinationAirport/code')
         );
 
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/Flights(3)/destinationAirport/code/$value')
         );
@@ -613,7 +613,7 @@ class EloquentTest extends TestCase
         $fl3->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports(1)/flights')
         );
     }
@@ -643,7 +643,7 @@ class EloquentTest extends TestCase
         $fl3->save();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/Airports(1)/flights/$count')
         );
@@ -654,7 +654,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->filter("startswith(code, 'l') and is_big eq true")
         );
@@ -665,7 +665,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights')
                 ->metadata(MetadataType\Full::name)
                 ->query('$select', 'destination')
@@ -679,7 +679,7 @@ class EloquentTest extends TestCase
         $this->captureDatabaseState();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Flights')
                 ->post()
                 ->body([
@@ -723,7 +723,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Scoped')
         );
     }
@@ -733,7 +733,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->query('$skip', '1')
         );
@@ -744,7 +744,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->query('$top', '2')
         );
@@ -755,7 +755,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->query('$top', '1')
                 ->query('$skip', '1')
@@ -767,7 +767,7 @@ class EloquentTest extends TestCase
         $this->withFlightData();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Airports')
                 ->query('$skip', '2')
         );

@@ -26,14 +26,14 @@ class ExpandRestrictions extends Annotation
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(ExpandRestrictionsType::expandable))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $this->value = $value;
     }
 
     public function setExpandable(bool $expandable): self
     {
-        $this->value[ExpandRestrictionsType::expandable]->setValue(Boolean::factory($expandable));
+        $this->value[ExpandRestrictionsType::expandable]->setValue(new Boolean($expandable));
 
         return $this;
     }

@@ -18,12 +18,12 @@ class ContentTest extends TestCase
             function invoke(Transaction $transaction): String_
             {
                 $transaction->setContentEncoding('identity');
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }
@@ -34,12 +34,12 @@ class ContentTest extends TestCase
             function invoke(Transaction $transaction): String_
             {
                 $transaction->setContentLanguage('fr');
-                return String_::factory('bonjour');
+                return new String_('bonjour');
             }
         });
 
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/exf1()')
         );
     }

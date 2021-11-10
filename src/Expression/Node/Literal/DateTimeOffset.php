@@ -14,6 +14,6 @@ class DateTimeOffset extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\DateTimeOffset
     {
-        return \Flat3\Lodata\Type\DateTimeOffset::factory($this->value);
+        return new \Flat3\Lodata\Type\DateTimeOffset($this->value);
     }
 }

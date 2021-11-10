@@ -16,7 +16,7 @@ class CountTest extends TestCase
     public function test_count()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$count', 'true')
         );
@@ -25,7 +25,7 @@ class CountTest extends TestCase
     public function test_count_ignores_top()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$top', '1')
                 ->query('$count', 'true')
@@ -35,7 +35,7 @@ class CountTest extends TestCase
     public function test_count_ignores_skip()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$skip', '1')
                 ->query('$count', 'true')
@@ -45,7 +45,7 @@ class CountTest extends TestCase
     public function test_count_uses_filter()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$count', 'true')
                 ->query('$filter', 'is_big eq false')
@@ -55,7 +55,7 @@ class CountTest extends TestCase
     public function test_count_uses_search()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$count', 'true')
                 ->query('$search', 'sfo')
@@ -65,7 +65,7 @@ class CountTest extends TestCase
     public function test_count_false()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$count', 'false')
         );
@@ -74,7 +74,7 @@ class CountTest extends TestCase
     public function test_count_invalid()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$count', 'invalid')
         );

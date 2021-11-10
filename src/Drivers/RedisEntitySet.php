@@ -176,7 +176,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             foreach ($keys as $key) {
                 $keyValue = new PropertyValue();
                 $keyValue->setProperty($this->getType()->getKey());
-                $keyValue->setValue(Type\String_::factory(Str::after($key, config('database.redis.options.prefix'))));
+                $keyValue->setValue(new Type\String_(Str::after($key, config('database.redis.options.prefix'))));
 
                 yield $this->read($keyValue);
             }

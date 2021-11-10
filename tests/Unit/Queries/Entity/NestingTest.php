@@ -27,7 +27,7 @@ class NestingTest extends TestCase
         Lodata::add($type);
 
         $singleton = new Singleton('atest', $type);
-        $singleton['b'] = Type\String_::factory('c');
+        $singleton['b'] = new Type\String_('c');
 
         $c = new ComplexValue();
         $c->setType($d);
@@ -47,7 +47,7 @@ class NestingTest extends TestCase
     public function test_nested()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('atest')
         );
     }
@@ -55,7 +55,7 @@ class NestingTest extends TestCase
     public function test_nested_path()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('atest/c')
         );
     }
@@ -63,7 +63,7 @@ class NestingTest extends TestCase
     public function test_double_nested_path()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('atest/c/d')
         );
     }

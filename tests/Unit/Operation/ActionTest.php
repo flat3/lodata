@@ -21,12 +21,12 @@ class ActionTest extends TestCase
         Lodata::add(new class('exa1') extends Operation implements ActionInterface {
             public function invoke(): String_
             {
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertMethodNotAllowed(
-            Request::factory()
+            (new Request)
                 ->path('/exa1()')
         );
     }
@@ -36,12 +36,12 @@ class ActionTest extends TestCase
         Lodata::add(new class('exa1') extends Operation implements ActionInterface {
             public function invoke(): String_
             {
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/exa1()')
         );
@@ -52,19 +52,19 @@ class ActionTest extends TestCase
         Lodata::add(new class('exa1') extends Operation implements ActionInterface {
             public function invoke(): String_
             {
-                return String_::factory('hello');
+                return new String_('hello');
             }
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
     public function test_callback_entity()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/exa2()')
         );
     }
@@ -79,7 +79,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/textv1()/$value')
         );
@@ -95,7 +95,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/textv1()')
         );
@@ -112,7 +112,7 @@ class ActionTest extends TestCase
 
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/textv1()')
         );
@@ -128,7 +128,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/textv1()')
         );
@@ -146,7 +146,7 @@ class ActionTest extends TestCase
         })->setBindingParameterName('airport')->setReturnType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/airports(1)/aa1')
         );
@@ -169,7 +169,7 @@ class ActionTest extends TestCase
         })->setReturnType(Lodata::getEntityType('airport')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/airports/aa1'),
             Response::HTTP_CREATED
@@ -186,7 +186,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->body([
                     'a' => 3,
@@ -206,7 +206,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->body([
                     'a' => 3,
@@ -227,7 +227,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertNotAcceptable(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->body('[d')
                 ->path('/aa1')
@@ -246,7 +246,7 @@ class ActionTest extends TestCase
         });
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->header('content-type', 'application/json')
                 ->body('[d')
@@ -266,7 +266,7 @@ class ActionTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertNoContent(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/booleanv1()')
         );

@@ -26,14 +26,14 @@ class DeleteRestrictions extends Annotation
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(DeleteRestrictionsType::deletable))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $this->value = $value;
     }
 
     public function setDeletable(bool $deletable): self
     {
-        $this->value[DeleteRestrictionsType::deletable]->setValue(Boolean::factory($deletable));
+        $this->value[DeleteRestrictionsType::deletable]->setValue(new Boolean($deletable));
 
         return $this;
     }

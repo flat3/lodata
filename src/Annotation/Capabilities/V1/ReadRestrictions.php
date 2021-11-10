@@ -26,14 +26,14 @@ class ReadRestrictions extends Annotation
 
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(ReadRestrictionsType::readable))
-            ->setValue(Boolean::factory(true));
+            ->setValue(new Boolean(true));
 
         $this->value = $value;
     }
 
     public function setReadable(bool $readable): self
     {
-        $this->value[ReadRestrictionsType::readable]->setValue(Boolean::factory($readable));
+        $this->value[ReadRestrictionsType::readable]->setValue(new Boolean($readable));
 
         return $this;
     }

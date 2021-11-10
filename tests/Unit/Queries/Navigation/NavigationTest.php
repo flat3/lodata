@@ -16,7 +16,7 @@ class NavigationTest extends TestCase
     public function test_apply_query_parameters_to_last_segment()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/passengers')
                 ->query('$select', 'flight_id,name')
                 ->query('$top', 2)

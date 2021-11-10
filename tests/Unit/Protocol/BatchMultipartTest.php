@@ -22,7 +22,7 @@ class BatchMultipartTest extends TestCase
     public function test_bad_content_type()
     {
         $this->assertNotAcceptable(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->xml()
                 ->post()
@@ -33,7 +33,7 @@ class BatchMultipartTest extends TestCase
     public function test_invalid_multipart_missing_boundary()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed')
                 ->post()
@@ -44,7 +44,7 @@ class BatchMultipartTest extends TestCase
     public function test_multipart_no_epilogue()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -65,7 +65,7 @@ MULTIPART
     public function test_multipart_ignores_prologue()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -87,7 +87,7 @@ MULTIPART
     public function test_full_url()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -108,7 +108,7 @@ MULTIPART
     public function test_absolute_path()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -129,7 +129,7 @@ MULTIPART
     public function test_service_document()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -150,7 +150,7 @@ MULTIPART
     public function test_metadata_document()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -178,7 +178,7 @@ MULTIPART
         });
 
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -211,7 +211,7 @@ MULTIPART
         });
 
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -231,7 +231,7 @@ MULTIPART
     public function test_relative_path()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -252,7 +252,7 @@ MULTIPART
     public function test_prefer_metadata()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -274,7 +274,7 @@ MULTIPART
     public function test_no_accept_header()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->unsetHeader('accept')
@@ -296,7 +296,7 @@ MULTIPART
     public function test_not_found()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -317,7 +317,7 @@ MULTIPART
     public function test_bad_request()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -338,7 +338,7 @@ MULTIPART
     public function test_batch()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -396,7 +396,7 @@ MULTIPART
     public function test_bad_document_content_type()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -424,7 +424,7 @@ MULTIPART
     public function test_ifmatch_failed()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()
@@ -463,7 +463,7 @@ MULTIPART
     public function test_reference_returned_entity()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/$batch')
                 ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77b')
                 ->post()

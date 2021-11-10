@@ -10,7 +10,7 @@ class MethodTest extends TestCase
     public function test_rejects_bad_method()
     {
         $this->assertMethodNotAllowed(
-            Request::factory()
+            (new Request)
                 ->method('PATCH')
         );
     }

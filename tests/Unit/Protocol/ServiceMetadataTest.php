@@ -25,7 +25,7 @@ class ServiceMetadataTest extends TestCase
         $this->withFlightModel();
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->xml()
                 ->path('/flights/$metadata')
         );

@@ -62,7 +62,7 @@ class EnumerationTypeTest extends TestCase
         Lodata::add($entity);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/example')
         );
     }
@@ -80,7 +80,7 @@ class EnumerationTypeTest extends TestCase
         Lodata::add($entity);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/example')
         );
     }
@@ -99,7 +99,7 @@ class EnumerationTypeTest extends TestCase
         Lodata::add($entity);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/example')
         );
     }
@@ -118,7 +118,7 @@ class EnumerationTypeTest extends TestCase
         Lodata::add($entity);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/example/inner')
         );
     }
@@ -137,7 +137,7 @@ class EnumerationTypeTest extends TestCase
         Lodata::add($entity);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/example')
         );

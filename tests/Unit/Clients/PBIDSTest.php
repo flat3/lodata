@@ -11,7 +11,7 @@ class PBIDSTest extends TestCase
     public function test_pbids()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/_lodata/odata.pbids')
         );
     }

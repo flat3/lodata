@@ -169,6 +169,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @param  EntityType  $entityType  Entity type
      * @return static Entity set definition
      * @codeCoverageIgnore
+     * @deprecated
      */
     public static function factory(string $name, EntityType $entityType): self
     {
@@ -327,7 +328,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     !$transaction->getSelect()->hasValue() &&
                     !$transaction->getExpand()->hasValue()
                 ) {
-                    throw NoContentException::factory()
+                    throw (new NoContentException)
                         ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal)
                         ->header(Constants::odataEntityId, $entity->getResourceUrl($transaction));
                 }
@@ -533,10 +534,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         try {
             $keyValue->setValue($lexer->type($keyProperty->getPrimitiveType()));
         } catch (LexerException $e) {
-            throw BadRequestException::factory(
+            throw (new BadRequestException(
                 'invalid_identifier_value',
                 'The type of the provided identifier value was not valid for this entity type'
-            )->lexer($lexer);
+            ))->lexer($lexer);
         }
 
         if (!$entitySet instanceof ReadInterface) {

@@ -16,7 +16,7 @@ class MaxPageSizeTest extends TestCase
     public function test_uses_maxpagesize_preference()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->header('Prefer', 'maxpagesize=1')
         );
@@ -25,7 +25,7 @@ class MaxPageSizeTest extends TestCase
     public function test_uses_odata_maxpagesize_preference()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->header('Prefer', 'odata.maxpagesize=1')
         );

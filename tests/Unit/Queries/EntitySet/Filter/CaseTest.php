@@ -16,7 +16,7 @@ class CaseTest extends TestCase
     public function test_lower()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->filter("code eq 'lax'")
                 ->path('/airports')
         );
@@ -25,7 +25,7 @@ class CaseTest extends TestCase
     public function test_upper()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->filter("code EQ 'lax'")
                 ->path('/airports')
         );

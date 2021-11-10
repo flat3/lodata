@@ -295,18 +295,18 @@ class Transaction implements ArgumentInterface
     {
         $this->request = $request;
 
-        $this->count = Count::factory($this);
-        $this->format = Format::factory($this);
-        $this->expand = Expand::factory($this);
-        $this->filter = Filter::factory($this);
-        $this->orderby = OrderBy::factory($this);
-        $this->schemaVersion = SchemaVersion::factory($this);
-        $this->search = Search::factory($this);
-        $this->select = Select::factory($this);
-        $this->skip = Skip::factory($this);
-        $this->skiptoken = SkipToken::factory($this);
-        $this->top = Top::factory($this);
-        $this->idOption = Id::factory($this);
+        $this->count = (new Count)->setTransaction($this);
+        $this->format = (new Format)->setTransaction($this);
+        $this->expand = (new Expand)->setTransaction($this);
+        $this->filter = (new Filter)->setTransaction($this);
+        $this->orderby = (new OrderBy)->setTransaction($this);
+        $this->schemaVersion = (new SchemaVersion)->setTransaction($this);
+        $this->search = (new Search)->setTransaction($this);
+        $this->select = (new Select)->setTransaction($this);
+        $this->skip = (new Skip)->setTransaction($this);
+        $this->skiptoken = (new SkipToken)->setTransaction($this);
+        $this->top = (new Top)->setTransaction($this);
+        $this->idOption = (new Id)->setTransaction($this);
 
         return $this;
     }
@@ -552,7 +552,7 @@ class Transaction implements ArgumentInterface
      */
     public function getCharset(): ?string
     {
-        return $this->getRequestHeader('accept-charset') ?: MediaType::factory()->parse($this->getResponseHeader('content-type'))->getParameter('charset');
+        return $this->getRequestHeader('accept-charset') ?: (new MediaType)->parse($this->getResponseHeader('content-type'))->getParameter('charset');
     }
 
     /**
@@ -561,7 +561,7 @@ class Transaction implements ArgumentInterface
      */
     public function getProvidedContentType(): MediaType
     {
-        return MediaType::factory()->parse($this->getRequestHeader('content-type') ?? '');
+        return (new MediaType)->parse($this->getRequestHeader('content-type') ?? '');
     }
 
     /**
@@ -604,20 +604,20 @@ class Transaction implements ArgumentInterface
                 );
             }
 
-            return MediaType::factory()->parse('application/'.$formatQueryOption);
+            return (new MediaType)->parse('application/'.$formatQueryOption);
         }
 
         if ($formatQueryOption) {
-            return MediaType::factory()->parse($formatQueryOption);
+            return (new MediaType)->parse($formatQueryOption);
         }
 
         $acceptHeader = $this->getRequestHeader('accept');
 
         if ($acceptHeader) {
-            return MediaType::factory()->parse($acceptHeader);
+            return (new MediaType)->parse($acceptHeader);
         }
 
-        return MediaType::factory()->parse('*/*');
+        return (new MediaType)->parse('*/*');
     }
 
     /**
@@ -1076,7 +1076,7 @@ class Transaction implements ArgumentInterface
 
         $lastSegment = Arr::last($pathSegments);
 
-        $requiredType = MediaType::factory()
+        $requiredType = (new MediaType)
             ->parse(MediaType::json)
             ->setParameter(Constants::streaming, Constants::true)
             ->setParameter(Constants::metadata, MetadataType\Minimal::name)
@@ -1090,20 +1090,20 @@ class Transaction implements ArgumentInterface
 
         switch ($lastSegment) {
             case '$batch':
-                $requiredType = MediaType::factory()->parse($acceptedContentType->getOriginal());
+                $requiredType = (new MediaType)->parse($acceptedContentType->getOriginal());
                 break;
 
             case '$metadata':
-                $requiredType = $acceptedContentType ?: MediaType::factory()->parse(MediaType::xml);
+                $requiredType = $acceptedContentType ?: (new MediaType)->parse(MediaType::xml);
                 break;
 
             case '$value':
-                $requiredType = $acceptedContentType ?: MediaType::factory()->parse(MediaType::text);
+                $requiredType = $acceptedContentType ?: (new MediaType)->parse(MediaType::text);
                 break;
 
             case '$count':
             case '$query':
-                $requiredType = MediaType::factory()->parse(MediaType::text);
+                $requiredType = (new MediaType)->parse(MediaType::text);
                 break;
         }
 
@@ -1148,7 +1148,7 @@ class Transaction implements ArgumentInterface
         }
 
         if (null === $result) {
-            throw NoContentException::factory('no_content', 'No content');
+            throw new NoContentException('no_content', 'No content');
         }
 
         return $result;

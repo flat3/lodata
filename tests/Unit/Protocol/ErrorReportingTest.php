@@ -47,7 +47,7 @@ class ErrorReportingTest extends TestCase
         $this->withExceptionHandling();
 
         $response = $this->req(
-            Request::factory()
+            (new Request)
                 ->query('$format', 'xml')
         );
 
@@ -57,7 +57,7 @@ class ErrorReportingTest extends TestCase
     public function test_error_response_body()
     {
         try {
-            throw NotImplementedException::factory()
+            throw (new NotImplementedException)
                 ->code('test')
                 ->message('test message')
                 ->target('test target')
@@ -75,7 +75,7 @@ class ErrorReportingTest extends TestCase
         ob_start();
 
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/texts'));
 
         $this->assertMatchesSnapshot(ob_get_clean());
@@ -84,7 +84,7 @@ class ErrorReportingTest extends TestCase
     public function test_disable_streaming_json()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->accept('application/json;odata.streaming=false')
                 ->path('/')
         );
@@ -93,7 +93,7 @@ class ErrorReportingTest extends TestCase
     public function test_stream_buffered_error()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->accept('application/json;odata.streaming=false')
                 ->path('/texts')
         );
@@ -104,7 +104,7 @@ class ErrorReportingTest extends TestCase
         config(['lodata.streaming' => false]);
 
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/texts')
         );
     }

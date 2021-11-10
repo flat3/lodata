@@ -14,12 +14,12 @@ class KeylessTest extends TestCase
     {
         $this->withNamesDatabase();
 
-        $set = SQLEntitySet::factory('names', EntityType::factory('name'));
+        $set = new SQLEntitySet('names', new EntityType('name'));
         $set->discoverProperties();
         Lodata::add($set);
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/names')
         );
     }
@@ -29,7 +29,7 @@ class KeylessTest extends TestCase
         $this->withNamesModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/names')
         );
     }
@@ -39,7 +39,7 @@ class KeylessTest extends TestCase
         $this->withNamesModel();
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/names/1')
         );
     }
@@ -49,7 +49,7 @@ class KeylessTest extends TestCase
         $this->withNamesModel();
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->delete()
                 ->path('/names/1')
         );
@@ -60,7 +60,7 @@ class KeylessTest extends TestCase
         $this->withNamesModel();
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/names')
                 ->body([
@@ -75,7 +75,7 @@ class KeylessTest extends TestCase
         $this->withNamesModel();
 
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->post()
                 ->path('/names/1')
                 ->body([
@@ -90,13 +90,13 @@ class KeylessTest extends TestCase
         $this->withNamesModel();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->query('top', 1)
                 ->path('/names')
         );
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->query('top', 1)
                 ->query('skip', 1)
                 ->path('/names')

@@ -89,7 +89,7 @@ class OperationTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/f1()')
         );
     }
@@ -110,7 +110,7 @@ class OperationTest extends TestCase
         $this->assertMetadataDocuments();
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/f1()')
         );
     }
@@ -127,7 +127,7 @@ class OperationTest extends TestCase
         })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/f1()')
         );
     }
@@ -144,7 +144,7 @@ class OperationTest extends TestCase
         })->setBindingParameterName('flights')->setReturnType(Lodata::getEntityType('flight')));
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/f1()')
         );
     }
@@ -166,7 +166,7 @@ class OperationTest extends TestCase
         })->setBindingParameterName('second'));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('hello()/world()')
         );
     }

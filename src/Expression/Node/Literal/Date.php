@@ -14,6 +14,6 @@ class Date extends Literal
 {
     public function getValue(): \Flat3\Lodata\Type\Date
     {
-        return \Flat3\Lodata\Type\Date::factory($this->value);
+        return new \Flat3\Lodata\Type\Date($this->value);
     }
 }

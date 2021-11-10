@@ -310,7 +310,7 @@ class Async implements ShouldQueue
      */
     public function accepted(): AcceptedException
     {
-        return AcceptedException::factory()
+        return (new AcceptedException)
             ->header('location', $this->getMonitorUrl());
     }
 }

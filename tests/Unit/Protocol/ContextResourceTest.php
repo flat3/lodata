@@ -26,7 +26,7 @@ class ContextResourceTest extends TestCase
     public function test_service_document()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/')
         );
@@ -35,7 +35,7 @@ class ContextResourceTest extends TestCase
     public function test_collection_of_entities()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights')
         );
@@ -44,7 +44,7 @@ class ContextResourceTest extends TestCase
     public function test_entity()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights/1')
         );
@@ -53,7 +53,7 @@ class ContextResourceTest extends TestCase
     public function test_singleton()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/sInstance')
         );
@@ -62,7 +62,7 @@ class ContextResourceTest extends TestCase
     public function test_collection_of_projected_entities()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->select('name,code')
                 ->path('/airports')
@@ -72,7 +72,7 @@ class ContextResourceTest extends TestCase
     public function test_projected_entity()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->select('name,code')
                 ->path('/airports/1')
@@ -82,7 +82,7 @@ class ContextResourceTest extends TestCase
     public function test_collection_of_expanded_entities()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->select('id,gate')
                 ->query('expand', 'airports(select=code)')
@@ -93,7 +93,7 @@ class ContextResourceTest extends TestCase
     public function test_expanded_entity()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->select('id,gate')
                 ->query('expand', 'airports(select=code)')
@@ -104,7 +104,7 @@ class ContextResourceTest extends TestCase
     public function test_collection_of_entity_references()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights/1/airports/$ref')
         );
@@ -113,7 +113,7 @@ class ContextResourceTest extends TestCase
     public function test_entity_reference()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights/1/$ref')
         );
@@ -122,7 +122,7 @@ class ContextResourceTest extends TestCase
     public function test_property_value()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/airports/1/code')
         );
@@ -138,7 +138,7 @@ class ContextResourceTest extends TestCase
         })->setReturnType(Lodata::getEntityType('text')));
 
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/textf1()')
         );
@@ -147,7 +147,7 @@ class ContextResourceTest extends TestCase
     public function test_all()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/$all')
         );

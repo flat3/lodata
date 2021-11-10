@@ -17,7 +17,7 @@ class EntityReferenceTest extends TestCase
     public function test_not_entity_or_set_not_found()
     {
         $this->assertNotFound(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/origin/$ref')
         );
     }
@@ -25,7 +25,7 @@ class EntityReferenceTest extends TestCase
     public function test_not_last_segment()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/$ref/1')
         );
     }
@@ -33,7 +33,7 @@ class EntityReferenceTest extends TestCase
     public function test_entity_set_references()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights/$ref')
         );
     }
@@ -41,7 +41,7 @@ class EntityReferenceTest extends TestCase
     public function test_entity_references()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/$ref')
         );
     }
@@ -49,7 +49,7 @@ class EntityReferenceTest extends TestCase
     public function test_entity_set_references_full_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights/$ref')
         );

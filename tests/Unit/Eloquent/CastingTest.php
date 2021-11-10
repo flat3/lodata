@@ -36,12 +36,12 @@ class CastingTest extends TestCase
     public function testPrimaryKeyCastRequest()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/Casts(5)')
         );
 
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path("/Casts('1')")
         );
     }

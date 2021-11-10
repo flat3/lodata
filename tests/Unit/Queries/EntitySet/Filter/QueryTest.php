@@ -16,7 +16,7 @@ class QueryTest extends TestCase
     public function test_compound_filter()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->filter("startswith(code, 'l') and is_big eq true")
         );

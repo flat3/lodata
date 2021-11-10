@@ -16,7 +16,7 @@ class EntitySetCountTest extends TestCase
     public function test_count()
     {
         $this->assertTextMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/flights/$count')
         );
@@ -25,7 +25,7 @@ class EntitySetCountTest extends TestCase
     public function test_count_ignores_top()
     {
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports/$count')
                 ->text()
                 ->query('$top', '1')
@@ -35,7 +35,7 @@ class EntitySetCountTest extends TestCase
     public function test_count_ignores_skip()
     {
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports/$count')
                 ->text()
                 ->query('$skip', '1')
@@ -45,7 +45,7 @@ class EntitySetCountTest extends TestCase
     public function test_count_uses_filter()
     {
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports/$count')
                 ->text()
                 ->query('$filter', 'is_big eq false')
@@ -55,7 +55,7 @@ class EntitySetCountTest extends TestCase
     public function test_count_uses_search()
     {
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports/$count')
                 ->text()
                 ->query('$search', 'sfo')
@@ -65,7 +65,7 @@ class EntitySetCountTest extends TestCase
     public function test_count_navigation_property()
     {
         $this->assertTextResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(1)/passengers/$count')
                 ->text()
         );

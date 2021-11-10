@@ -16,7 +16,7 @@ class OmitValuesTest extends TestCase
     public function test_uses_omitvalues_nulls_preference()
     {
         $this->assertJsonMetadataResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights(2)')
                 ->header('Prefer', 'omit-values=nulls')
         );

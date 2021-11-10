@@ -197,12 +197,12 @@ trait TestModels
 
         /** @var EntityType $nameType */
         $nameType = Lodata::add(
-            EntityType::factory('name')
+            (new EntityType('name'))
                 ->addDeclaredProperty('first_name', Type::string())
                 ->addDeclaredProperty('last_name', Type::string())
         );
 
-        Lodata::add(SQLEntitySet::factory('names', $nameType));
+        Lodata::add(new SQLEntitySet('names', $nameType));
     }
 
     public function withFlightModel(): void
@@ -212,18 +212,18 @@ trait TestModels
 
         /** @var EntityType $passengerType */
         $passengerType = Lodata::add(
-            EntityType::factory('passenger')
+            (new EntityType('passenger'))
                 ->setKey(new DeclaredProperty('id', Type::int32()))
                 ->addProperty((new DeclaredProperty('name', Type::string()))->setSearchable())
                 ->addDeclaredProperty('flight_id', Type::int32())
         );
 
-        $passengerSet = SQLEntitySet::factory('passengers', $passengerType)
+        $passengerSet = (new SQLEntitySet('passengers', $passengerType))
             ->setTable('passengers');
 
         /** @var EntityType $flightType */
         $flightType = Lodata::add(
-            EntityType::factory('flight')
+            (new EntityType('flight'))
                 ->setKey(new DeclaredProperty('id', Type::int32()))
                 ->addDeclaredProperty('origin', Type::string())
                 ->addDeclaredProperty('destination', Type::string())
@@ -231,12 +231,12 @@ trait TestModels
                 ->addDeclaredProperty('duration', Type::duration())
         );
 
-        $flightSet = SQLEntitySet::factory('flights', $flightType)
+        $flightSet = (new SQLEntitySet('flights', $flightType))
             ->setTable('flights');
 
         /** @var EntityType $airportType */
         $airportType = Lodata::add(
-            EntityType::factory('airport')
+            (new EntityType('airport'))
                 ->setKey(new DeclaredProperty('id', Type::int32()))
                 ->addDeclaredProperty('name', Type::string())
                 ->addProperty((new DeclaredProperty('code', Type::string()))->setSearchable())
@@ -247,19 +247,19 @@ trait TestModels
                 ->addDeclaredProperty('is_big', Type::boolean())
         );
 
-        $airportSet = SQLEntitySet::factory('airports', $airportType)
+        $airportSet = (new SQLEntitySet('airports', $airportType))
             ->setTable('airports');
 
         /** @var EntityType $petType */
         $petType = Lodata::add(
-            EntityType::factory('pet')
+            (new EntityType('pet'))
                 ->setKey(new DeclaredProperty('id', Type::int32()))
                 ->addDeclaredProperty('name', Type::string())
                 ->addDeclaredProperty('type', Type::string())
                 ->addDeclaredProperty('passenger_id', Type::int32())
         );
 
-        $petSet = SQLEntitySet::factory('pets', $petType)
+        $petSet = (new SQLEntitySet('pets', $petType))
             ->setTable('pets');
 
         Lodata::add($passengerSet);
@@ -319,14 +319,14 @@ trait TestModels
         Lodata::add(new class('add') extends Operation implements FunctionInterface {
             public function invoke(Int32 $a, Int32 $b): Int32
             {
-                return Int32::factory($a->get() + $b->get());
+                return new Int32($a->get() + $b->get());
             }
         });
 
         Lodata::add(new class('div') extends Operation implements FunctionInterface {
             public function invoke(Int32 $a, Int32 $b): Decimal
             {
-                return Decimal::factory($a->get() / $b->get());
+                return new Decimal($a->get() / $b->get());
             }
         });
     }

@@ -16,7 +16,7 @@ class EntitySetFilterTest extends TestCase
     public function test_path_filter()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/airports/\$filter(code eq 'lhr')")
         );
     }
@@ -24,7 +24,7 @@ class EntitySetFilterTest extends TestCase
     public function test_path_query_filter()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path("/airports/\$filter(is_big eq true)")
                 ->query('$filter', "code eq 'lhr'")
         );
@@ -33,7 +33,7 @@ class EntitySetFilterTest extends TestCase
     public function test_path_filter_no_argument()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path("\$filter(code eq 'lhr')")
         );
     }

@@ -16,7 +16,7 @@ class OrderByTest extends TestCase
     public function test_orderby_desc()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$orderby', 'id desc')
         );
@@ -25,7 +25,7 @@ class OrderByTest extends TestCase
     public function test_orderby_asc()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$orderby', 'code asc')
         );
@@ -34,7 +34,7 @@ class OrderByTest extends TestCase
     public function test_orderby_default_asc()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$orderby', 'code')
         );
@@ -43,7 +43,7 @@ class OrderByTest extends TestCase
     public function test_orderby_invalid()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->query('$orderby', 'origin wrong')
         );
@@ -52,7 +52,7 @@ class OrderByTest extends TestCase
     public function test_orderby_invalid_property()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->query('$orderby', 'invalid asc')
         );
@@ -61,7 +61,7 @@ class OrderByTest extends TestCase
     public function test_orderby_multiple()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->query('$orderby', 'id desc, code asc')
         );
@@ -70,7 +70,7 @@ class OrderByTest extends TestCase
     public function test_orderby_invalid_multiple()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->query('$orderby', 'origin asc id desc')
         );

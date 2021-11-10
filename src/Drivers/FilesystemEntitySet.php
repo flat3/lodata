@@ -162,7 +162,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
             $entity->newPropertyValue()->setProperty($contentProperty)->setValue(
                 $contentProperty->getType()->instance()
                     ->set($disk->readStream($path))
-                    ->setContentType(MediaType::factory()->parse($disk->mimeType($path)))
+                    ->setContentType((new MediaType)->parse($disk->mimeType($path)))
                     ->setReadLink(new Uri($disk->url($path)))
             )
         );

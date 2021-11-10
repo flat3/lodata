@@ -36,10 +36,10 @@ class ODCFF extends Controller
 
         $entitySet = Lodata::getEntitySet($identifier);
         if (null === $entitySet) {
-            throw NotFoundException::factory(
+            throw (new NotFoundException(
                 'resource_not_found',
                 'The requested resource did not exist'
-            )->target($identifier);
+            ))->target($identifier);
         }
 
         $resourceName = $entitySet->getTitle() ?: $entitySet->getName();

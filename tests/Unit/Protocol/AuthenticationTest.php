@@ -11,7 +11,7 @@ class AuthenticationTest extends TestCase
     public function test_default_no_auth()
     {
         $this->assertMetadataResponse(
-            Request::factory()
+            (new Request)
         );
     }
 
@@ -23,7 +23,7 @@ class AuthenticationTest extends TestCase
         app(Router::class)->getRoutes()->get('GET')['odata{path}']->middleware(['auth.basic']);
 
         $this->assertUnauthorizedHttpException(
-            Request::factory()
+            (new Request)
         );
     }
 }

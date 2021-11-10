@@ -52,7 +52,7 @@ class CSVTest extends TestCase
     public function test_set()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/csv')
         );
     }
@@ -61,7 +61,7 @@ class CSVTest extends TestCase
     {
         $page = $this->jsonResponse(
             $this->assertJsonResponse(
-                Request::factory()
+                (new Request)
                     ->query('$top', 4)
                     ->query('$skip', 5)
                     ->path('/csv')
@@ -76,7 +76,7 @@ class CSVTest extends TestCase
     public function test_orderby()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->query('$top', 4)
                 ->metadata(MetadataType\Full::name)
                 ->query('$orderby', 'name')
@@ -87,7 +87,7 @@ class CSVTest extends TestCase
     public function test_orderby_direction()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->query('$top', 4)
                 ->metadata(MetadataType\Full::name)
                 ->query('$orderby', 'name desc')
@@ -98,7 +98,7 @@ class CSVTest extends TestCase
     public function test_set_with_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/csv')
         );
@@ -107,7 +107,7 @@ class CSVTest extends TestCase
     public function test_count()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('/csv/$count')
         );
@@ -116,7 +116,7 @@ class CSVTest extends TestCase
     public function test_read()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/csv(2)')
         );
     }
@@ -124,7 +124,7 @@ class CSVTest extends TestCase
     public function test_read_with_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/csv(2)')
         );

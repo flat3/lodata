@@ -17,7 +17,7 @@ class QueryBodyTest extends TestCase
     public function test_wrong_content_type()
     {
         $this->assertNotAcceptable(
-            Request::factory()
+            (new Request)
                 ->path('flights/$query')
                 ->post()
         );
@@ -26,7 +26,7 @@ class QueryBodyTest extends TestCase
     public function test_wrong_method()
     {
         $this->assertMethodNotAllowed(
-            Request::factory()
+            (new Request)
                 ->text()
                 ->path('flights/$query')
         );
@@ -35,7 +35,7 @@ class QueryBodyTest extends TestCase
     public function test_query()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('flights/$query')
                 ->post()
                 ->text()

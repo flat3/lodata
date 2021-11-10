@@ -17,7 +17,7 @@ class EntitySetTest extends TestCase
     public function test_read_an_entity_set()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
         );
     }
@@ -25,7 +25,7 @@ class EntitySetTest extends TestCase
     public function test_read_an_entity_with_full_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path('/flights')
         );
@@ -34,7 +34,7 @@ class EntitySetTest extends TestCase
     public function test_read_an_entity_with_no_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->metadata(MetadataType\None::name)
                 ->path('/flights')
         );
@@ -43,7 +43,7 @@ class EntitySetTest extends TestCase
     public function test_read_with_select_and_metadata()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
                 ->query('$select', 'destination')

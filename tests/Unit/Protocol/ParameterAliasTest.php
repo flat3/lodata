@@ -16,7 +16,7 @@ class ParameterAliasTest extends TestCase
     public function test_alias()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->filter('code eq @code')
                 ->query('@code', "'sfo'")
@@ -26,7 +26,7 @@ class ParameterAliasTest extends TestCase
     public function test_alias_date()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->filter('construction_date eq @code')
                 ->query('@code', '1946-03-25')
@@ -36,7 +36,7 @@ class ParameterAliasTest extends TestCase
     public function test_alias_bool()
     {
         $this->assertJsonResponse(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->filter('is_big eq @code')
                 ->query('@code', 'true')
@@ -46,7 +46,7 @@ class ParameterAliasTest extends TestCase
     public function test_nonexistent_alias()
     {
         $this->assertBadRequest(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->filter('code eq @code')
         );

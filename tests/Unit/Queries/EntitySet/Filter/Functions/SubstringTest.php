@@ -16,7 +16,7 @@ class SubstringTest extends TestCase
     public function test_substr()
     {
         $this->assertNotImplemented(
-            Request::factory()
+            (new Request)
                 ->path('/airports')
                 ->filter("substring(code,0,2) eq 'lh'")
         );

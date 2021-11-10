@@ -52,6 +52,7 @@ class EntityType extends ComplexType implements PipeInterface
      * @param  string|Identifier  $identifier
      * @return EntityType Entity Type
      * @codeCoverageIgnore
+     * @deprecated
      */
     public static function factory($identifier)
     {
