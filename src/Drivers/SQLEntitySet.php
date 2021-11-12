@@ -107,7 +107,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     protected function propertyToField(Property $property): string
     {
-        return sprintf('%s.`%s`', $this->getTable(), $this->getPropertySourceName($property));
+        return sprintf('%s."%s"', $this->getTable(), $this->getPropertySourceName($property));
     }
 
     /**
@@ -361,7 +361,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     {
         $column = $this->propertyToField($property);
 
-        return sprintf('%s AS %s', $column, $property->getName());
+        return sprintf('%s AS "%s"', $column, $property->getName());
     }
 
     /**

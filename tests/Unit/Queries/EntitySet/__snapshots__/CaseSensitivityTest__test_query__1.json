@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#cI_tTESTs",
+    "value": [
+        {
+            "FiRst_N1m3": "first",
+            "laSt_N1m3": "last"
+        }
+    ]
+}
