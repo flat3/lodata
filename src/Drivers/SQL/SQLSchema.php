@@ -11,6 +11,7 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Arr;
 
 /**
  * SQL Schema
@@ -40,7 +41,14 @@ trait SQLSchema
                 continue;
             }
 
-            $column = $columns[$index->getColumns()[0]];
+            $column = Arr::first($columns, function (Column $column) use ($index) {
+                return $column->getName() === $index->getColumns()[0];
+            });
+
+            if (!$column) {
+                continue;
+            }
+
             $key = $this->columnToDeclaredProperty($column);
 
             if ($column->getAutoincrement()) {
