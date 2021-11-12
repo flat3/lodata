@@ -70,4 +70,19 @@ trait SQLConnection
     {
         return $this->getHandle()->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
+
+    /**
+     * Modify quote types by driver
+     * @param  string  $param  String to quote
+     * @return string
+     */
+    public function quote(string $param): string
+    {
+        switch ($this->getDriver()) {
+            case 'mysql':
+                return sprintf('`%s`', $param);
+        }
+
+        return sprintf('"%s"', $param);
+    }
 }
