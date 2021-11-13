@@ -1,1 +1,1 @@
-SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( ROUND( flights."origin" ) = ? )
+SELECT flights.[id] AS [id], flights.[origin] AS [origin] FROM flights WHERE ( ROUND( flights.[origin] ) = ? )

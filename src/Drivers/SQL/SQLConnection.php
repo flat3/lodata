@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLServer2012Platform;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
@@ -79,10 +84,16 @@ trait SQLConnection
     public function quote(string $param): string
     {
         switch ($this->getDriver()) {
+            case 'pgsql':
+                return (new PostgreSQL94Platform())->quoteSingleIdentifier($param);
+            case 'sqlsrv':
+                return (new SQLServer2012Platform())->quoteSingleIdentifier($param);
+            case 'sqlite':
+                return (new SqlitePlatform())->quoteSingleIdentifier($param);
             case 'mysql':
-                return sprintf('`%s`', $param);
+                return (new MySQLPlatform())->quoteSingleIdentifier($param);
         }
 
-        return sprintf('"%s"', $param);
+        throw new InternalServerErrorException('invalid_driver', 'An invalid driver was used');
     }
 }

@@ -1,1 +1,1 @@
-SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( flights."origin" = ALL ( SELECT airports."code" from airports WHERE  ( airports."name" = ? ) ) ) OR  ( flights."destination" = ALL ( SELECT airports."code" from airports WHERE  ( airports."name" = ? ) ) )
+SELECT flights.[id] AS [id], flights.[origin] AS [origin] FROM flights WHERE ( flights.[origin] = ALL ( SELECT airports.[code] from airports WHERE  ( airports.[name] = ? ) ) ) OR  ( flights.[destination] = ALL ( SELECT airports.[code] from airports WHERE  ( airports.[name] = ? ) ) )

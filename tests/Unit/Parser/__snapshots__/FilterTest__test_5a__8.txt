@@ -1,1 +1,1 @@
-SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( ( flights."origin" LIKE ? ) AND ( NOT ( flights."origin" LIKE ? ) ) )
+SELECT flights.[id] AS [id], flights.[origin] AS [origin] FROM flights WHERE ( ( flights.[origin] LIKE ? ) AND ( NOT ( flights.[origin] LIKE ? ) ) )
