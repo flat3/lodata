@@ -13,7 +13,7 @@ class LodataServiceProvider extends ServiceProvider
     public function boot()
     {
         $passengerType = new \Flat3\Lodata\EntityType('passenger');
-        $passengerSet = new \Flat3\Lodata\Drivers\SQLEntitySet('passengers', $passengerType)
+        $passengerSet = (new \Flat3\Lodata\Drivers\SQLEntitySet('passengers', $passengerType))
             ->setTable('passengers')
             ->discoverProperties();
         \Lodata::add($passengerSet);
