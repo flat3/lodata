@@ -10,7 +10,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -42,7 +42,6 @@ use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
@@ -68,7 +67,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface, ResponseInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, AnnotationInterface, ResponseInterface
 {
     use HasIdentifier;
     use UseReferences;
@@ -360,7 +359,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
 
             if (!$property) {
-                $property = new DynamicProperty($key, Type::castInternalType(gettype($value)));
+                $property = new DynamicProperty($key, Type::fromInternalValue($value));
             }
 
             $propertyValue->setProperty($property);
@@ -463,13 +462,16 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         ?PipeInterface $argument = null
     ): ?PipeInterface {
         $lexer = new Lexer($currentSegment);
+
         try {
-            $entitySet = Lodata::getEntitySet($lexer->qualifiedIdentifier());
+            $identifier = $lexer->qualifiedIdentifier();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
 
-        if (!$entitySet instanceof EntitySet) {
+        $entitySet = Lodata::getEntitySet($identifier);
+
+        if (!$entitySet instanceof EntitySet || !$entitySet->getIdentifier()->matchesNamespace($identifier)) {
             throw new PathNotHandledException();
         }
 
@@ -501,7 +503,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $keyProperty = $entitySet->getType()->getKey();
 
         if (!$keyProperty) {
-            throw new InternalServerErrorException(
+            throw new ConfigurationException(
                 'invalid_key_property',
                 'The key property defined on this entity type is not valid'
             );
@@ -671,6 +673,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function getSelect(): Option\Select
     {
         return $this->applyQueryOptions ? $this->transaction->getSelect() : new Option\Select();
+    }
+
+    /**
+     * Return this index option that applies to this entity set
+     * @return Option\Index
+     */
+    public function getIndex(): Option\Index
+    {
+        return $this->applyQueryOptions ? $this->transaction->getIndex() : new Option\Index();
     }
 
     /**
@@ -886,5 +897,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         return $annotations;
+    }
+
+    /**
+     * Get the OData entity set name for this class
+     * @param  string  $class  Class name
+     * @return string OData identifier
+     */
+    public static function convertClassName(string $class): string
+    {
+        return Str::pluralStudly(class_basename($class));
     }
 }

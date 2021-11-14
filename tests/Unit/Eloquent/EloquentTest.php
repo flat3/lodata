@@ -4,12 +4,13 @@ namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Airport;
 use Flat3\Lodata\Tests\Models\Country;
 use Flat3\Lodata\Tests\Models\Flight;
 use Flat3\Lodata\Tests\Models\Passenger;
+use Flat3\Lodata\Tests\Models\Pet;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
@@ -27,17 +28,20 @@ class EloquentTest extends TestCase
         $flights = Lodata::discoverEloquentModel(Flight::class);
         $countries = Lodata::discoverEloquentModel(Country::class);
         $passengers = Lodata::discoverEloquentModel(Passenger::class);
+        $pets = Lodata::discoverEloquentModel(Pet::class);
         Lodata::getEntityType('Flight')->getProperty('duration')->setType(Type::duration());
 
         $airports->discoverRelationship('flights');
         $airports->discoverRelationship('country');
         $flights->discoverRelationship('passengers');
+        $passengers->discoverRelationship('pets');
         $passengers->discoverRelationship('flight');
         $countries->discoverRelationship('airports');
         $passengers->discoverRelationship('originAirport');
         $passengers->discoverRelationship('destinationAirport');
         $flights->discoverRelationship('originAirport');
         $flights->discoverRelationship('destinationAirport');
+        $pets->discoverRelationship('passenger');
 
         $airport = Lodata::getEntityType('Airport');
         $airport->getDeclaredProperty('code')->setAlternativeKey();
@@ -53,7 +57,7 @@ class EloquentTest extends TestCase
 
         try {
             $countries->discoverRelationship('airport');
-        } catch (InternalServerErrorException $e) {
+        } catch (ConfigurationException $e) {
             $this->assertProtocolExceptionSnapshot($e);
         }
     }

@@ -34,7 +34,7 @@ abstract class GeneratedProperty extends Property
         $result = $this->invoke($value);
 
         if (!is_a($result, Primitive::class, true)) {
-            $result = PrimitiveType::castInternalType(gettype($result))->instance($result);
+            $result = Type::fromInternalValue($result)->instance($result);
         }
 
         if (

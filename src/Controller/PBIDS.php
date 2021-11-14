@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Controller;
 
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Http\Response;
@@ -24,7 +25,7 @@ class PBIDS extends Controller
     public function get(): Response
     {
         $response = new Response();
-        $response->header('content-type', MediaType::json);
+        $response->header(Constants::contentType, MediaType::json);
 
         $disposition = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,

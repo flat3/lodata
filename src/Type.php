@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Carbon\CarbonImmutable;
+use DateTime;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
@@ -132,32 +134,52 @@ abstract class Type
     }
 
     /**
+     * Return a type object based on the provided value
+     * @param  mixed  $value  PHP value
+     * @return Type OData type representation
+     */
+    public static function fromInternalValue($value): Type
+    {
+        if (is_object($value)) {
+            return self::fromInternalType(get_class($value));
+        }
+
+        return self::fromInternalType(gettype($value));
+    }
+
+    /**
      * Cast a PHP type to an OData type
      * @param  string  $type  PHP type
      * @return Type OData type representation
      */
-    public static function castInternalType(string $type): Type
+    public static function fromInternalType(string $type): Type
     {
         switch ($type) {
             case 'void':
             case 'string':
-                return new PrimitiveType(String_::class);
+                return self::string();
 
             case 'float':
             case 'double':
-                return new PrimitiveType(Double::class);
+                return self::double();
 
             case 'int':
             case 'integer':
-                return new PrimitiveType(Int64::class);
+                return self::int64();
 
             case 'bool':
             case 'boolean':
-                return new PrimitiveType(Boolean::class);
+                return self::boolean();
+
+            case is_a($type, DateTime::class, true):
+                return self::datetimeoffset();
 
             case 'array':
-            case 'object':
+            case 'stdClass':
                 return new Untyped();
+
+            case CarbonImmutable::class:
+                return new PrimitiveType(DateTimeOffset::class);
         }
 
         throw new TypeError('Could not cast the provided internal type');

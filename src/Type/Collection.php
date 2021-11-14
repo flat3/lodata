@@ -42,7 +42,7 @@ class Collection extends Primitive implements ArrayAccess
         }, $this->value);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->value[$offset]);
     }
@@ -52,12 +52,12 @@ class Collection extends Primitive implements ArrayAccess
         return $this->value[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->value[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->value[$offset]);
     }

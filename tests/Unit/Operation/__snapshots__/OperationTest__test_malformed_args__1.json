@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "malformed_parameters",
+        "message": "The provided parameters were not well formed",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

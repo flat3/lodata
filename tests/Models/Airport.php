@@ -2,8 +2,13 @@
 
 namespace Flat3\Lodata\Tests\Models;
 
+use Flat3\Lodata\Attributes\LodataFunction;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $name
+ * @property string $code
+ */
 class Airport extends Model
 {
     public $timestamps = false;
@@ -29,5 +34,17 @@ class Airport extends Model
     public function scopeModern($query)
     {
         return $query->where('construction_date', '>', '1940-01-01');
+    }
+
+    #[LodataFunction]
+    public function op1(): ?string
+    {
+        return $this->name;
+    }
+
+    #[LodataFunction]
+    public function op2(string $prefix): string
+    {
+        return $prefix.$this->code;
     }
 }

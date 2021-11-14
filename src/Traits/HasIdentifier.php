@@ -20,19 +20,11 @@ trait HasIdentifier
 
     /**
      * Get the identifier
-     * @return string Identifier
+     * @return Identifier Identifier
      */
-    public function getIdentifier(): string
+    public function getIdentifier(): Identifier
     {
-        return (string) $this->identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return (string) $this->identifier;
+        return $this->identifier;
     }
 
     /**
@@ -41,30 +33,7 @@ trait HasIdentifier
      */
     public function getName(): string
     {
-        return $this->identifier->getName();
-    }
-
-    /**
-     * Get the namespace
-     * @return string Namespace
-     */
-    public function getNamespace(): string
-    {
-        return $this->identifier->getNamespace();
-    }
-
-    /**
-     * Get the resolved name of this item based on the provided namespace
-     * @param  string  $namespace  Namespace
-     * @return string
-     */
-    public function getResolvedName(string $namespace): string
-    {
-        if ($this->identifier->getNamespace() === $namespace) {
-            return $this->getName();
-        }
-
-        return $this->getIdentifier();
+        return $this->getIdentifier()->getName();
     }
 
     /**
@@ -77,5 +46,13 @@ trait HasIdentifier
         $this->identifier = $identifier instanceof Identifier ? $identifier : new Identifier($identifier);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->identifier->getQualifiedName();
     }
 }

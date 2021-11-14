@@ -7,7 +7,7 @@ When reporting an issue please include any configuration of entity sets or opera
 Ideally to reproduce an issue you can generate a test case. Lodata uses [snapshot tests](https://github.com/spatie/phpunit-snapshot-assertions)
 extensively to capture the entire output of the API.
 
-Many examples exist in the test folder, for example [https://github.com/flat3/lodata/blob/develop/tests/Unit/Eloquent/EloquentTest.php](https://github.com/flat3/lodata/blob/develop/tests/Unit/Eloquent/EloquentTest.php)
+Many examples exist in the test folder, for example [https://github.com/flat3/lodata/blob/main/tests/Unit/Eloquent/EloquentTest.php](https://github.com/flat3/lodata/blob/main/tests/Unit/Eloquent/EloquentTest.php)
 
 Test cases that generate snapshots can use the provided assertions and the `Request` object to generate and configure a request.
 

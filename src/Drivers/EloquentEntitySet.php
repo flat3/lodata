@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Doctrine\DBAL\Schema\Column;
 use Exception;
+use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
@@ -15,8 +16,10 @@ use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
@@ -47,7 +50,6 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
@@ -74,7 +76,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     public function __construct(string $model)
     {
         if (!is_a($model, Model::class, true)) {
-            throw new InternalServerErrorException(
+            throw new ConfigurationException(
                 'not_eloquent_model',
                 'An eloquent model class name must be provided'
             );
@@ -82,10 +84,11 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $this->model = $model;
 
-        $name = $this->getSetName($model);
-        $type = new EntityType(EloquentEntitySet::getTypeName($model));
+        $name = self::convertClassName($model);
+        $type = new EntityType(EntityType::convertClassName($model));
 
         parent::__construct($name, $type);
+        $this->addAnnotation(new DeepInsertSupport());
     }
 
     /**
@@ -97,26 +100,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $this->model = $model;
         return $this;
-    }
-
-    /**
-     * Get the OData entity type name for this Eloquent model
-     * @param  string  $model  Eloquent model class name
-     * @return string OData identifier
-     */
-    public static function getTypeName(string $model): string
-    {
-        return Str::studly(class_basename($model));
-    }
-
-    /**
-     * Get the OData entity set name for this Eloquent model
-     * @param  string  $model  Eloquent model class name
-     * @return string OData identifier
-     */
-    public function getSetName(string $model): string
-    {
-        return Str::pluralStudly(class_basename($model));
     }
 
     /**
@@ -329,10 +312,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             /** @var Relation $r */
             $r = $model->$method();
-            $esn = $this->getSetName(get_class($r->getRelated()));
+            $esn = self::convertClassName(get_class($r->getRelated()));
             $right = Lodata::getEntitySet($esn);
             if (!$right) {
-                throw new InternalServerErrorException('no_related_set', 'Could not find the related entity set '.$esn);
+                $right = (new Discovery)->discoverEloquentModel(get_class($r->getRelated()));
             }
 
             $nav = (new NavigationProperty($method, $right->getType()))
@@ -343,7 +326,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $foreignProperty = $right->getType()->getProperty($r->getForeignKeyName());
 
                 if (!$localProperty || !$foreignProperty) {
-                    throw new InternalServerErrorException(
+                    throw new ConfigurationException(
                         'missing_properties',
                         'The properties referenced for the relationship could not be found on the models'
                     );
@@ -362,27 +345,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $this->getType()->addProperty($nav);
             $this->addNavigationBinding($binding);
         } catch (ReflectionException $e) {
-            throw new InternalServerErrorException(
+            throw new ConfigurationException(
                 'cannot_add_constraint',
                 'The constraint method did not exist on the model: '.get_class($model)
             );
         }
 
         return $this;
-    }
-
-    /**
-     * Create an entity set from the provided Eloquent model class and add it to the model
-     * @param  string  $class  Eloquent model class
-     * @return static
-     */
-    public static function discover(string $class): self
-    {
-        $set = new self($class);
-        Lodata::add($set);
-        $set->discoverProperties();
-
-        return $set;
     }
 
     public function startTransaction()

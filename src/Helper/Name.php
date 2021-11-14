@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Helper;
 
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Expression\Lexer;
 
 /**
@@ -22,7 +22,7 @@ final class Name
     public function __construct(string $name)
     {
         if (!Lexer::patternCheck(Lexer::identifier, $name)) {
-            throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$name);
+            throw new ConfigurationException('invalid_name', 'The provided name was invalid: '.$name);
         }
 
         $this->name = $name;

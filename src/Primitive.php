@@ -14,19 +14,20 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
-use Illuminate\Support\Str;
+use Flat3\Lodata\Traits\HasIdentifier;
 
 /**
  * Primitive
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530338
  * @package Flat3\Lodata
  */
-abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ArgumentInterface, ResponseInterface, JsonInterface, PipeInterface, ETagInterface
+abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ResponseInterface, JsonInterface, PipeInterface, ETagInterface
 {
+    use HasIdentifier;
+
     /**
      * The OData name of this primitive type
      * @type string identifier
@@ -155,38 +156,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Get the name of this primitive type
-     * @return string Name
-     */
-    public function getName(): string
-    {
-        return Str::afterLast($this->getIdentifier(), '.');
-    }
-
-    /**
-     * Get the namespace of this primitive type
-     * @return string Namespace
-     */
-    public function getNamespace(): string
-    {
-        return Str::beforeLast($this->getIdentifier(), '.');
-    }
-
-    /**
-     * Get the resolved name of this primitive type
-     * @param  string  $namespace  Namespace
-     * @return string Name
-     */
-    public function getResolvedName(string $namespace): string
-    {
-        if ($this->getNamespace() === $namespace) {
-            return $this->getName();
-        }
-
-        return $this->getIdentifier();
-    }
-
-    /**
      * Get the resource URL of this primitive type
      * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL
@@ -200,9 +169,9 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * Get the fully qualified identifier of this primitive type
      * @return string Identifier
      */
-    public function getIdentifier(): string
+    public function getIdentifier(): Identifier
     {
-        return (string) new Identifier($this::identifier);
+        return new Identifier($this::identifier);
     }
 
     /**
@@ -270,7 +239,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->value;
     }

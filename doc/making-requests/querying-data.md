@@ -5,7 +5,7 @@ scenarios for these query options.
 
 ## $filter
 
-The $filter system query option allows clients to filter a collection of resources that are addressed by a request URL.
+The `$filter` system query option allows clients to filter a collection of resources that are addressed by a request URL.
 The expression specified with `$filter` is evaluated for each resource in the collection, and only items where the
 expression evaluates to true are included in the response.
 
@@ -45,7 +45,7 @@ GET http://localhost:8000/odata/People?$filter=FirstName eq 'Scott'
 
 ## $orderby
 
-The $orderby system query option allows clients to request resources in either ascending order using asc or descending
+The `$orderby` system query option allows clients to request resources in either ascending order using asc or descending
 order using desc. If asc or desc not specified, then the resources will be ordered in ascending order. The request
 below orders People on property LastName in descending order.
 
@@ -87,8 +87,8 @@ GET http://localhost:8000/odata/People?$orderby=LastName
 
 ## $top and $skip
 
-The $top system query option requests the number of items in the queried collection to be included in the result.
-The $skip query option requests the number of items in the queried collection that are to be skipped and not included
+The `$top` system query option requests the number of items in the queried collection to be included in the result.
+The `$skip` query option requests the number of items in the queried collection that are to be skipped and not included
 in the result.
 The request below returns the first two people of the People entity set.
 
@@ -157,7 +157,7 @@ GET http://localhost:8000/odata/People?$skip=1
 
 ## $count
 
-The $count system query option allows clients to request a count of the matching resources included with the
+The `$count` system query option allows clients to request a count of the matching resources included with the
 resources in the response.
 The request below returns the total number of people in the collection.
 
@@ -200,7 +200,7 @@ GET http://localhost:8000/odata/People?$count=true
 
 ## $expand
 
-The $expand system query option specifies the related resources to be included in line with retrieved resources.
+The `$expand` system query option specifies the related resources to be included in line with retrieved resources.
 The request below returns people with navigation property Passengers of a Flight
 
 <code-group>
@@ -275,7 +275,7 @@ GET http://localhost:8000/odata/flights?$expand=passengers
 
 ## $select
 
-The $select system query option allows the clients to requests a limited set of properties for each entity or
+The `$select` system query option allows the clients to requests a limited set of properties for each entity or
 complex type. The request below returns origin and destination of all flights:
 
 <code-group>
@@ -310,7 +310,7 @@ GET http://localhost:8000/odata/flights?$select=origin,destination
 
 ## $search
 
-The $search system query option restricts the result to include only those entities matching the specified search
+The `$search` system query option restricts the result to include only those entities matching the specified search
 expression. The definition of what it means to match is dependent upon the implementation. The request below gets all
 airports that have 'fo' or 'lh' in their code.
 
@@ -337,6 +337,36 @@ GET http://localhost:8000/odata/flights?$search=fo OR lh
             "code": "sfo",
         }
     ]
+}
+```
+</code-block>
+</code-group>
+
+## $index
+
+The value of the `$index` system query option is the zero-based ordinal position where an
+item is to be inserted. This option is supported on entity sets that can be numerically indexed.
+
+The ordinal positions of items within the collection greater than or equal to the inserted
+position are increased by one. A negative ordinal number indexes from the end of the collection, with -1 representing
+an insert as the last item in the collection.
+
+<code-group>
+<code-block title="Request">
+```uri
+POST http://localhost:8000/odata/examples?$index=1
+{
+  "name": "Zeta"
+}
+```
+</code-block>
+
+<code-block title="Response">
+```json
+{
+    "@context": "http://localhost/odata/$metadata#examples/$entity",
+    "name": "Zeta",
+    "id": 1
 }
 ```
 </code-block>

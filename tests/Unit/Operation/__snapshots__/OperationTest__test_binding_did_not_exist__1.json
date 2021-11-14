@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "missing_callable_binding_parameter",
+        "message": "The provided callable did not have a argument named texts",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

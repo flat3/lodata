@@ -24,7 +24,7 @@ class CastingTest extends TestCase
             'id' => '5',
         ]))->save();
 
-        Lodata::discoverEloquentModel(Cast::class);
+        Lodata::discover(Cast::class);
     }
 
     public function testPrimaryKeyCast()

@@ -142,7 +142,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
      * @param  mixed  $offset  Property name
      * @param  mixed  $value  Property value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         parent::offsetSet($offset, $value);
 

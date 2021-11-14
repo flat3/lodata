@@ -87,7 +87,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * @return bool
      * @codeCoverageIgnore
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->members->exists($offset);
     }
@@ -107,7 +107,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * @param  mixed  $offset  Member name
      * @param  mixed  $member  Member value
      */
-    public function offsetSet($offset, $member)
+    public function offsetSet($offset, $member): void
     {
         if (!is_object($offset) || !$this->underlyingType->is(get_class($offset))) {
             $offset = $this->underlyingType->instance($offset ?: count($this->members) + 1);
@@ -125,7 +125,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * @param  mixed  $offset  Member name
      * @codeCoverageIgnore
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->members->drop($offset);
     }

@@ -1,5 +1,5 @@
 airports:
-    - { id: '1', name: Eloquent, code: efo, construction_date: null, sam_datetime: null, open_time: null, review_score: null, is_big: null, country_id: null }
+    - { id: 1, name: Eloquent, code: efo, construction_date: null, sam_datetime: null, open_time: null, review_score: null, is_big: null, country_id: null }
 countries: {  }
 flights: {  }
 passengers: {  }

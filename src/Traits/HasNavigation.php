@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Traits;
 
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\NavigationBinding;
@@ -109,7 +109,7 @@ trait HasNavigation
         /** @var PropertyValue $keyPropertyValue */
         $keyPropertyValue = $sourceEntity->getPropertyValues()->get($targetConstraint->getProperty());
         if ($keyPropertyValue->getPrimitiveValue() === null) {
-            throw new InternalServerErrorException('missing_expansion_key', 'The target constraint key is null');
+            throw new ConfigurationException('missing_expansion_key', 'The target constraint key is null');
         }
 
         $referencedProperty = $targetConstraint->getReferencedProperty();

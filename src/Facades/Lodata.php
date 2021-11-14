@@ -16,8 +16,6 @@ use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\References;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\Operation\ActionInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Model;
@@ -39,8 +37,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static ResourceInterface getResource(Identifier|string $name) Get a resource from the model
  * @method static EntitySet getEntitySet(Identifier|string $name) Get an entity set from the model
  * @method static Operation getOperation(Identifier|string $name) Get an operation from the model
- * @method static FunctionInterface getFunction(Identifier|string $name) Get a function from the model
- * @method static ActionInterface getAction(Identifier|string $name) Get an action from the model
+ * @method static Operation getFunction(Identifier|string $name) Get a function from the model
+ * @method static Operation getAction(Identifier|string $name) Get an action from the model
  * @method static PrimitiveType getTypeDefinition(Identifier|string $name) Get a type definition from the model
  * @method static EntityType getEntityType(Identifier|string $name) Get an entity type from the model
  * @method static ComplexType getComplexType(Identifier|string $name) Get a complex type from the model
@@ -49,6 +47,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Model drop(Identifier|string $key) Drop a named resource or type from the model
  * @method static string getNamespace() Get the namespace of this model
  * @method static EloquentEntitySet discoverEloquentModel(string $class) Discover the Eloquent model provided as a class name
+ * @method static Model discover($discoverable) Discover sets and operations on the provided class name or object instance
  * @method static string getEndpoint() Get the REST endpoint of this model
  * @method static string getOdcUrl(Identifier|string $set) Get the Office Data Connection URL of the provided entity set
  * @method static string getPbidsUrl() Get the PowerBI discovery URL of this service

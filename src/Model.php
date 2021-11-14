@@ -8,12 +8,11 @@ use Flat3\Lodata\Annotation\Capabilities;
 use Flat3\Lodata\Annotation\Core;
 use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
+use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\References;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\Operation\ActionInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
@@ -139,23 +138,25 @@ class Model implements AnnotationInterface
     /**
      * Get a function from the model
      * @param  string  $name  Function name
-     * @return FunctionInterface|null Function
+     * @return Operation|null Function
      */
-    public function getFunction(string $name): ?FunctionInterface
+    public function getFunction(string $name): ?Operation
     {
+        /** @var Operation $resource */
         $resource = $this->getResource($name);
-        return $resource instanceof FunctionInterface ? $resource : null;
+        return $resource && $resource->isFunction() ? $resource : null;
     }
 
     /**
      * Get an action from the model
      * @param  string  $name  Action name
-     * @return ActionInterface|null Action
+     * @return Operation|null Action
      */
-    public function getAction(string $name): ?ActionInterface
+    public function getAction(string $name): ?Operation
     {
+        /** @var Operation $resource */
         $resource = $this->getResource($name);
-        return $resource instanceof ActionInterface ? $resource : null;
+        return $resource && $resource->isAction() ? $resource : null;
     }
 
     /**
@@ -278,12 +279,24 @@ class Model implements AnnotationInterface
 
     /**
      * Discover the Eloquent model provided as a class name
-     * @param  string  $class  Eloquent model class name
+     * @param  string  $model  Eloquent model class name
      * @return EloquentEntitySet Eloquent entity set
      */
-    public function discoverEloquentModel(string $class): EloquentEntitySet
+    public function discoverEloquentModel(string $model): EloquentEntitySet
     {
-        return EloquentEntitySet::discover($class);
+        return (new Discovery)->discoverEloquentModel($model);
+    }
+
+    /**
+     * Perform discovery on the provided class name or instance
+     * @param  string|object  $discoverable
+     * @return $this
+     */
+    public function discover($discoverable): self
+    {
+        (new Discovery)->discover($discoverable);
+
+        return $this;
     }
 
     /**

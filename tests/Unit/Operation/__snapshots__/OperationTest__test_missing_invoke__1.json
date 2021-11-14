@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "missing_callable",
+        "message": "The operation has no callable",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

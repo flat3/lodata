@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#Edm.Int64",
+    "value": 3
+}

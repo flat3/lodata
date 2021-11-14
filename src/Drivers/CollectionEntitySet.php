@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\Annotation\Core\V1\PositionalInsert;
 use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Entity;
+use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Type\Numeric;
 use Illuminate\Support\Collection;
 
 /**
@@ -42,6 +45,15 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     }
 
     /**
+     * Return whether this collection is numerically indexed
+     * @return bool
+     */
+    public function isNumericallyIndexed(): bool
+    {
+        return $this->getType()->getKey()->getType()->instance() instanceof Numeric;
+    }
+
+    /**
      * Create a new entity
      * @param  PropertyValues  $propertyValues  Property values
      * @return Entity
@@ -55,13 +67,25 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         }
 
         $entityId = $entity->getEntityId();
+        $index = $this->getIndex();
 
-        if ($entityId) {
-            $key = $entityId->getPrimitiveValue();
-            $this->enumerable[$key] = $entity->toArray();
-        } else {
-            $this->enumerable[] = $entity->toArray();
-            $entity->setEntityId($this->enumerable->count() - 1);
+        $item = $entity->toArray();
+
+        switch (true) {
+            case !!$entityId:
+                $key = $entityId->getPrimitiveValue();
+                $this->enumerable[$key] = $item;
+                break;
+
+            case $index->hasValue() && $this->isNumericallyIndexed():
+                $this->enumerable->splice($index->getValue(), 0, [$item]);
+                $entity->setEntityId($index->getValue());
+                break;
+
+            default:
+                $this->enumerable[] = $item;
+                $entity->setEntityId($this->enumerable->count() - 1);
+                break;
         }
 
         return $entity;
@@ -108,5 +132,16 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         $this->enumerable[$key->getPrimitiveValue()] = $item;
 
         return $this->read($key);
+    }
+
+    public function getAnnotations(): Annotations
+    {
+        $annotations = parent::getAnnotations();
+
+        if ($this->isNumericallyIndexed()) {
+            $annotations->set(new PositionalInsert());
+        }
+
+        return $annotations;
     }
 }

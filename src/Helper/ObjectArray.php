@@ -6,7 +6,6 @@ namespace Flat3\Lodata\Helper;
 
 use ArrayAccess;
 use Countable;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Illuminate\Support\Arr;
 use Iterator;
@@ -41,22 +40,32 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         $map = new self();
 
         foreach ($map_a as $a) {
-            $map->replace($a);
+            $map->set($a);
         }
 
         foreach ($map_b as $b) {
-            $map->replace($b);
+            $map->set($b);
         }
 
         return $map;
     }
 
     /**
+     * Alias for set
+     * @param  mixed  $key
+     * @param  mixed|null  $value
+     */
+    public function add($key, $value = null): void
+    {
+        $this->set($key, $value);
+    }
+
+    /**
      * Replace a value in the array
      * @param  mixed  $key
-     * @param  null  $value
+     * @param  mixed|null  $value
      */
-    public function replace($key, $value = null): void
+    public function set($key, $value = null): void
     {
         if (!$key) {
             $key = $value;
@@ -80,27 +89,10 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     }
 
     /**
-     * Add a value to the array
-     * @param  mixed  $key
-     * @param  null  $value
-     */
-    public function add($key, $value = null): void
-    {
-        if ($this->exists($key)) {
-            throw new InternalServerErrorException(
-                'cannot_add_existing_key',
-                'Attempted to add an item that already exists'
-            );
-        }
-
-        $this->replace($key, $value);
-    }
-
-    /**
      * Count values in the array
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->array);
     }
@@ -128,9 +120,9 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * Move to the next value in the array
      * @return mixed|void
      */
-    public function next()
+    public function next(): void
     {
-        return next($this->array);
+        next($this->array);
     }
 
     /**
@@ -146,7 +138,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * Check if the current value in the array is valid
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         $key = key($this->array);
 
@@ -156,7 +148,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     /**
      * Rewind the array
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->array);
     }
@@ -166,7 +158,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return !!$this->get($offset);
     }
@@ -213,16 +205,16 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $offset
      * @param  mixed  $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        $this->replace($offset, $value);
+        $this->set($offset, $value);
     }
 
     /**
      * Unset an object in the array
      * @param  mixed  $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->drop($offset);
     }

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Platforms\SQLServer2012Platform;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
@@ -94,6 +94,6 @@ trait SQLConnection
                 return (new MySQLPlatform())->quoteSingleIdentifier($param);
         }
 
-        throw new InternalServerErrorException('invalid_driver', 'An invalid driver was used');
+        throw new ConfigurationException('invalid_driver', 'An invalid driver was used');
     }
 }

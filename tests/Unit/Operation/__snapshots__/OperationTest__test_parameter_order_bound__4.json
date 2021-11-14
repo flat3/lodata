@@ -12,69 +12,6 @@
     ],
     "tags": [],
     "paths": {
-        "/f1": {
-            "get": {
-                "tags": [
-                    "Service Operations",
-                    "f1",
-                    "b",
-                    "a"
-                ],
-                "parameters": [
-                    {
-                        "required": false,
-                        "in": "query",
-                        "name": "b",
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "number",
-                                    "format": "decimal"
-                                },
-                                {
-                                    "enum": [
-                                        "-INF",
-                                        "INF",
-                                        "NaN"
-                                    ]
-                                }
-                            ],
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "required": false,
-                        "in": "query",
-                        "name": "a",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "minimum": -2147483648,
-                            "maximum": 2147483647,
-                            "nullable": true
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Edm.Int32"
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "Success"
-                    },
-                    "4XX": {
-                        "$ref": "#/components/responses/error"
-                    }
-                }
-            }
-        },
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",

@@ -13,7 +13,6 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
@@ -23,7 +22,7 @@ use Flat3\Lodata\Type\Untyped;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 
-class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInterface, ReferenceInterface
+class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceInterface
 {
     use UseReferences;
     use HasTransaction;
@@ -108,7 +107,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
      * @param  mixed  $offset  Property name
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->propertyValues->exists($offset);
     }
@@ -160,7 +159,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
      * @param  mixed  $offset  Property name
      * @param  mixed  $value  Property value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (Str::startsWith($offset, '@')) {
             return;
@@ -168,7 +167,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
         $property = $this->getType()->getProperty($offset);
         if ($property === null) {
-            $property = new DynamicProperty($offset, Type::castInternalType(gettype($value)));
+            $property = new DynamicProperty($offset, Type::fromInternalValue($value));
         }
 
         $propertyType = $property->getType();
@@ -213,7 +212,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
      * Remove a property value from this complex value
      * @param  mixed  $offset  Property name
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->propertyValues->drop($offset);
     }

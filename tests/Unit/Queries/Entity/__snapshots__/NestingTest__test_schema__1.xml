@@ -64,6 +64,7 @@
               <PropertyValue Property="Supported" Bool="true"/>
             </Record>
           </Annotation>
+          <Annotation Term="Org.OData.Core.V1.PositionalInsert" Bool="true"/>
         </EntitySet>
       </EntityContainer>
       <ComplexType Name="ctype">

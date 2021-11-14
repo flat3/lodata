@@ -30,7 +30,7 @@ class ODCFF extends Controller
     public function get(string $identifier): Response
     {
         $response = new Response();
-        $response->header('content-type', self::contentType);
+        $response->header(Constants::contentType, self::contentType);
 
         $htmlDoc = new DOMDocument();
 

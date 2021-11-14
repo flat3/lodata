@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -47,7 +47,7 @@ class NavigationProperty extends Property
     public function __construct($name, EntityType $entityType)
     {
         if (!$entityType->hasKey()) {
-            throw new InternalServerErrorException(
+            throw new ConfigurationException(
                 'missing_entity_type_key',
                 'The specified entity type must have a key defined'
             );

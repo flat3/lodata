@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Models;
 
+use Flat3\Lodata\Attributes\LodataRelationship;
 use Illuminate\Database\Eloquent\Model;
 
 class Passenger extends Model
@@ -24,6 +25,7 @@ class Passenger extends Model
         return $this->hasOneThrough(Airport::class, Flight::class, 'id', 'code', 'flight_id', 'destination');
     }
 
+    #[LodataRelationship]
     public function pets()
     {
         return $this->hasMany(Pet::class);

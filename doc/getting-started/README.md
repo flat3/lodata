@@ -32,7 +32,7 @@ As we're just starting out we'll use the existing service provider at `app/Provi
 Open this file and add the following to the `boot()` method.
 
 ```php
-\Lodata::discoverEloquentModel(\App\Models\User::class)
+\Lodata::discover(\App\Models\User::class)
 ```
 
 You can now access [`http://127.0.0.1:8000/odata/Users`](http://127.0.0.1:8000/odata/Users) and see the users in your database.

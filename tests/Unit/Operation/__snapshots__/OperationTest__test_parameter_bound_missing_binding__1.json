@@ -1,7 +1,7 @@
 {
     "error": {
         "code": "missing_bound_argument",
-        "message": "This operation is bound, but no bound argument was provided",
+        "message": "This operation is bound, but no argument was provided",
         "target": null,
         "details": [],
         "innererror": {}

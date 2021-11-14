@@ -6,7 +6,6 @@ namespace Flat3\Lodata\Tests\Unit\Protocol;
 
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -130,12 +129,12 @@ class ContextResourceTest extends TestCase
 
     public function test_operation_result()
     {
-        Lodata::add((new class('textf1') extends Operation implements FunctionInterface {
-            public function invoke(EntitySet $texts): EntitySet
-            {
-                return $texts;
-            }
-        })->setReturnType(Lodata::getEntityType('text')));
+        $textf1 = new Operation\Function_('textf1');
+        $textf1->setCallable(function (EntitySet $texts): EntitySet {
+            return $texts;
+        });
+        $textf1->setReturnType(Lodata::getEntityType('text'));
+        Lodata::add($textf1);
 
         $this->assertJsonResponse(
             (new Request)

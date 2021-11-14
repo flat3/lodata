@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Primitive;
 
@@ -70,14 +71,13 @@ class Enum extends Primitive
             $member = $this->type[$value];
 
             if ($member) {
-                $this->value->add($member);
+                $this->value->set($member);
                 continue;
             }
 
             foreach ($this->type->getMembers() as $member) {
                 if ($member->getValue()->get() === $value) {
-                    $this->value->add($member);
-                    continue;
+                    $this->value->set($member);
                 }
             }
 
@@ -104,7 +104,7 @@ class Enum extends Primitive
         return $this;
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): Identifier
     {
         return $this->type->getIdentifier();
     }

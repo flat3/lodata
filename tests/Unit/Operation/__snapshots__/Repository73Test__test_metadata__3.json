@@ -1,0 +1,166 @@
+{
+    "$Version": "4.01",
+    "$EntityContainer": "com.example.odata.DefaultContainer",
+    "$Reference": {
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Core.V1"
+                }
+            ]
+        },
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Capabilities.V1"
+                }
+            ]
+        }
+    },
+    "com.example.odata": {
+        "$Kind": "EntityContainer",
+        "Airports": {
+            "$EntityType": "com.example.odata.Airport",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "$Annotations": {
+            "com.example.odata.DefaultContainer": {
+                "@Org.OData.Core.V1.ConventionalIDs": true,
+                "@Org.OData.Core.V1.DefaultNamespace": true,
+                "@Org.OData.Core.V1.DereferencableIDs": true,
+                "@Org.OData.Core.V1.ODataVersions": "4.01",
+                "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.CallbackSupported": {
+                    "CallbackProtocols": [
+                        {
+                            "Id": "http"
+                        }
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
+                "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
+                "@Org.OData.Capabilities.V1.SupportedFormats": [
+                    "application/json;metadata=full;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=minimal;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=none;IEEE754Compatible=true;streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
+                ]
+            }
+        }
+    },
+    "Airport": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "code": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "construction_date": {
+            "$Type": "Edm.Date",
+            "$Nullable": true
+        },
+        "sam_datetime": {
+            "$Type": "Edm.DateTimeOffset",
+            "$Nullable": true
+        },
+        "open_time": {
+            "$Type": "Edm.TimeOfDay",
+            "$Nullable": true
+        },
+        "review_score": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true
+        },
+        "is_big": {
+            "$Type": "Edm.Boolean",
+            "$Nullable": true
+        },
+        "country_id": {
+            "$Type": "Edm.Int32",
+            "$Nullable": true
+        }
+    },
+    "code": {
+        "$Kind": "Function",
+        "$IsBound": true,
+        "$Parameter": [
+            {
+                "$Name": "airport",
+                "$Nullable": false,
+                "$Type": "com.example.odata.Airport"
+            },
+            {
+                "$Name": "suffix",
+                "$Nullable": true,
+                "$Type": "Edm.String"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    }
+}

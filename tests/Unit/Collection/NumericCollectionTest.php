@@ -41,6 +41,11 @@ class NumericCollectionTest extends TestCase
         Lodata::add($entitySet);
     }
 
+    public function test_metadata()
+    {
+        $this->assertMetadataDocuments();
+    }
+
     public function test_count()
     {
         $this->assertTextResponse(
@@ -86,6 +91,29 @@ class NumericCollectionTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/examples/3')
+        );
+    }
+
+    public function test_create_positional()
+    {
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->post()
+                ->path('/examples')
+                ->query('$index', 1)
+                ->body([
+                    'name' => 'Zeta',
+                ])
+        );
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/examples')
+        );
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/examples/1')
         );
     }
 

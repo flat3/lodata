@@ -27,7 +27,6 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
@@ -47,6 +46,7 @@ use Flat3\Lodata\Transaction\Option\Expand;
 use Flat3\Lodata\Transaction\Option\Filter;
 use Flat3\Lodata\Transaction\Option\Format;
 use Flat3\Lodata\Transaction\Option\Id;
+use Flat3\Lodata\Transaction\Option\Index;
 use Flat3\Lodata\Transaction\Option\OrderBy;
 use Flat3\Lodata\Transaction\Option\SchemaVersion;
 use Flat3\Lodata\Transaction\Option\Search;
@@ -67,7 +67,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  * Transaction
  * @package Flat3\Lodata
  */
-class Transaction implements ArgumentInterface
+class Transaction
 {
     /**
      * Transaction ID
@@ -178,6 +178,12 @@ class Transaction implements ArgumentInterface
     private $idOption;
 
     /**
+     * Index system query option
+     * @var Index $index
+     */
+    private $index;
+
+    /**
      * Schema version system query option
      * @var SchemaVersion $schemaVersion
      */
@@ -234,6 +240,7 @@ class Transaction implements ArgumentInterface
         $this->skiptoken = new SkipToken();
         $this->top = new Top();
         $this->idOption = new Id();
+        $this->index = new Index();
     }
 
     /**
@@ -252,7 +259,7 @@ class Transaction implements ArgumentInterface
         );
 
         $this->preferences = new ParameterList();
-        $this->preferences->parse($this->getRequestHeader('prefer'));
+        $this->preferences->parse($this->getRequestHeader(Constants::prefer));
 
         foreach ($this->request->query->keys() as $param) {
             if (Str::startsWith($param, '$') && !in_array($param, $this->getSystemQueryOptions())) {
@@ -307,6 +314,7 @@ class Transaction implements ArgumentInterface
         $this->skiptoken = (new SkipToken)->setTransaction($this);
         $this->top = (new Top)->setTransaction($this);
         $this->idOption = (new Id)->setTransaction($this);
+        $this->index = (new Index)->setTransaction($this);
 
         return $this;
     }
@@ -492,6 +500,15 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Get the $index system query option
+     * @return Index Index
+     */
+    public function getIndex(): Index
+    {
+        return $this->index;
+    }
+
+    /**
      * Mark as requested preference as having been applied to the response object
      * @param  string  $key  Preference
      * @param  string  $value  Value
@@ -499,8 +516,8 @@ class Transaction implements ArgumentInterface
      */
     public function preferenceApplied(string $key, string $value): self
     {
-        $this->response->headers->set('preference-applied', sprintf('%s=%s', $key, $value));
-        $this->response->headers->set('vary', 'prefer', true);
+        $this->response->headers->set(Constants::preferenceApplied, sprintf('%s=%s', $key, $value));
+        $this->response->headers->set(Constants::vary, Constants::prefer, true);
 
         return $this;
     }
@@ -552,7 +569,7 @@ class Transaction implements ArgumentInterface
      */
     public function getCharset(): ?string
     {
-        return $this->getRequestHeader('accept-charset') ?: (new MediaType)->parse($this->getResponseHeader('content-type'))->getParameter('charset');
+        return $this->getRequestHeader('accept-charset') ?: (new MediaType)->parse($this->getResponseHeader(Constants::contentType))->getParameter('charset');
     }
 
     /**
@@ -561,7 +578,7 @@ class Transaction implements ArgumentInterface
      */
     public function getProvidedContentType(): MediaType
     {
-        return (new MediaType)->parse($this->getRequestHeader('content-type') ?? '');
+        return (new MediaType)->parse($this->getRequestHeader(Constants::contentType) ?? '');
     }
 
     /**
@@ -621,13 +638,31 @@ class Transaction implements ArgumentInterface
     }
 
     /**
+     * Get the content encoding requested by the client
+     * @return string Content encoding
+     */
+    public function getContentEncoding(): string
+    {
+        return $this->getRequestHeader(Constants::contentEncoding);
+    }
+
+    /**
+     * Get the content language requested by the client
+     * @return string Content language
+     */
+    public function getContentLanguage(): string
+    {
+        return $this->getRequestHeader(Constants::contentLanguage);
+    }
+
+    /**
      * Set the content encoding response header
      * @param  string  $encoding  Encoding
      * @return $this
      */
     public function setContentEncoding(string $encoding): self
     {
-        $this->sendHeader('content-encoding', $encoding);
+        $this->sendHeader(Constants::contentEncoding, $encoding);
 
         return $this;
     }
@@ -639,7 +674,7 @@ class Transaction implements ArgumentInterface
      */
     public function setContentLanguage(string $language): self
     {
-        $this->sendHeader('content-language', $language);
+        $this->sendHeader(Constants::contentLanguage, $language);
 
         return $this;
     }
@@ -660,7 +695,7 @@ class Transaction implements ArgumentInterface
      */
     public function sendContentType(MediaType $contentType): self
     {
-        $this->sendHeader('content-type', (string) $contentType);
+        $this->sendHeader(Constants::contentType, (string) $contentType);
 
         return $this;
     }
@@ -737,7 +772,7 @@ class Transaction implements ArgumentInterface
         if (null === $value) {
             throw new BadRequestException(
                 'reference_value_missing',
-                sprintf('The requested reference value %s did not exist', $key)
+                sprintf('The requested reference (%s) did not exist', $key)
             );
         }
 
@@ -849,7 +884,7 @@ class Transaction implements ArgumentInterface
     {
         $options = [
             'apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip',
-            'skiptoken', 'top', 'schemaversion', 'id',
+            'skiptoken', 'top', 'schemaversion', 'id', 'index',
         ];
 
         if ($prefixed) {

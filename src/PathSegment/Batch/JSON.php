@@ -10,6 +10,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -89,8 +90,8 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
 
             $headers = array_change_key_case($requestData['headers'] ?? [], CASE_LOWER);
 
-            if (!array_key_exists('content-type', $headers)) {
-                $headers['content-type'] = MediaType::json;
+            if (!array_key_exists(Constants::contentType, $headers)) {
+                $headers[Constants::contentType] = MediaType::json;
             }
 
             $request->headers->replace($headers);

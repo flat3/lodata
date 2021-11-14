@@ -55,7 +55,8 @@
             "@Org.OData.Capabilities.V1.IndexableByKey": true,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
-            }
+            },
+            "@Org.OData.Core.V1.PositionalInsert": true
         },
         "$Annotations": {
             "com.example.odata.DefaultContainer": {

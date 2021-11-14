@@ -121,6 +121,19 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     }
 
     /**
+     * Set an underlying database field name for the given entity type property
+     * @param  Property  $property  Property
+     * @param  string  $sourceName  Field name
+     * @return $this
+     */
+    public function setPropertySourceName(Property $property, string $sourceName): self
+    {
+        $this->sourceMap[$property] = $sourceName;
+
+        return $this;
+    }
+
+    /**
      * Read an SQL record
      * @param  PropertyValue  $key  Key
      * @return Entity|null Entity

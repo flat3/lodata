@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Interfaces;
 
+use Flat3\Lodata\Helper\Identifier;
+
 /**
  * Service Interface
  * @package Flat3\Lodata\Interfaces
@@ -18,9 +20,9 @@ interface ServiceInterface extends NameInterface
 
     /**
      * Get the fully qualified identifier of this service
-     * @return string
+     * @return Identifier
      */
-    public function getIdentifier(): string;
+    public function getIdentifier(): Identifier;
 
     /**
      * Get the title of this service

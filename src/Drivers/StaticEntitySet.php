@@ -41,7 +41,7 @@ class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess, 
         }
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->results);
     }
@@ -51,7 +51,7 @@ class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess, 
         return $this->results[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset) {
             $this->results[$offset] = $value;
@@ -60,7 +60,7 @@ class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess, 
         }
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset ($this->results[$offset]);
     }
