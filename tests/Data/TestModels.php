@@ -9,7 +9,6 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
@@ -316,19 +315,17 @@ trait TestModels
 
     public function withMathFunctions()
     {
-        Lodata::add(new class('add') extends Operation implements FunctionInterface {
-            public function invoke(Int32 $a, Int32 $b): Int32
-            {
-                return new Int32($a->get() + $b->get());
-            }
+        $add = new Operation\Function_('add');
+        $add->setCallable(function (Int32 $a, Int32 $b): Int32 {
+            return new Int32($a->get() + $b->get());
         });
+        Lodata::add($add);
 
-        Lodata::add(new class('div') extends Operation implements FunctionInterface {
-            public function invoke(Int32 $a, Int32 $b): Decimal
-            {
-                return new Decimal($a->get() / $b->get());
-            }
+        $div = new Operation\Function_('div');
+        $div->setCallable(function (Int32 $a, Int32 $b): Decimal {
+            return new Decimal($a->get() / $b->get());
         });
+        Lodata::add($div);
     }
 
     public function withTextModel()

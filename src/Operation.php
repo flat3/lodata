@@ -18,8 +18,6 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
-use Flat3\Lodata\Interfaces\Operation\ActionInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
@@ -28,14 +26,16 @@ use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Operation\TransactionArgument;
-use Flat3\Lodata\Operation\TypeArgument;
+use Flat3\Lodata\Operation\ValueArgument;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use ReflectionException;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use ReflectionFunction;
+use ReflectionFunctionAbstract;
 use ReflectionMethod;
 use ReflectionNamedType;
 use TypeError;
@@ -45,12 +45,15 @@ use TypeError;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530382
  * @package Flat3\Lodata
  */
-abstract class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface, AnnotationInterface
+class Operation implements ServiceInterface, ResourceInterface, IdentifierInterface, PipeInterface, AnnotationInterface
 {
     use HasIdentifier;
     use HasTitle;
     use HasTransaction;
     use HasAnnotations;
+
+    /** @var callable $callable */
+    protected $callable;
 
     /**
      * The name of the binding parameter used in the invocation function
@@ -59,160 +62,120 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     protected $bindingParameterName;
 
     /**
-     * The instance of the bound parameter provided to the instance of the operation
-     * @var ?PipeInterface $boundParameter
-     */
-    protected $boundParameter;
-
-    /**
-     * The URL inline parameters being provided to this operation
-     * @var array $inlineParameters
-     */
-    protected $inlineParameters = [];
-
-    /**
      * The OData return type from this operation
      * @var Type $returnType
      */
     protected $returnType;
 
+    /**
+     * The OData kind of this operation
+     * @var string Kind
+     */
+    protected $kind = self::function;
+
+    /**
+     * OData operation types
+     */
+    const function = 'Function';
+    const action = 'Action';
+
+    /**
+     * The instance of the bound parameter provided to this operation instance
+     * @var ?PipeInterface $boundParameter
+     */
+    private $boundParameter;
+
+    /**
+     * The parameters provided by the client for this operation instance
+     * @var string $clientParameters
+     */
+    private $clientParameters = null;
+
     public function __construct($identifier)
     {
-        if (!$this instanceof FunctionInterface && !$this instanceof ActionInterface) {
-            throw new InternalServerErrorException(
-                sprintf('An operation must implement either %s or %s', FunctionInterface::class, ActionInterface::class)
-            );
-        }
-
-        try {
-            new ReflectionMethod($this, 'invoke');
-        } catch (ReflectionException $e) {
-            throw new InternalServerErrorException('An operation must implement the invoke method');
-        }
-
         $this->setIdentifier($identifier);
     }
 
     /**
-     * Get the OData return type of this operation
-     * @return Type|null Return type
+     * Get the OData kind of this operation
+     * @return string Kind
      */
-    public function getReturnType(): ?Type
+    public function getKind(): string
     {
-        if ($this->returnType) {
-            return $this->returnType;
-        }
-
-        $rrt = $this->getReflectedReturnType();
-
-        if (is_a($rrt, Primitive::class, true)) {
-            return new PrimitiveType($this->getReflectedReturnType());
-        }
-
-        try {
-            return Type::castInternalType($rrt);
-        } catch (TypeError $e) {
-        }
-
-        return null;
+        return $this->kind;
     }
 
     /**
-     * Get the OData return type of this operation, based on reflection of the invocation method
-     * @return string Return type
-     */
-    public function getReflectedReturnType(): string
-    {
-        try {
-            $rfc = new ReflectionMethod($this, 'invoke');
-
-            /** @var ReflectionNamedType $rt */
-            $rt = $rfc->getReturnType();
-
-            if ('void' === $rt && $this instanceof FunctionInterface) {
-                throw new InternalServerErrorException('missing_return_type', 'Functions must have a return type');
-            }
-
-            if (null === $rt) {
-                return 'void';
-            }
-
-            return $rt->getName();
-        } catch (ReflectionException $e) {
-        }
-
-        throw new InternalServerErrorException('invalid_return_type', 'Invalid return type');
-    }
-
-    /**
-     * Whether the result of this operation is a collection
-     * @return bool
-     */
-    public function returnsCollection(): bool
-    {
-        $returnType = $this->getReflectedReturnType();
-
-        switch (true) {
-            case $returnType === 'array':
-            case is_a($returnType, EntitySet::class, true);
-                return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Whether the result of this operation can be null
-     * @return bool
-     */
-    public function isNullable(): bool
-    {
-        try {
-            $rfn = new ReflectionMethod($this, 'invoke');
-            return !$rfn->hasReturnType() || $rfn->getReturnType()->allowsNull() || $rfn->getReturnType()->getName() === 'void';
-        } catch (ReflectionException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get the reflected arguments of the invocation of this operation
-     * @return Argument[]|Arguments Arguments
-     */
-    public function getArguments(): Arguments
-    {
-        try {
-            $rfn = new ReflectionMethod($this, 'invoke');
-            $args = new Arguments();
-
-            foreach ($rfn->getParameters() as $parameter) {
-                $args[] = Argument::factory($parameter);
-            }
-
-            return $args;
-        } catch (ReflectionException $e) {
-        }
-
-        throw new InternalServerErrorException('invalid_arguments', 'Invalid arguments');
-    }
-
-    /**
-     * Set the name of the invocation method parameter used to receive the binding parameter
-     * @param  string  $bindingParameterName  Binding parameter name
+     * Set the OData kind of this operation
+     * @param  string  $kind  Kind
      * @return $this
      */
-    public function setBindingParameterName(string $bindingParameterName): self
+    public function setKind(string $kind): self
     {
-        $arguments = $this->getArguments();
-
-        if (!$arguments->get($bindingParameterName)) {
+        if (!in_array($kind, [self::function, self::action])) {
             throw new InternalServerErrorException(
-                'cannot_find_binding_parameter',
-                'The requested binding parameter did not exist on the invoke method'
+                'invalid_operation_type',
+                'An operation must be type Function or Action'
             );
         }
 
-        $this->bindingParameterName = $bindingParameterName;
+        $this->kind = $kind;
+
+        return $this;
+    }
+
+    /**
+     * Return whether this operation is a function
+     * @return bool
+     */
+    public function isFunction(): bool
+    {
+        return $this->kind == self::function;
+    }
+
+    /**
+     * Return whether this operation as an action
+     * @return bool
+     */
+    public function isAction(): bool
+    {
+        return $this->kind === self::action;
+    }
+
+    /**
+     * Return the attached callable
+     * @return callable
+     */
+    public function getCallable()
+    {
+        $callable = $this->callable;
+
+        if (is_callable($callable)) {
+            return $callable;
+        }
+
+        if (is_array($callable)) {
+            list($instance, $method) = $callable;
+
+            if (is_string($instance) && class_exists($instance)) {
+                $instance = App::make($instance);
+            }
+
+            return [$instance, $method];
+        }
+
+        return $callable;
+    }
+
+    /**
+     * Set the operation callable
+     * @param  callable|array  $callable
+     * @return $this
+     */
+    public function setCallable($callable): self
+    {
+        $this->callable = $callable;
+
         return $this;
     }
 
@@ -226,11 +189,94 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
     }
 
     /**
-     * Set the bound parameter on an instance of this operation
-     * @param  PipeInterface|null  $parameter  Binding parameter
+     * Set the name of the invocation method parameter used to receive the binding parameter
+     * @param  string  $bindingParameterName  Binding parameter name
      * @return $this
      */
-    public function setBoundParameter(?PipeInterface $parameter): self
+    public function setBindingParameterName(string $bindingParameterName): self
+    {
+        $this->bindingParameterName = $bindingParameterName;
+
+        return $this;
+    }
+
+    /**
+     * Return whether this operation expects a bound parameter
+     * @return bool
+     */
+    public function isBound(): bool
+    {
+        return $this->bindingParameterName !== null;
+    }
+
+    /**
+     * Whether the result of this operation is a collection
+     * @return bool
+     */
+    public function returnsCollection(): bool
+    {
+        $returnType = $this->getCallableReturnType();
+
+        return $returnType === 'array' || is_a($returnType, EntitySet::class, true);
+    }
+
+    /**
+     * Whether the result of this operation can be null
+     * @return bool
+     */
+    public function isNullable(): bool
+    {
+        $rfn = $this->getCallableMethod();
+
+        return !$rfn->hasReturnType() || $rfn->getReturnType()->allowsNull() || $rfn->getReturnType()->getName() === 'void';
+    }
+
+    /**
+     * Get the OData return type of this operation
+     * @return Type|null Return type
+     */
+    public function getReturnType(): ?Type
+    {
+        if ($this->returnType) {
+            return $this->returnType;
+        }
+
+        $returnType = $this->getCallableReturnType();
+
+        if (is_a($returnType, Primitive::class, true)) {
+            return new PrimitiveType($returnType);
+        }
+
+        return Type::castInternalType($returnType);
+    }
+
+    /**
+     * Set the OData type that will be returned by this operation
+     * @param  Type  $type  Return type
+     * @return $this
+     */
+    public function setReturnType(Type $type): self
+    {
+        $this->returnType = $type;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve the bound parameter attached to this operation
+     * @return PipeInterface|null
+     */
+    public function getBoundParameter(): ?PipeInterface
+    {
+        return $this->boundParameter;
+    }
+
+    /**
+     * Set the bound parameter on an instance of this operation
+     * @param  mixed  $parameter  Binding parameter
+     * @return $this
+     */
+    public function setBoundParameter($parameter): self
     {
         $this->assertTransaction();
 
@@ -239,61 +285,303 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
         }
 
         $this->boundParameter = $parameter;
+
+        return $this;
+    }
+
+    public function setClientParameters(?string $parameters): self
+    {
+        $this->assertTransaction();
+
+        $this->clientParameters = $parameters;
+
         return $this;
     }
 
     /**
-     * Set the URL inline parameters on an instance of this operation
-     * @param  array  $inlineParameters  Inline parameters
-     * @return $this
+     * Get the resource URL of this operation instance
+     * @param  Transaction  $transaction  Related transaction
+     * @return string Resource URL
      */
-    public function setInlineParameters(array $inlineParameters): self
+    public function getResourceUrl(Transaction $transaction): string
     {
-        $this->inlineParameters = $inlineParameters;
-        return $this;
+        return $transaction->getResourceUrl().$this->getName();
     }
 
     /**
-     * Get the OData kind of this operation
-     * @return string Kind
+     * Get the reflected function or method attached to this operation
+     * @return ReflectionFunction|ReflectionMethod
      */
-    public function getKind(): string
+    public function getCallableMethod(): ReflectionFunctionAbstract
     {
-        switch (true) {
-            case $this instanceof ActionInterface:
-                return 'Action';
+        $callable = $this->getCallable();
 
-            case $this instanceof FunctionInterface:
-                return 'Function';
+        if (!$callable) {
+            throw new InternalServerErrorException(
+                'missing_callable',
+                'The operation has no callable',
+            );
         }
 
-        throw new InternalServerErrorException('invalid_operation', 'Operations must implement as Function or Action');
+        if (is_array($callable)) {
+            list($instance, $method) = $callable;
+            return new ReflectionMethod($instance, $method);
+        }
+
+        return new ReflectionFunction($callable);
     }
 
     /**
-     * Get the arguments being provided by the transaction attached to this operation instance
+     * Get the return type of this operation, based on reflection of the invocation method
+     * @return string Return type
+     */
+    public function getCallableReturnType(): string
+    {
+        $callableMethod = $this->getCallableMethod();
+
+        /** @var ReflectionNamedType $returnType */
+        $returnType = $callableMethod->getReturnType();
+
+        if (null === $returnType) {
+            return 'void';
+        }
+
+        return $returnType->getName();
+    }
+
+    /**
+     * Extract operation arguments for metadata
+     * Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
+     * @return Arguments|Argument[]
+     */
+    public function getMetadataArguments()
+    {
+        return $this->getCallableArguments()->sort(function (Argument $a, Argument $b) {
+            if ($a->getName() === $this->getBindingParameterName()) {
+                return -1;
+            }
+
+            if ($b->getName() === $this->getBindingParameterName()) {
+                return 1;
+            }
+
+            return 0;
+        })->filter(function ($argument) {
+            if ($argument instanceof PrimitiveArgument || $argument instanceof ValueArgument) {
+                return true;
+            }
+
+            if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $this->getBindingParameterName() === $argument->getName()) {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    /**
+     * Get the reflected arguments of the invocation of this operation
+     * @return Argument[]|Arguments Arguments
+     */
+    public function getCallableArguments(): Arguments
+    {
+        $reflectionMethod = $this->getCallableMethod();
+        $arguments = new Arguments();
+
+        foreach ($reflectionMethod->getParameters() as $parameter) {
+            $type = $parameter->getType()->getName();
+
+            switch (true) {
+                case is_a($type, EntitySet::class, true):
+                    $arguments[] = new EntitySetArgument($this, $parameter);
+                    break;
+
+                case is_a($type, Transaction::class, true):
+                    $arguments[] = new TransactionArgument($this, $parameter);
+                    break;
+
+                case is_a($type, Entity::class, true):
+                    $arguments[] = new EntityArgument($this, $parameter);
+                    break;
+
+                case is_a($type, Primitive::class, true):
+                    $arguments[] = new PrimitiveArgument($this, $parameter);
+                    break;
+
+                default:
+                    $arguments[] = new ValueArgument($this, $parameter);
+                    break;
+            }
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Parse and return arguments from the client that can be passed to the callable
      * @return array Arguments
      */
-    public function getTransactionArguments(): array
+    public function resolveParameters(): array
     {
-        switch (true) {
-            case $this instanceof ActionInterface:
-                $body = $this->transaction->getBody();
-
-                if ($body && !is_array($body)) {
-                    throw new BadRequestException(
-                        'invalid_action_arguments',
-                        'The arguments to the action were not correctly formed as an array'
-                    );
-                }
-
-                return $body ?: [];
-
-            case $this instanceof FunctionInterface:
-                return $this->inlineParameters;
+        if ($this->isFunction()) {
+            $clientParameters = $this->parseFunctionParameters();
         }
 
-        throw new InternalServerErrorException('invalid_operation', 'Operations must implement as Function or Action');
+        if ($this->isAction()) {
+            $clientParameters = $this->parseActionParameters();
+        }
+
+        if ($this->isBound()) {
+            $clientParameters[$this->getBindingParameterName()] = $this->boundParameter;
+        }
+
+        $callableParameters = [];
+
+        foreach ($this->getCallableArguments() as $argument) {
+            $argumentName = $argument->getName();
+            $clientParameter = $clientParameters[$argumentName] ?? null;
+            $callableParameters[$argumentName] = $this->resolveParameter($argument, $clientParameter);
+        }
+
+        if ($this->isBound() && ($callableParameters[$this->getBindingParameterName()] ?? null) === null) {
+            throw new InternalServerErrorException(
+                'missing_callable_binding_parameter',
+                'The provided callable did not have a argument named '.$this->getBindingParameterName()
+            );
+        }
+
+        return array_values($callableParameters);
+    }
+
+    /**
+     * Resolve a single parameter into the correct type for the callable
+     * @param  Argument  $argument  Internal argument
+     * @param  mixed  $parameter  Client-provided parameter
+     * @return mixed Callable parameter
+     */
+    public function resolveParameter(Argument $argument, $parameter)
+    {
+        if ($alias = $this->transaction->getImplicitParameterAlias($argument->getName())) {
+            $parameter = $argument->getType()->instance($alias);
+        }
+
+        try {
+            $result = $argument->resolveParameter($parameter);
+        } catch (TypeError $e) {
+            throw new BadRequestException(
+                'invalid_argument_type',
+                sprintf(
+                    'The provided argument (%s) was not of the correct type for this function',
+                    $argument->getName()
+                )
+            );
+        }
+
+        if (null === $result && !$argument->isNullable()) {
+            throw new BadRequestException(
+                'non_null_argument_missing',
+                sprintf('A non-null argument (%s) is missing', $argument->getName())
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Parse the arguments provided to this function
+     * @return Collection
+     */
+    protected function parseFunctionParameters(): Collection
+    {
+        $arguments = collect();
+
+        if (!$this->clientParameters) {
+            return $arguments;
+        }
+
+        $lexer = new Lexer($this->clientParameters);
+        $callableArguments = $this->getCallableArguments();
+
+        while (!$lexer->finished()) {
+            $key = $lexer->identifier();
+            $lexer->char('=');
+
+            $argument = $callableArguments[$key];
+
+            if (!$argument) {
+                throw new BadRequestException(
+                    'invalid_argument',
+                    'The parameters provided an argument that was not known'
+                );
+            }
+
+            /** @var PrimitiveType $type */
+            $type = $argument->getType();
+
+            if ($lexer->maybeChar('@')) {
+                $parameterAlias = $lexer->identifier();
+                $arguments[$key] = $type->instance($this->transaction->getParameterAlias($parameterAlias));
+            } else {
+                /** @var Primitive $factory */
+                $factory = $type->getFactory();
+
+                try {
+                    $result = $factory::fromLexer($lexer);
+                } catch (LexerException $e) {
+                    throw new BadRequestException('invalid_argument_type', sprintf(
+                        'The provided argument %s was not of type %s',
+                        $key,
+                        $type->getIdentifier()
+                    ));
+                }
+
+                $arguments[$key] = $result;
+            }
+
+            $lexer->maybeChar(',');
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Parse the arguments provided to this action
+     * @return Collection
+     */
+    protected function parseActionParameters(): Collection
+    {
+        $callableArguments = $this->getCallableArguments();
+        $arguments = collect();
+
+        $body = $this->transaction->getBody();
+
+        if (!$body) {
+            return $arguments;
+        }
+
+        $this->transaction->assertContentTypeJson();
+
+        if (!is_array($body)) {
+            throw new BadRequestException(
+                'invalid_action_arguments',
+                'The arguments to the action were not correctly formed as an array'
+            );
+        }
+
+        foreach ($body as $key => $value) {
+            $argument = $callableArguments[$key];
+
+            if (!$argument) {
+                throw new BadRequestException(
+                    'invalid_argument',
+                    'The action body provided an argument that was not known'
+                );
+            }
+
+            $arguments[$key] = $argument->getType()->instance($value);
+        }
+
+        return $arguments;
     }
 
     public static function pipe(
@@ -316,221 +604,128 @@ abstract class Operation implements ServiceInterface, ResourceInterface, Identif
             throw new PathNotHandledException();
         }
 
-        if ($nextSegment && $operation instanceof ActionInterface) {
+        if ($nextSegment && $operation->isAction()) {
             throw new BadRequestException(
                 'cannot_compose_action',
                 'It is not permitted to further compose the result of an action'
             );
         }
 
-        if (!$argument && $operation->getBindingParameterName()) {
+        if (!$argument && $operation->isBound()) {
             throw new BadRequestException(
                 'missing_bound_argument',
-                'This operation is bound, but no bound argument was provided'
+                'This operation is bound, but no argument was provided'
             );
         }
 
         $operation = clone $operation;
         $operation->setTransaction($transaction);
         $operation->setBoundParameter($argument);
-
-        $inlineParameters = [];
-
-        try {
-            $inlineParameters = array_filter(explode(',', $lexer->matchingParenthesis()));
-
-            $inlineParameters = Arr::collapse(array_map(function ($pair) use ($transaction) {
-                $pair = trim($pair);
-
-                $kv = array_map('trim', explode('=', $pair));
-
-                if (count($kv) !== 2) {
-                    throw new BadRequestException(
-                        'invalid_arguments',
-                        'The arguments provided to the operation were not valid'
-                    );
-                }
-
-                list($key, $value) = $kv;
-
-                if (strpos($value, '@') === 0) {
-                    $value = $transaction->getParameterAlias($value);
-                }
-
-                return [$key => $value];
-            }, $inlineParameters));
-        } catch (LexerException $e) {
-            if (!$nextSegment) {
-                /** @var Argument $argument */
-                foreach ($operation->getArguments() as $argument) {
-                    $value = $transaction->getImplicitParameterAlias($argument->getName());
-
-                    if (!$value) {
-                        continue;
-                    }
-
-                    $inlineParameters[$argument->getName()] = $value;
-                }
+        if (!$lexer->finished()) {
+            try {
+                $operation->setClientParameters($lexer->matchingParenthesis());
+            } catch (LexerException $e) {
+                throw new BadRequestException('malformed_parameters', 'The provided parameters were not well formed');
             }
         }
 
-        $operation->setInlineParameters($inlineParameters);
+        return $operation->isFunction() ? $operation->executeFunction() : $operation->executeAction();
+    }
 
-        if ($operation instanceof ActionInterface) {
-            $transaction->assertMethod(Request::METHOD_POST,
-                'This operation must be addressed with a POST request');
+    /**
+     * Execute this operation as a function
+     * @return PipeInterface|null
+     */
+    public function executeFunction(): ?PipeInterface
+    {
+        $this->transaction->assertMethod(
+            Request::METHOD_GET,
+            'This operation must be addressed with a GET request'
+        );
 
-            if ($transaction->getBody()) {
-                $transaction->assertContentTypeJson();
-            }
-        }
+        Gate::execute($this, $this->transaction)->ensure();
 
-        if ($operation instanceof FunctionInterface) {
-            $transaction->assertMethod(Request::METHOD_GET,
-                'This operation must be addressed with a GET request');
+        $result = $this->invoke($this->getCallable(), $this->resolveParameters());
 
-            $operation->getReflectedReturnType();
-        }
-
-        $bindingParameter = $operation->getBindingParameterName();
-        $transactionArguments = $operation->getTransactionArguments();
-
-        $arguments = [];
-
-        /** @var Argument $argumentDefinition */
-        foreach ($operation->getArguments() as $argumentDefinition) {
-            $argumentName = $argumentDefinition->getName();
-            if ($bindingParameter === $argumentName) {
-                switch (true) {
-                    case $argumentDefinition instanceof EntityArgument && !$operation->boundParameter instanceof Entity:
-                    case $argumentDefinition instanceof EntitySetArgument && !$operation->boundParameter instanceof EntitySet:
-                    case $argumentDefinition instanceof PrimitiveArgument && !$operation->boundParameter instanceof Primitive && !$operation->boundParameter instanceof PropertyValue:
-                        throw new BadRequestException(
-                            'invalid_bound_argument_type',
-                            'The provided bound argument was not of the correct type for this function'
-                        );
-                }
-
-                $arguments[] = $operation->boundParameter;
-                continue;
-            }
-
-            switch (true) {
-                case $argumentDefinition instanceof TransactionArgument:
-                case $argumentDefinition instanceof EntitySetArgument:
-                    $arguments[] = $argumentDefinition->generate($transaction);
-                    break;
-
-                case $argumentDefinition instanceof EntityArgument:
-                    $arguments[] = $argumentDefinition->generate();
-                    break;
-
-                case $argumentDefinition instanceof TypeArgument:
-                    $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null)->get();
-                    break;
-
-                case $argumentDefinition instanceof PrimitiveArgument:
-                    $arguments[] = $argumentDefinition->generate($transactionArguments[$argumentName] ?? null);
-                    break;
-            }
-        }
-
-        Gate::execute($operation, $transaction, $arguments)->ensure();
-
-        $result = call_user_func_array([$operation, 'invoke'], array_values($arguments));
-
-        if ($operation instanceof ActionInterface) {
-            $returnPreference = $transaction->getPreferenceValue(Constants::return);
-
-            if ($returnPreference === Constants::minimal) {
-                throw (new NoContentException)
-                    ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal);
-            }
-        }
-
-        if ($operation instanceof FunctionInterface && null === $result) {
+        if ($result === null) {
             throw new InternalServerErrorException(
                 'missing_function_result',
                 'Function is required to return a result'
             );
         }
 
-        $returnType = $operation->getReturnType();
-        $transaction->getRequest()->setMethod(Request::METHOD_GET);
+        $this->transaction->getRequest()->setMethod(Request::METHOD_GET);
 
-        switch (true) {
-            case $result === null && $operation->isNullable():
-            case $returnType instanceof EntityType && $result->getType() instanceof $returnType:
-            case $returnType instanceof PrimitiveType && $result instanceof Primitive:
-                return $result;
-
-            case $returnType instanceof PrimitiveType:
-                return $returnType->instance($result);
-        }
-
-        throw new InternalServerErrorException(
-            'invalid_return_type',
-            'The operation returned an type that did not match its defined return type'
-        );
+        return $this->ensureResult($result);
     }
 
     /**
-     * Get the resource URL of this operation instance
-     * @param  Transaction  $transaction  Related transaction
-     * @return string Resource URL
-     */
-    public function getResourceUrl(Transaction $transaction): string
-    {
-        return $transaction->getResourceUrl().$this->getName();
-    }
-
-    /**
-     * Set the OData type that will be returned by this operation
-     * @param  Type  $type  Return type
-     * @return $this
-     */
-    public function setReturnType(Type $type): self
-    {
-        $this->returnType = $type;
-        return $this;
-    }
-
-    /**
-     * Retrieve the bound parameter attached to this operation
+     * Execute this operation as an action
      * @return PipeInterface|null
      */
-    public function getBoundParameter(): ?PipeInterface
+    public function executeAction(): ?PipeInterface
     {
-        return $this->boundParameter;
+        $this->transaction->assertMethod(
+            Request::METHOD_POST,
+            'This operation must be addressed with a POST request'
+        );
+
+        if ($this->transaction->getBody()) {
+            $this->transaction->assertContentTypeJson();
+        }
+
+        Gate::execute($this, $this->transaction)->ensure();
+
+        $result = $this->invoke($this->getCallable(), $this->resolveParameters());
+
+        $returnPreference = $this->transaction->getPreferenceValue(Constants::return);
+
+        if ($returnPreference === Constants::minimal) {
+            throw (new NoContentException)
+                ->header(Constants::preferenceApplied, Constants::return.'='.Constants::minimal);
+        }
+
+        $this->transaction->getRequest()->setMethod(Request::METHOD_GET);
+
+        return $this->ensureResult($result);
     }
 
     /**
-     * Extract operation arguments for metadata
-     * Ensure the binding parameter is first, if it exists. Filter out non-odata arguments.
-     * @return Arguments|Argument[]
+     * Invoke the provided callable
+     * @return mixed
      */
-    public function getExternalArguments()
+    public function invoke(callable $callable, array $arguments)
     {
-        return $this->getArguments()->sort(function (Argument $a, Argument $b) {
-            if ($a->getName() === $this->getBindingParameterName()) {
-                return -1;
-            }
+        return call_user_func_array($callable, $arguments);
+    }
 
-            if ($b->getName() === $this->getBindingParameterName()) {
-                return 1;
-            }
+    /**
+     * Ensure the returned operation result is properly formed
+     * @param $result
+     * @return PipeInterface|null
+     */
+    public function ensureResult($result): ?PipeInterface
+    {
+        $returnType = $this->getReturnType();
 
-            return 0;
-        })->filter(function ($argument) {
-            if ($argument instanceof PrimitiveArgument) {
-                return true;
-            }
+        if ($result === null && !$this->isNullable()) {
+            throw new InternalServerErrorException(
+                'invalid_null_returned',
+                'The operation returned null but the result is not nullable'
+            );
+        }
 
-            if (($argument instanceof EntitySetArgument || $argument instanceof EntityArgument) && $this->getBindingParameterName() === $argument->getName()) {
-                return true;
-            }
+        if ($returnType instanceof EntityType && !$result->getType() instanceof $returnType) {
+            throw new InternalServerErrorException(
+                'invalid_entity_type_returned',
+                'The operation returned an entity type that did not match its defined type',
+            );
+        }
 
-            return false;
-        });
+        if ($returnType instanceof PrimitiveType && !$result instanceof Primitive) {
+            return $returnType->instance($result);
+        }
+
+        return $result;
     }
 }

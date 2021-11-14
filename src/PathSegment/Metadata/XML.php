@@ -210,13 +210,13 @@ class XML extends Metadata implements StreamInterface
 
                 /** @var Operation $resource */
                 case $resource instanceof Operation:
-                    $isBound = null !== $resource->getBindingParameterName();
+                    $isBound = $resource->isBound();
 
                     $resourceElement = $schema->addChild($resource->getKind());
                     $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
                     $resourceElement->addAttribute('IsBound', (new Boolean($isBound))->toUrl());
 
-                    foreach ($resource->getExternalArguments() as $argument) {
+                    foreach ($resource->getMetadataArguments() as $argument) {
                         $parameterElement = $resourceElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
                         $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());

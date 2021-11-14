@@ -66,6 +66,12 @@
               <PropertyValue Property="Supported" Bool="true"/>
             </Record>
           </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
         </EntitySet>
         <EntitySet Name="Flights" EntityType="com.example.odata.Flight">
           <NavigationPropertyBinding Path="passengers" Target="Passengers"/>
@@ -125,6 +131,12 @@
               <PropertyValue Property="Supported" Bool="true"/>
             </Record>
           </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
         </EntitySet>
         <EntitySet Name="Countries" EntityType="com.example.odata.Country">
           <NavigationPropertyBinding Path="airports" Target="Airports"/>
@@ -180,6 +192,12 @@
           <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
             <Record>
               <PropertyValue Property="Supported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
             </Record>
           </Annotation>
         </EntitySet>
@@ -239,6 +257,12 @@
           <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
             <Record>
               <PropertyValue Property="Supported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
             </Record>
           </Annotation>
         </EntitySet>

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Operation;
 
 use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 
 /**
  * Transaction Argument
@@ -14,20 +12,8 @@ use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
  */
 class TransactionArgument extends Argument
 {
-    /**
-     * Provide the current transaction as an invocation argument
-     * @param  null  $source
-     * @return ArgumentInterface
-     */
-    public function generate($source = null): ArgumentInterface
+    public function resolveParameter(): Transaction
     {
-        if (!$source instanceof Transaction) {
-            throw new InternalServerErrorException(
-                'invalid_transaction',
-                'The source of the transaction type argument was not a Transaction'
-            );
-        }
-
-        return $source;
+        return $this->operation->getTransaction();
     }
 }

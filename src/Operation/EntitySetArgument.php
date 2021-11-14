@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Operation;
 
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
+use Flat3\Lodata\Type;
 
 /**
  * Entity Set Argument
@@ -18,40 +16,29 @@ use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 class EntitySetArgument extends Argument
 {
     /**
-     * Generate an entity set argument
-     * @param  null  $source
-     * @return ArgumentInterface
-     */
-    public function generate($source = null): ArgumentInterface
-    {
-        if (!$source instanceof Transaction) {
-            throw new InternalServerErrorException(
-                'invalid_transaction',
-                'The source of an entity set is expected to be a transaction'
-            );
-        }
-
-        $entitySet = Lodata::getEntitySet($this->getName());
-
-        if (!$entitySet instanceof EntitySet) {
-            throw new InternalServerErrorException(
-                'invalid_entity_set',
-                'Could not find entity set: '.$this->getName()
-            );
-        }
-
-        $entitySet = clone $entitySet;
-        $entitySet->setTransaction($source);
-        return $entitySet;
-    }
-
-    /**
      * Get the entity set type
      * @return EntityType
      */
-    public function getType(): EntityType
+    public function getType(): Type
     {
-        $reflectedSet = $this->parameter->getName();
-        return Lodata::getEntitySet($reflectedSet)->getType();
+        if ($this->type) {
+            return $this->type;
+        }
+
+        $parameterName = $this->parameter->getName();
+        return Lodata::getEntitySet($parameterName)->getType();
+    }
+
+    public function resolveParameter(?EntitySet $parameter): EntitySet
+    {
+        if ($parameter) {
+            return $parameter;
+        }
+
+        $entitySet = Lodata::getEntitySet($this->getName());
+        $parameter = clone $entitySet;
+        $parameter->setTransaction($this->operation->getTransaction());
+
+        return $parameter;
     }
 }

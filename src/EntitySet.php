@@ -42,7 +42,6 @@ use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\EntityTypeInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
@@ -68,7 +67,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530394
  * @package Flat3\Lodata
  */
-abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, ArgumentInterface, AnnotationInterface, ResponseInterface
+abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, IdentifierInterface, ResourceInterface, ServiceInterface, ContextInterface, JsonInterface, PipeInterface, AnnotationInterface, ResponseInterface
 {
     use HasIdentifier;
     use UseReferences;

@@ -27,7 +27,6 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
@@ -290,7 +289,8 @@ DESC, [
          * @var Operation $operation
          */
         foreach (Lodata::getResources()->sliceByClass(Operation::class) as $operation) {
-            $boundParameter = $operation->getBoundParameter();
+            $boundParameterName = $operation->getBindingParameterName();
+            $boundParameter = $operation->getCallableArguments()[$boundParameterName] ?? null;
             $pathItemObject = (object) [];
 
             switch (true) {
@@ -298,13 +298,13 @@ DESC, [
                     $paths->{'/'.$operation->getName()} = $pathItemObject;
                     break;
 
-                case $boundParameter instanceof EntitySet:
-                    $paths->{"/{$boundParameter->getName()}/{$operation->getName()}()"} = $pathItemObject;
+                case $boundParameter instanceof Operation\EntitySetArgument:
+                    $paths->{"/{$boundParameterName}/{$operation->getName()}()"} = $pathItemObject;
                     break;
             }
 
             $queryObject = (object) [];
-            $pathItemObject->{$operation instanceof FunctionInterface ? 'get' : 'post'} = $queryObject;
+            $pathItemObject->{$operation->isFunction() ? 'get' : 'post'} = $queryObject;
 
             $summary = $operation->getAnnotations()->sliceByClass(Description::class)->first();
 
@@ -313,7 +313,7 @@ DESC, [
             } else {
                 $__args = ['name' => $operation->getName()];
 
-                $tag['summary'] = $operation instanceof FunctionInterface
+                $tag['summary'] = $operation->isFunction()
                     ? __('Invoke function :name', $__args)
                     : __('Invoke action :name', $__args);
             }
@@ -322,15 +322,15 @@ DESC, [
             $tags[] = __('Service Operations');
             $tags[] = $operation->getName();
 
-            if ($boundParameter) {
-                $tags[] = $boundParameter->getName();
+            if ($boundParameterName) {
+                $tags[] = $boundParameterName;
             }
 
             $parameters = [];
 
             $returnType = $operation->getReturnType();
 
-            foreach ($operation->getExternalArguments() as $argument) {
+            foreach ($operation->getMetadataArguments() as $argument) {
                 $tags[] = $argument->getName();
 
                 $parameters[] = [
@@ -341,7 +341,7 @@ DESC, [
                 ];
             }
 
-            $queryObject->tags = $tags;
+            $queryObject->tags = $this->uniqueTags($tags);
             $queryObject->parameters = $parameters;
 
             $responses = [];
@@ -762,7 +762,7 @@ DESC, [
             $queryObject->summary = __('Get entities from :name', ['name' => $entitySet->getName()]);
         }
 
-        $queryObject->tags = $tags;
+        $queryObject->tags = $this->uniqueTags($tags);
 
         $parameters = [];
 
@@ -857,7 +857,7 @@ DESC, [
             $operationObject->summary = __('Add new entity to :name', ['name' => $entitySet->getName()]);
         }
 
-        $operationObject->tags = $tags;
+        $operationObject->tags = $this->uniqueTags($tags);
 
         $requestBody = [
             'required' => true,
@@ -995,5 +995,10 @@ DESC, [
             'required' => true,
             'schema' => $key->getType()->toOpenAPISchema(),
         ];
+    }
+
+    protected function uniqueTags(array $tags): array
+    {
+        return collect($tags)->unique()->values()->toArray();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Carbon\CarbonImmutable;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
@@ -158,6 +159,9 @@ abstract class Type
             case 'array':
             case 'object':
                 return new Untyped();
+
+            case CarbonImmutable::class:
+                return new PrimitiveType(DateTimeOffset::class);
         }
 
         throw new TypeError('Could not cast the provided internal type');

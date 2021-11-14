@@ -1,0 +1,6 @@
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [application/xml]
+    odata-version: ['4.01']
+    trailer: [odata-error]
+status: 200

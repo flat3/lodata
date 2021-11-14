@@ -1,0 +1,248 @@
+{
+    "$Version": "4.01",
+    "$EntityContainer": "com.example.odata.DefaultContainer",
+    "$Reference": {
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Core.V1"
+                }
+            ]
+        },
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Capabilities.V1"
+                }
+            ]
+        }
+    },
+    "com.example.odata": {
+        "$Kind": "EntityContainer",
+        "Flights": {
+            "$EntityType": "com.example.odata.Flight",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": false
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": false,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": false
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": false
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": false,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": false,
+                "ContentIDSupported": false
+            }
+        },
+        "helloImport": {
+            "$Function": "com.example.odata.hello"
+        },
+        "identityImport": {
+            "$Function": "com.example.odata.identity"
+        },
+        "addImport": {
+            "$Function": "com.example.odata.add"
+        },
+        "execImport": {
+            "$Action": "com.example.odata.exec"
+        },
+        "exec2Import": {
+            "$Action": "com.example.odata.exec2"
+        },
+        "insargImport": {
+            "$Function": "com.example.odata.insarg"
+        },
+        "$Annotations": {
+            "com.example.odata.DefaultContainer": {
+                "@Org.OData.Core.V1.ConventionalIDs": true,
+                "@Org.OData.Core.V1.DefaultNamespace": true,
+                "@Org.OData.Core.V1.DereferencableIDs": true,
+                "@Org.OData.Core.V1.ODataVersions": "4.01",
+                "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.CallbackSupported": {
+                    "CallbackProtocols": [
+                        {
+                            "Id": "http"
+                        }
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
+                "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
+                "@Org.OData.Capabilities.V1.SupportedFormats": [
+                    "application/json;metadata=full;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=minimal;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=none;IEEE754Compatible=true;streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
+                ]
+            }
+        }
+    },
+    "Flight": {
+        "$Kind": "EntityType"
+    },
+    "hello": {
+        "$Kind": "Function",
+        "$IsBound": false,
+        "$Parameter": [],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    },
+    "identity": {
+        "$Kind": "Function",
+        "$IsBound": false,
+        "$Parameter": [
+            {
+                "$Name": "arg",
+                "$Nullable": false,
+                "$Type": "Edm.String"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    },
+    "name": {
+        "$Kind": "Function",
+        "$IsBound": true,
+        "$Parameter": [
+            {
+                "$Name": "Flight",
+                "$Nullable": false,
+                "$Type": "com.example.odata.Flight"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    },
+    "i1": {
+        "$Kind": "Function",
+        "$IsBound": true,
+        "$Parameter": [
+            {
+                "$Name": "Flight",
+                "$Nullable": false,
+                "$Type": "com.example.odata.Flight"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Flight",
+            "$Nullable": false
+        }
+    },
+    "add": {
+        "$Kind": "Function",
+        "$IsBound": false,
+        "$Parameter": [
+            {
+                "$Name": "a",
+                "$Nullable": false,
+                "$Type": "Edm.Int64"
+            },
+            {
+                "$Name": "b",
+                "$Nullable": false,
+                "$Type": "Edm.Int64"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.Int64",
+            "$Nullable": false
+        }
+    },
+    "increment": {
+        "$Kind": "Function",
+        "$IsBound": true,
+        "$Parameter": [
+            {
+                "$Name": "a",
+                "$Nullable": false,
+                "$Type": "Edm.Int64"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.Int64",
+            "$Nullable": false
+        }
+    },
+    "exec": {
+        "$Kind": "Action",
+        "$IsBound": false,
+        "$Parameter": [],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": true
+        }
+    },
+    "exec2": {
+        "$Kind": "Action",
+        "$IsBound": false,
+        "$Parameter": [],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": true
+        }
+    },
+    "insarg": {
+        "$Kind": "Function",
+        "$IsBound": false,
+        "$Parameter": [],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    }
+}

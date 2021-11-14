@@ -3,8 +3,6 @@
 namespace Flat3\Lodata\Tests\Unit\Protocol;
 
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Interfaces\Operation\ActionInterface;
-use Flat3\Lodata\Interfaces\Operation\FunctionInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -150,12 +148,11 @@ class BatchJSONTest extends TestCase
 
     public function test_action_invocation()
     {
-        Lodata::add(new class('aa1') extends Operation implements ActionInterface {
-            public function invoke(Int32 $a, Int32 $b): Int32
-            {
-                return new Int32($a->get() + $b->get());
-            }
+        $aa1 = new Operation\Action('aa1');
+        $aa1->setCallable(function (Int32 $a, Int32 $b): Int32 {
+            return new Int32($a->get() + $b->get());
         });
+        Lodata::add($aa1);
 
         $this->assertJsonMetadataResponse(
             (new Request)
@@ -180,12 +177,11 @@ class BatchJSONTest extends TestCase
 
     public function test_function_invocation()
     {
-        Lodata::add(new class('aa1') extends Operation implements FunctionInterface {
-            public function invoke(Int32 $a, Int32 $b): Int32
-            {
-                return new Int32($a->get() + $b->get());
-            }
+        $aa1 = new Operation\Function_('aa1');
+        $aa1->setCallable(function (Int32 $a, Int32 $b): Int32 {
+            return new Int32($a->get() + $b->get());
         });
+        Lodata::add($aa1);
 
         $this->assertJsonMetadataResponse(
             (new Request)

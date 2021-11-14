@@ -58,6 +58,10 @@
             "@Org.OData.Capabilities.V1.IndexableByKey": true,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
             }
         },
         "Flights": {
@@ -100,6 +104,10 @@
             "@Org.OData.Capabilities.V1.IndexableByKey": true,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
             }
         },
         "Countries": {
@@ -140,6 +148,10 @@
             "@Org.OData.Capabilities.V1.IndexableByKey": true,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
             }
         },
         "Passengers": {
@@ -182,6 +194,10 @@
             "@Org.OData.Capabilities.V1.IndexableByKey": true,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
             }
         },
         "$Annotations": {

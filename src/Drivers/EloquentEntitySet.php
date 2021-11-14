@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Doctrine\DBAL\Schema\Column;
 use Exception;
+use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLFilter;
@@ -86,6 +87,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $type = new EntityType(EloquentEntitySet::getTypeName($model));
 
         parent::__construct($name, $type);
+        $this->addAnnotation(new DeepInsertSupport());
     }
 
     /**
@@ -369,20 +371,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         return $this;
-    }
-
-    /**
-     * Create an entity set from the provided Eloquent model class and add it to the model
-     * @param  string  $class  Eloquent model class
-     * @return static
-     */
-    public static function discover(string $class): self
-    {
-        $set = new self($class);
-        Lodata::add($set);
-        $set->discoverProperties();
-
-        return $set;
     }
 
     public function startTransaction()

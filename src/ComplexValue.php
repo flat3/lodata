@@ -13,7 +13,6 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
@@ -23,7 +22,7 @@ use Flat3\Lodata\Type\Untyped;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 
-class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInterface, ReferenceInterface
+class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceInterface
 {
     use UseReferences;
     use HasTransaction;

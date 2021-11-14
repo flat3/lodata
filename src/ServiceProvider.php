@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
-use Flat3\Lodata\Console\ActionCommand;
-use Flat3\Lodata\Console\FunctionCommand;
 use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
 use Flat3\Lodata\Controller\ODCFF;
@@ -52,11 +50,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config.php' => config_path('lodata.php')], 'config');
-
-            $this->commands([
-                FunctionCommand::class,
-                ActionCommand::class,
-            ]);
         }
 
         $this->app->singleton(Model::class, function () {

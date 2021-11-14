@@ -14,7 +14,6 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ActionInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
@@ -155,13 +154,13 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     break;
 
                 case $resource instanceof Operation:
-                    $isBound = null !== $resource->getBindingParameterName();
+                    $isBound = $resource->isBound();
 
                     $schema->{$resource->getResolvedName($namespace)} = $resourceElement;
                     $resourceElement->{'$Kind'} = $resource->getKind();
                     $resourceElement->{'$IsBound'} = $isBound;
 
-                    $arguments = $resource->getExternalArguments();
+                    $arguments = $resource->getMetadataArguments();
 
                     if ($arguments) {
                         $argumentsElement = [];
@@ -188,7 +187,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     if (!$isBound) {
                         $operationImportElement = (object) [];
                         $entityContainer->{$resource->getResolvedName($namespace).'Import'} = $operationImportElement;
-                        $operationImportElement->{$resource instanceof ActionInterface ? '$Action' : '$Function'} = $resource->getIdentifier();
+                        $operationImportElement->{$resource->isAction() ? '$Action' : '$Function'} = $resource->getIdentifier();
 
                         if (null !== $returnType && $returnType instanceof EntitySet) {
                             $operationImportElement->{'$EntitySet'} = $returnType->getName();

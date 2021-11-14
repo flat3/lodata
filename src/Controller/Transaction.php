@@ -27,7 +27,6 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\JsonInterface;
-use Flat3\Lodata\Interfaces\Operation\ArgumentInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
@@ -67,7 +66,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  * Transaction
  * @package Flat3\Lodata
  */
-class Transaction implements ArgumentInterface
+class Transaction
 {
     /**
      * Transaction ID
@@ -737,7 +736,7 @@ class Transaction implements ArgumentInterface
         if (null === $value) {
             throw new BadRequestException(
                 'reference_value_missing',
-                sprintf('The requested reference value %s did not exist', $key)
+                sprintf('The requested reference (%s) did not exist', $key)
             );
         }
 

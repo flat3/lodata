@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#Edm.DateTimeOffset",
+    "value": "2020-01-01T23:23:23+00:01"
+}

@@ -14,6 +14,7 @@ use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Tests\Data\TestModels;
+use Flat3\Lodata\Tests\Data\TestOperations;
 use Flat3\Lodata\Type\Guid;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,6 +40,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use MatchesSnapshots;
     use RefreshDatabase;
     use TestModels;
+    use TestOperations;
     use WithoutMiddleware;
 
     /** @var Expectation $gateMock */
@@ -198,8 +200,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND, Response::HTTP_NOT_MODIFIED];
         $response = $this->req($request);
-        $this->assertEquals($code, $response->getStatusCode());
         $content = $this->responseContent($response);
+        $this->assertEquals($code, $response->getStatusCode());
 
         if (!$content) {
             $this->assertContains($code, $emptyCodes);

@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#com.example.odata.UInt32",
+    "value": 2147483647
+}

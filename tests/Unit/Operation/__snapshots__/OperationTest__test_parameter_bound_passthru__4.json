@@ -1501,7 +1501,7 @@
                 }
             }
         },
-        "/f1": {
+        "/flights/f1()": {
             "get": {
                 "tags": [
                     "Service Operations",
