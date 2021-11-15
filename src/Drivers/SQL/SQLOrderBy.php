@@ -36,7 +36,7 @@ trait SQLOrderBy
                 );
             }
 
-            return "$literal $direction";
+            return $this->quote($literal)." $direction";
         }, $orderby->getSortOrders()));
 
         return ' ORDER BY '.$ob;
