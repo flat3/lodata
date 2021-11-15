@@ -22,7 +22,13 @@ trait SQLLimits
             return '';
         }
 
+
         $limits = ' LIMIT ?,?';
+
+        switch ($this->getDriver()) {
+            case 'pgsql':
+                $limits = ' LIMIT ? OFFSET ?';
+        }
 
         $this->addParameter($this->getSkip()->getValue());
         $this->addParameter($this->getTop()->hasValue() ? $this->getTop()->getValue() : PHP_INT_MAX);
