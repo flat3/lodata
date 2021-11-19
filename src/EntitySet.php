@@ -59,6 +59,7 @@ use Flat3\Lodata\Transaction\Option;
 use Flat3\Lodata\Type\Stream;
 use Generator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
@@ -417,21 +418,31 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function setTransaction(Transaction $transaction): self
     {
-        foreach (
-            [
-                [CountInterface::class, $transaction->getCount()],
-                [FilterInterface::class, $transaction->getFilter()],
-                [OrderByInterface::class, $transaction->getOrderBy()],
-                [SearchInterface::class, $transaction->getSearch()],
-                [PaginationInterface::class, $transaction->getSkip()],
-                [PaginationInterface::class, $transaction->getTop()],
-                [ExpandInterface::class, $transaction->getExpand()]
-            ] as $sqo
-        ) {
-            list ($class, $option) = $sqo;
+        if ($this->applyQueryOptions) {
+            foreach (
+                [
+                    [CountInterface::class, $transaction->getCount()],
+                    [FilterInterface::class, $transaction->getFilter()],
+                    [OrderByInterface::class, $transaction->getOrderBy()],
+                    [SearchInterface::class, $transaction->getSearch()],
+                    [PaginationInterface::class, $transaction->getSkip()],
+                    [[PaginationInterface::class, TokenPaginationInterface::class], $transaction->getTop()],
+                    [ExpandInterface::class, $transaction->getExpand()]
+                ] as $sqo
+            ) {
+                /** @var Option $option */
+                list ($classes, $option) = $sqo;
 
-            /** @var Option $option */
-            if ($this->applyQueryOptions && $option->hasValue() && !is_a($this, $class, true)) {
+                if (!$option->hasValue()) {
+                    continue;
+                }
+
+                foreach (Arr::wrap($classes) as $class) {
+                    if (is_a($this, $class, true)) {
+                        continue 2;
+                    }
+                }
+
                 throw new NotImplementedException(
                     'system_query_option_not_implemented',
                     sprintf('The %s system query option is not supported by this entity set', $option::param)
