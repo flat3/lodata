@@ -20,7 +20,42 @@
     "com.example.odata": {
         "$Kind": "EntityContainer",
         "atest": {
-            "$Type": "com.example.odata.a"
+            "$EntityType": "com.example.odata.etype",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": false
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            }
         },
         "$Annotations": {
             "com.example.odata.DefaultContainer": {
@@ -60,21 +95,28 @@
             }
         }
     },
-    "a": {
+    "ctype": {
+        "$Kind": "ComplexType",
+        "d": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        }
+    },
+    "etype": {
         "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int32",
+            "$Nullable": false
+        },
         "b": {
             "$Type": "Edm.String",
             "$Nullable": true
         },
         "c": {
-            "$Type": "com.example.odata.d",
-            "$Nullable": true
-        }
-    },
-    "d": {
-        "$Kind": "ComplexType",
-        "d": {
-            "$Type": "Edm.String",
+            "$Type": "com.example.odata.ctype",
             "$Nullable": true
         }
     }

@@ -152,12 +152,21 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
     }
 
     /**
-     * Get the attached entity value
-     * @return Entity Value
+     * Get the attached complex value
+     * @return ComplexValue Value
      */
-    public function getEntityValue(): Entity
+    public function getComplexValue(): ComplexValue
     {
         return $this->value;
+    }
+
+    /**
+     * Return whether this property has a value
+     * @return bool
+     */
+    public function hasValue(): bool
+    {
+        return $this->value !== null;
     }
 
     /**

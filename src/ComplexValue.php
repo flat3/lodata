@@ -7,7 +7,6 @@ namespace Flat3\Lodata;
 use ArrayAccess;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -97,7 +96,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     {
         $this->type = $type;
 
-        if (!Lodata::getComplexType($type->getIdentifier())) {
+        if (!$type instanceof Untyped && !Lodata::getComplexType($type->getIdentifier())) {
             Lodata::add($type);
         }
 
@@ -129,7 +128,7 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
 
     /**
      * Get all property values attached to this complex value
-     * @return PropertyValues Property values
+     * @return PropertyValue[]|PropertyValues Property values
      */
     public function getPropertyValues(): PropertyValues
     {
@@ -168,21 +167,46 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
         }
 
         $property = $this->getType()->getProperty($offset);
-
         if ($property === null) {
             $property = new DynamicProperty($offset, Type::castInternalType(gettype($value)));
         }
 
-        $propertyValue = $this->newPropertyValue();
-        $propertyValue->setProperty($property);
+        $propertyType = $property->getType();
+        $propertyValue = $this->propertyValues[$property];
 
-        if ($value instanceof JsonInterface) {
-            $propertyValue->setValue($value);
-        } else {
-            $propertyValue->setValue($property->getType()->instance($value));
+        if (!$propertyValue) {
+            $propertyValue = $this->newPropertyValue();
+            $propertyValue->setProperty($property);
+
+            $this->addPropertyValue($propertyValue);
         }
 
-        $this->addPropertyValue($propertyValue);
+        switch (true) {
+            case $propertyType instanceof PrimitiveType:
+                if ($value instanceof Primitive) {
+                    $propertyValue->setValue($value);
+                } else {
+                    $propertyValue->setValue($propertyType->instance($value));
+                }
+                break;
+
+            case $propertyType instanceof ComplexType:
+                if (!$propertyValue->hasValue()) {
+                    if ($value instanceof ComplexValue) {
+                        $propertyValue->setValue($value);
+                    } else {
+                        $propertyValue->setValue($propertyType->instance($value));
+                    }
+                    break;
+                }
+
+                $complexValue = $propertyValue->getComplexValue();
+
+                foreach ($value as $k => $v) {
+                    $complexValue[$k] = $v;
+                }
+                break;
+        }
     }
 
     /**
@@ -206,16 +230,27 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Convert this complex value to a PHP array of key/value pairs
+     * Recursively convert this complex value to a nested PHP array of key/value pairs
      * @return array Record
      */
     public function toArray(): array
     {
         $result = [];
 
-        /** @var PropertyValue $propertyValue */
         foreach ($this->getPropertyValues() as $propertyValue) {
-            $result[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
+            $property = $propertyValue->getProperty();
+            $propertyType = $property->getType();
+            $propertyName = $property->getName();
+
+            switch (true) {
+                case $propertyType instanceof PrimitiveType:
+                    $result[$propertyName] = $propertyValue->getPrimitiveValue();
+                    break;
+
+                case $propertyType instanceof ComplexType:
+                    $result[$propertyName] = $propertyValue->getComplexValue()->toArray();
+                    break;
+            }
         }
 
         return $result;
@@ -331,49 +366,17 @@ class ComplexValue implements ArrayAccess, ArgumentInterface, Arrayable, JsonInt
     }
 
     /**
-     * Generate a complex value from an array of key/values
-     * @param  array  $object  Key/value array
+     * Generate a complex value from a source object or key/value array
+     * @param  array|object  $object  Source object
      * @return $this
      */
-    public function fromArray(array $object): self
+    public function fromSource($object): self
     {
         foreach ($object as $key => $value) {
             $this[$key] = $value;
         }
 
         return $this;
-    }
-
-    /**
-     * Generate a complex value from an object
-     * @param  object  $object  Object
-     * @return $this
-     */
-    public function fromObject(object $object): self
-    {
-        foreach ($this->type->getDeclaredProperties()->keys() as $key) {
-            $this[$key] = $object->{$key};
-        }
-
-        return $this;
-    }
-
-    /**
-     * Generate a complex value from a source object
-     * @param  mixed  $object  Source object
-     * @return $this
-     */
-    public function fromSource($object): self
-    {
-        switch (true) {
-            case is_array($object):
-                return $this->fromArray($object);
-        }
-
-        throw new InternalServerErrorException(
-            'invalid_source',
-            'The provided source object could not be converted to a resource'
-        );
     }
 
     /**

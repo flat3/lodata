@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#atest/$entity",
+    "id": 0,
+    "b": "c",
+    "c": {
+        "d": "q",
+        "dyni": 4
+    }
+}

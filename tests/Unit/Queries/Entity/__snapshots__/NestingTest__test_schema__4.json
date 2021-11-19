@@ -18,6 +18,10 @@
     "paths": {
         "/atest": {
             "get": {
+                "summary": "Get entities from atest",
+                "tags": [
+                    "atest"
+                ],
                 "parameters": [
                     {
                         "name": "select",
@@ -31,6 +35,149 @@
                                 "type": "string",
                                 "enum": [
                                     "*",
+                                    "id",
+                                    "b",
+                                    "c"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "$ref": "#/components/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "id",
+                                    "id desc",
+                                    "b",
+                                    "b desc",
+                                    "c",
+                                    "c desc"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of atest",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.etype"
+                                            }
+                                        },
+                                        "@count": {
+                                            "$ref": "#/components/schemas/count"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new entity to atest",
+                "tags": [
+                    "atest"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "New entity",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.etype~create"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.etype"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/atest/{id}": {
+            "parameters": [
+                {
+                    "description": "Key: id",
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entity from atest by key",
+                "tags": [
+                    "atest"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "id",
                                     "b",
                                     "c"
                                 ]
@@ -40,14 +187,56 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Retrieved entity",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/com.example.odata.a"
+                                    "$ref": "#/components/schemas/com.example.odata.etype"
                                 }
                             }
                         }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update entity in atest",
+                "tags": [
+                    "atest"
+                ],
+                "requestBody": {
+                    "description": "New property values",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.etype~update"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/schemas/com.example.odata.etype"
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete entity from atest",
+                "tags": [
+                    "atest"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success"
                     },
                     "4XX": {
                         "$ref": "#/components/responses/error"
@@ -136,9 +325,16 @@
     },
     "components": {
         "schemas": {
-            "com.example.odata.a": {
+            "com.example.odata.etype": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
+                        "nullable": false
+                    },
                     "b": {
                         "type": "string",
                         "nullable": true
@@ -154,9 +350,16 @@
                     }
                 }
             },
-            "com.example.odata.a~create": {
+            "com.example.odata.etype~create": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
+                        "nullable": false
+                    },
                     "b": {
                         "type": "string",
                         "nullable": true
@@ -172,7 +375,7 @@
                     }
                 }
             },
-            "com.example.odata.a~update": {
+            "com.example.odata.etype~update": {
                 "type": "object",
                 "properties": {
                     "b": {

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
+use Flat3\Lodata\Primitive;
 use Illuminate\Support\Collection;
 
 /**
@@ -77,7 +79,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     /**
      * Update an entity
      * @param  PropertyValue  $key
-     * @param  PropertyValues  $propertyValues  Property values
+     * @param  PropertyValue[]|PropertyValues  $propertyValues  Property values
      * @return Entity
      */
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
@@ -85,7 +87,19 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         $entity = $this->read($key);
 
         foreach ($propertyValues as $propertyValue) {
-            $entity->addPropertyValue($propertyValue);
+            $property = $propertyValue->getProperty();
+            $propertyName = $property->getName();
+            $propertyValue = $propertyValue->getValue();
+
+            switch (true) {
+                case $propertyValue instanceof ComplexValue:
+                    $entity[$propertyName] = $propertyValue->toArray();
+                    break;
+
+                case $propertyValue instanceof Primitive:
+                    $entity[$propertyName] = $propertyValue->get();
+                    break;
+            }
         }
 
         $item = $entity->toArray();

@@ -104,7 +104,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
     /**
      * Get all generated properties on this type
-     * @return Properties Generated properties
+     * @return GeneratedProperty[]|Properties Generated properties
      */
     public function getGeneratedProperties(): Properties
     {
@@ -205,8 +205,12 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         $instance = new ComplexValue();
         $instance->setType($this);
 
-        if ($value instanceof ArrayAccess) {
+        if (is_array($value) || $value instanceof ArrayAccess) {
             foreach ($value as $k => $v) {
+                if (is_numeric($k)) {
+                    continue;
+                }
+
                 $instance[$k] = $v;
             }
         }

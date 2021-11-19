@@ -3,11 +3,10 @@
 namespace Flat3\Lodata\Tests\Unit\Queries\Entity;
 
 use Flat3\Lodata\ComplexType;
-use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\CollectionEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
@@ -18,25 +17,33 @@ class NestingTest extends TestCase
     {
         parent::setUp();
 
-        $type = new EntityType('a');
-        $d = new ComplexType('d');
-        $d->addDeclaredProperty('d', Type::string());
+        $entityType = new EntityType('etype');
+        $entityType->setKey(new DeclaredProperty('id', Type::int32()));
+        $complexType = new ComplexType('ctype');
+        $complexType->addDeclaredProperty('d', Type::string());
 
-        $type->addProperty(new DeclaredProperty('b', Type::string()));
-        $type->addProperty(new DeclaredProperty('c', $d));
-        Lodata::add($type);
+        $entityType->addProperty(new DeclaredProperty('b', Type::string()));
+        $entityType->addProperty(new DeclaredProperty('c', $complexType));
 
-        $singleton = new Singleton('atest', $type);
-        $singleton['b'] = new Type\String_('c');
+        Lodata::add($complexType);
+        Lodata::add($entityType);
 
-        $c = new ComplexValue();
-        $c->setType($d);
-        $c['d'] = 'e';
-        $c['dyni'] = 4;
+        $set = new CollectionEntitySet('atest', $entityType);
+        $set->setCollection(
+            collect(
+                [
+                    [
+                        'b' => 'c',
+                        'c' => [
+                            'd' => 'e',
+                            'dyni' => 4,
+                        ],
+                    ]
+                ]
+            )
+        );
 
-        $singleton['c'] = $c;
-
-        Lodata::add($singleton);
+        Lodata::add($set);
     }
 
     public function test_schema()
@@ -56,7 +63,7 @@ class NestingTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->path('atest/c')
+                ->path('atest(0)/c')
         );
     }
 
@@ -64,7 +71,37 @@ class NestingTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->path('atest/c/d')
+                ->path('atest(0)/c/d')
         );
+    }
+
+    public function test_update_nested()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->patch()
+                ->body([
+                    'c' => [
+                        'd' => 'q'
+                    ]
+                ])
+                ->path('atest/0')
+        );
+
+        $this->assertMatchesSnapshot(Lodata::getEntitySet('atest')->getCollection());
+    }
+
+    public function test_update_nested_complex()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->patch()
+                ->body([
+                    'd' => 'q',
+                ])
+                ->path('atest/0/c')
+        );
+
+        $this->assertMatchesSnapshot(Lodata::getEntitySet('atest')->getCollection());
     }
 }

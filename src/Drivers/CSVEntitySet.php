@@ -99,7 +99,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
         $reader = $statement->process($this->getCsvReader(), $this->getCsvHeader());
 
         foreach ($reader->getIterator() as $offset => $record) {
-            yield $this->newEntity()->setEntityId($offset)->fromArray($record);
+            yield $this->newEntity()->setEntityId($offset)->fromSource($record);
         }
     }
 
@@ -107,6 +107,6 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
     {
         $csv = $this->getCsvStatement();
         $row = $csv->fetchOne($key->getPrimitiveValue());
-        return $this->newEntity()->setEntityId($key)->fromArray($row);
+        return $this->newEntity()->setEntityId($key)->fromSource($row);
     }
 }

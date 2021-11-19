@@ -144,7 +144,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             return null;
         }
 
-        return $this->newEntity()->fromArray($result);
+        return $this->newEntity()->fromSource($result);
     }
 
     /**
@@ -247,7 +247,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $stmt = $this->pdoSelect($this->getSetResultQueryString());
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            yield $this->newEntity()->fromArray($row);
+            yield $this->newEntity()->fromSource($row);
         }
     }
 

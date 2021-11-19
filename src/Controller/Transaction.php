@@ -1333,6 +1333,10 @@ class Transaction implements ArgumentInterface
     {
         $body = $this->getBody();
 
+        if (!$body) {
+            return;
+        }
+
         $navigationProperties = $parentEntity->getType()->getNavigationProperties()->pick(array_keys($body));
 
         /** @var NavigationProperty $navigationProperty */
