@@ -109,7 +109,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $this->addAnnotation(
             (new Capabilities\V1\TopSupported())
-                ->setSupported($this instanceof PaginationInterface)
+                ->setSupported($this instanceof PaginationInterface || $this instanceof TokenPaginationInterface)
         );
 
         $this->addAnnotation(
@@ -683,7 +683,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $metadata->offsetSet('count', $count);
         }
 
-        if ($this instanceof PaginationInterface) {
+        if ($this instanceof PaginationInterface || $this instanceof TokenPaginationInterface) {
             $top = $transaction->getTop();
             $paginationParams = [];
 
