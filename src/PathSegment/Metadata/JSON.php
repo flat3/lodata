@@ -70,8 +70,8 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     break;
             }
 
-            $typeDefinitionElement->{'$UnderlyingType'} = $typeDefinition->getUnderlyingType()->getResolvedName($namespace);
-            $schema->{$typeDefinition->getResolvedName($namespace)} = $typeDefinitionElement;
+            $typeDefinitionElement->{'$UnderlyingType'} = $typeDefinition->getUnderlyingType()->getIdentifier()->getResolvedName($namespace);
+            $schema->{$typeDefinition->getIdentifier()->getResolvedName($namespace)} = $typeDefinitionElement;
         }
 
         foreach (Lodata::getComplexTypes() as $complexType) {
@@ -95,7 +95,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
             ) as $property) {
                 $complexTypeProperty = (object) [];
                 $complexTypeElement->{$property->getName()} = $complexTypeProperty;
-                $complexTypeProperty->{'$Type'} = $property->getType()->getIdentifier();
+                $complexTypeProperty->{'$Type'} = $property->getType()->getIdentifier()->getQualifiedName();
                 $complexTypeProperty->{'$Nullable'} = $property->isNullable();
 
                 foreach ($property->getAnnotations() as $annotation) {
@@ -115,7 +115,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     $navigationPropertyElement->{'$Partner'} = $navigationPropertyPartner->getName();
                 }
 
-                $navigationPropertyElement->{'$Type'} = $targetComplexType->getIdentifier();
+                $navigationPropertyElement->{'$Type'} = $targetComplexType->getIdentifier()->getQualifiedName();
                 $navigationPropertyElement->{'$Nullable'} = $navigationProperty->isNullable();
 
                 $constraints = $navigationProperty->getConstraints();
@@ -134,13 +134,13 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
 
             switch (true) {
                 case $resource instanceof Singleton:
-                    $entityContainer->{$resource->getResolvedName($namespace)} = $resourceElement;
-                    $resourceElement->{'$Type'} = $resource->getType()->getIdentifier();
+                    $entityContainer->{$resource->getIdentifier()->getResolvedName($namespace)} = $resourceElement;
+                    $resourceElement->{'$Type'} = $resource->getType()->getIdentifier()->getQualifiedName();
                     break;
 
                 case $resource instanceof EntitySet:
-                    $entityContainer->{$resource->getResolvedName($namespace)} = $resourceElement;
-                    $resourceElement->{'$EntityType'} = $resource->getType()->getIdentifier();
+                    $entityContainer->{$resource->getIdentifier()->getResolvedName($namespace)} = $resourceElement;
+                    $resourceElement->{'$EntityType'} = $resource->getType()->getIdentifier()->getQualifiedName();
 
                     $navigationBindings = $resource->getNavigationBindings();
                     if ($navigationBindings) {
@@ -148,7 +148,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                         $resourceElement->{'$NavigationPropertyBinding'} = $navigationPropertyBindingElement;
 
                         foreach ($resource->getNavigationBindings() as $binding) {
-                            $navigationPropertyBindingElement->{$binding->getPath()->getName()} = $binding->getTarget()->getResolvedName($namespace);
+                            $navigationPropertyBindingElement->{$binding->getPath()->getName()} = $binding->getTarget()->getIdentifier()->getResolvedName($namespace);
                         }
                     }
                     break;
@@ -156,7 +156,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                 case $resource instanceof Operation:
                     $isBound = $resource->isBound();
 
-                    $schema->{$resource->getResolvedName($namespace)} = $resourceElement;
+                    $schema->{$resource->getIdentifier()->getResolvedName($namespace)} = $resourceElement;
                     $resourceElement->{'$Kind'} = $resource->getKind();
                     $resourceElement->{'$IsBound'} = $isBound;
 
@@ -168,7 +168,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                             $argumentsElement[] = [
                                 '$Name' => $argument->getName(),
                                 '$Nullable' => $argument->isNullable(),
-                                '$Type' => $argument->getType()->getIdentifier(),
+                                '$Type' => $argument->getType()->getIdentifier()->getQualifiedName(),
                             ];
                         }
                         $resourceElement->{'$Parameter'} = $argumentsElement;
@@ -180,14 +180,14 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                         $returnTypeElement = (object) [];
                         $resourceElement->{'$ReturnType'} = $returnTypeElement;
                         $returnTypeElement->{'$Collection'} = $resource->returnsCollection();
-                        $returnTypeElement->{'$Type'} = $returnType->getIdentifier();
+                        $returnTypeElement->{'$Type'} = $returnType->getIdentifier()->getQualifiedName();
                         $returnTypeElement->{'$Nullable'} = $resource->isNullable();
                     }
 
                     if (!$isBound) {
                         $operationImportElement = (object) [];
-                        $entityContainer->{$resource->getResolvedName($namespace).'Import'} = $operationImportElement;
-                        $operationImportElement->{$resource->isAction() ? '$Action' : '$Function'} = $resource->getIdentifier();
+                        $entityContainer->{$resource->getIdentifier()->getResolvedName($namespace).'Import'} = $operationImportElement;
+                        $operationImportElement->{$resource->isAction() ? '$Action' : '$Function'} = $resource->getIdentifier()->getQualifiedName();
 
                         if (null !== $returnType && $returnType instanceof EntitySet) {
                             $operationImportElement->{'$EntitySet'} = $returnType->getName();

@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Identifier;
 
 class Untyped extends ComplexType
 {
@@ -14,9 +15,9 @@ class Untyped extends ComplexType
         parent::__construct($this::identifier);
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): Identifier
     {
-        return $this::identifier;
+        return new Identifier($this::identifier);
     }
 
     public function toOpenAPISchema(): array

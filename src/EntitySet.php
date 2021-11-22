@@ -462,13 +462,16 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         ?PipeInterface $argument = null
     ): ?PipeInterface {
         $lexer = new Lexer($currentSegment);
+
         try {
-            $entitySet = Lodata::getEntitySet($lexer->qualifiedIdentifier());
+            $identifier = $lexer->qualifiedIdentifier();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
 
-        if (!$entitySet instanceof EntitySet) {
+        $entitySet = Lodata::getEntitySet($identifier);
+
+        if (!$entitySet instanceof EntitySet || !$entitySet->getIdentifier()->matchesNamespace($identifier)) {
             throw new PathNotHandledException();
         }
 

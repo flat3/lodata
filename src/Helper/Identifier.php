@@ -59,10 +59,43 @@ final class Identifier
     }
 
     /**
+     * Get the fully qualified name for this identifier
+     * @return string
+     */
+    public function getQualifiedName(): string
+    {
+        return $this->namespace.'.'.$this->name;
+    }
+
+    /**
+     * Get the resolved name of this item based on the provided namespace
+     * @param  string  $namespace  Namespace
+     * @return string
+     */
+    public function getResolvedName(string $namespace): string
+    {
+        if ($this->getNamespace() === $namespace) {
+            return $this->getName();
+        }
+
+        return $this->getQualifiedName();
+    }
+
+    /**
+     * Return whether this identifier has the same namespace as the provided identifier
+     * @param  string  $identifier
+     * @return bool
+     */
+    public function matchesNamespace(string $identifier): bool
+    {
+        return $this->namespace === (new Identifier($identifier))->getNamespace();
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
     {
-        return $this->namespace.'.'.$this->name;
+        return $this->getQualifiedName();
     }
 }

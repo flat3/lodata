@@ -54,6 +54,35 @@ class OperationTest extends TestCase
         );
     }
 
+    public function test_namespaced()
+    {
+        $op = new Operation\Function_('com.example.odata1.exf1');
+        $op->setCallable(function (): String_ {
+            return new String_('hello');
+        });
+        Lodata::add($op);
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/com.example.odata1.exf1()')
+        );
+
+        $this->assertNotFound(
+            (new Request)
+                ->path('/com.example.odata.exf1()')
+        );
+
+        $this->assertNotFound(
+            (new Request)
+                ->path('/exf1()')
+        );
+
+        $this->assertNotFound(
+            (new Request)
+                ->path('/com.example.odata2.exf1()')
+        );
+    }
+
     public function test_missing_invoke()
     {
         $op = new Operation\Function_('f1');

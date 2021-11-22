@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Traits\HasIdentifier;
 use RuntimeException;
 
 /**
@@ -14,6 +16,8 @@ use RuntimeException;
  */
 class PrimitiveType extends Type implements IdentifierInterface
 {
+    use HasIdentifier;
+
     const identifier = 'Edm.PrimitiveType';
 
     /**
@@ -84,37 +88,9 @@ class PrimitiveType extends Type implements IdentifierInterface
      * Get the fully qualified name of this primitive type
      * @return string Identifier
      */
-    public function getIdentifier(): string
+    public function getIdentifier(): Identifier
     {
         return $this->instance()->getIdentifier();
-    }
-
-    /**
-     * Get the name of this primitive type
-     * @return string Name
-     */
-    public function getName(): string
-    {
-        return $this->instance()->getName();
-    }
-
-    /**
-     * Get the namespace of this primitive typee
-     * @return string Namespace
-     */
-    public function getNamespace(): string
-    {
-        return $this->instance()->getNamespace();
-    }
-
-    /**
-     * Get the resolved name of this primitive type based on the provided namespace
-     * @param  string  $namespace  Namespace
-     * @return string Name
-     */
-    public function getResolvedName(string $namespace): string
-    {
-        return $this->instance()->getResolvedName($namespace);
     }
 
     /**
@@ -142,6 +118,6 @@ class PrimitiveType extends Type implements IdentifierInterface
      */
     public function __toString(): string
     {
-        return (string) $this->getIdentifier();
+        return $this->getIdentifier()->getQualifiedName();
     }
 }

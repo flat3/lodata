@@ -64,11 +64,11 @@ class XML extends Metadata implements StreamInterface
             switch (true) {
                 case $typeDefinition instanceof EnumerationType:
                     $typeDefinitionElement = $schema->addChild('EnumType');
-                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getResolvedName($namespace));
+                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getIdentifier()->getResolvedName($namespace));
 
                     $typeDefinitionElement->addAttribute(
                         'UnderlyingType',
-                        $typeDefinition->getUnderlyingType()->getResolvedName($namespace)
+                        $typeDefinition->getUnderlyingType()->getIdentifier()->getResolvedName($namespace)
                     );
 
                     $typeDefinitionElement->addAttribute(
@@ -86,11 +86,11 @@ class XML extends Metadata implements StreamInterface
 
                 case $typeDefinition instanceof PrimitiveType:
                     $typeDefinitionElement = $schema->addChild('TypeDefinition');
-                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getResolvedName($namespace));
+                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getIdentifier()->getResolvedName($namespace));
 
                     $typeDefinitionElement->addAttribute(
                         'UnderlyingType',
-                        $typeDefinition->getUnderlyingType()->getResolvedName($namespace)
+                        $typeDefinition->getUnderlyingType()->getIdentifier()->getResolvedName($namespace)
                     );
                     break;
             }
@@ -99,7 +99,7 @@ class XML extends Metadata implements StreamInterface
         // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
         foreach (Lodata::getComplexTypes() as $complexType) {
             $complexTypeElement = $schema->addChild($complexType instanceof EntityType ? 'EntityType' : 'ComplexType');
-            $complexTypeElement->addAttribute('Name', $complexType->getResolvedName($namespace));
+            $complexTypeElement->addAttribute('Name', $complexType->getIdentifier()->getResolvedName($namespace));
 
             if ($complexType instanceof EntityType) {
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
@@ -121,7 +121,7 @@ class XML extends Metadata implements StreamInterface
                 $entityTypeProperty->addAttribute('Name', $property->getName());
 
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
-                $entityTypeProperty->addAttribute('Type', $property->getType()->getIdentifier());
+                $entityTypeProperty->addAttribute('Type', $property->getType()->getIdentifier()->getQualifiedName());
 
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
@@ -142,7 +142,7 @@ class XML extends Metadata implements StreamInterface
 
                 $navigationPropertyElement = $complexTypeElement->addChild('NavigationProperty');
                 $navigationPropertyElement->addAttribute('Name', $navigationProperty->getName());
-                $navigationPropertyType = $targetComplexType->getIdentifier();
+                $navigationPropertyType = $targetComplexType->getIdentifier()->getQualifiedName();
                 if ($navigationProperty->isCollection()) {
                     $navigationPropertyType = 'Collection('.$navigationPropertyType.')';
                 }
@@ -180,17 +180,17 @@ class XML extends Metadata implements StreamInterface
                 case $resource instanceof Singleton:
                     // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530395
                     $resourceElement = $entityContainer->addChild('Singleton');
-                    $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
-                    $resourceElement->addAttribute('Type', $resource->getType()->getIdentifier());
+                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getResolvedName($namespace));
+                    $resourceElement->addAttribute('Type', $resource->getType()->getIdentifier()->getQualifiedName());
                     break;
 
                 case $resource instanceof EntitySet:
                     // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
                     $resourceElement = $entityContainer->addChild('EntitySet');
-                    $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
+                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getResolvedName($namespace));
                     $resourceElement->addAttribute(
                         'EntityType',
-                        $resource->getType()->getIdentifier()
+                        $resource->getType()->getIdentifier()->getQualifiedName()
                     );
 
                     // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationPropertyBinding
@@ -203,7 +203,7 @@ class XML extends Metadata implements StreamInterface
                         );
                         $navigationPropertyBindingElement->addAttribute(
                             'Target',
-                            $binding->getTarget()->getResolvedName($namespace)
+                            $binding->getTarget()->getIdentifier()->getResolvedName($namespace)
                         );
                     }
                     break;
@@ -213,13 +213,16 @@ class XML extends Metadata implements StreamInterface
                     $isBound = $resource->isBound();
 
                     $resourceElement = $schema->addChild($resource->getKind());
-                    $resourceElement->addAttribute('Name', $resource->getResolvedName($namespace));
+                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getResolvedName($namespace));
                     $resourceElement->addAttribute('IsBound', (new Boolean($isBound))->toUrl());
 
                     foreach ($resource->getMetadataArguments() as $argument) {
                         $parameterElement = $resourceElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
-                        $parameterElement->addAttribute('Type', $argument->getType()->getIdentifier());
+                        $parameterElement->addAttribute(
+                            'Type',
+                            $argument->getType()->getIdentifier()->getQualifiedName()
+                        );
                         $parameterElement->addAttribute(
                             'Nullable',
                             (new Boolean($argument->isNullable()))->toUrl()
@@ -232,9 +235,9 @@ class XML extends Metadata implements StreamInterface
 
                         if ($resource->returnsCollection()) {
                             $returnTypeElement->addAttribute('Type',
-                                'Collection('.$returnType->getIdentifier().')');
+                                'Collection('.$returnType->getIdentifier()->getQualifiedName().')');
                         } else {
-                            $returnTypeElement->addAttribute('Type', $returnType->getIdentifier());
+                            $returnTypeElement->addAttribute('Type', $returnType->getIdentifier()->getQualifiedName());
                         }
 
                         $returnTypeElement->addAttribute(
@@ -246,7 +249,10 @@ class XML extends Metadata implements StreamInterface
                     if (!$isBound) {
                         $operationImportElement = $entityContainer->addChild($resource->getKind().'Import');
                         $operationImportElement->addAttribute('Name', $resource->getName());
-                        $operationImportElement->addAttribute($resource->getKind(), $resource->getIdentifier());
+                        $operationImportElement->addAttribute(
+                            $resource->getKind(),
+                            $resource->getIdentifier()->getQualifiedName()
+                        );
 
                         if (null !== $returnType && $returnType instanceof EntitySet) {
                             $operationImportElement->addAttribute('EntitySet', $returnType->getName());

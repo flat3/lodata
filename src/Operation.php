@@ -593,14 +593,14 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
         $lexer = new Lexer($currentSegment);
 
         try {
-            $operationIdentifier = $lexer->identifier();
+            $identifier = $lexer->qualifiedIdentifier();
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }
 
-        $operation = Lodata::getOperation($operationIdentifier);
+        $operation = Lodata::getOperation($identifier);
 
-        if (!$operation instanceof Operation) {
+        if (!$operation instanceof Operation || !$operation->getIdentifier()->matchesNamespace($identifier)) {
             throw new PathNotHandledException();
         }
 

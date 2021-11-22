@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Primitive;
 
@@ -104,7 +105,7 @@ class Enum extends Primitive
         return $this;
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): Identifier
     {
         return $this->type->getIdentifier();
     }

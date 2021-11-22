@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Gate;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
@@ -93,9 +96,17 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface,
         ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
-        $singleton = Lodata::getSingleton($currentSegment);
+        $lexer = new Lexer($currentSegment);
 
-        if (!$singleton instanceof Singleton) {
+        try {
+            $identifier = $lexer->qualifiedIdentifier();
+        } catch (LexerException $e) {
+            throw new PathNotHandledException();
+        }
+
+        $singleton = Lodata::getSingleton($identifier);
+
+        if (!$singleton instanceof Singleton || !$singleton->getIdentifier()->matchesNamespace($identifier)) {
             throw new PathNotHandledException();
         }
 
