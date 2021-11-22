@@ -42,6 +42,7 @@ class Constants
     public const odataStreaming = 'odata.streaming';
     public const odataVersion = 'odata-version';
     public const omitValues = 'omit-values';
+    public const prefer = 'prefer';
     public const preferenceApplied = 'preference-applied';
     public const q = 'q';
     public const respondAsync = 'respond-async';
@@ -49,4 +50,5 @@ class Constants
     public const streaming = 'streaming';
     public const trailer = 'trailer';
     public const true = 'true';
+    public const vary = 'vary';
 }

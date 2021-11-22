@@ -251,7 +251,7 @@ class Transaction
         );
 
         $this->preferences = new ParameterList();
-        $this->preferences->parse($this->getRequestHeader('prefer'));
+        $this->preferences->parse($this->getRequestHeader(Constants::prefer));
 
         foreach ($this->request->query->keys() as $param) {
             if (Str::startsWith($param, '$') && !in_array($param, $this->getSystemQueryOptions())) {
@@ -498,8 +498,8 @@ class Transaction
      */
     public function preferenceApplied(string $key, string $value): self
     {
-        $this->response->headers->set('preference-applied', sprintf('%s=%s', $key, $value));
-        $this->response->headers->set('vary', 'prefer', true);
+        $this->response->headers->set(Constants::preferenceApplied, sprintf('%s=%s', $key, $value));
+        $this->response->headers->set(Constants::vary, Constants::prefer, true);
 
         return $this;
     }
