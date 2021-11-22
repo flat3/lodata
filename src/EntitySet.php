@@ -359,7 +359,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
 
             if (!$property) {
-                $property = new DynamicProperty($key, Type::castInternalType(gettype($value)));
+                $property = new DynamicProperty($key, Type::fromInternalValue($value));
             }
 
             $propertyValue->setProperty($property);

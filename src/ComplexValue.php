@@ -167,7 +167,7 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
 
         $property = $this->getType()->getProperty($offset);
         if ($property === null) {
-            $property = new DynamicProperty($offset, Type::castInternalType(gettype($value)));
+            $property = new DynamicProperty($offset, Type::fromInternalValue($value));
         }
 
         $propertyType = $property->getType();

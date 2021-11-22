@@ -19,7 +19,7 @@ class ValueArgument extends Argument
      */
     public function getType(): Type
     {
-        return Type::castInternalType($this->parameter->getType()->getName());
+        return Type::fromInternalType($this->parameter->getType()->getName());
     }
 
     public function resolveParameter(?Primitive $parameter)

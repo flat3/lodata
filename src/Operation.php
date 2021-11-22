@@ -247,7 +247,7 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             return new PrimitiveType($returnType);
         }
 
-        return Type::castInternalType($returnType);
+        return Type::fromInternalType($returnType);
     }
 
     /**
