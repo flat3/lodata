@@ -676,6 +676,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
+     * Return this index option that applies to this entity set
+     * @return Option\Index
+     */
+    public function getIndex(): Option\Index
+    {
+        return $this->applyQueryOptions ? $this->transaction->getIndex() : new Option\Index();
+    }
+
+    /**
      * Generate trailing metadata for this entity set
      * @param  Transaction  $transaction
      * @param  MetadataContainer  $metadata

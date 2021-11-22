@@ -19,8 +19,8 @@
     },
     "com.example.odata": {
         "$Kind": "EntityContainer",
-        "atest": {
-            "$EntityType": "com.example.odata.etype",
+        "examples": {
+            "$EntityType": "com.example.odata.example",
             "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
@@ -96,28 +96,17 @@
             }
         }
     },
-    "ctype": {
-        "$Kind": "ComplexType",
-        "d": {
-            "$Type": "Edm.String",
-            "$Nullable": true
-        }
-    },
-    "etype": {
+    "example": {
         "$Kind": "EntityType",
         "$Key": [
             "id"
         ],
         "id": {
-            "$Type": "Edm.Int32",
+            "$Type": "Edm.Int64",
             "$Nullable": false
         },
-        "b": {
+        "name": {
             "$Type": "Edm.String",
-            "$Nullable": true
-        },
-        "c": {
-            "$Type": "com.example.odata.ctype",
             "$Nullable": true
         }
     }

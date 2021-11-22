@@ -10,7 +10,6 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Gate;
-use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;

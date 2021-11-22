@@ -9,7 +9,7 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="atest" EntityType="com.example.odata.etype">
+        <EntitySet Name="examples" EntityType="com.example.odata.example">
           <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
             <Record>
               <PropertyValue Property="Countable" Bool="true"/>
@@ -67,16 +67,12 @@
           <Annotation Term="Org.OData.Core.V1.PositionalInsert" Bool="true"/>
         </EntitySet>
       </EntityContainer>
-      <ComplexType Name="ctype">
-        <Property Name="d" Type="Edm.String" Nullable="true"/>
-      </ComplexType>
-      <EntityType Name="etype">
+      <EntityType Name="example">
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
-        <Property Name="b" Type="Edm.String" Nullable="true"/>
-        <Property Name="c" Type="com.example.odata.ctype" Nullable="true"/>
+        <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

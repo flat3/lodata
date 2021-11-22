@@ -64,7 +64,10 @@ class XML extends Metadata implements StreamInterface
             switch (true) {
                 case $typeDefinition instanceof EnumerationType:
                     $typeDefinitionElement = $schema->addChild('EnumType');
-                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getIdentifier()->getResolvedName($namespace));
+                    $typeDefinitionElement->addAttribute(
+                        'Name',
+                        $typeDefinition->getIdentifier()->getResolvedName($namespace)
+                    );
 
                     $typeDefinitionElement->addAttribute(
                         'UnderlyingType',
@@ -86,7 +89,10 @@ class XML extends Metadata implements StreamInterface
 
                 case $typeDefinition instanceof PrimitiveType:
                     $typeDefinitionElement = $schema->addChild('TypeDefinition');
-                    $typeDefinitionElement->addAttribute('Name', $typeDefinition->getIdentifier()->getResolvedName($namespace));
+                    $typeDefinitionElement->addAttribute(
+                        'Name',
+                        $typeDefinition->getIdentifier()->getResolvedName($namespace)
+                    );
 
                     $typeDefinitionElement->addAttribute(
                         'UnderlyingType',

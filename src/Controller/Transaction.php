@@ -46,6 +46,7 @@ use Flat3\Lodata\Transaction\Option\Expand;
 use Flat3\Lodata\Transaction\Option\Filter;
 use Flat3\Lodata\Transaction\Option\Format;
 use Flat3\Lodata\Transaction\Option\Id;
+use Flat3\Lodata\Transaction\Option\Index;
 use Flat3\Lodata\Transaction\Option\OrderBy;
 use Flat3\Lodata\Transaction\Option\SchemaVersion;
 use Flat3\Lodata\Transaction\Option\Search;
@@ -177,6 +178,12 @@ class Transaction
     private $idOption;
 
     /**
+     * Index system query option
+     * @var Index $index
+     */
+    private $index;
+
+    /**
      * Schema version system query option
      * @var SchemaVersion $schemaVersion
      */
@@ -233,6 +240,7 @@ class Transaction
         $this->skiptoken = new SkipToken();
         $this->top = new Top();
         $this->idOption = new Id();
+        $this->index = new Index();
     }
 
     /**
@@ -306,6 +314,7 @@ class Transaction
         $this->skiptoken = (new SkipToken)->setTransaction($this);
         $this->top = (new Top)->setTransaction($this);
         $this->idOption = (new Id)->setTransaction($this);
+        $this->index = (new Index)->setTransaction($this);
 
         return $this;
     }
@@ -488,6 +497,15 @@ class Transaction
     public function getIdOption(): Id
     {
         return $this->idOption;
+    }
+
+    /**
+     * Get the $index system query option
+     * @return Index Index
+     */
+    public function getIndex(): Index
+    {
+        return $this->index;
     }
 
     /**
@@ -866,7 +884,7 @@ class Transaction
     {
         $options = [
             'apply', 'count', 'compute', 'expand', 'format', 'filter', 'orderby', 'search', 'select', 'skip',
-            'skiptoken', 'top', 'schemaversion', 'id',
+            'skiptoken', 'top', 'schemaversion', 'id', 'index',
         ];
 
         if ($prefixed) {
