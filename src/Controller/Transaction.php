@@ -551,7 +551,7 @@ class Transaction
      */
     public function getCharset(): ?string
     {
-        return $this->getRequestHeader('accept-charset') ?: (new MediaType)->parse($this->getResponseHeader('content-type'))->getParameter('charset');
+        return $this->getRequestHeader('accept-charset') ?: (new MediaType)->parse($this->getResponseHeader(Constants::contentType))->getParameter('charset');
     }
 
     /**
@@ -560,7 +560,7 @@ class Transaction
      */
     public function getProvidedContentType(): MediaType
     {
-        return (new MediaType)->parse($this->getRequestHeader('content-type') ?? '');
+        return (new MediaType)->parse($this->getRequestHeader(Constants::contentType) ?? '');
     }
 
     /**
@@ -620,13 +620,31 @@ class Transaction
     }
 
     /**
+     * Get the content encoding requested by the client
+     * @return string Content encoding
+     */
+    public function getContentEncoding(): string
+    {
+        return $this->getRequestHeader(Constants::contentEncoding);
+    }
+
+    /**
+     * Get the content language requested by the client
+     * @return string Content language
+     */
+    public function getContentLanguage(): string
+    {
+        return $this->getRequestHeader(Constants::contentLanguage);
+    }
+
+    /**
      * Set the content encoding response header
      * @param  string  $encoding  Encoding
      * @return $this
      */
     public function setContentEncoding(string $encoding): self
     {
-        $this->sendHeader('content-encoding', $encoding);
+        $this->sendHeader(Constants::contentEncoding, $encoding);
 
         return $this;
     }
@@ -638,7 +656,7 @@ class Transaction
      */
     public function setContentLanguage(string $language): self
     {
-        $this->sendHeader('content-language', $language);
+        $this->sendHeader(Constants::contentLanguage, $language);
 
         return $this;
     }
@@ -659,7 +677,7 @@ class Transaction
      */
     public function sendContentType(MediaType $contentType): self
     {
-        $this->sendHeader('content-type', (string) $contentType);
+        $this->sendHeader(Constants::contentType, (string) $contentType);
 
         return $this;
     }

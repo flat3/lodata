@@ -12,6 +12,9 @@ class Constants
 {
     public const cacheControl = 'cache-control';
     public const charset = 'charset';
+    public const contentEncoding = 'content-encoding';
+    public const contentLanguage = 'content-language';
+    public const contentType = 'content-type';
     public const date = 'date';
     public const etag = 'etag';
     public const false = 'false';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Transaction;
 
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Url;
 use Flat3\Lodata\ServiceProvider;
 use Illuminate\Http\Request;
@@ -39,13 +40,13 @@ class MultipartDocument
     {
         $contentType = new MediaType();
 
-        if (!array_key_exists('content-type', $this->headers)) {
+        if (!array_key_exists(Constants::contentType, $this->headers)) {
             $contentType->parse(MediaType::text);
 
             return $contentType;
         }
 
-        $contentType->parse($this->headers['content-type'][0]);
+        $contentType->parse($this->headers[Constants::contentType][0]);
 
         return $contentType;
     }

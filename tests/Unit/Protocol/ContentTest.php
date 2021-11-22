@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Tests\Unit\Protocol;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -38,6 +39,36 @@ class ContentTest extends TestCase
         $this->assertMetadataResponse(
             (new Request)
                 ->path('/exf1()')
+        );
+    }
+
+    public function test_get_content_language()
+    {
+        $op = new Operation\Function_('op');
+        $op->setCallable(function (Transaction $transaction): string {
+            return $transaction->getContentLanguage();
+        });
+        Lodata::add($op);
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->header(Constants::contentLanguage, 'tr')
+                ->path('/op()')
+        );
+    }
+
+    public function test_get_content_encoding()
+    {
+        $op = new Operation\Function_('op');
+        $op->setCallable(function (Transaction $transaction): string {
+            return $transaction->getContentEncoding();
+        });
+        Lodata::add($op);
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->header(Constants::contentEncoding, 'utf-16')
+                ->path('/op()')
         );
     }
 }
