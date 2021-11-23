@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Flat3\Lodata\Tests\Unit\Eloquent;
+namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Operation\Repository;
 use Flat3\Lodata\Tests\Models\Airport;
-use Flat3\Lodata\Tests\Models\Repository as RepositoryModel;
+use Flat3\Lodata\Tests\Models\Repository;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-class Repository73Test extends TestCase
+class RepositoryTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
 
+        if (PHP_VERSION_ID < 80000) {
+            $this->markTestSkipped();
+        }
+
         $this->withFlightDatabase();
         $this->withFlightData();
 
-        Lodata::discoverEloquentModel(Airport::class);
-        $code = new Repository('code');
-        $code->setCallable([RepositoryModel::class, 'code']);
-        $code->setBindingParameterName('airport');
-        Lodata::add($code);
+        Lodata::discover(Airport::class);
+        Lodata::discover(Repository::class);
     }
 
     public function test_metadata()
