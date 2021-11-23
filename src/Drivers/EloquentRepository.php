@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers;
 
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\RepositoryInterface;
@@ -35,8 +36,18 @@ class EloquentRepository extends Operation
 
         /** @var RepositoryInterface $repository */
         $repository = new $repositoryClass;
+
+        $entityType = Lodata::getEntityType(EloquentEntitySet::getTypeName($repository->getClass()));
+
+        if (!$entityType instanceof EntityType) {
+            throw new InternalServerErrorException(
+                'invalid_entity_type',
+                'The entity type used by this repository has not been registered'
+            );
+        }
+
         $args[$this->getBindingParameterName()] = (new EntityArgument($this, $bindingParameter->getParameter()))
-            ->setType(Lodata::getEntityType(EloquentEntitySet::getTypeName($repository->getClass())));
+            ->setType($entityType);
 
         return $args;
     }
