@@ -19,12 +19,6 @@
     },
     "com.example.odata": {
         "$Kind": "EntityContainer",
-        "op1Import": {
-            "$Function": "com.example.odata.op1"
-        },
-        "op2Import": {
-            "$Function": "com.example.odata.op2"
-        },
         "Airports": {
             "$EntityType": "com.example.odata.Airport",
             "$NavigationPropertyBinding": {},
@@ -146,32 +140,6 @@
         "country_id": {
             "$Type": "Edm.Int32",
             "$Nullable": true
-        }
-    },
-    "op1": {
-        "$Kind": "Function",
-        "$IsBound": false,
-        "$Parameter": [],
-        "$ReturnType": {
-            "$Collection": false,
-            "$Type": "Edm.String",
-            "$Nullable": true
-        }
-    },
-    "op2": {
-        "$Kind": "Function",
-        "$IsBound": false,
-        "$Parameter": [
-            {
-                "$Name": "prefix",
-                "$Nullable": false,
-                "$Type": "Edm.String"
-            }
-        ],
-        "$ReturnType": {
-            "$Collection": false,
-            "$Type": "Edm.String",
-            "$Nullable": false
         }
     },
     "code": {

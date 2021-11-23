@@ -21,14 +21,6 @@ class Repository73Test extends TestCase
         $this->withFlightDatabase();
         $this->withFlightData();
 
-        $op1 = new Operation('op1');
-        $op1->setCallable([Airport::class, 'op1']);
-        Lodata::add($op1);
-
-        $op2 = new Operation('op2');
-        $op2->setCallable([Airport::class, 'op2']);
-        Lodata::add($op2);
-
         Lodata::discoverEloquentModel(Airport::class);
         $code = new EloquentRepository('code');
         $code->setCallable([Repository::class, 'code']);
