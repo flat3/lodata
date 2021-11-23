@@ -6,7 +6,6 @@ namespace Flat3\Lodata\Tests\Unit\Eloquent;
 
 use Flat3\Lodata\Drivers\EloquentRepository;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Models\Airport;
 use Flat3\Lodata\Tests\Models\Repository;
 use Flat3\Lodata\Tests\Request;
