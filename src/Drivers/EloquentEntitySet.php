@@ -48,7 +48,6 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
@@ -83,8 +82,8 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $this->model = $model;
 
-        $name = $this->getSetName($model);
-        $type = new EntityType(EloquentEntitySet::getTypeName($model));
+        $name = self::convertClassName($model);
+        $type = new EntityType(EntityType::convertClassName($model));
 
         parent::__construct($name, $type);
         $this->addAnnotation(new DeepInsertSupport());
@@ -99,26 +98,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $this->model = $model;
         return $this;
-    }
-
-    /**
-     * Get the OData entity type name for this Eloquent model
-     * @param  string  $model  Eloquent model class name
-     * @return string OData identifier
-     */
-    public static function getTypeName(string $model): string
-    {
-        return Str::studly(class_basename($model));
-    }
-
-    /**
-     * Get the OData entity set name for this Eloquent model
-     * @param  string  $model  Eloquent model class name
-     * @return string OData identifier
-     */
-    public function getSetName(string $model): string
-    {
-        return Str::pluralStudly(class_basename($model));
     }
 
     /**
@@ -331,7 +310,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             /** @var Relation $r */
             $r = $model->$method();
-            $esn = $this->getSetName(get_class($r->getRelated()));
+            $esn = self::convertClassName(get_class($r->getRelated()));
             $right = Lodata::getEntitySet($esn);
             if (!$right) {
                 throw new InternalServerErrorException('no_related_set', 'Could not find the related entity set '.$esn);

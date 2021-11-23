@@ -13,6 +13,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Illuminate\Support\Str;
 
 /**
  * Entity Type
@@ -118,5 +119,15 @@ class EntityType extends ComplexType implements PipeInterface
                 return $property->getType()->toOpenAPISchema();
             })
         ];
+    }
+
+    /**
+     * Get the OData entity type name for this class
+     * @param  string  $class  Class name
+     * @return string OData identifier
+     */
+    public static function convertClassName(string $class): string
+    {
+        return Str::studly(class_basename($class));
     }
 }

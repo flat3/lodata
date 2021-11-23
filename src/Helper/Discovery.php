@@ -5,11 +5,11 @@ namespace Flat3\Lodata\Helper;
 use Flat3\Lodata\Attributes\LodataOperation;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Drivers\EloquentOperation;
-use Flat3\Lodata\Drivers\EloquentRepository;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\RepositoryInterface;
 use Flat3\Lodata\Operation;
+use Flat3\Lodata\Operation\Repository;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -52,7 +52,7 @@ class Discovery
                         break;
 
                     case is_a($discoverable, RepositoryInterface::class, true):
-                        $operation = new EloquentRepository($operationName);
+                        $operation = new Repository($operationName);
                         break;
 
                     default:

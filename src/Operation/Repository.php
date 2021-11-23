@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Flat3\Lodata\Drivers;
+namespace Flat3\Lodata\Operation;
 
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\RepositoryInterface;
 use Flat3\Lodata\Operation;
-use Flat3\Lodata\Operation\Argument;
-use Flat3\Lodata\Operation\EntityArgument;
 
-class EloquentRepository extends Operation
+class Repository extends Operation
 {
     protected $kind = Operation::function;
 
@@ -37,7 +35,7 @@ class EloquentRepository extends Operation
         /** @var RepositoryInterface $repository */
         $repository = new $repositoryClass;
 
-        $entityType = Lodata::getEntityType(EloquentEntitySet::getTypeName($repository->getClass()));
+        $entityType = Lodata::getEntityType(EntityType::convertClassName($repository->getClass()));
 
         if (!$entityType instanceof EntityType) {
             throw new InternalServerErrorException(

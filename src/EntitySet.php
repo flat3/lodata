@@ -898,4 +898,14 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         return $annotations;
     }
+
+    /**
+     * Get the OData entity set name for this class
+     * @param  string  $class  Class name
+     * @return string OData identifier
+     */
+    public static function convertClassName(string $class): string
+    {
+        return Str::pluralStudly(class_basename($class));
+    }
 }
