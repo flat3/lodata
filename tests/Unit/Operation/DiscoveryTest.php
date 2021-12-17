@@ -4,6 +4,8 @@ namespace Flat3\Lodata\Tests\Unit\Operation;
 
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Models\Flight;
+use Flat3\Lodata\Tests\Models\Passenger;
+use Flat3\Lodata\Tests\Models\Pet;
 use Flat3\Lodata\Tests\Operations\Instance;
 use Flat3\Lodata\Tests\Operations\Service;
 use Flat3\Lodata\Tests\Request;
@@ -19,8 +21,12 @@ class DiscoveryTest extends TestCase
             $this->markTestSkipped();
         }
 
+        $this->withFlightDatabase();
+
         Lodata::discover(Flight::class);
         Lodata::discover(Service::class);
+        Lodata::discover(Passenger::class);
+        Lodata::discover(Pet::class);
 
         $instance = new Instance();
         $instance->a = 'c';

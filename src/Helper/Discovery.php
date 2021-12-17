@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Attributes\LodataOperation;
+use Flat3\Lodata\Attributes\LodataRelationship;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Drivers\EloquentOperation;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
@@ -27,7 +28,7 @@ class Discovery
         }
 
         if (is_a($discoverable, EloquentModel::class, true)) {
-            $this->discoverEloquentModel($discoverable);
+            $eloquentSet = $this->discoverEloquentModel($discoverable);
         }
 
         if (!Discovery::supportsAttributes()) {
@@ -40,9 +41,9 @@ class Discovery
             foreach ($reflectionMethod->getAttributes(
                 LodataOperation::class,
                 ReflectionAttribute::IS_INSTANCEOF
-            ) as $attribute) {
+            ) as $operationAttribute) {
                 /** @var LodataOperation $attributeInstance */
-                $attributeInstance = $attribute->newInstance();
+                $attributeInstance = $operationAttribute->newInstance();
 
                 $operationName = $attributeInstance->getName() ?: $reflectionMethod->getName();
 
@@ -72,6 +73,17 @@ class Discovery
                 }
 
                 Lodata::add($operation);
+            }
+
+            if ($reflectionMethod->getAttributes(
+                LodataRelationship::class,
+                ReflectionAttribute::IS_INSTANCEOF
+            )) {
+                $relationshipMethod = $reflectionMethod->getName();
+
+                try {
+                    $eloquentSet->discoverRelationship($relationshipMethod);
+                } catch (InternalServerErrorException $e) {}
             }
         }
     }
