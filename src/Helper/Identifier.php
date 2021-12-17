@@ -50,12 +50,36 @@ final class Identifier
     }
 
     /**
+     * Set the identifier name
+     * @param  string  $name  Name
+     * @return $this
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
      * Get the identifier namespace
      * @return string
      */
     public function getNamespace(): string
     {
         return $this->namespace;
+    }
+
+    /**
+     * Set the identifier namespace
+     * @param  string  $namespace  Namespace
+     * @return $this
+     */
+    public function setNamespace(string $namespace): self
+    {
+        $this->namespace = $namespace;
+
+        return $this;
     }
 
     /**
