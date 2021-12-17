@@ -39,26 +39,26 @@
           </Annotation>
           <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
             <Record>
-              <PropertyValue Property="Insertable" Bool="false"/>
+              <PropertyValue Property="Insertable" Bool="true"/>
             </Record>
           </Annotation>
           <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
             <Record>
-              <PropertyValue Property="Updatable" Bool="false"/>
+              <PropertyValue Property="Updatable" Bool="true"/>
               <PropertyValue Property="DeltaUpdateSupported" Bool="true"/>
             </Record>
           </Annotation>
           <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
             <Record>
-              <PropertyValue Property="Deletable" Bool="false"/>
+              <PropertyValue Property="Deletable" Bool="true"/>
             </Record>
           </Annotation>
           <Annotation Term="Org.OData.Capabilities.V1.ReadRestrictions">
             <Record>
-              <PropertyValue Property="Readable" Bool="false"/>
+              <PropertyValue Property="Readable" Bool="true"/>
             </Record>
           </Annotation>
-          <Annotation Term="Org.OData.Capabilities.V1.IndexableByKey" Bool="false"/>
+          <Annotation Term="Org.OData.Capabilities.V1.IndexableByKey" Bool="true"/>
           <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
             <Record>
               <PropertyValue Property="Supported" Bool="true"/>
@@ -66,8 +66,8 @@
           </Annotation>
           <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
             <Record>
-              <PropertyValue Property="Supported" Bool="false"/>
-              <PropertyValue Property="ContentIDSupported" Bool="false"/>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
             </Record>
           </Annotation>
         </EntitySet>
@@ -76,9 +76,167 @@
         <FunctionImport Name="add" Function="com.example.odata.add"/>
         <ActionImport Name="exec" Action="com.example.odata.exec"/>
         <ActionImport Name="exec2" Action="com.example.odata.exec2"/>
+        <EntitySet Name="Passengers" EntityType="com.example.odata.Passenger">
+          <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
+            <Record>
+              <PropertyValue Property="Countable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
+            <Record>
+              <PropertyValue Property="Filterable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SortRestrictions">
+            <Record>
+              <PropertyValue Property="Sortable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+            <Record>
+              <PropertyValue Property="Expandable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="true"/>
+              <PropertyValue Property="DeltaUpdateSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ReadRestrictions">
+            <Record>
+              <PropertyValue Property="Readable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.IndexableByKey" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <EntitySet Name="Pets" EntityType="com.example.odata.Pet">
+          <NavigationPropertyBinding Path="passenger" Target="Passengers"/>
+          <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
+            <Record>
+              <PropertyValue Property="Countable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
+            <Record>
+              <PropertyValue Property="Filterable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SortRestrictions">
+            <Record>
+              <PropertyValue Property="Sortable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+            <Record>
+              <PropertyValue Property="Expandable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="true"/>
+              <PropertyValue Property="DeltaUpdateSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ReadRestrictions">
+            <Record>
+              <PropertyValue Property="Readable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.IndexableByKey" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
         <FunctionImport Name="insarg" Function="com.example.odata.insarg"/>
       </EntityContainer>
-      <EntityType Name="Flight"/>
+      <EntityType Name="Flight">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="origin" Type="Edm.String" Nullable="true"/>
+        <Property Name="destination" Type="Edm.String" Nullable="true"/>
+        <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
+        <Property Name="duration" Type="Edm.Decimal" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="Passenger">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="flight_id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="Pet">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="passenger_id" Type="Edm.Int32" Nullable="true"/>
+        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="type" Type="Edm.String" Nullable="true"/>
+        <NavigationProperty Name="passenger" Type="com.example.odata.Passenger" Nullable="true"/>
+      </EntityType>
       <Function Name="hello" IsBound="false">
         <ReturnType Type="Edm.String" Nullable="false"/>
       </Function>

@@ -40,25 +40,25 @@
                 "Searchable": true
             },
             "@Org.OData.Capabilities.V1.InsertRestrictions": {
-                "Insertable": false
+                "Insertable": true
             },
             "@Org.OData.Capabilities.V1.UpdateRestrictions": {
-                "Updatable": false,
+                "Updatable": true,
                 "DeltaUpdateSupported": true
             },
             "@Org.OData.Capabilities.V1.DeleteRestrictions": {
-                "Deletable": false
+                "Deletable": true
             },
             "@Org.OData.Capabilities.V1.ReadRestrictions": {
-                "Readable": false
+                "Readable": true
             },
-            "@Org.OData.Capabilities.V1.IndexableByKey": false,
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
             "@Org.OData.Capabilities.V1.SelectSupport": {
                 "Supported": true
             },
             "@Org.OData.Capabilities.V1.DeepInsertSupport": {
-                "Supported": false,
-                "ContentIDSupported": false
+                "Supported": true,
+                "ContentIDSupported": true
             }
         },
         "helloImport": {
@@ -75,6 +75,92 @@
         },
         "exec2Import": {
             "$Action": "com.example.odata.exec2"
+        },
+        "Passengers": {
+            "$EntityType": "com.example.odata.Passenger",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "Pets": {
+            "$EntityType": "com.example.odata.Pet",
+            "$NavigationPropertyBinding": {
+                "passenger": "Passengers"
+            },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
         },
         "insargImport": {
             "$Function": "com.example.odata.insarg"
@@ -118,7 +204,79 @@
         }
     },
     "Flight": {
-        "$Kind": "EntityType"
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "origin": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "destination": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "gate": {
+            "$Type": "Edm.Int32",
+            "$Nullable": true
+        },
+        "duration": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true
+        }
+    },
+    "Passenger": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "flight_id": {
+            "$Type": "Edm.Int32",
+            "$Nullable": false
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    },
+    "Pet": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "passenger_id": {
+            "$Type": "Edm.Int32",
+            "$Nullable": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "type": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "passenger": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Passenger",
+            "$Nullable": true,
+            "$ReferentialConstraint": {}
+        }
     },
     "hello": {
         "$Kind": "Function",
