@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "unsupported_function",
+        "message": "This entity set does not support the function \"matchesPattern\"",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

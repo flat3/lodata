@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Expression\Node\Operator;
 
-use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Node\Literal\LambdaVariable;
 use Flat3\Lodata\Expression\Node\Property\Navigation;
 use Flat3\Lodata\Expression\Operator;
@@ -68,18 +66,5 @@ abstract class Lambda extends Operator
         $this->variable = $variable;
 
         return $this;
-    }
-
-    public function compute(): void
-    {
-        try {
-            $this->emit($this);
-            $arguments = $this->getArguments();
-            $arg = array_shift($arguments);
-            $arg->compute();
-            $this->emit(new Group\End($this->parser));
-        } catch (NodeHandledException $e) {
-            return;
-        }
     }
 }

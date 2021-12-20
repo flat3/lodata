@@ -28,8 +28,8 @@
             },
             "body": {
                 "error": {
-                    "code": "missing_fields",
-                    "message": "The supplied object had no fields",
+                    "code": "property_not_nullable",
+                    "message": "The property 'name' cannot be set to null",
                     "target": null,
                     "details": [],
                     "innererror": {}

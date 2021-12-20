@@ -11,7 +11,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Guid
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Guid extends Primitive
 {
@@ -42,10 +41,10 @@ class Guid extends Primitive
 
     public function set($value): self
     {
-        $this->value = $this->maybeNull(Lexer::patternCheck(
+        $this->value = Lexer::patternCheck(
             Lexer::guid,
             (string) $value
-        ) ? $this::stringToBinary($value) : (null === $value ? null : (string) $value));
+        ) ? $this::stringToBinary($value) : (null === $value ? null : (string) $value);
 
         return $this;
     }
@@ -53,11 +52,6 @@ class Guid extends Primitive
     public static function stringToBinary(string $guid): string
     {
         return pack('H*', str_replace('-', '', $guid));
-    }
-
-    public function getEmpty(): string
-    {
-        return $this::stringToBinary('00000000-0000-0000-0000-000000000000');
     }
 
     public function get(): ?string

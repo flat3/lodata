@@ -1,1 +1,1 @@
-This entity set does not support the operator "ceiling"
+SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( CEILING( flights."origin" ) = ? )

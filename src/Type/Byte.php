@@ -11,7 +11,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Byte
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Byte extends Numeric
 {
@@ -45,7 +44,7 @@ class Byte extends Numeric
 
     public function set($value): self
     {
-        $this->value = $this->maybeNull(null === $value ? null : $this->repack($value));
+        $this->value = null === $value ? null : $this->repack($value);
 
         return $this;
     }
@@ -53,11 +52,6 @@ class Byte extends Numeric
     protected function repack($value)
     {
         return unpack($this::format, pack('i', $value))[1];
-    }
-
-    protected function getEmpty(): int
-    {
-        return 0;
     }
 
     public function get(): ?int

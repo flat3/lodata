@@ -8,6 +8,6 @@ class SQLServerEntitySet extends SQLEntitySet
 {
     public function getDriver(): string
     {
-        return 'sqlsrv';
+        return SQLEntitySet::SQLServer;
     }
 }

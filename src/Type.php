@@ -60,7 +60,7 @@ abstract class Type
 {
     /**
      * The factory class name to generate instances of this type
-     * @var string $factory Factory class
+     * @var Primitive|string $factory Factory class
      */
     protected $factory;
 
@@ -110,28 +110,10 @@ abstract class Type
     abstract public function instance($value = null);
 
     /**
-     * Render this type as an OpenAPI schema
+     * Get the OpenAPI schema for this type
      * @return array
      */
-    abstract public function toOpenAPISchema(): array;
-
-    /**
-     * Render this type as an OpenAPI schema for creation paths
-     * @return array
-     */
-    public function toOpenAPICreateSchema(): array
-    {
-        return $this->toOpenAPISchema();
-    }
-
-    /**
-     * Render this type as an OpenAPI schema for update paths
-     * @return array
-     */
-    public function toOpenAPIUpdateSchema(): array
-    {
-        return $this->toOpenAPISchema();
-    }
+    abstract public function getOpenAPISchema(): array;
 
     /**
      * Return a type object based on the provided value
@@ -157,6 +139,7 @@ abstract class Type
         switch ($type) {
             case 'void':
             case 'string':
+            case 'NULL':
                 return self::string();
 
             case 'float':

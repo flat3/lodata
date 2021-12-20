@@ -8,6 +8,6 @@ class MySQLEntitySet extends SQLEntitySet
 {
     public function getDriver(): string
     {
-        return 'mysql';
+        return SQLEntitySet::MySQL;
     }
 }

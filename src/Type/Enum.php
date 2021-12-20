@@ -22,8 +22,6 @@ class Enum extends Primitive
     /** @var ObjectArray $value */
     protected $value;
 
-    protected $nullable = false;
-
     public function __construct(EnumerationType $type, $value = null)
     {
         $this->value = new ObjectArray();

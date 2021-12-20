@@ -92,7 +92,7 @@ class FormatTest extends TestCase
     {
         $this->assertNotAcceptable(
             (new Request)
-                ->query('$format', 'application/text')
+                ->format('application/text')
         );
     }
 
@@ -100,7 +100,7 @@ class FormatTest extends TestCase
     {
         $this->assertNotAcceptable(
             (new Request)
-                ->query('$format', 'none/txt')
+                ->format('none/txt')
         );
     }
 
@@ -108,7 +108,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             (new Request)
-                ->query('$format', 'application/json')
+                ->format('application/json')
         );
     }
 
@@ -116,7 +116,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             (new Request)
-                ->query('$format', '*/json')
+                ->format('*/json')
         );
     }
 
@@ -124,7 +124,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             (new Request)
-                ->query('$format', 'application/json;metadata=full')
+                ->format('application/json;metadata=full')
         );
     }
 
@@ -132,7 +132,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             (new Request)
-                ->query('$format', 'application/json;odata.metadata=full')
+                ->format('application/json;odata.metadata=full')
         );
     }
 
@@ -140,7 +140,7 @@ class FormatTest extends TestCase
     {
         $this->assertMetadataResponse(
             (new Request)
-                ->query('$format', 'json')
+                ->format('json')
         );
     }
 
@@ -148,7 +148,7 @@ class FormatTest extends TestCase
     {
         $this->assertBadRequest(
             (new Request)
-                ->query('$format', 'json;odata.metadata=none')
+                ->format('json;odata.metadata=none')
         );
     }
 
@@ -156,7 +156,7 @@ class FormatTest extends TestCase
     {
         $this->assertNotAcceptable(
             (new Request)
-                ->query('$format', 'xml')
+                ->format('xml')
         );
     }
 
@@ -165,7 +165,7 @@ class FormatTest extends TestCase
         $this->assertMetadataResponse(
             (new Request)
                 ->header('accept', 'application/json;odata.metadata=none')
-                ->query('$format', 'application/json;odata.metadata=full')
+                ->format('application/json;odata.metadata=full')
         );
     }
 

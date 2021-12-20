@@ -8,6 +8,7 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
@@ -22,7 +23,7 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use League\Csv\TabularDataReader;
 
-class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, PaginationInterface, CountInterface, OrderByInterface
+class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, PaginationInterface, CountInterface, OrderByInterface, ComputeInterface
 {
     use HasDisk;
     use HasFilePath;
@@ -99,7 +100,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
         $reader = $statement->process($this->getCsvReader(), $this->getCsvHeader());
 
         foreach ($reader->getIterator() as $offset => $record) {
-            yield $this->newEntity()->setEntityId($offset)->fromSource($record);
+            yield $this->newEntity()->setEntityId($offset)->fromSource($record)->generateComputedProperties();
         }
     }
 
@@ -107,6 +108,11 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
     {
         $csv = $this->getCsvStatement();
         $row = $csv->fetchOne($key->getPrimitiveValue());
-        return $this->newEntity()->setEntityId($key)->fromSource($row);
+
+        if (!$row) {
+            return null;
+        }
+
+        return $this->newEntity()->setEntityId($key)->fromSource($row)->generateComputedProperties();
     }
 }

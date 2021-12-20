@@ -18,7 +18,7 @@ class TopTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$top', '2')
+                ->top(2)
         );
     }
 
@@ -27,7 +27,7 @@ class TopTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$top', '1')
+                ->top(1)
         );
     }
 
@@ -36,7 +36,7 @@ class TopTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$top', '999')
+                ->top(999)
         );
     }
 
@@ -45,7 +45,7 @@ class TopTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/airports')
-                ->query('$top', 'xyz')
+                ->top('xyz')
         );
     }
 
@@ -54,17 +54,17 @@ class TopTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/airports')
-                ->query('$top', '-2')
+                ->top(-2)
         );
     }
 
     public function test_page()
     {
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 (new Request)
                     ->path('/airports')
-                    ->query('$top', '2')
+                    ->top(2)
             )
         );
 
@@ -75,12 +75,12 @@ class TopTest extends TestCase
 
     public function test_page_select()
     {
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 (new Request)
                     ->path('/airports')
-                    ->query('$top', '2')
-                    ->query('$select', 'code')
+                    ->top(2)
+                    ->select('code')
             )
         );
 

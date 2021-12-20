@@ -18,7 +18,7 @@ class CountTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$count', 'true')
+                ->count('true')
         );
     }
 
@@ -27,8 +27,8 @@ class CountTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$top', '1')
-                ->query('$count', 'true')
+                ->top(1)
+                ->count('true')
         );
     }
 
@@ -37,8 +37,8 @@ class CountTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$skip', '1')
-                ->query('$count', 'true')
+                ->skip(1)
+                ->count('true')
         );
     }
 
@@ -47,8 +47,8 @@ class CountTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$count', 'true')
-                ->query('$filter', 'is_big eq false')
+                ->count('true')
+                ->filter('is_big eq false')
         );
     }
 
@@ -57,8 +57,8 @@ class CountTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$count', 'true')
-                ->query('$search', 'sfo')
+                ->count('true')
+                ->search('sfo')
         );
     }
 
@@ -67,7 +67,7 @@ class CountTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$count', 'false')
+                ->count('false')
         );
     }
 

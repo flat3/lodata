@@ -37,7 +37,7 @@ class Monitor extends Controller
 
         $response = new Response();
         $response->headers->replace($meta['headers']);
-        $response->headers->set('asyncresult', $meta['status']);
+        $response->headers->set('asyncresult', (string) $meta['status']);
         $response->setCallback(function () use ($job) {
             try {
                 $resultStream = $job->getResultStream();

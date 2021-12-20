@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Type;
 
 use Carbon\CarbonImmutable as Carbon;
-use Exception;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
@@ -13,7 +12,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Date Time Offset
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class DateTimeOffset extends Primitive
 {
@@ -32,35 +30,22 @@ class DateTimeOffset extends Primitive
 
     public function set($value): self
     {
-        if (is_bool($value)) {
-            $value = $this->getEmpty();
-        }
-
         if ($value instanceof Carbon) {
             $this->value = $value;
 
             return $this;
         }
 
-        try {
-            $decodedValue = rawurldecode((string) $value);
+        $decodedValue = rawurldecode((string) $value);
 
-            if (is_numeric($decodedValue)) {
-                $decodedValue = '@'.$decodedValue;
-            }
-
-            $dt = new Carbon($decodedValue);
-            $this->value = $this->maybeNull(null === $value ? null : $this->repack($dt));
-        } catch (Exception $e) {
-            $this->value = $this->getEmpty();
+        if (is_numeric($decodedValue)) {
+            $decodedValue = '@'.$decodedValue;
         }
 
-        return $this;
-    }
+        $dt = new Carbon($decodedValue);
+        $this->value = null === $value ? null : $this->repack($dt);
 
-    protected function getEmpty(): Carbon
-    {
-        return (new Carbon())->setTimestamp(0);
+        return $this;
     }
 
     public function get(): ?Carbon

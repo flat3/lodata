@@ -1,7 +1,7 @@
 {
     "error": {
-        "code": "missing_key",
-        "message": "The required key must be provided to this entity set type",
+        "code": "property_not_nullable",
+        "message": "The property 'key' cannot be set to null",
         "target": null,
         "details": [],
         "innererror": {}

@@ -12,7 +12,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Time Of Day
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class TimeOfDay extends DateTimeOffset
 {

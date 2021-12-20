@@ -26,12 +26,6 @@ class PrimitiveType extends Type implements IdentifierInterface
      */
     protected $underlyingType;
 
-    /**
-     * Whether instances of this type can be made null
-     * @var bool $nullable
-     */
-    private $nullable = true;
-
     public function __construct(string $factory)
     {
         if (!is_a($factory, Primitive::class, true)) {
@@ -43,26 +37,6 @@ class PrimitiveType extends Type implements IdentifierInterface
         if ($factory::underlyingType) {
             $this->underlyingType = new self($factory::underlyingType);
         }
-    }
-
-    /**
-     * Set whether instances of this type can be made null
-     * @param  bool  $nullable
-     * @return $this
-     */
-    public function setNullable($nullable = true): self
-    {
-        $this->nullable = $nullable;
-        return $this;
-    }
-
-    /**
-     * Get whether instances of this type can be made null
-     * @return bool
-     */
-    public function isNullable(): bool
-    {
-        return $this->nullable;
     }
 
     /**
@@ -81,27 +55,16 @@ class PrimitiveType extends Type implements IdentifierInterface
      */
     public function instance($value = null): Primitive
     {
-        return new $this->factory($value, $this->nullable);
+        return new $this->factory($value);
     }
 
     /**
      * Get the fully qualified name of this primitive type
-     * @return string Identifier
+     * @return Identifier Identifier
      */
     public function getIdentifier(): Identifier
     {
         return $this->instance()->getIdentifier();
-    }
-
-    /**
-     * Render this type as an OpenAPI schema
-     * @return array
-     */
-    public function toOpenAPISchema(): array
-    {
-        return array_merge($this->factory::openApiSchema, [
-            'nullable' => $this->nullable,
-        ]);
     }
 
     /**
@@ -119,5 +82,14 @@ class PrimitiveType extends Type implements IdentifierInterface
     public function __toString(): string
     {
         return $this->getIdentifier()->getQualifiedName();
+    }
+
+    /**
+     * Get the OpenAPI schema for this primitive type
+     * @return array
+     */
+    public function getOpenAPISchema(): array
+    {
+        return $this->instance()::openApiSchema;
     }
 }

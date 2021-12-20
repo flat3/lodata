@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Drivers\SQL;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Platforms\SQLServer2012Platform;
+use Doctrine\DBAL\Platforms\SQLServerPlatform;
+use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
-use Illuminate\Database\Connection;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Support\Facades\DB;
 use PDO;
 
 /**
@@ -21,42 +19,6 @@ use PDO;
 trait SQLConnection
 {
     /**
-     * Database connection name
-     * @var string $connection
-     */
-    protected $connection = null;
-
-    /**
-     * Get the connection name
-     * @return string Name
-     */
-    public function getConnectionName(): string
-    {
-        return $this->connection ?: DB::getDefaultConnection();
-    }
-
-    /**
-     * Set the connection name
-     * @param  string  $connection  Name
-     * @return $this
-     */
-    public function setConnectionName(string $connection)
-    {
-        $this->connection = $connection;
-
-        return $this;
-    }
-
-    /**
-     * Get the database connection
-     * @return ConnectionInterface|Connection Connection
-     */
-    public function getConnection(): ConnectionInterface
-    {
-        return DB::connection($this->getConnectionName());
-    }
-
-    /**
      * Get a database handle
      * @return PDO Handle
      */
@@ -64,6 +26,7 @@ trait SQLConnection
     {
         $dbh = $this->getConnection()->getPdo();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         return $dbh;
     }
 
@@ -77,23 +40,33 @@ trait SQLConnection
     }
 
     /**
-     * Modify quote types by driver
-     * @param  string  $param  String to quote
-     * @return string
+     * Modify identifier quote types by driver
+     * @param  string  $identifier  String to quote
+     * @return string Quoted identifier
      */
-    public function quote(string $param): string
+    public function quoteSingleIdentifier(string $identifier): string
     {
         switch ($this->getDriver()) {
-            case 'pgsql':
-                return (new PostgreSQL94Platform())->quoteSingleIdentifier($param);
-            case 'sqlsrv':
-                return (new SQLServer2012Platform())->quoteSingleIdentifier($param);
-            case 'sqlite':
-                return (new SqlitePlatform())->quoteSingleIdentifier($param);
-            case 'mysql':
-                return (new MySQLPlatform())->quoteSingleIdentifier($param);
+            case SQLEntitySet::PostgreSQL:
+                $driver = new PostgreSQLPlatform;
+                break;
+
+            case SQLEntitySet::SQLServer:
+                $driver = new SQLServerPlatform;
+                break;
+
+            case SQLEntitySet::SQLite:
+                $driver = new SqlitePlatform;
+                break;
+
+            case SQLEntitySet::MySQL:
+                $driver = new MySQLPlatform;
+                break;
+
+            default:
+                throw new ConfigurationException('invalid_driver', 'An invalid driver was used');
         }
 
-        throw new ConfigurationException('invalid_driver', 'An invalid driver was used');
+        return $driver->quoteSingleIdentifier($identifier);
     }
 }

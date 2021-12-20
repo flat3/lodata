@@ -11,7 +11,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Decimal
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Decimal extends Numeric
 {
@@ -112,14 +111,9 @@ class Decimal extends Numeric
             }
         }
 
-        $this->value = $this->maybeNull(null === $value ? null : (float) $value);
+        $this->value = null === $value ? null : (float) $value;
 
         return $this;
-    }
-
-    protected function getEmpty(): float
-    {
-        return 0.0;
     }
 
     public function get(): ?float

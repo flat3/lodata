@@ -8,7 +8,7 @@ use Flat3\Lodata\Expression\Node\Literal\LambdaVariable;
 use Flat3\Lodata\Expression\Node\Property;
 
 /**
- * Lambda
+ * Lambda property
  * @package Flat3\Lodata\Expression\Node\Property
  */
 class Lambda extends Property

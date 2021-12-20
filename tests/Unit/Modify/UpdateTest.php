@@ -261,7 +261,7 @@ class UpdateTest extends TestCase
 
     public function test_update_related_missing()
     {
-        $this->assertJsonMetadataResponse(
+        $this->assertBadRequest(
             (new Request)
                 ->path('/passengers(1)')
                 ->patch()
@@ -278,7 +278,7 @@ class UpdateTest extends TestCase
 
     public function test_update_removed_changed()
     {
-        $this->assertJsonMetadataResponse(
+        $this->assertNotImplemented(
             (new Request)
                 ->path('/passengers(1)')
                 ->patch()
@@ -289,6 +289,18 @@ class UpdateTest extends TestCase
                             '@id' => 'pets(1)',
                         ],
                     ]
+                ])
+        );
+    }
+
+    public function test_rejects_null_properties()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/airports(1)')
+                ->patch()
+                ->body([
+                    'code' => null,
                 ])
         );
     }

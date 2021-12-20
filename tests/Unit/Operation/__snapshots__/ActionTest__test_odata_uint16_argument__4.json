@@ -29,7 +29,7 @@
                             "format": "int16",
                             "minimum": 0,
                             "maximum": 32767,
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],

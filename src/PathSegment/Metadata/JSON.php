@@ -19,6 +19,7 @@ use Flat3\Lodata\Model;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 
@@ -89,6 +90,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                 }
             }
 
+            /** @var Property $property */
             foreach (ObjectArray::merge(
                 $complexType->getDeclaredProperties(),
                 $complexType->getGeneratedProperties()
@@ -97,6 +99,10 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                 $complexTypeElement->{$property->getName()} = $complexTypeProperty;
                 $complexTypeProperty->{'$Type'} = $property->getType()->getIdentifier()->getQualifiedName();
                 $complexTypeProperty->{'$Nullable'} = $property->isNullable();
+
+                if ($property->hasStaticDefaultValue()) {
+                    $complexTypeProperty->{'$DefaultValue'} = $property->computeDefaultValue()->toJson();
+                }
 
                 foreach ($property->getAnnotations() as $annotation) {
                     $annotation->appendJson($complexTypeProperty);

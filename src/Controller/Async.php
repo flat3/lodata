@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Filesystem\Filesystem;
@@ -105,7 +106,11 @@ class Async implements ShouldQueue
         $disk = $this->getDisk();
         $metaPath = $this->getMetaPath();
 
-        $response = $this->transaction->execute();
+        try {
+            $response = $this->transaction->execute();
+        } catch (ProtocolException $e) {
+            $response = $e->toResponse();
+        }
 
         $disk->write($metaPath, $response->toJson());
 

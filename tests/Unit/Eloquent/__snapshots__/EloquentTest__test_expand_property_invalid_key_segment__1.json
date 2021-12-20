@@ -1,7 +1,7 @@
 {
     "error": {
-        "code": "not_found",
-        "message": "Entity not found",
+        "code": "no_handler",
+        "message": "No route handler was able to process this request",
         "target": null,
         "details": [],
         "innererror": {}

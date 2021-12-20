@@ -12,6 +12,7 @@ use Flat3\Lodata\Exception\Protocol\ConflictException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
+use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
@@ -29,7 +30,7 @@ use League\Flysystem\FileNotFoundException;
  * Class FilesystemEntitySet
  * @package Flat3\Lodata\Drivers
  */
-class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, QueryInterface
+class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInterface, UpdateInterface, DeleteInterface, QueryInterface, ComputeInterface
 {
     use HasDisk;
 
@@ -75,7 +76,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     public function create(PropertyValues $propertyValues): Entity
     {
         $entity = $this->newEntity();
-        $body = $this->transaction->getBody();
+        $body = $this->transaction->getBodyAsArray();
 
         if (!array_key_exists('path', $body)) {
             throw new BadRequestException('missing_path', 'The path key must be provided');
@@ -122,7 +123,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $entity = $this->read($key);
-        $body = $this->transaction->getBody();
+        $body = $this->transaction->getBodyAsArray();
         $path = $this->getEntityIdPath($entity->getEntityId());
 
         if (array_key_exists('$value', $body)) {
@@ -166,6 +167,8 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
                     ->setReadLink(new Uri($disk->url($path)))
             )
         );
+
+        $entity->generateComputedProperties();
 
         return $entity;
     }

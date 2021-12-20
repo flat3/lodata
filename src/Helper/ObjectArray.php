@@ -111,6 +111,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * Get the current value in the array
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->array);
@@ -129,7 +130,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * Get the key of the current value in the array
      * @return string
      */
-    public function key()
+    public function key(): string
     {
         return key($this->array);
     }
@@ -195,6 +196,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $offset
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
@@ -229,12 +231,21 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     }
 
     /**
-     * Check whether the array is empty
+     * Return whether the array has entries
      * @return bool
      */
     public function hasEntries(): bool
     {
-        return !!$this->array;
+        return $this->count() > 0;
+    }
+
+    /**
+     * Return whether the array is empty
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->count() === 0;
     }
 
     /**

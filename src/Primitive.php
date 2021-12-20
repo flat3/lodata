@@ -47,20 +47,13 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     const underlyingType = null;
 
     /**
-     * Whether the value can be made null
-     * @var bool $nullable
-     */
-    protected $nullable = true;
-
-    /**
      * Internal representation of the value
      * @var ?mixed $value
      */
     protected $value;
 
-    public function __construct($value = null, bool $nullable = true)
+    public function __construct($value = null)
     {
-        $this->nullable = $nullable;
         $this->set($value);
     }
 
@@ -111,49 +104,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * @return mixed
      */
     abstract public function toJson();
-
-    /**
-     * Return null or an "empty" value if this type cannot be made null
-     * @param  mixed  $value  The input value
-     * @return mixed The coerced value
-     */
-    public function maybeNull($value)
-    {
-        if (null === $value) {
-            return $this->nullable ? null : $this->getEmpty();
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get whether this value can be made null
-     * @return bool
-     */
-    public function isNullable(): bool
-    {
-        return $this->nullable;
-    }
-
-    /**
-     * Set whether this value can be made null
-     * @param  bool  $nullable
-     * @return $this
-     */
-    public function setNullable(bool $nullable): self
-    {
-        $this->nullable = $nullable;
-        return $this;
-    }
-
-    /**
-     * Get the "empty" representation of this type if it cannot be made null
-     * @return mixed Empty value
-     */
-    protected function getEmpty()
-    {
-        return '';
-    }
 
     /**
      * Get the resource URL of this primitive type
@@ -225,6 +175,16 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     public static function fromLexer(Lexer $lexer): Primitive
     {
         throw new NotImplementedException();
+    }
+
+    /**
+     * Return whether the provided value is equal to this one
+     * @param  Primitive  $value
+     * @return bool
+     */
+    public function equals(Primitive $value): bool
+    {
+        return $value instanceof $this && $value->get() === $this->get();
     }
 
     public static function pipe(

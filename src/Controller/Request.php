@@ -41,7 +41,7 @@ class Request extends IlluminateRequest implements RequestInterface
      * Implement x-http-method tunnelling
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         $method = parent::getMethod();
 

@@ -30,7 +30,7 @@
                             "format": "int64",
                             "minimum": -9223372036854775808,
                             "maximum": 9223372036854775807,
-                            "nullable": true
+                            "nullable": false
                         }
                     },
                     {
@@ -42,7 +42,7 @@
                             "format": "int64",
                             "minimum": -9223372036854775808,
                             "maximum": 9223372036854775807,
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],

@@ -106,15 +106,18 @@
         },
         "type": {
             "$Type": "Edm.String",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "timestamp": {
             "$Type": "Edm.DateTimeOffset",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.ComputedDefaultValue": true
         },
         "size": {
             "$Type": "Edm.Int64",

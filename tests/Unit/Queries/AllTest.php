@@ -28,7 +28,7 @@ class AllTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$all')
-                ->query('$select', 'id')
+                ->select('id')
         );
     }
 
@@ -39,7 +39,7 @@ class AllTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$all')
-                ->query('$orderby', 'id desc')
+                ->orderby('id desc')
         );
     }
 

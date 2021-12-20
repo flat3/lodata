@@ -346,7 +346,8 @@
                                 "type": "string",
                                 "nullable": true
                             }
-                        }
+                        },
+                        "nullable": true
                     }
                 }
             },
@@ -371,7 +372,8 @@
                                 "type": "string",
                                 "nullable": true
                             }
-                        }
+                        },
+                        "nullable": true
                     }
                 }
             },
@@ -389,7 +391,8 @@
                                 "type": "string",
                                 "nullable": true
                             }
-                        }
+                        },
+                        "nullable": true
                     }
                 }
             },

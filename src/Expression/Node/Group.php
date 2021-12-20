@@ -10,12 +10,28 @@ use Flat3\Lodata\Expression\Operator;
  * Group
  * @package Flat3\Lodata\Expression\Node
  */
-abstract class Group extends Operator
+class Group extends Operator
 {
+    /** @var Func $func */
+    private $func = null;
+
     /**
-     * Grouping operators do not output anything during compute
+     * Get the function attached to this group
+     *
+     * @return Operator|null
      */
-    public function compute(): void
+    public function getFunc(): ?Operator
     {
+        return $this->func;
+    }
+
+    /**
+     * Set the function attached to this group
+     *
+     * @param  Operator  $func
+     */
+    public function setFunc(Operator $func)
+    {
+        $this->func = $func;
     }
 }

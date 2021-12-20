@@ -12,7 +12,6 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\ConflictException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
@@ -41,6 +40,7 @@ use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Transaction\NavigationRequest;
+use Flat3\Lodata\Transaction\Option\Compute;
 use Flat3\Lodata\Transaction\Option\Count;
 use Flat3\Lodata\Transaction\Option\Expand;
 use Flat3\Lodata\Transaction\Option\Filter;
@@ -110,6 +110,12 @@ class Transaction
      * @var IEEE754Compatible $ieee754compatible
      */
     private $ieee754compatible;
+
+    /**
+     * Compute system query option
+     * @var Compute
+     */
+    private $compute;
 
     /**
      * Count system query option
@@ -228,6 +234,7 @@ class Transaction
     public function __construct()
     {
         $this->id = Str::uuid();
+        $this->compute = new Compute();
         $this->count = new Count();
         $this->format = new Format();
         $this->expand = new Expand();
@@ -270,13 +277,11 @@ class Transaction
             }
         }
 
-        foreach (['compute', 'apply'] as $sqo) {
-            if ($this->getSystemQueryOption($sqo)) {
-                throw new NotImplementedException(
-                    $sqo.'_not_implemented',
-                    "The \${$sqo} system query option is not implemented"
-                );
-            }
+        if ($this->getSystemQueryOption('apply')) {
+            throw new NotImplementedException(
+                'apply_not_implemented',
+                'The $apply system query option is not implemented'
+            );
         }
 
         if ($this->getRequestHeader('isolation') || $this->getRequestHeader('odata-isolation')) {
@@ -302,6 +307,7 @@ class Transaction
     {
         $this->request = $request;
 
+        $this->compute = (new Compute)->setTransaction($this);
         $this->count = (new Count)->setTransaction($this);
         $this->format = (new Format)->setTransaction($this);
         $this->expand = (new Expand)->setTransaction($this);
@@ -407,6 +413,15 @@ class Transaction
     public function getVersion(): string
     {
         return $this->version->getVersion();
+    }
+
+    /**
+     * Get the $compute system query option
+     * @return Compute Compute
+     */
+    public function getCompute(): Compute
+    {
+        return $this->compute;
     }
 
     /**
@@ -822,6 +837,24 @@ class Transaction
     }
 
     /**
+     * Get the request body, ensuring it is an array
+     * @return array
+     */
+    public function getBodyAsArray(): array
+    {
+        $body = $this->getBody();
+
+        if (!is_array($body)) {
+            throw new BadRequestException(
+                'invalid_body',
+                'The provided request body was not formed as an object'
+            );
+        }
+
+        return $body;
+    }
+
+    /**
      * Ensure the request method is one of the provided list or throw an exception
      * @param  string|array  $permitted  List of permitted methods
      * @param  string|null  $message  Error message
@@ -1202,16 +1235,15 @@ class Transaction
             $response = $emitter->response($this);
             $this->commit();
             return $response;
-        } catch (AcceptedException | NoContentException $e) { // Success responses
+        } catch (AcceptedException|NoContentException $e) { // Success responses
             $this->commit();
-            return $e->toResponse();
-        } catch (NotFoundException | MethodNotAllowedException | NotAcceptableException | PreconditionFailedException | NotImplementedException | InternalServerErrorException | ConflictException | ProtocolException $e) { // Error responses
+            throw $e;
+        } catch (ProtocolException $e) { // Error responses
             $this->rollback();
-            return $e->toResponse();
+            throw $e;
         } catch (Exception $e) { // Uncaptured errors
-            $exception = new InternalServerErrorException('unknown_error', $e->getMessage());
             $this->rollback();
-            return $exception->toResponse();
+            throw new InternalServerErrorException('unknown_error', $e->getMessage());
         }
     }
 
@@ -1387,7 +1419,7 @@ class Transaction
                     /** @var Entity $entity */
                     try {
                         $entity = EntitySet::pipe($this, $deltaPayload['@id']);
-                    } catch (PathNotHandledException | NotFoundException $e) {
+                    } catch (PathNotHandledException|NotFoundException $e) {
                         throw new BadRequestException(
                             'related_entity_missing',
                             'The requested related entity did not exist'

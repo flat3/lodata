@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Expression\Parser;
 
-use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Expression\Node;
-use Flat3\Lodata\Expression\Operator;
-use Flat3\Lodata\Expression\Parser;
-use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 
 /**
- * Filter
+ * Filter expression parser
  * @link https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BuiltinQueryFunctions
  * @package Flat3\Lodata\Expression\Parser
  */
-class Filter extends Parser
+class Filter extends Common
 {
-    public const operators = [
+    protected $operators = [
         // Primary
         Node\Operator\Logical\In::class,
 
@@ -90,39 +86,6 @@ class Filter extends Parser
     ];
 
     /**
-     * @var Transaction $transaction
-     */
-    protected $transaction;
-
-    public function __construct(Transaction $transaction)
-    {
-        parent::__construct();
-
-        $this->transaction = $transaction;
-
-        /** @var Operator $operator */
-        foreach (self::operators as $operator) {
-            $this->operators[$operator::getSymbol()] = $operator;
-        }
-    }
-
-    /**
-     * Handle an expression node
-     * @param  Node  $node  Node
-     * @return bool|null
-     */
-    public function emit(Node $node): ?bool
-    {
-        $entitySet = $this->getCurrentResource();
-
-        if ($entitySet instanceof FilterInterface) {
-            return $entitySet->filter($node);
-        }
-
-        return false;
-    }
-
-    /**
      * Tokenize a literal
      * @link https://github.com/oasis-tcs/odata-abnf/blob/master/abnf/odata-abnf-construction-rules.txt#L871
      * @return bool
@@ -156,6 +119,7 @@ class Filter extends Parser
             $this->tokenizeLambdaVariable() ||
             $this->tokenizeLambdaProperty() ||
             $this->tokenizeDeclaredProperty() ||
+            $this->tokenizeComputedProperty() ||
             $this->tokenizeOperator() ||
             $this->tokenizeNavigationPropertyPath();
     }
@@ -168,11 +132,17 @@ class Filter extends Parser
     {
         $token = $this->lexer->maybeParameterAlias();
 
-        $transaction = $this->transaction;
-
         if (!$token) {
             return false;
         }
+
+        $resource = $this->getCurrentResource();
+
+        if (!$resource) {
+            throw new ParserException('Encountered a parameter alias without a resource', $this->lexer);
+        }
+
+        $transaction = $resource->getTransaction();
 
         $referencedValue = $transaction->getParameterAlias($token);
         $lexer = $this->lexer;

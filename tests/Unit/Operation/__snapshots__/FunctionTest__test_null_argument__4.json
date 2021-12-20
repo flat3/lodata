@@ -28,7 +28,7 @@
                         "name": "a",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": false
                         }
                     },
                     {
@@ -46,7 +46,7 @@
                         "name": "b",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],

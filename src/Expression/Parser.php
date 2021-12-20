@@ -23,10 +23,16 @@ use Illuminate\Support\Arr;
 abstract class Parser
 {
     /**
-     * The list of operators understood by this parser
+     * The list of operators supported by this parser
      * @var Operator[] $operators
      */
     protected $operators = [];
+
+    /**
+     * The map of symbols to operators understood by this parser
+     * @var Operator[] $symbols
+     */
+    protected $symbols = [];
 
     /**
      * The list of tokens discovered by this parser
@@ -60,6 +66,9 @@ abstract class Parser
 
     public function __construct()
     {
+        foreach ($this->operators as $operator) {
+            $this->symbols[$operator::getSymbol()] = $operator;
+        }
     }
 
     /**
@@ -105,10 +114,6 @@ abstract class Parser
      */
     private function applyOperator(Operator $operator): void
     {
-        if ($operator instanceof Group\Start || $operator instanceof Group\End) {
-            throw new ParserException('Expression has unbalanced parentheses');
-        }
-
         if ($operator instanceof Func) {
             $this->operandStack[] = $operator;
 
@@ -152,7 +157,7 @@ abstract class Parser
         $leftOperand = array_pop($this->operandStack);
 
         if (!$rightOperand || !$leftOperand) {
-            throw new BadRequestException('missing_operand', 'An operator was used without an operand');
+            throw new ParserException('An operator was used without an operand', $this->lexer);
         }
 
         $operator->setRightNode($rightOperand);
@@ -178,7 +183,7 @@ abstract class Parser
             return false;
         }
 
-        $token = new Group\Start($this);
+        $token = new Group($this);
         $this->operatorStack[] = $token;
         $this->tokens[] = $token;
 
@@ -208,12 +213,10 @@ abstract class Parser
             return false;
         }
 
-        $this->tokens[] = new Group\End($this);
-
         while ($this->operatorStack) {
             $headOperator = $this->getOperatorStackHead();
-            if ($headOperator instanceof Group\Start) {
-                /** @var Group\Start $paren */
+            if ($headOperator instanceof Group) {
+                /** @var Group $paren */
                 $paren = array_pop($this->operatorStack);
                 $func = $paren->getFunc();
                 if ($func && $this->operandStack && ($func instanceof Lambda || $func instanceof Logical\In || ($func instanceof Func && $func::arguments > 0))) {
@@ -258,7 +261,7 @@ abstract class Parser
 
         while ($this->operatorStack) {
             $headOperator = $this->getOperatorStackHead();
-            if ($headOperator instanceof Group\Start) {
+            if ($headOperator instanceof Group) {
                 $arg = array_pop($this->operandStack);
                 $headOperator->getFunc()->addArgument($arg);
 
@@ -278,7 +281,7 @@ abstract class Parser
      */
     public function tokenizeOperator(): bool
     {
-        $token = $this->lexer->maybeKeyword(...array_keys($this->operators));
+        $token = $this->lexer->maybeKeyword(...array_keys($this->symbols));
 
         if (!$token) {
             return false;
@@ -293,7 +296,7 @@ abstract class Parser
         /**
          * @var Operator $o1
          */
-        $o1 = new $this->operators[$token]($this);
+        $o1 = new $this->symbols[$token]($this);
         $o1->setValue($token);
         $this->tokens[] = $o1;
 
@@ -662,7 +665,7 @@ abstract class Parser
             return false;
         }
 
-        $operand = new Property($this);
+        $operand = new Property\Declared($this);
         $operand->setValue($token);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
@@ -670,6 +673,43 @@ abstract class Parser
         return true;
     }
 
+    /**
+     * Tokenize a computed property
+     * @return bool
+     */
+    public function tokenizeComputedProperty(): bool
+    {
+        $currentResource = $this->getCurrentResource();
+
+        if (!$currentResource) {
+            return false;
+        }
+
+        if (!$currentResource->getTransaction()) {
+            return false;
+        }
+
+        $compute = $currentResource->getCompute();
+
+        if (!$compute->hasValue()) {
+            return false;
+        }
+
+        $properties = $compute->getProperties()->keys();
+
+        $token = $this->lexer->maybeKeyword(...$properties);
+
+        if (!$token) {
+            return false;
+        }
+
+        $operand = new Property\Computed($this);
+        $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
 
     /**
      * Tokenize a search string, where any literal string but an operator followed by a word boundary is valid
@@ -679,7 +719,7 @@ abstract class Parser
     {
         $exceptions = join('|', array_map(function ($operator) {
             return $operator.'\b';
-        }, array_keys($this->operators)));
+        }, array_keys($this->symbols)));
 
         $expression = '(?!'.$exceptions.')([^ \'"\(\)]+)';
 
@@ -696,11 +736,4 @@ abstract class Parser
 
         return true;
     }
-
-    /**
-     * Emit an expression node
-     * @param  Node  $node  Node
-     * @return bool|null
-     */
-    abstract public function emit(Node $node): ?bool;
 }

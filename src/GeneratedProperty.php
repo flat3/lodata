@@ -37,10 +37,7 @@ abstract class GeneratedProperty extends Property
             $result = Type::fromInternalValue($result)->instance($result);
         }
 
-        if (
-            !is_a($result, $type->getFactory(), true) ||
-            $result === null && $type instanceof PrimitiveType && !$type->isNullable()
-        ) {
+        if (!is_a($result, $type->getFactory(), true)) {
             throw new InternalServerErrorException(
                 'invalid_generated_property_type',
                 sprintf(
@@ -52,7 +49,6 @@ abstract class GeneratedProperty extends Property
         }
 
         $propertyValue->setValue($result);
-
         $value->addPropertyValue($propertyValue);
 
         return $propertyValue;

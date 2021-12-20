@@ -2,7 +2,7 @@ name: Documentation
 on:
   push:
     branches:
-      - 4.x
+      - 5.x
 jobs:
   docs:
     runs-on: ubuntu-latest

@@ -26,7 +26,17 @@ class EntitySetFilterTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path("/airports/\$filter(is_big eq true)")
-                ->query('$filter', "code eq 'lhr'")
+                ->filter("code eq 'lhr'")
+        );
+    }
+
+    public function test_path_query_filter_search()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path("/airports/\$filter(is_big eq true)")
+                ->filter("code eq 'lhr' or code eq 'ohr'")
+                ->search('lh')
         );
     }
 

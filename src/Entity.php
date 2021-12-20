@@ -12,6 +12,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
+use Flat3\Lodata\Expression\Parser\Compute;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -277,7 +278,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
         $transaction->assertContentTypeJson();
         $transaction->assertIfMatchHeader($this->getETag());
 
-        $propertyValues = $entitySet->arrayToPropertyValues($entitySet->getTransaction()->getBody());
+        $propertyValues = $entitySet->arrayToPropertyValues($entitySet->getTransaction()->getBodyAsArray());
         $entity = $entitySet->update($this->getEntityId(), $propertyValues);
         $transaction->processDeltaPayloads($entity);
 
@@ -374,5 +375,28 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
         }
 
         return $metadata;
+    }
+
+    /**
+     * Generate computed properties on this entity
+     * @return $this
+     */
+    public function generateComputedProperties(): self
+    {
+        $entitySet = $this->entitySet;
+        $compute = $entitySet->getCompute();
+
+        foreach ($compute->getProperties() as $computedProperty) {
+            $parser = $entitySet->getComputeParser();
+            $parser->pushEntitySet($entitySet);
+            $tree = $parser->generateTree($computedProperty->getExpression());
+
+            $propertyValue = new PropertyValue();
+            $propertyValue->setProperty($computedProperty);
+            $propertyValue->setValue(Compute::evaluate($tree, $this));
+            $this->addPropertyValue($propertyValue);
+        }
+
+        return $this;
     }
 }

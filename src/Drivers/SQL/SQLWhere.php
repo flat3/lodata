@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Expression\Parser\Filter as FilterParser;
-use Flat3\Lodata\Expression\Parser\Search as SearchParser;
-use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
-use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
 /**
  * SQL Where
@@ -16,77 +12,54 @@ use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
  */
 trait SQLWhere
 {
-    use SQLParameters;
-
-    /**
-     * The where clause
-     * @var string $where
-     */
-    protected $where = '';
-
-    /**
-     * Add a statement to the where clause
-     * @param  string  $where  Where clause
-     */
-    protected function addWhere(string $where): void
-    {
-        $this->where .= ' '.$where;
-    }
-
     /**
      * Generate where clauses for filter and search parameters
      */
-    protected function generateWhere(): void
+    protected function generateWhere(): SQLExpression
     {
-        $this->where = '';
+        $expression = new SQLExpression($this);
 
-        if ($this instanceof FilterInterface) {
+        $filter = $this->getFilter();
+
+        if ($filter->hasValue()) {
+            $filterContainer = new SQLExpression($this);
             $filter = $this->getFilter();
 
-            if ($filter->hasValue()) {
-                $this->whereMaybeAnd();
+            $parser = $this->getFilterParser();
+            $parser->pushEntitySet($this);
 
-                $filter = $this->getFilter();
-
-                $parser = new FilterParser($this->getTransaction());
-                $parser->pushEntitySet($this);
-
-                $tree = $parser->generateTree($filter->getValue());
-                $tree->compute();
-            }
+            $tree = $parser->generateTree($filter->getValue());
+            $filterContainer->evaluate($tree);
+            $expression->pushExpression($filterContainer);
         }
 
-        if ($this instanceof SearchInterface) {
+        $search = $this->getSearch();
+        if ($search->hasValue()) {
+            if ($this->getType()->getDeclaredProperties()->filter(function ($property) {
+                return $property->isSearchable();
+            })->isEmpty()) {
+                throw new InternalServerErrorException(
+                    'query_no_searchable_properties',
+                    'The provided query had no properties marked searchable'
+                );
+            }
+
+            $searchContainer = new SQLSearch($this);
             $search = $this->getSearch();
-            if ($search->hasValue()) {
-                if (!$this->getType()->getDeclaredProperties()->filter(function ($property) {
-                    return $property->isSearchable();
-                })->hasEntries()) {
-                    throw new InternalServerErrorException(
-                        'query_no_searchable_properties',
-                        'The provided query had no properties marked searchable'
-                    );
-                }
 
-                $this->whereMaybeAnd();
-                $search = $this->getSearch();
+            $parser = $this->getSearchParser();
+            $parser->pushEntitySet($this);
 
-                $parser = new SearchParser();
-                $parser->pushEntitySet($this);
+            $tree = $parser->generateTree($search->getValue());
+            $searchContainer->evaluate($tree);
 
-                $tree = $parser->generateTree($search->getValue());
-                $tree->compute();
+            if ($expression->hasStatement()) {
+                $expression->pushStatement('AND');
             }
-        }
-    }
 
-    /**
-     * Attach an AND statement to the where clause if required
-     */
-    protected function whereMaybeAnd(): void
-    {
-        if ($this->where) {
-            $this->addWhere('AND');
+            $expression->pushExpression($searchContainer);
         }
+
+        return $expression;
     }
 }

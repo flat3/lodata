@@ -83,7 +83,7 @@ class SearchTest extends TestCase
 
         try {
             $tree = $parser->generateTree($input);
-            $tree->compute();
+            $entitySet->searchExpression($tree);
 
             $this->assertMatchesSnapshot(trim($entitySet->searchBuffer));
         } catch (ParserException $e) {
@@ -128,11 +128,10 @@ class SearchTest extends TestCase
 
             $query = $set->setTransaction($transaction);
 
-            $queryString = $query->getSetResultQueryString();
-            $queryParameters = $query->getParameters();
+            $container = $query->getResultExpression();
 
-            $this->assertMatchesSnapshot($queryString);
-            $this->assertMatchesSnapshot($queryParameters);
+            $this->assertMatchesSnapshot($container->getStatement());
+            $this->assertMatchesSnapshot($container->getParameters());
         } catch (ParserException $exception) {
             $this->assertMatchesSnapshot($exception->getMessage());
         } catch (NotImplementedException $exception) {

@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "unsupported_operator",
-        "message": "This entity set does not support the operator \"substring\"",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

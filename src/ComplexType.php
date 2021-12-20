@@ -6,17 +6,20 @@ namespace Flat3\Lodata;
 
 use ArrayAccess;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
-use Flat3\Lodata\Annotation\Core\V1\Immutable;
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\Properties;
+use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
+use Flat3\Lodata\Type\Boolean;
 
 /**
  * Complex Type
@@ -222,12 +225,12 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      * Render this type as an OpenAPI schema
      * @return array
      */
-    public function toOpenAPISchema(): array
+    public function getOpenAPISchema(): array
     {
         return [
             'type' => Constants::oapiObject,
             'properties' => $this->getDeclaredProperties()->map(function (DeclaredProperty $property) {
-                return $property->getType()->toOpenAPISchema();
+                return $property->getOpenAPISchema();
             })
         ];
     }
@@ -236,14 +239,14 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      * Render this type as an OpenAPI schema for creation paths
      * @return array
      */
-    public function toOpenAPICreateSchema(): array
+    public function getOpenAPICreateSchema(): array
     {
         return [
             'type' => Constants::oapiObject,
             'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
-                return !$property->getAnnotations()->sliceByClass(Computed::class)->hasEntries();
+                return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {
-                return $property->getType()->toOpenAPISchema();
+                return $property->getOpenAPISchema();
             })
         ];
     }
@@ -252,15 +255,61 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
      * Render this type as an OpenAPI schema for update paths
      * @return array
      */
-    public function toOpenAPIUpdateSchema(): array
+    public function getOpenAPIUpdateSchema(): array
     {
         return [
             'type' => Constants::oapiObject,
             'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
-                return !$property->getAnnotations()->sliceByClass([Computed::class, Immutable::class])->hasEntries();
+                return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {
-                return $property->getType()->toOpenAPISchema();
+                return $property->getOpenAPISchema();
             })
         ];
+    }
+
+    /**
+     * Ensure the provided property values meet the requirements of the entity type
+     * @param  PropertyValues  $propertyValues  Property values being mapped into this type
+     * @param  PropertyValue|null  $foreignKey  Foreign key value
+     * @return void
+     */
+    public function assertRequiredProperties(PropertyValues $propertyValues, ?PropertyValue $foreignKey = null)
+    {
+        $declaredProperties = $this->getDeclaredProperties();
+
+        foreach ($declaredProperties as $declaredProperty) {
+            if ($propertyValues->exists($declaredProperty)) {
+                continue;
+            }
+
+            if ($declaredProperty->hasDefaultValue()) {
+                $propertyValue = new PropertyValue();
+                $propertyValue->setProperty($declaredProperty);
+                $propertyValue->setValue($declaredProperty->computeDefaultValue());
+                $propertyValues[] = $propertyValue;
+                continue;
+            }
+
+            if (
+                $declaredProperty->isNullable()
+                || $declaredProperty->hasAnnotation(new Computed, Boolean::true())
+                || $declaredProperty->hasAnnotation(new ComputedDefaultValue, Boolean::true())
+            ) {
+                continue;
+            }
+
+            if ($foreignKey) {
+                /** @var NavigationProperty $navigationProperty */
+                $navigationProperty = $foreignKey->getProperty();
+
+                foreach ($navigationProperty->getConstraints() as $constraint) {
+                    if ($constraint->getReferencedProperty() === $declaredProperty) {
+                        continue 2;
+                    }
+                }
+            }
+
+            $declaredProperty->assertAllowsValue(null);
+        }
     }
 }

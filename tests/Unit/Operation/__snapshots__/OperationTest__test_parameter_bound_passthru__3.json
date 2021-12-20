@@ -237,11 +237,12 @@
         ],
         "id": {
             "$Type": "Edm.Int32",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "flight_id": {
             "$Type": "Edm.Int32",
@@ -263,7 +264,8 @@
         ],
         "id": {
             "$Type": "Edm.Int32",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "origin": {
             "$Type": "Edm.String",
@@ -306,15 +308,16 @@
         ],
         "id": {
             "$Type": "Edm.Int32",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "code": {
             "$Type": "Edm.String",
-            "$Nullable": true
+            "$Nullable": false
         },
         "construction_date": {
             "$Type": "Edm.Date",
@@ -344,7 +347,8 @@
         ],
         "id": {
             "$Type": "Edm.Int32",
-            "$Nullable": false
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         },
         "name": {
             "$Type": "Edm.String",

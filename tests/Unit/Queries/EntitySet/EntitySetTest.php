@@ -46,7 +46,7 @@ class EntitySetTest extends TestCase
             (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
-                ->query('$select', 'destination')
+                ->select('destination')
         );
     }
 }

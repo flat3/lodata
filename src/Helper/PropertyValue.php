@@ -106,6 +106,10 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
      */
     public function setValue(?JsonInterface $value): self
     {
+        if ($value instanceof Primitive && $this->property instanceof Property) {
+            $this->property->assertAllowsValue($value->get());
+        }
+
         $this->value = $value;
 
         if ($value instanceof ComplexValue) {
@@ -389,9 +393,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             );
         }
 
-        if (!$this->getProperty()->isNullable()) {
-            throw new BadRequestException('property_not_nullable', 'This property cannot be set to null');
-        }
+        $this->getProperty()->assertAllowsValue(null);
 
         Gate::delete($this, $transaction)->ensure();
 
@@ -457,9 +459,13 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new BadRequestException('property_not_updatable', 'This property cannot be updated');
         }
 
+        $property = $this->getProperty();
+        $value = $transaction->getBody();
+        $property->assertAllowsValue($value);
+
         Gate::update($this, $transaction)->ensure();
 
-        $this->setValue($this->getProperty()->getType()->instance($transaction->getBody()));
+        $this->setValue($property->getType()->instance($value));
 
         $propertyValues = new PropertyValues();
         $propertyValues[] = $this;

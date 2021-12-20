@@ -129,6 +129,14 @@
       <path value="$PROJECT_DIR$/vendor/swoole/ide-helper" />
       <path value="$PROJECT_DIR$/vendor/eclipxe/xmlschemavalidator" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/vendor/pimple/pimple" />
+      <path value="$PROJECT_DIR$/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/vendor/league/config" />
+      <path value="$PROJECT_DIR$/vendor/dflydev/dot-access-data" />
+      <path value="$PROJECT_DIR$/vendor/nette/utils" />
+      <path value="$PROJECT_DIR$/vendor/nette/schema" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
@@ -187,7 +195,6 @@
       <extension name="pdflib" enabled="false" />
       <extension name="pdo_ibm" enabled="false" />
       <extension name="pthreads" enabled="false" />
-      <extension name="radius" enabled="false" />
       <extension name="rar" enabled="false" />
       <extension name="recode" enabled="false" />
       <extension name="redis" enabled="false" />

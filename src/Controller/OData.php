@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Controller;
 
-use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Constants;
 use Illuminate\Routing\Controller;
 
@@ -23,25 +22,20 @@ class OData extends Controller
      */
     public function handle(Request $request, Transaction $transaction, Async $job): Response
     {
-        try {
-            $transaction->initialize($request);
+        $transaction->initialize($request);
 
-            if ($transaction->hasPreference(Constants::respondAsync)) {
-                $job->setTransaction($transaction);
-                $job->dispatch();
-            }
-
-            return $transaction->execute();
-        } catch (ProtocolException $e) {
-            return $e->toResponse();
+        if ($transaction->hasPreference(Constants::respondAsync)) {
+            $job->setTransaction($transaction);
+            $job->dispatch();
         }
+
+        return $transaction->execute();
     }
 
     /**
      * PHP 8
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function callAction($method, $parameters)
     {

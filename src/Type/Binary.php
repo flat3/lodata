@@ -11,7 +11,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Binary
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Binary extends Primitive
 {
@@ -47,7 +46,7 @@ class Binary extends Primitive
             $result = null;
         }
 
-        $this->value = $this->maybeNull(null === $value ? null : $result);
+        $this->value = null === $value ? null : $result;
 
         return $this;
     }

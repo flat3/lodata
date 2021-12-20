@@ -10,10 +10,6 @@ use Flat3\Lodata\Expression\Node;
  * Property
  * @package Flat3\Lodata\Expression\Node
  */
-class Property extends Node
+abstract class Property extends Node
 {
-    public function compute(): void
-    {
-        $this->emit($this);
-    }
 }

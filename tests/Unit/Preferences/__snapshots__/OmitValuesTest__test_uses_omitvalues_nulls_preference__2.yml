@@ -5,5 +5,4 @@ headers:
     content-type: [application/json]
     odata-version: ['4.01']
     etag: ['W/"9fa010cf93b9d83740e2460e33204d59121b794798c6c2c3b860bbf7ba3578df"']
-    trailer: [odata-error]
 status: 200

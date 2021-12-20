@@ -1519,7 +1519,7 @@
                             "format": "int32",
                             "minimum": -2147483648,
                             "maximum": 2147483647,
-                            "nullable": true
+                            "nullable": false
                         }
                     },
                     {
@@ -1531,7 +1531,7 @@
                             "format": "int32",
                             "minimum": -2147483648,
                             "maximum": 2147483647,
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],
@@ -1573,7 +1573,7 @@
                             "format": "int32",
                             "minimum": -2147483648,
                             "maximum": 2147483647,
-                            "nullable": true
+                            "nullable": false
                         }
                     },
                     {
@@ -1585,7 +1585,7 @@
                             "format": "int32",
                             "minimum": -2147483648,
                             "maximum": 2147483647,
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],
@@ -1702,7 +1702,7 @@
                     },
                     "name": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "flight_id": {
                         "type": "integer",
@@ -1716,16 +1716,9 @@
             "com.example.odata.passenger~create": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": -2147483648,
-                        "maximum": 2147483647,
-                        "nullable": false
-                    },
                     "name": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "flight_id": {
                         "type": "integer",
@@ -1741,7 +1734,7 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "flight_id": {
                         "type": "integer",
@@ -1788,13 +1781,6 @@
             "com.example.odata.flight~create": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": -2147483648,
-                        "maximum": 2147483647,
-                        "nullable": false
-                    },
                     "origin": {
                         "type": "string",
                         "nullable": true
@@ -1856,11 +1842,11 @@
                     },
                     "name": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "code": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "construction_date": {
                         "type": "string",
@@ -1905,20 +1891,13 @@
             "com.example.odata.airport~create": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": -2147483648,
-                        "maximum": 2147483647,
-                        "nullable": false
-                    },
                     "name": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "code": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "construction_date": {
                         "type": "string",
@@ -1965,11 +1944,11 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "code": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": false
                     },
                     "construction_date": {
                         "type": "string",
@@ -2041,13 +2020,6 @@
             "com.example.odata.pet~create": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": -2147483648,
-                        "maximum": 2147483647,
-                        "nullable": false
-                    },
                     "name": {
                         "type": "string",
                         "nullable": true

@@ -11,7 +11,7 @@ class NotImplementedTest extends TestCase
     {
         $this->assertNotImplemented(
             (new Request)
-                ->query('$compute', 'test')
+                ->apply('test')
         );
     }
 }

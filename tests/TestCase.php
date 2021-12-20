@@ -61,6 +61,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         config(['filesystems.disks.testing' => ['driver' => 'vfs']]);
         config(['lodata.readonly' => false]);
         config(['lodata.disk' => 'testing']);
+        config(['lodata.streaming' => false]);
 
         $app->register(RedisMockServiceProvider::class);
 
@@ -199,7 +200,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function assertODataError(Request $request, int $code): TestResponse
     {
         $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND, Response::HTTP_NOT_MODIFIED];
-        $response = $this->req($request);
+
+        try {
+            $response = $this->req($request);
+        } catch (ProtocolException $e) {
+            $response = new TestResponse($e->toResponse());
+        }
+
         $content = $this->responseContent($response);
         $this->assertEquals($code, $response->getStatusCode());
 
@@ -244,7 +251,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      * @param  TestResponse  $response
      * @return object
      */
-    public function jsonResponse(TestResponse $response): object
+    public function getResponseBody(TestResponse $response): object
     {
         return json_decode($this->responseContent($response));
     }

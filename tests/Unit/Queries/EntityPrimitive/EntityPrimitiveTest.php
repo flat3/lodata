@@ -33,6 +33,17 @@ class EntityPrimitiveTest extends TestCase
         $this->assertDatabaseSnapshot();
     }
 
+    public function test_cannot_delete_a_non_null_entity_set_primitive()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->delete()
+                ->path('/flights(1)/id')
+        );
+
+        $this->assertDatabaseSnapshot();
+    }
+
     public function test_update_an_entity_set_primitive()
     {
         $this->assertJsonResponse(

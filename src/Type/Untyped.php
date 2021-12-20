@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\ComplexType;
@@ -20,7 +22,7 @@ class Untyped extends ComplexType
         return new Identifier($this::identifier);
     }
 
-    public function toOpenAPISchema(): array
+    public function getOpenAPISchema(): array
     {
         return [
             'type' => Constants::oapiObject,

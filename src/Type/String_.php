@@ -13,7 +13,6 @@ use Flat3\Lodata\Primitive;
 /**
  * String
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class String_ extends Primitive
 {
@@ -38,7 +37,7 @@ class String_ extends Primitive
     public function set($value): self
     {
         try {
-            $this->value = $this->maybeNull(null === $value ? null : (string) $value);
+            $this->value = null === $value ? null : (string) $value;
         } catch (ErrorException $e) {
             throw new InternalServerErrorException('invalid_conversion', 'Could not convert value to string');
         }

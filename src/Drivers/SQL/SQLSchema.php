@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Drivers\SQL;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Type;
@@ -41,6 +42,7 @@ trait SQLSchema
                 continue;
             }
 
+            /** @var Column $column */
             $column = Arr::first($columns, function (Column $column) use ($index) {
                 return $column->getName() === $index->getColumns()[0];
             });
@@ -52,7 +54,7 @@ trait SQLSchema
             $key = $this->columnToDeclaredProperty($column);
 
             if ($column->getAutoincrement()) {
-                $key->addAnnotation(new Computed());
+                $key->addAnnotation(new Computed);
             }
 
             $type->setKey($key);
@@ -71,11 +73,15 @@ trait SQLSchema
                 continue;
             }
 
-            $notnull = $column->getNotnull();
+            $property = $this->columnToDeclaredProperty($column);
+            $property->setNullable(!$column->getNotnull());
 
-            $type->addProperty(
-                $this->columnToDeclaredProperty($column)->setNullable(!$notnull)
-            );
+            if ($column->getDefault()) {
+                $property->addAnnotation(new ComputedDefaultValue);
+                $property->setDefaultValue($column->getDefault());
+            }
+
+            $type->addProperty($property);
         }
 
         return $this;

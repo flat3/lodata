@@ -8,6 +8,6 @@ class SQLiteEntitySet extends SQLEntitySet
 {
     public function getDriver(): string
     {
-        return 'sqlite';
+        return SQLEntitySet::SQLite;
     }
 }

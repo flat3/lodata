@@ -59,11 +59,11 @@ class CSVTest extends TestCase
 
     public function test_pagination()
     {
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 (new Request)
-                    ->query('$top', 4)
-                    ->query('$skip', 5)
+                    ->top(4)
+                    ->skip(5)
                     ->path('/csv')
             )
         );
@@ -77,9 +77,9 @@ class CSVTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$top', 4)
+                ->top(4)
                 ->metadata(MetadataType\Full::name)
-                ->query('$orderby', 'name')
+                ->orderby('name')
                 ->path('/csv')
         );
     }
@@ -88,9 +88,9 @@ class CSVTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$top', 4)
+                ->top(4)
                 ->metadata(MetadataType\Full::name)
-                ->query('$orderby', 'name desc')
+                ->orderby('name desc')
                 ->path('/csv')
         );
     }
@@ -118,6 +118,14 @@ class CSVTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/csv(2)')
+        );
+    }
+
+    public function test_missing()
+    {
+        $this->assertNotFound(
+            (new Request)
+                ->path('/csv(9999)')
         );
     }
 

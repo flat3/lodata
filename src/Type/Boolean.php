@@ -11,7 +11,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Boolean
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Boolean extends Primitive
 {
@@ -58,14 +57,9 @@ class Boolean extends Primitive
             return $this;
         }
 
-        $this->value = $this->maybeNull(null === $value ? null : (bool) $value);
+        $this->value = null === $value ? null : (bool) $value;
 
         return $this;
-    }
-
-    protected function getEmpty(): bool
-    {
-        return false;
     }
 
     public function get(): ?bool

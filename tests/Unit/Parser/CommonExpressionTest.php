@@ -3,9 +3,8 @@
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Carbon\Carbon;
-use Flat3\Lodata\Controller\Transaction;
-use Flat3\Lodata\Entity;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Expression\Parser\Common;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Tests\TestCase;
@@ -946,13 +945,12 @@ class CommonExpressionTest extends TestCase
         }
     }
 
-    public function evaluate(string $expression, ?Entity $item = null)
+    public function evaluate(string $expression)
     {
-        $transaction = new Transaction();
-        $parser = new Filter($transaction);
+        $parser = new Filter();
         $tree = $parser->generateTree($expression);
 
-        $result = $tree->evaluateCommonExpression($item);
+        $result = Common::evaluate($tree);
 
         switch (true) {
             case $result instanceof TimeOfDay:

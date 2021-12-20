@@ -16,6 +16,9 @@ use Flat3\Lodata\Exception\Protocol\NoContentException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Expression\Parser\Compute;
+use Flat3\Lodata\Expression\Parser\Filter;
+use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\Constants;
@@ -314,12 +317,14 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     );
                 }
 
+                $transaction->assertContentTypeJson();
+                $propertyValues = $this->arrayToPropertyValues($this->getTransaction()->getBodyAsArray());
+                $this->getType()->assertRequiredProperties($propertyValues, $this->navigationPropertyValue);
+
                 Gate::create($this, $transaction)->ensure();
 
-                $transaction->assertContentTypeJson();
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
 
-                $propertyValues = $this->arrayToPropertyValues($this->getTransaction()->getBody());
                 $entity = $this->create($propertyValues);
                 $transaction->processDeltaPayloads($entity);
 
@@ -362,6 +367,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 $property = new DynamicProperty($key, Type::fromInternalValue($value));
             }
 
+            $property->assertAllowsValue($value);
             $propertyValue->setProperty($property);
             $propertyValue->setValue($property->getType()->instance($value));
             $propertyValues[] = $propertyValue;
@@ -408,6 +414,18 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         return $url;
+    }
+
+    /**
+     * Apply system query options to this entity set
+     * @param  bool  $applyQueryOptions  Apply query options
+     * @return $this
+     */
+    public function setApplyQueryOptions(bool $applyQueryOptions): self
+    {
+        $this->applyQueryOptions = $applyQueryOptions;
+
+        return $this;
     }
 
     /**
@@ -676,6 +694,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
+     * Return the compute option that applies to this entity set
+     * @return Option\Compute
+     */
+    public function getCompute(): Option\Compute
+    {
+        return $this->applyQueryOptions ? $this->transaction->getCompute() : new Option\Compute();
+    }
+
+    /**
      * Return this index option that applies to this entity set
      * @return Option\Index
      */
@@ -815,7 +842,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         Gate::create($this, $transaction)->ensure();
 
-        $propertyValues = $this->arrayToPropertyValues($this->transaction->getBody());
+        $propertyValues = $this->arrayToPropertyValues($this->transaction->getBodyAsArray());
+        $this->getType()->assertRequiredProperties($propertyValues, $this->navigationPropertyValue);
         $entity = $this->create($propertyValues);
         $transaction->processDeltaPayloads($entity);
 
@@ -837,7 +865,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         Gate::update($entity, $transaction)->ensure();
 
-        $propertyValues = $this->arrayToPropertyValues($transaction->getBody());
+        $propertyValues = $this->arrayToPropertyValues($transaction->getBodyAsArray());
         $entity = $this->update($entity->getEntityId(), $propertyValues);
         $transaction->processDeltaPayloads($entity);
 
@@ -907,5 +935,32 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public static function convertClassName(string $class): string
     {
         return Str::pluralStudly(class_basename($class));
+    }
+
+    /**
+     * Get an instance of the filter parser
+     * @return Filter
+     */
+    public function getFilterParser(): Filter
+    {
+        return new Filter;
+    }
+
+    /**
+     * Get an instance of the search parser
+     * @return Search
+     */
+    public function getSearchParser(): Search
+    {
+        return new Search;
+    }
+
+    /**
+     * Get an instance of the compute parser
+     * @return Compute
+     */
+    public function getComputeParser(): Compute
+    {
+        return new Compute;
     }
 }

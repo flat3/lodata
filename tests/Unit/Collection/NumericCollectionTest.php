@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Collection;
 
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\CollectionEntitySet;
 use Flat3\Lodata\EntityType;
@@ -32,7 +33,7 @@ class NumericCollectionTest extends TestCase
             ],
         ]);
         $entityType = new EntityType('example');
-        $entityType->setKey(new DeclaredProperty('id', Type::int64()));
+        $entityType->setKey((new DeclaredProperty('id', Type::int64()))->addAnnotation(new ComputedDefaultValue));
         $entityType->addDeclaredProperty('name', Type::string());
         $entityType->getDeclaredProperty('name')->setSearchable();
         $entitySet = new CollectionEntitySet('examples', $entityType);
@@ -100,7 +101,7 @@ class NumericCollectionTest extends TestCase
             (new Request)
                 ->post()
                 ->path('/examples')
-                ->query('$index', 1)
+                ->index(1)
                 ->body([
                     'name' => 'Zeta',
                 ])

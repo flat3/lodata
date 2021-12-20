@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Unit\Modify;
 
-use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
 
@@ -24,7 +24,9 @@ class TransactionTest extends TestCase
 
     public function test_create_deep_failed()
     {
-        $this->assertJsonResponse(
+        Lodata::getEntityType('passenger')->getDeclaredProperty('name')->setNullable(true);
+
+        $this->assertInternalServerError(
             (new Request)
                 ->path('/flights')
                 ->post()
@@ -37,8 +39,7 @@ class TransactionTest extends TestCase
                         ],
                         [],
                     ],
-                ]),
-            Response::HTTP_INTERNAL_SERVER_ERROR
+                ])
         );
     }
 }

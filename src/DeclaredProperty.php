@@ -11,32 +11,7 @@ namespace Flat3\Lodata;
  */
 class DeclaredProperty extends Property
 {
-    /**
-     * Whether this property is included as part of $search requests
-     * @var bool $searchable
-     */
-    protected $searchable = false;
-
-    /**
-     * Whether this property can be used in a $filter expression
-     * @var bool $filterable
-     */
     protected $filterable = true;
-
-    /**
-     * Whether this property can be used as an alternative key
-     * @var bool $alternativeKey
-     */
-    protected $alternativeKey = false;
-
-    /**
-     * Whether this property can be used as an alternative key
-     * @return bool
-     */
-    public function isAlternativeKey(): bool
-    {
-        return $this->alternativeKey;
-    }
 
     /**
      * Make this property available as an alternative key
@@ -51,15 +26,6 @@ class DeclaredProperty extends Property
     }
 
     /**
-     * Get whether this property is included in search
-     * @return bool
-     */
-    public function isSearchable(): bool
-    {
-        return $this->searchable;
-    }
-
-    /**
      * Set whether this property is included in search
      * @param  bool  $searchable
      * @return $this
@@ -69,15 +35,6 @@ class DeclaredProperty extends Property
         $this->searchable = $searchable;
 
         return $this;
-    }
-
-    /**
-     * Return whether this property can be used in a filter query
-     * @return bool
-     */
-    public function isFilterable(): bool
-    {
-        return $this->filterable;
     }
 
     /**

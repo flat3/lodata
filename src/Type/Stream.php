@@ -15,7 +15,6 @@ use ZBateson\StreamDecorators\Base64Stream;
 /**
  * Stream
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Stream extends Primitive
 {
@@ -66,7 +65,7 @@ class Stream extends Primitive
 
     public function set($value): self
     {
-        $this->value = $this->maybeNull(null === $value ? null : $value);
+        $this->value = null === $value ? null : $value;
 
         return $this;
     }

@@ -19,7 +19,7 @@ class SearchTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$search', 'sfo')
+                ->search('sfo')
         );
     }
 
@@ -30,7 +30,7 @@ class SearchTest extends TestCase
         $this->assertInternalServerError(
             (new Request)
                 ->path('/airports')
-                ->query('$search', 'sfo')
+                ->search('sfo')
         );
     }
 
@@ -39,7 +39,7 @@ class SearchTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$search', 'NOT sfo')
+                ->search('NOT sfo')
         );
     }
 
@@ -48,7 +48,7 @@ class SearchTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$search', 'sfo OR lhr')
+                ->search('sfo OR lhr')
         );
     }
 
@@ -57,7 +57,7 @@ class SearchTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$search', 'sf AND sfo')
+                ->search('sf AND sfo')
         );
     }
 
@@ -66,7 +66,7 @@ class SearchTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/airports')
-                ->query('$search', 'sf AND sfo OR')
+                ->search('sf AND sfo OR')
         );
     }
 
@@ -75,7 +75,7 @@ class SearchTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$search', '"sfo "')
+                ->search('"sfo "')
         );
     }
 
@@ -84,7 +84,7 @@ class SearchTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$search', '(sfo OR lax) OR lhr')
+                ->search('(sfo OR lax) OR lhr')
         );
     }
 }

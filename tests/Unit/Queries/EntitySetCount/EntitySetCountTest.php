@@ -28,7 +28,7 @@ class EntitySetCountTest extends TestCase
             (new Request)
                 ->path('/airports/$count')
                 ->text()
-                ->query('$top', '1')
+                ->top(1)
         );
     }
 
@@ -38,7 +38,7 @@ class EntitySetCountTest extends TestCase
             (new Request)
                 ->path('/airports/$count')
                 ->text()
-                ->query('$skip', '1')
+                ->skip(1)
         );
     }
 
@@ -48,7 +48,7 @@ class EntitySetCountTest extends TestCase
             (new Request)
                 ->path('/airports/$count')
                 ->text()
-                ->query('$filter', 'is_big eq false')
+                ->filter('is_big eq false')
         );
     }
 
@@ -58,7 +58,7 @@ class EntitySetCountTest extends TestCase
             (new Request)
                 ->path('/airports/$count')
                 ->text()
-                ->query('$search', 'sfo')
+                ->search('sfo')
         );
     }
 

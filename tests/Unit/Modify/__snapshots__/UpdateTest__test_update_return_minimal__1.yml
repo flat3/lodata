@@ -2,5 +2,5 @@ headers:
     preference-applied: [return=minimal]
     odata-entityid: ['http://localhost/odata/flights(1)']
     cache-control: ['no-cache, private']
-    trailer: [odata-error]
+    content-type: [application/json]
 status: 204

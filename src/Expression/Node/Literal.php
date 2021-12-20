@@ -12,8 +12,4 @@ use Flat3\Lodata\Expression\Node;
  */
 abstract class Literal extends Node
 {
-    public function compute(): void
-    {
-        $this->emit($this);
-    }
 }

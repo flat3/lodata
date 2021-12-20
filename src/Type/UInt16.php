@@ -9,7 +9,6 @@ use Flat3\Lodata\Helper\Constants;
 /**
  * UInt16
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class UInt16 extends Int16
 {

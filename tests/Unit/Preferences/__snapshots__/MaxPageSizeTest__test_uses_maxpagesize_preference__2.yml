@@ -4,5 +4,4 @@ headers:
     odata-version: ['4.01']
     preference-applied: [maxpagesize=1]
     vary: [prefer]
-    trailer: [odata-error]
 status: 200

@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Data;
 
+use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\DynamicProperty;
@@ -212,8 +213,11 @@ trait TestModels
         /** @var EntityType $passengerType */
         $passengerType = Lodata::add(
             (new EntityType('passenger'))
-                ->setKey(new DeclaredProperty('id', Type::int32()))
-                ->addProperty((new DeclaredProperty('name', Type::string()))->setSearchable())
+                ->setKey(
+                    (new DeclaredProperty('id', Type::int32()))
+                        ->addAnnotation(new Computed)
+                )
+                ->addProperty((new DeclaredProperty('name', Type::string()))->setSearchable()->setNullable(false))
                 ->addDeclaredProperty('flight_id', Type::int32())
         );
 
@@ -223,7 +227,10 @@ trait TestModels
         /** @var EntityType $flightType */
         $flightType = Lodata::add(
             (new EntityType('flight'))
-                ->setKey(new DeclaredProperty('id', Type::int32()))
+                ->setKey(
+                    (new DeclaredProperty('id', Type::int32()))
+                        ->addAnnotation(new Computed)
+                )
                 ->addDeclaredProperty('origin', Type::string())
                 ->addDeclaredProperty('destination', Type::string())
                 ->addDeclaredProperty('gate', Type::int32())
@@ -236,9 +243,12 @@ trait TestModels
         /** @var EntityType $airportType */
         $airportType = Lodata::add(
             (new EntityType('airport'))
-                ->setKey(new DeclaredProperty('id', Type::int32()))
-                ->addDeclaredProperty('name', Type::string())
-                ->addProperty((new DeclaredProperty('code', Type::string()))->setSearchable())
+                ->setKey(
+                    (new DeclaredProperty('id', Type::int32()))
+                        ->addAnnotation(new Computed)
+                )
+                ->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false))
+                ->addProperty((new DeclaredProperty('code', Type::string()))->setSearchable()->setNullable(false))
                 ->addDeclaredProperty('construction_date', Type::date())
                 ->addDeclaredProperty('open_time', Type::timeofday())
                 ->addDeclaredProperty('sam_datetime', Type::datetimeoffset())
@@ -252,7 +262,10 @@ trait TestModels
         /** @var EntityType $petType */
         $petType = Lodata::add(
             (new EntityType('pet'))
-                ->setKey(new DeclaredProperty('id', Type::int32()))
+                ->setKey(
+                    (new DeclaredProperty('id', Type::int32()))
+                        ->addAnnotation(new Computed)
+                )
                 ->addDeclaredProperty('name', Type::string())
                 ->addDeclaredProperty('type', Type::string())
                 ->addDeclaredProperty('passenger_id', Type::int32())

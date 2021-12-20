@@ -138,6 +138,23 @@ class EloquentTest extends TestCase
         $this->assertDatabaseSnapshot();
     }
 
+    public function test_update_rejects_null_properties()
+    {
+        $model = new Airport();
+        $model['name'] = 'Eloquent';
+        $model['code'] = 'elo';
+        $model->save();
+
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/Airports(1)')
+                ->patch()
+                ->body([
+                    'code' => null,
+                ])
+        );
+    }
+
     public function test_create()
     {
         $this->assertJsonResponse(
@@ -226,6 +243,31 @@ class EloquentTest extends TestCase
         $this->assertDatabaseSnapshot();
     }
 
+    public function test_create_rejects_missing_properties()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/Airports')
+                ->post()
+                ->body([
+                    'name' => 'Test',
+                ])
+        );
+    }
+
+    public function test_create_rejects_null_properties()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/Airports')
+                ->post()
+                ->body([
+                    'name' => 'Test',
+                    'code' => null,
+                ])
+        );
+    }
+
     public function test_query()
     {
         $model = new Airport();
@@ -247,7 +289,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Passengers')
-                ->query('$search', 'rr')
+                ->search('rr')
         );
     }
 
@@ -295,7 +337,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports')
-                ->query('$orderby', 'code asc')
+                ->orderby('code asc')
         );
     }
 
@@ -326,7 +368,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports')
-                ->query('$expand', 'flights')
+                ->expand('flights')
         );
     }
 
@@ -357,7 +399,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports(1)')
-                ->query('$expand', 'flights')
+                ->expand('flights')
         );
     }
 
@@ -376,7 +418,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports(1)')
-                ->query('$expand', 'country')
+                ->expand('country')
         );
     }
 
@@ -405,7 +447,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Flights(1)')
-                ->query('$expand', 'passengers')
+                ->expand('passengers')
         );
     }
 
@@ -416,7 +458,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Flights(2)')
-                ->query('$expand', 'passengers')
+                ->expand('passengers')
         );
     }
 
@@ -427,7 +469,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Flights(2)')
-                ->query('$expand', 'passengers($expand=flight)')
+                ->expand('passengers($expand=flight)')
         );
     }
 
@@ -439,7 +481,7 @@ class EloquentTest extends TestCase
             (new Request)
                 ->path('/Flights')
                 ->metadata(MetadataType\Full::name)
-                ->query('$expand', 'passengers($expand=flight)')
+                ->expand('passengers($expand=flight)')
         );
     }
 
@@ -450,7 +492,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Passengers(1)')
-                ->query('$expand', 'flight')
+                ->expand('flight')
         );
     }
 
@@ -471,7 +513,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Flights(1)/passengers')
-                ->query('$select', 'naame')
+                ->select('naame')
         );
     }
 
@@ -482,7 +524,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Flights(1)/passengers')
-                ->query('$select', 'name')
+                ->select('name')
         );
     }
 
@@ -495,7 +537,7 @@ class EloquentTest extends TestCase
                 ->path('/Flights')
                 ->metadata(MetadataType\Full::name)
                 ->preference('omit-values', 'nulls')
-                ->query('$select', 'gate')
+                ->select('gate')
         );
     }
 
@@ -535,7 +577,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Countries')
-                ->query('$expand', 'airports')
+                ->expand('airports')
         );
     }
 
@@ -546,7 +588,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Passengers')
-                ->query('$expand', 'originAirport,destinationAirport')
+                ->expand('originAirport,destinationAirport')
         );
     }
 
@@ -557,7 +599,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Flights(1)')
-                ->query('$expand', 'originAirport,destinationAirport')
+                ->expand('originAirport,destinationAirport')
         );
     }
 
@@ -672,7 +714,7 @@ class EloquentTest extends TestCase
             (new Request)
                 ->path('/Flights')
                 ->metadata(MetadataType\Full::name)
-                ->query('$select', 'destination')
+                ->select('destination')
         );
     }
 
@@ -682,7 +724,7 @@ class EloquentTest extends TestCase
 
         $this->captureDatabaseState();
 
-        $this->assertJsonResponse(
+        $this->assertBadRequest(
             (new Request)
                 ->path('/Flights')
                 ->post()
@@ -696,8 +738,7 @@ class EloquentTest extends TestCase
                         [
                         ],
                     ],
-                ]),
-            Response::HTTP_INTERNAL_SERVER_ERROR
+                ])
         );
 
         $this->assertDatabaseMatchesCapturedState();
@@ -739,7 +780,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports')
-                ->query('$skip', '1')
+                ->skip(1)
         );
     }
 
@@ -750,7 +791,7 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports')
-                ->query('$top', '2')
+                ->top(2)
         );
     }
 
@@ -761,8 +802,8 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports')
-                ->query('$top', '1')
-                ->query('$skip', '1')
+                ->top(1)
+                ->skip(1)
         );
     }
 
@@ -773,7 +814,76 @@ class EloquentTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/Airports')
-                ->query('$skip', '2')
+                ->skip(2)
+        );
+    }
+
+    public function test_compute()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/Airports')
+                ->compute("concat(code, ' test') as testprop")
+        );
+    }
+
+    public function test_compute_single()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/Airports/1')
+                ->compute("concat(code, ' test') as testprop")
+        );
+    }
+
+    public function test_compute_complex()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/Airports/1')
+                ->compute("year(construction_date) add month(sam_datetime) as testprop")
+        );
+    }
+
+    public function test_compute_orderby()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/Airports')
+                ->compute("year(sam_datetime) add month(sam_datetime) add day(sam_datetime) add length(name) as testprop")
+                ->orderby('testprop desc')
+        );
+    }
+
+    public function test_compute_filter()
+    {
+        $this->withFlightData();
+
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/Airports')
+                ->compute("year(sam_datetime) add month(sam_datetime) add day(sam_datetime) add length(name) as testprop")
+                ->filter('(testprop add 10) gt 2040')
+        );
+    }
+
+    public function test_compute_filter_invalid_property()
+    {
+        $this->withFlightData();
+
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/Airports')
+                ->compute("year(sam_datetime) add month(sam_datetime) add day(sam_datetime) add length(name) as testprop")
+                ->filter('(invalid add 10) gt 2040')
         );
     }
 }

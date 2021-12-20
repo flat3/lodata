@@ -560,14 +560,7 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             return $arguments;
         }
 
-        $this->transaction->assertContentTypeJson();
-
-        if (!is_array($body)) {
-            throw new BadRequestException(
-                'invalid_action_arguments',
-                'The arguments to the action were not correctly formed as an array'
-            );
-        }
+        $body = $this->transaction->getBodyAsArray();
 
         foreach ($body as $key => $value) {
             $argument = $callableArguments[$key];

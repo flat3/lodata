@@ -1,1 +1,1 @@
-This entity set does not support the operator "second"
+SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( STRFTIME('%S', flights."origin" ) = ? )

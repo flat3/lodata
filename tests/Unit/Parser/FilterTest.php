@@ -572,19 +572,17 @@ class FilterTest extends TestCase
 
     public function assertResult($input)
     {
-        $transaction = new Transaction();
-
         $this->generateModel(LoopbackEntitySet::class);
         $entitySet = clone Lodata::getEntitySet('flights');
 
-        $parser = new Filter($transaction);
+        $parser = new Filter();
         $parser->pushEntitySet($entitySet);
 
         try {
             $tree = $parser->generateTree($input);
-            $tree->compute();
+            $entitySet->commonExpression($tree);
 
-            $this->assertMatchesSnapshot(trim($entitySet->filterBuffer));
+            $this->assertMatchesSnapshot(trim($entitySet->commonBuffer));
         } catch (ParserException $e) {
             $this->assertMatchesSnapshot($e->getMessage());
         }
@@ -621,12 +619,11 @@ class FilterTest extends TestCase
 
             $query = $set->setTransaction($transaction);
 
-            $queryString = $query->getSetResultQueryString();
-            $queryParameters = $query->getParameters();
+            $container = $query->getResultExpression();
 
-            $this->assertMatchesSnapshot($queryString);
-            $this->assertMatchesSnapshot($queryParameters);
-        } catch (ParserException | ProtocolException $exception) {
+            $this->assertMatchesSnapshot($container->getStatement());
+            $this->assertMatchesSnapshot($container->getParameters());
+        } catch (ParserException|ProtocolException $exception) {
             $this->assertMatchesSnapshot($exception->getMessage());
         }
     }

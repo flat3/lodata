@@ -18,7 +18,7 @@ class OrderByTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$orderby', 'id desc')
+                ->orderby('id desc')
         );
     }
 
@@ -27,7 +27,7 @@ class OrderByTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$orderby', 'code asc')
+                ->orderby('code asc')
         );
     }
 
@@ -36,7 +36,7 @@ class OrderByTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$orderby', 'code')
+                ->orderby('code')
         );
     }
 
@@ -45,7 +45,7 @@ class OrderByTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/flights')
-                ->query('$orderby', 'origin wrong')
+                ->orderby('origin wrong')
         );
     }
 
@@ -54,7 +54,7 @@ class OrderByTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/flights')
-                ->query('$orderby', 'invalid asc')
+                ->orderby('invalid asc')
         );
     }
 
@@ -63,7 +63,7 @@ class OrderByTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$orderby', 'id desc, code asc')
+                ->orderby('id desc, code asc')
         );
     }
 
@@ -72,7 +72,7 @@ class OrderByTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/flights')
-                ->query('$orderby', 'origin asc id desc')
+                ->orderby('origin asc id desc')
         );
     }
 }

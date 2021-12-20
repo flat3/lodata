@@ -92,4 +92,15 @@ abstract class Argument implements NameInterface, TypeInterface
     {
         return $this->parameter;
     }
+
+    /**
+     * Get the OpenAPI schema for this argument
+     * @return array
+     */
+    public function getOpenAPISchema(): array
+    {
+        return array_merge($this->getType()->getOpenAPISchema(), [
+            'nullable' => $this->isNullable(),
+        ]);
+    }
 }

@@ -1,1 +1,1 @@
-This entity set does not support the operator "floor"
+SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( FLOOR( flights."origin" ) = ? )

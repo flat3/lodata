@@ -7,10 +7,10 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
+use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -28,7 +28,7 @@ use Illuminate\Support\Str;
  * Class RedisEntitySet
  * @package Flat3\Lodata\Drivers
  */
-class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, TokenPaginationInterface, CountInterface
+class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterface, DeleteInterface, ReadInterface, QueryInterface, TokenPaginationInterface, CountInterface, ComputeInterface
 {
     /** @var ?Connection $connection */
     protected $connection = null;
@@ -54,10 +54,6 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
 
         foreach ($propertyValues as $propertyValue) {
             $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getValue();
-        }
-
-        if (!$entity->getEntityId()) {
-            throw new BadRequestException('missing_key', 'The required key must be provided to this entity set type');
         }
 
         $this->getConnection()->set($entity->getEntityId()->getPrimitiveValue(), $this->serialize($entity));
@@ -131,6 +127,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
 
         $entity = $this->unserialize($record);
         $entity->setEntityId($key);
+        $entity->generateComputedProperties();
 
         return $entity;
     }

@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
+use Flat3\Lodata\ComputedProperty;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
-use Flat3\Lodata\Drivers\SQL\SQLFilter;
-use Flat3\Lodata\Drivers\SQL\SQLLimits;
-use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
+use Flat3\Lodata\Drivers\SQL\SQLExpression;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
-use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -20,9 +18,9 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Helper\ObjectArray;
-use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
+use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -40,6 +38,9 @@ use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Generator;
+use Illuminate\Database\Connection;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -48,23 +49,30 @@ use PDOStatement;
  * SQL Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface
+class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface
 {
     use SQLConnection;
-    use SQLFilter;
-    use SQLOrderBy;
-    use SQLSearch;
-    use SQLLimits;
     use SQLSchema;
     use SQLWhere {
         generateWhere as protected sqlGenerateWhere;
     }
+
+    public const PostgreSQL = 'pgsql';
+    public const MySQL = 'mysql';
+    public const SQLite = 'sqlite';
+    public const SQLServer = 'sqlsrv';
 
     /**
      * Mapping of OData properties to source identifiers
      * @var ObjectArray $sourceMap
      */
     protected $sourceMap;
+
+    /**
+     * Database connection name
+     * @var string $connection
+     */
+    protected $connection = null;
 
     /**
      * Database table for this entity sett
@@ -78,6 +86,36 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
         $this->sourceMap = new ObjectArray();
         $this->addAnnotation(new DeepInsertSupport());
+    }
+
+    /**
+     * Get the connection name
+     * @return string Name
+     */
+    public function getConnectionName(): ?string
+    {
+        return $this->connection;
+    }
+
+    /**
+     * Set the connection name
+     * @param  string  $connection  Name
+     * @return $this
+     */
+    public function setConnectionName(string $connection): self
+    {
+        $this->connection = $connection;
+
+        return $this;
+    }
+
+    /**
+     * Get the database connection
+     * @return ConnectionInterface|Connection Connection
+     */
+    public function getConnection(): ConnectionInterface
+    {
+        return DB::connection($this->getConnectionName());
     }
 
     /**
@@ -101,13 +139,31 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     }
 
     /**
-     * Convert the provided entity type property to a qualified database field
+     * Convert the provided property to a qualified database field
      * @param  Property  $property  Property
-     * @return string Qualified field name
+     * @return SQLExpression Expression
      */
-    protected function propertyToField(Property $property): string
+    public function propertyToExpression(Property $property): SQLExpression
     {
-        return sprintf('%s.%s', $this->getTable(), $this->quote($this->getPropertySourceName($property)));
+        $expression = new SQLExpression($this);
+
+        switch (true) {
+            case $property instanceof DeclaredProperty:
+                $expression->pushStatement(
+                    sprintf(
+                        '%s.%s',
+                        $this->getTable(),
+                        $this->quoteSingleIdentifier($this->getPropertySourceName($property))
+                    )
+                );
+                break;
+
+            case $property instanceof ComputedProperty:
+                $expression->pushStatement($this->quoteSingleIdentifier($property->getName()));
+                break;
+        }
+
+        return $expression;
     }
 
     /**
@@ -140,24 +196,32 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function read(PropertyValue $key): ?Entity
     {
-        $this->resetParameters();
+        $expression = new SQLExpression($this);
+        $expression->pushStatement('SELECT');
+
         $columns = $this->getColumnsToQuery();
-        $query = sprintf(
-            'SELECT %s FROM %s WHERE %s=?',
-            $columns,
-            $this->getTable(),
-            $this->propertyToField($key->getProperty())
-        );
-        $this->addParameter($key->getPrimitiveValue());
-        $stmt = $this->pdoSelect($query);
-        $this->bindParameters($stmt);
+        while ($columns) {
+            $field = array_shift($columns);
+            $expression->pushExpression($field);
+
+            if ($columns) {
+                $expression->pushComma();
+            }
+        }
+
+        $expression->pushStatement(sprintf('FROM %s WHERE', $this->getTable()));
+        $expression->pushExpression($this->propertyToExpression($key->getProperty()));
+        $expression->pushStatement('=?');
+        $expression->pushParameter($key->getPrimitiveValue());
+
+        $stmt = $this->pdoSelect($expression);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (false === $result) {
             return null;
         }
 
-        return $this->newEntity()->fromSource($result);
+        return $this->newEntity()->fromSource($this->coerceTypes($result));
     }
 
     /**
@@ -166,24 +230,23 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function count(): int
     {
-        $this->resetParameters();
+        $query = $this->pdoSelect($this->getCountExpression());
 
-        $query = $this->pdoSelect($this->getRowCountQueryString());
         return (int) $query->fetchColumn();
     }
 
     /**
      * Generate a PDO-compatible SQL query that modifies the database
-     * @param  string  $queryString  Query string
-     * @return int|null Affected row ID
+     * @param  SQLExpression  $expression  Query container
+     * @return string|null Affected row ID
      */
-    private function pdoModify(string $queryString): ?string
+    private function pdoModify(SQLExpression $expression): ?string
     {
         $dbh = $this->getHandle();
 
         try {
-            $stmt = $dbh->prepare($queryString);
-            $this->bindParameters($stmt);
+            $stmt = $dbh->prepare($expression->getStatement());
+            $this->bindParameters($stmt, $expression);
             $stmt->execute();
         } catch (PDOException $e) {
             throw new InternalServerErrorException(
@@ -197,16 +260,16 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
     /**
      * Generate a PDO-compatible SQL query that selects from the database
-     * @param  string  $queryString  Query string
+     * @param  SQLExpression  $expression  Query expression
      * @return PDOStatement PDO statement handle
      */
-    private function pdoSelect(string $queryString): PDOStatement
+    private function pdoSelect(SQLExpression $expression): PDOStatement
     {
         $dbh = $this->getHandle();
 
         try {
-            $stmt = $dbh->prepare($queryString);
-            $this->bindParameters($stmt);
+            $stmt = $dbh->prepare($expression->getStatement());
+            $this->bindParameters($stmt, $expression);
             $stmt->execute();
         } catch (PDOException $e) {
             throw new InternalServerErrorException(
@@ -221,35 +284,42 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     /**
      * Apply the generated bind parameters to the provided PDO statement
      * @param  PDOStatement  $stmt  PDO statement handle
+     * @param  SQLExpression  $expression  Expression
      */
-    protected function bindParameters(PDOStatement $stmt)
+    protected function bindParameters(PDOStatement $stmt, SQLExpression $expression)
     {
-        $parameters = $this->parameters;
+        $parameters = $expression->getParameters();
+
         if (!$parameters) {
             return;
         }
 
-        foreach ($this->parameters as $position => $value) {
-            $stmt->bindValue($position + 1, $value);
+        foreach ($parameters as $key => $value) {
+            $stmt->bindValue(
+                is_string($key) ? $key : $key + 1,
+                $value,
+                is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR
+            );
         }
     }
 
     /**
      * Get a version of the query string that counts the total number of rows in the collection
-     * @return string Query string
+     * @return SQLExpression Query expression
      */
-    public function getRowCountQueryString(): string
+    public function getCountExpression(): SQLExpression
     {
-        $this->resetParameters();
-        $queryString = sprintf('SELECT COUNT(*) FROM %s', $this->getTable());
+        $expression = new SQLExpression($this);
+        $expression->pushStatement(sprintf('SELECT COUNT(*) FROM %s', $this->getTable()));
 
-        $this->generateWhere();
+        $where = $this->generateWhere();
 
-        if ($this->where) {
-            $queryString .= sprintf(' WHERE%s', $this->where);
+        if ($where->hasStatement()) {
+            $expression->pushStatement('WHERE');
+            $expression->pushExpression($where);
         }
 
-        return $queryString;
+        return $expression;
     }
 
     /**
@@ -257,58 +327,107 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function query(): Generator
     {
-        $stmt = $this->pdoSelect($this->getSetResultQueryString());
+        $stmt = $this->pdoSelect($this->getResultExpression());
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            yield $this->newEntity()->fromSource($row);
+            yield $this->newEntity()->fromSource($this->coerceTypes($row));
         }
     }
 
     /**
      * Generate the where clause for this query
      */
-    public function generateWhere(): void
+    public function generateWhere(): SQLExpression
     {
-        $this->sqlGenerateWhere();
+        $where = $this->sqlGenerateWhere();
 
         if (!$this->navigationPropertyValue) {
-            return;
+            return $where;
+        }
+
+        if ($where->hasStatement()) {
+            $where->pushStatement('AND');
         }
 
         $key = $this->resolveExpansionKey();
-        $this->whereMaybeAnd();
-        $this->addWhere($this->propertyToField($key->getProperty()).' = ?');
-        $this->addParameter($key->getPrimitiveValue());
+        $fieldExpression = $this->propertyToExpression($key->getProperty());
+        $where->pushExpression($fieldExpression);
+        $where->pushStatement('=?');
+        $where->pushParameter($key->getPrimitiveValue());
+
+        return $where;
     }
 
     /**
      * Get the query string representing the query result
-     * @return string Query string
+     * @return SQLExpression Query expression
      */
-    public function getSetResultQueryString(): string
+    public function getResultExpression(): SQLExpression
     {
-        $this->resetParameters();
+        $expression = new SQLExpression($this);
+        $expression->pushStatement('SELECT');
+
         $columns = $this->getColumnsToQuery();
 
-        $query = sprintf('SELECT %s FROM %s', $columns, $this->getTable());
+        while ($columns) {
+            $column = array_shift($columns);
+            $expression->pushExpression($column);
 
-        $this->generateWhere();
-
-        if ($this->where) {
-            $query .= sprintf(' WHERE%s', $this->where);
+            if ($columns) {
+                $expression->pushComma();
+            }
         }
 
-        $query .= $this->generateOrderBy();
-        $query .= $this->generateLimits();
+        $expression->pushStatement(sprintf("FROM %s", $this->getTable()));
 
-        return $query;
+        $where = $this->generateWhere();
+
+        if ($where->hasStatement()) {
+            $expression->pushStatement('WHERE');
+            $expression->pushExpression($where);
+        }
+
+        $orderby = $this->getOrderBy();
+
+        if ($orderby->hasValue()) {
+            $properties = $this->getType()->getDeclaredProperties();
+
+            $compute = $this->getCompute();
+
+            if ($compute->hasValue()) {
+                $properties = $properties::merge($properties, $compute->getProperties());
+            }
+
+            $ob = implode(', ', array_map(function ($o) use ($properties) {
+                [$literal, $direction] = $o;
+
+                if (!$properties->get($literal)) {
+                    throw new BadRequestException(
+                        'invalid_orderby_property',
+                        sprintf('The provided property %s was not found in this entity type', $literal)
+                    );
+                }
+
+                return $this->quoteSingleIdentifier($literal)." $direction";
+            }, $orderby->getSortOrders()));
+
+            $expression->pushStatement(sprintf("ORDER BY %s", $ob));
+        }
+
+        if ($this->getSkip()->hasValue()) {
+            $expression->pushStatement('LIMIT ? OFFSET ?');
+            $expression->pushParameter($this->getTop()->hasValue() ? $this->getTop()->getValue() : PHP_INT_MAX);
+            $expression->pushParameter($this->getSkip()->getValue());
+        }
+
+        return $expression;
     }
 
     /**
      * Determine the list of columns to include in the query result
-     * @return string Columns
+     * @return SQLExpression[]
      */
-    protected function getColumnsToQuery(): string
+    protected function getColumnsToQuery(): array
     {
         $properties = $this->getSelectedProperties()->sliceByClass(DeclaredProperty::class);
 
@@ -337,23 +456,37 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             }
         }
 
-        return $this->propertiesToColumns($properties);
-    }
+        $compute = $this->getCompute();
 
-    /**
-     * Convert the provided entity type property list to a list of SQL fields
-     * @param  Properties  $properties  Properties
-     * @return string SQL fields
-     */
-    protected function propertiesToColumns(Properties $properties): string
-    {
+        if ($compute->hasValue()) {
+            $computedProperties = $compute->getProperties();
+
+            foreach ($computedProperties as $computedProperty) {
+                $properties->add($computedProperty);
+            }
+        }
+
         $columns = [];
 
         foreach ($properties as $property) {
-            $columns[] = $this->propertyToColumn($property);
-        }
+            switch (true) {
+                case $property instanceof ComputedProperty:
+                    $expression = new SQLExpression($this);
+                    $computeParser = $this->getComputeParser();
+                    $computeParser->pushEntitySet($this);
+                    $tree = $computeParser->generateTree($property->getExpression());
+                    $expression->evaluate($tree);
+                    break;
 
-        $columns = implode(', ', $columns);
+                default:
+                    $expression = $this->propertyToExpression($property);
+                    break;
+            }
+
+            $expression->pushStatement(sprintf("AS %s", $this->quoteSingleIdentifier($property->getName())));
+
+            $columns[] = $expression;
+        }
 
         if (!$columns) {
             throw new InternalServerErrorException(
@@ -366,25 +499,13 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     }
 
     /**
-     * Apply an SQL cast based on the provided property type
-     * @param  Property  $property  Property
-     * @return string SQL field with cast
-     */
-    protected function propertyToColumn(Property $property): string
-    {
-        $column = $this->propertyToField($property);
-
-        return sprintf('%s AS %s', $column, $this->quote($property->getName()));
-    }
-
-    /**
      * Create a new record
      * @param  PropertyValues  $propertyValues  Property values
      * @return Entity Entity
      */
     public function create(PropertyValues $propertyValues): Entity
     {
-        $fields = [];
+        $expressions = [];
 
         $declaredProperties = $this->getType()->getDeclaredProperties();
 
@@ -394,8 +515,10 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 continue;
             }
 
-            $fields[] = $this->getPropertySourceName($declaredProperty);
-            $this->addParameter($propertyValues[$declaredProperty->getName()]->getPrimitiveValue());
+            $expression = new SQLExpression($this);
+            $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($declaredProperty)));
+            $expression->pushParameter($propertyValues[$declaredProperty->getName()]->getPrimitiveValue());
+            $expressions[] = $expression;
         }
 
         if ($this->navigationPropertyValue) {
@@ -405,23 +528,40 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $fields[] = $this->getPropertySourceName($referencedProperty);
-                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
+                $expression = new SQLExpression($this);
+                $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty)));
+                $expression->pushParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
+                $expressions[] = $expression;
             }
         }
 
-        if (!$fields) {
+        if (!$expressions) {
             throw new BadRequestException(
                 'missing_fields',
                 'The supplied object had no fields'
             );
         }
 
-        $fieldsList = implode(',', $fields);
-        $valuesList = implode(',', array_fill(0, count($fields), '?'));
+        $expression = new SQLExpression($this);
+        $expression->pushStatement(sprintf("INSERT INTO %s", $this->getTable()));
+        $fieldCount = count($expressions);
 
-        $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->getTable(), $fieldsList, $valuesList);
-        $id = $this->pdoModify($query);
+        $expression->pushStatement('(');
+
+        while ($expressions) {
+            $field = array_shift($expressions);
+            $expression->pushExpression($field);
+
+            if ($expressions) {
+                $expression->pushComma();
+            }
+        }
+
+        $expression->pushStatement(')');
+
+        $expression->pushStatement('VALUES ('.implode(',', array_fill(0, $fieldCount, '?')).')');
+
+        $id = $this->pdoModify($expression);
 
         $entityId = $propertyValues[$this->getType()->getKey()] ?? null;
 
@@ -442,13 +582,18 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
-        $this->resetParameters();
-
-        $fields = [];
+        $expressions = [];
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $fields[] = sprintf('%s=?', $this->getPropertySourceName($propertyValue->getProperty()));
-            $this->addParameter($propertyValue->getPrimitiveValue());
+            $expression = new SQLExpression($this);
+            $expression->pushStatement(
+                sprintf(
+                    '%s=?',
+                    $this->quoteSingleIdentifier($this->getPropertySourceName($propertyValue->getProperty()))
+                )
+            );
+            $expression->pushParameter($propertyValue->getPrimitiveValue());
+            $expressions[] = $expression;
         }
 
         if ($this->navigationPropertyValue) {
@@ -458,24 +603,37 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $fields[] = sprintf('%s=?', $this->getPropertySourceName($referencedProperty));
-                $this->addParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
+                $expression = new SQLExpression($this);
+                $expression->pushStatement(
+                    sprintf(
+                        '%s=?',
+                        $this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty))
+                    )
+                );
+                $expression->pushParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
+                $expressions[] = $expression;
             }
         }
 
-        if ($fields) {
-            $fields = implode(',', $fields);
+        if ($expressions) {
+            $expression = new SQLExpression($this);
+            $expression->pushStatement(sprintf('UPDATE %s SET', $this->getTable()));
 
-            $this->addParameter($key->getPrimitiveValue());
+            while ($expressions) {
+                $field = array_shift($expressions);
+                $expression->pushExpression($field);
 
-            $query = sprintf(
-                'UPDATE %s SET %s WHERE %s=?',
-                $this->getTable(),
-                $fields,
-                $this->propertyToField($this->getType()->getKey())
-            );
+                if ($expressions) {
+                    $expression->pushComma();
+                }
+            }
 
-            $this->pdoModify($query);
+            $expression->pushStatement('WHERE');
+            $expression->pushExpression($this->propertyToExpression($this->getType()->getKey()));
+            $expression->pushStatement('=?');
+            $expression->pushParameter($key->getPrimitiveValue());
+
+            $this->pdoModify($expression);
         }
 
         return $this->read($key);
@@ -487,18 +645,41 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function delete(PropertyValue $key): void
     {
-        $this->resetParameters();
         $type = $this->getType();
 
-        $this->addParameter($key->getPrimitiveValue());
-
-        $query = sprintf(
-            'DELETE FROM %s WHERE %s=?',
-            $this->getTable(),
-            $this->getPropertySourceName($type->getKey())
+        $expression = new SQLExpression($this);
+        $expression->pushStatement(
+            sprintf(
+                "DELETE FROM %s WHERE %s=?",
+                $this->getTable(),
+                $this->quoteSingleIdentifier($this->getPropertySourceName($type->getKey()))
+            )
         );
+        $expression->pushParameter($key->getPrimitiveValue());
 
-        $this->pdoModify($query);
+        $this->pdoModify($expression);
+    }
+
+    /**
+     * Coerce types for the given record
+     * @link https://www.php.net/manual/en/migration81.incompatible.php
+     * @param  array  $record  Database record
+     * @return array
+     */
+    public function coerceTypes(array $record): array
+    {
+        foreach ($this->getCompute()->getProperties() as $computedProperty) {
+            $key = $computedProperty->getName();
+            $value = $record[$key];
+
+            if (is_string($value) && is_numeric($value)) {
+                $value = json_decode($value);
+            }
+
+            $record[$key] = $value;
+        }
+
+        return $record;
     }
 
     /**
@@ -509,7 +690,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     public function setTransaction(Transaction $transaction): EntitySet
     {
         parent::setTransaction($transaction);
-        $this->getSetResultQueryString();
+        $this->getResultExpression();
 
         return $this;
     }

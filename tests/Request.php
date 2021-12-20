@@ -17,38 +17,38 @@ class Request
         $this->json();
     }
 
-    public function header($key, $value): Request
+    public function header(string $key, $value): Request
     {
         $this->headers[$key] = $value;
         return $this;
     }
 
-    public function unsetHeader($key): self
+    public function unsetHeader(string $key): self
     {
         unset($this->headers[$key]);
 
         return $this;
     }
 
-    public function query($key, $value): Request
+    public function query(string $key, string $value): Request
     {
         $this->query[$key] = $value;
         return $this;
     }
 
-    public function metadata($type): Request
+    public function metadata(string $type): Request
     {
         $this->accept('application/json;odata.metadata='.$type);
         return $this;
     }
 
-    public function preference($key, $value): Request
+    public function preference(string $key, string $value): Request
     {
         $this->header('prefer', $key.'='.$value);
         return $this;
     }
 
-    public function path($path, $withPrefix = true): Request
+    public function path(string $path, bool $withPrefix = true): Request
     {
         $this->path = $path;
 
@@ -59,15 +59,87 @@ class Request
         return $this;
     }
 
-    public function filter($filter): Request
+    public function filter(string $filter): Request
     {
         $this->query('$filter', $filter);
         return $this;
     }
 
-    public function select($select): Request
+    public function select(string $select): Request
     {
         $this->query('$select', $select);
+        return $this;
+    }
+
+    public function orderby(string $orderby): Request
+    {
+        $this->query('$orderby', $orderby);
+        return $this;
+    }
+
+    public function compute(string $compute): Request
+    {
+        $this->query('$compute', $compute);
+        return $this;
+    }
+
+    public function top(string $top): Request
+    {
+        $this->query('$top', $top);
+        return $this;
+    }
+
+    public function skip(string $skip): Request
+    {
+        $this->query('$skip', $skip);
+        return $this;
+    }
+
+    public function skiptoken(string $skiptoken): Request
+    {
+        $this->query('$skiptoken', $skiptoken);
+        return $this;
+    }
+
+    public function search(string $search): Request
+    {
+        $this->query('$search', $search);
+        return $this;
+    }
+
+    public function index(string $index): Request
+    {
+        $this->query('$index', $index);
+        return $this;
+    }
+
+    public function expand(string $expand): Request
+    {
+        $this->query('$expand', $expand);
+        return $this;
+    }
+
+    public function format(string $format): Request
+    {
+        $this->query('$format', $format);
+        return $this;
+    }
+
+    public function count(string $count): Request
+    {
+        $this->query('$count', $count);
+        return $this;
+    }
+
+    public function id(string $id): Request
+    {
+        $this->query('$id', $id);
+        return $this;
+    }
+
+    public function apply(string $apply): Request
+    {
+        $this->query('$apply', $apply);
         return $this;
     }
 
@@ -84,7 +156,7 @@ class Request
         return $this->headers;
     }
 
-    public function method($method): self
+    public function method(string $method): self
     {
         $this->method = $method;
         return $this;
@@ -147,7 +219,7 @@ class Request
         return $this;
     }
 
-    public function accept($accept): Request
+    public function accept(string $accept): Request
     {
         $this->header('accept', $accept);
         return $this;

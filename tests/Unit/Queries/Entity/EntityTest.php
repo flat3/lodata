@@ -36,6 +36,15 @@ class EntityTest extends TestCase
         );
     }
 
+    public function test_read_an_entity_key_as_segment_query()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/flights/1')
+                ->select('origin')
+        );
+    }
+
     public function test_read_an_entity_property_key_as_segment()
     {
         $this->assertJsonResponse(
@@ -179,7 +188,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'destination')
+                ->select('destination')
         );
     }
 
@@ -188,7 +197,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'destination,origin')
+                ->select('destination,origin')
         );
     }
 
@@ -197,7 +206,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'origin,gate')
+                ->select('origin,gate')
         );
     }
 
@@ -206,7 +215,7 @@ class EntityTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'nonexistent')
+                ->select('nonexistent')
         );
     }
 
@@ -215,7 +224,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', '')
+                ->select('')
         );
     }
 
@@ -224,7 +233,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', '*')
+                ->select('*')
         );
     }
 
@@ -262,7 +271,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports(1)')
-                ->query('$select', 'code,cp')
+                ->select('code,cp')
         );
     }
 
@@ -281,7 +290,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports(1)')
-                ->query('$select', 'code')
+                ->select('code')
         );
     }
 
@@ -351,7 +360,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$entity')
-                ->query('$id', 'flights(1)')
+                ->id('flights(1)')
         );
     }
 
@@ -360,7 +369,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$entity')
-                ->query('$id', 'http://localhost/odata/flights(1)')
+                ->id('http://localhost/odata/flights(1)')
         );
     }
 
@@ -369,8 +378,8 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$entity')
-                ->query('$id', 'flights(1)')
-                ->query('$select', 'destination')
+                ->id('flights(1)')
+                ->select('destination')
         );
     }
 
@@ -379,8 +388,8 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$entity')
-                ->query('$id', 'flights(1)')
-                ->query('$expand', 'passengers')
+                ->id('flights(1)')
+                ->expand('passengers')
         );
     }
 
@@ -389,7 +398,7 @@ class EntityTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/$entity/com.example.odata.flight')
-                ->query('$id', 'flights(1)')
+                ->id('flights(1)')
         );
     }
 
@@ -398,7 +407,7 @@ class EntityTest extends TestCase
         $this->assertNotFound(
             (new Request)
                 ->path('/$entity/com.example.odata.passenger')
-                ->query('$id', 'flights(1)')
+                ->id('flights(1)')
         );
     }
 }

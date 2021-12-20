@@ -1,1 +1,1 @@
-This entity set does not support the operator "concat"
+SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( ( flights."origin" || ( flights."id" || ? ) ) = ? )

@@ -149,6 +149,7 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
      * @param  mixed  $offset  Property name
      * @return PropertyValue Property value
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->propertyValues->get($offset);

@@ -58,7 +58,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$top', 2)
+                ->top(2)
                 ->path('/examples')
         );
     }
@@ -67,8 +67,8 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$top', 2)
-                ->query('$skip', 2)
+                ->top(2)
+                ->skip(2)
                 ->path('/examples')
         );
     }
@@ -77,7 +77,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$orderby', 'name desc')
+                ->orderby('name desc')
                 ->path('/examples')
         );
     }
@@ -86,7 +86,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$orderby', 'name desc, age asc')
+                ->orderby('name desc, age asc')
                 ->path('/examples')
         );
     }
@@ -95,7 +95,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$search', 'l')
+                ->search('l')
                 ->path('/examples')
         );
     }
@@ -104,7 +104,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$search', 'lph or amm')
+                ->search('lph or amm')
                 ->path('/examples')
         );
     }
@@ -113,7 +113,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$search', 'a and m')
+                ->search('a and m')
                 ->path('/examples')
         );
     }
@@ -122,7 +122,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$search', 'not lph')
+                ->search('not lph')
                 ->path('/examples')
         );
     }
@@ -131,7 +131,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "name eq 'Alpha'")
+                ->filter("name eq 'Alpha'")
                 ->path('/examples')
         );
     }
@@ -140,7 +140,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age gt 3")
+                ->filter("age gt 3")
                 ->path('/examples')
         );
     }
@@ -149,7 +149,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age ge 3")
+                ->filter("age ge 3")
                 ->path('/examples')
         );
     }
@@ -158,7 +158,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age le 3")
+                ->filter("age le 3")
                 ->path('/examples')
         );
     }
@@ -167,7 +167,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age lt 3")
+                ->filter("age lt 3")
                 ->path('/examples')
         );
     }
@@ -176,7 +176,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age ne 3")
+                ->filter("age ne 3")
                 ->path('/examples')
         );
     }
@@ -185,7 +185,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age in (2,3)")
+                ->filter("age in (2,3)")
                 ->path('/examples')
         );
     }
@@ -194,7 +194,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age eq null")
+                ->filter("age eq null")
                 ->path('/examples')
         );
     }
@@ -203,7 +203,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "name eq 'Alpha' or name eq 'Gamma'")
+                ->filter("name eq 'Alpha' or name eq 'Gamma'")
                 ->path('/examples')
         );
     }
@@ -212,7 +212,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "startswith(name, 'Alph')")
+                ->filter("startswith(name, 'Alph')")
                 ->path('/examples')
         );
     }
@@ -221,7 +221,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "substring(name, 2) eq 'pha'")
+                ->filter("substring(name, 2) eq 'pha'")
                 ->path('/examples')
         );
     }
@@ -230,7 +230,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "substring(name, 2, 1) eq 'p'")
+                ->filter("substring(name, 2, 1) eq 'p'")
                 ->path('/examples')
         );
     }
@@ -239,7 +239,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "not (name eq 'Alpha')")
+                ->filter("not (name eq 'Alpha')")
                 ->path('/examples')
         );
     }
@@ -248,7 +248,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "contains(name, 't')")
+                ->filter("contains(name, 't')")
                 ->path('/examples')
         );
     }
@@ -257,7 +257,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "length(name) eq 4")
+                ->filter("length(name) eq 4")
                 ->path('/examples')
         );
     }
@@ -266,7 +266,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "indexof(name, 'pha') eq 2")
+                ->filter("indexof(name, 'pha') eq 2")
                 ->path('/examples')
         );
     }
@@ -275,7 +275,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "round(age) eq 2")
+                ->filter("round(age) eq 2")
                 ->path('/examples')
         );
     }
@@ -284,7 +284,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "ceiling(age) eq 3")
+                ->filter("ceiling(age) eq 3")
                 ->path('/examples')
         );
     }
@@ -293,7 +293,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "floor(age) eq 2")
+                ->filter("floor(age) eq 2")
                 ->path('/examples')
         );
     }
@@ -302,7 +302,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "tolower(name) eq 'epsilon'")
+                ->filter("tolower(name) eq 'epsilon'")
                 ->path('/examples')
         );
     }
@@ -311,7 +311,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "toupper(name) eq 'EPSILON'")
+                ->filter("toupper(name) eq 'EPSILON'")
                 ->path('/examples')
         );
     }
@@ -320,7 +320,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "trim(' a') eq 'a'")
+                ->filter("trim(' a') eq 'a'")
                 ->path('/examples')
         );
     }
@@ -329,7 +329,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "matchesPattern(name, '^G')")
+                ->filter("matchesPattern(name, '^G')")
                 ->path('/examples')
         );
     }
@@ -338,7 +338,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "name eq concat('Ga','mma')")
+                ->filter("name eq concat('Ga','mma')")
                 ->path('/examples')
         );
     }
@@ -347,7 +347,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "endswith(name, 'ta')")
+                ->filter("endswith(name, 'ta')")
                 ->path('/examples')
         );
     }
@@ -356,7 +356,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age add 10 eq 13")
+                ->filter("age add 10 eq 13")
                 ->path('/examples')
         );
     }
@@ -365,7 +365,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age sub 10 eq -7")
+                ->filter("age sub 10 eq -7")
                 ->path('/examples')
         );
     }
@@ -374,7 +374,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age div 2 eq 1.2")
+                ->filter("age div 2 eq 1.2")
                 ->path('/examples')
         );
     }
@@ -383,7 +383,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age divby 10 eq 0.3")
+                ->filter("age divby 10 eq 0.3")
                 ->path('/examples')
         );
     }
@@ -392,7 +392,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age mul 10 eq 30")
+                ->filter("age mul 10 eq 30")
                 ->path('/examples')
         );
     }
@@ -401,7 +401,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "age mod 3 eq 0")
+                ->filter("age mod 3 eq 0")
                 ->path('/examples')
         );
     }
@@ -410,7 +410,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "endswith(name, 'ta') or name eq 'Alpha'")
+                ->filter("endswith(name, 'ta') or name eq 'Alpha'")
                 ->path('/examples')
         );
     }
@@ -419,7 +419,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "day(dob) eq 4")
+                ->filter("day(dob) eq 4")
                 ->path('/examples')
         );
     }
@@ -428,7 +428,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "date(dob) eq 2000-01-01")
+                ->filter("date(dob) eq 2000-01-01")
                 ->path('/examples')
         );
     }
@@ -437,7 +437,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "hour(dob) eq 1")
+                ->filter("hour(dob) eq 1")
                 ->path('/examples')
         );
     }
@@ -446,7 +446,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "minute(dob) eq 1")
+                ->filter("minute(dob) eq 1")
                 ->path('/examples')
         );
     }
@@ -455,7 +455,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "month(dob) eq 4")
+                ->filter("month(dob) eq 4")
                 ->path('/examples')
         );
     }
@@ -464,7 +464,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "second(dob) eq 4")
+                ->filter("second(dob) eq 4")
                 ->path('/examples')
         );
     }
@@ -473,7 +473,7 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "time(dob) eq 06:06:06")
+                ->filter("time(dob) eq 06:06:06")
                 ->path('/examples')
         );
     }
@@ -482,7 +482,64 @@ class CollectionTest extends TestCase
     {
         $this->assertJsonResponse(
             (new Request)
-                ->query('$filter', "year(dob) eq 2000")
+                ->filter("year(dob) eq 2000")
+                ->path('/examples')
+        );
+    }
+
+    public function test_compute()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->compute("concat(name, ' is my name') as myName")
+                ->path('/examples/alpha')
+        );
+    }
+
+    public function test_compute_set()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->compute("concat(name, ' is my name') as myName")
+                ->path('/examples')
+        );
+    }
+
+    public function test_compute_type()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->compute("true eq false as boo")
+                ->path('/examples/alpha')
+        );
+    }
+
+    public function test_compute_math()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->compute("age add 4.4 as age44")
+                ->path('/examples/alpha')
+        );
+    }
+
+    public function test_compute_orderby()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->compute('month(dob) as mob')
+                ->orderby('mob desc')
+                ->path('/examples')
+        );
+    }
+
+    public function test_compute_orderby_select()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->compute('month(dob) as mob')
+                ->select('name,dob,mob')
+                ->orderby('mob desc')
                 ->path('/examples')
         );
     }

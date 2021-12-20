@@ -29,7 +29,7 @@
                             "format": "int8",
                             "minimum": -128,
                             "maximum": 127,
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],

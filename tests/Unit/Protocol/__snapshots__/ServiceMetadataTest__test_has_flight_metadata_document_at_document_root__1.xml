@@ -267,8 +267,10 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
-        <Property Name="name" Type="Edm.String" Nullable="true"/>
+        <Property Name="id" Type="Edm.Int32" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="name" Type="Edm.String" Nullable="false"/>
         <Property Name="flight_id" Type="Edm.Int32" Nullable="true"/>
         <NavigationProperty Name="pets" Type="Collection(com.example.odata.pet)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="passenger_id"/>
@@ -278,7 +280,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int32" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="origin" Type="Edm.String" Nullable="true"/>
         <Property Name="destination" Type="Edm.String" Nullable="true"/>
         <Property Name="gate" Type="Edm.Int32" Nullable="true"/>
@@ -295,9 +299,11 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
-        <Property Name="name" Type="Edm.String" Nullable="true"/>
-        <Property Name="code" Type="Edm.String" Nullable="true"/>
+        <Property Name="id" Type="Edm.Int32" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="name" Type="Edm.String" Nullable="false"/>
+        <Property Name="code" Type="Edm.String" Nullable="false"/>
         <Property Name="construction_date" Type="Edm.Date" Nullable="true"/>
         <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
         <Property Name="sam_datetime" Type="Edm.DateTimeOffset" Nullable="true"/>
@@ -308,7 +314,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int32" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
         <Property Name="type" Type="Edm.String" Nullable="true"/>
         <Property Name="passenger_id" Type="Edm.Int32" Nullable="true"/>

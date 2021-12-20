@@ -309,7 +309,7 @@
                         "name": "prefix",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": false
                         }
                     }
                 ],

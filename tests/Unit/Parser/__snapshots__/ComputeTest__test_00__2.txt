@@ -1,0 +1,1 @@
+SELECT flights.`id` AS `id`, flights.`origin` AS `origin`, flights.`destination` AS `destination`, flights.`origin` AS `comp` FROM flights

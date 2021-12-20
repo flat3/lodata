@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Traits;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Helper\Annotations;
+use Flat3\Lodata\Primitive;
 
 /**
  * Has Annotations
@@ -59,4 +60,21 @@ trait HasAnnotations
 
         $this->annotations->clear();
     }
+
+    public function hasAnnotation(Annotation $annotation, ?Primitive $value = null): bool
+    {
+        /** @var Annotation $internalAnnotation */
+        $internalAnnotation = $this->getAnnotations()->get($annotation);
+
+        if (!$internalAnnotation) {
+            return false;
+        }
+
+        if (!$value) {
+            return true;
+        }
+
+        return $internalAnnotation->getValue()->equals($value);
+    }
+
 }

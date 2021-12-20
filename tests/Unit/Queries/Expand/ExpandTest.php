@@ -19,7 +19,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights')
-                ->query('$expand', 'passengers')
+                ->expand('passengers')
         );
     }
 
@@ -29,7 +29,7 @@ class ExpandTest extends TestCase
             (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
-                ->query('$expand', 'passengers')
+                ->expand('passengers')
         );
     }
 
@@ -39,7 +39,7 @@ class ExpandTest extends TestCase
             (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
-                ->query('$expand', 'passengers($count=true)')
+                ->expand('passengers($count=true)')
         );
     }
 
@@ -49,7 +49,7 @@ class ExpandTest extends TestCase
             (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
-                ->query('$expand', 'passengers($count=true;$top=1)')
+                ->expand('passengers($count=true;$top=1)')
         );
     }
 
@@ -66,8 +66,8 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers')
-                ->query('$select', 'origin')
+                ->expand('passengers')
+                ->select('origin')
         );
     }
 
@@ -76,8 +76,8 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'origin,destination')
-                ->query('$expand', 'passengers($select=name)')
+                ->select('origin,destination')
+                ->expand('passengers($select=name)')
         );
     }
 
@@ -86,19 +86,19 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'origin')
-                ->query('$expand', 'airports($select=name,review_score,construction_date)')
+                ->select('origin')
+                ->expand('airports($select=name,review_score,construction_date)')
         );
     }
 
     public function test_select_with_expand_select_multiple_and_top()
     {
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 (new Request)
                     ->path('/flights(1)')
-                    ->query('$select', 'origin')
-                    ->query('$expand', 'passengers($select=flight_id,name;$top=2)')
+                    ->select('origin')
+                    ->expand('passengers($select=flight_id,name;$top=2)')
             )
         );
 
@@ -112,7 +112,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', "passengers(\$filter=startswith(name, 'Bob'))")
+                ->expand("passengers(\$filter=startswith(name, 'Bob'))")
         );
     }
 
@@ -121,7 +121,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($select=name)')
+                ->expand('passengers($select=name)')
         );
     }
 
@@ -130,7 +130,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($orderby=name desc)')
+                ->expand('passengers($orderby=name desc)')
         );
     }
 
@@ -139,7 +139,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($skip=1)')
+                ->expand('passengers($skip=1)')
         );
     }
 
@@ -148,7 +148,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($top=2)')
+                ->expand('passengers($top=2)')
         );
     }
 
@@ -157,7 +157,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($search=Bar)')
+                ->expand('passengers($search=Bar)')
         );
     }
 
@@ -166,7 +166,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($orderby=name desc;$select=name)')
+                ->expand('passengers($orderby=name desc;$select=name)')
         );
     }
 
@@ -175,7 +175,7 @@ class ExpandTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$expand', 'passengers($filter=startswith(name, \'Bob\');$select=name)')
+                ->expand('passengers($filter=startswith(name, \'Bob\');$select=name)')
         );
     }
 }

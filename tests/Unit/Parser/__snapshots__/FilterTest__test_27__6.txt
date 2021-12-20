@@ -1,1 +1,1 @@
-This entity set does not support the operator "length"
+SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( LENGTH( flights."origin" ) = ? )

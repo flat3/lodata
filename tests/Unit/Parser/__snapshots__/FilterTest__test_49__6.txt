@@ -1,1 +1,1 @@
-This entity set does not support the operator "hour"
+SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( STRFTIME('%H', flights."origin" ) = ? )

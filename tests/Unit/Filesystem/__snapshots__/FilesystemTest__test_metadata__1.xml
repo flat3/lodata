@@ -71,9 +71,15 @@
           <PropertyRef Name="path"/>
         </Key>
         <Property Name="path" Type="Edm.String" Nullable="false"/>
-        <Property Name="type" Type="Edm.String" Nullable="false"/>
-        <Property Name="name" Type="Edm.String" Nullable="false"/>
-        <Property Name="timestamp" Type="Edm.DateTimeOffset" Nullable="false"/>
+        <Property Name="type" Type="Edm.String" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="name" Type="Edm.String" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+        <Property Name="timestamp" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.ComputedDefaultValue" Bool="true"/>
+        </Property>
         <Property Name="size" Type="Edm.Int64" Nullable="false">
           <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>

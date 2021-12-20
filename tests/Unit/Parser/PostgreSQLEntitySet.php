@@ -8,6 +8,6 @@ class PostgreSQLEntitySet extends SQLEntitySet
 {
     public function getDriver(): string
     {
-        return 'pgsql';
+        return SQLEntitySet::PostgreSQL;
     }
 }

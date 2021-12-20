@@ -3,9 +3,7 @@
 namespace Flat3\Lodata\Tests\Unit\Parser;
 
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Expression\Node;
-use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
@@ -19,50 +17,52 @@ use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
 use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Property\Lambda as LambdaProperty;
+use Flat3\Lodata\Expression\Operator;
+use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 
-class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInterface
+class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInterface, FilterInterface
 {
     public $searchBuffer;
-    public $filterBuffer;
+    public $commonBuffer;
 
-    public function search(Node $node): ?bool
+    public function searchExpression(Node $node): ?bool
     {
+        $left = $node->getLeftNode();
+        $right = $node->getRightNode();
+
         switch (true) {
-            case $node instanceof Group\Start:
+            case $node instanceof Operator:
                 $this->addSearch('(');
 
-                return true;
+                switch (true) {
+                    case $node instanceof Or_:
+                        $this->searchExpression($left);
+                        $this->addSearch('OR');
+                        $this->searchExpression($right);
+                        break;
 
-            case $node instanceof Group\End:
+                    case $node instanceof And_:
+                        $this->searchExpression($left);
+                        $this->addSearch('AND');
+                        $this->searchExpression($right);
+                        break;
+
+                    case $node instanceof Not_:
+                        $this->addSearch('NOT');
+                        $this->searchExpression($left);
+                        break;
+                }
+
                 $this->addSearch(')');
-
-                return true;
-
-            case $node instanceof Or_:
-                $this->addSearch('OR');
-
-                return true;
-
-            case $node instanceof And_:
-                $this->addSearch('AND');
-
-                return true;
-
-            case $node instanceof Not_:
-                $this->addSearch('NOT');
-
-                return true;
+                break;
 
             case $node instanceof Literal:
                 $value = $node->getValue();
-
                 $value = sprintf('"%s"', str_replace('"', '""', $value));
-
                 $this->addSearch($value);
-
-                return true;
+                break;
         }
 
         return false;
@@ -73,75 +73,59 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
         $this->searchBuffer .= ' '.$s;
     }
 
-    public function filter(Node $node): ?bool
+    public function commonExpression(Node $node): void
     {
         switch (true) {
-            case $node instanceof Group\Separator:
-                $this->addFilter(',');
-
-                return true;
-
-            case $node instanceof Group\Start:
-                $this->addFilter('(');
-
-                return true;
-
-            case $node instanceof Group\End:
-                $this->addFilter(')');
-
-                return true;
-
             case $node instanceof Literal:
                 switch (true) {
                     case $node instanceof Boolean:
-                        $this->addFilter($node->getValue()->get() ? 'true' : 'false');
-                        return true;
+                        $this->addCommon($node->getValue()->get() ? 'true' : 'false');
+                        return;
 
                     case $node instanceof Guid:
-                        $this->addFilter(\Flat3\Lodata\Type\Guid::binaryToString($node->getValue()));
-                        return true;
+                        $this->addCommon(\Flat3\Lodata\Type\Guid::binaryToString($node->getValue()));
+                        return;
 
                     case $node instanceof Date:
-                        $this->addFilter($node->getValue()->get()->format('Y-m-d'));
-                        return true;
+                        $this->addCommon($node->getValue()->get()->format('Y-m-d'));
+                        return;
 
                     case $node instanceof DateTimeOffset:
-                        $this->addFilter($node->getValue()->get()->format('c'));
-                        return true;
+                        $this->addCommon($node->getValue()->get()->format('c'));
+                        return;
 
                     case $node instanceof TimeOfDay:
-                        $this->addFilter($node->getValue()->get()->format('h:i:s'));
-                        return true;
+                        $this->addCommon($node->getValue()->get()->format('h:i:s'));
+                        return;
 
                     case $node instanceof String_:
-                        $this->addFilter("'".str_replace("'", "''", $node->getValue()->get())."'");
-                        return true;
+                        $this->addCommon("'".str_replace("'", "''", $node->getValue()->get())."'");
+                        return;
 
                     case $node instanceof Duration:
-                        $this->addFilter(\Flat3\Lodata\Type\Duration::numberToDuration($node->getValue()->get()));
-                        return true;
+                        $this->addCommon(\Flat3\Lodata\Type\Duration::numberToDuration($node->getValue()->get()));
+                        return;
                 }
 
-                $this->addFilter($node->getValue());
-
-                return true;
+                $this->addCommon($node->getValue());
+                return;
 
             case $node instanceof LambdaProperty:
-                $this->addFilter(sprintf(
+                $this->addCommon(sprintf(
                     '%s/%s',
                     $node->getVariable(),
                     $node->getValue()
                 ));
-                return true;
+                return;
 
             case $node instanceof Node\Property:
-                $this->addFilter($node->getValue());
-                return true;
+                $this->addCommon($node->getValue());
+                return;
 
             case $node instanceof Lambda:
                 list ($lambdaExpression) = $node->getArguments();
 
-                $this->addFilter(
+                $this->addCommon(
                     sprintf(
                         '%s/%s(%s:',
                         $node->getNavigationProperty()->getValue(),
@@ -149,30 +133,61 @@ class LoopbackEntitySet extends EntitySet implements SearchInterface, FilterInte
                         $node->getVariable()
                     )
                 );
-                $lambdaExpression->compute();
-                $this->addFilter(')');
-
-                throw new NodeHandledException();
+                $this->commonExpression($lambdaExpression);
+                $this->addCommon(')');
+                return;
 
             case $node instanceof Node\Func:
-                $this->addFilter($node::symbol.'(');
+                $node->validateArguments();
+                $this->addCommon($node::symbol.'(');
+                $this->addCommaSeparatedArguments($node);
+                $this->addCommon(')');
+                return;
 
-                return true;
+            case $node instanceof Not_:
+                $this->addCommon('(');
+                $this->addCommon($node::symbol);
+                $this->commonExpression($node->getLeftNode());
+                $this->addCommon(')');
+                return;
+
+            case $node instanceof Node\Operator\Logical\In:
+                $this->commonExpression($node->getLeftNode());
+                $this->addCommon($node::symbol);
+                $this->addCommon('(');
+                $this->addCommaSeparatedArguments($node);
+                $this->addCommon(')');
+                return;
+
+            case $node instanceof Operator:
+                $this->addCommon('(');
+                $this->commonExpression($node->getLeftNode());
+                $this->addCommon($node::symbol);
+                $this->commonExpression($node->getRightNode());
+                $this->addCommon(')');
+                return;
 
             default:
-                $this->addFilter($node::symbol);
-
-                return true;
+                $this->addCommon($node::symbol);
         }
     }
 
-    public function addFilter(string $s)
+    public function addCommaSeparatedArguments(Node $node)
     {
-        $this->filterBuffer .= ' '.$s;
+        $arguments = $node->getArguments();
+
+        while ($arguments) {
+            $arg = array_shift($arguments);
+            $this->commonExpression($arg);
+
+            if ($arguments) {
+                $this->addCommon(',');
+            }
+        }
     }
 
-    protected function query(): array
+    public function addCommon(string $s)
     {
-        return [];
+        $this->commonBuffer .= ' '.$s;
     }
 }

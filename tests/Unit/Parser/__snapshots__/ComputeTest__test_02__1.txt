@@ -1,0 +1,1 @@
+concat( origin , 'world' ) as comp1, ( 1 add 2 ) as comp2

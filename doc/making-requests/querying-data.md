@@ -372,9 +372,58 @@ POST http://localhost:8000/odata/examples?$index=1
 </code-block>
 </code-group>
 
-## Lambda Operators
+## $compute
 
-OData defines two operators `any` and `all` that evaluate a Boolean expression on a collection.
+The $compute system query option allows clients to define computed properties that can be used in a `$select` or within a
+`$filter` or `$orderby` expression. `$compute` uses the same common expression syntax as `$filter`. Computed properties
+appear as dynamic properties in the result. Some entity set drivers may support including computed properties in the
+result but without supporting their use in `$orderby` or `$filter` statements.
+
+<code-group>
+<code-block title="Request">
+```uri
+GET http://localhost:8000/odata/examples?$compute=year(dob) as yob&$orderby=yob desc&$select=name,dob,yob
+```
+</code-block>
+
+<code-block title="Response">
+```json
+{
+    "@context": "http://localhost/odata/$metadata#examples(name,dob,yob)",
+    "value": [
+        {
+            "name": "Epsilon",
+            "dob": "2003-04-04T07:07:07+00:00",
+            "yob": 2003
+        },
+        {
+            "name": "Gamma",
+            "dob": "2002-03-03T06:06:06+00:00",
+            "yob": 2002
+        },
+        {
+            "name": "Beta",
+            "dob": "2001-02-02T05:05:05+00:00",
+            "yob": 2001
+        },
+        {
+            "name": "Alpha",
+            "dob": "2000-01-01T04:04:04+00:00",
+            "yob": 2000
+        },
+        {
+            "name": "Delta",
+            "yob": null
+        }
+    ]
+}
+```
+</code-block>
+</code-group>
+
+## $any and $all
+
+OData defines two lambda operators `any` and `all` that evaluate a Boolean expression on a collection.
 They can work on either collection properties or collections of entities.
 
 The request below returns the People that have Pets with property 'Name' ending with 'The Dog'.

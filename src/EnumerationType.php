@@ -97,6 +97,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * @param  mixed  $offset  Member name
      * @return EnumMember|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->members->get($offset);

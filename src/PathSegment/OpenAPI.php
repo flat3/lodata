@@ -330,6 +330,7 @@ DESC, [
 
             $returnType = $operation->getReturnType();
 
+            /** @var Operation\Argument $argument */
             foreach ($operation->getMetadataArguments() as $argument) {
                 $tags[] = $argument->getName();
 
@@ -337,7 +338,7 @@ DESC, [
                     'required' => $argument->isNullable(),
                     'in' => 'query',
                     'name' => $argument->getName(),
-                    'schema' => $argument->getType()->toOpenAPISchema(),
+                    'schema' => $argument->getOpenAPISchema(),
                 ];
             }
 
@@ -491,9 +492,9 @@ DESC, [
         $components->schemas = $schemas;
 
         foreach (Lodata::getEntityTypes() as $entityType) {
-            $schemas->{$entityType->getIdentifier()} = $entityType->toOpenAPISchema();
-            $schemas->{$entityType->getIdentifier().'~create'} = $entityType->toOpenAPICreateSchema();
-            $schemas->{$entityType->getIdentifier().'~update'} = $entityType->toOpenAPIUpdateSchema();
+            $schemas->{$entityType->getIdentifier()} = $entityType->getOpenAPISchema();
+            $schemas->{$entityType->getIdentifier().'~create'} = $entityType->getOpenAPICreateSchema();
+            $schemas->{$entityType->getIdentifier().'~update'} = $entityType->getOpenAPIUpdateSchema();
         }
 
         $schemas->{ComplexType::identifier} = ['type' => Constants::oapiObject];
@@ -993,7 +994,7 @@ DESC, [
             'in' => 'path',
             'name' => $key->getName(),
             'required' => true,
-            'schema' => $key->getType()->toOpenAPISchema(),
+            'schema' => $key->getOpenAPISchema(),
         ];
     }
 

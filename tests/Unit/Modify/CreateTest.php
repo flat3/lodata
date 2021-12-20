@@ -159,7 +159,7 @@ class CreateTest extends TestCase
 
     public function test_create_deep_metadata()
     {
-        $response = $this->jsonResponse($this->assertJsonMetadataResponse(
+        $response = $this->getResponseBody($this->assertJsonMetadataResponse(
             (new Request)
                 ->path('/flights')
                 ->metadata(MetadataType\Full::name)
@@ -194,6 +194,31 @@ class CreateTest extends TestCase
 
         $this->assertJsonResponse(
             $this->urlToReq($response->passengers[0]->{'pets@navigationLink'})
+        );
+    }
+
+    public function test_rejects_missing_properties()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/airports')
+                ->post()
+                ->body([
+                    'name' => 'Test',
+                ])
+        );
+    }
+
+    public function test_rejects_null_properties()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path('/airports')
+                ->post()
+                ->body([
+                    'name' => 'Test',
+                    'code' => null,
+                ])
         );
     }
 }

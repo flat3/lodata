@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Annotation\Core\V1\Computed;
-use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -107,16 +106,14 @@ class EntityType extends ComplexType implements PipeInterface
      * Render this type as an OpenAPI schema for update paths
      * @return array
      */
-    public function toOpenAPIUpdateSchema(): array
+    public function getOpenAPIUpdateSchema(): array
     {
         return [
             'type' => Constants::oapiObject,
             'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
-                return !($property->getAnnotations()->sliceByClass([
-                        Computed::class, Immutable::class
-                    ])->hasEntries() || $property === $this->getKey());
+                return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty() && $property !== $this->getKey();
             })->map(function (DeclaredProperty $property) {
-                return $property->getType()->toOpenAPISchema();
+                return $property->getOpenAPISchema();
             })
         ];
     }

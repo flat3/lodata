@@ -11,7 +11,6 @@ use Flat3\Lodata\Primitive;
 /**
  * Duration
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Duration extends Primitive
 {
@@ -59,7 +58,7 @@ class Duration extends Primitive
 
     public function set($value): self
     {
-        $this->value = $this->maybeNull(null === $value ? null : (is_numeric($value) ? (double) $value : $this::durationToNumber($value)));
+        $this->value = null === $value ? null : (is_numeric($value) ? (double) $value : $this::durationToNumber($value));
 
         return $this;
     }
@@ -96,11 +95,6 @@ class Duration extends Primitive
         }
 
         return $this::numberToDuration($this->value);
-    }
-
-    protected function getEmpty(): float
-    {
-        return 0.0;
     }
 
     public function get(): ?float

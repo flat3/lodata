@@ -18,7 +18,7 @@ class SelectTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights')
-                ->query('$select', 'origin,destination')
+                ->select('origin,destination')
         );
     }
 
@@ -27,7 +27,7 @@ class SelectTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'origin,destination')
+                ->select('origin,destination')
         );
     }
 
@@ -36,7 +36,7 @@ class SelectTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/flights(1)')
-                ->query('$select', 'invalid')
+                ->select('invalid')
         );
     }
 }

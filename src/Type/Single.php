@@ -9,7 +9,6 @@ use Flat3\Lodata\Helper\Constants;
 /**
  * Single
  * @package Flat3\Lodata\Type
- * @method static self factory($value = null, ?bool $nullable = true)
  */
 class Single extends Decimal
 {

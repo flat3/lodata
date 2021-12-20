@@ -64,7 +64,7 @@ class EntityPrimitiveRawTest extends TestCase
     {
         $this->assertMetadataResponse(
             (new Request)
-                ->query('$format', 'application/octet-stream')
+                ->format('application/octet-stream')
                 ->path('/flights(1)/id/$value')
         );
     }

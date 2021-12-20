@@ -7,11 +7,12 @@ namespace Flat3\Lodata\Drivers;
 use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
+use Flat3\Lodata\ComputedProperty;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
-use Flat3\Lodata\Drivers\SQL\SQLFilter;
+use Flat3\Lodata\Drivers\SQL\SQLExpression;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
-use Flat3\Lodata\Drivers\SQL\SQLSearch;
 use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
@@ -22,6 +23,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
+use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -58,11 +60,9 @@ use ReflectionMethod;
  * Eloquent Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface
+class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface
 {
     use SQLConnection;
-    use SQLSearch;
-    use SQLFilter;
     use SQLSchema {
         columnToDeclaredProperty as protected schemaColumnToDeclaredProperty;
     }
@@ -110,9 +110,11 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function getModelByKey(PropertyValue $key): ?Model
     {
-        $model = $this->getBuilder();
+        $builder = $this->getBuilder();
+        $builder->select('*');
+        $this->selectComputedProperties($builder);
 
-        return $model->where($key->getProperty()->getName(), $key->getPrimitiveValue())->first();
+        return $builder->where($key->getProperty()->getName(), $key->getPrimitiveValue())->first();
     }
 
     /**
@@ -201,7 +203,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $key = new PropertyValue();
         $key->setProperty($this->getType()->getKey());
-        $key->setValue($key->getProperty()->getType()->instance($model->id));
+        $key->setValue($key->getProperty()->getType()->instance($model->getKey()));
         $entity = $this->read($key);
         $key->setParent($entity);
 
@@ -229,6 +231,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     public function query(): Generator
     {
         $builder = $this->getBuilder();
+        $builder->select('*');
 
         if ($this->navigationPropertyValue) {
             /** @var Entity $sourceEntity */
@@ -241,11 +244,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             }
         }
 
-        $this->resetParameters();
-        $this->generateWhere();
+        $this->selectComputedProperties($builder);
 
-        if ($this->where) {
-            $builder->whereRaw($this->where, $this->parameters);
+        $where = $this->generateWhere();
+
+        if ($where->hasStatement()) {
+            $builder->whereRaw($where->getStatement(), $where->getParameters());
         }
 
         $orderby = $this->getOrderBy();
@@ -274,6 +278,34 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     }
 
     /**
+     * Add computed properties to the select statement of the provided query builder
+     * @param  Builder|Relation  $builder
+     * @return void
+     */
+    protected function selectComputedProperties($builder): void
+    {
+        $compute = $this->getCompute();
+
+        if (!$compute->hasValue()) {
+            return;
+        }
+
+        $computedProperties = $compute->getProperties();
+
+        foreach ($computedProperties as $computedProperty) {
+            $expression = new SQLExpression($this);
+            $computeParser = $this->getComputeParser();
+            $computeParser->pushEntitySet($this);
+            $tree = $computeParser->generateTree($computedProperty->getExpression());
+            $expression->evaluate($tree);
+            $builder->selectRaw(
+                $expression->getStatement().' as '.$this->quoteSingleIdentifier($computedProperty->getName()),
+                $expression->getParameters()
+            );
+        }
+    }
+
+    /**
      * Convert an Eloquent model instance to an OData Entity
      * @param  Model  $model  Eloquent model
      * @return Entity Entity
@@ -282,16 +314,24 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $entity = $this->newEntity();
         $entity->setSource($model);
+        $entity->setEntityId($model->getKey());
 
-        /** @var Property $property */
-        foreach ($this->getType()->getDeclaredProperties() as $property) {
+        foreach ($this->getType()->getDeclaredProperties() as $declaredProperty) {
             $propertyValue = $entity->newPropertyValue();
-            $propertyValue->setProperty($property);
-            $propertyValue->setValue($property->getType()->instance($model->{$property->getName()}));
+            $propertyValue->setProperty($declaredProperty);
+            $propertyValue->setValue($declaredProperty->getType()->instance($model->{$declaredProperty->getName()}));
             $entity->addPropertyValue($propertyValue);
         }
 
-        $entity->setEntityId($model->getKey());
+        foreach ($this->getCompute()->getProperties() as $computedProperty) {
+            $value = $model->{$computedProperty->getName()};
+
+            if (is_string($value) && is_numeric($value)) {
+                $value = json_decode($value);
+            }
+
+            $entity[$computedProperty->getName()] = $value;
+        }
 
         return $entity;
     }
@@ -299,13 +339,25 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     /**
      * Convert an entity type property to a database field
      * @param  Property  $property  Property
-     * @return string Field
+     * @return SQLExpression Expression
      */
-    public function propertyToField(Property $property): string
+    public function propertyToExpression(Property $property): SQLExpression
     {
         $model = $this->getModel();
 
-        return $model->qualifyColumn($property->getName());
+        $expression = new SQLExpression($this);
+
+        switch (true) {
+            case $property instanceof DeclaredProperty:
+                $expression->pushStatement($model->qualifyColumn($property->getName()));
+                break;
+
+            case $property instanceof ComputedProperty:
+                $expression->pushStatement($this->quoteSingleIdentifier($property->getName()));
+                break;
+        }
+
+        return $expression;
     }
 
     /**
@@ -387,11 +439,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $builder = $this->getBuilder();
 
-        $this->resetParameters();
-        $this->generateWhere();
+        $where = $this->generateWhere();
 
-        if ($this->where) {
-            $builder->whereRaw($this->where, $this->parameters);
+        if ($where->hasStatement()) {
+            $builder->whereRaw($where->getStatement(), $where->getParameters());
         }
 
         return $builder->count();
@@ -430,54 +481,62 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     public function columnToDeclaredProperty(Column $column): DeclaredProperty
     {
         $model = $this->getModel();
+
+        $property = $this->schemaColumnToDeclaredProperty($column);
+
+        $defaultValue = $model->getAttributeValue($column->getName());
+        if ($defaultValue) {
+            $property->addAnnotation(new ComputedDefaultValue);
+            $property->setDefaultValue($defaultValue);
+        }
+
         $casts = $model->getCasts();
+        if (array_key_exists($column->getName(), $casts)) {
+            switch ($casts[$column->getName()]) {
+                case 'string':
+                default:
+                    $type = Type::string();
+                    break;
 
-        if (!array_key_exists($column->getName(), $casts)) {
-            return $this->schemaColumnToDeclaredProperty($column);
+                case 'boolean':
+                    $type = Type::boolean();
+                    break;
+
+                case 'date':
+                    $type = Type::date();
+                    break;
+
+                case 'datetime':
+                    $type = Type::datetimeoffset();
+                    break;
+
+                case 'decimal':
+                case 'float':
+                case 'real':
+                    $type = Type::decimal();
+                    break;
+
+                case 'double':
+                    $type = Type::double();
+                    break;
+
+                case 'int':
+                case 'integer':
+                    if (PHP_INT_SIZE === 8) {
+                        $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
+                    } else {
+                        $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
+                    }
+                    break;
+
+                case 'timestamp':
+                    $type = Type::timeofday();
+                    break;
+            }
+
+            $property->setType($type);
         }
 
-        switch ($casts[$column->getName()]) {
-            case 'string':
-            default:
-                $type = Type::string();
-                break;
-
-            case 'boolean':
-                $type = Type::boolean();
-                break;
-
-            case 'date':
-                $type = Type::date();
-                break;
-
-            case 'datetime':
-                $type = Type::datetimeoffset();
-                break;
-
-            case 'decimal':
-            case 'float':
-            case 'real':
-                $type = Type::decimal();
-                break;
-
-            case 'double':
-                $type = Type::double();
-                break;
-
-            case 'int':
-            case 'integer':
-                if (PHP_INT_SIZE === 8) {
-                    $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
-                } else {
-                    $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
-                }
-                break;
-
-            case 'timestamp':
-                $type = Type::timeofday();
-                break;
-        }
-
-        return new DeclaredProperty($column->getName(), $type);
+        return $property;
     }
 }

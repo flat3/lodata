@@ -18,7 +18,7 @@ class SkipTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$skip', '1')
+                ->skip(1)
         );
     }
 
@@ -27,8 +27,8 @@ class SkipTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$top', '1')
-                ->query('$skip', '1')
+                ->top(1)
+                ->skip(1)
         );
     }
 
@@ -37,7 +37,7 @@ class SkipTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$skip', '2')
+                ->skip(2)
         );
     }
 
@@ -46,7 +46,7 @@ class SkipTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/airports')
-                ->query('$skip', '999')
+                ->skip(999)
         );
     }
 
@@ -55,7 +55,7 @@ class SkipTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/airports')
-                ->query('$skip', 'xyz')
+                ->skip('xyz')
         );
     }
 
@@ -64,7 +64,7 @@ class SkipTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/airports')
-                ->query('$skip', '-2')
+                ->skip(-2)
         );
     }
 }

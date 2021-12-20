@@ -56,21 +56,21 @@ class RedisTest extends TestCase
 
     public function test_pagination()
     {
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 (new Request)
-                    ->query('$top', 2)
+                    ->top(2)
                     ->path('/passengers')
             )
         );
 
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 $this->urlToReq($page->{'@nextLink'})
             )
         );
 
-        $page = $this->jsonResponse(
+        $page = $this->getResponseBody(
             $this->assertJsonResponse(
                 $this->urlToReq($page->{'@nextLink'})
             )

@@ -46,6 +46,7 @@ class StaticEntitySet extends EntitySet implements QueryInterface, ArrayAccess, 
         return array_key_exists($offset, $this->results);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->results[$offset];

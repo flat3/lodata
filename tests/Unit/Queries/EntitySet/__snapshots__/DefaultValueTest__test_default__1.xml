@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.01">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
+      <EntityContainer Name="DefaultContainer">
+        <EntitySet Name="tests" EntityType="com.example.odata.test">
+          <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
+            <Record>
+              <PropertyValue Property="Countable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
+            <Record>
+              <PropertyValue Property="Filterable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SortRestrictions">
+            <Record>
+              <PropertyValue Property="Sortable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+            <Record>
+              <PropertyValue Property="Expandable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+              <PropertyValue Property="DeltaUpdateSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ReadRestrictions">
+            <Record>
+              <PropertyValue Property="Readable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.IndexableByKey" Bool="false"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="false"/>
+              <PropertyValue Property="ContentIDSupported" Bool="false"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+      </EntityContainer>
+      <EntityType Name="test">
+        <Property Name="a" Type="Edm.String" Nullable="false" DefaultValue="a">
+          <Annotation Term="Org.OData.Core.V1.ComputedDefaultValue" Bool="true"/>
+        </Property>
+        <Property Name="b" Type="Edm.String" Nullable="true"/>
+      </EntityType>
+      <Annotations Target="com.example.odata.DefaultContainer">
+        <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.DefaultNamespace" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.DereferencableIDs" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.ODataVersions" String="4.01"/>
+        <Annotation Term="Org.OData.Capabilities.V1.AsynchronousRequestsSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.BatchSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.BatchSupport">
+          <Record>
+            <PropertyValue Property="Supported" Bool="true"/>
+            <PropertyValue Property="EtagReferencesSupported" Bool="true"/>
+            <PropertyValue Property="SupportedFormats">
+              <Collection>
+                <String>application/json</String>
+                <String>multipart/mixed</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.CallbackSupported">
+          <Record>
+            <PropertyValue Property="CallbackProtocols">
+              <Collection>
+                <Record>
+                  <PropertyValue Property="Id" String="http"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.ConformanceLevel" EnumMember="Org.OData.Capabilities.V1.ConformanceLevelType/Advanced"/>
+        <Annotation Term="Org.OData.Capabilities.V1.KeyAsSegmentSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.QuerySegmentSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
+          <Collection>
+            <String>application/json;metadata=full;IEEE754Compatible=true;streaming=true</String>
+            <String>application/json;metadata=minimal;IEEE754Compatible=true;streaming=true</String>
+            <String>application/json;metadata=none;IEEE754Compatible=true;streaming=true</String>
+          </Collection>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedMetadataFormats">
+          <Collection>
+            <String>application/json</String>
+            <String>application/xml</String>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

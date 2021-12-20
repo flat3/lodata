@@ -73,6 +73,7 @@ class AuthorizationTest extends TestCase
         $this->assertForbidden(
             (new Request)
                 ->post()
+                ->body([])
                 ->path('/flights')
         );
     }

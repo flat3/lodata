@@ -71,7 +71,9 @@
         <Key>
           <PropertyRef Name="id"/>
         </Key>
-        <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.ComputedDefaultValue" Bool="true"/>
+        </Property>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">

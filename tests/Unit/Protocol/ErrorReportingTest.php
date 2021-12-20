@@ -22,6 +22,8 @@ class ErrorReportingTest extends TestCase
     {
         parent::setUp();
 
+        config(['lodata.streaming' => true]);
+
         Lodata::add(
             new class(
                 'texts',
@@ -48,7 +50,7 @@ class ErrorReportingTest extends TestCase
 
         $response = $this->req(
             (new Request)
-                ->query('$format', 'xml')
+                ->format('xml')
         );
 
         $this->assertMatchesJsonSnapshot($response->streamedContent());

@@ -6,55 +6,57 @@ namespace Flat3\Lodata\Drivers\SQL;
 
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Expression\Node;
-use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\Or_;
+use Flat3\Lodata\Expression\Operator;
 
 /**
- * SQL Search
+ * SQL Search expression parser
  * @package Flat3\Lodata\Drivers\SQL
  */
-trait SQLSearch
+class SQLSearch extends SQLExpression
 {
     /**
      * Generate SQL clauses for the search query option
      * @param  Node  $node  Node
-     * @return bool|null
      */
-    public function search(Node $node): ?bool
+    public function evaluate(Node $node): void
     {
+        $left = $node->getLeftNode();
+        $right = $node->getRightNode();
+
         switch (true) {
-            case $node instanceof Group\Start:
-                $this->addWhere('(');
+            case $node instanceof Operator:
+                $this->pushStatement('(');
 
-                return true;
+                switch (true) {
+                    case $node instanceof Or_:
+                        $this->evaluate($left);
+                        $this->pushStatement('OR');
+                        $this->evaluate($right);
+                        break;
 
-            case $node instanceof Group\End:
-                $this->addWhere(')');
+                    case $node instanceof And_:
+                        $this->evaluate($left);
+                        $this->pushStatement('AND');
+                        $this->evaluate($right);
+                        break;
 
-                return true;
+                    case $node instanceof Not_:
+                        $this->pushStatement('NOT');
+                        $this->evaluate($left);
+                        break;
+                }
 
-            case $node instanceof Or_:
-                $this->addWhere('OR');
-
-                return true;
-
-            case $node instanceof And_:
-                $this->addWhere('AND');
-
-                return true;
-
-            case $node instanceof Not_:
-                $this->addWhere('NOT');
-
-                return true;
+                $this->pushStatement(')');
+                break;
 
             case $node instanceof Literal:
                 $properties = [];
 
-                $type = $this->getType();
+                $type = $this->entitySet->getType();
 
                 /** @var DeclaredProperty $property */
                 foreach ($type->getDeclaredProperties() as $property) {
@@ -65,17 +67,21 @@ trait SQLSearch
                     $properties[] = $property;
                 }
 
-                $properties = array_map(function ($property) use ($node) {
-                    $this->addParameter('%'.$node->getValue().'%');
+                $this->pushStatement('(');
+                while ($properties) {
+                    $property = array_shift($properties);
+                    $expression = $this->entitySet->propertyToExpression($property);
+                    $expression->pushStatement('LIKE ?');
+                    $expression->pushParameter('%'.$node->getValue().'%');
+                    $this->pushExpression($expression);
 
-                    return $this->propertyToField($property).' LIKE ?';
-                }, $properties);
+                    if ($properties) {
+                        $this->pushStatement('OR');
+                    }
+                }
+                $this->pushStatement(')');
 
-                $this->addWhere('( '.implode(' OR ', $properties).' )');
-
-                return true;
+                break;
         }
-
-        return false;
     }
 }

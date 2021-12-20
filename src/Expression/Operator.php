@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Expression;
 
-use Flat3\Lodata\Exception\Internal\NodeHandledException;
-use Flat3\Lodata\Expression\Node\Group;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 
 /**
  * Operator
@@ -58,35 +57,17 @@ abstract class Operator extends Node
     }
 
     /**
-     * Compute the value of this operator
+     * Throw an exception if this node cannot be handled
+     * @return void
      */
-    public function compute(): void
+    public function notImplemented(): void
     {
-        try {
-            $this->emit(new Group\Start($this->parser));
-            $this->getLeftNode()->compute();
-            $this->emit($this);
-            $this->getRightNode()->compute();
-            $this->emit(new Group\End($this->parser));
-        } catch (NodeHandledException $e) {
-            return;
-        }
-    }
-
-    /**
-     * Compute the comma separated arguments provided to this operator
-     */
-    protected function computeCommaSeparatedArguments(): void
-    {
-        $arguments = $this->getArguments();
-
-        while ($arguments) {
-            $arg = array_shift($arguments);
-            $arg->compute();
-
-            if ($arguments) {
-                $this->emit(new Group\Separator($this->parser));
-            }
-        }
+        throw new NotImplementedException(
+            'unsupported_operator',
+            sprintf(
+                'This entity set does not support the operator "%s"',
+                $this::symbol
+            )
+        );
     }
 }

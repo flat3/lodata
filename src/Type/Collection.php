@@ -15,9 +15,9 @@ class Collection extends Primitive implements ArrayAccess
 {
     protected $value = [];
 
-    public function __construct($value = null, bool $nullable = true)
+    public function __construct($value = null)
     {
-        parent::__construct($value, $nullable);
+        parent::__construct($value);
         $this->value = $value == null ? [] : [$value];
     }
 
@@ -47,6 +47,7 @@ class Collection extends Primitive implements ArrayAccess
         return isset($this->value[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->value[$offset];

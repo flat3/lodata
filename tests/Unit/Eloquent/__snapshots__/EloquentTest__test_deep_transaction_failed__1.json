@@ -1,7 +1,7 @@
 {
     "error": {
-        "code": "unknown_error",
-        "message": "SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: passengers.name (SQL: insert into \"passengers\" (\"flight_id\") values (4))",
+        "code": "property_not_nullable",
+        "message": "The property 'name' cannot be set to null",
         "target": null,
         "details": [],
         "innererror": {}

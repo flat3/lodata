@@ -104,7 +104,7 @@ class SearchExpressionTest extends TestCase
         $entity->setType($type);
         $entity['a'] = 'hello world';
 
-        $result = $tree->evaluateSearchExpression($entity);
+        $result = Search::evaluate($tree, $entity);
 
         switch (true) {
             case $result instanceof Primitive:

@@ -29,6 +29,7 @@ class Lexer
     public const digit = '\d';
     public const pathSeparator = '/';
     public const lambdaVariable = self::identifier.'\:';
+    public const computeExpression = '(.*?) as '.self::identifier;
 
     /**
      * The text passed to the Lexer
@@ -92,7 +93,7 @@ class Lexer
         $right_pos = $right_pos > $this->len ? $this->len : $right_pos;
 
         if ($error_pos > $this->len) {
-            return sprintf('%s<EOF', substr($this->text, $left_pos, $error_pos - $left_pos));
+            return sprintf('%s<END', substr($this->text, $left_pos, $error_pos - $left_pos));
         }
 
         return sprintf(
@@ -182,7 +183,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function base64()
+    public function base64(): string
     {
         return $this->expression(self::base64);
     }
@@ -191,7 +192,7 @@ class Lexer
      * Maybe match whitespace
      * @return string|null
      */
-    public function maybeWhitespace()
+    public function maybeWhitespace(): ?string
     {
         try {
             return $this->whitespace();
@@ -204,7 +205,7 @@ class Lexer
      * Match whitespace
      * @return string
      */
-    public function whitespace()
+    public function whitespace(): string
     {
         return $this->expression('\s+');
     }
@@ -212,10 +213,11 @@ class Lexer
     /**
      * Parse the provided regular expression
      * @param  string  $pattern  Expression
+     * @param  bool  $caseSensitive  Match case sensitively
+     * @param  int  $matching  The expression section to return
      * @return string
-     * @throws LexerException
      */
-    public function expression(string $pattern, bool $caseSensitive = true): string
+    public function expression(string $pattern, bool $caseSensitive = true, int $matching = 0): string
     {
         if ($this->pos >= $this->len) {
             throw new LexerException($this->pos + 1, 'Expected %s but got end of string', $pattern);
@@ -237,7 +239,7 @@ class Lexer
             throw new LexerException($this->pos + 1, 'Expected %s but did not match', $pattern);
         }
 
-        $match = $matches[0];
+        $match = $matches[$matching];
         $this->pos += strlen($match);
 
         return $match;
@@ -460,7 +462,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function char($char = ''): string
+    public function char(string $char = ''): string
     {
         if (strlen($char) > 1) {
             throw new LexerException($this->pos + 1, 'The char() function only accepts zero or one characters');
@@ -490,7 +492,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function parameterAlias()
+    public function parameterAlias(): string
     {
         return $this->expression(self::parameterAlias);
     }
@@ -500,7 +502,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function datetimeoffset()
+    public function datetimeoffset(): string
     {
         return $this->expression(self::dateTimeOffset);
     }
@@ -510,7 +512,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function date()
+    public function date(): string
     {
         return $this->expression(self::date);
     }
@@ -520,7 +522,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function timeOfDay()
+    public function timeOfDay(): string
     {
         return $this->expression(self::timeOfDay);
     }
@@ -530,7 +532,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function duration()
+    public function duration(): string
     {
         return $this->expression(self::duration);
     }
@@ -551,7 +553,7 @@ class Lexer
      * @return string
      * @throws LexerException
      */
-    public function quotedString($quoteChar = "'"): string
+    public function quotedString(string $quoteChar = "'"): string
     {
         $this->char($quoteChar);
 
@@ -725,6 +727,15 @@ class Lexer
     public function maybeLambdaVariable(): ?string
     {
         return $this->maybeExpression(self::lambdaVariable);
+    }
+
+    /**
+     * Match a $compute expression
+     * @return string|null
+     */
+    public function computeExpression(): ?string
+    {
+        return $this->expression(self::computeExpression, true, 1);
     }
 
     /**

@@ -5,9 +5,9 @@
     },
     "devDependencies": {
         "@kawarimidoll/vuepress-plugin-tailwind": "^2.0.0",
-        "@vuepress/plugin-back-to-top": "^1.8.2",
-        "@vuepress/plugin-nprogress": "^1.8.2",
-        "vuepress": "^1.8.2",
+        "@vuepress/plugin-back-to-top": "^1.9.5",
+        "@vuepress/plugin-nprogress": "^1.9.5",
+        "vuepress": "^1.9.5",
         "vuepress-plugin-container": "^2.1.5",
         "vuepress-plugin-sitemap": "^2.3.1"
     }

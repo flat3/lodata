@@ -18,8 +18,8 @@ class NavigationTest extends TestCase
         $this->assertJsonResponse(
             (new Request)
                 ->path('/flights(1)/passengers')
-                ->query('$select', 'flight_id,name')
-                ->query('$top', 2)
+                ->select('flight_id,name')
+                ->top(2)
         );
     }
 }

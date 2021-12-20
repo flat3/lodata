@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Expression\Node;
 
-use Flat3\Lodata\Exception\Internal\NodeHandledException;
 use Flat3\Lodata\Exception\Internal\ParserException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Operator;
 
 /**
@@ -20,23 +20,10 @@ class Func extends Operator
     /** @var null|int Number of arguments required, or null for variadic */
     public const arguments = null;
 
-    public function compute(): void
-    {
-        $this->validateArguments();
-
-        try {
-            $this->emit($this);
-            $this->computeCommaSeparatedArguments();
-            $this->emit(new Group\End($this->parser));
-        } catch (NodeHandledException $e) {
-            return;
-        }
-    }
-
     /**
      * Validate the arguments for this function are syntactically correct
      */
-    protected function validateArguments(): void
+    public function validateArguments(): void
     {
         if (static::arguments === null) {
             return;
@@ -52,5 +39,20 @@ class Func extends Operator
         }
 
         throw new ParserException(sprintf('The %s function requires %d arguments', static::symbol, static::arguments));
+    }
+
+    /**
+     * Throw an exception if this node cannot be handled
+     * @return void
+     */
+    public function notImplemented(): void
+    {
+        throw new NotImplementedException(
+            'unsupported_function',
+            sprintf(
+                'This entity set does not support the function "%s"',
+                $this::symbol
+            )
+        );
     }
 }

@@ -21,6 +21,7 @@ use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment\Metadata;
 use Flat3\Lodata\PrimitiveType;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
@@ -119,6 +120,7 @@ class XML extends Metadata implements StreamInterface
             }
 
             // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty
+            /** @var Property $property */
             foreach (ObjectArray::merge(
                 $complexType->getDeclaredProperties(),
                 $complexType->getGeneratedProperties()
@@ -134,6 +136,10 @@ class XML extends Metadata implements StreamInterface
                     'Nullable',
                     (new Boolean($property->isNullable()))->toUrl()
                 );
+
+                if ($property->hasStaticDefaultValue()) {
+                    $entityTypeProperty->addAttribute('DefaultValue', $property->computeDefaultValue()->toJson());
+                }
 
                 foreach ($property->getAnnotations() as $annotation) {
                     $annotation->appendXml($entityTypeProperty);
