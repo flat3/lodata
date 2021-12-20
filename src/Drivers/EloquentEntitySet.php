@@ -40,6 +40,7 @@ use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type;
 use Generator;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -123,6 +124,15 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $model = $this->getModel();
 
         return $model->getTable();
+    }
+
+    /**
+     * Get the database connection used by the model
+     * @return ConnectionInterface Connection
+     */
+    public function getConnection(): ConnectionInterface
+    {
+        return $this->getModel()->getConnection();
     }
 
     /**
