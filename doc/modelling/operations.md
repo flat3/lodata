@@ -628,10 +628,9 @@ http://localhost:8000/odata/people/0/nb
 
 ## Returning entities
 
-Generated entities can also be returned from an operation. In this case the return type of `invoke()` is `Entity`.
-The returned entity type must be configured for OData to present it in the metadata document. This can be done
-in the constructor of the `Operation`. In this example a random person entity is created by the operation. This
-example also shows the identifier of the operation being configured in the constructor.
+Generated entities can also be returned from an operation. In this case the return type of `randomperson()` is `Entity`.
+The returned entity type must be configured for OData to present it in the metadata document. This can be specified
+in the attribute's `name` parameter. In this example a random person entity is created by the operation.
 
 <code-group>
 <code-block title="Class">
@@ -832,10 +831,10 @@ http://localhost:8000/odata/com.example.math.add(a=1,b=2)
 
 ## Transaction
 
-To provide additional context to a Function that may require it, the Function can ask for the current Transaction by adding that
-argument to the invoke method. In this example the invoke method would receive the Transaction on the `$transaction` method
-parameter. The transaction contains all the available context for the request, and can provide items such as the current system
-query options.
+To provide additional context to a Function that may require it, the Function can ask for the current Transaction by
+adding that argument to the method. In this example the `example` method would receive the Transaction on the
+`$transaction` parameter. The transaction contains all the available context for the request, and can provide
+information such as the current system query options.
 
 ```php
 public class MethodResponder {
