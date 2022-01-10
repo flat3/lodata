@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Hour extends Func
 {
-    public const symbol = 'hour';
-    public const arguments = 1;
+    protected $symbol = 'hour';
+    protected $argumentCount = 1;
 }

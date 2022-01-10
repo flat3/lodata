@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class TotalOffsetMinutes extends Func
 {
-    public const symbol = 'totaloffsetminutes';
-    public const arguments = 1;
+    protected $symbol = 'totaloffsetminutes';
+    protected $argumentCount = 1;
 }

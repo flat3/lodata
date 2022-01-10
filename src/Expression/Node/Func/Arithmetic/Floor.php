@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Floor extends Func
 {
-    public const symbol = 'floor';
-    public const arguments = 1;
+    protected $symbol = 'floor';
+    protected $argumentCount = 1;
 }

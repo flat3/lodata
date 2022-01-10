@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class FractionalSeconds extends Func
 {
-    public const symbol = 'fractionalseconds';
-    public const arguments = 1;
+    protected $symbol = 'fractionalseconds';
+    protected $argumentCount = 1;
 }

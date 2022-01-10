@@ -67,7 +67,7 @@ abstract class Parser
     public function __construct()
     {
         foreach ($this->operators as $operator) {
-            $this->symbols[$operator::getSymbol()] = $operator;
+            $this->symbols[(new $operator($this))->getSymbol()] = $operator;
         }
     }
 
@@ -140,7 +140,7 @@ abstract class Parser
             return;
         }
 
-        if ($operator::isUnary()) {
+        if ($operator->isUnary()) {
             $operand = array_pop($this->operandStack);
 
             if (!$operand) {
@@ -219,7 +219,7 @@ abstract class Parser
                 /** @var Group $paren */
                 $paren = array_pop($this->operatorStack);
                 $func = $paren->getFunc();
-                if ($func && $this->operandStack && ($func instanceof Lambda || $func instanceof Logical\In || ($func instanceof Func && $func::arguments > 0))) {
+                if ($func && $this->operandStack && ($func instanceof Lambda || $func instanceof Logical\In || ($func instanceof Func && $func->getArgumentCount() > 0))) {
                     $func->addArgument(array_pop($this->operandStack));
                 }
 
@@ -310,10 +310,10 @@ abstract class Parser
 
             if (
                 (
-                    !$o1::isUnary() ||
-                    ($o1::isUnary() && $o2::isUnary())
+                    !$o1->isUnary() ||
+                    ($o1->isUnary() && $o2->isUnary())
                 ) &&
-                $o2::getPrecedence() >= $o1::getPrecedence()
+                $o2->getPrecedence() >= $o1->getPrecedence()
             ) {
                 array_pop($this->operatorStack);
                 $this->applyOperator($o2);

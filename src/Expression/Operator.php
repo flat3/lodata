@@ -13,47 +13,47 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
  */
 abstract class Operator extends Node
 {
-    public const symbol = null;
-    public const unary = false;
-    public const rightAssociative = false;
+    protected $symbol = null;
+    protected $unary = false;
+    protected $rightAssociative = false;
 
-    public const precedence = 0;
-    public const operator = null;
+    protected $precedence = 0;
+    protected $operator = null;
 
     /**
      * Return whether the operator is right-associative
      * @return bool
      */
-    public static function isRightAssociative(): bool
+    public function isRightAssociative(): bool
     {
-        return static::rightAssociative;
+        return $this->rightAssociative;
     }
 
     /**
      * Return the precedence of the operator
      * @return int
      */
-    public static function getPrecedence(): int
+    public function getPrecedence(): int
     {
-        return static::precedence;
+        return $this->precedence;
     }
 
     /**
      * Return the symbol for this operator
      * @return string
      */
-    public static function getSymbol(): string
+    public function getSymbol(): string
     {
-        return static::symbol;
+        return $this->symbol;
     }
 
     /**
      * Return whether this operator is unary
      * @return bool
      */
-    public static function isUnary(): bool
+    public function isUnary(): bool
     {
-        return static::unary;
+        return $this->unary;
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class Operator extends Node
             'unsupported_operator',
             sprintf(
                 'This entity set does not support the operator "%s"',
-                $this::symbol
+                $this->symbol
             )
         );
     }

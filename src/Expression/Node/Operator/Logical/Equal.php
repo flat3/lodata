@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Logical;
  */
 class Equal extends Logical
 {
-    public const symbol = 'eq';
-    public const precedence = 3;
+    protected $symbol = 'eq';
+    protected $precedence = 3;
 }

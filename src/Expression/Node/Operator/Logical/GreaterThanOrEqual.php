@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Logical;
  */
 class GreaterThanOrEqual extends Logical
 {
-    public const symbol = 'ge';
-    public const precedence = 4;
+    protected $symbol = 'ge';
+    protected $precedence = 4;
 }

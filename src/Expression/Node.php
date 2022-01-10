@@ -16,7 +16,7 @@ abstract class Node
      * Captured symbol
      * @var string
      */
-    public const symbol = '';
+    protected $symbol = '';
 
     /**
      * Captured value

@@ -473,7 +473,7 @@ abstract class Common extends Parser
 
         throw new BadRequestException(
             'incompatible_types',
-            'Incompatible types were provided for operation '.$node::symbol
+            'Incompatible types were provided for operation '.$node->getSymbol()
         );
     }
 

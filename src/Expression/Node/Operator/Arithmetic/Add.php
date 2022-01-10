@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic;
  */
 class Add extends Arithmetic
 {
-    public const symbol = 'add';
-    public const precedence = 5;
+    protected $symbol = 'add';
+    protected $precedence = 5;
 }

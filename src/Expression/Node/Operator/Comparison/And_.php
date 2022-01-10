@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Comparison;
  */
 class And_ extends Comparison
 {
-    public const symbol = 'and';
-    public const precedence = 2;
+    protected $symbol = 'and';
+    protected $precedence = 2;
 }

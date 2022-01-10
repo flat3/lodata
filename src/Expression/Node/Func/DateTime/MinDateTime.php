@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class MinDateTime extends Func
 {
-    public const symbol = 'mindatetime';
-    public const arguments = 0;
+    protected $symbol = 'mindatetime';
+    protected $argumentCount = 0;
 }

@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Contains extends Func
 {
-    public const symbol = 'contains';
-    public const arguments = 2;
+    protected $symbol = 'contains';
+    protected $argumentCount = 2;
 }

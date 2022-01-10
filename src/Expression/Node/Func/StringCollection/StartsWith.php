@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class StartsWith extends Func
 {
-    public const symbol = 'startswith';
-    public const arguments = 2;
+    protected $symbol = 'startswith';
+    protected $argumentCount = 2;
 }

@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic;
  */
 class Mod extends Arithmetic
 {
-    public const symbol = 'mod';
-    public const precedence = 6;
+    protected $symbol = 'mod';
+    protected $precedence = 6;
 }

@@ -12,7 +12,7 @@ use Flat3\Lodata\Expression\Node\Operator\Logical;
  */
 class In extends Logical
 {
-    public const symbol = 'in';
-    public const precedence = 8;
-    public const unary = true;
+    protected $symbol = 'in';
+    protected $precedence = 8;
+    protected $unary = true;
 }
