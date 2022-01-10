@@ -47,4 +47,35 @@ class EntitySetFilterTest extends TestCase
                 ->path("\$filter(code eq 'lhr')")
         );
     }
+
+    public function test_path_query_filter_segment_and_param()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path("/airports/\$filter(@ib)")
+                ->query('@ib', 'is_big eq true')
+                ->filter("code eq 'lhr'")
+        );
+    }
+
+    public function test_path_query_filter_segment_multiple()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/airports/$filter(@a)/$filter(@b)')
+                ->query('@a', "code eq 'lhr'")
+                ->query('@b', 'is_big eq true')
+        );
+    }
+
+    public function test_path_query_filter_segment_multiple_count()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/airports/$filter(@a)/$filter(@b)/$count')
+                ->text()
+                ->query('@a', "code eq 'lhr'")
+                ->query('@b', 'is_big eq true')
+        );
+    }
 }

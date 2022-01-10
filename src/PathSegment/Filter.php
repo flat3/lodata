@@ -38,9 +38,15 @@ class Filter implements PipeInterface
             );
         }
 
-        $filter = $lexer->matchingParenthesis();
+        $filterValue = $lexer->matchingParenthesis();
 
-        $transaction->getFilter()->setValue($filter);
+        $filter = $transaction->getFilter();
+
+        if ($filter->hasValue()) {
+            $filterValue = sprintf('(%s) and (%s)', $filter->getValue(), $filterValue);
+        }
+
+        $filter->setValue($filterValue);
 
         return $argument;
     }
