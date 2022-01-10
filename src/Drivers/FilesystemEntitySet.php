@@ -78,10 +78,6 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
         $entity = $this->newEntity();
         $body = $this->transaction->getBodyAsArray();
 
-        if (!array_key_exists('path', $body)) {
-            throw new BadRequestException('missing_path', 'The path key must be provided');
-        }
-
         $path = $body['path'];
 
         if ($this->getDisk()->exists($path)) {
