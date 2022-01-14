@@ -341,7 +341,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     {
         $where = $this->sqlGenerateWhere();
 
-        if (!$this->navigationPropertyValue) {
+        if (!$this->navigationSource) {
             return $where;
         }
 
@@ -521,16 +521,16 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $expressions[] = $expression;
         }
 
-        if ($this->navigationPropertyValue) {
+        if ($this->navigationSource) {
             /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $this->navigationPropertyValue->getProperty();
+            $navigationProperty = $this->navigationSource->getProperty();
 
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $expression = new SQLExpression($this);
                 $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty)));
-                $expression->pushParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
+                $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitiveValue());
                 $expressions[] = $expression;
             }
         }
@@ -596,9 +596,9 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $expressions[] = $expression;
         }
 
-        if ($this->navigationPropertyValue) {
+        if ($this->navigationSource) {
             /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $this->navigationPropertyValue->getProperty();
+            $navigationProperty = $this->navigationSource->getProperty();
 
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
@@ -610,7 +610,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                         $this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty))
                     )
                 );
-                $expression->pushParameter($this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue());
+                $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitiveValue());
                 $expressions[] = $expression;
             }
         }

@@ -1448,7 +1448,7 @@ class Transaction
 
                 $entitySet = clone $binding->getTarget();
                 $entitySet->setTransaction($deltaTransaction);
-                $entitySet->setNavigationPropertyValue($entityId);
+                $entitySet->setNavigationSource($entityId);
 
                 switch (true) {
                     case array_key_exists('@removed', $deltaPayload):
