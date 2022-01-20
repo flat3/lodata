@@ -135,7 +135,7 @@ module.exports = {
                     'getting-started/',
                     'getting-started/configuration',
                     'getting-started/facade',
-                    'getting-started/service-provider',
+                    'getting-started/routing',
                     'getting-started/authentication',
                     'getting-started/authorization',
                     'getting-started/octane',
