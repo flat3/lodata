@@ -10,6 +10,7 @@ use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Type;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Arr;
@@ -26,17 +27,24 @@ trait SQLSchema
      */
     public function discoverProperties()
     {
-        /** @var Connection $connection */
-        $connection = $this->getConnection();
-        $manager = $connection->getDoctrineSchemaManager();
-        $details = $manager->listTableDetails($this->getTable());
-        $columns = $details->getColumns();
+        $table = (new Discovery)->remember(
+            sprintf("sql.%s.%s", $this->getConnection()->getName(), $this->getTable()),
+            function () {
+                /** @var Connection $connection */
+                $connection = $this->getConnection();
+                $manager = $connection->getDoctrineSchemaManager();
+                return $manager->listTableDetails($this->getTable());
+            }
+        );
+
+        $columns = $table->getColumns();
+        $indexes = $table->getIndexes();
+
         $type = $this->getType();
 
         /** @var DeclaredProperty $key */
         $key = null;
 
-        $indexes = $manager->listTableIndexes($this->getTable());
         foreach ($indexes as $index) {
             if (!$index->isPrimary()) {
                 continue;

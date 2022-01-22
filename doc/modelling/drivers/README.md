@@ -15,3 +15,9 @@ query parameters can be supported through `ExpandInterface`, `TokenPaginationInt
 
 Implementation of these interfaces is optional, and Lodata will detect support and return a 'Not Implemented' exception
 to a client trying to use an interface that is not available.
+
+## Caching
+
+Some entity set drivers support automatically discovering the schema of the connected data store. This discovery can
+add unnecessary overhead in production, so Lodata provides [configuration options](/getting-started/configuration)
+to add caching of schema data.

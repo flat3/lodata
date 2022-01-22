@@ -57,6 +57,16 @@ return [
      * Configuration relating to auto-discovery
      */
     'discovery' => [
+        /**
+         * The cache store to use for discovered data
+         */
+        'store' => env('LODATA_DISCOVERY_STORE'),
+
+        /**
+         * How many seconds to cache discovered data for. Setting to null will cache forever.
+         */
+        'ttl' => env('LODATA_DISCOVERY_TTL', 0),
+
         /*
          * The blacklist of property names that will not be added during auto-discovery
          */

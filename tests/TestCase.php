@@ -21,6 +21,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
@@ -87,6 +88,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->uuid = 0;
         $this->faker->seed(1234);
         $this->trackQueries();
+
+        // @phpstan-ignore-next-line
+        Redis::flushdb();
     }
 
     public function incrementUuid()

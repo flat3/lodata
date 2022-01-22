@@ -16,6 +16,7 @@ use Flat3\Lodata\Operation\EntityFunction;
 use Flat3\Lodata\Operation\Repository;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
@@ -133,5 +134,15 @@ class Discovery
     public static function supportsAttributes(): bool
     {
         return PHP_VERSION_ID > 80000;
+    }
+
+    public function remember($key, callable $callback)
+    {
+        return Cache::store(config('lodata.discovery.store'))
+            ->remember(
+                'lodata.discovery.'.$key,
+                config('lodata.discovery.ttl', 0),
+                $callback
+            );
     }
 }

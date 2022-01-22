@@ -22,9 +22,6 @@ class RedisTest extends TestCase
         $entityType->addDeclaredProperty('name', Type::string());
         Lodata::add(new RedisEntitySet('passengers', $entityType));
 
-        // @phpstan-ignore-next-line
-        Redis::flushdb();
-
         $faker = $this->faker;
 
         for ($i = 0; $i < 7; $i++) {
