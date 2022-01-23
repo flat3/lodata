@@ -17,7 +17,6 @@ class Repository73Test extends TestCase
     {
         parent::setUp();
 
-        $this->withFlightDatabase();
         $this->withFlightData();
 
         Lodata::discoverEloquentModel(Airport::class);

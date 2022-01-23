@@ -353,7 +353,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 break;
 
             case $property instanceof ComputedProperty:
-                $expression->pushStatement($this->quoteSingleIdentifier($property->getName()));
+                $computedExpression = new SQLExpression($this);
+                $computeParser = $this->getComputeParser();
+                $computeParser->pushEntitySet($this);
+                $tree = $computeParser->generateTree($property->getExpression());
+                $computedExpression->evaluate($tree);
+                $expression->pushExpression($computedExpression);
                 break;
         }
 

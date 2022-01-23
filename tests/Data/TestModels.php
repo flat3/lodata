@@ -17,59 +17,15 @@ use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Models\Airport as AirportEModel;
 use Flat3\Lodata\Tests\Models\Flight as FlightEModel;
-use Flat3\Lodata\Tests\Models\Name as NameEModel;
 use Flat3\Lodata\Tests\Models\Passenger as PassengerEModel;
 use Flat3\Lodata\Tests\Models\Pet as PetEModel;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
 use Generator;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 trait TestModels
 {
-    public function withFlightDatabase(): void
-    {
-        Schema::create('flights', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('origin')->nullable();
-            $table->string('destination')->nullable();
-            $table->integer('gate')->nullable();
-            $table->float('duration')->nullable();
-        });
-
-        Schema::create('airports', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('code');
-            $table->date('construction_date')->nullable();
-            $table->dateTime('sam_datetime')->nullable();
-            $table->time('open_time')->nullable();
-            $table->float('review_score')->nullable();
-            $table->boolean('is_big')->nullable();
-            $table->bigInteger('country_id')->nullable();
-        });
-
-        Schema::create('passengers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('flight_id');
-            $table->string('name');
-        });
-
-        Schema::create('pets', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('passenger_id')->nullable();
-            $table->string('name')->nullable();
-            $table->string('type')->nullable();
-        });
-
-        Schema::create('countries', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-        });
-    }
-
     public function withFlightData(): void
     {
         (new FlightEModel([
@@ -173,41 +129,8 @@ trait TestModels
         Lodata::add($singleton);
     }
 
-    public function withNamesDatabase(): void
-    {
-        Schema::create('names', function (Blueprint $table) {
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-        });
-
-        (new NameEModel([
-            'first_name' => 'Alice',
-            'last_name' => 'Moran',
-        ]))->save();
-
-        (new NameEModel([
-            'first_name' => 'Grace',
-            'last_name' => 'Gumbo',
-        ]))->save();
-    }
-
-    public function withNamesModel(): void
-    {
-        $this->withNamesDatabase();
-
-        /** @var EntityType $nameType */
-        $nameType = Lodata::add(
-            (new EntityType('name'))
-                ->addDeclaredProperty('first_name', Type::string())
-                ->addDeclaredProperty('last_name', Type::string())
-        );
-
-        Lodata::add(new SQLEntitySet('names', $nameType));
-    }
-
     public function withFlightModel(): void
     {
-        $this->withFlightDatabase();
         $this->withFlightData();
 
         /** @var EntityType $passengerType */

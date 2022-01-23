@@ -17,7 +17,6 @@ use Flat3\Lodata\Tests\Data\TestModels;
 use Flat3\Lodata\Tests\Data\TestOperations;
 use Flat3\Lodata\Type\Guid;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -39,7 +38,6 @@ use VirtualFileSystem\FileSystem as VirtualFileSystem;
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MatchesSnapshots;
-    use RefreshDatabase;
     use TestModels;
     use TestOperations;
     use WithoutMiddleware;
@@ -55,6 +53,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     /** @var Generator $faker */
     protected $faker;
+
+    protected $migrations = __DIR__.'/migrations/airline';
 
     public function getEnvironmentSetUp($app)
     {
@@ -78,6 +78,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         });
 
         $this->faker = Factory::create();
+    }
+
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom($this->migrations);
     }
 
     public function setUp(): void

@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Cache;
 
 class DiscoveryTest extends TestCase
 {
+    public function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        config(['database.default' => 'testing']);
+    }
+
     public function test_default_ttl()
     {
         Lodata::discoverEloquentModel(Airport::class);

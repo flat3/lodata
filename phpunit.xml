@@ -14,7 +14,6 @@
         </testsuite>
     </testsuites>
     <php>
-        <env name="DB_CONNECTION" value="testing"/>
-        <const name="PHPUNIT_ODATA_TESTING" value="true"/>
+        <env name="DATABASE_URL" value="sqlite:///:memory:"/>
     </php>
 </phpunit>
