@@ -18,6 +18,7 @@ use Flat3\Lodata\Tests\Data\TestOperations;
 use Flat3\Lodata\Type\Guid;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
@@ -392,7 +393,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $db = [];
 
-        foreach (DB::connection()->getDoctrineSchemaManager()->listTableNames() as $table) {
+        foreach (Arr::sort(DB::connection()->getDoctrineSchemaManager()->listTableNames()) as $table) {
             if ($table === 'migrations') {
                 continue;
             }

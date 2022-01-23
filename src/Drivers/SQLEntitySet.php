@@ -419,10 +419,28 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $expression->pushStatement(sprintf("ORDER BY %s", $ob));
         }
 
-        if ($this->getSkip()->hasValue()) {
-            $expression->pushStatement('LIMIT ? OFFSET ?');
-            $expression->pushParameter($this->getTop()->hasValue() ? $this->getTop()->getValue() : PHP_INT_MAX);
-            $expression->pushParameter($this->getSkip()->getValue());
+        $skip = $this->getSkip();
+        $top = $this->getTop();
+
+        if ($skip->hasValue()) {
+            $offset = $skip->getValue();
+            $limit = $top->hasValue() ? $top->getValue() : PHP_INT_MAX;
+
+            switch ($this->getDriver()) {
+                case self::SQLServer:
+                    if (!$orderby->hasValue()) {
+                        $expression->pushStatement('ORDER BY (SELECT 0)');
+                    }
+
+                    $expression->pushStatement('OFFSET ? ROWS FETCH NEXT ? ROWS ONLY');
+                    $expression->pushParameter([$offset, $limit]);
+                    break;
+
+                default:
+                    $expression->pushStatement('LIMIT ? OFFSET ?');
+                    $expression->pushParameter([$limit, $offset]);
+                    break;
+            }
         }
 
         return $expression;
