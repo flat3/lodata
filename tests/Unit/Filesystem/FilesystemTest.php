@@ -70,6 +70,14 @@ class FilesystemTest extends TestCase
         );
     }
 
+    public function test_read_not_found()
+    {
+        $this->assertNotFound(
+            (new Request)
+                ->path("/files('qq.txt')")
+        );
+    }
+
     public function test_read_key_as_segment()
     {
         $this->assertJsonResponse(
@@ -145,6 +153,16 @@ class FilesystemTest extends TestCase
         );
 
         $this->assertMatchesTextSnapshot($this->getDisk()->get('d1/a3.txt'));
+    }
+
+    public function test_create_missing_path()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->body([])
+                ->post()
+                ->path('/files')
+        );
     }
 
     public function test_create_conflicts()

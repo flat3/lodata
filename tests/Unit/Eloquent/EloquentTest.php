@@ -22,7 +22,6 @@ class EloquentTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->withFlightDatabase();
 
         $airports = Lodata::discoverEloquentModel(Airport::class);
         $flights = Lodata::discoverEloquentModel(Flight::class);

@@ -11,5 +11,6 @@
             "review_score": null,
             "is_big": true
         }
-    ]
+    ],
+    "@nextLink": "http://localhost/odata/airports/$filter(@b)?%24filter=construction_date%20ge%201930-01-01&%40b=is_big%20eq%20true&top=1&skip=1"
 }

@@ -20,7 +20,6 @@ class RepositoryTest extends TestCase
             $this->markTestSkipped();
         }
 
-        $this->withFlightDatabase();
         $this->withFlightData();
 
         Lodata::discover(Airport::class);

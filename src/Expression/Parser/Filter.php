@@ -149,7 +149,7 @@ class Filter extends Common
         $this->lexer = new Lexer($referencedValue);
 
         while (!$this->lexer->finished()) {
-            if ($this->tokenizeLiteral()) {
+            if ($this->findToken()) {
                 continue;
             }
 

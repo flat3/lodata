@@ -47,4 +47,52 @@ class EntitySetFilterTest extends TestCase
                 ->path("\$filter(code eq 'lhr')")
         );
     }
+
+    public function test_path_query_filter_segment_and_param()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path("/airports/\$filter(@ib)")
+                ->query('@ib', 'is_big eq true')
+                ->filter("code eq 'lhr'")
+        );
+    }
+
+    public function test_path_query_filter_segment_multiple()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/airports/$filter(@a)/$filter(@b)')
+                ->query('@a', "code eq 'lhr'")
+                ->query('@b', 'is_big eq true')
+        );
+    }
+
+    public function test_path_query_filter_segment_multiple_count()
+    {
+        $this->assertJsonResponse(
+            (new Request)
+                ->path('/airports/$filter(@a)/$filter(@b)/$count')
+                ->text()
+                ->query('@a', "code eq 'lhr'")
+                ->query('@b', 'is_big eq true')
+        );
+    }
+
+    public function test_path_query_filter_param_segment_multiple_paginated()
+    {
+        $page = $this->getResponseBody(
+            $this->assertJsonResponse(
+                (new Request)
+                    ->path('/airports/$filter(@b)')
+                    ->filter("construction_date ge 1930-01-01")
+                    ->query('@b', 'is_big eq true')
+                    ->top(1)
+            )
+        );
+
+        $this->assertJsonResponse(
+            $this->urlToReq($page->{'@nextLink'})
+        );
+    }
 }

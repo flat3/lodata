@@ -17,7 +17,6 @@ class OperationTest extends TestCase
             $this->markTestSkipped();
         }
 
-        $this->withFlightDatabase();
         Lodata::discover(Airport::class);
     }
 

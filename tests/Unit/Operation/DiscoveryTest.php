@@ -21,8 +21,6 @@ class DiscoveryTest extends TestCase
             $this->markTestSkipped();
         }
 
-        $this->withFlightDatabase();
-
         Lodata::discover(Flight::class);
         Lodata::discover(Service::class);
         Lodata::discover(Passenger::class);

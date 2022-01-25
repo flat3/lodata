@@ -7,20 +7,15 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class CaseSensitivityTest extends TestCase
 {
+    protected $migrations = __DIR__.'/../../../migrations/case';
+
     public function setUp(): void
     {
         parent::setUp();
-
-        Schema::create('cI_tTEST', function (Blueprint $table) {
-            $table->string('FiRst_N1m3')->nullable();
-            $table->string('laSt_N1m3')->nullable();
-        });
 
         DB::table('cI_tTEST')->insert([
             'FiRst_N1m3' => 'first',

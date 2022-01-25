@@ -39,8 +39,7 @@ class Filter implements PipeInterface
         }
 
         $filter = $lexer->matchingParenthesis();
-
-        $transaction->getFilter()->setValue($filter);
+        $transaction->getFilter()->addExpression($filter);
 
         return $argument;
     }

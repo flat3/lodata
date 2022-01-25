@@ -7,7 +7,6 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConflictException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -77,10 +76,6 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     {
         $entity = $this->newEntity();
         $body = $this->transaction->getBodyAsArray();
-
-        if (!array_key_exists('path', $body)) {
-            throw new BadRequestException('missing_path', 'The path key must be provided');
-        }
 
         $path = $body['path'];
 

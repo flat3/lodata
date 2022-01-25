@@ -5,15 +5,44 @@ namespace Flat3\Lodata\Tests\Unit\Queries\EntitySet;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Tests\Models\Name as NameEModel;
 use Flat3\Lodata\Tests\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 
 class KeylessTest extends TestCase
 {
+    protected $migrations = __DIR__.'/../../../migrations/name';
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        (new NameEModel([
+            'first_name' => 'Alice',
+            'last_name' => 'Moran',
+        ]))->save();
+
+        (new NameEModel([
+            'first_name' => 'Grace',
+            'last_name' => 'Gumbo',
+        ]))->save();
+    }
+
+    public function withNamesModel(): void
+    {
+        /** @var EntityType $nameType */
+        $nameType = Lodata::add(
+            (new EntityType('name'))
+                ->addDeclaredProperty('first_name', Type::string())
+                ->addDeclaredProperty('last_name', Type::string())
+        );
+
+        Lodata::add(new SQLEntitySet('names', $nameType));
+    }
+
     public function test_discover()
     {
-        $this->withNamesDatabase();
-
         $set = new SQLEntitySet('names', new EntityType('name'));
         $set->discoverProperties();
         Lodata::add($set);

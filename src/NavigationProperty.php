@@ -163,12 +163,13 @@ class NavigationProperty extends Property
         $propertyValue = $value->newPropertyValue();
         $propertyValue->setProperty($this);
 
+        /** @var NavigationBinding $binding */
         $binding = $value->getEntitySet()->getBindingByNavigationProperty($this);
         $targetEntitySet = $binding->getTarget();
 
         $expansionSet = clone $targetEntitySet;
         $expansionSet->setTransaction($expansionTransaction);
-        $expansionSet->setNavigationPropertyValue($propertyValue);
+        $expansionSet->setNavigationSource($propertyValue);
 
         if ($this->isCollection()) {
             $propertyValue->setValue($expansionSet);

@@ -186,14 +186,14 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
         }
 
-        if ($this->navigationPropertyValue) {
+        if ($this->navigationSource) {
             /** @var NavigationProperty $navigationProperty */
-            $navigationProperty = $this->navigationPropertyValue->getProperty();
+            $navigationProperty = $this->navigationSource->getProperty();
 
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $model[$referencedProperty->getName()] = $this->navigationPropertyValue->getParent()->getEntityId()->getPrimitiveValue();
+                $model[$referencedProperty->getName()] = $this->navigationSource->getParent()->getEntityId()->getPrimitiveValue();
             }
         }
 
@@ -233,10 +233,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $builder = $this->getBuilder();
         $builder->select('*');
 
-        if ($this->navigationPropertyValue) {
+        if ($this->navigationSource) {
             /** @var Entity $sourceEntity */
-            $sourceEntity = $this->navigationPropertyValue->getParent();
-            $expansionPropertyName = $this->navigationPropertyValue->getProperty()->getName();
+            $sourceEntity = $this->navigationSource->getParent();
+            $expansionPropertyName = $this->navigationSource->getProperty()->getName();
             $builder = $sourceEntity->getSource()->$expansionPropertyName();
 
             if ($builder instanceof HasManyThrough) {
@@ -353,7 +353,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 break;
 
             case $property instanceof ComputedProperty:
-                $expression->pushStatement($this->quoteSingleIdentifier($property->getName()));
+                $computedExpression = new SQLExpression($this);
+                $computeParser = $this->getComputeParser();
+                $computeParser->pushEntitySet($this);
+                $tree = $computeParser->generateTree($property->getExpression());
+                $computedExpression->evaluate($tree);
+                $expression->pushExpression($computedExpression);
                 break;
         }
 

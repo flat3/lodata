@@ -14,4 +14,28 @@ use Flat3\Lodata\Transaction\Option;
 class Filter extends Option
 {
     public const param = 'filter';
+    protected $filterExpressions = [];
+
+    public function addExpression(string $expression): self
+    {
+        $this->filterExpressions[] = $expression;
+
+        return $this;
+    }
+
+    public function hasValue(): bool
+    {
+        return parent::hasValue() || !!$this->filterExpressions;
+    }
+
+    public function getExpression(): string
+    {
+        $expressions = array_values(array_filter(array_merge([$this->getValue()], $this->filterExpressions)));
+
+        if (count($expressions) === 1) {
+            return $expressions[0];
+        }
+
+        return sprintf("(%s)", join(') and (', $expressions));
+    }
 }
