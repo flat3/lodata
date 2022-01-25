@@ -284,7 +284,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $this->emitJson($transaction);
 
             $trailingMetadata = $transaction->createMetadataContainer();
-            $this->addTrailingMetadata($transaction, $trailingMetadata, $this->getResourceUrl($transaction));
+            $this->addTrailingMetadata($transaction, $trailingMetadata, $transaction->getRequest()->url());
 
             if ($trailingMetadata->hasProperties()) {
                 $transaction->outputJsonSeparator();
