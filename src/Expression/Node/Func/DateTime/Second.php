@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Second extends Func
 {
-    protected $symbol = 'second';
-    protected $argumentCount = 1;
+    public const symbol = 'second';
+    public const arguments = 1;
 }

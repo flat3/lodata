@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Logical;
  */
 class NotEqual extends Logical
 {
-    protected $symbol = 'ne';
-    protected $precedence = 3;
+    public const symbol = 'ne';
+    public const precedence = 3;
 }

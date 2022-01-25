@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Substring extends Func
 {
-    protected $symbol = 'substring';
-    protected $argumentCount = [2, 3];
+    public const symbol = 'substring';
+    public const arguments = [2, 3];
 }

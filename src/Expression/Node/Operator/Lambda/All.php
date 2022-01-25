@@ -12,5 +12,5 @@ use Flat3\Lodata\Expression\Node\Operator\Lambda;
  */
 class All extends Lambda
 {
-    protected $symbol = 'all';
+    public const symbol = 'all';
 }

@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Concat extends Func
 {
-    protected $symbol = 'concat';
-    protected $argumentCount = 2;
+    public const symbol = 'concat';
+    public const arguments = 2;
 }

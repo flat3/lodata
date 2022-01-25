@@ -14,22 +14,22 @@ use Flat3\Lodata\Expression\Operator;
  */
 class Func extends Operator
 {
-    protected $precedence = 8;
-    protected $unary = true;
+    public const precedence = 8;
+    public const unary = true;
 
-    /** @var null|int|array Number of arguments required, or null for variadic */
-    protected $argumentCount = null;
+    /** @var null|int Number of arguments required, or null for variadic */
+    public const arguments = null;
 
     /**
      * Validate the arguments for this function are syntactically correct
      */
     public function validateArguments(): void
     {
-        if ($this->argumentCount === null) {
+        if (static::arguments === null) {
             return;
         }
 
-        $target_count = $this->argumentCount;
+        $target_count = static::arguments;
         if (!is_array($target_count)) {
             $target_count = [$target_count];
         }
@@ -38,22 +38,7 @@ class Func extends Operator
             return;
         }
 
-        throw new ParserException(
-            sprintf(
-                'The %s function requires %d arguments',
-                $this->getSymbol(),
-                $this->argumentCount
-            )
-        );
-    }
-
-    /**
-     * Get the number of arguments required for this function
-     * @return ?int|array Arguments
-     */
-    public function getArgumentCount()
-    {
-        return $this->argumentCount;
+        throw new ParserException(sprintf('The %s function requires %d arguments', static::symbol, static::arguments));
     }
 
     /**
@@ -66,7 +51,7 @@ class Func extends Operator
             'unsupported_function',
             sprintf(
                 'This entity set does not support the function "%s"',
-                $this->getSymbol()
+                $this::symbol
             )
         );
     }

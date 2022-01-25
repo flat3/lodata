@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Length extends Func
 {
-    protected $symbol = 'length';
-    protected $argumentCount = 1;
+    public const symbol = 'length';
+    public const arguments = 1;
 }

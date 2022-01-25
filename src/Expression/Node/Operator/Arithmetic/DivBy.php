@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic;
  */
 class DivBy extends Arithmetic
 {
-    protected $symbol = 'divby';
-    protected $precedence = 6;
+    public const symbol = 'divby';
+    public const precedence = 6;
 }

@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Ceiling extends Func
 {
-    protected $symbol = 'ceiling';
-    protected $argumentCount = 1;
+    public const symbol = 'ceiling';
+    public const arguments = 1;
 }

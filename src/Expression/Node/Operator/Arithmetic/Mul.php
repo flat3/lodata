@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic;
  */
 class Mul extends Arithmetic
 {
-    protected $symbol = 'mul';
-    protected $precedence = 6;
+    public const symbol = 'mul';
+    public const precedence = 6;
 }

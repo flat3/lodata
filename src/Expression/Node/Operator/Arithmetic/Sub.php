@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Operator\Arithmetic;
  */
 class Sub extends Arithmetic
 {
-    protected $symbol = 'sub';
-    protected $precedence = 5;
+    public const symbol = 'sub';
+    public const precedence = 5;
 }

@@ -129,7 +129,7 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
                     sprintf(
                         '%s/%s(%s:',
                         $node->getNavigationProperty()->getValue(),
-                        $node->getSymbol(),
+                        $node::symbol,
                         $node->getVariable()
                     )
                 );
@@ -139,21 +139,21 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
 
             case $node instanceof Node\Func:
                 $node->validateArguments();
-                $this->addCommon($node->getSymbol().'(');
+                $this->addCommon($node::symbol.'(');
                 $this->addCommaSeparatedArguments($node);
                 $this->addCommon(')');
                 return;
 
             case $node instanceof Not_:
                 $this->addCommon('(');
-                $this->addCommon($node->getSymbol());
+                $this->addCommon($node::symbol);
                 $this->commonExpression($node->getLeftNode());
                 $this->addCommon(')');
                 return;
 
             case $node instanceof Node\Operator\Logical\In:
                 $this->commonExpression($node->getLeftNode());
-                $this->addCommon($node->getSymbol());
+                $this->addCommon($node::symbol);
                 $this->addCommon('(');
                 $this->addCommaSeparatedArguments($node);
                 $this->addCommon(')');
@@ -162,13 +162,13 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
             case $node instanceof Operator:
                 $this->addCommon('(');
                 $this->commonExpression($node->getLeftNode());
-                $this->addCommon($node->getSymbol());
+                $this->addCommon($node::symbol);
                 $this->commonExpression($node->getRightNode());
                 $this->addCommon(')');
                 return;
 
             default:
-                $this->addCommon($node->getSymbol());
+                $this->addCommon($node::symbol);
         }
     }
 

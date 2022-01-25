@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class ToUpper extends Func
 {
-    protected $symbol = 'toupper';
-    protected $argumentCount = 1;
+    public const symbol = 'toupper';
+    public const arguments = 1;
 }

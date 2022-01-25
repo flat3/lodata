@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class MatchesPattern extends Func
 {
-    protected $symbol = 'matchesPattern';
-    protected $argumentCount = 2;
+    public const symbol = 'matchesPattern';
+    public const arguments = 2;
 }

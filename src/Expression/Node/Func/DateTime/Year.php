@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Year extends Func
 {
-    protected $symbol = 'year';
-    protected $argumentCount = 1;
+    public const symbol = 'year';
+    public const arguments = 1;
 }

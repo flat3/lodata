@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class EndsWith extends Func
 {
-    protected $symbol = 'endswith';
-    protected $argumentCount = 2;
+    public const symbol = 'endswith';
+    public const arguments = 2;
 }

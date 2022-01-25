@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class IndexOf extends Func
 {
-    protected $symbol = 'indexof';
-    protected $argumentCount = 2;
+    public const symbol = 'indexof';
+    public const arguments = 2;
 }

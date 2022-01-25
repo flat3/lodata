@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Now extends Func
 {
-    protected $symbol = 'now';
-    protected $argumentCount = 0;
+    public const symbol = 'now';
+    public const arguments = 0;
 }

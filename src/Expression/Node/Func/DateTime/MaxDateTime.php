@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class MaxDateTime extends Func
 {
-    protected $symbol = 'maxdatetime';
-    protected $argumentCount = 0;
+    public const symbol = 'maxdatetime';
+    public const arguments = 0;
 }

@@ -12,6 +12,6 @@ use Flat3\Lodata\Expression\Node\Func;
  */
 class Round extends Func
 {
-    protected $symbol = 'round';
-    protected $argumentCount = 1;
+    public const symbol = 'round';
+    public const arguments = 1;
 }
