@@ -58,7 +58,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             $parser = $this->getFilterParser();
             $parser->pushEntitySet($this);
 
-            $tree = $parser->generateTree($this->getFilter()->getValue());
+            $tree = $parser->generateTree($this->getFilter()->getExpression());
 
             $enumerable = $enumerable->filter(function ($item) use ($tree) {
                 $result = Common::evaluate($tree, $this->newEntity()->fromSource($item));

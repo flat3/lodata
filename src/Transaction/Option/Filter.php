@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Transaction\Option;
 
 use Flat3\Lodata\Transaction\Option;
-use Illuminate\Support\Arr;
 
 /**
  * Filter
@@ -24,19 +23,14 @@ class Filter extends Option
         return $this;
     }
 
-    public function setValue(?string $value): void
-    {
-        $this->filterExpressions = array_filter(array_merge($this->filterExpressions, [$value]));
-    }
-
     public function hasValue(): bool
     {
-        return !!$this->filterExpressions;
+        return parent::hasValue() || !!$this->filterExpressions;
     }
 
-    public function getValue(): string
+    public function getExpression(): string
     {
-        $expressions = array_filter($this->filterExpressions);
+        $expressions = array_values(array_filter(array_merge([$this->getValue()], $this->filterExpressions)));
 
         if (count($expressions) === 1) {
             return $expressions[0];

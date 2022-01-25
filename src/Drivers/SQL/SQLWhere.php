@@ -28,7 +28,7 @@ trait SQLWhere
             $parser = $this->getFilterParser();
             $parser->pushEntitySet($this);
 
-            $tree = $parser->generateTree($filter->getValue());
+            $tree = $parser->generateTree($filter->getExpression());
             $filterContainer->evaluate($tree);
             $expression->pushExpression($filterContainer);
         }
