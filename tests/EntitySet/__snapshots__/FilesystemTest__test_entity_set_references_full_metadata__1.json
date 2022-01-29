@@ -1,0 +1,18 @@
+{
+    "@context": "http://localhost/odata/$metadata#Collection($ref)",
+    "@readLink": "http://localhost/odata/disk",
+    "value": [
+        {
+            "@type": "#com.example.odata.file",
+            "@id": "disk('a1.txt')"
+        },
+        {
+            "@type": "#com.example.odata.file",
+            "@id": "disk('d1')"
+        },
+        {
+            "@type": "#com.example.odata.file",
+            "@id": "disk('d1/a1.txt')"
+        }
+    ]
+}

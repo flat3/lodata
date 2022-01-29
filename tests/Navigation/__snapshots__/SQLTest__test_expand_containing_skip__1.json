@@ -1,0 +1,21 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(passengers())/$entity",
+    "id": 1,
+    "origin": "lhr",
+    "destination": "lax",
+    "gate": null,
+    "duration": "PT11H25M0S",
+    "passengers": [
+        {
+            "id": 3,
+            "name": "Gamma",
+            "age": 2,
+            "dob": "2002-03-03T06:06:06+00:00",
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000",
+            "flight_id": 1
+        }
+    ]
+}

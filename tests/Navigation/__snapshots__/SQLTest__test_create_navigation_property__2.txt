@@ -1,0 +1,18 @@
+@@ @@
+             "dq": "2003-04-04",
+             "in_role": 888.9,
+             "open_time": "23:11:33"
++        },
++        {
++            "id": 6,
++            "flight_id": 1,
++            "name": "Harry Horse",
++            "dob": null,
++            "age": null,
++            "chips": null,
++            "dq": null,
++            "in_role": null,
++            "open_time": null
+         }
+     ],
+     "pets": [

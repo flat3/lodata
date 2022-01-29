@@ -1,0 +1,26 @@
+{
+    "@context": "http://localhost/odata/$metadata#Collection($ref)",
+    "@readLink": "http://localhost/odata/passengers",
+    "value": [
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers('alpha')"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers('beta')"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers('gamma')"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers('delta')"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers('epsilon')"
+        }
+    ]
+}

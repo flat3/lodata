@@ -1,0 +1,28 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers",
+    "value": [
+        {
+            "id": 3,
+            "flight_id": 1,
+            "name": "Gamma",
+            "dob": "2002-03-03T06:06:06+00:00",
+            "age": 2,
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000"
+        },
+        {
+            "id": 4,
+            "flight_id": null,
+            "name": "Delta",
+            "dob": null,
+            "age": null,
+            "chips": null,
+            "dq": null,
+            "in_role": "PT2M7S",
+            "open_time": null
+        }
+    ],
+    "@nextLink": "http://localhost/odata/Passengers?top=2&skip=4"
+}

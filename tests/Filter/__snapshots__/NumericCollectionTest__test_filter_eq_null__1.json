@@ -1,0 +1,16 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "id": 3,
+            "name": "Delta",
+            "in_role": "PT2M7S",
+            "age": null,
+            "dob": null,
+            "chips": null,
+            "dq": null,
+            "open_time": null,
+            "flight_id": null
+        }
+    ]
+}

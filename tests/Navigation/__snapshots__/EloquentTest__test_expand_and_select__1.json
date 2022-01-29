@@ -1,0 +1,28 @@
+{
+    "@context": "http://localhost/odata/$metadata#Flights(origin,passengers())/$entity",
+    "origin": "lhr",
+    "passengers": [
+        {
+            "id": 1,
+            "flight_id": 1,
+            "name": "Alpha",
+            "dob": "2000-01-01T04:04:04+00:00",
+            "age": 4,
+            "chips": true,
+            "dq": "2000-01-01",
+            "in_role": "P1DT0S",
+            "open_time": "05:05:05.000000"
+        },
+        {
+            "id": 3,
+            "flight_id": 1,
+            "name": "Gamma",
+            "dob": "2002-03-03T06:06:06+00:00",
+            "age": 2,
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000"
+        }
+    ]
+}

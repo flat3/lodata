@@ -1,0 +1,30 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers(name,dob,mob)",
+    "value": [
+        {
+            "name": "Epsilon",
+            "dob": "2003-04-04T07:07:07+00:00",
+            "mob": 4
+        },
+        {
+            "name": "Gamma",
+            "dob": "2002-03-03T06:06:06+00:00",
+            "mob": 3
+        },
+        {
+            "name": "Beta",
+            "dob": "2001-02-02T05:05:05+00:00",
+            "mob": 2
+        },
+        {
+            "name": "Alpha",
+            "dob": "2000-01-01T04:04:04+00:00",
+            "mob": 1
+        },
+        {
+            "name": "Delta",
+            "dob": null,
+            "mob": null
+        }
+    ]
+}

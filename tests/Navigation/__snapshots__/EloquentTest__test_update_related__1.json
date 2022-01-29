@@ -1,0 +1,38 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers/$entity",
+    "id": 1,
+    "flight_id": 1,
+    "name": "Zooey Zamblo",
+    "dob": "2000-01-01T04:04:04+00:00",
+    "age": 4,
+    "chips": true,
+    "dq": "2000-01-01",
+    "in_role": "P1DT0S",
+    "open_time": "05:05:05.000000",
+    "pets": [
+        {
+            "id": 1,
+            "passenger_id": 1,
+            "name": "Banana",
+            "type": null
+        },
+        {
+            "id": 2,
+            "passenger_id": 3,
+            "name": "Charlie",
+            "type": null
+        },
+        {
+            "id": 4,
+            "passenger_id": 1,
+            "name": "Delta",
+            "type": null
+        },
+        {
+            "id": 2,
+            "passenger_id": 3,
+            "name": "Charlie",
+            "type": null
+        }
+    ]
+}

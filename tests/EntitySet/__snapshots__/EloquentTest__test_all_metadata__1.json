@@ -1,0 +1,76 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers",
+    "@readLink": "http://localhost/odata/Passengers",
+    "value": [
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(1)",
+            "@readLink": "http://localhost/odata/Passengers(1)",
+            "id": 1,
+            "flight_id": 1,
+            "name": "Alpha",
+            "dob": "2000-01-01T04:04:04+00:00",
+            "age": 4,
+            "chips": true,
+            "dq": "2000-01-01",
+            "in_role": "P1DT0S",
+            "open_time": "05:05:05.000000"
+        },
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(2)",
+            "@readLink": "http://localhost/odata/Passengers(2)",
+            "id": 2,
+            "flight_id": null,
+            "name": "Beta",
+            "dob": "2001-02-02T05:05:05+00:00",
+            "age": 3,
+            "chips": false,
+            "dq": "2001-02-02",
+            "in_role": "P2DT5H5M5.2999999999884S",
+            "open_time": null
+        },
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(3)",
+            "@readLink": "http://localhost/odata/Passengers(3)",
+            "id": 3,
+            "flight_id": 1,
+            "name": "Gamma",
+            "dob": "2002-03-03T06:06:06+00:00",
+            "age": 2,
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000"
+        },
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(4)",
+            "@readLink": "http://localhost/odata/Passengers(4)",
+            "id": 4,
+            "flight_id": null,
+            "name": "Delta",
+            "dob": null,
+            "age": null,
+            "chips": null,
+            "dq": null,
+            "in_role": "PT2M7S",
+            "open_time": null
+        },
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(5)",
+            "@readLink": "http://localhost/odata/Passengers(5)",
+            "id": 5,
+            "flight_id": null,
+            "name": "Epsilon",
+            "dob": "2003-04-04T07:07:07+00:00",
+            "age": 2.4,
+            "chips": null,
+            "dq": "2003-04-04",
+            "in_role": "PT14M48.9S",
+            "open_time": "23:11:33.000000"
+        }
+    ]
+}

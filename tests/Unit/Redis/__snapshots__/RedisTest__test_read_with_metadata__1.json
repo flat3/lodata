@@ -1,8 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#passengers/$entity",
-    "@type": "#com.example.odata.passenger",
-    "@id": "http://localhost/odata/passengers('ilpmuf')",
-    "@readLink": "http://localhost/odata/passengers('ilpmuf')",
-    "name": "Dr. Hiram Kemmer",
-    "key": "ilpmuf"
-}

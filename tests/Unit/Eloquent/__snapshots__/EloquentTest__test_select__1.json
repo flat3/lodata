@@ -1,8 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#Airports(code)",
-    "value": [
-        {
-            "code": "elo"
-        }
-    ]
-}

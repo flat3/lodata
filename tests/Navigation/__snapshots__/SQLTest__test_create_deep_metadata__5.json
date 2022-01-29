@@ -1,0 +1,11 @@
+{
+    "@context": "http://localhost/odata/$metadata#pets",
+    "value": [
+        {
+            "id": 4,
+            "name": "Sparkles",
+            "type": "dog",
+            "passenger_id": 6
+        }
+    ]
+}

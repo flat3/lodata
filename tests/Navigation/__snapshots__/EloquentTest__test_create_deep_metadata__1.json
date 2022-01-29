@@ -1,0 +1,54 @@
+{
+    "@context": "http://localhost/odata/$metadata#Flights/$entity",
+    "@type": "#com.example.odata.Flight",
+    "@id": "http://localhost/odata/Flights(4)",
+    "@readLink": "http://localhost/odata/Flights(4)",
+    "id": 4,
+    "origin": "lhr",
+    "destination": "sfo",
+    "gate": null,
+    "duration": null,
+    "passengers": [
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(6)",
+            "@readLink": "http://localhost/odata/Passengers(6)",
+            "id": 6,
+            "flight_id": 4,
+            "name": "Alice",
+            "dob": null,
+            "age": null,
+            "chips": null,
+            "dq": null,
+            "in_role": null,
+            "open_time": null,
+            "pets": [
+                {
+                    "@type": "#com.example.odata.Pet",
+                    "@id": "http://localhost/odata/Pets(4)",
+                    "@readLink": "http://localhost/odata/Pets(4)",
+                    "id": 4,
+                    "passenger_id": 6,
+                    "name": "Sparkles",
+                    "type": "dog"
+                }
+            ],
+            "pets@navigationLink": "http://localhost/odata/Passengers(6)/pets"
+        },
+        {
+            "@type": "#com.example.odata.Passenger",
+            "@id": "http://localhost/odata/Passengers(7)",
+            "@readLink": "http://localhost/odata/Passengers(7)",
+            "id": 7,
+            "flight_id": 4,
+            "name": "Bob",
+            "dob": null,
+            "age": null,
+            "chips": null,
+            "dq": null,
+            "in_role": null,
+            "open_time": null
+        }
+    ],
+    "passengers@navigationLink": "http://localhost/odata/Flights(4)/passengers"
+}

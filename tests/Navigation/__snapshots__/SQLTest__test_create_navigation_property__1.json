@@ -1,0 +1,12 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "id": 6,
+    "name": "Harry Horse",
+    "age": null,
+    "dob": null,
+    "chips": null,
+    "dq": null,
+    "in_role": null,
+    "open_time": null,
+    "flight_id": 1
+}

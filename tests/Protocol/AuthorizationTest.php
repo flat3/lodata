@@ -1,0 +1,93 @@
+<?php
+
+namespace Flat3\Lodata\Tests\Protocol;
+
+use Flat3\Lodata\Helper\Gate;
+use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
+use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Tests\TestCase;
+
+class AuthorizationTest extends TestCase
+{
+    use WithNumericCollectionDriver;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        config(['lodata.authorization' => true]);
+        config(['lodata.readonly' => false]);
+    }
+
+    public function test_no_authorization()
+    {
+        config(['lodata.authorization' => false]);
+
+        $this->assertResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function gateAssertion()
+    {
+        $this->gateMock->andReturnUsing(function ($lodata, Gate $gate) {
+            $this->assertMatchesSnapshot([
+                $lodata,
+                $gate->getAccess(),
+                $gate->getResource()->getResourceUrl($gate->getTransaction())
+            ]);
+
+            return true;
+        });
+    }
+
+    public function test_query_denied()
+    {
+        $this->gateAssertion();
+        $this->assertForbidden(
+            (new Request)
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_read_denied()
+    {
+        $this->gateAssertion();
+        $this->assertForbidden(
+            (new Request)
+                ->path($this->entityPath)
+        );
+    }
+
+    public function test_delete_denied()
+    {
+        $this->gateAssertion();
+        $this->assertForbidden(
+            (new Request)
+                ->delete()
+                ->path($this->entityPath)
+        );
+    }
+
+    public function test_create_denied()
+    {
+        $this->gateAssertion();
+        $this->assertForbidden(
+            (new Request)
+                ->post()
+                ->body([])
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_update_denied()
+    {
+        $this->gateAssertion();
+        $this->assertForbidden(
+            (new Request)
+                ->patch()
+                ->path($this->entityPath)
+        );
+    }
+}
+

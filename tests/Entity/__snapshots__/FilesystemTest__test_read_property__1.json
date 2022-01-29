@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#disk('a1.txt')/size",
+    "value": 5
+}

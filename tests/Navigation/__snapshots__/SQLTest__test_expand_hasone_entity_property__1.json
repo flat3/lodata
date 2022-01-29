@@ -1,0 +1,5 @@
+{
+    "@context": "http://localhost/odata/$metadata#countries/$entity",
+    "id": 1,
+    "name": "England"
+}

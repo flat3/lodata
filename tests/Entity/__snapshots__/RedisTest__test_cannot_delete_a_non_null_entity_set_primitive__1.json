@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "property_not_deletable",
+        "message": "This nested property cannot be deleted",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

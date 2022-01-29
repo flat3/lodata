@@ -1,0 +1,14 @@
+{
+    "@context": "http://localhost/odata/$metadata#disk(path)",
+    "value": [
+        {
+            "path": "a1.txt"
+        },
+        {
+            "path": "d1"
+        },
+        {
+            "path": "d1/a1.txt"
+        }
+    ]
+}

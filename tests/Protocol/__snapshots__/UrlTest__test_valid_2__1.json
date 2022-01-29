@@ -1,0 +1,12 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "id": 6,
+    "name": "O'Hare",
+    "age": null,
+    "dob": null,
+    "chips": null,
+    "dq": null,
+    "in_role": null,
+    "open_time": null,
+    "flight_id": null
+}

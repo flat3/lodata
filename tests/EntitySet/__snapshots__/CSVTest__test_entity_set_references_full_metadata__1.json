@@ -1,0 +1,26 @@
+{
+    "@context": "http://localhost/odata/$metadata#Collection($ref)",
+    "@readLink": "http://localhost/odata/passengers",
+    "value": [
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers(0)"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers(1)"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers(2)"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers(3)"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "passengers(4)"
+        }
+    ]
+}

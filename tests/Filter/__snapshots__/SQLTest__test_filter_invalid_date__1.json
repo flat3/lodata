@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "expression_parser_error",
+        "message": "Encountered an invalid symbol at: dq lt 1935-0>x<-",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

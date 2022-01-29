@@ -1,0 +1,103 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Flat3\Lodata\Tests\EntitySetCreate;
+
+use Carbon\CarbonImmutable as Carbon;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
+use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Type\DateTimeOffset;
+
+class FilesystemTest extends EntitySetCreateTest
+{
+    use WithFilesystemDriver;
+
+    public function test_create()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->body([
+                    'path' => 'd1/a2.txt',
+                    'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                ])
+                ->post()
+                ->path($this->entitySetPath),
+            Response::HTTP_CREATED
+        );
+
+        $this->assertMatchesTextSnapshot($this->getDisk()->get('d1/a2.txt'));
+    }
+
+    public function test_create_ref()
+    {
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->path($this->entitySetPath.'/$ref')
+                ->post()
+                ->body([
+                    'path' => 'd1/a2.txt',
+                    'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function test_create_return_minimal()
+    {
+        $response = $this->assertNoContent(
+            (new Request)
+                ->path($this->entitySetPath)
+                ->preference('return', 'minimal')
+                ->post()
+                ->body([
+                    'path' => 'd1/a2.txt',
+                    'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                ])
+        );
+
+        $this->assertResponseHeaderSnapshot($response);
+    }
+
+    public function test_create_with_content()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->body([
+                    'path' => 'd1/a3.txt',
+                    'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                    '$value' => 'dGVzdA==',
+                ])
+                ->post()
+                ->path($this->entitySetPath),
+            Response::HTTP_CREATED
+        );
+
+        $this->assertMatchesTextSnapshot($this->getDisk()->get('d1/a3.txt'));
+    }
+
+    public function test_create_missing_path()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->body([])
+                ->post()
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_create_conflicts()
+    {
+        $this->getDisk()->put('c1.txt', '');
+
+        $this->assertConflict(
+            (new Request)
+                ->body([
+                    'path' => 'c1.txt',
+                ])
+                ->post()
+                ->path($this->entitySetPath)
+        );
+    }
+}

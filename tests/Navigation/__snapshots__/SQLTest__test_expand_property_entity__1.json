@@ -1,0 +1,13 @@
+{
+    "@context": "http://localhost/odata/$metadata#countries(airports())",
+    "value": [
+        {
+            "id": 1,
+            "name": "England"
+        },
+        {
+            "id": 2,
+            "name": "France"
+        }
+    ]
+}

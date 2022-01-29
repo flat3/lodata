@@ -1,5 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#examples/$entity",
-    "id": "zeta",
-    "name": "Zeta"
-}

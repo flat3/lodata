@@ -1,0 +1,30 @@
+{
+    "@context": "http://localhost/odata/$metadata#Flights(originAirport(),destinationAirport())/$entity",
+    "id": 1,
+    "origin": "lhr",
+    "destination": "lax",
+    "gate": null,
+    "duration": "PT11H25M0S",
+    "originAirport": {
+        "id": 1,
+        "name": "Heathrow",
+        "code": "lhr",
+        "construction_date": "1946-03-25",
+        "sam_datetime": "2001-11-10T14:00:00+00:00",
+        "open_time": "09:00:00.000000",
+        "review_score": null,
+        "is_big": true,
+        "country_id": 1
+    },
+    "destinationAirport": {
+        "id": 2,
+        "name": "Los Angeles",
+        "code": "lax",
+        "construction_date": "1930-01-01",
+        "sam_datetime": "2000-11-10T14:00:00+00:00",
+        "open_time": "08:00:00.000000",
+        "review_score": null,
+        "is_big": false,
+        "country_id": 2
+    }
+}

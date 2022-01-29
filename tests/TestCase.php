@@ -2,24 +2,29 @@
 
 namespace Flat3\Lodata\Tests;
 
-use Closure;
-use DOMDocument;
-use Eclipxe\XmlSchemaValidator\SchemaValidator;
-use Exception;
 use Faker\Factory;
-use Faker\Generator;
-use Flat3\Lodata\Controller\Response;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
-use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Faker\Generator as FakerGenerator;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\DynamicProperty;
+use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
+use Flat3\Lodata\Operation;
 use Flat3\Lodata\ServiceProvider;
-use Flat3\Lodata\Tests\Data\TestModels;
-use Flat3\Lodata\Tests\Data\TestOperations;
-use Flat3\Lodata\Type\Guid;
+use Flat3\Lodata\Singleton;
+use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Tests\Helpers\UseDatabaseAssertions;
+use Flat3\Lodata\Tests\Helpers\UseODataAssertions;
+use Flat3\Lodata\Tests\Helpers\UseSnapshots;
+use Flat3\Lodata\Tests\Helpers\VfsAdapter;
+use Flat3\Lodata\Type;
+use Flat3\Lodata\Type\Decimal;
+use Flat3\Lodata\Type\Int32;
+use Generator;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -28,20 +33,19 @@ use Illuminate\Testing\TestResponse;
 use League\Flysystem\Filesystem;
 use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
 use Mockery\Expectation;
-use PDOException;
 use Ramsey\Uuid\Uuid;
-use RuntimeException;
+use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use VirtualFileSystem\FileSystem as VirtualFileSystem;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MatchesSnapshots;
-    use TestModels;
-    use TestOperations;
     use WithoutMiddleware;
+    use UseDatabaseAssertions;
+    use UseODataAssertions;
+    use UseSnapshots;
 
     /** @var Expectation $gateMock */
     protected $gateMock;
@@ -49,13 +53,30 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /** @var int $uuid */
     protected $uuid;
 
-    /** @var string $databaseSnapshot */
-    protected $databaseSnapshot;
-
-    /** @var Generator $faker */
+    /** @var FakerGenerator $faker */
     protected $faker;
 
-    protected $migrations = __DIR__.'/migrations/airline';
+    protected $migrations = __DIR__.'/Laravel/migrations/airline';
+
+    protected $entitySet = 'passengers';
+    protected $entitySetPath = null;
+    protected $entityId = 1;
+    protected $entityPath = null;
+    protected $missingEntityId = 99;
+    protected $etag = 'W/""';
+    protected $escapedEntityId;
+
+    protected $airportEntitySet = 'airports';
+    protected $airportEntitySetPath = null;
+
+    protected $flightEntitySet = 'flights';
+    protected $flightEntitySetPath = null;
+
+    protected $countryEntitySet = 'countries';
+    protected $countryEntitySetPath = null;
+
+    protected $petEntitySet = 'pets';
+    protected $petEntitySetPath = null;
 
     public function getEnvironmentSetUp($app)
     {
@@ -81,11 +102,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->faker = Factory::create();
     }
 
-    protected function defineDatabaseMigrations()
-    {
-        $this->loadMigrationsFrom($this->migrations);
-    }
-
     public function setUp(): void
     {
         parent::setUp();
@@ -94,14 +110,45 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->uuid = 0;
         $this->faker->seed(1234);
         $this->trackQueries();
+        $this->setUpDatabaseSnapshots();
 
         // @phpstan-ignore-next-line
         Redis::flushdb();
+
+        $this->setUpDriver();
+
+        $this->entitySetPath = '/'.$this->entitySet;
+        $this->airportEntitySetPath = '/'.$this->airportEntitySet;
+        $this->flightEntitySetPath = '/'.$this->flightEntitySet;
+        $this->countryEntitySetPath = '/'.$this->countryEntitySet;
+        $this->entityPath = $this->entitySetPath.'/'.$this->entityId;
+        $this->escapedEntityId = $this->entityId;
+
+        if (is_string($this->escapedEntityId)) {
+            $this->escapedEntityId = "'{$this->escapedEntityId}'";
+        }
     }
 
-    public function incrementUuid()
+    public function tearDown(): void
     {
-        $this->uuid++;
+        $this->tearDownDriver();
+        parent::tearDown();
+    }
+
+    protected function getSnapshotId(): string
+    {
+        $id = sprintf(
+            "%s__%s__%s",
+            (new ReflectionClass($this))->getShortName(),
+            $this->getName(),
+            $this->snapshotIncrementor
+        );
+
+        if ($this->driverSpecificSnapshots) {
+            $id .= '__'.$this->getConnection()->getDriverName();
+        }
+
+        return $id;
     }
 
     protected function getPackageProviders($app): array
@@ -111,132 +158,26 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    protected function setUpDriver()
+    {
+    }
+
+    protected function tearDownDriver()
+    {
+    }
+
+    protected function markTestSkippedForDriver($driver)
+    {
+        $driver = is_array($driver) ? $driver : [$driver];
+
+        if (in_array($this->getConnection()->getDriverName(), $driver)) {
+            $this->markTestSkipped();
+        }
+    }
+
     protected function getDisk(): FilesystemContract
     {
         return Storage::disk(config('lodata.disk'));
-    }
-
-    protected function assertRequestExceptionSnapshot(Request $request, string $exceptionClass): ProtocolException
-    {
-        try {
-            $this->req($request);
-            throw new RuntimeException('Failed to throw exception');
-        } catch (ProtocolException $e) {
-            if (!$e instanceof $exceptionClass) {
-                throw new RuntimeException('Incorrect exception thrown: '.get_class($e));
-            }
-
-            $this->assertMatchesObjectSnapshot($e->serialize());
-            return $e;
-        } catch (Exception $e) {
-            if (!$e instanceof $exceptionClass) {
-                throw new RuntimeException('Incorrect exception thrown: '.get_class($e));
-            }
-
-            return new InternalServerErrorException();
-        }
-    }
-
-    protected function assertNotFound(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_NOT_FOUND);
-    }
-
-    protected function assertFound(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_FOUND);
-    }
-
-    protected function assertForbidden(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_FORBIDDEN);
-    }
-
-    protected function assertAccepted(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_ACCEPTED);
-    }
-
-    protected function assertBadRequest(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_BAD_REQUEST);
-    }
-
-    protected function assertNotImplemented(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_NOT_IMPLEMENTED);
-    }
-
-    protected function assertPreconditionFailed(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_PRECONDITION_FAILED);
-    }
-
-    protected function assertNotModified(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_NOT_MODIFIED);
-    }
-
-    protected function assertNotAcceptable(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_NOT_ACCEPTABLE);
-    }
-
-    protected function assertInternalServerError(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-
-    protected function assertNotFoundException(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, NotFoundException::class);
-    }
-
-    protected function assertNoContent(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_NO_CONTENT);
-    }
-
-    protected function assertMethodNotAllowed(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-    protected function assertConflict(Request $request): TestResponse
-    {
-        return $this->assertODataError($request, Response::HTTP_CONFLICT);
-    }
-
-    protected function assertODataError(Request $request, int $code): TestResponse
-    {
-        $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND, Response::HTTP_NOT_MODIFIED];
-
-        try {
-            $response = $this->req($request);
-        } catch (ProtocolException $e) {
-            $response = new TestResponse($e->toResponse());
-        }
-
-        $content = $this->responseContent($response);
-        $this->assertEquals($code, $response->getStatusCode());
-
-        if (!$content) {
-            $this->assertContains($code, $emptyCodes);
-            return $response;
-        }
-
-        if (in_array($code, $emptyCodes)) {
-            $this->assertEmpty($content);
-        }
-
-        $this->assertMatchesSnapshot($content, new StreamingJsonDriver());
-
-        return $response;
-    }
-
-    protected function assertUnauthorizedHttpException(Request $request): ProtocolException
-    {
-        return $this->assertRequestExceptionSnapshot($request, UnauthorizedHttpException::class);
     }
 
     public function urlToReq(string $url): Request
@@ -257,21 +198,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $request;
     }
 
-    /**
-     * @param  TestResponse  $response
-     * @return object
-     */
-    public function getResponseBody(TestResponse $response): object
+    protected function getResponseBody(TestResponse $response): object
     {
-        return json_decode($this->responseContent($response));
+        return json_decode($this->getResponseContent($response));
     }
 
-    private function responseContent(TestResponse $response)
+    protected function getResponseContent(TestResponse $response)
     {
         return $response->baseResponse instanceof StreamedResponse ? $response->streamedContent() : $response->getContent();
     }
 
-    public function req(Request $request): TestResponse
+    protected function req(Request $request): TestResponse
     {
         return $this->call(
             $request->method,
@@ -284,231 +221,210 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         );
     }
 
-    protected function assertXmlResponse(Request $request)
+    protected function addPassengerProperties(EntityType $entityType)
     {
-        $response = $this->req($request);
-        $this->assertMatchesXmlSnapshot($this->responseContent($response));
-        $this->assertResponseMetadata($response);
+        $entityType->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false));
+        $entityType->addDeclaredProperty('age', Type::double());
+        $entityType->addDeclaredProperty('dob', Type::datetimeoffset());
+        $entityType->addDeclaredProperty('chips', Type::boolean());
+        $entityType->addDeclaredProperty('dq', Type::date());
+        $entityType->addDeclaredProperty('in_role', Type::duration());
+        $entityType->addDeclaredProperty('open_time', Type::timeofday());
+        $entityType->addDeclaredProperty('flight_id', Type::int64());
     }
 
-    protected function assertMetadataDocuments()
+    protected function getSeed(): array
     {
-        $response = $this->req(
-            (new Request)
-                ->path('/$metadata')
-                ->xml()
-        );
-
-        $xml = $this->responseContent($response);
-        $this->assertMatchesXmlSnapshot($xml);
-        $this->assertResponseMetadata($response);
-
-        $document = new DOMDocument();
-        $document->loadXML($xml);
-        $validator = new SchemaValidator($document);
-        $schemas = $validator->buildSchemas();
-        $schemas->create('http://docs.oasis-open.org/odata/ns/edm', __DIR__.'/schemas/edm.xsd');
-        $schemas->create('http://docs.oasis-open.org/odata/ns/edmx', __DIR__.'/schemas/edmx.xsd');
-        $validator->validateWithSchemas($schemas);
-
-        $this->assertJsonResponse(
-            (new Request)
-                ->path('/$metadata')
-        );
-
-        $this->assertJsonResponse(
-            (new Request)
-                ->path('/openapi.json')
-        );
+        return [
+            'alpha' => [
+                'name' => 'Alpha',
+                'age' => 4,
+                'dob' => '2000-01-01 04:04:04',
+                'chips' => true,
+                'dq' => '2000-01-01',
+                'in_role' => 86400,
+                'open_time' => '05:05:05',
+                'flight_id' => 1,
+            ],
+            'beta' => [
+                'name' => 'Beta',
+                'age' => 3,
+                'dob' => '2001-02-02 05:05:05',
+                'chips' => false,
+                'dq' => '2001-02-02',
+                'in_role' => 191105.3,
+            ],
+            'gamma' => [
+                'name' => 'Gamma',
+                'age' => 2,
+                'dob' => '2002-03-03 06:06:06',
+                'chips' => true,
+                'dq' => '2002-03-03',
+                'in_role' => 347561,
+                'open_time' => '07:07:07',
+                'flight_id' => 1,
+            ],
+            'delta' => [
+                'name' => 'Delta',
+                'in_role' => 127,
+            ],
+            'epsilon' => [
+                'name' => 'Epsilon',
+                'age' => 2.4,
+                'dob' => '2003-04-04 07:07:07',
+                'dq' => '2003-04-04',
+                'open_time' => '23:11:33',
+                'in_role' => 888.9,
+            ]
+        ];
     }
 
-    protected function assertResponseMetadata(TestResponse $response)
+    protected function getAirportSeed(): array
     {
-        $this->assertMatchesSnapshot([
-            'headers' => array_diff_key($response->baseResponse->headers->all(), array_flip(['date'])),
-            'status' => $response->baseResponse->getStatusCode(),
-        ]);
+        return [
+            [
+                'code' => 'lhr',
+                'name' => 'Heathrow',
+                'construction_date' => '1946-03-25',
+                'open_time' => '09:00:00',
+                'sam_datetime' => '2001-11-10T14:00:00',
+                'is_big' => true,
+                'country_id' => 1,
+            ],
+            [
+                'code' => 'lax',
+                'name' => 'Los Angeles',
+                'construction_date' => '1930-01-01',
+                'open_time' => '08:00:00',
+                'sam_datetime' => '2000-11-10T14:00:00',
+                'is_big' => false,
+                'country_id' => 2,
+            ], [
+                'code' => 'sfo',
+                'name' => 'San Francisco',
+                'construction_date' => '1930-01-01',
+                'open_time' => '15:00:00',
+                'sam_datetime' => '2001-11-10T14:00:01',
+                'is_big' => null,
+            ], [
+                'code' => 'ohr',
+                'name' => "O'Hare",
+                'construction_date' => '1930-01-01',
+                'open_time' => '15:00:00',
+                'sam_datetime' => '1999-11-10T14:00:01',
+                'is_big' => true,
+            ]
+        ];
     }
 
-    protected function assertStoredResponseMetadata(string $metadata)
+    protected function getFlightSeed(): array
     {
-        $metadata = json_decode($metadata, true);
-        $response = new Response();
-        $response->headers->replace($metadata['headers']);
-        $response->setStatusCode($metadata['status']);
-        $this->assertResponseMetadata(new TestResponse($response));
+        return [
+            [
+                'origin' => 'lhr',
+                'destination' => 'lax',
+                'duration' => 41100,
+            ], [
+                'origin' => 'sam',
+                'destination' => 'rgr',
+                'duration' => 2384,
+            ], [
+                'origin' => 'sfo',
+                'destination' => 'lax',
+                'duration' => 2133,
+            ]
+        ];
     }
 
-    protected function assertMetadataResponse(Request $request): TestResponse
+    protected function getCountrySeed(): array
     {
-        $response = $this->req($request);
-        $this->assertResponseMetadata($response);
-        return $response;
+        return [
+            [
+                'name' => 'England',
+            ],
+            [
+                'name' => 'France',
+            ],
+        ];
     }
 
-    protected function assertJsonResponse(Request $request, int $statusCode = Response::HTTP_OK): TestResponse
+    protected function getPetSeed(): array
     {
-        $response = $this->req($request);
-        $content = $this->responseContent($response);
-        $this->assertEquals($statusCode, $response->getStatusCode());
-        $this->assertMatchesSnapshot($content, new StreamingJsonDriver());
-        return $response;
+        return [
+            [
+                'name' => 'Banana',
+                'passenger_id' => 1,
+            ],
+            [
+                'name' => 'Coconut',
+                'passenger_id' => 3,
+            ],
+            [
+                'name' => 'Dog',
+            ],
+        ];
     }
 
-    protected function assertHtmlResponse(Request $request): TestResponse
+    protected function withSingleton()
     {
-        $response = $this->req($request);
-        $this->assertMatchesHtmlSnapshot($this->responseContent($response));
-        return $response;
+        $type = new EntityType('sType');
+        $type->addProperty(new DeclaredProperty('name', Type::string()));
+        $singleton = new Singleton('sInstance', $type);
+        $singleton['name'] = 'Bob';
+
+        Lodata::add($singleton);
     }
 
-    protected function assertTextResponse(Request $request): TestResponse
+    public function withMathFunctions()
     {
-        $response = $this->req($request);
-        $this->assertMatchesTextSnapshot($this->responseContent($response));
-        return $response;
+        $add = new Operation\Function_('add');
+        $add->setCallable(function (Int32 $a, Int32 $b): Int32 {
+            return new Int32($a->get() + $b->get());
+        });
+        Lodata::add($add);
+
+        $div = new Operation\Function_('div');
+        $div->setCallable(function (Int32 $a, Int32 $b): Decimal {
+            return new Decimal($a->get() / $b->get());
+        });
+        Lodata::add($div);
     }
 
-    protected function assertProtocolExceptionSnapshot(ProtocolException $e)
+    public function withTextModel()
     {
-        $this->assertMatchesSnapshot($e->serialize());
+        Lodata::add(
+            new class(
+                'texts',
+                Lodata::add((new EntityType('text'))
+                    ->addDeclaredProperty('a', Type::string()))
+            ) extends EntitySet implements QueryInterface {
+                public function query(): Generator
+                {
+                    $entity = $this->newEntity();
+                    $entity['a'] = 'a';
+                    yield $entity;
+                }
+            });
     }
 
-    protected function assertJsonMetadataResponse(Request $request): TestResponse
+    public function withDynamicPropertyModel()
     {
-        $response = $this->req($request);
-        $this->assertMatchesSnapshot($this->responseContent($response), new StreamingJsonDriver());
-        $this->assertResponseMetadata($response);
-        return $response;
-    }
-
-    protected function assertTextMetadataResponse(Request $request)
-    {
-        $response = $this->req($request);
-        $this->assertMatchesTextSnapshot($this->responseContent($response));
-        $this->assertResponseMetadata($response);
-    }
-
-    protected function snapshotDatabase(): array
-    {
-        $db = [];
-
-        foreach (Arr::sort(DB::connection()->getDoctrineSchemaManager()->listTableNames()) as $table) {
-            if ($table === 'migrations') {
-                continue;
-            }
-
-            $db[$table] = DB::table($table)
-                ->select('*')
-                ->get()
-                ->map(function ($record) {
-                    return json_decode(json_encode($record, JSON_NUMERIC_CHECK), true);
-                })
-                ->toArray();
-        }
-
-        return $db;
-    }
-
-    protected function captureDatabaseState()
-    {
-        $this->databaseSnapshot = $this->snapshotDatabase();
-    }
-
-    protected function assertDatabaseMatchesCapturedState()
-    {
-        $this->assertEquals($this->databaseSnapshot, $this->snapshotDatabase());
-    }
-
-    protected function assertDatabaseSnapshot()
-    {
-        $this->assertMatchesObjectSnapshot($this->snapshotDatabase());
-    }
-
-    protected function assertNoTransactionsInProgress()
-    {
-        try {
-            $this->getConnection('testing')->beginTransaction();
-            $this->getConnection('testing')->rollBack();
-        } catch (PDOException $e) {
-            $this->fail('A transaction was in progress');
-        }
-    }
-
-    // https://github.com/mattiasgeniar/phpunit-query-count-assertions/blob/master/src/AssertsQueryCounts.php
-    protected function assertNoQueriesExecuted(Closure $closure = null): void
-    {
-        if ($closure) {
-            self::trackQueries();
-
-            $closure();
-        }
-
-        $this->assertQueryCountMatches(0);
-
-        if ($closure) {
-            DB::flushQueryLog();
-        }
-    }
-
-    protected function assertQueryCountMatches(int $count, Closure $closure = null): void
-    {
-        if ($closure) {
-            self::trackQueries();
-
-            $closure();
-        }
-
-        $this->assertEquals($count, self::getQueryCount());
-
-        if ($closure) {
-            DB::flushQueryLog();
-        }
-    }
-
-    protected function assertQueryCountLessThan(int $count, Closure $closure = null): void
-    {
-        if ($closure) {
-            self::trackQueries();
-
-            $closure();
-        }
-
-        $this->assertLessThan($count, self::getQueryCount());
-
-        if ($closure) {
-            DB::flushQueryLog();
-        }
-    }
-
-    protected function assertQueryCountGreaterThan(int $count, Closure $closure = null): void
-    {
-        if ($closure) {
-            self::trackQueries();
-
-            $closure();
-        }
-
-        $this->assertGreaterThan($count, self::getQueryCount());
-
-        if ($closure) {
-            DB::flushQueryLog();
-        }
-    }
-
-    protected static function trackQueries(): void
-    {
-        DB::flushQueryLog();
-        DB::enableQueryLog();
-    }
-
-    protected static function getQueriesExecuted(): array
-    {
-        return DB::getQueryLog();
-    }
-
-    protected static function getQueryCount(): int
-    {
-        return count(self::getQueriesExecuted());
+        Lodata::add(
+            new class(
+                'example',
+                Lodata::add((new EntityType('text'))
+                    ->addDeclaredProperty('declared', Type::string()))
+            ) extends EntitySet implements QueryInterface {
+                public function query(): Generator
+                {
+                    $entity = $this->newEntity();
+                    $entity['declared'] = 'a';
+                    $pv = $entity->newPropertyValue();
+                    $pv->setValue(new Int32(3));
+                    $pv->setProperty(new DynamicProperty('dynamic', Type::int32()));
+                    $entity->addPropertyValue($pv);
+                    yield $entity;
+                }
+            });
     }
 }

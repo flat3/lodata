@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "etag_mismatch",
+        "message": "The provided If-Match header did not match the current ETag value",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

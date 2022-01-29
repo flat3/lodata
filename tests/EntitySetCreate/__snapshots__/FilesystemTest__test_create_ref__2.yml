@@ -1,0 +1,7 @@
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+    odata-version: ['4.01']
+    location: ['http://localhost/odata/disk(''d1/a2.txt'')']
+    etag: ['W/"cc172f72f93341f29e7fedad877222d29562521d2efae4cb4d6ae024b9b0789c"']
+status: 201

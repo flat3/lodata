@@ -1,0 +1,10 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers(flight_id,name)",
+    "value": [
+        {
+            "name": "Alpha",
+            "flight_id": 1
+        }
+    ],
+    "@nextLink": "http://localhost/odata/flights/1/passengers?%24select=flight_id%2Cname&top=1&skip=1"
+}

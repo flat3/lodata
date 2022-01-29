@@ -1,0 +1,20 @@
+{
+    "@context": "http://localhost/odata/$metadata#Collection($ref)",
+    "value": [
+        {
+            "@id": "Passengers(1)"
+        },
+        {
+            "@id": "Passengers(2)"
+        },
+        {
+            "@id": "Passengers(3)"
+        },
+        {
+            "@id": "Passengers(4)"
+        },
+        {
+            "@id": "Passengers(5)"
+        }
+    ]
+}

@@ -1,0 +1,40 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers(name,age)",
+    "@readLink": "http://localhost/odata/passengers",
+    "value": [
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers('alpha')",
+            "@readLink": "http://localhost/odata/passengers('alpha')",
+            "name": "Alpha",
+            "age": 4
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers('beta')",
+            "@readLink": "http://localhost/odata/passengers('beta')",
+            "name": "Beta",
+            "age": 3
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers('gamma')",
+            "@readLink": "http://localhost/odata/passengers('gamma')",
+            "name": "Gamma",
+            "age": 2
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers('delta')",
+            "@readLink": "http://localhost/odata/passengers('delta')",
+            "name": "Delta"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers('epsilon')",
+            "@readLink": "http://localhost/odata/passengers('epsilon')",
+            "name": "Epsilon",
+            "age": 2.4
+        }
+    ]
+}

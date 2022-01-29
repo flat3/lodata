@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "no_next_segment",
+        "message": "Reference request must be the last segment",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

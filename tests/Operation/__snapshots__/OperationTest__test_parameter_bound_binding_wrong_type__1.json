@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "invalid_argument_type",
+        "message": "The provided argument (passengers) was not of the correct type for this function",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

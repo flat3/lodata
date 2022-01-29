@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tests (postgres)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
+    <CommandLine>
+      <envs>
+        <env name="DATABASE_URL" value="pgsql://postgres:mysecretpassword@127.0.0.1:55013/postgres?charset=utf8" />
+      </envs>
+    </CommandLine>
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
+    <method v="2" />
+  </configuration>
+</component>

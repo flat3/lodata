@@ -1,0 +1,10 @@
+{
+    "@context": "http://localhost/odata/$metadata",
+    "value": [
+        {
+            "name": "passengers",
+            "kind": "EntitySet",
+            "url": "passengers"
+        }
+    ]
+}

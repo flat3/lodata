@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers(name,chips)",
+    "value": [
+        {
+            "name": "Beta",
+            "chips": false
+        }
+    ]
+}

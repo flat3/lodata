@@ -1,0 +1,9 @@
+@@ @@
+             "flight_id": 1,
+             "name": "Alpha",
+             "dob": "2000-01-01 04:04:04",
+-            "age": 4,
++            "age": null,
+             "chips": true,
+             "dq": "2000-01-01",
+             "in_role": 86400,

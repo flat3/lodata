@@ -1,0 +1,30 @@
+{
+    "@context": "http://localhost/odata/$metadata#disk(path,age)",
+    "@readLink": "http://localhost/odata/disk",
+    "value": [
+        {
+            "@type": "#com.example.odata.file",
+            "@id": "http://localhost/odata/disk('a1.txt')",
+            "@readLink": "http://localhost/odata/disk('a1.txt')",
+            "path": "a1.txt",
+            "content@mediaContentType": "text/plain",
+            "content@mediaReadLink": "http://odata.files/a1.txt"
+        },
+        {
+            "@type": "#com.example.odata.file",
+            "@id": "http://localhost/odata/disk('d1')",
+            "@readLink": "http://localhost/odata/disk('d1')",
+            "path": "d1",
+            "content@mediaContentType": "*/*",
+            "content@mediaReadLink": "http://odata.files/d1"
+        },
+        {
+            "@type": "#com.example.odata.file",
+            "@id": "http://localhost/odata/disk('d1/a1.txt')",
+            "@readLink": "http://localhost/odata/disk('d1/a1.txt')",
+            "path": "d1/a1.txt",
+            "content@mediaContentType": "text/plain",
+            "content@mediaReadLink": "http://odata.files/d1/a1.txt"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "id": 0,
+            "name": "Alpha",
+            "age": 4,
+            "dob": "2000-01-01T04:04:04+00:00",
+            "chips": true,
+            "dq": "2000-01-01",
+            "in_role": "P1DT0S",
+            "open_time": "05:05:05.000000",
+            "flight_id": 1
+        }
+    ],
+    "@nextLink": "http://localhost/odata/passengers/$filter(@b)?%24filter=dob%20gt%202000-01-01&%40b=endswith%28name%2C%20%27a%27%29&top=1&skip=1"
+}

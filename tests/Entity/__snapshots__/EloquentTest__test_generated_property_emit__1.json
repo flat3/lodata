@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers(1)/cp",
+    "value": 4
+}

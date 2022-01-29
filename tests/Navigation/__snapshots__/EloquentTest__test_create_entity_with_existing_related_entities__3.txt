@@ -1,0 +1,14 @@
+@@ @@
+             "destination": "lax",
+             "gate": null,
+             "duration": 2133
++        },
++        {
++            "id": 4,
++            "origin": "sfo",
++            "destination": "lhr",
++            "gate": null,
++            "duration": null
+         }
+     ],
+     "passengers": [

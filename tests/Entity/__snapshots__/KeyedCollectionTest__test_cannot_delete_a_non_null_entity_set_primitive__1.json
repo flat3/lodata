@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "property_not_nullable",
+        "message": "The property 'id' cannot be set to null",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "reference_value_missing",
-        "message": "The requested reference (@code) did not exist",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

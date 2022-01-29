@@ -1,9 +1,0 @@
-{
-    "@context": "http://localhost/odata/$metadata#passengers(flight_id,name)",
-    "value": [
-        {
-            "name": "Charlie Carrot",
-            "flight_id": 1
-        }
-    ]
-}

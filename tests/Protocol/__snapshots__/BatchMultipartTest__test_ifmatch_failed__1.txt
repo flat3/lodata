@@ -1,0 +1,18 @@
+
+--00000000-0000-0000-0000-000000000001
+content-type: application/http
+
+HTTP/1.0 201 Created
+content-type: application/json
+location: http://localhost/odata/airports(5)
+etag: W/"233da4c18827f6707505c61d6df832c791f43b0384ee3302a0a446ff64c19963"
+
+{"@context":"http://localhost/odata/$metadata#airports/$entity","id":5,"name":"Test1","code":"xyz","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null,"country_id":null}
+--00000000-0000-0000-0000-000000000001
+content-type: application/http
+
+HTTP/1.1 412 Precondition Failed
+content-type: application/json
+
+{"error":{"code":"etag_mismatch","message":"The provided If-Match header did not match the current ETag value","target":null,"details":[],"innererror":{}}}
+--00000000-0000-0000-0000-000000000001--

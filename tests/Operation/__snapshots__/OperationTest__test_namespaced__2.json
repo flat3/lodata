@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "no_handler",
+        "message": "No route handler was able to process this request",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

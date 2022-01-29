@@ -1,0 +1,41 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 201,
+            "headers": {
+                "content-type": "application/json",
+                "location": "http://localhost/odata/airports(5)",
+                "etag": "W/\"233da4c18827f6707505c61d6df832c791f43b0384ee3302a0a446ff64c19963\""
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#airports/$entity",
+                "id": 5,
+                "name": "Test1",
+                "code": "xyz",
+                "construction_date": null,
+                "open_time": null,
+                "sam_datetime": null,
+                "review_score": null,
+                "is_big": null,
+                "country_id": null
+            }
+        },
+        {
+            "id": 1,
+            "status": 400,
+            "headers": {
+                "content-type": "application/json"
+            },
+            "body": {
+                "error": {
+                    "code": "missing_reference",
+                    "message": "The requested reference request was not found",
+                    "target": null,
+                    "details": [],
+                    "innererror": {}
+                }
+            }
+        }
+    ]
+}

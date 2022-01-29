@@ -1,0 +1,56 @@
+@@ @@
+             "destination": "lax",
+             "gate": null,
+             "duration": 2133
++        },
++        {
++            "id": 4,
++            "origin": "lhr",
++            "destination": "sfo",
++            "gate": null,
++            "duration": null
+         }
+     ],
+     "passengers": [
+@@ @@
+             "dq": "2003-04-04",
+             "in_role": 888.9,
+             "open_time": "23:11:33"
++        },
++        {
++            "id": 6,
++            "flight_id": 4,
++            "name": "Alice",
++            "dob": null,
++            "age": null,
++            "chips": null,
++            "dq": null,
++            "in_role": null,
++            "open_time": null
++        },
++        {
++            "id": 7,
++            "flight_id": 4,
++            "name": "Bob",
++            "dob": null,
++            "age": null,
++            "chips": null,
++            "dq": null,
++            "in_role": null,
++            "open_time": null
+         }
+     ],
+     "pets": [
+@@ @@
+             "passenger_id": null,
+             "name": "Dog",
+             "type": null
++        },
++        {
++            "id": 4,
++            "passenger_id": 6,
++            "name": "Sparkles",
++            "type": "dog"
+         }
+     ]
+ }

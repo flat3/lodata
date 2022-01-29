@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "expression_parser_error",
+        "message": "Encountered an invalid symbol at: >c<ode eq @code",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

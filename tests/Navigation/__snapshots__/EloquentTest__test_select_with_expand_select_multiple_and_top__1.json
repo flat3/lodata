@@ -1,0 +1,15 @@
+{
+    "@context": "http://localhost/odata/$metadata#Flights(origin,passengers(flight_id,name))/$entity",
+    "origin": "lhr",
+    "passengers": [
+        {
+            "flight_id": 1,
+            "name": "Alpha"
+        },
+        {
+            "flight_id": 1,
+            "name": "Gamma"
+        }
+    ],
+    "passengers@nextLink": "http://localhost/odata/Flights(1)/passengers?%24select=flight_id%2Cname&top=2&skip=2"
+}

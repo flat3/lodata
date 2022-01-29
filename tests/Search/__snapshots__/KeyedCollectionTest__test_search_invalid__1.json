@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "expression_parser_error",
+        "message": "An operator was used without an operand at: Bet AND ta OR<END",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

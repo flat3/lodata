@@ -1,0 +1,39 @@
+
+--00000000-0000-0000-0000-000000000001
+content-type: application/http
+
+HTTP/1.0 200 OK
+content-type: application/json
+etag: W/"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5"
+
+{"@context":"http://localhost/odata/$metadata#flights/$entity","id":1,"origin":"lhr","destination":"lax","gate":null,"duration":"PT11H25M0S"}
+--00000000-0000-0000-0000-000000000001
+content-type: multipart/mixed;boundary=00000000-0000-0000-0000-000000000003
+
+
+--00000000-0000-0000-0000-000000000003
+content-type: application/http
+
+HTTP/1.0 201 Created
+content-type: application/json
+location: http://localhost/odata/airports(5)
+etag: W/"44181a2ec21d569e1be016208236476a2441fb055a5428891bae21949272efe4"
+
+{"@context":"http://localhost/odata/$metadata#airports/$entity","id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null,"country_id":null}
+--00000000-0000-0000-0000-000000000003
+content-type: application/http
+
+HTTP/1.1 412 Precondition Failed
+content-type: application/json
+
+{"error":{"code":"etag_mismatch","message":"The provided If-Match header did not match the current ETag value","target":null,"details":[],"innererror":{}}}
+--00000000-0000-0000-0000-000000000003--
+
+--00000000-0000-0000-0000-000000000001
+content-type: application/http
+
+HTTP/1.0 200 OK
+content-type: application/json
+
+{"@context":"http://localhost/odata/$metadata#airports","value":[{"id":1,"name":"Heathrow","code":"lhr","construction_date":"1946-03-25","open_time":"09:00:00.000000","sam_datetime":"2001-11-10T14:00:00+00:00","review_score":null,"is_big":true,"country_id":1},{"id":2,"name":"Los Angeles","code":"lax","construction_date":"1930-01-01","open_time":"08:00:00.000000","sam_datetime":"2000-11-10T14:00:00+00:00","review_score":null,"is_big":false,"country_id":2},{"id":3,"name":"San Francisco","code":"sfo","construction_date":"1930-01-01","open_time":"15:00:00.000000","sam_datetime":"2001-11-10T14:00:01+00:00","review_score":null,"is_big":null,"country_id":null},{"id":4,"name":"O'Hare","code":"ohr","construction_date":"1930-01-01","open_time":"15:00:00.000000","sam_datetime":"1999-11-10T14:00:01+00:00","review_score":null,"is_big":true,"country_id":null},{"id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null,"country_id":null}]}
+--00000000-0000-0000-0000-000000000001--

@@ -1,0 +1,547 @@
+{
+    "$Version": "4.01",
+    "$EntityContainer": "com.example.odata.DefaultContainer",
+    "$Reference": {
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Core.V1"
+                }
+            ]
+        },
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Capabilities.V1"
+                }
+            ]
+        }
+    },
+    "com.example.odata": {
+        "$Kind": "EntityContainer",
+        "Airports": {
+            "$EntityType": "com.example.odata.Airport",
+            "$NavigationPropertyBinding": {
+                "flights": "Flights",
+                "country": "Countries"
+            },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "op1Import": {
+            "$Function": "com.example.odata.op1"
+        },
+        "op2Import": {
+            "$Function": "com.example.odata.op2"
+        },
+        "Flights": {
+            "$EntityType": "com.example.odata.Flight",
+            "$NavigationPropertyBinding": {
+                "passengers": "Passengers",
+                "originAirport": "Airports",
+                "destinationAirport": "Airports"
+            },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "Countries": {
+            "$EntityType": "com.example.odata.Country",
+            "$NavigationPropertyBinding": {
+                "airports": "Airports"
+            },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "Passengers": {
+            "$EntityType": "com.example.odata.Passenger",
+            "$NavigationPropertyBinding": {
+                "pets": "Pets",
+                "flight": "Flights",
+                "originAirport": "Airports",
+                "destinationAirport": "Airports"
+            },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "Pets": {
+            "$EntityType": "com.example.odata.Pet",
+            "$NavigationPropertyBinding": {
+                "passenger": "Passengers"
+            },
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "$Annotations": {
+            "com.example.odata.DefaultContainer": {
+                "@Org.OData.Core.V1.ConventionalIDs": true,
+                "@Org.OData.Core.V1.DefaultNamespace": true,
+                "@Org.OData.Core.V1.DereferencableIDs": true,
+                "@Org.OData.Core.V1.ODataVersions": "4.01",
+                "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.CallbackSupported": {
+                    "CallbackProtocols": [
+                        {
+                            "Id": "http"
+                        }
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
+                "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
+                "@Org.OData.Capabilities.V1.SupportedFormats": [
+                    "application/json;metadata=full;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=minimal;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=none;IEEE754Compatible=true;streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
+                ]
+            }
+        }
+    },
+    "Airport": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "code": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "construction_date": {
+            "$Type": "Edm.Date",
+            "$Nullable": true
+        },
+        "sam_datetime": {
+            "$Type": "Edm.DateTimeOffset",
+            "$Nullable": true
+        },
+        "open_time": {
+            "$Type": "Edm.TimeOfDay",
+            "$Nullable": true
+        },
+        "review_score": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true
+        },
+        "is_big": {
+            "$Type": "Edm.Boolean",
+            "$Nullable": true
+        },
+        "country_id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": true
+        },
+        "flights": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Flight",
+            "$Nullable": true,
+            "$ReferentialConstraint": {
+                "code": "origin"
+            }
+        },
+        "country": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Country",
+            "$Nullable": true,
+            "$ReferentialConstraint": {}
+        }
+    },
+    "Flight": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "origin": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "destination": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "gate": {
+            "$Type": "Edm.Int32",
+            "$Nullable": true
+        },
+        "duration": {
+            "$Type": "Edm.Duration",
+            "$Nullable": true
+        },
+        "passengers": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Passenger",
+            "$Nullable": true,
+            "$ReferentialConstraint": {
+                "id": "flight_id"
+            }
+        },
+        "originAirport": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Airport",
+            "$Nullable": true,
+            "$ReferentialConstraint": {
+                "origin": "code"
+            }
+        },
+        "destinationAirport": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Airport",
+            "$Nullable": true,
+            "$ReferentialConstraint": {
+                "destination": "code"
+            }
+        }
+    },
+    "Country": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "airports": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Airport",
+            "$Nullable": true,
+            "$ReferentialConstraint": {
+                "id": "country_id"
+            }
+        }
+    },
+    "Passenger": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "flight_id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "dob": {
+            "$Type": "Edm.DateTimeOffset",
+            "$Nullable": true
+        },
+        "age": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true
+        },
+        "chips": {
+            "$Type": "Edm.Boolean",
+            "$Nullable": true
+        },
+        "dq": {
+            "$Type": "Edm.Date",
+            "$Nullable": true
+        },
+        "in_role": {
+            "$Type": "Edm.Duration",
+            "$Nullable": true
+        },
+        "open_time": {
+            "$Type": "Edm.TimeOfDay",
+            "$Nullable": true
+        },
+        "pets": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Pet",
+            "$Nullable": true,
+            "$ReferentialConstraint": {
+                "id": "passenger_id"
+            }
+        },
+        "flight": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Flight",
+            "$Nullable": true,
+            "$ReferentialConstraint": {}
+        },
+        "originAirport": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Airport",
+            "$Nullable": true,
+            "$ReferentialConstraint": {}
+        },
+        "destinationAirport": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Airport",
+            "$Nullable": true,
+            "$ReferentialConstraint": {}
+        }
+    },
+    "Pet": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "passenger_id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "type": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "passenger": {
+            "$Collection": false,
+            "$Type": "com.example.odata.Passenger",
+            "$Nullable": true,
+            "$ReferentialConstraint": {}
+        }
+    },
+    "op1": {
+        "$Kind": "Function",
+        "$IsBound": false,
+        "$Parameter": [],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": true
+        }
+    },
+    "op2": {
+        "$Kind": "Function",
+        "$IsBound": false,
+        "$Parameter": [
+            {
+                "$Name": "prefix",
+                "$Nullable": false,
+                "$Type": "Edm.String"
+            }
+        ],
+        "$ReturnType": {
+            "$Collection": false,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        }
+    }
+}

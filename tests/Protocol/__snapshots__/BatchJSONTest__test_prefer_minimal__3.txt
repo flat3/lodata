@@ -1,0 +1,27 @@
+@@ @@
+         {
+             "id": 1,
+             "name": "Heathrow",
+-            "code": "lhr",
++            "code": "xyz",
+             "construction_date": "1946-03-25",
+             "sam_datetime": "2001-11-10T14:00:00.000000Z",
+             "open_time": "09:00:00",
+@@ @@
+             "open_time": "15:00:00",
+             "review_score": null,
+             "is_big": true,
++            "country_id": null
++        },
++        {
++            "id": 5,
++            "name": "One",
++            "code": "one",
++            "construction_date": null,
++            "sam_datetime": null,
++            "open_time": null,
++            "review_score": null,
++            "is_big": null,
+             "country_id": null
+         }
+     ],

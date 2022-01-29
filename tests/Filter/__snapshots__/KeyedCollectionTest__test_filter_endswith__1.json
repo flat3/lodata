@@ -1,0 +1,27 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "id": "beta",
+            "name": "Beta",
+            "age": 3,
+            "dob": "2001-02-02T05:05:05+00:00",
+            "chips": false,
+            "dq": "2001-02-02",
+            "in_role": "P2DT5H5M5.2999999999884S",
+            "open_time": null,
+            "flight_id": null
+        },
+        {
+            "id": "delta",
+            "name": "Delta",
+            "in_role": "PT2M7S",
+            "age": null,
+            "dob": null,
+            "chips": null,
+            "dq": null,
+            "open_time": null,
+            "flight_id": null
+        }
+    ]
+}

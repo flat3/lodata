@@ -1,0 +1,93 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(passengers())",
+    "@readLink": "http://localhost/odata/flights",
+    "value": [
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(1)",
+            "@readLink": "http://localhost/odata/flights(1)",
+            "id": 1,
+            "origin": "lhr",
+            "destination": "lax",
+            "gate": null,
+            "duration": "PT11H25M0S",
+            "passengers": [
+                {
+                    "@type": "#com.example.odata.passenger",
+                    "@id": "http://localhost/odata/passengers(1)",
+                    "@readLink": "http://localhost/odata/passengers(1)",
+                    "id": 1,
+                    "name": "Alpha",
+                    "age": 4,
+                    "dob": "2000-01-01T04:04:04+00:00",
+                    "chips": true,
+                    "dq": "2000-01-01",
+                    "in_role": "P1DT0S",
+                    "open_time": "05:05:05.000000",
+                    "flight_id": 1,
+                    "flight": {
+                        "@type": "#com.example.odata.flight",
+                        "@id": "http://localhost/odata/flights(1)",
+                        "@readLink": "http://localhost/odata/flights(1)",
+                        "id": 1,
+                        "origin": "lhr",
+                        "destination": "lax",
+                        "gate": null,
+                        "duration": "PT11H25M0S"
+                    },
+                    "flight@navigationLink": "http://localhost/odata/passengers(1)/flight"
+                },
+                {
+                    "@type": "#com.example.odata.passenger",
+                    "@id": "http://localhost/odata/passengers(3)",
+                    "@readLink": "http://localhost/odata/passengers(3)",
+                    "id": 3,
+                    "name": "Gamma",
+                    "age": 2,
+                    "dob": "2002-03-03T06:06:06+00:00",
+                    "chips": true,
+                    "dq": "2002-03-03",
+                    "in_role": "P4DT32M41S",
+                    "open_time": "07:07:07.000000",
+                    "flight_id": 1,
+                    "flight": {
+                        "@type": "#com.example.odata.flight",
+                        "@id": "http://localhost/odata/flights(1)",
+                        "@readLink": "http://localhost/odata/flights(1)",
+                        "id": 1,
+                        "origin": "lhr",
+                        "destination": "lax",
+                        "gate": null,
+                        "duration": "PT11H25M0S"
+                    },
+                    "flight@navigationLink": "http://localhost/odata/passengers(3)/flight"
+                }
+            ],
+            "passengers@navigationLink": "http://localhost/odata/flights(1)/passengers"
+        },
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(2)",
+            "@readLink": "http://localhost/odata/flights(2)",
+            "id": 2,
+            "origin": "sam",
+            "destination": "rgr",
+            "gate": null,
+            "duration": "PT39M44S",
+            "passengers": [],
+            "passengers@navigationLink": "http://localhost/odata/flights(2)/passengers"
+        },
+        {
+            "@type": "#com.example.odata.flight",
+            "@id": "http://localhost/odata/flights(3)",
+            "@readLink": "http://localhost/odata/flights(3)",
+            "id": 3,
+            "origin": "sfo",
+            "destination": "lax",
+            "gate": null,
+            "duration": "PT35M33S",
+            "passengers": [],
+            "passengers@navigationLink": "http://localhost/odata/flights(3)/passengers"
+        }
+    ]
+}

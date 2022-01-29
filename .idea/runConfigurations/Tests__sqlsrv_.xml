@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tests (sqlsrv)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
+    <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="PHP 8.0" />
+      </PhpTestInterpreterSettings>
+      <envs>
+        <env name="DATABASE_URL" value="sqlsrv://sa:yourStrong(!)Password@127.0.0.1:1433/testing" />
+      </envs>
+    </CommandLine>
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
+    <method v="2" />
+  </configuration>
+</component>

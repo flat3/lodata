@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "method_not_allowed",
+        "message": "Method not allowed",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

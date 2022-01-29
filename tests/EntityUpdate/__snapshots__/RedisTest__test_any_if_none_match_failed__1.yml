@@ -1,0 +1,6 @@
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+    odata-version: ['4.01']
+    etag: ['W/"b0a17ca110ff233d74b5062011aca10e1f6478eae0898d50005628165e1df6e4"']
+status: 200

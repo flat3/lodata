@@ -1,0 +1,12 @@
+{
+    "@context": "http://localhost/odata/$metadata#airports/$entity",
+    "id": 1,
+    "name": "Heathrow",
+    "code": "lhr",
+    "construction_date": "1946-03-25",
+    "open_time": "09:00:00.000000",
+    "sam_datetime": "2001-11-10T14:00:00+00:00",
+    "review_score": null,
+    "is_big": true,
+    "country_id": 1
+}

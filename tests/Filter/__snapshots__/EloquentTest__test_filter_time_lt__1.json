@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers(name,open_time)",
+    "value": [
+        {
+            "name": "Alpha",
+            "open_time": "05:05:05.000000"
+        }
+    ]
+}

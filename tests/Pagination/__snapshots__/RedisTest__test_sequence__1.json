@@ -1,0 +1,26 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "name": "Beta",
+            "age": 3,
+            "dob": "2001-02-02T05:05:05+00:00",
+            "chips": false,
+            "dq": "2001-02-02",
+            "in_role": "P2DT5H5M5.2999999999884S",
+            "key": "beta"
+        },
+        {
+            "name": "Gamma",
+            "age": 2,
+            "dob": "2002-03-03T06:06:06+00:00",
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000",
+            "flight_id": 1,
+            "key": "gamma"
+        }
+    ],
+    "@nextLink": "http://localhost/odata/passengers?top=2&skiptoken=2"
+}

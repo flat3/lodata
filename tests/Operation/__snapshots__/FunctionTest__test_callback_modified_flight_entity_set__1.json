@@ -1,0 +1,10 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers(origin)",
+    "value": [
+        {},
+        {},
+        {},
+        {},
+        {}
+    ]
+}

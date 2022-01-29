@@ -1,9 +1,0 @@
-{
-    "error": {
-        "code": "invalid_argument_type",
-        "message": "The provided argument (flights) was not of the correct type for this function",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
-}

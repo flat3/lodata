@@ -55,7 +55,8 @@
         "nunomaduro/collision": "^5.3",
         "brianium/paratest": "^6.2",
         "eclipxe/xmlschemavalidator": "^3.0",
-        "league/csv": "^9.7"
+        "league/csv": "^9.7",
+        "sebastian/diff": "^4.0"
     },
     "suggest": {
         "league/csv": "To use the CSV entity set"

@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "missing_filter_argument",
+        "message": "The $filter segment must have an argument",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

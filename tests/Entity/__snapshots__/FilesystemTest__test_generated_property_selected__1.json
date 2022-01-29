@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#disk(dob,cp)/$entity",
+    "cp": 4
+}

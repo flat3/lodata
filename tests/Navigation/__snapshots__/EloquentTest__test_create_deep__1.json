@@ -1,0 +1,32 @@
+{
+    "@context": "http://localhost/odata/$metadata#Flights/$entity",
+    "id": 4,
+    "origin": "lhr",
+    "destination": "sfo",
+    "gate": null,
+    "duration": "PT8H0S",
+    "passengers": [
+        {
+            "id": 6,
+            "flight_id": 4,
+            "name": "Alice",
+            "dob": null,
+            "age": null,
+            "chips": null,
+            "dq": null,
+            "in_role": null,
+            "open_time": null
+        },
+        {
+            "id": 7,
+            "flight_id": 4,
+            "name": "Bob",
+            "dob": null,
+            "age": null,
+            "chips": null,
+            "dq": null,
+            "in_role": null,
+            "open_time": null
+        }
+    ]
+}

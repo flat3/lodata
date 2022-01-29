@@ -1,0 +1,30 @@
+@@ @@
+             "destination": "lax",
+             "gate": null,
+             "duration": 2133
++        },
++        {
++            "id": 4,
++            "origin": "sfo",
++            "destination": "lhr",
++            "gate": null,
++            "duration": null
+         }
+     ],
+     "passengers": [
+         {
+             "id": 1,
+-            "flight_id": 1,
++            "flight_id": 4,
+             "name": "Alpha",
+             "dob": "2000-01-01 04:04:04",
+             "age": 4,
+@@ @@
+         },
+         {
+             "id": 2,
+-            "flight_id": null,
++            "flight_id": 4,
+             "name": "Beta",
+             "dob": "2001-02-02 05:05:05",
+             "age": 3,

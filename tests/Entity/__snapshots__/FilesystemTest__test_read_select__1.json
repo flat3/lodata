@@ -1,0 +1,4 @@
+{
+    "@context": "http://localhost/odata/$metadata#disk(size)/$entity",
+    "size": 5
+}
