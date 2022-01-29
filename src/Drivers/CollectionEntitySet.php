@@ -7,7 +7,6 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Annotation\Core\V1\PositionalInsert;
 use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Entity;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
@@ -110,10 +109,6 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $entity = $this->read($key);
-
-        if ($entity === null) {
-            throw new NotFoundException('entity_not_found', 'Entity not found');
-        }
 
         foreach ($propertyValues as $propertyValue) {
             $property = $propertyValue->getProperty();

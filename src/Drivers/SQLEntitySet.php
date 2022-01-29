@@ -17,6 +17,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
@@ -152,7 +153,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 $expression->pushStatement(
                     sprintf(
                         '%s.%s',
-                        $this->getTable(),
+                        $this->quoteSingleIdentifier($this->getTable()),
                         $this->quoteSingleIdentifier($this->getPropertySourceName($property))
                     )
                 );
@@ -199,7 +200,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      * @param  PropertyValue  $key  Key
      * @return Entity|null Entity
      */
-    public function read(PropertyValue $key): ?Entity
+    public function read(PropertyValue $key): Entity
     {
         $expression = new SQLExpression($this);
         $expression->pushStatement('SELECT');
@@ -214,7 +215,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             }
         }
 
-        $expression->pushStatement(sprintf('FROM %s WHERE', $this->getTable()));
+        $expression->pushStatement(sprintf('FROM %s WHERE', $this->quoteSingleIdentifier($this->getTable())));
         $expression->pushExpression($this->propertyToExpression($key->getProperty()));
         $expression->pushStatement('=?');
         $expression->pushParameter($key->getPrimitiveValue());
@@ -223,7 +224,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (false === $result) {
-            return null;
+            throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
         return $this->newEntity()->fromSource($this->coerceTypes($result));
@@ -315,7 +316,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     public function getCountExpression(): SQLExpression
     {
         $expression = new SQLExpression($this);
-        $expression->pushStatement(sprintf('SELECT COUNT(*) FROM %s', $this->getTable()));
+        $expression->pushStatement(sprintf('SELECT COUNT(*) FROM %s', $this->quoteSingleIdentifier($this->getTable())));
 
         $where = $this->generateWhere();
 
@@ -383,7 +384,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             }
         }
 
-        $expression->pushStatement(sprintf("FROM %s", $this->getTable()));
+        $expression->pushStatement(sprintf("FROM %s", $this->quoteSingleIdentifier($this->getTable())));
 
         $where = $this->generateWhere();
 
@@ -395,25 +396,18 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $orderby = $this->getOrderBy();
 
         if ($orderby->hasValue()) {
-            $properties = $this->getType()->getDeclaredProperties();
+            $this->assertValidOrderBy();
 
-            $compute = $this->getCompute();
-
-            if ($compute->hasValue()) {
-                $properties = $properties::merge($properties, $compute->getProperties());
-            }
-
-            $ob = implode(', ', array_map(function ($o) use ($properties) {
+            $ob = implode(', ', array_map(function ($o) {
                 [$literal, $direction] = $o;
 
-                if (!$properties->get($literal)) {
-                    throw new BadRequestException(
-                        'invalid_orderby_property',
-                        sprintf('The provided property %s was not found in this entity type', $literal)
-                    );
+                $expression = $this->quoteSingleIdentifier($literal)." $direction";
+
+                if ($this->getDriver() === self::PostgreSQL) {
+                    $expression .= ' NULLS LAST';
                 }
 
-                return $this->quoteSingleIdentifier($literal)." $direction";
+                return $expression;
             }, $orderby->getSortOrders()));
 
             $expression->pushStatement(sprintf("ORDER BY %s", $ob));
@@ -452,7 +446,19 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     protected function getColumnsToQuery(): array
     {
-        $properties = $this->getSelectedProperties()->sliceByClass(DeclaredProperty::class);
+        $properties = $this->getType()->getDeclaredProperties();
+
+        $select = $this->getSelect();
+
+        if ($select->hasValue() && !$select->isStar()) {
+            $selectedProperties = $select->getCommaSeparatedValues();
+
+            foreach ($properties as $property) {
+                if (!in_array($property->getName(), $selectedProperties)) {
+                    $properties->drop($property);
+                }
+            }
+        }
 
         $key = $this->getType()->getKey();
 
@@ -566,7 +572,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         }
 
         $expression = new SQLExpression($this);
-        $expression->pushStatement(sprintf("INSERT INTO %s", $this->getTable()));
+        $expression->pushStatement(sprintf("INSERT INTO %s", $this->quoteSingleIdentifier($this->getTable())));
         $fieldCount = count($expressions);
 
         $expression->pushStatement('(');
@@ -605,6 +611,8 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
+        $this->read($key);
+
         $expressions = [];
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
@@ -640,7 +648,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
         if ($expressions) {
             $expression = new SQLExpression($this);
-            $expression->pushStatement(sprintf('UPDATE %s SET', $this->getTable()));
+            $expression->pushStatement(sprintf('UPDATE %s SET', $this->quoteSingleIdentifier($this->getTable())));
 
             while ($expressions) {
                 $field = array_shift($expressions);
@@ -674,7 +682,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $expression->pushStatement(
             sprintf(
                 "DELETE FROM %s WHERE %s=?",
-                $this->getTable(),
+                $this->quoteSingleIdentifier($this->getTable()),
                 $this->quoteSingleIdentifier($this->getPropertySourceName($type->getKey()))
             )
         );

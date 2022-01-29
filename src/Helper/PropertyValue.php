@@ -16,7 +16,6 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -321,17 +320,14 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             throw new PathNotHandledException();
         }
 
-        $property = $argument[$propertyName];
+        $property = $argument->getType()->getProperty($propertyName);
 
         if (null === $property) {
-            $property = $argument->getType()->getProperty($propertyName);
+            $property = $argument[$propertyName];
         }
 
         if (null === $property) {
-            throw new NotFoundException(
-                'unknown_property',
-                sprintf('The requested property (%s) was not known', $propertyName)
-            );
+            throw new PathNotHandledException();
         }
 
         if ($property instanceof NavigationProperty) {

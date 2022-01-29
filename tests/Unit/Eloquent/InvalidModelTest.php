@@ -11,10 +11,7 @@ class InvalidModelTest extends TestCase
 {
     public function testMissingPrimaryKey()
     {
-        try {
-            Lodata::discoverEloquentModel(Cast::class);
-        } catch (ConfigurationException $e) {
-            $this->assertProtocolExceptionSnapshot($e);
-        }
+        $this->expectException(ConfigurationException::class);
+        Lodata::discoverEloquentModel(Cast::class);
     }
 }

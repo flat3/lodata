@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Parser\Common;
 use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -34,7 +35,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
      */
     public function query(): Generator
     {
-        $enumerable = $this->enumerable;
+        $enumerable = $this->enumerable->map([$this, 'fillRecord']);
 
         if ($this->getCompute()->hasValue()) {
             $computedProperties = $this->getCompute()->getProperties();
@@ -54,20 +55,12 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             }
         }
 
-        if ($this->getFilter()->hasValue()) {
-            $parser = $this->getFilterParser();
-            $parser->pushEntitySet($this);
-
-            $tree = $parser->generateTree($this->getFilter()->getExpression());
-
-            $enumerable = $enumerable->filter(function ($item) use ($tree) {
-                $result = Common::evaluate($tree, $this->newEntity()->fromSource($item));
-                return $result !== null && !!$result->get();
-            });
-        }
+        $enumerable = $this->applyFilter($enumerable);
 
         if ($this->getSearch()->hasValue()) {
             $search = $this->getSearch();
+
+            $this->assertValidSearch();
 
             $parser = $this->getSearchParser();
             $parser->pushEntitySet($this);
@@ -110,12 +103,49 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
     }
 
     /**
+     * Apply the filter option to the enumerable
+     * @param  Enumerable  $enumerable
+     * @return Enumerable
+     */
+    protected function applyFilter(Enumerable $enumerable): Enumerable
+    {
+        if (!$this->getFilter()->hasValue()) {
+            return $enumerable;
+        }
+
+        $parser = $this->getFilterParser();
+        $parser->pushEntitySet($this);
+
+        $tree = $parser->generateTree($this->getFilter()->getExpression());
+
+        return $enumerable->filter(function ($item) use ($tree) {
+            $result = Common::evaluate($tree, $this->newEntity()->fromSource($item));
+            return $result !== null && !!$result->get();
+        });
+    }
+
+    public function fillRecord(array $item): array
+    {
+        foreach ($this->getType()->getDeclaredProperties() as $property) {
+            if ($this->getType()->getKey() === $property) {
+                continue;
+            }
+
+            if (!array_key_exists($property->getName(), $item)) {
+                $item[$property->getName()] = null;
+            }
+        }
+
+        return $item;
+    }
+
+    /**
      * Count entities in this set
      * @return int
      */
     public function count(): int
     {
-        return $this->enumerable->count();
+        return $this->applyFilter($this->enumerable->map([$this, 'fillRecord']))->count();
     }
 
     /**
@@ -123,13 +153,15 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
      * @param  PropertyValue  $key
      * @return Entity|null
      */
-    public function read(PropertyValue $key): ?Entity
+    public function read(PropertyValue $key): Entity
     {
         $item = $this->enumerable->get($key->getPrimitiveValue());
 
         if ($item === null) {
-            return null;
+            throw new NotFoundException('entity_not_found', 'Entity not found');
         }
+
+        $item = $this->fillRecord($item);
 
         $entity = $this->newEntity();
         $entity['id'] = $key->getPrimitiveValue();

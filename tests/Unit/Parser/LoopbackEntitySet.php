@@ -82,10 +82,6 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
                         $this->addCommon($node->getValue()->get() ? 'true' : 'false');
                         return;
 
-                    case $node instanceof Guid:
-                        $this->addCommon(\Flat3\Lodata\Type\Guid::binaryToString($node->getValue()));
-                        return;
-
                     case $node instanceof Date:
                         $this->addCommon($node->getValue()->get()->format('Y-m-d'));
                         return;

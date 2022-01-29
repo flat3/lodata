@@ -366,7 +366,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
             $metadata['id'] = sprintf(
                 '%s(%s)',
                 $this->entitySet->getName(),
-                $this->getEntityId()->getPrimitiveValue()
+                $this->getEntityId()->getPrimitive()->toUrl(),
             );
 
             $metadata->addRequiredProperty('id');

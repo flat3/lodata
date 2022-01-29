@@ -7,7 +7,6 @@ namespace Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
@@ -49,12 +48,7 @@ class Key implements PipeInterface
         }
 
         $argument->setApplyQueryOptions(true);
-        $entity = $argument->read($keyValue);
 
-        if (null === $entity) {
-            throw new NotFoundException('not_found', 'Entity not found');
-        }
-
-        return $entity;
+        return $argument->read($keyValue);
     }
 }

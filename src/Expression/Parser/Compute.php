@@ -15,9 +15,6 @@ use Flat3\Lodata\Expression\Node;
 class Compute extends Common
 {
     protected $operators = [
-        // Primary
-        Node\Operator\Logical\In::class,
-
         Node\Func\StringCollection\Concat::class,
         Node\Func\StringCollection\Contains::class,
         Node\Func\StringCollection\EndsWith::class,
@@ -30,7 +27,6 @@ class Compute extends Common
         Node\Func\Arithmetic\Floor::class,
         Node\Func\Arithmetic\Round::class,
 
-        Node\Func\String\MatchesPattern::class,
         Node\Func\String\ToLower::class,
         Node\Func\String\ToUpper::class,
         Node\Func\String\Trim::class,
@@ -50,9 +46,6 @@ class Compute extends Common
         Node\Func\DateTime\TotalSeconds::class,
         Node\Func\DateTime\Year::class,
 
-        // Unary
-        Node\Operator\Comparison\Not_::class,
-
         // Multiplicative
         Node\Operator\Arithmetic\Mul::class,
         Node\Operator\Arithmetic\Div::class,
@@ -62,22 +55,6 @@ class Compute extends Common
         // Additive
         Node\Operator\Arithmetic\Add::class,
         Node\Operator\Arithmetic\Sub::class,
-
-        // Relational
-        Node\Operator\Logical\GreaterThan::class,
-        Node\Operator\Logical\GreaterThanOrEqual::class,
-        Node\Operator\Logical\LessThan::class,
-        Node\Operator\Logical\LessThanOrEqual::class,
-
-        // Equality
-        Node\Operator\Logical\Equal::class,
-        Node\Operator\Logical\NotEqual::class,
-
-        // Conditional AND
-        Node\Operator\Comparison\And_::class,
-
-        // Conditional OR
-        Node\Operator\Comparison\Or_::class,
     ];
 
     /**

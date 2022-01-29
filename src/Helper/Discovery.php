@@ -45,6 +45,10 @@ class Discovery
         Lodata::add($set);
         $set->discoverProperties();
 
+        if (!$set->getType()->getKey()) {
+            throw new ConfigurationException('missing_model_key', sprintf('The model %s had no primary key', $model));
+        }
+
         if (!Discovery::supportsAttributes()) {
             return $set;
         }

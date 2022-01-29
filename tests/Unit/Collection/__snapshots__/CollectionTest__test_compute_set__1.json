@@ -25,6 +25,8 @@
         {
             "id": "delta",
             "name": "Delta",
+            "age": null,
+            "dob": null,
             "myName": "Delta is my name"
         },
         {

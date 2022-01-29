@@ -56,12 +56,12 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
      * @param  PropertyValue  $key  Entity ID
      * @return Entity|null
      */
-    public function read(PropertyValue $key): ?Entity
+    public function read(PropertyValue $key): Entity
     {
         try {
             $metadata = $this->disk->getMetadata($this->getEntityIdPath($key));
         } catch (FileNotFoundException $e) {
-            throw new NotFoundException();
+            throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
         return $this->fromMetadata($metadata);
@@ -118,6 +118,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $entity = $this->read($key);
+
         $body = $this->transaction->getBodyAsArray();
         $path = $this->getEntityIdPath($entity->getEntityId());
 

@@ -16,7 +16,7 @@ interface ReadInterface
     /**
      * Read a entity
      * @param  PropertyValue  $key  Key
-     * @return Entity|null Entity
+     * @return Entity Entity
      */
-    public function read(PropertyValue $key): ?Entity;
+    public function read(PropertyValue $key): Entity;
 }

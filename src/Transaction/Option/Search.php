@@ -14,5 +14,4 @@ use Flat3\Lodata\Transaction\Option;
 class Search extends Option
 {
     public const param = 'search';
-
 }

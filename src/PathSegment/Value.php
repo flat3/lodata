@@ -49,6 +49,9 @@ class Value implements PipeInterface, StreamInterface
             case $argument instanceof Primitive:
                 $result->primitive = $argument;
                 return $result;
+
+            case $argument === null:
+                throw new NoContentException();
         }
 
         throw new BadRequestException(

@@ -126,6 +126,15 @@ abstract class Node
     }
 
     /**
+     * Get the first argument for this operator
+     * @return Node|null
+     */
+    public function getArgument(): ?Node
+    {
+        return $this->args[0] ?? null;
+    }
+
+    /**
      * Get the arguments list for this operator
      * @return Node[]
      */

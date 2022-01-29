@@ -9,7 +9,9 @@
         },
         {
             "id": "delta",
-            "name": "Delta"
+            "name": "Delta",
+            "age": null,
+            "dob": null
         }
     ],
     "@nextLink": "http://localhost/odata/examples?top=2&skip=4"

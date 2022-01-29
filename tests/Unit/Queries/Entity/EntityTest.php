@@ -210,15 +210,6 @@ class EntityTest extends TestCase
         );
     }
 
-    public function test_rejects_invalid_select()
-    {
-        $this->assertBadRequest(
-            (new Request)
-                ->path('/flights(1)')
-                ->select('nonexistent')
-        );
-    }
-
     public function test_empty_select_ignored()
     {
         $this->assertJsonResponse(

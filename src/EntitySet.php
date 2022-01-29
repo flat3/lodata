@@ -11,9 +11,9 @@ use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
+use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Expression\Parser\Compute;
@@ -24,7 +24,6 @@ use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\ObjectArray;
-use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Helper\Url;
@@ -57,7 +56,6 @@ use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\Option;
-use Flat3\Lodata\Type\Stream;
 use Generator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -266,6 +264,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $top->setValue($maxPageSize);
         }
 
+        $this->assertValidOrderBy();
+
         return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $context) {
             $context = $context ?: $this;
 
@@ -328,10 +328,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 }
 
                 $transaction->assertContentTypeJson();
+                Gate::create($this, $transaction)->ensure();
+
                 $propertyValues = $this->arrayToPropertyValues($this->getTransaction()->getBodyAsArray());
                 $this->getType()->assertRequiredProperties($propertyValues, $this->navigationSource);
-
-                Gate::create($this, $transaction)->ensure();
 
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
 
@@ -509,7 +509,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $entitySet = clone $entitySet;
 
-        if ($nextSegment && !Str::startsWith($nextSegment, '$')) {
+        if ('' !== (string) $nextSegment && !Str::startsWith($nextSegment, '$')) {
             $entitySet->applyQueryOptions = false;
         }
 
@@ -585,13 +585,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
         }
 
-        $entity = $entitySet->read($keyValue);
-
-        if (null === $entity) {
-            throw new NotFoundException('not_found', 'Entity not found');
-        }
-
-        return $entity;
+        return $entitySet->read($keyValue);
     }
 
     /**
@@ -789,51 +783,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 );
             }
         }
-    }
-
-    /**
-     * Get selected properties
-     * @return DeclaredProperty[]|Properties Properties
-     */
-    public function getSelectedProperties(): Properties
-    {
-        $select = $this->getSelect();
-        $declaredProperties = $this->getType()->getDeclaredProperties();
-
-        // Stream properties must be explicitly requested
-        $declaredProperties = $declaredProperties->filter(function ($property) {
-            /** @var Property $property */
-            return !$property->getPrimitiveType()->is(Stream::class);
-        });
-
-        if ($select->isStar()) {
-            return $declaredProperties;
-        }
-
-        if (!$select->hasValue()) {
-            return $declaredProperties;
-        }
-
-        $properties = new Properties();
-        $selectedProperties = $select->getCommaSeparatedValues();
-
-        foreach ($selectedProperties as $selectedProperty) {
-            $property = $this->getType()->getProperty($selectedProperty);
-
-            if (null === $property) {
-                throw new BadRequestException(
-                    'property_does_not_exist',
-                    sprintf(
-                        'The requested property "%s" does not exist on this entity type',
-                        $selectedProperty
-                    )
-                );
-            }
-
-            $properties[] = $property;
-        }
-
-        return $properties;
     }
 
     /**
@@ -1067,5 +1016,50 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $targetKey->setValue($keyPropertyValue->getValue());
 
         return $targetKey;
+    }
+
+    /**
+     * Assert that the provided orderby properties are valid
+     * @return void
+     */
+    protected function assertValidOrderBy(): void
+    {
+        $orderby = $this->getOrderBy();
+
+        if (!$orderby->hasValue()) {
+            return;
+        }
+
+        $keys = ObjectArray::merge(
+            $this->getType()->getProperties(),
+            $this->getCompute()->getProperties()
+        )->keys();
+
+        $sortProperties = array_map(function ($sort) {
+            return $sort[0];
+        }, $orderby->getSortOrders());
+
+        if ($diff = array_diff($sortProperties, $keys)) {
+            throw new BadRequestException(
+                'invalid_sort_property',
+                sprintf('The orderby parameter specified properties (%s) that did not exist', join(',', $diff))
+            );
+        }
+    }
+
+    /**
+     * Assert that the attached type has searchable properties
+     * @return void
+     */
+    protected function assertValidSearch(): void
+    {
+        if ($this->getType()->getDeclaredProperties()->filter(function ($property) {
+            return $property->isSearchable();
+        })->isEmpty()) {
+            throw new InternalServerErrorException(
+                'query_no_searchable_properties',
+                'The provided query had no properties marked searchable'
+            );
+        }
     }
 }

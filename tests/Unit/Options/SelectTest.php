@@ -30,13 +30,4 @@ class SelectTest extends TestCase
                 ->select('origin,destination')
         );
     }
-
-    public function test_selects_invalid()
-    {
-        $this->assertBadRequest(
-            (new Request)
-                ->path('/flights(1)')
-                ->select('invalid')
-        );
-    }
 }

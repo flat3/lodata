@@ -80,7 +80,15 @@ abstract class Common extends Parser
             // Deserialization
             case $node instanceof Node\Property:
                 $propertyValue = $entity[$node->getValue()];
-                return $propertyValue === null ? null : $propertyValue->getPrimitive();
+
+                if (null === $propertyValue) {
+                    throw new BadRequestException(
+                        'invalid_property',
+                        sprintf('The property (%s) used in an expression did not exist', $node->getValue())
+                    );
+                }
+
+                return $propertyValue->getPrimitive();
 
             case $node instanceof Node\Literal:
                 return $node->getValue();

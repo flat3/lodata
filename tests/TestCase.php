@@ -435,11 +435,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         }
     }
 
-    protected function assertGuid(string $expected, string $actual)
-    {
-        $this->assertSame($expected, Guid::binaryToString($actual));
-    }
-
     // https://github.com/mattiasgeniar/phpunit-query-count-assertions/blob/master/src/AssertsQueryCounts.php
     protected function assertNoQueriesExecuted(Closure $closure = null): void
     {

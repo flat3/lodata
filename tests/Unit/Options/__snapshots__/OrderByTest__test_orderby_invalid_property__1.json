@@ -1,7 +1,7 @@
 {
     "error": {
-        "code": "invalid_orderby_property",
-        "message": "The provided property invalid was not found in this entity type",
+        "code": "invalid_sort_property",
+        "message": "The orderby parameter specified properties (invalid) that did not exist",
         "target": null,
         "details": [],
         "innererror": {}

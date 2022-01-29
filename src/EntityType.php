@@ -7,7 +7,6 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
-use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
@@ -96,7 +95,7 @@ class EntityType extends ComplexType implements PipeInterface
         }
 
         if ($argument->getType()->getIdentifier() !== $entityType->getIdentifier()) {
-            throw new NotFoundException('invalid_entity_type', 'The provided type did not match the entity type');
+            throw new PathNotHandledException();
         }
 
         return $argument;

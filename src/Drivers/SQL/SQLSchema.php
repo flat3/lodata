@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Type;
@@ -33,7 +34,11 @@ trait SQLSchema
                 /** @var Connection $connection */
                 $connection = $this->getConnection();
                 $manager = $connection->getDoctrineSchemaManager();
-                return $manager->listTableDetails($this->getTable());
+                $table = $this->getTable();
+                if ($connection->getDriverName() === SQLEntitySet::PostgreSQL) {
+                    $table = $this->quoteSingleIdentifier($table);
+                }
+                return $manager->listTableDetails($table);
             }
         );
 

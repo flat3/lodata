@@ -37,6 +37,7 @@ use Flat3\Lodata\Expression\Node\Literal;
 use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
+use Flat3\Lodata\Expression\Node\Literal\Double;
 use Flat3\Lodata\Expression\Node\Literal\Duration;
 use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Arithmetic\Add;
@@ -220,6 +221,28 @@ class SQLExpression
                 return;
         }
 
+        if ($driver === SQLEntitySet::PostgreSQL && ($node instanceof Div || $node instanceof Mod)) {
+            switch (true) {
+                case $node instanceof Div:
+                    $this->pushStatement('DIV(');
+                    break;
+
+                case $node instanceof Mod:
+                    $this->pushStatement('MOD(');
+                    break;
+            }
+
+            $this->pushStatement('CAST(');
+            $this->evaluate($left);
+            $this->pushStatement('AS NUMERIC )');
+            $this->pushComma();
+            $this->pushStatement('CAST(');
+            $this->evaluate($right);
+            $this->pushStatement('AS NUMERIC )');
+            $this->pushStatement(')');
+            return;
+        }
+
         $this->pushStatement('(');
         $this->evaluate($left);
 
@@ -265,7 +288,14 @@ class SQLExpression
                 break;
 
             case $node instanceof Mod:
-                $this->pushStatement('%');
+                switch ($driver) {
+                    case SQLEntitySet::SQLServer:
+                        $node->notImplemented();
+
+                    default:
+                        $this->pushStatement('%');
+                        break;
+                }
                 break;
 
             case $node instanceof Mul:
@@ -285,6 +315,11 @@ class SQLExpression
                 break;
 
             case $node instanceof Equal:
+                if ($right instanceof Literal && $right->getValue() === null) {
+                    $this->pushStatement('IS NULL )');
+                    return;
+                }
+
                 $this->pushStatement('=');
                 break;
 
@@ -305,6 +340,11 @@ class SQLExpression
                 break;
 
             case $node instanceof NotEqual:
+                if ($right instanceof Literal && $right->getValue() === null) {
+                    $this->pushStatement('IS NOT NULL )');
+                    return;
+                }
+
                 $this->pushStatement('!=');
                 break;
         }
@@ -334,6 +374,14 @@ class SQLExpression
 
             case $node instanceof Round:
                 $this->pushStatement('ROUND(');
+
+                switch ($driver) {
+                    case SQLEntitySet::SQLServer:
+                        $this->evaluate($node->getArgument());
+                        $this->pushComma();
+                        $this->pushStatement('0 )');
+                        return;
+                }
                 break;
 
             case $node instanceof Node\Func\DateTime\Date:
@@ -343,8 +391,20 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%Y-%m-%d',");
+                        $this->pushStatement("STRFTIME( '%Y-%m-%d',");
                         break;
+
+                    case SQLEntitySet::PostgreSQL:
+                        $this->pushStatement('(');
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(')::date');
+                        return;
+
+                    case SQLEntitySet::SQLServer:
+                        $this->pushStatement('FORMAT(');
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(", 'yyyy-MM-dd')");
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -354,11 +414,11 @@ class SQLExpression
             case $node instanceof Day:
                 switch ($driver) {
                     case SQLEntitySet::SQLServer:
-                        $this->pushStatement('DATEPART(day, ');
+                        $this->pushStatement('DATEPART( day,');
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART('DAY',");
+                        $this->pushStatement("DATE_PART( 'DAY',");
                         break;
 
                     case SQLEntitySet::MySQL:
@@ -366,8 +426,10 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%d',");
-                        break;
+                        $this->pushStatement("CAST( STRFTIME( '%d',");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(') AS NUMERIC )');
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -381,16 +443,18 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLServer:
-                        $this->pushStatement('DATEPART(hour, ');
+                        $this->pushStatement('DATEPART( hour,');
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART('HOUR',");
+                        $this->pushStatement("DATE_PART( 'HOUR',");
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%H',");
-                        break;
+                        $this->pushStatement("CAST( STRFTIME( '%H',");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(') AS NUMERIC )');
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -400,11 +464,11 @@ class SQLExpression
             case $node instanceof Minute:
                 switch ($driver) {
                     case SQLEntitySet::SQLServer:
-                        $this->pushStatement('DATEPART(minute, ');
+                        $this->pushStatement('DATEPART( minute,');
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART('MINUTE',");
+                        $this->pushStatement("DATE_PART( 'MINUTE',");
                         break;
 
                     case SQLEntitySet::MySQL:
@@ -412,8 +476,10 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%M',");
-                        break;
+                        $this->pushStatement("CAST( STRFTIME( '%M',");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(') AS NUMERIC )');
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -427,16 +493,18 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLServer:
-                        $this->pushStatement('DATEPART(month, ');
+                        $this->pushStatement('DATEPART( month,');
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART('MONTH',");
+                        $this->pushStatement("DATE_PART( 'MONTH',");
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%m',");
-                        break;
+                        $this->pushStatement("CAST( STRFTIME( '%m',");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(') AS NUMERIC )');
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -455,7 +523,7 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("DATETIME('now'");
+                        $this->pushStatement("DATETIME( 'now'");
                         break;
 
                     default:
@@ -470,16 +538,18 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLServer:
-                        $this->pushStatement('DATEPART(second, ');
+                        $this->pushStatement('DATEPART( second,');
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART('SECOND',");
+                        $this->pushStatement("DATE_PART( 'SECOND',");
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%S',");
-                        break;
+                        $this->pushStatement("CAST( STRFTIME( '%S',");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(') AS NUMERIC )');
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -493,8 +563,20 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%H:%M:%S',");
+                        $this->pushStatement("STRFTIME( '%H:%M:%S',");
                         break;
+
+                    case SQLEntitySet::PostgreSQL:
+                        $this->pushStatement('(');
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(')::time');
+                        return;
+
+                    case SQLEntitySet::SQLServer:
+                        $this->pushStatement('FORMAT(');
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(", 'HH:mm:ss')");
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -508,16 +590,18 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::SQLServer:
-                        $this->pushStatement('DATEPART(year, ');
+                        $this->pushStatement('DATEPART( year,');
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART('ISOYEAR',");
+                        $this->pushStatement("DATE_PART( 'YEAR',");
                         break;
 
                     case SQLEntitySet::SQLite:
-                        $this->pushStatement("STRFTIME('%Y',");
-                        break;
+                        $this->pushStatement("CAST( STRFTIME( '%Y',");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement(') AS NUMERIC )');
+                        return;
 
                     default:
                         $node->notImplemented();
@@ -530,19 +614,11 @@ class SQLExpression
                         $this->pushStatement('REGEXP_LIKE(');
                         break;
 
-                    case SQLEntitySet::SQLServer:
-                        $arguments = $node->getArguments();
-                        list($arg1, $arg2) = $arguments;
-                        $this->evaluate($arg1);
-                        $this->pushStatement('LIKE');
-                        $this->evaluate($arg2);
-                        return;
-
                     case SQLEntitySet::PostgreSQL:
                         $arguments = $node->getArguments();
                         list($arg1, $arg2) = $arguments;
                         $this->evaluate($arg1);
-                        $this->pushStatement('SIMILAR TO');
+                        $this->pushStatement('~');
                         $this->evaluate($arg2);
                         return;
 
@@ -565,8 +641,29 @@ class SQLExpression
 
             case $node instanceof Concat:
                 switch ($driver) {
-                    case SQLEntitySet::MySQL:
                     case SQLEntitySet::PostgreSQL:
+                        $arguments = $node->getArguments();
+
+                        if (!$arguments) {
+                            return;
+                        }
+
+                        $this->pushStatement('CONCAT(');
+                        while ($arguments) {
+                            $argument = array_shift($arguments);
+                            $this->pushStatement('CAST(');
+                            $this->evaluate($argument);
+                            $this->pushStatement('AS TEXT )');
+
+                            if ($arguments) {
+                                $this->pushComma();
+                            }
+                        }
+
+                        $this->pushStatement(')');
+                        return;
+
+                    case SQLEntitySet::MySQL:
                     case SQLEntitySet::SQLServer:
                         $this->pushStatement('CONCAT(');
                         break;
@@ -643,8 +740,8 @@ class SQLExpression
             case $node instanceof Substring:
                 switch ($driver) {
                     case SQLEntitySet::MySQL:
-                    case SQLEntitySet::SQLServer:
                     case SQLEntitySet::SQLite:
+                    case SQLEntitySet::SQLServer:
                         $this->pushStatement('SUBSTRING(');
                         break;
 
@@ -655,7 +752,24 @@ class SQLExpression
                     default:
                         $node->notImplemented();
                 }
-                break;
+
+                list($arg1, $arg2, $arg3) = array_pad($node->getArguments(), 3, null);
+
+                $this->evaluate($arg1);
+                $this->pushComma();
+                $this->pushStatement('(');
+                $this->evaluate($arg2);
+                $this->pushStatement('+ 1 )');
+                $this->pushComma();
+
+                if ($arg3) {
+                    $this->evaluate($arg3);
+                } else {
+                    $this->pushStatement('2147483647');
+                }
+
+                $this->pushStatement(')');
+                return;
 
             case $node instanceof Contains:
             case $node instanceof EndsWith:
@@ -745,31 +859,57 @@ class SQLExpression
      */
     protected function literalExpression(Literal $node): void
     {
-        $this->pushStatement('?');
+        if ($node->getValue() === null) {
+            $this->pushStatement('NULL');
+            return;
+        }
 
         switch (true) {
             case $node instanceof Boolean:
-                $this->pushParameter(null === $node->getValue() ? null : (int) $node->getValue()->get());
+                $this->pushStatement('?');
+                $this->pushParameter((int) $node->getValue()->get());
                 break;
 
             case $node instanceof Date:
-                $this->pushParameter($node->getValue()->get()->format('Y-m-d 00:00:00'));
+                $this->pushStatement('?');
+                $this->pushParameter($node->getValue()->get()->format('Y-m-d'));
                 break;
 
             case $node instanceof Duration:
+                $this->pushStatement('?');
                 $this->pushParameter($node->getValue()->get());
                 break;
 
             case $node instanceof DateTimeOffset:
+                $this->pushStatement('?');
                 $this->pushParameter($node->getValue()->get()->format('Y-m-d H:i:s'));
                 break;
 
             case $node instanceof TimeOfDay:
+                $this->pushStatement('?');
                 $this->pushParameter($node->getValue()->get()->format('H:i:s'));
                 break;
 
+            case $node instanceof Double:
+                $value = $node->getValue();
+
+                switch ($this->entitySet->getDriver()) {
+                    case SQLEntitySet::SQLite:
+                        $this->pushStatement('CAST( ? AS NUMERIC )');
+                        break;
+
+                    default:
+                        $this->pushStatement('?');
+                        break;
+                }
+
+                $this->pushParameter($value->get());
+                break;
+
             default:
-                $this->pushParameter($node->getValue()->get());
+                $value = $node->getValue();
+                $this->pushStatement('?');
+                $this->pushParameter($value->get());
                 break;
         }
     }
@@ -814,7 +954,7 @@ class SQLExpression
                     $field->getStatement(),
                     $node instanceof Lambda\Any ? 'ANY' : 'ALL',
                     $targetSet->propertyToExpression($constraint->getReferencedProperty())->getStatement(),
-                    $targetSet->getTable(),
+                    $targetSet->quoteSingleIdentifier($targetSet->getTable()),
                 )
             );
 

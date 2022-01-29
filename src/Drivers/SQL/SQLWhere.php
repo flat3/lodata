@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers\SQL;
 
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
-
 /**
  * SQL Where
  * @package Flat3\Lodata\Drivers\SQL
@@ -35,14 +33,7 @@ trait SQLWhere
 
         $search = $this->getSearch();
         if ($search->hasValue()) {
-            if ($this->getType()->getDeclaredProperties()->filter(function ($property) {
-                return $property->isSearchable();
-            })->isEmpty()) {
-                throw new InternalServerErrorException(
-                    'query_no_searchable_properties',
-                    'The provided query had no properties marked searchable'
-                );
-            }
+            $this->assertValidSearch();
 
             $searchContainer = new SQLSearch($this);
             $search = $this->getSearch();

@@ -4,8 +4,8 @@
     "airports": [
         {
             "name": "Heathrow",
-            "review_score": null,
-            "construction_date": "1946-03-25"
+            "construction_date": "1946-03-25",
+            "review_score": null
         }
     ]
 }

@@ -1,7 +1,7 @@
 {
     "error": {
-        "code": "not_found",
-        "message": "Not found",
+        "code": "entity_not_found",
+        "message": "Entity not found",
         "target": null,
         "details": [],
         "innererror": {}

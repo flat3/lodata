@@ -15,7 +15,9 @@
         },
         {
             "id": "delta",
-            "name": "Delta"
+            "name": "Delta",
+            "age": null,
+            "dob": null
         }
     ]
 }

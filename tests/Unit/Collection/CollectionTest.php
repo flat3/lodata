@@ -505,15 +505,6 @@ class CollectionTest extends TestCase
         );
     }
 
-    public function test_compute_type()
-    {
-        $this->assertJsonResponse(
-            (new Request)
-                ->compute("true eq false as boo")
-                ->path('/examples/alpha')
-        );
-    }
-
     public function test_compute_math()
     {
         $this->assertJsonResponse(

@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Drivers;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
@@ -100,18 +101,28 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
         $reader = $statement->process($this->getCsvReader(), $this->getCsvHeader());
 
         foreach ($reader->getIterator() as $offset => $record) {
+            $record = $this->fillRecord($record);
             yield $this->newEntity()->setEntityId($offset)->fromSource($record)->generateComputedProperties();
         }
     }
 
-    public function read(PropertyValue $key): ?Entity
+    public function fillRecord(array $record): array
+    {
+        return array_map(function ($value) {
+            return '' != $value ? $value : null;
+        }, $record);
+    }
+
+    public function read(PropertyValue $key): Entity
     {
         $csv = $this->getCsvStatement();
         $row = $csv->fetchOne($key->getPrimitiveValue());
 
         if (!$row) {
-            return null;
+            throw new NotFoundException('entity_not_found', 'Entity not found');
         }
+
+        $row = $this->fillRecord($row);
 
         return $this->newEntity()->setEntityId($key)->fromSource($row)->generateComputedProperties();
     }

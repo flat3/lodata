@@ -215,7 +215,6 @@ class Transaction
     protected $handlers = [
         Entity::class,
         EntitySet::class,
-        EntityType::class,
         PathSegment\Batch::class,
         PathSegment\Metadata::class,
         PathSegment\OpenAPI::class,
@@ -229,6 +228,7 @@ class Transaction
         Singleton::class,
         PropertyValue::class,
         PathSegment\Key::class,
+        EntityType::class,
     ];
 
     public function __construct()

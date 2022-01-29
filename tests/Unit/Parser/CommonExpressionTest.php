@@ -87,7 +87,7 @@ class CommonExpressionTest extends TestCase
 
     public function test_14()
     {
-        $this->assertGuid(
+        $this->assertSame(
             '2D1B80E8-0DAD-4EE7-AB6F-AE9FEC896290',
             $this->evaluate('2D1B80E8-0DAD-4EE7-AB6F-AE9FEC896290')
         );

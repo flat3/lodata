@@ -14,7 +14,7 @@ class Airport extends Model
     public $timestamps = false;
     protected $guarded = [];
     protected $casts = [
-        'construction_date' => 'date',
+        'construction_date' => 'date:Y-m-d',
         'sam_datetime' => 'datetime',
         'open_time' => 'timestamp',
         'review_score' => 'float',

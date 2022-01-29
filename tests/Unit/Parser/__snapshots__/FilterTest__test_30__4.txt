@@ -1,1 +1,1 @@
-This entity set does not support the operator "div"
+SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( "flights"."origin" = DIV( CAST( ? AS NUMERIC ), CAST( ? AS NUMERIC ) ) )

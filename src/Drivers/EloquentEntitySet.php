@@ -19,6 +19,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -53,6 +54,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionMethod;
 
@@ -142,12 +144,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @param  PropertyValue  $key  Model key
      * @return Entity|null Entity
      */
-    public function read(PropertyValue $key): ?Entity
+    public function read(PropertyValue $key): Entity
     {
         $model = $this->getModelByKey($key);
 
         if (null === $model) {
-            return null;
+            throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
         return $this->modelToEntity($model);
@@ -161,7 +163,8 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
-        $model = $this->getModelByKey($key);
+        $entity = $this->read($key);
+        $model = $entity->getSource();
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
             $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
@@ -253,11 +256,23 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         $orderby = $this->getOrderBy();
+
         if ($orderby->hasValue()) {
-            foreach ($orderby->getSortOrders() as $so) {
-                [$literal, $direction] = $so;
-                $builder->orderBy($literal, $direction);
-            }
+            $this->assertValidOrderBy();
+
+            $ob = implode(', ', array_map(function ($o) {
+                [$literal, $direction] = $o;
+
+                $expression = $this->quoteSingleIdentifier($literal)." $direction";
+
+                if ($this->getDriver() === SQLEntitySet::PostgreSQL) {
+                    $expression .= ' NULLS LAST';
+                }
+
+                return $expression;
+            }, $orderby->getSortOrders()));
+
+            $builder->orderByRaw($ob);
         }
 
         if ($this->getTop()->hasValue()) {
@@ -496,37 +511,32 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         $casts = $model->getCasts();
+
         if (array_key_exists($column->getName(), $casts)) {
-            switch ($casts[$column->getName()]) {
-                case 'string':
+            $cast = $casts[$column->getName()];
+            switch (true) {
                 default:
+                case 'string' === $cast:
                     $type = Type::string();
                     break;
 
-                case 'boolean':
+                case 'boolean' === $cast:
                     $type = Type::boolean();
                     break;
 
-                case 'date':
+                case in_array($cast, ['date', 'datetime:Y-m-d']) || Str::startsWith($cast, 'date:'):
                     $type = Type::date();
                     break;
 
-                case 'datetime':
-                    $type = Type::datetimeoffset();
-                    break;
-
-                case 'decimal':
-                case 'float':
-                case 'real':
+                case in_array($cast, ['decimal', 'float', 'real']):
                     $type = Type::decimal();
                     break;
 
-                case 'double':
+                case 'double' === $cast:
                     $type = Type::double();
                     break;
 
-                case 'int':
-                case 'integer':
+                case in_array($cast, ['int', 'integer']):
                     if (PHP_INT_SIZE === 8) {
                         $type = $column->getUnsigned() && Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
                     } else {
@@ -534,8 +544,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                     }
                     break;
 
-                case 'timestamp':
+                case in_array($cast, ['datetime:H:i:s', 'timestamp']):
                     $type = Type::timeofday();
+                    break;
+
+                case 'datetime' === $cast || Str::startsWith($cast, 'datetime:'):
+                    $type = Type::datetimeoffset();
                     break;
             }
 

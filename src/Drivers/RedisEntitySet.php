@@ -8,6 +8,7 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
@@ -117,12 +118,12 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      * @param  PropertyValue  $key  Key
      * @return Entity|null Entity
      */
-    public function read(PropertyValue $key): ?Entity
+    public function read(PropertyValue $key): Entity
     {
         $record = $this->getConnection()->get($key->getPrimitiveValue());
 
         if (null === $record) {
-            return null;
+            throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
         $entity = $this->unserialize($record);

@@ -31,12 +31,7 @@ class Guid extends Primitive
             return Constants::null;
         }
 
-        return $this::binaryToString($this->value);
-    }
-
-    public static function binaryToString(string $value): string
-    {
-        return strtoupper(join('-', unpack('H8time_low/H4time_mid/H4time_hi/H4clock_seq_hi/H12clock_seq_low', $value)));
+        return $this->value;
     }
 
     public function set($value): self
@@ -44,19 +39,9 @@ class Guid extends Primitive
         $this->value = Lexer::patternCheck(
             Lexer::guid,
             (string) $value
-        ) ? $this::stringToBinary($value) : (null === $value ? null : (string) $value);
+        ) ? strtoupper($value) : (null === $value ? null : (string) $value);
 
         return $this;
-    }
-
-    public static function stringToBinary(string $guid): string
-    {
-        return pack('H*', str_replace('-', '', $guid));
-    }
-
-    public function get(): ?string
-    {
-        return parent::get();
     }
 
     public function toJson(): ?string
@@ -65,7 +50,7 @@ class Guid extends Primitive
             return null;
         }
 
-        return $this->binaryToString($this->value);
+        return $this->value;
     }
 
     public static function fromLexer(Lexer $lexer): Primitive

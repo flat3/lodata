@@ -6,6 +6,7 @@ namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -57,10 +58,11 @@ class Count implements StreamInterface, PipeInterface
             $argument = $argument->getValue();
         }
 
-        if (!$argument instanceof CountInterface) {
+        if (!$argument instanceof EntitySet || !$argument instanceof CountInterface) {
             throw new NotImplementedException('not_countable', '$count was passed something not countable');
         }
 
+        $argument->setApplyQueryOptions(true);
         $transaction->getTop()->clearValue();
         $transaction->getSkip()->clearValue();
         $transaction->getOrderBy()->clearValue();

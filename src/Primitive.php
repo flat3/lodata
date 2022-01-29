@@ -83,11 +83,9 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * Get the value in a format suitable for JSON encoding in IEEE754 mode
      * @return string
      */
-    public function toJsonIeee754(): ?string
+    public function toJsonIeee754()
     {
-        $value = $this->toJson();
-
-        return null === $value ? null : (string) $value;
+        return $this->toJson();
     }
 
     /**
@@ -96,7 +94,9 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      */
     public function toEtag(): ?string
     {
-        return $this->toJsonIeee754();
+        $value = $this->toJson();
+
+        return null === $value ? null : (string) $value;
     }
 
     /**

@@ -1,1 +1,1 @@
-SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( CONCAT( flights."origin", CONCAT( flights."id", ? ) ) = ? )
+SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( CONCAT( CAST( "flights"."origin" AS TEXT ), CAST( CONCAT( CAST( "flights"."id" AS TEXT ), CAST( ? AS TEXT ) ) AS TEXT ) ) = ? )

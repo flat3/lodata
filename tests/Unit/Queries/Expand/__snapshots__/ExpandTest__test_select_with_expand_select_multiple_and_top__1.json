@@ -3,12 +3,12 @@
     "origin": "lhr",
     "passengers": [
         {
-            "flight_id": 1,
-            "name": "Anne Arbor"
+            "name": "Anne Arbor",
+            "flight_id": 1
         },
         {
-            "flight_id": 1,
-            "name": "Bob Barry"
+            "name": "Bob Barry",
+            "flight_id": 1
         }
     ],
     "passengers@nextLink": "http://localhost/odata/flights(1)/passengers?%24select=flight_id%2Cname&top=2&skip=2"

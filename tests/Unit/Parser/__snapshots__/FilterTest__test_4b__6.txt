@@ -1,1 +1,1 @@
-SELECT flights."id" AS "id", flights."origin" AS "origin" FROM flights WHERE ( STRFTIME('%m', flights."origin" ) = ? )
+SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( CAST( STRFTIME( '%m', "flights"."origin" ) AS NUMERIC ) = ? )
