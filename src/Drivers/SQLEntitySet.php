@@ -10,6 +10,7 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQL\SQLExpression;
+use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLWhere;
 use Flat3\Lodata\Entity;
@@ -53,6 +54,7 @@ use PDOStatement;
 class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface
 {
     use SQLConnection;
+    use SQLOrderBy;
     use SQLSchema;
     use SQLWhere {
         generateWhere as protected sqlGenerateWhere;
@@ -393,24 +395,11 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $expression->pushExpression($where);
         }
 
-        $orderby = $this->getOrderBy();
+        $orderby = $this->generateOrderBy();
 
-        if ($orderby->hasValue()) {
-            $this->assertValidOrderBy();
-
-            $ob = implode(', ', array_map(function ($o) {
-                [$literal, $direction] = $o;
-
-                $expression = $this->quoteSingleIdentifier($literal)." $direction";
-
-                if ($this->getDriver() === self::PostgreSQL) {
-                    $expression .= ' NULLS LAST';
-                }
-
-                return $expression;
-            }, $orderby->getSortOrders()));
-
-            $expression->pushStatement(sprintf("ORDER BY %s", $ob));
+        if ($orderby->hasStatement()) {
+            $expression->pushStatement('ORDER BY');
+            $expression->pushExpression($orderby);
         }
 
         $skip = $this->getSkip();
@@ -422,7 +411,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
             switch ($this->getDriver()) {
                 case self::SQLServer:
-                    if (!$orderby->hasValue()) {
+                    if (!$orderby->hasStatement()) {
                         $expression->pushStatement('ORDER BY (SELECT 0)');
                     }
 
