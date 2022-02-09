@@ -10,38 +10,38 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        container: [ mysql, sqlsrv, postgres, php73, php74, php80, php81 ]
-
-    name: Test ${{ matrix.container }}
+    name: Test
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests
-        run: docker compose run ${{ matrix.container }} && docker compose down
+      - name: php81
+        run: docker compose run php81
 
-  analysis:
-    runs-on: ubuntu-latest
-    name: Analysis
+      - name: analysis
+        run: docker compose run analyse
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: mysql
+        run: docker compose run mysql
 
-      - name: Run analysis
-        run: docker compose run analyse && docker compose down
+      - name: sqlsrv
+        run: docker compose run sqlsrv
 
-  coverage:
-    runs-on: ubuntu-latest
-    name: Coverage
+      - name: postgres
+        run: docker compose run postgres
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: php73
+        run: docker compose run php73
 
-      - name: Run coverage
-        run: docker compose run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage && docker compose down
+      - name: php73
+        run: docker compose run php74
+
+      - name: php80
+        run: docker compose run php80
+
+      - name: coverage
+        run: docker compose run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage
+
+      - name: shutdown
+        run: docker compose down
