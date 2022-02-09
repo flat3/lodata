@@ -103,7 +103,7 @@ jobs:
         run: docker compose up --exit-code-from analyse analyse
 
       - name: Test Coverage
-        run: docker compose up --exit-code-from coverage coverage
+        run: GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` docker compose up --exit-code-from coverage coverage
 
       - name: Shutdown
         run: docker compose down

@@ -134,4 +134,7 @@ services:
     environment:
       - CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
       - COMPOSER_PROCESS_TIMEOUT=10000
+      - GITHUB_SHA=${GITHUB_SHA}
+      - GITHUB_REF_NAME=${GITHUB_REF_NAME}
+      - GIT_COMMITTED_AT=${GIT_COMMITTED_AT}
     entrypoint: "/bin/sh -c 'composer coverage && cc-reporter after-build -t clover --exit-code $$?'"
