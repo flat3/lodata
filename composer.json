@@ -63,7 +63,6 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "process-timeout": false,
     "scripts": {
         "test": ["Composer\\Config::disableProcessTimeout", "vendor/bin/phpunit"],
         "test-parallel": "vendor/bin/testbench package:test --parallel",
