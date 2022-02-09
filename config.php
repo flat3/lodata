@@ -53,7 +53,10 @@ return [
         'connection' => env('LODATA_ASYNC_CONNECTION'),
     ],
 
-    'max_limit' => 100,
+    /*
+     * When $top is not provide it should return total row of max_limit
+     */
+    'max_limit' => 200,
 
     /*
      * Configuration relating to auto-discovery
