@@ -39,13 +39,9 @@ services:
       interval: 1s
 
   mysql:
-    image: lodata:php80
+    image: lodata:php81
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=8
     environment:
       - DATABASE_URL=mysql://root:my-secret-pw@mysql_db:3306/testing
     entrypoint: "/bin/sh -c 'composer update && composer test'"
@@ -54,13 +50,9 @@ services:
         condition: service_healthy
 
   postgres:
-    image: lodata:php80
+    image: lodata:php81
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=8
     environment:
       - DATABASE_URL=pgsql://postgres:my-secret-pw@postgres_db:5432/postgres?charset=utf8
     entrypoint: "/bin/sh -c 'composer update && composer test'"
@@ -69,13 +61,9 @@ services:
         condition: service_healthy
 
   sqlsrv:
-    image: lodata:php80
+    image: lodata:php81
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=8
     environment:
       - DATABASE_URL=sqlsrv://sa:Your_password123@sqlsrv_db:1433/msdb
     entrypoint: "/bin/sh -c 'composer update && composer test'"
@@ -124,23 +112,15 @@ services:
     entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   analyse:
-    image: lodata:php80
+    image: lodata:php81
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=8
     entrypoint: "/bin/sh -c 'composer update && composer analyse'"
 
   coverage:
-    image: lodata:php80
+    image: lodata:php81
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=8
     environment:
       - CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
     entrypoint: "/bin/sh -c 'composer update && composer coverage && cc-reporter after-build -t clover --exit-code $$?'"
