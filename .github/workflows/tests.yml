@@ -17,25 +17,25 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test
-        run: docker compose up php81
+        run: docker-compose up --exit-code-from php81 php81
 
       - name: Static analysis
-        run: docker compose up analyse
+        run: docker-compose up --exit-code-from analyse analyse
 
       - name: MySQL
-        run: docker compose up mysql
+        run: docker-compose up --exit-code-from mysql mysql
 
       - name: SQL Server
-        run: docker compose up sqlsrv
+        run: docker-compose up --exit-code-from sqlsrv sqlsrv
 
       - name: PostgreSQL
-        run: docker compose up postgres
+        run: docker-compose up --exit-code-from postgres postgres
 
       - name: Test Coverage
-        run: docker compose up coverage
+        run: docker-compose up --exit-code-from coverage coverage
 
       - name: Shutdown
-        run: docker compose down
+        run: docker-compose down
 
   php73:
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test
-        run: docker compose up php73
+        run: docker-compose up --exit-code-from php73 php73
 
   php74:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test
-        run: docker compose up php74
+        run: docker-compose up --exit-code-from php74 php74
 
   php80:
     runs-on: ubuntu-latest
@@ -65,4 +65,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test
-        run: docker compose up php80
+        run: docker-compose up --exit-code-from php80 php80
