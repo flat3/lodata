@@ -1,89 +1,93 @@
 {
-    "name": "flat3/lodata",
-    "description": "OData v4.01 Producer for Laravel",
-    "keywords": [
-        "odata",
-        "laravel"
-    ],
-    "homepage": "https://github.com/flat3/lodata",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Chris Lloyd",
-            "email": "chrislloyd403@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Flat3\\Lodata\\": "src/",
-            "Flat3\\Lodata\\Tests\\": "tests/"
-        }
-    },
-    "require": {
-        "doctrine/dbal": "^3",
-        "php": "^7.3|^8.0",
-        "illuminate/bus": "^8.0",
-        "illuminate/database": "^8.40.0",
-        "illuminate/events": "^8.0",
-        "illuminate/http": "^8.0",
-        "illuminate/queue": "^8.0",
-        "illuminate/routing": "^8.0",
-        "ext-simplexml": "*",
-        "ext-json": "*",
-        "ext-dom": "*",
-        "ext-pdo": "*",
-        "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
-        "zbateson/stream-decorators": "^1.0"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Flat3\\Lodata\\ServiceProvider"
-            ],
-            "aliases": {
-                "Lodata": "Flat3\\Lodata\\Facades\\Lodata"
-            }
-        }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.4|^9.0",
-        "orchestra/testbench": "^5.0|^6.0",
-        "spatie/phpunit-snapshot-assertions": "^4.2",
-        "phpstan/phpstan": "^1.0.0",
-        "josiasmontag/laravel-redis-mock": "^1.2",
-        "league/flysystem-vfs": "^1.1",
-        "nunomaduro/collision": "^5.3",
-        "brianium/paratest": "^6.2",
-        "eclipxe/xmlschemavalidator": "^3.0",
-        "league/csv": "^9.7",
-        "sebastian/diff": "^4.0"
-    },
-    "suggest": {
-        "league/csv": "To use the CSV entity set"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "scripts": {
-        "test": ["Composer\\Config::disableProcessTimeout", "vendor/bin/phpunit"],
-        "test-parallel": "vendor/bin/testbench package:test --parallel",
-        "coverage": [
-            "Composer\\Config::disableProcessTimeout",
-            "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover clover.xml; cc-reporter after-build -t clover --exit-code $?"
-        ],
-        "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
-        "docker-coverage": "docker-compose -f tests/docker-compose.yml run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage",
-        "docker-test-mysql": "docker-compose -f tests/docker-compose.yml run test_mysql",
-        "docker-test-sqlsrv": "docker-compose -f tests/docker-compose.yml run test_sqlsrv",
-        "docker-test-postgres": "docker-compose -f tests/docker-compose.yml run test_postgres",
-        "docker-test-php73": "docker-compose -f tests/docker-compose.yml run test_php73",
-        "docker-test-php74": "docker-compose -f tests/docker-compose.yml run test_php74",
-        "docker-test-php80": "docker-compose -f tests/docker-compose.yml run test_php80",
-        "docker-test-php81": "docker-compose -f tests/docker-compose.yml run test_php81",
-        "docker-analyse": "docker-compose -f tests/docker-compose.yml run analyse"
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true
-        }
+  "name": "flat3/lodata",
+  "description": "OData v4.01 Producer for Laravel",
+  "keywords": [
+    "odata",
+    "laravel"
+  ],
+  "homepage": "https://github.com/flat3/lodata",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Chris Lloyd",
+      "email": "chrislloyd403@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Flat3\\Lodata\\": "src/",
+      "Flat3\\Lodata\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "doctrine/dbal": "^3",
+    "php": "^7.3|^8.0",
+    "illuminate/bus": "^8.0",
+    "illuminate/database": "^8.40.0",
+    "illuminate/events": "^8.0",
+    "illuminate/http": "^8.0",
+    "illuminate/queue": "^8.0",
+    "illuminate/routing": "^8.0",
+    "ext-simplexml": "*",
+    "ext-json": "*",
+    "ext-dom": "*",
+    "ext-pdo": "*",
+    "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
+    "zbateson/stream-decorators": "^1.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Flat3\\Lodata\\ServiceProvider"
+      ],
+      "aliases": {
+        "Lodata": "Flat3\\Lodata\\Facades\\Lodata"
+      }
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.4|^9.0",
+    "orchestra/testbench": "^5.0|^6.0",
+    "spatie/phpunit-snapshot-assertions": "^4.2",
+    "phpstan/phpstan": "^1.0.0",
+    "josiasmontag/laravel-redis-mock": "^1.2",
+    "league/flysystem-vfs": "^1.1",
+    "nunomaduro/collision": "^5.3",
+    "brianium/paratest": "^6.2",
+    "eclipxe/xmlschemavalidator": "^3.0",
+    "league/csv": "^9.7",
+    "sebastian/diff": "^4.0"
+  },
+  "suggest": {
+    "league/csv": "To use the CSV entity set"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "vendor/bin/phpunit"
+    ],
+    "test-parallel": "vendor/bin/testbench package:test --parallel",
+    "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml",
+    "cc-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover clover.xml; cc-reporter after-build -t clover --exit-code $?"
+    ],
+    "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
+    "docker-coverage": "docker-compose -f tests/docker-compose.yml run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` cc-coverage",
+    "docker-test-mysql": "docker-compose -f tests/docker-compose.yml run test_mysql",
+    "docker-test-sqlsrv": "docker-compose -f tests/docker-compose.yml run test_sqlsrv",
+    "docker-test-postgres": "docker-compose -f tests/docker-compose.yml run test_postgres",
+    "docker-test-php73": "docker-compose -f tests/docker-compose.yml run test_php73",
+    "docker-test-php74": "docker-compose -f tests/docker-compose.yml run test_php74",
+    "docker-test-php80": "docker-compose -f tests/docker-compose.yml run test_php80",
+    "docker-test-php81": "docker-compose -f tests/docker-compose.yml run test_php81",
+    "docker-analyse": "docker-compose -f tests/docker-compose.yml run analyse"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  }
 }
