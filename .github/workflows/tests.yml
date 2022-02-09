@@ -37,15 +37,15 @@ jobs:
       - name: Shutdown
         run: docker compose down
 
-  php73:
+  php80:
     runs-on: ubuntu-latest
-    name: PHP 7.3
+    name: PHP 8.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Build
-        run: docker compose up php73
+        run: docker compose up php80
 
       - name: Update
         run: docker compose up update
@@ -69,15 +69,15 @@ jobs:
       - name: Test
         run: docker compose up --exit-code-from test test
 
-  php80:
+  php73:
     runs-on: ubuntu-latest
-    name: PHP 8.0
+    name: PHP 7.3
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Build
-        run: docker compose up php80
+        run: docker compose up php73
 
       - name: Update
         run: docker compose up update
