@@ -32,7 +32,7 @@ jobs:
         run: docker compose up postgres
 
       - name: Test Coverage
-        run: docker compose up -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage
+        run: docker compose up coverage
 
       - name: Shutdown
         run: docker compose down
