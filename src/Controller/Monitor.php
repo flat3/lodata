@@ -26,11 +26,11 @@ class Monitor extends Controller
         $job->setId($transactionId);
 
         if ($job->isPending()) {
-            return $job->accepted()->toResponse();
+            throw $job->accepted();
         }
 
         if ($job->isDeleted()) {
-            return (new NotFoundException())->toResponse();
+            throw new NotFoundException;
         }
 
         $meta = $job->getResultMetadata();

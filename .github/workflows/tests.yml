@@ -8,90 +8,97 @@ on:
     types: [ ready_for_review, synchronize, opened ]
 
 jobs:
-  test:
+  php81:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [ 7.3, 7.4, 8.0, 8.1 ]
-        laravel: [ 8 ]
-        dependency-version: [ prefer-stable ]
-
-    name: PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}(${{ matrix.dependency-version }})
-
+    name: PHP 8.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: simplexml, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          tools: composer:v2
-          coverage: none
+      - name: Build
+        run: docker compose up php81
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      - name: Update
+        run: docker compose up update
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Test
+        run: docker compose up --exit-code-from test test
 
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
+      - name: MySQL
+        run: docker compose up --exit-code-from mysql mysql
 
-      - name: Install Composer dependencies
-        run: |
-          composer require "laravel/framework:${{ matrix.laravel }}.*" --no-interaction --no-update --dev
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+      - name: SQL Server
+        run: docker compose up --exit-code-from sqlsrv sqlsrv
 
-      - name: Run Unit tests
-        run: composer test
+      - name: PostgreSQL
+        run: docker compose up --exit-code-from postgres postgres
 
-  coverage:
+      - name: Shutdown
+        run: docker compose down
+
+  php80:
     runs-on: ubuntu-latest
-    name: Coverage / Analysis
-
+    name: PHP 8.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.1
-          extensions: simplexml, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          tools: composer:v2
-          coverage: xdebug
+      - name: Build
+        run: docker compose up php80
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      - name: Update
+        run: docker compose up update
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+      - name: Test
+        run: docker compose up --exit-code-from test test
 
-      - name: Install dependencies
-        if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
+  php74:
+    runs-on: ubuntu-latest
+    name: PHP 7.4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Run tests
-        uses: paambaati/codeclimate-action@v2.7.4
-        env:
-          CC_TEST_REPORTER_ID: 1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
-        with:
-          coverageCommand: composer run-script coverage
-          coverageLocations: ${{github.workspace}}/coverage.xml:clover
+      - name: Build
+        run: docker compose up php74
 
-      - name: Run static analysis
-        run: composer run-script analyse
+      - name: Update
+        run: docker compose up update
+
+      - name: Test
+        run: docker compose up --exit-code-from test test
+
+  php73:
+    runs-on: ubuntu-latest
+    name: PHP 7.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: docker compose up php73
+
+      - name: Update
+        run: docker compose up update
+
+      - name: Test
+        run: docker compose up --exit-code-from test test
+
+  analysis:
+    runs-on: ubuntu-latest
+    name: Analysis
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: docker compose up php81
+
+      - name: Update
+        run: docker compose up update
+
+      - name: Static analysis
+        run: docker compose up --exit-code-from analyse analyse
+
+      - name: Test Coverage
+        run: GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` docker compose up --exit-code-from coverage coverage

@@ -80,17 +80,14 @@ class FilesystemTest extends EntityTest
 
     public function test_update_an_entity_set_primitive()
     {
-        $this->markTestSkipped();
     }
 
     public function test_null_no_content()
     {
-        $this->markTestSkipped();
     }
 
     public function test_read_an_entity_set_primitive_raw()
     {
-        $this->markTestSkipped();
     }
 
     public function test_read_an_entity_set_primitive()
@@ -103,21 +100,17 @@ class FilesystemTest extends EntityTest
 
     public function test_null_raw_no_content()
     {
-        $this->markTestSkipped();
     }
 
     public function test_raw_custom_accept()
     {
-        $this->markTestSkipped();
     }
 
     public function test_raw_custom_format()
     {
-        $this->markTestSkipped();
     }
 
     public function test_read_alternative_key()
     {
-        $this->markTestSkipped();
     }
 }
