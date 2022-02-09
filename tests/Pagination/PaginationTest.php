@@ -23,7 +23,7 @@ abstract class PaginationTest extends TestCase
     public function test_skip()
     {
         if (!Lodata::getEntitySet('passengers') instanceof PaginationInterface) {
-            $this->markTestSkipped();
+            return;
         }
 
         $this->assertJsonResponseSnapshot(

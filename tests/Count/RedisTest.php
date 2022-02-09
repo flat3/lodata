@@ -12,11 +12,9 @@ class RedisTest extends CountTest
 
     public function test_count_ignores_skip()
     {
-        $this->markTestSkipped();
     }
 
     public function test_count_path_ignores_skip()
     {
-        $this->markTestSkipped();
     }
 }

@@ -64,9 +64,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "test": ["Composer\\Config::disableProcessTimeout", "vendor/bin/phpunit"],
         "test-parallel": "vendor/bin/testbench package:test --parallel",
-        "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml",
+        "coverage": [
+            "Composer\\Config::disableProcessTimeout",
+            "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover clover.xml; cc-reporter after-build -t clover --exit-code $?"
+        ],
         "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
         "doc": "phpdoc --setting=graphs.enabled=false --setting=guides.enabled=true --defaultpackagename=Flat3\\\\Lodata",
         "doc-merge": "git push origin `git subtree split --prefix docs gh-pages`:gh-pages --force"
