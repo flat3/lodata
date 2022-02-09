@@ -16,11 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Test
-        run: docker-compose up --exit-code-from php81 php81
+      - name: Build
+        run: docker-compose up php81
 
-      - name: Static analysis
-        run: docker-compose up --exit-code-from analyse analyse
+      - name: Update
+        run: docker-compose up update
+
+      - name: Test
+        run: docker-compose up --exit-code-from test test
 
       - name: MySQL
         run: docker-compose up --exit-code-from mysql mysql
@@ -30,6 +33,26 @@ jobs:
 
       - name: PostgreSQL
         run: docker-compose up --exit-code-from postgres postgres
+
+      - name: Shutdown
+        run: docker-compose down
+
+  analysis:
+    runs-on: ubuntu-latest
+    name: Analysis
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: docker-compose up php81
+
+      - name: Update
+        run: docker-compose up update
+
+      - name: Static analysis
+        run: docker-compose up --exit-code-from analyse analyse
 
       - name: Test Coverage
         run: docker-compose up --exit-code-from coverage coverage
@@ -44,8 +67,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Build
+        run: docker-compose up php73
+
+      - name: Update
+        run: docker-compose up update
+
       - name: Test
-        run: docker-compose up --exit-code-from php73 php73
+        run: docker-compose up --exit-code-from test test
 
   php74:
     runs-on: ubuntu-latest
@@ -54,8 +83,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Build
+        run: docker-compose up php74
+
+      - name: Update
+        run: docker-compose up update
+
       - name: Test
-        run: docker-compose up --exit-code-from php74 php74
+        run: docker-compose up --exit-code-from test test
 
   php80:
     runs-on: ubuntu-latest
@@ -64,5 +99,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Build
+        run: docker-compose up php80
+
+      - name: Update
+        run: docker-compose up update
+
       - name: Test
-        run: docker-compose up --exit-code-from php80 php80
+        run: docker-compose up --exit-code-from test test

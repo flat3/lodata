@@ -41,7 +41,7 @@ services:
       interval: 1s
 
   mysql:
-    image: lodata:php81
+    image: lodata
     volumes:
       - .:/lodata
     environment:
@@ -52,7 +52,7 @@ services:
         condition: service_healthy
 
   postgres:
-    image: lodata:php81
+    image: lodata
     volumes:
       - .:/lodata
     environment:
@@ -63,7 +63,7 @@ services:
         condition: service_healthy
 
   sqlsrv:
-    image: lodata:php81
+    image: lodata
     volumes:
       - .:/lodata
     environment:
@@ -74,17 +74,16 @@ services:
         condition: service_healthy
 
   php73:
-    image: lodata:php73
+    image: lodata
     volumes:
       - .:/lodata
     build:
       args:
         - ALPINE=3.12
         - PHP=7
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   php74:
-    image: lodata:php74
+    image: lodata
     volumes:
       - .:/lodata
     build:
@@ -94,7 +93,7 @@ services:
     entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   php80:
-    image: lodata:php80
+    image: lodata
     volumes:
       - .:/lodata
     build:
@@ -104,23 +103,34 @@ services:
     entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   php81:
-    image: lodata:php81
+    image: lodata
     volumes:
       - .:/lodata
     build:
       args:
         - ALPINE=edge
         - PHP=81
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
+
+  update:
+    image: lodata
+    volumes:
+      - .:/lodata
+    entrypoint: "composer update"
+
+  test:
+    image: lodata
+    volumes:
+      - .:/lodata
+    entrypoint: "composer test"
 
   analyse:
-    image: lodata:php81
+    image: lodata
     volumes:
       - .:/lodata
     entrypoint: "composer analyse"
 
   coverage:
-    image: lodata:php81
+    image: lodata
     volumes:
       - .:/lodata
     environment:

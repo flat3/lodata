@@ -33,8 +33,10 @@ RUN curl -o /usr/bin/composer https://getcomposer.org/download/latest-stable/com
 RUN chmod +x /usr/bin/composer
 
 # Download CC reporter
-RUN curl -Lo /usr/bin/cc-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-RUN chmod +x /usr/bin/cc-reporter
+RUN if [ "$PHP" = "81" ]; then \
+    curl -Lo /usr/bin/cc-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64; \
+    chmod +x /usr/bin/cc-reporter; \
+    fi
 
 # Create ini file
 RUN printf "zend_extension=xdebug.so\nxdebug.mode=off\nmemory_limit=-1\n" > /etc/php${PHP}/conf.d/99_lodata.ini
