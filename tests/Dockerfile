@@ -2,14 +2,10 @@ ARG ALPINE
 FROM alpine:${ALPINE}
 ARG PHP
 
-COPY . lodata
-WORKDIR lodata
-
 RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
 RUN apk add \
     curl \
-    git \
     php${PHP} \
     php${PHP}-simplexml \
     php${PHP}-dom \
@@ -61,3 +57,9 @@ RUN apk add \
     pecl install pdo_sqlsrv; \
     echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
     echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
+
+COPY composer.* phpunit.xml config.php /lodata/
+COPY src /lodata/src
+COPY tests /lodata/tests
+WORKDIR lodata
+RUN composer update

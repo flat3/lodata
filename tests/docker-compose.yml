@@ -1,5 +1,6 @@
 services:
   test_mysql:
+    image: lodata:php80
     build:
       context: ..
       args:
@@ -8,7 +9,7 @@ services:
       dockerfile: "tests/Dockerfile"
     environment:
       - DATABASE_URL=mysql://root:my-secret-pw@mysql_db:3306/testing
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
     depends_on:
       mysql_db:
         condition: service_healthy
@@ -23,11 +24,12 @@ services:
       MYSQL_DATABASE: "testing"
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 --password=$$MYSQL_ROOT_PASSWORD
-      timeout: 30s
+      timeout: 60s
       retries: 10
       interval: 1s
 
   test_postgres:
+    image: lodata:php80
     build:
       context: ..
       args:
@@ -36,7 +38,7 @@ services:
       dockerfile: "tests/Dockerfile"
     environment:
       - DATABASE_URL=pgsql://postgres:my-secret-pw@postgres_db:5432/postgres?charset=utf8
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
     depends_on:
       postgres_db:
         condition: service_healthy
@@ -50,21 +52,21 @@ services:
       POSTGRES_PASSWORD: "my-secret-pw"
     healthcheck:
       test: pg_isready -q -d postgres -U postgres
-      timeout: 30s
+      timeout: 60s
       retries: 10
       interval: 1s
 
   test_sqlsrv:
+    image: lodata:php80
     build:
       context: ..
       args:
         - ALPINE=3.15
         - PHP=8
-        - PHPSQLSRV=1
       dockerfile: "tests/Dockerfile"
     environment:
       - DATABASE_URL=sqlsrv://sa:Your_password123@sqlsrv_db:1433/msdb
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
     depends_on:
       sqlsrv_db:
         condition: service_healthy
@@ -77,12 +79,13 @@ services:
       ACCEPT_EULA: "Y"
     healthcheck:
       test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q "SELECT 1" || exit 1
-      timeout: 30s
+      timeout: 60s
       retries: 10
       interval: 1s
 
   test_php73:
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
+    image: lodata:php73
     build:
       context: ..
       args:
@@ -91,7 +94,8 @@ services:
       dockerfile: "tests/Dockerfile"
 
   test_php74:
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
+    image: lodata:php74
     build:
       context: ..
       args:
@@ -100,7 +104,8 @@ services:
       dockerfile: "tests/Dockerfile"
 
   test_php80:
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
+    image: lodata:php80
     build:
       context: ..
       args:
@@ -109,7 +114,8 @@ services:
       dockerfile: "tests/Dockerfile"
 
   test_php81:
-    entrypoint: 'composer update; composer test'
+    entrypoint: 'composer test'
+    image: lodata:php81
     build:
       context: ..
       args:
@@ -119,6 +125,7 @@ services:
 
   analyse:
     entrypoint: 'composer analyse'
+    image: lodata:php81
     build:
       context: ..
       args:
@@ -128,10 +135,10 @@ services:
 
   coverage:
     entrypoint: 'composer coverage'
+    image: lodata:php81
     build:
       context: ..
       args:
         - ALPINE=edge
         - PHP=81
-        - PHPXDEBUG=1
       dockerfile: "tests/Dockerfile"
