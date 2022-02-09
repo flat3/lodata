@@ -11,7 +11,6 @@ jobs:
   php81:
     runs-on: ubuntu-latest
     name: PHP 8.1
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -88,7 +87,6 @@ jobs:
   analysis:
     runs-on: ubuntu-latest
     name: Analysis
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -104,6 +102,3 @@ jobs:
 
       - name: Test Coverage
         run: GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` docker compose up --exit-code-from coverage coverage
-
-      - name: Shutdown
-        run: docker compose down
