@@ -124,23 +124,23 @@ services:
     entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   analyse:
-    image: lodata:php81
+    image: lodata:php80
     volumes:
       - .:/lodata
     build:
       args:
-        - ALPINE=edge
-        - PHP=81
+        - ALPINE=3.15
+        - PHP=8
     entrypoint: "/bin/sh -c 'composer update && composer analyse'"
 
   coverage:
-    image: lodata:php81
+    image: lodata:php80
     volumes:
       - .:/lodata
     build:
       args:
-        - ALPINE=edge
-        - PHP=81
+        - ALPINE=3.15
+        - PHP=8
     environment:
       - CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
     entrypoint: "/bin/sh -c 'composer update && composer coverage && cc-reporter after-build -t clover --exit-code $$?'"

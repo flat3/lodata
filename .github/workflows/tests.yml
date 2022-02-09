@@ -16,32 +16,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: php81
-        run: docker compose run php81
+      - name: php80
+        run: docker compose up php80
 
       - name: analysis
-        run: docker compose run analyse
+        run: docker compose up analyse
 
       - name: mysql
-        run: docker compose run mysql
+        run: docker compose up mysql
 
       - name: sqlsrv
-        run: docker compose run sqlsrv
+        run: docker compose up sqlsrv
 
       - name: postgres
-        run: docker compose run postgres
+        run: docker compose up postgres
 
       - name: php73
-        run: docker compose run php73
+        run: docker compose up php73
 
       - name: php73
-        run: docker compose run php74
+        run: docker compose up php74
 
-      - name: php80
-        run: docker compose run php80
+      - name: php81
+        run: docker compose up php81
 
       - name: coverage
-        run: docker compose run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage
+        run: docker compose up -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage
 
       - name: shutdown
         run: docker compose down
