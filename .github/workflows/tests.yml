@@ -16,9 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Composer update
-        run: docker compose up update
-
       - name: Test
         run: docker compose up php81
 

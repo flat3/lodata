@@ -109,13 +109,7 @@ services:
       args:
         - ALPINE=edge
         - PHP=81
-    entrypoint: "composer test"
-
-  update:
-    image: lodata:php81
-    volumes:
-      - .:/lodata
-    entrypoint: "composer update"
+    entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   analyse:
     image: lodata:php81
