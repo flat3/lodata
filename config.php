@@ -53,6 +53,8 @@ return [
         'connection' => env('LODATA_ASYNC_CONNECTION'),
     ],
 
+    'max_limit' => 100,
+
     /*
      * Configuration relating to auto-discovery
      */

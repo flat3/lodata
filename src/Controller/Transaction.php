@@ -322,6 +322,10 @@ class Transaction
         $this->idOption = (new Id)->setTransaction($this);
         $this->index = (new Index)->setTransaction($this);
 
+        if( !$this->top->hasValue() ) {
+            $this->top->setValue( strval(config('lodata.max_limit')) );
+        }
+
         return $this;
     }
 
