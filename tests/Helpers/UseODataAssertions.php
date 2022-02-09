@@ -121,4 +121,9 @@ trait UseODataAssertions
     {
         return $this->assertODataError($request, Response::HTTP_CONFLICT);
     }
+
+    protected function assertResultCount(TestResponse $response, int $count)
+    {
+        $this->assertEquals($count, count(json_decode($response->streamedContent())->value));
+    }
 }

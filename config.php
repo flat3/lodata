@@ -77,5 +77,20 @@ return [
             'api_secret',
             'secret',
         ]
-    ]
+    ],
+
+    /*
+     * Configuration for server-driven pagination
+     */
+    'pagination' => [
+        /**
+         * The maximum page size this service will return, null for no limit
+         */
+        'max' => null,
+
+        /**
+         * The default page size to use if the client does not request one, null for no default
+         */
+        'default' => 200,
+    ],
 ];

@@ -2,7 +2,6 @@
 
 namespace Flat3\Lodata\Tests\Protocol;
 
-use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Drivers\WithSQLDriver;

@@ -15,7 +15,6 @@ class AuthorizationTest extends TestCase
     {
         parent::setUp();
         config(['lodata.authorization' => true]);
-        config(['lodata.readonly' => false]);
     }
 
     public function test_no_authorization()

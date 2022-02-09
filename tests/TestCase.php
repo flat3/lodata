@@ -5,7 +5,6 @@ namespace Flat3\Lodata\Tests;
 use Faker\Factory;
 use Faker\Generator as FakerGenerator;
 use Flat3\Lodata\DeclaredProperty;
-use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -80,11 +79,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     public function getEnvironmentSetUp($app)
     {
-        config(['database.redis.client' => 'mock']);
-        config(['filesystems.disks.testing' => ['driver' => 'vfs']]);
-        config(['lodata.readonly' => false]);
-        config(['lodata.disk' => 'testing']);
-        config(['lodata.streaming' => false]);
+        config([
+            'database.redis.client' => 'mock',
+            'filesystems.disks.testing' => ['driver' => 'vfs'],
+            'lodata.readonly' => false,
+            'lodata.disk' => 'testing',
+            'lodata.streaming' => false,
+            'lodata.pagination.max' => null,
+            'lodata.pagination.default' => 200,
+        ]);
 
         $app->register(RedisMockServiceProvider::class);
 
