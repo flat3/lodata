@@ -44,7 +44,7 @@ services:
       - .:/lodata
     environment:
       - DATABASE_URL=mysql://root:my-secret-pw@mysql_db:3306/testing
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
+    entrypoint: "composer test"
     depends_on:
       mysql_db:
         condition: service_healthy
@@ -55,7 +55,7 @@ services:
       - .:/lodata
     environment:
       - DATABASE_URL=pgsql://postgres:my-secret-pw@postgres_db:5432/postgres?charset=utf8
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
+    entrypoint: "composer test"
     depends_on:
       postgres_db:
         condition: service_healthy
@@ -66,7 +66,7 @@ services:
       - .:/lodata
     environment:
       - DATABASE_URL=sqlsrv://sa:Your_password123@sqlsrv_db:1433/msdb
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
+    entrypoint: "composer test"
     depends_on:
       sqlsrv_db:
         condition: service_healthy
@@ -109,13 +109,19 @@ services:
       args:
         - ALPINE=edge
         - PHP=81
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
+    entrypoint: "composer test"
+
+  update:
+    image: lodata:php81
+    volumes:
+      - .:/lodata
+    entrypoint: "composer update"
 
   analyse:
     image: lodata:php81
     volumes:
       - .:/lodata
-    entrypoint: "/bin/sh -c 'composer update && composer analyse'"
+    entrypoint: "composer analyse"
 
   coverage:
     image: lodata:php81
@@ -123,4 +129,4 @@ services:
       - .:/lodata
     environment:
       - CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
-    entrypoint: "/bin/sh -c 'composer update && composer coverage && cc-reporter after-build -t clover --exit-code $$?'"
+    entrypoint: "/bin/sh -c 'composer coverage && cc-reporter after-build -t clover --exit-code $$?'"

@@ -16,10 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Composer update
+        run: docker compose up update
+
       - name: Test
         run: docker compose up php81
 
-      - name: Analyse
+      - name: Static analysis
         run: docker compose up analyse
 
       - name: MySQL
@@ -44,7 +47,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: php73
+      - name: Test
         run: docker compose up php73
 
   php74:
