@@ -7,6 +7,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "my-secret-pw"
       MYSQL_DATABASE: "testing"
+    command: "mysqld --max-connections=8000"
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 --password=$$MYSQL_ROOT_PASSWORD
       timeout: 60s
@@ -20,6 +21,7 @@ services:
       - SYS_NICE
     environment:
       POSTGRES_PASSWORD: "my-secret-pw"
+    command: "postgres -c shared_buffers=256MB -c max_connections=2000"
     healthcheck:
       test: pg_isready -q -d postgres -U postgres
       timeout: 60s
@@ -123,4 +125,5 @@ services:
       - .:/lodata
     environment:
       - CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
+      - COMPOSER_PROCESS_TIMEOUT=10000
     entrypoint: "/bin/sh -c 'composer coverage && cc-reporter after-build -t clover --exit-code $$?'"
