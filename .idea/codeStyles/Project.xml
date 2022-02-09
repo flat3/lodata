@@ -10,6 +10,11 @@
       <option name="ELSE_IF_STYLE" value="COMBINE" />
       <option name="KEEP_RPAREN_AND_LBRACE_ON_ONE_LINE" value="true" />
     </PHPCodeStyleSettings>
+    <codeStyleSettings language="JSON">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="4" />
+      </indentOptions>
+    </codeStyleSettings>
     <codeStyleSettings language="PHP">
       <option name="BLANK_LINES_AFTER_PACKAGE" value="1" />
       <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
