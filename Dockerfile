@@ -2,8 +2,10 @@ ARG ALPINE
 FROM alpine:${ALPINE}
 ARG PHP
 
+# Add testing repository
 RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
+# Install packages
 RUN apk add \
     curl \
     php${PHP} \
@@ -24,17 +26,26 @@ RUN apk add \
     php${PHP}-curl \
     php${PHP}-pdo_mysql \
     php${PHP}-pdo_pgsql \
-    php${PHP}-pecl-xdebug
+    php${PHP}-pecl-xdebug \
+    php${PHP}-dev \
+    php${PHP}-pear \
+    autoconf \
+    make \
+    unixodbc-dev \
+    g++
 
+# Download composer
 RUN curl -o /usr/bin/composer https://getcomposer.org/download/latest-stable/composer.phar
 RUN chmod +x /usr/bin/composer
 
-ENV CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
+# Download CC reporter
 RUN curl -Lo /usr/bin/cc-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
 RUN chmod +x /usr/bin/cc-reporter
 
+# Create ini file
 RUN printf "zend_extension=xdebug.so\nxdebug.mode=off\nmemory_limit=-1\n" > /etc/php${PHP}/conf.d/99_lodata.ini
 
+# Link PHP executables
 RUN if [ ! -e /usr/bin/php ]; then \
     ln -s /usr/bin/php${PHP} /usr/bin/php; \
     ln -s /usr/bin/phpize${PHP} /usr/bin/phpize; \
@@ -42,14 +53,8 @@ RUN if [ ! -e /usr/bin/php ]; then \
     ln -s /usr/bin/php-config${PHP} /usr/bin/php-config; \
     fi
 
-RUN apk add \
-    php${PHP}-dev \
-    php${PHP}-pear \
-    autoconf \
-    make \
-    unixodbc-dev \
-    g++; \
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk; \
+# Install sqlsrv drivers
+RUN curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk; \
     curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk; \
     apk add --allow-untrusted msodbcsql17_17.8.1.1-1_amd64.apk; \
     apk add --allow-untrusted mssql-tools_17.8.1.1-1_amd64.apk; \
@@ -58,8 +63,4 @@ RUN apk add \
     echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
     echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
 
-COPY composer.* phpunit.xml config.php /lodata/
-COPY src /lodata/src
-COPY tests /lodata/tests
-WORKDIR lodata
-RUN composer update
+WORKDIR /lodata

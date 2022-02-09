@@ -64,26 +64,10 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "test": [
-      "Composer\\Config::disableProcessTimeout",
-      "vendor/bin/phpunit"
-    ],
-    "test-parallel": "vendor/bin/testbench package:test --parallel",
-    "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml",
-    "cc-coverage": [
-      "Composer\\Config::disableProcessTimeout",
-      "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover clover.xml; cc-reporter after-build -t clover --exit-code $?"
-    ],
-    "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
-    "docker-coverage": "docker-compose -f tests/docker-compose.yml run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` cc-coverage",
-    "docker-test-mysql": "docker-compose -f tests/docker-compose.yml run test_mysql",
-    "docker-test-sqlsrv": "docker-compose -f tests/docker-compose.yml run test_sqlsrv",
-    "docker-test-postgres": "docker-compose -f tests/docker-compose.yml run test_postgres",
-    "docker-test-php73": "docker-compose -f tests/docker-compose.yml run test_php73",
-    "docker-test-php74": "docker-compose -f tests/docker-compose.yml run test_php74",
-    "docker-test-php80": "docker-compose -f tests/docker-compose.yml run test_php80",
-    "docker-test-php81": "docker-compose -f tests/docker-compose.yml run test_php81",
-    "docker-analyse": "docker-compose -f tests/docker-compose.yml run analyse"
+    "test": "phpunit",
+    "test-parallel": "testbench package:test --parallel",
+    "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover clover.xml",
+    "analyse": "phpstan analyse src tests --memory-limit 1G --level 1"
   },
   "config": {
     "allow-plugins": {
