@@ -203,22 +203,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $transaction = $this->transaction ?: $transaction;
 
-        // Validate $orderby
-        $orderby = $transaction->getOrderBy();
-        $orderby->getSortOrders();
-
-        $top = $transaction->getTop();
-
-        $maxPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
-        if (!$top->hasValue() && $maxPageSize) {
-            $top->setValue($maxPageSize);
-        }
-
         /** @var Generator $results */
         $results = $this->query();
 
         $transaction->outputJsonArrayStart();
 
+        $top = $this->getTop();
         $limit = $top->getValue();
 
         while ($results->valid()) {
@@ -257,11 +247,22 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         Gate::query($this, $transaction)->ensure();
 
         $top = $this->getTop();
-        $maxPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
 
-        if (!$top->hasValue() && $maxPageSize) {
-            $transaction->preferenceApplied(Constants::maxPageSize, $maxPageSize);
-            $top->setValue($maxPageSize);
+        $defaultPageSize = config('lodata.pagination.default');
+        $maxPageSize = config('lodata.pagination.max');
+        $preferPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
+        $targetPageSize = $top->getValue() ?: $preferPageSize ?: $defaultPageSize;
+
+        if ($maxPageSize && (!$targetPageSize || $targetPageSize > $maxPageSize)) {
+            $targetPageSize = $maxPageSize;
+        }
+
+        if ($preferPageSize && $targetPageSize === $preferPageSize) {
+            $transaction->preferenceApplied(Constants::maxPageSize, (string) $targetPageSize);
+        }
+
+        if ($targetPageSize !== $top->getValue()) {
+            $top->setValue((string) $targetPageSize);
         }
 
         $this->assertValidOrderBy();
@@ -740,7 +741,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $top = $transaction->getTop();
             $paginationParams = [];
 
-            if ($top->hasValue()) {
+            if ($top->hasValue() && ($count === null || $top->getValue() < $count)) {
                 switch (true) {
                     case $this instanceof TokenPaginationInterface:
                         $skipToken = $transaction->getSkipToken();

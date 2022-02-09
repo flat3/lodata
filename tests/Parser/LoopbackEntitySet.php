@@ -9,7 +9,6 @@ use Flat3\Lodata\Expression\Node\Literal\Boolean;
 use Flat3\Lodata\Expression\Node\Literal\Date;
 use Flat3\Lodata\Expression\Node\Literal\DateTimeOffset;
 use Flat3\Lodata\Expression\Node\Literal\Duration;
-use Flat3\Lodata\Expression\Node\Literal\Guid;
 use Flat3\Lodata\Expression\Node\Literal\String_;
 use Flat3\Lodata\Expression\Node\Literal\TimeOfDay;
 use Flat3\Lodata\Expression\Node\Operator\Comparison\And_;
