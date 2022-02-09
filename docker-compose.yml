@@ -90,7 +90,6 @@ services:
       args:
         - ALPINE=3.15
         - PHP=7
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   php80:
     image: lodata
@@ -100,7 +99,6 @@ services:
       args:
         - ALPINE=3.15
         - PHP=8
-    entrypoint: "/bin/sh -c 'composer update && composer test'"
 
   php81:
     image: lodata
