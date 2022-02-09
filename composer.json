@@ -72,7 +72,7 @@
             "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover clover.xml; cc-reporter after-build -t clover --exit-code $?"
         ],
         "analyse": "vendor/bin/phpstan analyse src tests --memory-limit 1G --level 1",
-        "docker-coverage": "docker-compose -f tests/docker-compose.yml run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` coverage",
+        "docker-coverage": "docker-compose -f tests/docker-compose.yml run -e GIT_BRANCH=`git branch --show-current` -e GIT_COMMIT_SHA=`git rev-parse HEAD` -e GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` coverage",
         "docker-test-mysql": "docker-compose -f tests/docker-compose.yml run test_mysql",
         "docker-test-sqlsrv": "docker-compose -f tests/docker-compose.yml run test_sqlsrv",
         "docker-test-postgres": "docker-compose -f tests/docker-compose.yml run test_postgres",
