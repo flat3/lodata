@@ -5,9 +5,6 @@
             "@id": "disk('a1.txt')"
         },
         {
-            "@id": "disk('d1')"
-        },
-        {
             "@id": "disk('d1/a1.txt')"
         }
     ]

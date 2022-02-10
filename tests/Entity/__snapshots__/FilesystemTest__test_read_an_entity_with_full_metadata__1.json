@@ -3,7 +3,7 @@
     "@type": "#com.example.odata.file",
     "@id": "http://localhost/odata/disk('a1.txt')",
     "@readLink": "http://localhost/odata/disk('a1.txt')",
-    "type": "file",
+    "type": "text/plain",
     "path": "a1.txt",
     "timestamp": "2020-01-01T01:01:01+00:00",
     "size": 5,

@@ -17,7 +17,7 @@ trait WithFilesystemDriver
         $this->entitySet = 'disk';
         $this->entityId = 'a1.txt';
         $this->missingEntityId = 'qq.txt';
-        $this->etag = 'W/"88cde431860aba3660b32d5d00ec3c0043ddc0c03c240c988f3555dbd62bf267"';
+        $this->etag = 'W/"45864cdcbec5a5019eaf681663ce38ff409d517ac8103e89eeb7b01f2b312036"';
 
         /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('testing');

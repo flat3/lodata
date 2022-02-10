@@ -12,14 +12,6 @@
         },
         {
             "@type": "#com.example.odata.file",
-            "@id": "http://localhost/odata/disk('d1')",
-            "@readLink": "http://localhost/odata/disk('d1')",
-            "path": "d1",
-            "content@mediaContentType": "*/*",
-            "content@mediaReadLink": "http://odata.files/d1"
-        },
-        {
-            "@type": "#com.example.odata.file",
             "@id": "http://localhost/odata/disk('d1/a1.txt')",
             "@readLink": "http://localhost/odata/disk('d1/a1.txt')",
             "path": "d1/a1.txt",

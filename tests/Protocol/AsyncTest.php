@@ -9,6 +9,7 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Helpers\StreamingJsonDriver;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType\Full;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Testing\TestResponse;
@@ -20,7 +21,7 @@ class AsyncTest extends TestCase
     protected function assertStoredResponseMetadata(string $metadata)
     {
         $metadata = json_decode($metadata, true);
-        $response = new Response();
+        $response = App::make(Response::class);
         $response->headers->replace($metadata['headers']);
         $response->setStatusCode($metadata['status']);
         $this->assertResponseHeaderSnapshot(new TestResponse($response));
@@ -98,8 +99,8 @@ class AsyncTest extends TestCase
         $job = collect($queue->pushedJobs())->flatten(1)->first()['job'];
         $job->handle();
 
-        $this->assertFalse($job->getDisk()->exists($job->getMetaPath()));
-        $this->assertFalse($job->getDisk()->exists($job->getDataPath()));
+        $this->assertFalse($job->getFilesystem()->exists($job->getMetaPath()));
+        $this->assertFalse($job->getFilesystem()->exists($job->getDataPath()));
     }
 
     public function test_error()

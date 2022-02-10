@@ -32,7 +32,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
     public function __construct(string $identifier, EntityType $entityType)
     {
         parent::__construct($identifier, $entityType);
-        $this->disk = Storage::disk();
+        $this->setDisk(Storage::disk());
     }
 
     public function getCsvHeader(): array
@@ -52,7 +52,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
 
     public function getCsvReader()
     {
-        return Reader::createFromStream($this->disk->readStream($this->filePath));
+        return Reader::createFromStream($this->getFilesystem()->readStream($this->filePath));
     }
 
     public function getCsvStatement(): TabularDataReader

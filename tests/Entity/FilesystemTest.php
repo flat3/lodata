@@ -36,6 +36,14 @@ class FilesystemTest extends EntityTest
         );
     }
 
+    public function test_read_directory()
+    {
+        $this->assertNotFound(
+            (new Request)
+                ->path($this->entitySetPath."('d1')")
+        );
+    }
+
     public function test_read_file_in_directory_key_as_segment()
     {
         $this->assertJsonResponseSnapshot(

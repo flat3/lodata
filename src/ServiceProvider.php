@@ -8,7 +8,12 @@ use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
 use Flat3\Lodata\Controller\ODCFF;
 use Flat3\Lodata\Controller\PBIDS;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Helper\Filesystem;
+use Flat3\Lodata\Helper\Flysystem;
+use Flat3\Lodata\Helper\Symfony;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Service Provider
@@ -58,6 +63,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->bind('lodata.model', function ($app) {
             return $app->make(Model::class);
+        });
+
+        $this->app->bind(Response::class, function () {
+            return Kernel::VERSION_ID < 60000 ? new Symfony\Response5() : new Symfony\Response6();
+        });
+
+        $this->app->bind(Filesystem::class, function () {
+            return class_exists('League\Flysystem\Adapter\Local') ? new Flysystem\Flysystem1() : new Flysystem\Flysystem3();
         });
 
         $route = self::route();

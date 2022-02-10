@@ -6,16 +6,14 @@ namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Traits\HasDisk;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use League\Flysystem;
 use RuntimeException;
 
 /**
@@ -27,6 +25,7 @@ class Async implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
+    use HasDisk;
 
     const pending = 'pending';
     const complete = 'complete';
@@ -42,6 +41,11 @@ class Async implements ShouldQueue
      * @var Transaction $transaction Transaction
      */
     protected $transaction;
+
+    public function __construct()
+    {
+        $this->setDisk(Storage::disk(config('lodata.disk')));
+    }
 
     /**
      * Set the job ID
@@ -65,15 +69,6 @@ class Async implements ShouldQueue
         $this->jobId = $transaction->getId();
 
         return $this;
-    }
-
-    /**
-     * Get the Laravel disk used to store results of this job
-     * @return FilesystemAdapter Filesystem
-     */
-    public function getDisk(): Filesystem
-    {
-        return Storage::disk(config('lodata.disk'));
     }
 
     /**
@@ -103,7 +98,7 @@ class Async implements ShouldQueue
             return;
         }
 
-        $disk = $this->getDisk();
+        $disk = $this->getFilesystem();
         $metaPath = $this->getMetaPath();
 
         try {
@@ -140,11 +135,10 @@ class Async implements ShouldQueue
      */
     public function openDataStream()
     {
-        $disk = $this->getDisk();
-        $driver = $disk->getDriver()->getAdapter();
+        $disk = $this->getFilesystem();
 
         switch (true) {
-            case $driver instanceof Flysystem\Adapter\Local:
+            case $disk->isLocal():
                 $resource = fopen($disk->path($this->getDataPath()), 'w+b');
                 break;
 
@@ -166,11 +160,10 @@ class Async implements ShouldQueue
      */
     public function commitDataStream($resource)
     {
-        $disk = $this->getDisk();
-        $driver = $disk->getDriver()->getAdapter();
+        $disk = $this->getFilesystem();
 
         switch (true) {
-            case $driver instanceof Flysystem\Adapter\Local:
+            case $disk->isLocal():
                 break;
 
             default:
@@ -269,7 +262,7 @@ class Async implements ShouldQueue
      */
     public function getResultMetadata(): array
     {
-        return json_decode($this->getDisk()->read($this->getMetaPath()), true);
+        return json_decode($this->getFilesystem()->get($this->getMetaPath()), true);
     }
 
     /**
@@ -278,7 +271,7 @@ class Async implements ShouldQueue
      */
     public function getResultStream()
     {
-        return $this->getDisk()->readStream($this->getDataPath());
+        return $this->getFilesystem()->readStream($this->getDataPath());
     }
 
     /**
@@ -304,8 +297,8 @@ class Async implements ShouldQueue
      */
     public function destroy()
     {
-        $this->getDisk()->delete($this->getDataPath());
-        $this->getDisk()->delete($this->getMetaPath());
+        $this->getFilesystem()->delete($this->getDataPath());
+        $this->getFilesystem()->delete($this->getMetaPath());
         Cache::forget($this->ns('status'));
     }
 

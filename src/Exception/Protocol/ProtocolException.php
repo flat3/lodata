@@ -8,6 +8,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Support\Facades\App;
 use RuntimeException;
 
 /**
@@ -157,7 +158,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
      */
     public function toResponse($request = null): Response
     {
-        $response = new Response();
+        $response = App::make(Response::class);
 
         $response->setCallback(function () {
             if ($this->suppressContent) {

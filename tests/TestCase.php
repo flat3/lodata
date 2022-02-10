@@ -14,29 +14,28 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Tests\Helpers\TestFilesystemAdapter;
 use Flat3\Lodata\Tests\Helpers\UseDatabaseAssertions;
 use Flat3\Lodata\Tests\Helpers\UseODataAssertions;
 use Flat3\Lodata\Tests\Helpers\UseSnapshots;
-use Flat3\Lodata\Tests\Helpers\VfsAdapter;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Int32;
 use Generator;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
-use League\Flysystem\Filesystem;
 use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
 use Mockery\Expectation;
 use Ramsey\Uuid\Uuid;
 use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use VirtualFileSystem\FileSystem as VirtualFileSystem;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -98,9 +97,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             return Uuid::fromInteger($this->uuid++);
         });
 
-        Storage::extend('vfs', function () {
-            return new Filesystem(new VfsAdapter(new VirtualFileSystem()), ['url' => 'http://odata.files']);
-        });
+        TestFilesystemAdapter::bind();
 
         $this->faker = Factory::create();
     }
@@ -117,6 +114,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         // @phpstan-ignore-next-line
         Redis::flushdb();
+        
+        (new Filesystem)->cleanDirectory(TestFilesystemAdapter::root());
 
         $this->setUpDriver();
 

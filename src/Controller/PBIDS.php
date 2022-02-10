@@ -9,6 +9,7 @@ use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
@@ -24,7 +25,7 @@ class PBIDS extends Controller
      */
     public function get(): Response
     {
-        $response = new Response();
+        $response = App::make(Response::class);
         $response->header(Constants::contentType, MediaType::json);
 
         $disposition = $response->headers->makeDisposition(

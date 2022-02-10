@@ -11,6 +11,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
@@ -29,7 +30,7 @@ class ODCFF extends Controller
      */
     public function get(string $identifier): Response
     {
-        $response = new Response();
+        $response = App::make(Response::class);
         $response->header(Constants::contentType, self::contentType);
 
         $htmlDoc = new DOMDocument();

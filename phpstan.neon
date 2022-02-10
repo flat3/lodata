@@ -1,0 +1,13 @@
+parameters:
+    level: 1
+    paths:
+        - src
+        - tests
+    bootstrapFiles:
+        - tests/Helpers/PHPStanHelper.php
+    excludePaths:
+        analyseAndScan:
+            - src/Helper/Symfony/Response5.php
+        analyse:
+            - src/Helper/Flysystem/Flysystem1.php
+            - tests/Helpers/Flysystem/TestFilesystemAdapter2.php

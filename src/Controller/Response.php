@@ -15,7 +15,7 @@ use Throwable;
  * Response
  * @package Flat3\Lodata\Controller
  */
-class Response extends StreamedResponse
+abstract class Response extends StreamedResponse
 {
     const httpOkAny = '2XX';
     const httpErrorAny = '4XX';
@@ -131,7 +131,7 @@ class Response extends StreamedResponse
      * Support buffered or streaming responses
      * @return $this
      */
-    public function sendContent(): Response
+    protected function _sendContent(): Response
     {
         if ($this->streaming) {
             $this->headers->set(Constants::trailer, Constants::odataError);

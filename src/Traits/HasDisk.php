@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Traits;
 
+use Flat3\Lodata\Helper\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 trait HasDisk
@@ -37,11 +39,11 @@ trait HasDisk
     }
 
     /**
-     * Get the attached disk
-     * @return FilesystemAdapter Disk
+     * Get a Filesystem instance to work with the disk
+     * @return Filesystem
      */
-    public function getDisk(): FilesystemAdapter
+    public function getFilesystem(): Filesystem
     {
-        return $this->disk;
+        return App::makeWith(Filesystem::class)->setDisk($this->disk);
     }
 }

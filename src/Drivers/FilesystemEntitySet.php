@@ -21,9 +21,7 @@ use Flat3\Lodata\Traits\HasDisk;
 use Flat3\Lodata\Transaction\MediaType;
 use Generator;
 use GuzzleHttp\Psr7\Uri;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
-use League\Flysystem\FileNotFoundException;
 
 /**
  * Class FilesystemEntitySet
@@ -36,7 +34,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     public function __construct(string $identifier, EntityType $entityType)
     {
         parent::__construct($identifier, $entityType);
-        $this->disk = Storage::disk();
+        $this->setDisk(Storage::disk());
     }
 
     /**
@@ -44,7 +42,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
      */
     public function query(): Generator
     {
-        $contents = $this->disk->getDriver()->listContents('', true);
+        $contents = $this->getFilesystem()->listContents('', true);
 
         foreach ($contents as $content) {
             yield $this->fromMetadata($content);
@@ -58,9 +56,9 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
      */
     public function read(PropertyValue $key): Entity
     {
-        try {
-            $metadata = $this->disk->getMetadata($this->getEntityIdPath($key));
-        } catch (FileNotFoundException $e) {
+        $metadata = $this->getFilesystem()->getMetadata($this->getEntityIdPath($key));
+
+        if (null === $metadata) {
             throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
@@ -79,13 +77,13 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
 
         $path = $body['path'];
 
-        if ($this->getDisk()->exists($path)) {
+        if ($this->getFilesystem()->exists($path)) {
             throw new ConflictException('path_exists', 'The requested path already exists');
         }
 
         $entity->setEntityId($body['path']);
-        $this->disk->put($path, base64_decode($body['$value'] ?? ''));
-        $entity['size'] = $this->disk->size($path);
+        $this->getFilesystem()->put($path, base64_decode($body['$value'] ?? ''));
+        $entity['size'] = $this->getFilesystem()->size($path);
 
         return $this->read($entity->getEntityId());
     }
@@ -96,7 +94,7 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
      */
     public function delete(PropertyValue $key): void
     {
-        $this->disk->delete($this->getEntityIdPath($key));
+        $this->getFilesystem()->delete($this->getEntityIdPath($key));
     }
 
     /**
@@ -123,16 +121,10 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
         $path = $this->getEntityIdPath($entity->getEntityId());
 
         if (array_key_exists('$value', $body)) {
-            try {
-                $this->disk->update($path, base64_decode($body['$value']));
-            } catch (FileNotFoundException $e) {
-                throw new NotFoundException();
-            }
+            $this->getFilesystem()->put($path, base64_decode($body['$value']));
         }
 
-        $entity['size'] = $this->disk->size($path);
-
-        return $entity;
+        return $this->read($key);
     }
 
     /**
@@ -144,14 +136,13 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
     {
         $entity = $this->newEntity();
 
-        foreach (['type', 'path', 'timestamp', 'size'] as $meta) {
-            if (array_key_exists($meta, $metadata)) {
-                $entity[$meta] = $metadata[$meta];
-            }
+        $entity['type'] = $this->getFilesystem()->mimeType($metadata['path']);
+
+        foreach (['path', 'timestamp', 'size'] as $meta) {
+            $entity[$meta] = $metadata[$meta];
         }
 
-        /** @var Filesystem $disk */
-        $disk = $this->getDisk();
+        $disk = $this->getFilesystem();
         $path = $entity->getEntityId()->getPrimitiveValue();
 
         $contentProperty = $this->getType()->getProperty('content');

@@ -2,6 +2,10 @@ services:
   mysql_db:
     image: "mysql:latest"
     restart: always
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
     cap_add:
       - SYS_NICE
     environment:
@@ -17,6 +21,10 @@ services:
   postgres_db:
     image: "postgres:latest"
     restart: always
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
     cap_add:
       - SYS_NICE
     environment:
@@ -31,6 +39,10 @@ services:
   sqlsrv_db:
     image: "mcr.microsoft.com/mssql/server"
     restart: always
+    expose:
+      - 1433
+    ports:
+      - 1433:1433
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"

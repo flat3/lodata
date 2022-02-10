@@ -21,6 +21,7 @@ class FilesystemTest extends EntitySetCreateTest
                 ->body([
                     'path' => 'd1/a2.txt',
                     'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                    '$value' => 'dGVzdA==',
                 ])
                 ->post()
                 ->path($this->entitySetPath),
@@ -39,6 +40,7 @@ class FilesystemTest extends EntitySetCreateTest
                 ->body([
                     'path' => 'd1/a2.txt',
                     'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                    '$value' => 'dGVzdA==',
                 ]),
             Response::HTTP_CREATED
         );
@@ -54,6 +56,7 @@ class FilesystemTest extends EntitySetCreateTest
                 ->body([
                     'path' => 'd1/a2.txt',
                     'timestamp' => (new DateTimeOffset(Carbon::createFromTimeString('2020-01-01 01:01:01')))->toJson(),
+                    '$value' => 'dGVzdA==',
                 ])
         );
 

@@ -58,6 +58,7 @@ use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Transaction\Version;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use JsonException;
 use Ramsey\Uuid\UuidInterface;
@@ -258,7 +259,7 @@ class Transaction
     public function initialize(RequestInterface $request): self
     {
         $this->setRequest($request);
-        $this->response = new Response();
+        $this->response = App::make(Response::class);
 
         $this->version = new Version(
             $this->getRequestHeader(Constants::odataVersion),

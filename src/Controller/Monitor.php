@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 
 /**
  * Monitor
@@ -35,14 +35,14 @@ class Monitor extends Controller
 
         $meta = $job->getResultMetadata();
 
-        $response = new Response();
+        $response = App::make(Response::class);
         $response->headers->replace($meta['headers']);
         $response->headers->set('asyncresult', (string) $meta['status']);
         $response->setCallback(function () use ($job) {
-            try {
-                $resultStream = $job->getResultStream();
+            $resultStream = $job->getResultStream();
+
+            if ($resultStream) {
                 fpassthru($resultStream);
-            } catch (FileNotFoundException $e) {
             }
 
             $job->destroy();

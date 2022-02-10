@@ -1,8 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tests (mysql)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
     <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="lodata:latest" />
+      </PhpTestInterpreterSettings>
       <envs>
-        <env name="DATABASE_URL" value="mysql://root:my-secret-pw@127.0.0.1:55012/testing" />
+        <env name="DATABASE_URL" value="mysql://root:my-secret-pw@127.0.0.1:3306/testing" />
       </envs>
     </CommandLine>
     <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
