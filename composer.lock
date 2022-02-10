@@ -5976,27 +5976,27 @@
         },
         {
             "name": "josiasmontag/laravel-redis-mock",
-            "version": "1.2.6",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/josiasmontag/laravel-redis-mock.git",
-                "reference": "378aa6bdb04775d38b5a83d63eb2e2de0e81cb7e"
+                "reference": "cd838eb3b5af6b006417ca6a87469743a6a3a48e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/josiasmontag/laravel-redis-mock/zipball/378aa6bdb04775d38b5a83d63eb2e2de0e81cb7e",
-                "reference": "378aa6bdb04775d38b5a83d63eb2e2de0e81cb7e",
+                "url": "https://api.github.com/repos/josiasmontag/laravel-redis-mock/zipball/cd838eb3b5af6b006417ca6a87469743a6a3a48e",
+                "reference": "cd838eb3b5af6b006417ca6a87469743a6a3a48e",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^5.8.30|^6.0|^7.0|^8.0",
-                "m6web/redis-mock": "^4.2",
+                "laravel/framework": "^5.8.30|^6.0|^7.0|^8.0|^9.0",
+                "m6web/redis-mock": "^4.2|^5.0",
                 "php": ">=7.1.0",
                 "predis/predis": "^1.1"
             },
             "require-dev": {
-                "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0",
-                "phpunit/phpunit": "^7.0|^8.0"
+                "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0|^7.0",
+                "phpunit/phpunit": "^7.0|^8.0|^9.5.10"
             },
             "type": "library",
             "extra": {
@@ -6031,9 +6031,9 @@
             ],
             "support": {
                 "issues": "https://github.com/josiasmontag/laravel-redis-mock/issues",
-                "source": "https://github.com/josiasmontag/laravel-redis-mock/tree/1.2.6"
+                "source": "https://github.com/josiasmontag/laravel-redis-mock/tree/1.3.0"
             },
-            "time": "2020-09-09T12:21:41+00:00"
+            "time": "2022-02-09T11:07:04+00:00"
         },
         {
             "name": "league/csv",
@@ -6171,23 +6171,23 @@
         },
         {
             "name": "m6web/redis-mock",
-            "version": "v4.7.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BedrockStreaming/RedisMock.git",
-                "reference": "057ad8e1bea903aee54642e310d900bdb794372c"
+                "reference": "958abce71d8f2bf6a5ce9ccfde0168408ee105cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BedrockStreaming/RedisMock/zipball/057ad8e1bea903aee54642e310d900bdb794372c",
-                "reference": "057ad8e1bea903aee54642e310d900bdb794372c",
+                "url": "https://api.github.com/repos/BedrockStreaming/RedisMock/zipball/958abce71d8f2bf6a5ce9ccfde0168408ee105cb",
+                "reference": "958abce71d8f2bf6a5ce9ccfde0168408ee105cb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.0"
             },
             "require-dev": {
-                "atoum/atoum": "master-dev",
+                "atoum/atoum": "~3.4||~4.0",
                 "predis/predis": "~1.1"
             },
             "type": "library",
@@ -6214,9 +6214,9 @@
             ],
             "support": {
                 "issues": "https://github.com/BedrockStreaming/RedisMock/issues",
-                "source": "https://github.com/BedrockStreaming/RedisMock/tree/v4.7.0"
+                "source": "https://github.com/BedrockStreaming/RedisMock/tree/v5.2.0"
             },
-            "time": "2019-11-04T09:03:23+00:00"
+            "time": "2022-01-24T09:32:59+00:00"
         },
         {
             "name": "mockery/mockery",
