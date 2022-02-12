@@ -33,10 +33,9 @@ RUN curl -o /usr/bin/composer https://getcomposer.org/download/latest-stable/com
 RUN chmod +x /usr/bin/composer
 
 # Download CC reporter
-RUN if [ "$PHP" = "81" ]; then \
+RUN \
     curl -Lo /usr/bin/cc-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64; \
-    chmod +x /usr/bin/cc-reporter; \
-    fi
+    chmod +x /usr/bin/cc-reporter
 
 # Create ini file
 RUN printf "zend_extension=xdebug.so\nxdebug.mode=off\nmemory_limit=-1\n" > /etc/php${PHP}/conf.d/99_lodata.ini
@@ -50,7 +49,7 @@ RUN if [ ! -e /usr/bin/php ]; then \
     fi
 
 # Install sqlsrv drivers
-RUN if [ "$PHP" = "81" ]; then \
+RUN \
     apk add autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear; \
     curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk; \
     curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk; \
@@ -59,7 +58,7 @@ RUN if [ "$PHP" = "81" ]; then \
     pecl install sqlsrv; \
     pecl install pdo_sqlsrv; \
     echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
-    echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
-    fi
+    echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.in\
+
 
 WORKDIR /lodata

@@ -42,7 +42,7 @@ jobs:
           context: .
           push: true
           tags: |
-            lodata/lodata:${{ matrix.tag }}
+            flat3/lodata/test:${{ matrix.tag }}
           build-args: |
             ALPINE=${{ matrix.alpine }}
             PHP=${{ matrix.php }}
