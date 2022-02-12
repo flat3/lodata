@@ -42,7 +42,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ matrix.tag }}
+            ghcr.io/flat3/lodata:${{ matrix.tag }}
           build-args: |
             ALPINE=${{ matrix.alpine }}
             PHP=${{ matrix.php }}
