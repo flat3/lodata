@@ -53,7 +53,7 @@ services:
       interval: 1s
 
   mysql:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     environment:
@@ -64,7 +64,7 @@ services:
     entrypoint: "composer test"
 
   postgres:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     environment:
@@ -75,7 +75,7 @@ services:
     entrypoint: "composer test"
 
   sqlsrv:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     environment:
@@ -86,31 +86,31 @@ services:
     entrypoint: "composer test"
 
   sqlite:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     entrypoint: "composer test"
 
   require:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     entrypoint: "composer require $PACKAGE"
 
   update:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     entrypoint: "composer update"
 
   analyse:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     entrypoint: "composer analyse"
 
   coverage:
-    image: lodata:$PHP
+    image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
     environment:
