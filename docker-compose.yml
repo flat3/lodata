@@ -53,94 +53,64 @@ services:
       interval: 1s
 
   mysql:
-    image: lodata
+    image: lodata:$PHP
     volumes:
       - .:/lodata
     environment:
       - DATABASE_URL=mysql://root:my-secret-pw@mysql_db:3306/testing
-    entrypoint: "composer test"
     depends_on:
       mysql_db:
         condition: service_healthy
+    entrypoint: "composer test"
 
   postgres:
-    image: lodata
+    image: lodata:$PHP
     volumes:
       - .:/lodata
     environment:
       - DATABASE_URL=pgsql://postgres:my-secret-pw@postgres_db:5432/postgres?charset=utf8
-    entrypoint: "composer test"
     depends_on:
       postgres_db:
         condition: service_healthy
+    entrypoint: "composer test"
 
   sqlsrv:
-    image: lodata
+    image: lodata:$PHP
     volumes:
       - .:/lodata
     environment:
       - DATABASE_URL=sqlsrv://sa:Your_password123@sqlsrv_db:1433/msdb
-    entrypoint: "composer test"
     depends_on:
       sqlsrv_db:
         condition: service_healthy
+    entrypoint: "composer test"
 
-  php73:
-    image: lodata
+  sqlite:
+    image: lodata:$PHP
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.12
-        - PHP=7
+    entrypoint: "composer test"
 
-  php74:
-    image: lodata
+  require:
+    image: lodata:$PHP
     volumes:
       - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=7
-
-  php80:
-    image: lodata
-    volumes:
-      - .:/lodata
-    build:
-      args:
-        - ALPINE=3.15
-        - PHP=8
-
-  php81:
-    image: lodata
-    volumes:
-      - .:/lodata
-    build:
-      args:
-        - ALPINE=edge
-        - PHP=81
+    entrypoint: "composer require $PACKAGE"
 
   update:
-    image: lodata
+    image: lodata:$PHP
     volumes:
       - .:/lodata
     entrypoint: "composer update"
 
-  test:
-    image: lodata
-    volumes:
-      - .:/lodata
-    entrypoint: "composer test"
-
   analyse:
-    image: lodata
+    image: lodata:$PHP
     volumes:
       - .:/lodata
     entrypoint: "composer analyse"
 
   coverage:
-    image: lodata
+    image: lodata:$PHP
     volumes:
       - .:/lodata
     environment:

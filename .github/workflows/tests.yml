@@ -8,91 +8,56 @@ on:
     types: [ ready_for_review, synchronize, opened ]
 
 jobs:
-  php81:
+  test:
     runs-on: ubuntu-latest
-    name: PHP 8.1
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ 73, 74, 80, 81 ]
+        laravel: [ 8, 9 ]
+        database: [ sqlite, sqlsrv, postgres, mysql ]
+        exclude:
+          - php: 73
+            laravel: 9
+          - php: 74
+            laravel: 9
+    name: PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }} / Database:${{matrix.database}}
+    env:
+      PHP: ${{ matrix.php }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build
-        run: docker compose up php81
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Update
-        run: docker compose up update
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
 
-      - name: Test
-        run: docker compose up --exit-code-from test test
+      - name: Install Composer dependencies
+        run: |
+          docker compose run require "laravel/framework:${{ matrix.laravel }}"
+          docker compose up update
 
-      - name: MySQL
-        run: docker compose up --exit-code-from mysql mysql
-
-      - name: SQL Server
-        run: docker compose up --exit-code-from sqlsrv sqlsrv
-
-      - name: PostgreSQL
-        run: docker compose up --exit-code-from postgres postgres
+      - name: Run tests
+        run: docker compose up --exit-code-from ${{ matrix.database }} ${{ matrix.database }}
 
       - name: Shutdown
         run: docker compose down
 
-  php80:
-    runs-on: ubuntu-latest
-    name: PHP 8.0
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: docker compose up php80
-
-      - name: Update
-        run: docker compose up update
-
-      - name: Test
-        run: docker compose up --exit-code-from test test
-
-  php74:
-    runs-on: ubuntu-latest
-    name: PHP 7.4
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: docker compose up php74
-
-      - name: Update
-        run: docker compose up update
-
-      - name: Test
-        run: docker compose up --exit-code-from test test
-
-  php73:
-    runs-on: ubuntu-latest
-    name: PHP 7.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: docker compose up php73
-
-      - name: Update
-        run: docker compose up update
-
-      - name: Test
-        run: docker compose up --exit-code-from test test
-
   analysis:
     runs-on: ubuntu-latest
     name: Analysis
+    env:
+      PHP: 81
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Build
-        run: docker compose up php81
 
       - name: Update
         run: docker compose up update

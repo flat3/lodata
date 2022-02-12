@@ -58,7 +58,6 @@ RUN \
     pecl install sqlsrv; \
     pecl install pdo_sqlsrv; \
     echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
-    echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.in\
-
+    echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
 
 WORKDIR /lodata
