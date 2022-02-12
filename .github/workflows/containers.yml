@@ -35,7 +35,7 @@ jobs:
       - name: Build and Push Docker Image
         env:
           REGISTRY: ghcr.io
-          OWNER: lodata
+          OWNER: flat3
           IMAGE_NAME: lodata
         uses: docker/build-push-action@v2
         with:
