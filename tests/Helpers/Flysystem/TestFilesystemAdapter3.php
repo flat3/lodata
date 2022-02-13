@@ -13,6 +13,9 @@ use League\Flysystem\FileAttributes;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 
+/**
+ * Flysystem 3.x test adapter
+ */
 class TestFilesystemAdapter3 extends LocalFilesystemAdapter
 {
     public function bind()

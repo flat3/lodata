@@ -1,9 +1,4 @@
 <?php
 
-namespace Flat3\Lodata\Helper\Symfony;
-
-use Symfony\Component\HttpFoundation\Response;
-
-class Response5 extends Response
-{
-}
+// Shim to prevent fatal errors when loading the response class
+require_once(__DIR__.'/PHPStan/Response5.php');

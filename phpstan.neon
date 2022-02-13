@@ -10,4 +10,4 @@ parameters:
             - src/Helper/Symfony/Response5.php
         analyse:
             - src/Helper/Flysystem/Flysystem1.php
-            - tests/Helpers/Flysystem/TestFilesystemAdapter2.php
+            - tests/Helpers/Flysystem/TestFilesystemAdapter1.php

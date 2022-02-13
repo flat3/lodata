@@ -11,7 +11,10 @@ use League\Flysystem\Adapter\Local as LocalAdapter;
 use League\Flysystem\Filesystem as Flysystem;
 use SplFileInfo;
 
-class TestFilesystemAdapter2
+/**
+ * Flysystem 1.x test adapter
+ */
+class TestFilesystemAdapter1
 {
     public function bind()
     {
