@@ -114,7 +114,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         // @phpstan-ignore-next-line
         Redis::flushdb();
-        
+
         (new Filesystem)->cleanDirectory(TestFilesystemAdapter::root());
 
         $this->setUpDriver();

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Helper;
 
-use Illuminate\Filesystem\FilesystemAdapter;
+use Flat3\Lodata\Traits\HasDisk;
 use Illuminate\Support\Traits\ForwardsCalls;
 
 /**
+ * Abstraction layer over Flysystem to provide the same API for some v1 and v3 calls.
+ *
  * @method exists(string $path):bool;
  * @method get(string $path): string;
  * @method readStream(string $path): ?resource;
@@ -34,16 +36,7 @@ use Illuminate\Support\Traits\ForwardsCalls;
 abstract class Filesystem
 {
     use ForwardsCalls;
-
-    /** @var FilesystemAdapter $disk */
-    protected $disk;
-
-    public function setDisk(FilesystemAdapter $disk): self
-    {
-        $this->disk = $disk;
-
-        return $this;
-    }
+    use HasDisk;
 
     abstract public function listContents($directory = '', $recursive = false): ?iterable;
 
