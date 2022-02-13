@@ -47,7 +47,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
                 $tree = $computeParser->generateTree($computedProperty->getExpression());
 
                 $enumerable = $enumerable->map(function ($item) use ($computedProperty, $tree) {
-                    $value = Common::evaluate($tree, $this->newEntity()->fromSource($item));
+                    $value = Common::evaluate($tree, $this->toEntity($item));
                     $item[$computedProperty->getName()] = $value instanceof Primitive ? $value->get() : $value;
 
                     return $item;
@@ -68,7 +68,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
             $tree = $parser->generateTree($search->getValue());
 
             $enumerable = $enumerable->filter(function ($item) use ($tree) {
-                $result = Search::evaluate($tree, $this->newEntity()->fromSource($item));
+                $result = Search::evaluate($tree, $this->toEntity($item));
                 return $result !== null && !!$result->get();
             });
         }
@@ -94,11 +94,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         }
 
         foreach ($enumerable->all() as $key => $item) {
-            $entity = $this->newEntity();
-            $entity->setEntityId($key);
-            $entity->fromSource($item);
-
-            yield $entity;
+            yield $this->toEntity($item, $key);
         }
     }
 
@@ -119,7 +115,7 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
         $tree = $parser->generateTree($this->getFilter()->getExpression());
 
         return $enumerable->filter(function ($item) use ($tree) {
-            $result = Common::evaluate($tree, $this->newEntity()->fromSource($item));
+            $result = Common::evaluate($tree, $this->toEntity($item));
             return $result !== null && !!$result->get();
         });
     }
@@ -163,11 +159,6 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
 
         $item = $this->fillRecord($item);
 
-        $entity = $this->newEntity();
-        $entity['id'] = $key->getPrimitiveValue();
-        $entity->fromSource($item);
-        $entity->generateComputedProperties();
-
-        return $entity;
+        return $this->toEntity($item, $key)->generateComputedProperties();
     }
 }

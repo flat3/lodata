@@ -62,14 +62,15 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     {
         $entity = $this->newEntity();
 
+        /** @var PropertyValue $propertyValue */
         foreach ($propertyValues as $propertyValue) {
-            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getValue();
+            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitive()->toMixed();
         }
 
         $entityId = $entity->getEntityId();
         $index = $this->getIndex();
 
-        $item = $entity->toArray();
+        $item = $this->toArray($entity);
 
         switch (true) {
             case !!$entityId:
@@ -98,6 +99,10 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     public function delete(PropertyValue $key): void
     {
         $this->enumerable->forget($key->getPrimitiveValue());
+
+        if ($this->isNumericallyIndexed()) {
+            $this->enumerable = $this->enumerable->values();
+        }
     }
 
     /**
@@ -117,16 +122,16 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
 
             switch (true) {
                 case $propertyValue instanceof ComplexValue:
-                    $entity[$propertyName] = $propertyValue->toArray();
+                    $entity[$propertyName] = $this->toArray($propertyValue);
                     break;
 
                 case $propertyValue instanceof Primitive:
-                    $entity[$propertyName] = $propertyValue->get();
+                    $entity[$propertyName] = $propertyValue->toMixed();
                     break;
             }
         }
 
-        $item = $entity->toArray();
+        $item = $this->toArray($entity);
         unset($item['id']);
 
         $this->enumerable[$key->getPrimitiveValue()] = $item;

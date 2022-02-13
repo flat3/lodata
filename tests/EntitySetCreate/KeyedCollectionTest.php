@@ -60,4 +60,23 @@ class KeyedCollectionTest extends EntitySetCreateTest
 
         $this->assertResponseHeaderSnapshot($response);
     }
+
+    public function test_modified_source_name()
+    {
+        $this->withModifiedPropertySourceName();
+
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'id' => 'zeta',
+                    'name' => 'Zeta',
+                    'aage' => 22,
+                ]),
+            Response::HTTP_CREATED
+        );
+
+        $this->assertCollectionRecord('zeta');
+    }
 }

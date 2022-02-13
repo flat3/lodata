@@ -42,6 +42,11 @@ class Byte extends Numeric
         return $this->value;
     }
 
+    public function toMixed(): ?int
+    {
+        return $this->value;
+    }
+
     public function set($value): self
     {
         $this->value = null === $value ? null : $this->repack($value);

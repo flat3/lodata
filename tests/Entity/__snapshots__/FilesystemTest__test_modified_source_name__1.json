@@ -1,0 +1,7 @@
+{
+    "@context": "http://localhost/odata/$metadata#disk/$entity",
+    "type": "text/plain",
+    "path": "a1.txt",
+    "size": 5,
+    "ttimestamp": "2020-01-01T01:01:01+00:00"
+}

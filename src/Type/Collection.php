@@ -42,6 +42,13 @@ class Collection extends Primitive implements ArrayAccess
         }, $this->value);
     }
 
+    public function toMixed(): ?array
+    {
+        return null === $this->value ? null : array_map(function (Primitive $value) {
+            return $value->toMixed();
+        }, $this->value);
+    }
+
     public function offsetExists($offset): bool
     {
         return isset($this->value[$offset]);

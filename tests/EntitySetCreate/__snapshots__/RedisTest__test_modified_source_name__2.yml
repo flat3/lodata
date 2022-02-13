@@ -1,0 +1,7 @@
+headers:
+    cache-control: ['no-cache, private']
+    content-type: [application/json]
+    odata-version: ['4.01']
+    location: ['http://localhost/odata/passengers(''zeta'')']
+    etag: ['W/"a16c7639ad91b86b7f97ae954591a80f88382cce8e981a2fd470188e39e0519c"']
+status: 201

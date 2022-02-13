@@ -50,6 +50,11 @@ class Enum extends Primitive
         return $this->getEnumerationValue();
     }
 
+    public function toMixed(): string
+    {
+        return $this->getEnumerationValue();
+    }
+
     public function set($value): self
     {
         $this->clear();

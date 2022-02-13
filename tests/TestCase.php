@@ -15,6 +15,8 @@ use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Helpers\TestFilesystemAdapter;
+use Flat3\Lodata\Tests\Helpers\UseCollectionAssertions;
+use Flat3\Lodata\Tests\Helpers\UseRedisAssertions;
 use Flat3\Lodata\Tests\Helpers\UseDatabaseAssertions;
 use Flat3\Lodata\Tests\Helpers\UseODataAssertions;
 use Flat3\Lodata\Tests\Helpers\UseSnapshots;
@@ -40,7 +42,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MatchesSnapshots;
     use WithoutMiddleware;
+    use UseCollectionAssertions;
     use UseDatabaseAssertions;
+    use UseRedisAssertions;
     use UseODataAssertions;
     use UseSnapshots;
 
@@ -156,11 +160,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    protected function setUpDriver()
+    protected function setUpDriver(): void
     {
     }
 
-    protected function tearDownDriver()
+    protected function tearDownDriver(): void
     {
     }
 
@@ -424,5 +428,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                     yield $entity;
                 }
             });
+    }
+
+    protected function withModifiedPropertySourceName()
+    {
+        $passengerSet = Lodata::getEntitySet($this->entitySet);
+        $ageProperty = $passengerSet->getType()->getProperty('age');
+        $ageProperty->setName('aage');
+        $passengerSet->getType()->getProperties()->reKey();
+        $passengerSet->setPropertySourceName($ageProperty, 'age');
     }
 }

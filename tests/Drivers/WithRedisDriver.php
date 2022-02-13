@@ -26,9 +26,15 @@ trait WithRedisDriver
         $this->addPassengerProperties($entityType);
         $entitySet = new RedisEntitySet($this->entitySet, $entityType);
         Lodata::add($entitySet);
+        $this->captureRedisState();
     }
 
-    public function assertRedisRecord($key): void
+    protected function tearDownDriver(): void
+    {
+        $this->assertRedisDiffSnapshot();
+    }
+
+    protected function assertRedisRecord($key): void
     {
         // @phpstan-ignore-next-line
         $this->assertMatchesObjectSnapshot(unserialize(Redis::get($key)));

@@ -76,6 +76,11 @@ class DateTimeOffset extends Primitive
         return $this->value->format($this::dateFormat);
     }
 
+    public function toMixed(): ?string
+    {
+        return null === $this->value ? null : $this->value->toDateTimeString();
+    }
+
     public static function fromLexer(Lexer $lexer): Primitive
     {
         /** @phpstan-ignore-next-line */

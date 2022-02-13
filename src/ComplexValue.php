@@ -244,7 +244,7 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
 
             switch (true) {
                 case $propertyType instanceof PrimitiveType:
-                    $result[$propertyName] = $propertyValue->getPrimitiveValue();
+                    $result[$propertyName] = $propertyValue->getPrimitive()->toMixed();
                     break;
 
                 case $propertyType instanceof ComplexType:
@@ -363,20 +363,6 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
         }
 
         $transaction->outputJsonObjectEnd();
-    }
-
-    /**
-     * Generate a complex value from a source object or key/value array
-     * @param  array|object  $object  Source object
-     * @return $this
-     */
-    public function fromSource($object): self
-    {
-        foreach ($object as $key => $value) {
-            $this[$key] = $value;
-        }
-
-        return $this;
     }
 
     /**

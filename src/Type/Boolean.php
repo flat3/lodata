@@ -37,6 +37,11 @@ class Boolean extends Primitive
         return $this->value;
     }
 
+    public function toMixed(): ?bool
+    {
+        return $this->value;
+    }
+
     public function set($value): self
     {
         if (is_bool($value)) {

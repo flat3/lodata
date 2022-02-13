@@ -9,7 +9,7 @@ jobs:
         include:
           - alpine: edge
             tag: 81
-            php: 8
+            php: 81
           - alpine: 3.15
             tag: 80
             php: 8

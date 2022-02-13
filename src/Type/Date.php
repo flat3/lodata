@@ -30,6 +30,11 @@ class Date extends DateTimeOffset
         return $dt->setTime(0, 0, 0, 0);
     }
 
+    public function toMixed(): ?string
+    {
+        return null === $this->value ? null : $this->value->toDateString();
+    }
+
     public static function fromLexer(Lexer $lexer): Primitive
     {
         /** @phpstan-ignore-next-line */

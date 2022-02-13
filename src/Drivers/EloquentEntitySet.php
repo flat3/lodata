@@ -169,7 +169,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $model = $entity->getSource();
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
+            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitiveValue();
         }
 
         $model->save();
@@ -188,7 +188,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         /** @var DeclaredProperty $declaredProperty */
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
+            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitiveValue();
         }
 
         if ($this->navigationSource) {
@@ -322,12 +322,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         foreach ($this->getType()->getDeclaredProperties() as $declaredProperty) {
             $propertyValue = $entity->newPropertyValue();
             $propertyValue->setProperty($declaredProperty);
-            $propertyValue->setValue($declaredProperty->getType()->instance($model->{$declaredProperty->getName()}));
+            $propertyValue->setValue($declaredProperty->getType()->instance($model->{$this->getPropertySourceName($declaredProperty)}));
             $entity->addPropertyValue($propertyValue);
         }
 
         foreach ($this->getCompute()->getProperties() as $computedProperty) {
-            $value = $model->{$computedProperty->getName()};
+            $value = $model->{$this->getPropertySourceName($computedProperty)};
 
             if (is_string($value) && is_numeric($value)) {
                 $value = json_decode($value);
@@ -352,7 +352,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         switch (true) {
             case $property instanceof DeclaredProperty:
-                $expression->pushStatement($model->qualifyColumn($property->getName()));
+                $expression->pushStatement($model->qualifyColumn($this->getPropertySourceName($property)));
                 break;
 
             case $property instanceof ComputedProperty:
@@ -545,15 +545,5 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         return $property;
-    }
-
-    /**
-     * Get the underlying database field name for the given entity type property
-     * @param  Property  $property  Property
-     * @return string Field name
-     */
-    protected function getPropertySourceName(Property $property): string
-    {
-        return $property->getName();
     }
 }

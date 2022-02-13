@@ -452,4 +452,14 @@ abstract class EntityTest extends TestCase
                 ->id(sprintf("%s(%s)", $this->entitySet, $this->escapedEntityId))
         );
     }
+
+    public function test_modified_source_name()
+    {
+        $this->withModifiedPropertySourceName();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath.'('.$this->escapedEntityId.')')
+        );
+    }
 }

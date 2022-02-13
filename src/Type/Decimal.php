@@ -67,6 +67,11 @@ class Decimal extends Numeric
         return $this->value;
     }
 
+    public function toMixed(): ?float
+    {
+        return $this->value;
+    }
+
     public function toUrl(): string
     {
         if (null === $this->value) {

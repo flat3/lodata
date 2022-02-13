@@ -30,6 +30,11 @@ class TimeOfDay extends DateTimeOffset
         return $dt->setDate(1970, 1, 1);
     }
 
+    public function toMixed(): ?string
+    {
+        return null === $this->value ? null : $this->value->toTimeString();
+    }
+
     public static function fromLexer(Lexer $lexer): Primitive
     {
         /** @phpstan-ignore-next-line */

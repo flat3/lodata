@@ -30,4 +30,18 @@ trait WithFilesystemDriver
 
         Lodata::add($entitySet);
     }
+
+    protected function assertFile(string $path)
+    {
+        $this->assertMatchesSnapshot(Storage::disk('testing')->get($path));
+    }
+
+    protected function withModifiedPropertySourceName()
+    {
+        $passengerSet = Lodata::getEntitySet($this->entitySet);
+        $ageProperty = $passengerSet->getType()->getProperty('timestamp');
+        $ageProperty->setName('ttimestamp');
+        $passengerSet->getType()->getProperties()->reKey();
+        $passengerSet->setPropertySourceName($ageProperty, 'timestamp');
+    }
 }

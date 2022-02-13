@@ -192,7 +192,7 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
      */
     public function serialize(Entity $entity): string
     {
-        $data = $entity->toArray();
+        $data = $this->toArray($entity);
         unset($data[$entity->getEntityId()->getProperty()->getName()]);
         return serialize($data);
     }
@@ -213,6 +213,6 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             );
         }
 
-        return $this->newEntity()->fromSource($redisValue);
+        return $this->toEntity($redisValue);
     }
 }

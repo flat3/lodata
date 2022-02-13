@@ -55,6 +55,11 @@ class String_ extends Primitive
         return $this->value;
     }
 
+    public function toMixed(): ?string
+    {
+        return $this->value;
+    }
+
     public static function fromLexer(Lexer $lexer): Primitive
     {
         /** @phpstan-ignore-next-line */

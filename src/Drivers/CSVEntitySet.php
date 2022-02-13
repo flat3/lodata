@@ -102,7 +102,7 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
 
         foreach ($reader->getIterator() as $offset => $record) {
             $record = $this->fillRecord($record);
-            yield $this->newEntity()->setEntityId($offset)->fromSource($record)->generateComputedProperties();
+            yield $this->toEntity($record, $offset)->generateComputedProperties();
         }
     }
 
@@ -124,6 +124,6 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
 
         $row = $this->fillRecord($row);
 
-        return $this->newEntity()->setEntityId($key)->fromSource($row)->generateComputedProperties();
+        return $this->toEntity($row, $key)->generateComputedProperties();
     }
 }

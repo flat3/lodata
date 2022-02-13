@@ -98,8 +98,14 @@ trait WithEloquentDriver
         $this->captureDatabaseState();
     }
 
-    protected function tearDownDriver()
+    protected function tearDownDriver(): void
     {
         $this->assertDatabaseDiffSnapshot();
+    }
+
+    protected function assertEloquentRecord(int $key)
+    {
+        // @phpstan-ignore-next-line
+        $this->assertMatchesObjectSnapshot(Passenger::find($key)->toArray());
     }
 }

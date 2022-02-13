@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\EntitySetCreate;
 
 use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 
@@ -73,5 +74,28 @@ class RedisTest extends EntitySetCreateTest
                 ->post()
                 ->path($this->entitySetPath)
         );
+    }
+
+    public function test_modified_source_name()
+    {
+        $passengerSet = Lodata::getEntitySet($this->entitySet);
+        $ageProperty = $passengerSet->getType()->getProperty('age');
+        $ageProperty->setName('aage');
+        $passengerSet->getType()->getProperties()->reKey();
+        $passengerSet->setPropertySourceName($ageProperty, 'age');
+
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'key' => 'zeta',
+                    'name' => 'Zeta',
+                    'aage' => 22,
+                ]),
+            Response::HTTP_CREATED
+        );
+
+        $this->assertRedisRecord('zeta');
     }
 }

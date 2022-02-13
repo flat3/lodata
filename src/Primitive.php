@@ -106,6 +106,11 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     abstract public function toJson();
 
     /**
+     * Get the value as a PHP mixed type
+     */
+    abstract public function toMixed();
+
+    /**
      * Get the resource URL of this primitive type
      * @param  Transaction  $transaction  Related transaction
      * @return string Resource URL

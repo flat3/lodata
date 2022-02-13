@@ -118,4 +118,20 @@ abstract class EntitySetCreateTest extends TestCase
                 ])
         );
     }
+
+    public function test_modified_source_name()
+    {
+        $this->withModifiedPropertySourceName();
+
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'name' => 'Oobleck',
+                    'aage' => 22,
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
 }
