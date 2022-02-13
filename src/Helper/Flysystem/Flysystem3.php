@@ -8,6 +8,10 @@ use Flat3\Lodata\Helper\Filesystem;
 use League\Flysystem\DirectoryAttributes;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 
+/**
+ * Flysystem 3.x compatibility
+ * @package Flat3\Lodata\Helper\Flysystem
+ */
 class Flysystem3 extends Filesystem
 {
     public function listContents($directory = '', $recursive = false): iterable

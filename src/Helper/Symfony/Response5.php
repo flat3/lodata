@@ -8,7 +8,7 @@ use Flat3\Lodata\Controller\Response;
 
 /**
  * Response (Symfony 5)
- * @package Flat3\Lodata\Controller
+ * @package Flat3\Lodata\Helper\Symfony
  */
 class Response5 extends Response
 {

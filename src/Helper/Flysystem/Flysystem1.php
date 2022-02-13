@@ -8,6 +8,10 @@ use Flat3\Lodata\Helper\Filesystem;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\FileNotFoundException;
 
+/**
+ * Flysystem 1.x compatibility
+ * @package Flat3\Lodata\Helper\Flysystem
+ */
 class Flysystem1 extends Filesystem
 {
     public function listContents($directory = '', $recursive = false): iterable
