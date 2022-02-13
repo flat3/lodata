@@ -48,17 +48,20 @@ RUN if [ ! -e /usr/bin/php ]; then \
     fi
 
 # Install sqlsrv drivers
-RUN apk add autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear
-RUN curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk
-RUN curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk
-RUN apk add --allow-untrusted msodbcsql17_17.8.1.1-1_amd64.apk
-RUN apk add --allow-untrusted mssql-tools_17.8.1.1-1_amd64.apk
-RUN pecl install sqlsrv
-RUN pecl install pdo_sqlsrv
-RUN echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
-RUN echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
-RUN apk del autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear
-RUN rm *.apk
-RUN rm -r /tmp/pear
+RUN \
+    if [ $PHP = "81" ]; then \
+      apk add autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear; \
+      curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk; \
+      curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk; \
+      apk add --allow-untrusted msodbcsql17_17.8.1.1-1_amd64.apk; \
+      apk add --allow-untrusted mssql-tools_17.8.1.1-1_amd64.apk; \
+      pecl install sqlsrv; \
+      pecl install pdo_sqlsrv; \
+      echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
+      echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
+      apk del autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear; \
+      rm *.apk; \
+      rm -r /tmp/pear; \
+    fi
 
 WORKDIR /lodata
