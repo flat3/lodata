@@ -38,7 +38,7 @@ jobs:
           - php: 73
             laravel: 8
             database: sqlite
-    name: PHP${{ matrix.php }} / L${{ matrix.laravel }} / ${{matrix.database}}
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }} / ${{matrix.database}}
     env:
       PHP: ${{ matrix.php }}
     steps:
