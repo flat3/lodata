@@ -49,7 +49,7 @@ RUN if [ ! -e /usr/bin/php ]; then \
 
 # Install sqlsrv drivers
 RUN \
-    if [ $PHP = "8" ]; then \
+    if [ $PHP = "81" ] || [ $PHP = "8" ] || [ $PHP = "74" ]; then \
       apk add autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear; \
       curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk; \
       curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk; \
