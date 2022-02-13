@@ -29,6 +29,9 @@ jobs:
           - php: 80
             laravel: 9
             database: sqlite
+          - php: 81
+            laravel: 8
+            database: sqlite
           - php: 80
             laravel: 8
             database: sqlite
