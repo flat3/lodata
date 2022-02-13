@@ -95,7 +95,9 @@ services:
     image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
-    entrypoint: "composer require $PACKAGE"
+    environment:
+      - PACKAGE:${PACKAGE}
+    entrypoint: "composer require --no-interaction --no-update $PACKAGE"
 
   update:
     image: ghcr.io/flat3/lodata:$PHP

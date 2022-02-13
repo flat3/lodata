@@ -33,9 +33,8 @@ RUN curl -o /usr/bin/composer https://getcomposer.org/download/latest-stable/com
 RUN chmod +x /usr/bin/composer
 
 # Download CC reporter
-RUN \
-    curl -Lo /usr/bin/cc-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64; \
-    chmod +x /usr/bin/cc-reporter
+RUN curl -Lo /usr/bin/cc-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+RUN chmod +x /usr/bin/cc-reporter
 
 # Create ini file
 RUN printf "zend_extension=xdebug.so\nxdebug.mode=off\nmemory_limit=-1\n" > /etc/php${PHP}/conf.d/99_lodata.ini
@@ -49,15 +48,17 @@ RUN if [ ! -e /usr/bin/php ]; then \
     fi
 
 # Install sqlsrv drivers
-RUN \
-    apk add autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear; \
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk; \
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk; \
-    apk add --allow-untrusted msodbcsql17_17.8.1.1-1_amd64.apk; \
-    apk add --allow-untrusted mssql-tools_17.8.1.1-1_amd64.apk; \
-    pecl install sqlsrv; \
-    pecl install pdo_sqlsrv; \
-    echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini; \
-    echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
+RUN apk add autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear
+RUN curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.8.1.1-1_amd64.apk
+RUN curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.8.1.1-1_amd64.apk
+RUN apk add --allow-untrusted msodbcsql17_17.8.1.1-1_amd64.apk
+RUN apk add --allow-untrusted mssql-tools_17.8.1.1-1_amd64.apk
+RUN pecl install sqlsrv
+RUN pecl install pdo_sqlsrv
+RUN echo extension=pdo_sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
+RUN echo extension=sqlsrv.so >> /etc/php${PHP}/conf.d/99_lodata.ini
+RUN apk del autoconf make unixodbc-dev g++ php${PHP}-dev php${PHP}-pear
+RUN rm *.apk
+RUN rm -r /tmp/pear
 
 WORKDIR /lodata

@@ -16,12 +16,32 @@ jobs:
         php: [ 73, 74, 80, 81 ]
         laravel: [ 8, 9 ]
         database: [ sqlite, sqlsrv, postgres, mysql ]
-        exclude:
-          - php: 73
+        include:
+          - php: 81
             laravel: 9
+            database: sqlite
+          - php: 81
+            laravel: 9
+            database: sqlsrv
+          - php: 81
+            laravel: 9
+            database: postgres
+          - php: 81
+            laravel: 9
+            database: mysql
+          - php: 80
+            laravel: 9
+            database: sqlite
+          - php: 80
+            laravel: 8
+            database: sqlite
           - php: 74
-            laravel: 9
-    name: PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }} / Database:${{matrix.database}}
+            laravel: 8
+            database: sqlite
+          - php: 73
+            laravel: 8
+            database: sqlite
+    name: PHP${{ matrix.php }} / L${{ matrix.laravel }} / ${{matrix.database}}
     env:
       PHP: ${{ matrix.php }}
     steps:
@@ -40,8 +60,10 @@ jobs:
           restore-keys: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
 
       - name: Install Composer dependencies
+        env:
+          PACKAGE: "laravel/framework:^${{ matrix.laravel }}.0"
         run: |
-          docker compose run require "laravel/framework:${{ matrix.laravel }}"
+          docker compose up require
           docker compose up update
 
       - name: Run tests
