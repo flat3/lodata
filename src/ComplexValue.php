@@ -366,20 +366,6 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
     }
 
     /**
-     * Generate a complex value from a source object or key/value array
-     * @param  array|object  $object  Source object
-     * @return $this
-     */
-    public function fromSource($object): self
-    {
-        foreach ($object as $key => $value) {
-            $this[$key] = $value;
-        }
-
-        return $this;
-    }
-
-    /**
      * Get the ETag for this complex value
      * @return string ETag
      */

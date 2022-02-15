@@ -100,6 +100,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     protected $navigationSource;
 
     /**
+     * Mapping of OData properties to source identifiers
+     * @var ObjectArray $sourceMap
+     */
+    protected $sourceMap;
+
+    /**
      * Whether to apply system query options on this entity set instance
      * @var bool $applyQueryOptions
      */
@@ -108,6 +114,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     public function __construct(string $identifier, ?EntityType $entityType = null)
     {
         $this->setIdentifier($identifier);
+        $this->sourceMap = new ObjectArray();
 
         if ($entityType) {
             $this->setType($entityType);
@@ -1062,5 +1069,56 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 'The provided query had no properties marked searchable'
             );
         }
+    }
+
+    /**
+     * Get the underlying source name for the given property
+     * @param  Property  $property  Property
+     * @return string Source name
+     */
+    public function getPropertySourceName(Property $property): string
+    {
+        return $this->sourceMap[$property] ?? $property->getName();
+    }
+
+    /**
+     * Set an underlying source name for the given property
+     * @param  Property  $property  Property
+     * @param  string  $sourceName  Source name
+     * @return $this
+     */
+    public function setPropertySourceName(Property $property, string $sourceName): self
+    {
+        $this->sourceMap[$property] = $sourceName;
+
+        return $this;
+    }
+
+    /**
+     * Generate an entity from a source record
+     * @param  array  $record  Source object
+     * @param  mixed|null  $entityId  Entity ID
+     * @return Entity
+     */
+    protected function toEntity(array $record, $entityId = null): Entity
+    {
+        $entity = $this->newEntity();
+
+        if (null !== $entityId) {
+            $entity->setEntityId($entityId);
+        }
+
+        foreach ($this->sourceMap as $propertyName => $sourceName) {
+            if (array_key_exists($sourceName, $record)) {
+                $record[$propertyName] = $record[$sourceName];
+                unset($record[$sourceName]);
+            }
+        }
+
+        foreach ($record as $key => $value) {
+            $entity[$key] = $value;
+        }
+
+        return $entity;
     }
 }

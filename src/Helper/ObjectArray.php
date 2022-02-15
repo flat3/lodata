@@ -373,4 +373,17 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     {
         return array_merge([], $this->array);
     }
+
+    /**
+     * Re-key the array if the contained items have changed names
+     * @return $this
+     */
+    public function reKey(): self
+    {
+        $this->array = collect($this->array)->mapWithKeys(function ($item) {
+            return [(string) $item => $item];
+        })->all();
+
+        return $this;
+    }
 }

@@ -19,7 +19,6 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
-use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
@@ -66,12 +65,6 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     public const SQLServer = 'sqlsrv';
 
     /**
-     * Mapping of OData properties to source identifiers
-     * @var ObjectArray $sourceMap
-     */
-    protected $sourceMap;
-
-    /**
      * Database connection name
      * @var string $connection
      */
@@ -87,7 +80,6 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     {
         parent::__construct($name, $entityType);
 
-        $this->sourceMap = new ObjectArray();
         $this->addAnnotation(new DeepInsertSupport());
     }
 
@@ -175,29 +167,6 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     }
 
     /**
-     * Get the underlying database field name for the given entity type property
-     * @param  Property  $property  Property
-     * @return string Field name
-     */
-    public function getPropertySourceName(Property $property): string
-    {
-        return $this->sourceMap[$property] ?? $property->getName();
-    }
-
-    /**
-     * Set an underlying database field name for the given entity type property
-     * @param  Property  $property  Property
-     * @param  string  $sourceName  Field name
-     * @return $this
-     */
-    public function setPropertySourceName(Property $property, string $sourceName): self
-    {
-        $this->sourceMap[$property] = $sourceName;
-
-        return $this;
-    }
-
-    /**
      * Read an SQL record
      * @param  PropertyValue  $key  Key
      * @return Entity|null Entity
@@ -229,7 +198,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
-        return $this->newEntity()->fromSource($this->coerceTypes($result));
+        return $this->toEntity($this->coerceTypes($result));
     }
 
     /**
@@ -338,7 +307,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $stmt = $this->pdoSelect($this->getResultExpression());
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            yield $this->newEntity()->fromSource($this->coerceTypes($row));
+            yield $this->toEntity($this->coerceTypes($row));
         }
     }
 
