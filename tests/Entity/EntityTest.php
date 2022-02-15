@@ -452,4 +452,18 @@ abstract class EntityTest extends TestCase
                 ->id(sprintf("%s(%s)", $this->entitySet, $this->escapedEntityId))
         );
     }
+
+    public function test_modified_source_name()
+    {
+        $passengerSet = Lodata::getEntitySet($this->entitySet);
+        $ageProperty = $passengerSet->getType()->getProperty('age');
+        $ageProperty->setName('aage');
+        $passengerSet->getType()->getProperties()->reKey();
+        $passengerSet->setPropertySourceName($ageProperty, 'age');
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath.'('.$this->escapedEntityId.')')
+        );
+    }
 }

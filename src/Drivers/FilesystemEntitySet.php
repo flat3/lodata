@@ -134,13 +134,15 @@ class FilesystemEntitySet extends EntitySet implements ReadInterface, CreateInte
      */
     public function fromMetadata(array $metadata): Entity
     {
-        $entity = $this->newEntity();
+        $record = [];
 
-        $entity['type'] = $this->getFilesystem()->mimeType($metadata['path']);
+        $record['type'] = $this->getFilesystem()->mimeType($metadata['path']);
 
         foreach (['path', 'timestamp', 'size'] as $meta) {
-            $entity[$meta] = $metadata[$meta];
+            $record[$meta] = $metadata[$meta];
         }
+
+        $entity = $this->toEntity($record);
 
         $disk = $this->getFilesystem();
         $path = $entity->getEntityId()->getPrimitiveValue();

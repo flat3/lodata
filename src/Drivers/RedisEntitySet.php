@@ -213,6 +213,6 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
             );
         }
 
-        return $this->newEntity()->fromSource($redisValue);
+        return $this->toEntity($redisValue);
     }
 }
