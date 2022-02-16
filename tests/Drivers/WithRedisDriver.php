@@ -28,7 +28,7 @@ trait WithRedisDriver
         Lodata::add($entitySet);
     }
 
-    public function assertRedisRecord($key): void
+    protected function assertRedisRecord($key): void
     {
         // @phpstan-ignore-next-line
         $this->assertMatchesObjectSnapshot(unserialize(Redis::get($key)));

@@ -102,4 +102,9 @@ trait WithEloquentDriver
     {
         $this->assertDatabaseDiffSnapshot();
     }
+
+    protected function assertEloquentRecord(int $key)
+    {
+        $this->assertMatchesObjectSnapshot(Passenger::find($key)->toArray());
+    }
 }

@@ -42,6 +42,11 @@ class Byte extends Numeric
         return $this->value;
     }
 
+    public function toScalar(): ?int
+    {
+        return $this->value;
+    }
+
     public function set($value): self
     {
         $this->value = null === $value ? null : $this->repack($value);

@@ -53,6 +53,11 @@ class Guid extends Primitive
         return $this->value;
     }
 
+    public function toScalar(): ?string
+    {
+        return $this->value;
+    }
+
     public static function fromLexer(Lexer $lexer): Primitive
     {
         /** @phpstan-ignore-next-line */

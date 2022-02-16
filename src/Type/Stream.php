@@ -52,6 +52,11 @@ class Stream extends Primitive
         return $this->getEncodedValueAsString();
     }
 
+    public function toScalar()
+    {
+        return $this->value;
+    }
+
     public function getEncodedValueAsString(): string
     {
         if (is_resource($this->value)) {

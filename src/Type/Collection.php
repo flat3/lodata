@@ -42,6 +42,13 @@ class Collection extends Primitive implements ArrayAccess
         }, $this->value);
     }
 
+    public function toScalar()
+    {
+        return array_map(function (Primitive $value) {
+            return $value->toScalar();
+        }, $this->value);
+    }
+
     public function offsetExists($offset): bool
     {
         return isset($this->value[$offset]);

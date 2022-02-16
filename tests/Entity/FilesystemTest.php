@@ -122,18 +122,4 @@ class FilesystemTest extends EntityTest
     public function test_read_alternative_key()
     {
     }
-
-    public function test_modified_source_name()
-    {
-        $passengerSet = Lodata::getEntitySet($this->entitySet);
-        $ageProperty = $passengerSet->getType()->getProperty('timestamp');
-        $ageProperty->setName('ttimestamp');
-        $passengerSet->getType()->getProperties()->reKey();
-        $passengerSet->setPropertySourceName($ageProperty, 'timestamp');
-
-        $this->assertJsonResponseSnapshot(
-            (new Request)
-                ->path($this->entitySetPath.'('.$this->escapedEntityId.')')
-        );
-    }
 }

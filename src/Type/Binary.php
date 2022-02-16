@@ -39,6 +39,11 @@ class Binary extends Primitive
         return null === $this->value ? null : base64_encode($this->value);
     }
 
+    public function toScalar(): ?string
+    {
+        return $this->value;
+    }
+
     public function set($value): self
     {
         $result = base64_decode(str_replace(['-', '_'], ['+', '/'], (string) $value));

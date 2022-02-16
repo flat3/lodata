@@ -97,6 +97,11 @@ class Duration extends Primitive
         return $this::numberToDuration($this->value);
     }
 
+    public function toScalar(): ?float
+    {
+        return $this->value;
+    }
+
     public function get(): ?float
     {
         return parent::get();

@@ -455,11 +455,7 @@ abstract class EntityTest extends TestCase
 
     public function test_modified_source_name()
     {
-        $passengerSet = Lodata::getEntitySet($this->entitySet);
-        $ageProperty = $passengerSet->getType()->getProperty('age');
-        $ageProperty->setName('aage');
-        $passengerSet->getType()->getProperties()->reKey();
-        $passengerSet->setPropertySourceName($ageProperty, 'age');
+        $this->withModifiedPropertySourceName();
 
         $this->assertJsonResponseSnapshot(
             (new Request)

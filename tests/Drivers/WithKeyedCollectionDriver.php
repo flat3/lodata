@@ -28,5 +28,21 @@ trait WithKeyedCollectionDriver
         $entitySet->setCollection($collection);
 
         Lodata::add($entitySet);
+        $this->captureCollectionState();
+    }
+
+    protected function tearDownDriver(): void
+    {
+        $this->assertCollectionDiffSnapshot();
+    }
+
+    protected function snapshotCollection(): array
+    {
+        return Lodata::getEntitySet($this->entitySet)->getCollection()->toArray();
+    }
+
+    protected function assertCollectionRecord(string $key)
+    {
+        $this->assertMatchesObjectSnapshot(Lodata::getEntitySet($this->entitySet)->getCollection()->get($key));
     }
 }

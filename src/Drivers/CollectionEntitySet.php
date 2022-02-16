@@ -62,8 +62,9 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     {
         $entity = $this->newEntity();
 
+        /** @var PropertyValue $propertyValue */
         foreach ($propertyValues as $propertyValue) {
-            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getValue();
+            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitive()->toScalar();
         }
 
         $entityId = $entity->getEntityId();
@@ -98,6 +99,10 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
     public function delete(PropertyValue $key): void
     {
         $this->enumerable->forget($key->getPrimitiveValue());
+
+        if ($this->isNumericallyIndexed()) {
+            $this->enumerable = $this->enumerable->values();
+        }
     }
 
     /**
@@ -121,7 +126,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
                     break;
 
                 case $propertyValue instanceof Primitive:
-                    $entity[$propertyName] = $propertyValue->get();
+                    $entity[$propertyName] = $propertyValue->toScalar();
                     break;
             }
         }

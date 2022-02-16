@@ -244,7 +244,7 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
 
             switch (true) {
                 case $propertyType instanceof PrimitiveType:
-                    $result[$propertyName] = $propertyValue->getPrimitiveValue();
+                    $result[$propertyName] = $propertyValue->getPrimitive()->toScalar();
                     break;
 
                 case $propertyType instanceof ComplexType:
