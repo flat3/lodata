@@ -105,6 +105,7 @@ trait WithEloquentDriver
 
     protected function assertEloquentRecord(int $key)
     {
+        /** @phpstan-ignore-next-line */
         $this->assertMatchesObjectSnapshot(Passenger::find($key)->toArray());
     }
 }

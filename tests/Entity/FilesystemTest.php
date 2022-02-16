@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Entity;
 
-use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 

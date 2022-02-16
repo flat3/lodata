@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Helpers;
 
+use Flat3\Lodata\Facades\Lodata;
+
 trait UseCollectionAssertions
 {
     /** @var array $collectionSnapshot */
@@ -12,6 +14,11 @@ trait UseCollectionAssertions
     protected function captureCollectionState()
     {
         $this->collectionSnapshot = $this->snapshotCollection();
+    }
+
+    protected function snapshotCollection(): array
+    {
+        return Lodata::getEntitySet($this->entitySet)->getCollection()->toArray();
     }
 
     protected function assertCollectionUnchanged()
