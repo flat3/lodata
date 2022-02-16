@@ -1171,16 +1171,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.0.2",
+            "version": "v9.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4c7cd8c4e95d161c0c6ada6efa0a5af4d0d487c9"
+                "reference": "ca7ddd4782f120ae50569d04eb9e40e52f67a9d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4c7cd8c4e95d161c0c6ada6efa0a5af4d0d487c9",
-                "reference": "4c7cd8c4e95d161c0c6ada6efa0a5af4d0d487c9",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ca7ddd4782f120ae50569d04eb9e40e52f67a9d9",
+                "reference": "ca7ddd4782f120ae50569d04eb9e40e52f67a9d9",
                 "shasum": ""
             },
             "require": {
@@ -1268,7 +1268,6 @@
                 "phpstan/phpstan": "^1.0",
                 "phpunit/phpunit": "^9.5.8",
                 "predis/predis": "^1.1.9",
-                "symfony/amazon-mailer": "^6.0",
                 "symfony/cache": "^6.0"
             },
             "suggest": {
@@ -1346,20 +1345,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-02-10T15:07:46+00:00"
+            "time": "2022-02-15T15:06:44+00:00"
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "65c9faf50d567b65d81764a44526545689e3fe63"
+                "reference": "9e4b005daa20b0c161f3845040046dc9ddc1d74e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/65c9faf50d567b65d81764a44526545689e3fe63",
-                "reference": "65c9faf50d567b65d81764a44526545689e3fe63",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/9e4b005daa20b0c161f3845040046dc9ddc1d74e",
+                "reference": "9e4b005daa20b0c161f3845040046dc9ddc1d74e",
                 "shasum": ""
             },
             "require": {
@@ -1405,7 +1404,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2022-02-01T16:29:39+00:00"
+            "time": "2022-02-11T19:23:53+00:00"
         },
         {
             "name": "league/commonmark",
@@ -6277,23 +6276,23 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v7.0.1",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "9b0df08ef283ce78e4d40edf20c3b3194a58fd2a"
+                "reference": "5d051afc1eb6e3dc4b0f67404e02349e3ae56910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/9b0df08ef283ce78e4d40edf20c3b3194a58fd2a",
-                "reference": "9b0df08ef283ce78e4d40edf20c3b3194a58fd2a",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/5d051afc1eb6e3dc4b0f67404e02349e3ae56910",
+                "reference": "5d051afc1eb6e3dc4b0f67404e02349e3ae56910",
                 "shasum": ""
             },
             "require": {
                 "fakerphp/faker": "^1.9.2",
                 "laravel/framework": "^9.0",
                 "mockery/mockery": "^1.4.4",
-                "orchestra/testbench-core": "^7.0.1",
+                "orchestra/testbench-core": "^7.0.2",
                 "php": "^8.0",
                 "phpunit/phpunit": "^9.5.10",
                 "spatie/laravel-ray": "^1.28",
@@ -6330,7 +6329,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v7.0.1"
+                "source": "https://github.com/orchestral/testbench/tree/v7.0.2"
             },
             "funding": [
                 {
@@ -6342,20 +6341,20 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2022-02-14T06:22:02+00:00"
+            "time": "2022-02-16T00:55:11+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v7.0.1",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "c28b819c77c5dbf4a94196ffce7dc2ff61a28899"
+                "reference": "06fc0055c3e99f469f9f4fa346b7d677974f8fef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/c28b819c77c5dbf4a94196ffce7dc2ff61a28899",
-                "reference": "c28b819c77c5dbf4a94196ffce7dc2ff61a28899",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/06fc0055c3e99f469f9f4fa346b7d677974f8fef",
+                "reference": "06fc0055c3e99f469f9f4fa346b7d677974f8fef",
                 "shasum": ""
             },
             "require": {
@@ -6434,7 +6433,7 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2022-02-14T05:57:44+00:00"
+            "time": "2022-02-16T00:42:51+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -8406,16 +8405,16 @@
         },
         {
             "name": "spatie/laravel-ray",
-            "version": "1.29.2",
+            "version": "1.29.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ray.git",
-                "reference": "6465e1fe7faefdd66aede0952033863181548551"
+                "reference": "440cda76812a7770e6684d19683444c608e135e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/6465e1fe7faefdd66aede0952033863181548551",
-                "reference": "6465e1fe7faefdd66aede0952033863181548551",
+                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/440cda76812a7770e6684d19683444c608e135e4",
+                "reference": "440cda76812a7770e6684d19683444c608e135e4",
                 "shasum": ""
             },
             "require": {
@@ -8474,7 +8473,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-ray/issues",
-                "source": "https://github.com/spatie/laravel-ray/tree/1.29.2"
+                "source": "https://github.com/spatie/laravel-ray/tree/1.29.3"
             },
             "funding": [
                 {
@@ -8486,7 +8485,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2022-02-13T15:39:44+00:00"
+            "time": "2022-02-15T14:52:59+00:00"
         },
         {
             "name": "spatie/macroable",
