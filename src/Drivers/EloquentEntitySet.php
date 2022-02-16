@@ -169,7 +169,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $model = $entity->getSource();
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
+            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitiveValue();
         }
 
         $model->save();

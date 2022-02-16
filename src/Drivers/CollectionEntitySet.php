@@ -70,7 +70,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
         $entityId = $entity->getEntityId();
         $index = $this->getIndex();
 
-        $item = $entity->toArray();
+        $item = $this->toArray($entity);
 
         switch (true) {
             case !!$entityId:
@@ -122,7 +122,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
 
             switch (true) {
                 case $propertyValue instanceof ComplexValue:
-                    $entity[$propertyName] = $propertyValue->toArray();
+                    $entity[$propertyName] = $this->toArray($propertyValue);
                     break;
 
                 case $propertyValue instanceof Primitive:
@@ -131,7 +131,7 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
             }
         }
 
-        $item = $entity->toArray();
+        $item = $this->toArray($entity);
         unset($item['id']);
 
         $this->enumerable[$key->getPrimitiveValue()] = $item;

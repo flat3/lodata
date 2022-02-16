@@ -98,7 +98,7 @@ trait WithEloquentDriver
         $this->captureDatabaseState();
     }
 
-    protected function tearDownDriver()
+    protected function tearDownDriver(): void
     {
         $this->assertDatabaseDiffSnapshot();
     }

@@ -1121,4 +1121,31 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         return $entity;
     }
+
+    /**
+     * Recursively convert this complex value to a nested PHP array of key/value pairs
+     * @return array Record
+     */
+    public function toArray(ComplexValue $complexValue): array
+    {
+        $result = [];
+
+        foreach ($complexValue->getPropertyValues() as $propertyValue) {
+            $property = $propertyValue->getProperty();
+            $propertyType = $property->getType();
+            $propertyName = $this->getPropertySourceName($property);
+
+            switch (true) {
+                case $propertyType instanceof PrimitiveType:
+                    $result[$propertyName] = $propertyValue->getPrimitive()->toScalar();
+                    break;
+
+                case $propertyType instanceof ComplexType:
+                    $result[$propertyName] = $this->toArray($propertyValue->getComplexValue());
+                    break;
+            }
+        }
+
+        return $result;
+    }
 }

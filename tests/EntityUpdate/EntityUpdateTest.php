@@ -258,4 +258,18 @@ abstract class EntityUpdateTest extends TestCase
                 ->body('sfo')
         );
     }
+
+    public function test_modified_source_name()
+    {
+        $this->withModifiedPropertySourceName();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath)
+                ->patch()
+                ->body([
+                    'aage' => '9',
+                ])
+        );
+    }
 }
