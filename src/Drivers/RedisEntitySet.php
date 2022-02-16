@@ -193,6 +193,14 @@ class RedisEntitySet extends EntitySet implements CreateInterface, UpdateInterfa
     public function serialize(Entity $entity): string
     {
         $data = $entity->toArray();
+
+        foreach ($this->sourceMap as $property => $sourceProperty) {
+            if (array_key_exists($property, $data)) {
+                $data[$sourceProperty] = $data[$property];
+                unset($data[$property]);
+            }
+        }
+
         unset($data[$entity->getEntityId()->getProperty()->getName()]);
         return serialize($data);
     }

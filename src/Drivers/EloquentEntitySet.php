@@ -188,7 +188,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         /** @var DeclaredProperty $declaredProperty */
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitiveValue();
+            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitiveValue();
         }
 
         if ($this->navigationSource) {
