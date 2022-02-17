@@ -13,6 +13,8 @@ use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Duration;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\String_;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Gate;
 
 class OperationTest extends TestCase
 {
@@ -254,6 +256,28 @@ class OperationTest extends TestCase
         $this->assertBadRequest(
             (new Request)
                 ->path('/exf1(a=')
+        );
+    }
+
+    public function test_gate_readonly_override()
+    {
+        config(['lodata.readonly' => true]);
+
+        $op = new Operation\Function_('exf1');
+
+        Gate::define('lodata', function (?User $user, \Flat3\Lodata\Helper\Gate $gate) use ($op) {
+            return $op->getName() === $gate->getResource()->getName();
+        });
+
+        $op->setCallable(function (string $arg): string {
+            return $arg;
+        });
+
+        Lodata::add($op);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path("/exf1(arg='hello')")
         );
     }
 }
