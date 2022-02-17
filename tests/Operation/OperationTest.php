@@ -261,7 +261,10 @@ class OperationTest extends TestCase
 
     public function test_gate_readonly_override()
     {
-        config(['lodata.readonly' => true]);
+        config([
+            'lodata.readonly' => true,
+            'lodata.authorization' => true,
+        ]);
 
         $op = new Operation\Function_('exf1');
 
