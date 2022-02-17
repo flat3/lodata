@@ -87,6 +87,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'lodata.streaming' => false,
             'lodata.pagination.max' => null,
             'lodata.pagination.default' => 200,
+            'lodata.authorization' => false,
         ]);
 
         $app->register(RedisMockServiceProvider::class);
@@ -97,7 +98,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         LaravelGate::define('lodata', function (?User $user, Gate $gate) {
             if (!$this->gate) {
-                return false;
+                return true;
             }
 
             return call_user_func($this->gate, $user, $gate);

@@ -10,10 +10,18 @@ class ReadWriteTest extends TestCase
 {
     use WithNumericCollectionDriver;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        config([
+            'lodata.authorization' => false,
+            'lodata.readonly' => true,
+        ]);
+    }
+
     public function test_readonly()
     {
-        config(['lodata.readonly' => true]);
-
         $this->assertResponseSnapshot(
             (new Request)
                 ->path($this->entitySetPath)
@@ -22,8 +30,6 @@ class ReadWriteTest extends TestCase
 
     public function test_cannot_write()
     {
-        config(['lodata.readonly' => true]);
-
         $this->assertForbidden(
             (new Request)
                 ->path($this->entitySetPath)

@@ -15,6 +15,7 @@ class AuthorizationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
         config(['lodata.authorization' => true]);
     }
 
