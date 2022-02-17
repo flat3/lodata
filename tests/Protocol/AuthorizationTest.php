@@ -6,6 +6,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Illuminate\Foundation\Auth\User;
 
 class AuthorizationTest extends TestCase
 {
@@ -29,15 +30,15 @@ class AuthorizationTest extends TestCase
 
     public function gateAssertion()
     {
-        $this->gateMock->andReturnUsing(function ($lodata, Gate $gate) {
+        $this->gate = function (?User $user, Gate $gate) {
             $this->assertMatchesSnapshot([
-                $lodata,
+                'lodata',
                 $gate->getAccess(),
                 $gate->getResource()->getResourceUrl($gate->getTransaction())
             ]);
 
-            return true;
-        });
+            return false;
+        };
     }
 
     public function test_query_denied()

@@ -9,6 +9,7 @@ use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\ServiceProvider;
@@ -24,14 +25,14 @@ use Flat3\Lodata\Type\Int32;
 use Generator;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate as LaravelGate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
-use Mockery\Expectation;
 use Ramsey\Uuid\Uuid;
 use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -45,8 +46,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use UseODataAssertions;
     use UseSnapshots;
 
-    /** @var Expectation $gateMock */
-    protected $gateMock;
+    /** @var callable $gate */
+    protected $gate;
 
     /** @var int $uuid */
     protected $uuid;
@@ -90,11 +91,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $app->register(RedisMockServiceProvider::class);
 
-        $this->gateMock = Gate::shouldReceive('denies');
-        $this->gateMock->andReturnFalse();
-
         Str::createUuidsUsing(function (): string {
             return Uuid::fromInteger($this->uuid++);
+        });
+
+        LaravelGate::define('lodata', function (?User $user, Gate $gate) {
+            if (!$this->gate) {
+                return false;
+            }
+
+            return call_user_func($this->gate, $user, $gate);
         });
 
         TestFilesystemAdapter::bind();
@@ -111,6 +117,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->faker->seed(1234);
         $this->trackQueries();
         $this->setUpDatabaseSnapshots();
+        $this->gate = null;
 
         // @phpstan-ignore-next-line
         Redis::flushdb();
