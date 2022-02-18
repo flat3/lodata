@@ -14,9 +14,9 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
-use Flat3\Lodata\Tests\Helpers\StreamingJsonDriver;
 use Flat3\Lodata\Tests\Helpers\TestFilesystemAdapter;
 use Flat3\Lodata\Tests\Helpers\UseDatabaseAssertions;
+use Flat3\Lodata\Tests\Helpers\UseDriverStateAssertions;
 use Flat3\Lodata\Tests\Helpers\UseODataAssertions;
 use Flat3\Lodata\Tests\Helpers\UseSnapshots;
 use Flat3\Lodata\Type;
@@ -34,8 +34,6 @@ use Illuminate\Testing\TestResponse;
 use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
 use Ramsey\Uuid\Uuid;
 use ReflectionClass;
-use SebastianBergmann\Diff\Differ;
-use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -44,6 +42,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use MatchesSnapshots;
     use WithoutMiddleware;
     use UseDatabaseAssertions;
+    use UseDriverStateAssertions;
     use UseODataAssertions;
     use UseSnapshots;
 
@@ -62,8 +61,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected $missingEntityId = 99;
     protected $etag = 'W/""';
     protected $escapedEntityId;
-
-    protected $driverState = null;
 
     protected $airportEntitySet = 'airports';
     protected $airportEntitySetPath = null;
@@ -438,42 +435,5 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $ageProperty->setName('aage');
         $passengerSet->getType()->getProperties()->reKey();
         $passengerSet->setPropertySourceName($ageProperty, 'age');
-    }
-
-    protected function keepDriverState()
-    {
-        $this->driverState = $this->captureDriverState();
-    }
-
-    protected function captureDriverState(): array
-    {
-        return [];
-    }
-
-    protected function assertDriverStateUnchanged()
-    {
-        $this->assertEquals($this->driverState, $this->captureDriverState());
-    }
-
-    protected function assertDriverStateDiffSnapshot()
-    {
-        $driver = new StreamingJsonDriver;
-
-        $this->assertDiffSnapshot(
-            $driver->serialize($this->driverState),
-            $driver->serialize($this->captureDriverState())
-        );
-    }
-
-    protected function assertDiffSnapshot($left, $right)
-    {
-        $differ = new Differ(new UnifiedDiffOutputBuilder(''));
-        $result = $differ->diff($left, $right);
-
-        if (!$result) {
-            return;
-        }
-
-        $this->assertMatchesTextSnapshot($result);
     }
 }
