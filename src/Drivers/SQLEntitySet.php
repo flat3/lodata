@@ -192,13 +192,13 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $expression->pushParameter($key->getPrimitiveValue());
 
         $stmt = $this->pdoSelect($expression);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (false === $result) {
+        if (false === $row) {
             throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
-        return $this->toEntity($this->coerceTypes($result));
+        return $this->toEntity($row);
     }
 
     /**
@@ -307,7 +307,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $stmt = $this->pdoSelect($this->getResultExpression());
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            yield $this->toEntity($this->coerceTypes($row));
+            yield $this->toEntity($row);
         }
     }
 
@@ -653,9 +653,10 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      * Coerce types for the given record
      * @link https://www.php.net/manual/en/migration81.incompatible.php
      * @param  array  $record  Database record
-     * @return array
+     * @param  mixed  $entityId  Entity ID
+     * @return Entity Entity
      */
-    public function coerceTypes(array $record): array
+    protected function toEntity(array $record, $entityId = null): Entity
     {
         foreach ($this->getCompute()->getProperties() as $computedProperty) {
             $key = $computedProperty->getName();
@@ -668,7 +669,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $record[$key] = $value;
         }
 
-        return $record;
+        return parent::toEntity($record, $entityId);
     }
 
     /**
