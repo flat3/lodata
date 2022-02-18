@@ -6,10 +6,12 @@ namespace Flat3\Lodata\Client;
 
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\ItemNotFoundException;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\EnumeratesValues;
 use Illuminate\Support\Traits\Macroable;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Traversable;
 
@@ -80,7 +82,16 @@ class Collection implements Enumerable
         });
     }
 
-    public static function convertOperator(string $operator): string
+    public function applyFilter($key, $operator, $value)
+    {
+        if (!$key || !$operator || !$value) {
+            return;
+        }
+
+        $this->query['$filter'] = sprintf('%s %s %s', $key, self::mapOperator($operator), self::escape($value));
+    }
+
+    public static function mapOperator(string $operator): string
     {
         switch ($operator) {
             case '=':
@@ -101,7 +112,7 @@ class Collection implements Enumerable
                 return 'ge';
         }
 
-        throw new \RuntimeException('Unknown operator '.$operator);
+        throw new RuntimeException('Unknown operator '.$operator);
     }
 
     public static function escape($value)
@@ -113,6 +124,8 @@ class Collection implements Enumerable
                 return $value;
         }
     }
+
+    /// Optimized functions
 
     public function get($key, $default = null)
     {
@@ -204,6 +217,73 @@ class Collection implements Enumerable
         return $this;
     }
 
+    public function contains($key, $operator = null, $value = null): bool
+    {
+        $this->applyFilter($key, $operator, $value);
+
+        return $this->isNotEmpty();
+    }
+
+    public function first(callable $callback = null, $default = null)
+    {
+        if (!$callback) {
+            return $this->take(1)->lazy()->first();
+        }
+
+        return $this->lazy()->first($callback, $default);
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->count() === 0;
+    }
+
+    public function last(callable $callback = null, $default = null)
+    {
+        if (!$callback) {
+            $count = $this->count();
+
+            if ($count === 0) {
+                return $default;
+            }
+
+            return $this->skip($count - 1)->lazy()->first();
+        }
+
+        return $this->lazy()->last($callback, $default);
+    }
+
+    public function sortByDesc($callback, $options = SORT_REGULAR)
+    {
+        return $this->sortBy($callback, $options, true);
+    }
+
+    public function sole($key = null, $operator = null, $value = null)
+    {
+        $this->applyFilter($key, $operator, $value);
+
+        return $this->count() === 1 ? $this->lazy()->first() : null;
+    }
+
+    public function firstOrFail($key = null, $operator = null, $value = null)
+    {
+        $this->applyFilter($key, $operator, $value);
+        $result = $this->lazy()->first();
+
+        if ($result) {
+            return $result;
+        }
+
+        throw new ItemNotFoundException();
+    }
+
+    public function containsOneItem()
+    {
+        return $this->count() === 1;
+    }
+
+    /// Standard functions
+
     public static function range($from, $to)
     {
         return LazyCollection::range($from, $to);
@@ -234,13 +314,6 @@ class Collection implements Enumerable
         return $this->lazy()->avg($callback);
     }
 
-    public function contains($key, $operator = null, $value = null): bool
-    {
-        $this->query['$filter'] = sprintf('%s %s %s', $key, self::convertOperator($operator), self::escape($value));
-
-        return $this->isNotEmpty();
-    }
-
     public function crossJoin(...$lists)
     {
         return $this->lazy()->crossJoin(...$lists);
@@ -263,7 +336,7 @@ class Collection implements Enumerable
 
     public function diffAssocUsing($items, callable $callback)
     {
-        return $this->diffAssocUsing($items, $callback);
+        return $this->lazy()->diffAssocUsing($items, $callback);
     }
 
     public function diffKeys($items)
@@ -289,11 +362,6 @@ class Collection implements Enumerable
     public function except($keys)
     {
         return $this->lazy()->except($keys);
-    }
-
-    public function first(callable $callback = null, $default = null)
-    {
-        return $this->lazy()->first($callback, $default);
     }
 
     public function flatten($depth = INF)
@@ -331,11 +399,6 @@ class Collection implements Enumerable
         return $this->lazy()->intersectByKeys($items);
     }
 
-    public function isEmpty(): bool
-    {
-        return $this->count() === 0;
-    }
-
     public function join($glue, $finalGlue = ''): string
     {
         return $this->lazy()->join($glue, $finalGlue);
@@ -344,11 +407,6 @@ class Collection implements Enumerable
     public function keys()
     {
         return $this->lazy()->keys();
-    }
-
-    public function last(callable $callback = null, $default = null)
-    {
-        return $this->lazy()->last($callback, $default);
     }
 
     public function map(callable $callback)
@@ -403,7 +461,7 @@ class Collection implements Enumerable
 
     public function random($number = null)
     {
-        $this->lazy()->random($number);
+        return $this->lazy()->random($number);
     }
 
     public function replace($items)
@@ -413,7 +471,7 @@ class Collection implements Enumerable
 
     public function replaceRecursive($items)
     {
-        return $this->replaceRecursive($items);
+        return $this->lazy()->replaceRecursive($items);
     }
 
     public function reverse()
@@ -459,11 +517,6 @@ class Collection implements Enumerable
     public function sortDesc($options = SORT_REGULAR)
     {
         return $this->lazy()->sortDesc($options);
-    }
-
-    public function sortByDesc($callback, $options = SORT_REGULAR)
-    {
-        return $this->lazy()->sortByDesc($callback, $options);
     }
 
     public function sortKeys($options = SORT_REGULAR, $descending = false)
@@ -526,24 +579,9 @@ class Collection implements Enumerable
         return $this->lazy()->hasAny($key);
     }
 
-    public function containsOneItem()
-    {
-        return $this->lazy()->containsOneItem();
-    }
-
     public function sliding($size = 2, $step = 1)
     {
         return $this->lazy()->sliding($size, $step);
-    }
-
-    public function sole($key = null, $operator = null, $value = null)
-    {
-        return $this->lazy()->sole($key, $operator, $value);
-    }
-
-    public function firstOrFail($key = null, $operator = null, $value = null)
-    {
-        return $this->lazy()->firstOrFail($key, $operator, $value);
     }
 
     public function splitIn($numberOfGroups)

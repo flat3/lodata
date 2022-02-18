@@ -11,6 +11,7 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Http\Client\Request as HttpRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\ItemNotFoundException;
 use Illuminate\Testing\TestResponse;
 
 class CollectionTest extends TestCase
@@ -203,5 +204,42 @@ class CollectionTest extends TestCase
     public function test_count()
     {
         $this->assertEquals(5, $this->collection->count());
+    }
+
+    public function test_first()
+    {
+        $this->assertMatchesSnapshot($this->collection->first());
+    }
+
+    public function test_last()
+    {
+        $this->assertMatchesSnapshot($this->collection->last());
+    }
+
+    public function test_contains_one_item()
+    {
+        $this->assertFalse($this->collection->containsOneItem());
+    }
+
+    public function test_first_or_fail_success()
+    {
+        $this->assertMatchesSnapshot($this->collection->firstOrFail('age', '<', 99));
+    }
+
+    public function test_first_or_fail_fail()
+    {
+        $this->expectException(ItemNotFoundException::class);
+
+        $this->collection->firstOrFail('age', '>', 99);
+    }
+
+    public function test_sole_unique()
+    {
+        $this->assertMatchesSnapshot($this->collection->sole('name', '=', 'Alpha'));
+    }
+
+    public function test_sole_nonunique()
+    {
+        $this->assertNull($this->collection->sole('chips', '=', 'true'));
     }
 }
