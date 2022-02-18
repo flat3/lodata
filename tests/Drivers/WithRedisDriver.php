@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Tests\Drivers;
 use Flat3\Lodata\Drivers\RedisEntitySet;
 use Flat3\Lodata\Drivers\RedisEntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\Facades\Redis;
 
 trait WithRedisDriver
@@ -26,12 +27,25 @@ trait WithRedisDriver
         $this->addPassengerProperties($entityType);
         $entitySet = new RedisEntitySet($this->entitySet, $entityType);
         Lodata::add($entitySet);
-        $this->captureRedisState();
+        $this->keepDriverState();
     }
 
     protected function tearDownDriver(): void
     {
-        $this->assertRedisDiffSnapshot();
+        $this->assertDriverStateDiffSnapshot();
+    }
+
+    protected function captureDriverState():array{
+        $data = [];
+
+        /** @var Connection $redis */
+        $redis = Lodata::getEntitySet($this->entitySet)->getConnection();
+
+        foreach ($redis->keys('*') as $key) {
+            $data[$key] = unserialize($redis->get($key));
+        }
+
+        return $data;
     }
 
     protected function assertRedisRecord($key): void

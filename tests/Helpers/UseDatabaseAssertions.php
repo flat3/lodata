@@ -22,9 +22,6 @@ use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 trait UseDatabaseAssertions
 {
-    /** @var string $databaseSnapshot */
-    protected $databaseSnapshot;
-
     protected $driverSpecificSnapshots = false;
 
     protected function defineDatabaseMigrations()
@@ -50,7 +47,7 @@ trait UseDatabaseAssertions
         }
     }
 
-    protected function snapshotDatabase(): array
+    protected function captureDatabase(): array
     {
         $db = [];
 
@@ -73,38 +70,6 @@ trait UseDatabaseAssertions
         }
 
         return $db;
-    }
-
-    protected function captureDatabaseState()
-    {
-        $this->databaseSnapshot = $this->snapshotDatabase();
-    }
-
-    protected function assertDatabaseUnchanged()
-    {
-        $this->assertEquals($this->databaseSnapshot, $this->snapshotDatabase());
-    }
-
-    protected function assertDatabaseDiffSnapshot()
-    {
-        $driver = new StreamingJsonDriver;
-
-        $this->assertDiffSnapshot(
-            $driver->serialize($this->databaseSnapshot),
-            $driver->serialize($this->snapshotDatabase())
-        );
-    }
-
-    protected function assertDiffSnapshot($left, $right)
-    {
-        $differ = new Differ(new UnifiedDiffOutputBuilder(''));
-        $result = $differ->diff($left, $right);
-
-        if (!$result) {
-            return;
-        }
-
-        $this->assertMatchesTextSnapshot($result);
     }
 
     protected function assertNoTransactionsInProgress()

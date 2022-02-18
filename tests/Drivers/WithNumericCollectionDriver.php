@@ -29,21 +29,15 @@ trait WithNumericCollectionDriver
         $entitySet->setCollection($collection);
 
         Lodata::add($entitySet);
-        $this->captureCollectionState();
-    }
-
-    protected function snapshotCollection(): array
-    {
-        return array_values(Lodata::getEntitySet($this->entitySet)->getCollection()->toArray());
+        $this->keepDriverState();
     }
 
     protected function tearDownDriver(): void
     {
-        $this->assertCollectionDiffSnapshot();
+        $this->assertDriverStateDiffSnapshot();
     }
 
-    protected function assertCollectionRecord(int $key)
-    {
-        $this->assertMatchesObjectSnapshot(Lodata::getEntitySet($this->entitySet)->getCollection()->get($key));
+    protected function captureDriverState():array {
+        return array_values(Lodata::getEntitySet($this->entitySet)->getCollection()->toArray());
     }
 }

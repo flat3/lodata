@@ -382,7 +382,7 @@ abstract class NavigationTest extends TestCase
 
     public function test_deep_transaction_failed()
     {
-        $this->captureDatabaseState();
+        $this->keepDriverState();
 
         $this->assertBadRequest(
             (new Request)
@@ -401,7 +401,7 @@ abstract class NavigationTest extends TestCase
                 ])
         );
 
-        $this->assertDatabaseUnchanged();
+        $this->assertDriverStateUnchanged();
     }
 
     public function test_count_navigation_property()

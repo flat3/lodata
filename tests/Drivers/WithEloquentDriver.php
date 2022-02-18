@@ -95,17 +95,16 @@ trait WithEloquentDriver
             (new Pet)->newInstance($record)->save();
         }
 
-        $this->captureDatabaseState();
+        $this->keepDriverState();
     }
 
     protected function tearDownDriver(): void
     {
-        $this->assertDatabaseDiffSnapshot();
+        $this->assertDriverStateDiffSnapshot();
     }
 
-    protected function assertEloquentRecord(int $key)
+    protected function captureDriverState(): array
     {
-        // @phpstan-ignore-next-line
-        $this->assertMatchesObjectSnapshot(Passenger::find($key)->toArray());
+        return $this->captureDatabase();
     }
 }

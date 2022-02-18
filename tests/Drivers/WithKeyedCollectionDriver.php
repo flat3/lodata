@@ -28,16 +28,15 @@ trait WithKeyedCollectionDriver
         $entitySet->setCollection($collection);
 
         Lodata::add($entitySet);
-        $this->captureCollectionState();
+        $this->keepDriverState();
     }
 
     protected function tearDownDriver(): void
     {
-        $this->assertCollectionDiffSnapshot();
+        $this->assertDriverStateDiffSnapshot();
     }
 
-    protected function assertCollectionRecord(string $key)
-    {
-        $this->assertMatchesObjectSnapshot(Lodata::getEntitySet($this->entitySet)->getCollection()->get($key));
+    protected function captureDriverState():array {
+        return Lodata::getEntitySet($this->entitySet)->getCollection()->toArray();
     }
 }

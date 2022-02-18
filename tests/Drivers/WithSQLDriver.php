@@ -239,11 +239,16 @@ trait WithSQLDriver
             DB::table('pets')->insert($record);
         }
 
-        $this->captureDatabaseState();
+        $this->keepDriverState();
     }
 
     protected function tearDownDriver(): void
     {
-        $this->assertDatabaseDiffSnapshot();
+        $this->assertDriverStateDiffSnapshot();
+    }
+
+    protected function captureDriverState(): array
+    {
+        return $this->captureDatabase();
     }
 }

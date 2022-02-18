@@ -15,7 +15,7 @@ class TransactionTest extends TestCase
     {
         $this->useDriverSpecificSnapshots();
 
-        $this->captureDatabaseState();
+        $this->keepDriverState();
         Lodata::getEntityType('passenger')->getDeclaredProperty('name')->setNullable(true);
 
         $this->assertInternalServerError(
@@ -35,6 +35,6 @@ class TransactionTest extends TestCase
         );
 
         $this->assertNoTransactionsInProgress();
-        $this->assertDatabaseUnchanged();
+        $this->assertDriverStateUnchanged();
     }
 }

@@ -76,7 +76,5 @@ class KeyedCollectionTest extends EntitySetCreateTest
                 ]),
             Response::HTTP_CREATED
         );
-
-        $this->assertCollectionRecord('zeta');
     }
 }
