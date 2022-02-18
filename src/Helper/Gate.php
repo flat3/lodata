@@ -135,15 +135,15 @@ final class Gate
      */
     public function ensure(): void
     {
-        if (!in_array($this->access, [self::read, self::query]) && config('lodata.readonly') === true) {
-            throw new ForbiddenException('forbidden', 'This service is read-only');
-        }
-
         if (config('lodata.authorization') === false) {
+            if (!in_array($this->access, [self::read, self::query]) && config('lodata.readonly') === true) {
+                throw new ForbiddenException('forbidden', 'This service is read-only');
+            }
+
             return;
         }
 
-        if (LaravelGate::denies('lodata', $this)) {
+        if (!LaravelGate::check('lodata', $this)) {
             throw new ForbiddenException('forbidden', 'This request is not permitted');
         }
     }

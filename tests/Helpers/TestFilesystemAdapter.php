@@ -13,7 +13,7 @@ class TestFilesystemAdapter
 
     public static function root(): string
     {
-        return storage_path('framework/testing/disks/'.gethostname());
+        return storage_path('framework/testing/disks/'.gethostname().getenv('TEST_TOKEN'));
     }
 
     public static function bind()

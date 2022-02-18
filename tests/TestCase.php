@@ -31,7 +31,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Lunaweb\RedisMock\Providers\RedisMockServiceProvider;
-use Mockery\Expectation;
 use Ramsey\Uuid\Uuid;
 use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -44,9 +43,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use UseDatabaseAssertions;
     use UseODataAssertions;
     use UseSnapshots;
-
-    /** @var Expectation $gateMock */
-    protected $gateMock;
 
     /** @var int $uuid */
     protected $uuid;
@@ -86,16 +82,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'lodata.streaming' => false,
             'lodata.pagination.max' => null,
             'lodata.pagination.default' => 200,
+            'lodata.authorization' => false,
         ]);
 
         $app->register(RedisMockServiceProvider::class);
 
-        $this->gateMock = Gate::shouldReceive('denies');
-        $this->gateMock->andReturnFalse();
-
         Str::createUuidsUsing(function (): string {
             return Uuid::fromInteger($this->uuid++);
         });
+
+        Gate::shouldReceive('check')->andReturnTrue()->byDefault();
 
         TestFilesystemAdapter::bind();
 
