@@ -100,9 +100,9 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
 
         $reader = $statement->process($this->getCsvReader(), $this->getCsvHeader());
 
-        foreach ($reader->getIterator() as $offset => $record) {
+        foreach ($reader->getIterator() as $key => $record) {
             $record = $this->fillRecord($record);
-            yield $this->toEntity($record, $offset)->generateComputedProperties();
+            yield $this->toEntity($record, $key)->generateComputedProperties();
         }
     }
 
@@ -116,14 +116,14 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
     public function read(PropertyValue $key): Entity
     {
         $csv = $this->getCsvStatement();
-        $row = $csv->fetchOne($key->getPrimitiveValue());
+        $record = $csv->fetchOne($key->getPrimitiveValue());
 
-        if (!$row) {
+        if (!$record) {
             throw new NotFoundException('entity_not_found', 'Entity not found');
         }
 
-        $row = $this->fillRecord($row);
+        $record = $this->fillRecord($record);
 
-        return $this->toEntity($row, $key)->generateComputedProperties();
+        return $this->toEntity($record, $key)->generateComputedProperties();
     }
 }
