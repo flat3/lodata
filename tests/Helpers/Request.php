@@ -151,9 +151,11 @@ class Request
         ]);
     }
 
-    public function headers(): array
+    public function headers(array $headers = []):self
     {
-        return $this->headers;
+        $this->headers = $headers;
+
+        return $this;
     }
 
     public function method(string $method): self
