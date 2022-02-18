@@ -60,17 +60,17 @@ class CollectionEntitySet extends EnumerableEntitySet implements CreateInterface
      */
     public function create(PropertyValues $propertyValues): Entity
     {
-        $entity = $this->newEntity();
+        $item = [];
 
         /** @var PropertyValue $propertyValue */
         foreach ($propertyValues as $propertyValue) {
-            $entity[$propertyValue->getProperty()->getName()] = $propertyValue->getPrimitive()->toMixed();
+            $item[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitive()->toMixed();
         }
 
-        $entityId = $entity->getEntityId();
         $index = $this->getIndex();
 
-        $item = $this->toArray($entity);
+        $entity = $this->toEntity($item);
+        $entityId = $entity->getEntityId();
 
         switch (true) {
             case !!$entityId:
