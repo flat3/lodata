@@ -42,24 +42,22 @@ class EloquentTest extends EntitySetTest
         );
     }
 
+    /**
+     * @requires PHP >= 8
+     */
     public function test_op1()
     {
-        if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped();
-        }
-
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path('/Airports/1/op1')
         );
     }
 
+    /**
+     * @requires PHP >= 8
+     */
     public function test_op2()
     {
-        if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped();
-        }
-
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path("/Airports/1/op2(prefix='o')")

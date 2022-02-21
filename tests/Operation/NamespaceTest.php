@@ -7,15 +7,14 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Laravel\Services\Math;
 use Flat3\Lodata\Tests\TestCase;
 
+/**
+ * @requires PHP >=8
+ */
 class NamespaceTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
-
-        if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped();
-        }
 
         Lodata::discover(Math::class);
     }

@@ -11,15 +11,14 @@ use Flat3\Lodata\Tests\Laravel\Services\Instance;
 use Flat3\Lodata\Tests\Laravel\Services\Service;
 use Flat3\Lodata\Tests\TestCase;
 
+/**
+ * @requires PHP >= 8
+ */
 class DiscoveryTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
-
-        if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped();
-        }
 
         Lodata::discover(Flight::class);
         Lodata::discover(Service::class);

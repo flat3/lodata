@@ -10,15 +10,14 @@ use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Repository;
 use Flat3\Lodata\Tests\TestCase;
 
+/**
+ * @requires PHP >= 8
+ */
 class RepositoryTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
-
-        if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped();
-        }
 
         Lodata::discover(Airport::class);
         Lodata::discover(Repository::class);

@@ -29,7 +29,7 @@ trait WithEloquentDriver
         Lodata::discover(Airport::class);
         $airports = Lodata::getEntitySet('Airports');
 
-        if (PHP_VERSION_ID < 80000) {
+        if (version_compare(PHP_VERSION, '8.0', '<')) {
             $op1 = new Function_('op1');
             $op1->setCallable(function (): ?string {
                 return null;
