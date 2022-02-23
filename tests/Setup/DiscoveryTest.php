@@ -77,7 +77,7 @@ class DiscoveryTest extends TestCase
         $this->expectException(ConfigurationException::class);
         $this->expectExceptionMessage('has already been discovered');
 
-        Lodata::discover(Passenger::class);
+        Lodata::discover(Pet::class);
         Lodata::discover(Pet::class);
     }
 }

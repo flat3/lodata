@@ -23,6 +23,9 @@ class DiscoveryTest extends TestCase
         Lodata::discover(Flight::class);
         Lodata::discover(Service::class);
         Lodata::discover(Passenger::class);
+        if (!Lodata::getEntitySet('Pets')) {
+            Lodata::discover(Pet::class);
+        }
 
         $instance = new Instance();
         $instance->a = 'c';
