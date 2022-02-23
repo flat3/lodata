@@ -78,7 +78,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     protected $model;
 
-    public function __construct(string $model)
+    public function __construct(string $model, ?EntityType $entityType = null)
     {
         if (!is_a($model, Model::class, true)) {
             throw new ConfigurationException(
@@ -90,9 +90,11 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $this->model = $model;
 
         $name = self::convertClassName($model);
-        $type = new EntityType(EntityType::convertClassName($model));
+        if (!$entityType) {
+            $entityType = new EntityType(EntityType::convertClassName($model));
+        }
 
-        parent::__construct($name, $type);
+        parent::__construct($name, $entityType);
         $this->addAnnotation(new DeepInsertSupport());
     }
 

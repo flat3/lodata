@@ -8,6 +8,7 @@ use Flat3\Lodata\Attributes\LodataNamespace;
 use Flat3\Lodata\Attributes\LodataOperation;
 use Flat3\Lodata\Attributes\LodataRelationship;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\RepositoryInterface;
@@ -41,6 +42,15 @@ class Discovery
 
     public function discoverEloquentModel(string $model): EloquentEntitySet
     {
+        $set = Lodata::getEntitySet(EntitySet::convertClassName($model));
+
+        if ($set instanceof EntitySet) {
+            throw new ConfigurationException(
+                'duplicate_discovery',
+                sprintf('The model %s has already been discovered', $model)
+            );
+        }
+
         $set = new EloquentEntitySet($model);
         Lodata::add($set);
         $set->discoverProperties();
