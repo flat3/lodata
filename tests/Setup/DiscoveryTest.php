@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\Setup;
 
 use Doctrine\DBAL\Schema\Table;
-use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
-use Flat3\Lodata\Tests\Laravel\Models\Passenger;
 use Flat3\Lodata\Tests\Laravel\Models\Pet;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Support\Facades\Cache;
@@ -72,12 +70,13 @@ class DiscoveryTest extends TestCase
         $this->assertEquals(0, config('lodata.discovery.ttl'));
     }
 
-    public function test_fail_duplicate_discovery()
+    public function test_no_duplicate_discovery()
     {
-        $this->expectException(ConfigurationException::class);
-        $this->expectExceptionMessage('has already been discovered');
-
         Lodata::discover(Pet::class);
+        $set = Lodata::getEntitySet('Pets');
+        $type = Lodata::getEntityType('Pet');
         Lodata::discover(Pet::class);
+        $this->assertSame($set, Lodata::getEntitySet('Pets'));
+        $this->assertSame($type, Lodata::getEntityType('Pet'));
     }
 }

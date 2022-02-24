@@ -51,9 +51,7 @@ trait WithEloquentDriver
         Lodata::discover(Passenger::class);
         $passengers = Lodata::getEntitySet('Passengers');
 
-        if (!Lodata::getEntitySet('Pets')) {
-            Lodata::discover(Pet::class);
-        }
+        Lodata::discover(Pet::class);
         $pets = Lodata::getEntitySet('Pets');
 
         Lodata::getEntityType('Flight')->getProperty('duration')->setType(Type::duration());

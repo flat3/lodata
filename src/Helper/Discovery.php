@@ -42,13 +42,11 @@ class Discovery
 
     public function discoverEloquentModel(string $model): EloquentEntitySet
     {
+        /** @var EloquentEntitySet $set */
         $set = Lodata::getEntitySet(EntitySet::convertClassName($model));
 
         if ($set instanceof EntitySet) {
-            throw new ConfigurationException(
-                'duplicate_discovery',
-                sprintf('The model %s has already been discovered', $model)
-            );
+            return $set;
         }
 
         $set = new EloquentEntitySet($model);
