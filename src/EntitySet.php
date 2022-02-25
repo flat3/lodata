@@ -453,6 +453,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function setTransaction(Transaction $transaction): self
     {
+        assert($this->cloned);
+
         if ($this->applyQueryOptions) {
             foreach (
                 [

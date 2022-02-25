@@ -622,6 +622,7 @@ class FilterTest extends TestCase
             $request->query->set('$select', 'id,origin');
             $transaction->initialize($request);
 
+            $set = clone $set;
             $query = $set->setTransaction($transaction);
 
             $container = $query->getResultExpression();

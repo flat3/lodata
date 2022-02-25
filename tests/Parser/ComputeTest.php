@@ -115,6 +115,7 @@ class ComputeTest extends TestCase
             $request->query->set('$compute', $input);
             $transaction->initialize($request);
 
+            $set = clone $set;
             $query = $set->setTransaction($transaction);
 
             $container = $query->getResultExpression();

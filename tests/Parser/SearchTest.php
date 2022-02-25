@@ -126,6 +126,7 @@ class SearchTest extends TestCase
             $request->query->set('$search', $input);
             $transaction->initialize($request);
 
+            $set = clone $set;
             $query = $set->setTransaction($transaction);
 
             $container = $query->getResultExpression();
