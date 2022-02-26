@@ -12,7 +12,7 @@ use Flat3\Lodata\Tests\Laravel\Services\Service;
 use Flat3\Lodata\Tests\TestCase;
 
 /**
- * @requires PHP >= 8
+ * @requires PHP >= 8.1
  */
 class DiscoveryTest extends TestCase
 {

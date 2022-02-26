@@ -1,1 +1,2 @@
-( concat( origin , concat( id , 4 ) ) eq '123abc' )
+expression: concat(origin, concat(id, 4)) eq '123abc'
+result: ( concat( origin, concat( id, 4 ) ) eq '123abc' )

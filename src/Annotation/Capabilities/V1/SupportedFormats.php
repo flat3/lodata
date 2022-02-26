@@ -12,7 +12,6 @@ use Flat3\Lodata\Transaction\MetadataType\Full;
 use Flat3\Lodata\Transaction\MetadataType\Minimal;
 use Flat3\Lodata\Transaction\MetadataType\None;
 use Flat3\Lodata\Type\Collection;
-use Flat3\Lodata\Type\String_;
 
 /**
  * Supported Formats
@@ -28,12 +27,10 @@ class SupportedFormats extends Annotation
 
         /** @var MetadataType $attribute */
         foreach ([Full::class, Minimal::class, None::class] as $attribute) {
-            $this->value->add(new String_(
-                (new MediaType)->parse(MediaType::json)
-                    ->setParameter(Constants::metadata, $attribute::name)
-                    ->setParameter(Constants::ieee754Compatible, Constants::true)
-                    ->setParameter(Constants::streaming, Constants::true)
-            ));
+            $this->value[] = (string) (new MediaType)->parse(MediaType::json)
+                ->setParameter(Constants::metadata, $attribute::name)
+                ->setParameter(Constants::ieee754Compatible, Constants::true)
+                ->setParameter(Constants::streaming, Constants::true);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Tests\Drivers;
 use Flat3\Lodata\Drivers\CSVEntitySet;
 use Flat3\Lodata\Drivers\CSVEntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\JSON;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Writer;
@@ -18,7 +19,6 @@ trait WithCSVDriver
     {
         $this->entityId = 0;
         $this->missingEntityId = 99;
-        $this->etag = 'W/"6957cc776d688e96041be7b2157b87cf5ce4e7a6cd579fd1a87ca2dac6dd58b9"';
 
         /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('testing');
@@ -30,6 +30,12 @@ trait WithCSVDriver
 
         $csv = Writer::createFromFileObject(new SplTempFileObject());
         foreach ($this->getSeed() as $record) {
+            foreach ($record as $key => &$value) {
+                if (is_array($value)) {
+                    $value = JSON::encode($value);
+                }
+            }
+
             $csv->insertOne(array_merge($keys, $record));
         }
         $disk->write('test.csv', $csv->toString());
@@ -38,5 +44,6 @@ trait WithCSVDriver
         $entitySet->setDisk($disk);
         $entitySet->setFilePath('test.csv');
         Lodata::add($entitySet);
+        $this->updateETag();
     }
 }

@@ -10,7 +10,10 @@
             "dq": null,
             "in_role": "PT2M7S",
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "id": 5,
@@ -21,7 +24,10 @@
             "dq": "2003-04-04",
             "in_role": "PT14M48.9S",
             "open_time": "23:11:33.000000",
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

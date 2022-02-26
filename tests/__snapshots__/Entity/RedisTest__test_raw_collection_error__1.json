@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "invalid_property",
+        "message": "A collection cannot be requested as a raw value",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

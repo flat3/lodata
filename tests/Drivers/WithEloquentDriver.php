@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\Drivers;
 
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Operation\Function_;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Country;
@@ -24,7 +25,6 @@ trait WithEloquentDriver
         $this->petEntitySet = 'Pets';
         $this->entityId = 1;
         $this->missingEntityId = 99;
-        $this->etag = 'W/"e4452fdbb9a32df3b92bbee272e822594ba256420eb230af48264f053ecb015c"';
 
         Lodata::discover(Airport::class);
         $airports = Lodata::getEntitySet('Airports');
@@ -50,9 +50,16 @@ trait WithEloquentDriver
 
         Lodata::discover(Passenger::class);
         $passengers = Lodata::getEntitySet('Passengers');
+        $passengerType = $passengers->getType();
 
         Lodata::discover(Pet::class);
         $pets = Lodata::getEntitySet('Pets');
+
+        if (!Discovery::supportsEnum()) {
+            $this->addEnumerationTypes();
+            $passengerType->addDeclaredProperty('colour', Lodata::getTypeDefinition('Colours'));
+            $passengerType->addDeclaredProperty('sock_colours', Lodata::getTypeDefinition('MultiColours'));
+        }
 
         Lodata::getEntityType('Flight')->getProperty('duration')->setType(Type::duration());
         Lodata::getEntityType('Passenger')->getProperty('in_role')->setType(Type::duration());
@@ -96,6 +103,7 @@ trait WithEloquentDriver
         }
 
         $this->keepDriverState();
+        $this->updateETag();
     }
 
     protected function tearDownDriver(): void

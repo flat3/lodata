@@ -10,7 +10,10 @@
             "dq": null,
             "in_role": "PT2M7S",
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

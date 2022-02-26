@@ -1,0 +1,3 @@
+expression: t1 OR t2 AND t3
+result: ( ( "flights"."from" LIKE ? OR "flights"."to" LIKE ? ) OR ( ( "flights"."from" LIKE ? OR "flights"."to" LIKE ? ) AND ( "flights"."from" LIKE ? OR "flights"."to" LIKE ? ) ) )
+parameters: %t1%,%t1%,%t2%,%t2%,%t3%,%t3%

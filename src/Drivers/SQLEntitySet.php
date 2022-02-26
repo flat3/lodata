@@ -19,6 +19,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
@@ -189,7 +190,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $expression->pushStatement(sprintf('FROM %s WHERE', $this->quoteSingleIdentifier($this->getTable())));
         $expression->pushExpression($this->propertyToExpression($key->getProperty()));
         $expression->pushStatement('=?');
-        $expression->pushParameter($key->getPrimitiveValue());
+        $expression->pushParameter($key->getPrimitive()->toMixed());
 
         $stmt = $this->pdoSelect($expression);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -330,7 +331,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $fieldExpression = $this->propertyToExpression($key->getProperty());
         $where->pushExpression($fieldExpression);
         $where->pushStatement('=?');
-        $where->pushParameter($key->getPrimitiveValue());
+        $where->pushParameter($key->getPrimitive()->toMixed());
 
         return $where;
     }
@@ -385,12 +386,12 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                     }
 
                     $expression->pushStatement('OFFSET ? ROWS FETCH NEXT ? ROWS ONLY');
-                    $expression->pushParameter([$offset, $limit]);
+                    $expression->pushParameters([$offset, $limit]);
                     break;
 
                 default:
                     $expression->pushStatement('LIMIT ? OFFSET ?');
-                    $expression->pushParameter([$limit, $offset]);
+                    $expression->pushParameters([$limit, $offset]);
                     break;
             }
         }
@@ -504,7 +505,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
             $expression = new SQLExpression($this);
             $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($declaredProperty)));
-            $expression->pushParameter($propertyValues[$declaredProperty->getName()]->getPrimitiveValue());
+            $expression->pushParameter($propertyValues[$declaredProperty->getName()]->getPrimitive()->toMixed());
             $expressions[] = $expression;
         }
 
@@ -517,7 +518,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 $referencedProperty = $constraint->getReferencedProperty();
                 $expression = new SQLExpression($this);
                 $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty)));
-                $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitiveValue());
+                $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed());
                 $expressions[] = $expression;
             }
         }
@@ -581,7 +582,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                     $this->quoteSingleIdentifier($this->getPropertySourceName($propertyValue->getProperty()))
                 )
             );
-            $expression->pushParameter($propertyValue->getPrimitiveValue());
+            $expression->pushParameter($propertyValue->getPrimitive()->toMixed());
             $expressions[] = $expression;
         }
 
@@ -599,7 +600,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                         $this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty))
                     )
                 );
-                $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitiveValue());
+                $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed());
                 $expressions[] = $expression;
             }
         }
@@ -620,7 +621,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $expression->pushStatement('WHERE');
             $expression->pushExpression($this->propertyToExpression($this->getType()->getKey()));
             $expression->pushStatement('=?');
-            $expression->pushParameter($key->getPrimitiveValue());
+            $expression->pushParameter($key->getPrimitive()->toMixed());
 
             $this->pdoModify($expression);
         }
@@ -644,7 +645,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 $this->quoteSingleIdentifier($this->getPropertySourceName($type->getKey()))
             )
         );
-        $expression->pushParameter($key->getPrimitiveValue());
+        $expression->pushParameter($key->getPrimitive()->toMixed());
 
         $this->pdoModify($expression);
     }
@@ -663,7 +664,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $value = $record[$key];
 
             if (is_string($value) && is_numeric($value)) {
-                $value = json_decode($value);
+                $value = JSON::decode($value);
             }
 
             $record[$key] = $value;

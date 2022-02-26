@@ -111,7 +111,6 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * Get the current value in the array
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->array);
@@ -196,7 +195,6 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $offset
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
@@ -353,6 +351,15 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     public function first()
     {
         return Arr::first($this->array);
+    }
+
+    /**
+     * Get the last element of the array
+     * @return mixed|null
+     */
+    public function last()
+    {
+        return Arr::last($this->array);
     }
 
     /**

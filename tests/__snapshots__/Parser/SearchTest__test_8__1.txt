@@ -1,1 +1,2 @@
-( "t1" OR ( "t2" AND "t3" ) )
+expression: (t1 OR (t2 AND t3))
+result: ( "t1" OR ( "t2" AND "t3" ) )

@@ -1,1 +1,2 @@
-( origin eq 04:11:12 )
+expression: origin eq 04:11:12
+result: ( origin eq 04:11:12 )

@@ -1,0 +1,3 @@
+expression: id gt 4
+result: ( [flights].[id] > ? )
+parameters: 4

@@ -1,1 +1,2 @@
-origin as comp
+expression: origin
+result: origin

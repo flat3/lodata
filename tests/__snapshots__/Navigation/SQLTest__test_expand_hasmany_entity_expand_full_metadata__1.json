@@ -25,6 +25,12 @@
                     "in_role": "P1DT0S",
                     "open_time": "05:05:05.000000",
                     "flight_id": 1,
+                    "colour": "Green",
+                    "sock_colours": "Green,Blue",
+                    "emails": [
+                        "alpha@example.com",
+                        "alpha@beta.com"
+                    ],
                     "flight": {
                         "@type": "#com.example.odata.flight",
                         "@id": "http://localhost/odata/flights(1)",
@@ -50,6 +56,11 @@
                     "in_role": "P4DT32M41S",
                     "open_time": "07:07:07.000000",
                     "flight_id": 1,
+                    "colour": "Blue",
+                    "sock_colours": "Red,Green,Blue",
+                    "emails": [
+                        "gamma@example.com"
+                    ],
                     "flight": {
                         "@type": "#com.example.odata.flight",
                         "@id": "http://localhost/odata/flights(1)",

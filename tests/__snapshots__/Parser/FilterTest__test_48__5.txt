@@ -1,0 +1,3 @@
+expression: day(origin) eq 4
+result: ( DATEPART( day, [flights].[origin] ) = ? )
+parameters: 4

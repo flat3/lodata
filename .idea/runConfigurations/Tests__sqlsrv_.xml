@@ -1,14 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tests (sqlsrv)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
     <CommandLine>
-      <PhpTestInterpreterSettings>
-        <option name="interpreterName" value="lodata:latest" />
-      </PhpTestInterpreterSettings>
       <envs>
         <env name="DATABASE_URL" value="sqlsrv://sa:Your_password123@localhost:1433/msdb" />
       </envs>
     </CommandLine>
-    <TestRunner configuration_file="/opt/project/phpunit.xml" scope="XML" />
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
     <method v="2" />
   </configuration>
 </component>

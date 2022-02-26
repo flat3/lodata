@@ -60,8 +60,8 @@
     "hello": {
         "$Kind": "EnumType",
         "$IsFlags": false,
-        "aaa": {},
-        "bbb": {},
-        "$UnderlyingType": "Edm.Int32"
+        "aaa": 1,
+        "bbb": 2,
+        "$UnderlyingType": "Edm.Int64"
     }
 }

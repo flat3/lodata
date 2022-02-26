@@ -10,6 +10,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -61,8 +62,8 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     $typeDefinitionElement->{'$Kind'} = 'EnumType';
                     $typeDefinitionElement->{'$IsFlags'} = $typeDefinition->getIsFlags();
 
-                    foreach ($typeDefinition->getMembers() as $memberName => $memberValue) {
-                        $typeDefinitionElement->{$memberName} = $memberValue;
+                    foreach ($typeDefinition->getMembers() as $member) {
+                        $typeDefinitionElement->{$member->getName()} = $member->getValue();
                     }
                     break;
 
@@ -71,7 +72,10 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     break;
             }
 
-            $typeDefinitionElement->{'$UnderlyingType'} = $typeDefinition->getUnderlyingType()->getIdentifier()->getResolvedName($namespace);
+            if ($typeDefinition instanceof PrimitiveType) {
+                $typeDefinitionElement->{'$UnderlyingType'} = $typeDefinition->getUnderlyingType()->getIdentifier()->getResolvedName($namespace);
+            }
+
             $schema->{$typeDefinition->getIdentifier()->getResolvedName($namespace)} = $typeDefinitionElement;
         }
 
@@ -97,8 +101,14 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
             ) as $property) {
                 $complexTypeProperty = (object) [];
                 $complexTypeElement->{$property->getName()} = $complexTypeProperty;
-                $complexTypeProperty->{'$Type'} = $property->getType()->getIdentifier()->getQualifiedName();
-                $complexTypeProperty->{'$Nullable'} = $property->isNullable();
+                $propertyType = $property->getType();
+
+                if ($propertyType instanceof CollectionType) {
+                    $complexTypeProperty->{'$Collection'} = true;
+                }
+
+                $complexTypeProperty->{'$Type'} = $propertyType->getIdentifier()->getQualifiedName();
+                $complexTypeProperty->{'$Nullable'} = !$propertyType instanceof CollectionType && $property->isNullable();
 
                 if ($property->hasStaticDefaultValue()) {
                     $complexTypeProperty->{'$DefaultValue'} = $property->computeDefaultValue()->toJson();
@@ -171,11 +181,17 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     if ($arguments) {
                         $argumentsElement = [];
                         foreach ($arguments as $argument) {
+                            $argumentType = $argument->getType();
+
                             $argumentsElement[] = [
                                 '$Name' => $argument->getName(),
-                                '$Nullable' => $argument->isNullable(),
-                                '$Type' => $argument->getType()->getIdentifier()->getQualifiedName(),
+                                '$Nullable' => !$argumentType instanceof CollectionType && $argument->isNullable(),
+                                '$Type' => $argumentType->getIdentifier()->getQualifiedName(),
                             ];
+
+                            if ($argumentType instanceof CollectionType) {
+                                $argumentsElement['$Collection'] = true;
+                            }
                         }
                         $resourceElement->{'$Parameter'} = $argumentsElement;
                     }

@@ -8,6 +8,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Tests\Laravel\Models\Enums\Colour;
 
 class RedisTest extends EntitySetCreateTest
 {
@@ -97,5 +98,39 @@ class RedisTest extends EntitySetCreateTest
         );
 
         $this->assertRedisRecord('zeta');
+    }
+
+    public function test_enum_property()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'key' => 'zeta',
+                    'name' => 'Zeta',
+                    'colour' => Colour::Blue->name,
+                    'sock_colours' => Colour::Green->name.','.Colour::Red->name,
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function test_collection_property()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'key' => 'zeta',
+                    'name' => 'Zeta',
+                    'emails' => [
+                        'oob@example.com',
+                        'oo@test.com',
+                    ],
+                ]),
+            Response::HTTP_CREATED
+        );
     }
 }

@@ -99,6 +99,24 @@
             }
         }
     },
+    "Colours": {
+        "$Kind": "EnumType",
+        "$IsFlags": false,
+        "Red": 1,
+        "Green": 2,
+        "Blue": 4,
+        "Brown": 8,
+        "$UnderlyingType": "Edm.Int64"
+    },
+    "MultiColours": {
+        "$Kind": "EnumType",
+        "$IsFlags": true,
+        "Red": 1,
+        "Green": 2,
+        "Blue": 4,
+        "Brown": 8,
+        "$UnderlyingType": "Edm.Int64"
+    },
     "passenger": {
         "$Kind": "EntityType",
         "$Key": [
@@ -140,6 +158,19 @@
         "flight_id": {
             "$Type": "Edm.Int64",
             "$Nullable": true
+        },
+        "colour": {
+            "$Type": "com.example.odata.Colours",
+            "$Nullable": true
+        },
+        "sock_colours": {
+            "$Type": "com.example.odata.MultiColours",
+            "$Nullable": true
+        },
+        "emails": {
+            "$Collection": true,
+            "$Type": "Edm.String",
+            "$Nullable": false
         }
     },
     "datev1": {

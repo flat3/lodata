@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Helper;
 
+use Flat3\Lodata\Attributes\LodataEnum;
 use Flat3\Lodata\Attributes\LodataNamespace;
 use Flat3\Lodata\Attributes\LodataOperation;
 use Flat3\Lodata\Attributes\LodataRelationship;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\RepositoryInterface;
@@ -18,6 +20,7 @@ use Flat3\Lodata\Operation\Repository;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
@@ -31,6 +34,11 @@ class Discovery
                 'missing_class',
                 'Discovery was passed an item that was not a class'
             );
+        }
+
+        if (is_string($discoverable) && self::isEnum($discoverable)) {
+            $this->discoverEnumerationType($discoverable);
+            return;
         }
 
         if (is_a($discoverable, EloquentModel::class, true)) {
@@ -71,6 +79,19 @@ class Discovery
             try {
                 $set->discoverRelationship($relationshipMethod);
             } catch (ConfigurationException $e) {
+            }
+        }
+
+        $reflectionClass = new ReflectionClass($model);
+        $enumerationAttributes = $reflectionClass->getAttributes(LodataEnum::class);
+
+        if (self::supportsEnum()) {
+            /** @var LodataEnum $enumerationAttribute */
+            foreach ($enumerationAttributes as $enumerationAttribute) {
+                $instance = $enumerationAttribute->newInstance();
+                $type = $this->discoverEnumerationType($instance->getEnum());
+                $type->setIsFlags($instance->getIsFlags());
+                $set->getType()->getDeclaredProperty($instance->getName())->setType($type);
             }
         }
 
@@ -136,6 +157,27 @@ class Discovery
         }
     }
 
+    public function discoverEnumerationType($enum): EnumerationType
+    {
+        if (!self::isEnum($enum)) {
+            throw new ConfigurationException('invalid_enum', 'The provided enum was not valid');
+        }
+
+        $type = new EnumerationType(Str::pluralStudly(class_basename($enum)));
+
+        foreach ($enum::cases() as $case) {
+            $type[$case->name] = $case->value;
+        }
+
+        if (defined($enum.'::isFlags')) {
+            $type->setIsFlags($enum::isFlags);
+        }
+
+        Lodata::add($type);
+
+        return $type;
+    }
+
     public static function getReflectedMethods($class): array
     {
         $reflectionClass = new ReflectionClass($class);
@@ -146,6 +188,16 @@ class Discovery
     public static function supportsAttributes(): bool
     {
         return PHP_VERSION_ID > 80000;
+    }
+
+    public static function supportsEnum(): bool
+    {
+        return PHP_VERSION_ID > 80100;
+    }
+
+    public static function isEnum(string $enum): bool
+    {
+        return self::supportsEnum() && enum_exists($enum);
     }
 
     public function remember($key, callable $callback)

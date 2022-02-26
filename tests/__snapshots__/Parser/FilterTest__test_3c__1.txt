@@ -1,1 +1,2 @@
-( origin ne 4 )
+expression: origin ne 4
+result: ( origin ne 4 )

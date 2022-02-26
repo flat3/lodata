@@ -21,8 +21,10 @@ use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Annotations;
+use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
@@ -61,6 +63,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use JsonException;
 
 /**
  * Entity Set
@@ -179,20 +182,6 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $this->addAnnotation(new Capabilities\V1\SelectSupport());
 
         $this->navigationBindings = new ObjectArray();
-    }
-
-    /**
-     * Generate a new entity set definition
-     * @param  string  $name  Entity set name
-     * @param  EntityType  $entityType  Entity type
-     * @return static Entity set definition
-     * @codeCoverageIgnore
-     * @deprecated
-     */
-    public static function factory(string $name, EntityType $entityType): self
-    {
-        /** @phpstan-ignore-next-line */
-        return new static($name, $entityType);
     }
 
     /**
@@ -1117,6 +1106,22 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
             $record[$propertyName] = $record[$sourceName];
             unset($record[$sourceName]);
+        }
+
+        foreach ($this->getType()->getDeclaredProperties() as $declaredProperty) {
+            $propertyName = $declaredProperty->getName();
+            $propertyType = $declaredProperty->getType();
+
+            if (
+                array_key_exists($propertyName, $record)
+                && ($propertyType instanceof CollectionType || $propertyType instanceof ComplexType)
+                && is_string($record[$propertyName])
+            ) {
+                try {
+                    $record[$propertyName] = JSON::decode($record[$propertyName]);
+                } catch (JsonException $e) {
+                }
+            }
         }
 
         foreach ($record as $key => $value) {

@@ -1,0 +1,2 @@
+expression: priority has Priorities'high'
+result: ( priority has com.example.odata.Priorities'high' )

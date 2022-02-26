@@ -1,1 +1,2 @@
-( origin eq 4 )
+expression: origin eq 4
+result: ( origin eq 4 )

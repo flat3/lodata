@@ -1,1 +1,2 @@
-( length( origin ) eq 1 )
+expression: length(origin) eq 1
+result: ( length( origin ) eq 1 )

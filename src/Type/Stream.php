@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Transaction\MediaType;
 use GuzzleHttp\Psr7\Uri;
@@ -78,7 +79,7 @@ class Stream extends Primitive
     public function emitStream(Transaction $transaction): void
     {
         if (!is_resource($this->value)) {
-            $transaction->sendOutput(json_encode($this->value));
+            $transaction->sendOutput(JSON::encode($this->value));
             return;
         }
 

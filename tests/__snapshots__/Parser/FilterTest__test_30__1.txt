@@ -1,1 +1,2 @@
-( origin eq ( 4 div 3 ) )
+expression: origin eq 4 div 3
+result: ( origin eq ( 4 div 3 ) )

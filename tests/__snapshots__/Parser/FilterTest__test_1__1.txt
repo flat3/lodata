@@ -1,1 +1,2 @@
-( origin eq 'test' )
+expression: origin eq 'test'
+result: ( origin eq 'test' )

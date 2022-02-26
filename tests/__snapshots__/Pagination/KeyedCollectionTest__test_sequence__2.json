@@ -10,7 +10,12 @@
             "dq": "2002-03-03",
             "in_role": "P4DT32M41S",
             "open_time": "07:07:07.000000",
-            "flight_id": 1
+            "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
         },
         {
             "id": "delta",
@@ -21,7 +26,10 @@
             "chips": null,
             "dq": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ],
     "@nextLink": "http://localhost/odata/passengers?top=2&skip=4"

@@ -54,12 +54,14 @@ use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Operator\Logical\Equal;
 use Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThan;
 use Flat3\Lodata\Expression\Node\Operator\Logical\GreaterThanOrEqual;
+use Flat3\Lodata\Expression\Node\Operator\Logical\Has;
 use Flat3\Lodata\Expression\Node\Operator\Logical\In;
 use Flat3\Lodata\Expression\Node\Operator\Logical\LessThan;
 use Flat3\Lodata\Expression\Node\Operator\Logical\LessThanOrEqual;
 use Flat3\Lodata\Expression\Node\Operator\Logical\NotEqual;
 use Flat3\Lodata\Expression\Node\Property;
 use Flat3\Lodata\Expression\Operator;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\ReferentialConstraint;
@@ -156,13 +158,31 @@ class SQLExpression
     }
 
     /**
-     * Push one or more parameters into the buffer
-     * @param  string|string[]  $parameter  Parameters
+     * Push one parameter into the buffer
+     * @param  mixed  $parameter  Parameter
      * @return $this
      */
     public function pushParameter($parameter): self
     {
+        if (is_array($parameter)) {
+            $parameter = JSON::encode($parameter);
+        }
+
         $this->parameters = array_merge($this->parameters, is_array($parameter) ? $parameter : [$parameter]);
+
+        return $this;
+    }
+
+    /**
+     * Push multiple parameters into the buffer
+     * @param  array  $parameters
+     * @return $this
+     */
+    public function pushParameters(array $parameters): self
+    {
+        foreach ($parameters as $parameter) {
+            $this->pushParameter($parameter);
+        }
 
         return $this;
     }
@@ -179,7 +199,7 @@ class SQLExpression
         }
 
         $this->pushStatement($expression->getStatement());
-        $this->pushParameter($expression->getParameters());
+        $this->pushParameters($expression->getParameters());
 
         return $this;
     }
@@ -347,6 +367,17 @@ class SQLExpression
 
                 $this->pushStatement('!=');
                 break;
+
+            case $node instanceof Has:
+                $this->pushStatement('&');
+                $this->evaluate($right);
+                $this->pushStatement('=');
+                $this->evaluate($right);
+                $this->pushStatement(')');
+                return;
+
+            default:
+                $node->notImplemented();
         }
 
         $this->evaluate($right);
@@ -947,7 +978,7 @@ class SQLExpression
             $constraint = array_shift($constraints);
 
             $field = $this->entitySet->propertyToExpression($constraint->getProperty());
-            $this->pushParameter($field->getParameters());
+            $this->pushParameters($field->getParameters());
 
             $this->pushStatement(
                 sprintf('( %s = %s ( SELECT %s from %s WHERE',

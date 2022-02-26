@@ -43,6 +43,9 @@ class Airline extends Migration
             $table->date('dq')->nullable();
             $table->float('in_role')->nullable();
             $table->time('open_time')->nullable();
+            $table->unsignedBigInteger('colour')->nullable();
+            $table->unsignedBigInteger('sock_colours')->nullable();
+            $table->json('emails')->nullable();
         });
 
         Schema::create('pets', function (Blueprint $table) {

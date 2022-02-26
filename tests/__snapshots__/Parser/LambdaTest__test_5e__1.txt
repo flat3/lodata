@@ -1,0 +1,2 @@
+expression: da/all(d:d/name eq 'hello')
+result: da/all(d: ( d/name eq 'hello' ) )

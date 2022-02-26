@@ -12,9 +12,11 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
+use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Date;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
@@ -293,6 +295,24 @@ class ActionTest extends TestCase
         );
     }
 
+    public function test_array_argument()
+    {
+        $arrayv1 = new Operation\Action('arrayv1');
+        $arrayv1->setCallable(function (array $args): array {
+            return $args;
+        });
+        Lodata::add($arrayv1);
+
+        $this->assertMetadataSnapshot();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path('/arrayv1')
+                ->body(['args' => ["q", 4]])
+        );
+    }
+
     public function test_date_argument()
     {
         $datev1 = new Operation\Action('datev1');
@@ -370,6 +390,26 @@ class ActionTest extends TestCase
                     'arg' => 4,
                 ])
                 ->path("/op")
+        );
+    }
+
+    public function test_odata_collection_argument()
+    {
+        $op = new Operation\Action('op');
+        $op->setCallable(function (Collection $args): Collection {
+            $args->setUnderlyingType(Type::string());
+
+            return $args;
+        });
+        Lodata::add($op);
+
+        $this->assertMetadataSnapshot();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path("/op")
+                ->body(['args' => ["red", "green"]])
         );
     }
 

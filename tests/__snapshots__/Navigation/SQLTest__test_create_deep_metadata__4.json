@@ -8,5 +8,8 @@
     "dq": null,
     "in_role": null,
     "open_time": null,
-    "flight_id": 4
+    "flight_id": 4,
+    "colour": null,
+    "sock_colours": null,
+    "emails": []
 }

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use ArrayAccess;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Type\Enum;
-use Flat3\Lodata\Type\EnumMember;
 
 /**
  * Enumeration Type
- * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530376
+ * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EnumerationType
  * @package Flat3\Lodata
  */
 class EnumerationType extends PrimitiveType implements ArrayAccess
@@ -22,7 +22,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Members of this enumeration type
-     * @var ObjectArray $members
+     * @var EnumMember[]|ObjectArray $members
      */
     protected $members;
 
@@ -34,21 +34,10 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     public function __construct($identifier)
     {
+        parent::__construct(Enum::class);
         $this->setIdentifier($identifier);
         $this->members = new ObjectArray();
-        $this->underlyingType = Type::int32();
-    }
-
-    /**
-     * Generate a new enumerated type
-     * @param  string  $identifier  Type name
-     * @return static
-     * @codeCoverageIgnore
-     * @deprecated
-     */
-    public static function factory(string $identifier): self
-    {
-        return new self($identifier);
+        $this->setUnderlyingType(Type::int64());
     }
 
     /**
@@ -74,7 +63,7 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
 
     /**
      * Get the defined members of this enumerated type
-     * @return ObjectArray Members of the type
+     * @return EnumMember[]|ObjectArray Members of the type
      */
     public function getMembers(): ObjectArray
     {
@@ -85,7 +74,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * Whether a member exists on this type with the given name
      * @param  mixed  $offset  Member name
      * @return bool
-     * @codeCoverageIgnore
      */
     public function offsetExists($offset): bool
     {
@@ -95,27 +83,32 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     /**
      * Get the member identified by the given name
      * @param  mixed  $offset  Member name
-     * @return EnumMember|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?EnumMember
     {
         return $this->members->get($offset);
     }
 
     /**
      * Add a new member of this enumerated type
-     * @param  mixed  $offset  Member name
-     * @param  mixed  $member  Member value
+     * @param $offset
+     * @param  mixed  $value  Member name
      */
-    public function offsetSet($offset, $member): void
+    public function offsetSet($offset, $value): void
     {
-        if (!is_object($offset) || !$this->underlyingType->is(get_class($offset))) {
-            $offset = $this->underlyingType->instance($offset ?: count($this->members) + 1);
-        }
+        $member = new EnumMember($this);
 
-        if (!$member instanceof EnumMember) {
-            $member = new EnumMember($this, $member, $offset);
+        if (null === $offset) {
+            $member->setName($value);
+
+            if ($this->members->isEmpty()) {
+                $member->setValue(1);
+            } else {
+                $member->setValue($this->members->last()->getValue() * 2);
+            }
+        } else {
+            $member->setName($offset);
+            $member->setValue($value);
         }
 
         $this->members->add($member);
@@ -124,7 +117,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
     /**
      * Remove a member of the enumerated type
      * @param  mixed  $offset  Member name
-     * @codeCoverageIgnore
      */
     public function offsetUnset($offset): void
     {
@@ -136,15 +128,20 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
      * @param  null  $value  Member name
      * @return Enum
      */
-    public function instance($value = null): Primitive
+    public function instance($value = 0): Primitive
     {
-        if (null === $value) {
-            throw new InternalServerErrorException(
-                'invalid_enumeration_value',
-                'The value of an enumeration cannot be null'
-            );
-        }
-
         return new Enum($this, $value);
+    }
+
+    /**
+     * Get the OpenAPI schema for this primitive type
+     * @return array
+     */
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'enum' => $this->getMembers()->keys(),
+        ];
     }
 }

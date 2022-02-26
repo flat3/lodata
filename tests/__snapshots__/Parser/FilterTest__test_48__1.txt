@@ -1,1 +1,2 @@
-( day( origin ) eq 4 )
+expression: day(origin) eq 4
+result: ( day( origin ) eq 4 )

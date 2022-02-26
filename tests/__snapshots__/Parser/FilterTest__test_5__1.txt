@@ -1,1 +1,2 @@
-( id lt 4 )
+expression: id lt 4
+result: ( id lt 4 )

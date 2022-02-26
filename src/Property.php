@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
@@ -232,7 +233,7 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     public function getOpenAPISchema(): array
     {
         $schema = $this->getType()->getOpenAPISchema();
-        $schema['nullable'] = $this->nullable;
+        $schema['nullable'] = !$this->getType() instanceof CollectionType && $this->nullable;
 
         if ($this->hasStaticDefaultValue()) {
             $schema['default'] = $this->computeDefaultValue();

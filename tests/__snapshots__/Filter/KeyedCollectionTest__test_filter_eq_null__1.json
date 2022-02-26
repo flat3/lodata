@@ -10,7 +10,10 @@
             "chips": null,
             "dq": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

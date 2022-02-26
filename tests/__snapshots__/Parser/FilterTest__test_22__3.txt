@@ -1,0 +1,3 @@
+expression: concat(origin, 'abc') eq '123abc'
+result: ( CONCAT( CAST( "flights"."origin" AS TEXT ), CAST( ? AS TEXT ) ) = ? )
+parameters: abc,123abc

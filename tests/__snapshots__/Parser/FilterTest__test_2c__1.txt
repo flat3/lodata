@@ -1,1 +1,2 @@
-( toupper( origin ) eq 'abc123' )
+expression: toupper(origin) eq 'abc123'
+result: ( toupper( origin ) eq 'abc123' )

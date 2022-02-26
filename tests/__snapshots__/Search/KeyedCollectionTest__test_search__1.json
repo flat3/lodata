@@ -10,7 +10,13 @@
             "dq": "2000-01-01",
             "in_role": "P1DT0S",
             "open_time": "05:05:05.000000",
-            "flight_id": 1
+            "flight_id": 1,
+            "colour": "Green",
+            "sock_colours": "Green,Blue",
+            "emails": [
+                "alpha@example.com",
+                "alpha@beta.com"
+            ]
         },
         {
             "id": "delta",
@@ -21,7 +27,10 @@
             "chips": null,
             "dq": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "id": "epsilon",
@@ -31,8 +40,11 @@
             "dq": "2003-04-04",
             "open_time": "23:11:33.000000",
             "in_role": "PT14M48.9S",
+            "colour": null,
+            "sock_colours": null,
             "chips": null,
-            "flight_id": null
+            "flight_id": null,
+            "emails": []
         }
     ]
 }

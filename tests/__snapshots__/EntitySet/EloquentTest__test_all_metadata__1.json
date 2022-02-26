@@ -14,7 +14,13 @@
             "chips": true,
             "dq": "2000-01-01",
             "in_role": "P1DT0S",
-            "open_time": "05:05:05.000000"
+            "open_time": "05:05:05.000000",
+            "colour": "Green",
+            "sock_colours": "Green,Blue",
+            "emails": [
+                "alpha@example.com",
+                "alpha@beta.com"
+            ]
         },
         {
             "@type": "#com.example.odata.Passenger",
@@ -28,7 +34,10 @@
             "chips": false,
             "dq": "2001-02-02",
             "in_role": "P2DT5H5M5.2999999999884S",
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.Passenger",
@@ -42,7 +51,12 @@
             "chips": true,
             "dq": "2002-03-03",
             "in_role": "P4DT32M41S",
-            "open_time": "07:07:07.000000"
+            "open_time": "07:07:07.000000",
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
         },
         {
             "@type": "#com.example.odata.Passenger",
@@ -56,7 +70,10 @@
             "chips": null,
             "dq": null,
             "in_role": "PT2M7S",
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.Passenger",
@@ -70,7 +87,10 @@
             "chips": null,
             "dq": "2003-04-04",
             "in_role": "PT14M48.9S",
-            "open_time": "23:11:33.000000"
+            "open_time": "23:11:33.000000",
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

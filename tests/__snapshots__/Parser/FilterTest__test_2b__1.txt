@@ -1,1 +1,2 @@
-( tolower( origin ) eq 'abc123' )
+expression: tolower(origin) eq 'abc123'
+result: ( tolower( origin ) eq 'abc123' )

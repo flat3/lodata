@@ -10,7 +10,10 @@
             "chips": null,
             "dq": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "id": "epsilon",
@@ -20,8 +23,11 @@
             "dq": "2003-04-04",
             "open_time": "23:11:33.000000",
             "in_role": "PT14M48.9S",
+            "colour": null,
+            "sock_colours": null,
             "chips": null,
-            "flight_id": null
+            "flight_id": null,
+            "emails": []
         }
     ]
 }

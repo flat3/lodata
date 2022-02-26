@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( MINUTE( `flights`.`origin` ) = ? )
+expression: minute(origin) eq 33
+result: ( MINUTE( `flights`.`origin` ) = ? )
+parameters: 33

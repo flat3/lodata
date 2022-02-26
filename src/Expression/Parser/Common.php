@@ -172,6 +172,9 @@ abstract class Common extends Parser
             case $node instanceof Node\Operator\Logical\In:
                 return new Type\Boolean(in_array($lValue, $argv));
 
+            case $node instanceof Node\Operator\Logical\Has:
+                return new Type\Boolean($left->hasFlags($right->toFlags()));
+
             // 5.1.1.2 Arithmetic operators
             case $node instanceof Node\Operator\Arithmetic\Add:
                 switch (true) {

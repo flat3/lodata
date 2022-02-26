@@ -40,6 +40,8 @@ class Compute extends Option
             $computedProperty = new ComputedProperty($identifier);
             $computedProperty->setExpression($commonExpression);
             $computedProperties[] = $computedProperty;
+            $lexer->maybeChar(',');
+            $lexer->maybeWhitespace();
         }
 
         return $computedProperties;

@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\AcceptedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Traits\HasDisk;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -262,7 +263,7 @@ class Async implements ShouldQueue
      */
     public function getResultMetadata(): array
     {
-        return json_decode($this->getFilesystem()->get($this->getMetaPath()), true);
+        return JSON::decode($this->getFilesystem()->get($this->getMetaPath()));
     }
 
     /**

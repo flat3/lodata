@@ -5,14 +5,12 @@ namespace Flat3\Lodata\Tests\Parser;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntityType;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Parser\Search;
 use Flat3\Lodata\Primitive;
-use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
 use RuntimeException;
 
-class SearchExpressionTest extends TestCase
+class SearchExpressionTest extends ExpressionTest
 {
     public function test_1()
     {
@@ -57,36 +55,6 @@ class SearchExpressionTest extends TestCase
     public function test_9()
     {
         $this->assertTrueExpression('ornot OR ANDthis or ther NOT th');
-    }
-
-    public function assertTrueExpression($expression): void
-    {
-        $this->assertTrue($this->evaluate($expression));
-    }
-
-    public function assertFalseExpression($expression): void
-    {
-        $this->assertFalse($this->evaluate($expression));
-    }
-
-    public function assertNullExpression($expression): void
-    {
-        $this->assertNull($this->evaluate($expression));
-    }
-
-    public function assertSameExpression($expected, $expression): void
-    {
-        $this->assertSame($expected, $this->evaluate($expression));
-    }
-
-    public function assertBadExpression($expression): void
-    {
-        try {
-            $this->evaluate($expression);
-            throw new RuntimeException('Failed to throw exception');
-        } catch (BadRequestException $e) {
-            return;
-        }
     }
 
     public function evaluate(string $expression)

@@ -16,7 +16,6 @@ trait WithRedisDriver
     {
         $this->entityId = 'alpha';
         $this->missingEntityId = 'missing';
-        $this->etag = 'W/"b8ecab1508e1d5a3b34b38b20247e102bb76255257d60bcbd4708d772e275eef"';
 
         foreach ($this->getSeed() as $key => $record) {
             // @phpstan-ignore-next-line
@@ -27,6 +26,7 @@ trait WithRedisDriver
         $this->addPassengerProperties($entityType);
         $entitySet = new RedisEntitySet($this->entitySet, $entityType);
         Lodata::add($entitySet);
+        $this->updateETag();
         $this->keepDriverState();
     }
 
@@ -35,7 +35,8 @@ trait WithRedisDriver
         $this->assertDriverStateDiffSnapshot();
     }
 
-    protected function captureDriverState():array{
+    protected function captureDriverState(): array
+    {
         $data = [];
 
         /** @var Connection $redis */

@@ -1,0 +1,7 @@
+{
+    "@context": "http://localhost/odata/$metadata#Collection(Edm.String)",
+    "value": [
+        "red",
+        "green"
+    ]
+}

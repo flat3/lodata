@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE REGEXP_LIKE( `flights`.`origin`, ? )
+expression: matchesPattern(origin,'^A.*e$')
+result: REGEXP_LIKE( `flights`.`origin`, ? )
+parameters: ^A.*e$

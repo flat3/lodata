@@ -1,0 +1,3 @@
+expression: ceiling(origin) eq 4
+result: ( CEILING( [flights].[origin] ) = ? )
+parameters: 4

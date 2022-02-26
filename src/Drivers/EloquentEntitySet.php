@@ -23,6 +23,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
@@ -120,7 +121,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $builder->select('*');
         $this->selectComputedProperties($builder);
 
-        return $builder->where($key->getProperty()->getName(), $key->getPrimitiveValue())->first();
+        return $builder->where($key->getProperty()->getName(), $key->getPrimitive()->toMixed())->first();
     }
 
     /**
@@ -171,7 +172,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $model = $entity->getSource();
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitiveValue();
+            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitive()->toMixed();
         }
 
         $model->save();
@@ -190,7 +191,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         /** @var DeclaredProperty $declaredProperty */
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitiveValue();
+            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitive()->toMixed();
         }
 
         if ($this->navigationSource) {
@@ -200,7 +201,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $model[$referencedProperty->getName()] = $this->navigationSource->getParent()->getEntityId()->getPrimitiveValue();
+                $model[$referencedProperty->getName()] = $this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed();
             }
         }
 
@@ -332,7 +333,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $value = $model->{$this->getPropertySourceName($computedProperty)};
 
             if (is_string($value) && is_numeric($value)) {
-                $value = json_decode($value);
+                $value = JSON::decode($value);
             }
 
             $entity[$computedProperty->getName()] = $value;
@@ -512,6 +513,14 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
                 case 'boolean' === $cast:
                     $type = Type::boolean();
+                    break;
+
+                case 'array' === $cast:
+                    $type = Type::collection(Type::string());
+                    break;
+
+                case Discovery::isEnum($cast):
+                    $type = (new Discovery)->discoverEnumerationType($cast);
                     break;
 
                 case in_array($cast, ['date', 'datetime:Y-m-d']) || Str::startsWith($cast, 'date:'):

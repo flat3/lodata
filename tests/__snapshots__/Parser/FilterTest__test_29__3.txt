@@ -1,0 +1,3 @@
+expression: substring(origin,1,4) eq 'abc123'
+result: ( SUBSTR( "flights"."origin", ( ? + 1 ), ? ) = ? )
+parameters: 1,4,abc123

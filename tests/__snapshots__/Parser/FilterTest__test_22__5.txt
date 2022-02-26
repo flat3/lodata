@@ -1,0 +1,3 @@
+expression: concat(origin, 'abc') eq '123abc'
+result: ( CONCAT( [flights].[origin], ? ) = ? )
+parameters: abc,123abc

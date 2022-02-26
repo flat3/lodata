@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( DATE_PART( 'MINUTE', "flights"."origin" ) = ? )
+expression: minute(origin) eq 33
+result: ( CAST( STRFTIME( '%M', "flights"."origin" ) AS NUMERIC ) = ? )
+parameters: 33

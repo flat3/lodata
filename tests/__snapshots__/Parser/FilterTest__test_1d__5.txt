@@ -1,0 +1,3 @@
+expression: not(origin eq 'a')
+result: ( NOT ( [flights].[origin] = ? ) )
+parameters: a

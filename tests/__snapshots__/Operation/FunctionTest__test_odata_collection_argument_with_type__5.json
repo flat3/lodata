@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#Collection(com.example.odata.tmp)",
+    "value": [
+        {
+            "a": "a",
+            "b": 4
+        }
+    ]
+}

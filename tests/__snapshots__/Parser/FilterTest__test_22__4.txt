@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( CONCAT( CAST( "flights"."origin" AS TEXT ), CAST( ? AS TEXT ) ) = ? )
+expression: concat(origin, 'abc') eq '123abc'
+result: ( ( "flights"."origin" || ? ) = ? )
+parameters: abc,123abc

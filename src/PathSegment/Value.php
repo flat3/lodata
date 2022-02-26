@@ -15,6 +15,7 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\StreamInterface;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Stream;
 
 /**
@@ -63,8 +64,13 @@ class Value implements PipeInterface, StreamInterface
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $primitive = $this->primitive;
+
         if ($primitive && null === $primitive->get()) {
             throw new NoContentException('null_value');
+        }
+
+        if ($primitive instanceof Collection) {
+            throw new BadRequestException('invalid_property', 'A collection cannot be requested as a raw value');
         }
 
         if ($primitive instanceof Stream && $primitive->getReadLink()) {

@@ -8,6 +8,8 @@
             "chips": false,
             "dq": "2001-02-02",
             "in_role": "P2DT5H5M5.2999999999884S",
+            "colour": null,
+            "sock_colours": null,
             "key": "beta"
         },
         {
@@ -19,6 +21,11 @@
             "in_role": "P4DT32M41S",
             "open_time": "07:07:07.000000",
             "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ],
             "key": "gamma"
         }
     ],

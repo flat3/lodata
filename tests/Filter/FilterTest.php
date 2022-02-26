@@ -72,6 +72,24 @@ abstract class FilterTest extends TestCase
         );
     }
 
+    public function test_filter_has()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->filter("colour has Colours'Blue'")
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_filter_has_multi()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->filter("sock_colours has MultiColours'Blue,Green'")
+                ->path($this->entitySetPath)
+        );
+    }
+
     public function test_filter_eq_null()
     {
         $this->assertJsonResponseSnapshot(

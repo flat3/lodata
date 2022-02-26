@@ -1,1 +1,2 @@
-( ceiling( origin ) eq 4 )
+expression: ceiling(origin) eq 4
+result: ( ceiling( origin ) eq 4 )

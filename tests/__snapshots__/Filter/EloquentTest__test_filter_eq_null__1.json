@@ -10,7 +10,10 @@
             "chips": null,
             "dq": null,
             "in_role": "PT2M7S",
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

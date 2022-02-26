@@ -1,0 +1,2 @@
+expression: airports/all(d:d/name eq 'hello')
+result: This entity set does not support the operator "all"

@@ -18,6 +18,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Annotations;
+use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -717,7 +718,7 @@ DESC, [
                 $entitySet->getType()
                     ->getDeclaredProperties()
                     ->filter(function (DeclaredProperty $property) {
-                        return $property->isFilterable();
+                        return $property->isFilterable() && !$property->getType() instanceof CollectionType;
                     })->map(function (DeclaredProperty $property) {
                         return [$property->getName(), $property->getName().' desc'];
                     })

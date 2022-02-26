@@ -1,0 +1,6 @@
+{
+    "@context": "http://localhost/odata/$metadata#example",
+    "col": [
+        "aaa"
+    ]
+}

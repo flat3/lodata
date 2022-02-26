@@ -1,0 +1,3 @@
+expression: origin gt (now() sub PT3M)
+result: ( "flights"."origin" > ( NOW( ) - ? ) )
+parameters: 180

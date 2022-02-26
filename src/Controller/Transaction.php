@@ -23,6 +23,7 @@ use Flat3\Lodata\Exception\Protocol\PreconditionFailedException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\JsonInterface;
@@ -828,7 +829,7 @@ class Transaction
 
         if ($this->getProvidedContentType()->getSubtype() === 'json') {
             try {
-                $content = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+                $content = JSON::decode($content);
             } catch (JsonException $e) {
                 throw new BadRequestException('invalid_json', 'Invalid JSON was provided');
             }
@@ -1036,7 +1037,7 @@ class Transaction
      */
     public function sendJson($data): void
     {
-        $this->sendOutput(json_encode($data, JSON_UNESCAPED_SLASHES));
+        $this->sendOutput(JSON::encode($data));
     }
 
     /**
@@ -1437,7 +1438,7 @@ class Transaction
 
                 $deltaRequest = new NavigationRequest();
                 $deltaRequest->setOuterRequest($this->getRequest());
-                $deltaRequest->setContent(json_encode($deltaPayload));
+                $deltaRequest->setContent(JSON::encode($deltaPayload));
                 $deltaRequest->setNavigationProperty($navigationProperty);
 
                 $deltaTransaction = clone $this;

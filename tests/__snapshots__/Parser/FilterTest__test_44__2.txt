@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( `flights`.`origin` = ? )
+expression: origin eq PT36H
+result: ( `flights`.`origin` = ? )
+parameters: 129600

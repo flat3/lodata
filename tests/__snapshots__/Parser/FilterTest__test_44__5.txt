@@ -1,0 +1,3 @@
+expression: origin eq PT36H
+result: ( [flights].[origin] = ? )
+parameters: 129600

@@ -112,6 +112,17 @@ http://localhost:8000/odata/Person(1)/age()
 </code-block>
 </code-group>
 
+## Enumerated types
+
+Since Laravel 9 and PHP 8.1 there exists support for `BackedEnum` casts in Eloquent models. For these to work
+in Lodata, they must be integer backed enums and if using flags the integers must be powers of two (1,2,4,8 etc.) so
+that the bitwise logic will work correctly.
+
+## Collections
+
+Eloquent supports using `array` as a cast. Attributes with this cast will be automatically interpreted as collections
+using the `Edm.String` underlying type. The underlying type can be overridden after discovery.
+
 ## Repository
 
 Some Laravel applications implement a [repository](https://www.twilio.com/blog/repository-pattern-in-laravel-application)

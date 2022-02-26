@@ -4,12 +4,13 @@ namespace Flat3\Lodata\Tests\Queries;
 
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
+use TypeError;
 
 class EnumerationTypeTest extends TestCase
 {
@@ -34,9 +35,10 @@ class EnumerationTypeTest extends TestCase
         $this->assertMetadataSnapshot();
     }
 
-    public function test_value_invalid_name()
+    public function test_enum_must_be_integer()
     {
-        $this->expectException(InternalServerErrorException::class);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(PHP_VERSION_ID >= 80000 ? 'must be of type int, string given' : 'must be of the type int, string given');
         $type = new EnumerationType('hello');
         $type['aaa'] = '1';
     }
@@ -143,7 +145,8 @@ class EnumerationTypeTest extends TestCase
         $type->addDeclaredProperty('inner', $enumeration);
         $entity = new Singleton('example', $type);
 
-        $this->expectException(InternalServerErrorException::class);
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('The provided flag value "bbb" was not valid for this type');
         $entity['inner'] = 'bbb';
     }
 }

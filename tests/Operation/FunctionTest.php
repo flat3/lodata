@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Operation;
 
+use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Drivers\StaticEntitySet;
 use Flat3\Lodata\Entity;
@@ -11,9 +12,11 @@ use Flat3\Lodata\Operation;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
+use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Date;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
@@ -494,6 +497,23 @@ class FunctionTest extends TestCase
         );
     }
 
+    public function test_array_argument()
+    {
+        $arrayv1 = new Operation\Function_('arrayv1');
+        $arrayv1->setCallable(function (array $args): array {
+            return $args;
+        });
+        Lodata::add($arrayv1);
+
+        $this->assertMetadataSnapshot();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path('/arrayv1(args=@c)')
+                ->query('@c', '["q", 4]')
+        );
+    }
+
     public function test_float_argument()
     {
         $floatv1 = new Operation\Function_('floatv1');
@@ -587,6 +607,53 @@ class FunctionTest extends TestCase
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path("/op(arg=4)")
+        );
+    }
+
+    public function test_odata_collection_argument()
+    {
+        $op = new Operation\Function_('op');
+        $op->setCallable(function (Collection $args): Collection {
+            $args->setUnderlyingType(Type::string());
+
+            return $args;
+        });
+        Lodata::add($op);
+
+        $this->assertMetadataSnapshot();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path("/op(args=@c)")
+                ->query('@c', '["red","green"]')
+        );
+    }
+
+    public function test_odata_collection_argument_with_type()
+    {
+        $complexType = new ComplexType('tmp');
+        $complexType->addDeclaredProperty('a', Type::string());
+        $complexType->addDeclaredProperty('b', Type::int64());
+        $type = Type::collection($complexType);
+        Lodata::add($complexType);
+
+        $op = new Operation\Function_('op');
+        $op->setCallable(function (Collection $args): Collection {
+            /** @var Collection $collection */
+            $collection = (new Collection)->setUnderlyingType(Lodata::getTypeDefinition('tmp'))->set([
+                ['a' => 'a', 'b' => 4],
+            ]);
+
+            return $collection;
+        })->setReturnType($type);
+        Lodata::add($op);
+
+        $this->assertMetadataSnapshot();
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path("/op(args=@c)")
+                ->query('@c', '["red","green"]')
         );
     }
 

@@ -1,1 +1,2 @@
-( startswith( origin , 'Veniam et' ) gt 4 )
+expression: startswith(origin,'Veniam et') gt 4
+result: ( startswith( origin, 'Veniam et' ) gt 4 )

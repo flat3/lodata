@@ -1,0 +1,3 @@
+expression: month(origin) eq 11
+result: ( DATEPART( month, [flights].[origin] ) = ? )
+parameters: 11

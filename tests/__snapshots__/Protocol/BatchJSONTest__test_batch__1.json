@@ -5,7 +5,7 @@
             "status": 200,
             "headers": {
                 "content-type": "application/json",
-                "etag": "W/\"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5\""
+                "etag": "W/\"a714e2db58e276ecdcfcd98c25a0085a1465f571f780135a3ef2e976ec3a0afe\""
             },
             "body": {
                 "@context": "http://localhost/odata/$metadata#flights/$entity",
@@ -22,7 +22,7 @@
             "headers": {
                 "content-type": "application/json",
                 "location": "http://localhost/odata/airports(5)",
-                "etag": "W/\"44181a2ec21d569e1be016208236476a2441fb055a5428891bae21949272efe4\""
+                "etag": "W/\"9dcfebb4cce3bc22f0333343727cdc6ef96cc0d0026b89ca181a1c40cb250907\""
             },
             "body": {
                 "@context": "http://localhost/odata/$metadata#airports/$entity",

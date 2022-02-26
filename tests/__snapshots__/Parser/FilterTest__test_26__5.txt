@@ -1,0 +1,3 @@
+expression: indexof(origin,'abc123') eq 1
+result: ( CHARINDEX( [flights].[origin], ? ) = ? )
+parameters: abc123,1

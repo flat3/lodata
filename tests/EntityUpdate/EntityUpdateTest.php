@@ -272,4 +272,73 @@ abstract class EntityUpdateTest extends TestCase
                 ])
         );
     }
+
+    public function test_update_enum()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath)
+                ->patch()
+                ->body([
+                    'colour' => 'Brown',
+                ])
+        );
+    }
+
+    public function test_update_enum_flags()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath)
+                ->patch()
+                ->body([
+                    'sock_colours' => 'Brown,Blue',
+                ])
+        );
+    }
+
+    public function test_collection_property_put()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath.'/emails')
+                ->put()
+                ->body([
+                    'only@thisemail.com',
+                ])
+        );
+    }
+
+    public function test_collection_property_patch()
+    {
+        $this->assertMethodNotAllowed(
+            (new Request)
+                ->path($this->entityPath.'/emails')
+                ->patch()
+                ->body([
+                    'only@thisemail.com',
+                ])
+        );
+    }
+
+    public function test_collection_property_post()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath.'/emails')
+                ->post()
+                ->body(
+                    'added@thisemail.com',
+                )
+        );
+    }
+
+    public function test_collection_property_delete()
+    {
+        $this->assertNoContent(
+            (new Request)
+                ->delete()
+                ->path($this->entityPath.'/emails'),
+        );
+    }
 }

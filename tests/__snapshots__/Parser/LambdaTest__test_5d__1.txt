@@ -1,0 +1,2 @@
+expression: airports/all(d:d/name eq 'hello')
+result: airports/all(d: ( d/name eq 'hello' ) )

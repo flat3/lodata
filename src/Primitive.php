@@ -11,12 +11,12 @@ use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\ContextInterface;
-use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\Interfaces\SerializeInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
 
 /**
@@ -24,7 +24,7 @@ use Flat3\Lodata\Traits\HasIdentifier;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530338
  * @package Flat3\Lodata
  */
-abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ResponseInterface, JsonInterface, PipeInterface, ETagInterface
+abstract class Primitive implements ResourceInterface, ContextInterface, IdentifierInterface, ResponseInterface, JsonInterface, PipeInterface, SerializeInterface
 {
     use HasIdentifier;
 
@@ -74,12 +74,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Get the value in a format suitable for an OData URL
-     * @return string
-     */
-    abstract public function toUrl(): string;
-
-    /**
      * Get the value in a format suitable for JSON encoding in IEEE754 mode
      * @return string
      */
@@ -89,26 +83,16 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * Return a value suitable for ETag checking
-     * @return string|null
+     * Get the value in a format suitable for an OData URL
+     * @return string
      */
-    public function toEtag(): ?string
-    {
-        $value = $this->toJson();
-
-        return null === $value ? null : (string) $value;
-    }
+    abstract public function toUrl(): string;
 
     /**
      * Get the value in a format suitable for JSON encoding
      * @return mixed
      */
     abstract public function toJson();
-
-    /**
-     * Get the value as a PHP mixed type
-     */
-    abstract public function toMixed();
 
     /**
      * Get the resource URL of this primitive type

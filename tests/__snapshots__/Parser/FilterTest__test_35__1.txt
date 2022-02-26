@@ -1,1 +1,2 @@
-( origin eq ( 4 mod 3 ) )
+expression: origin eq 4 mod 3
+result: ( origin eq ( 4 mod 3 ) )

@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin`, `flights`.`destination` AS `destination`, CONCAT( `flights`.`origin`, ? ) AS `comp1`, ( ? + ? ) AS `comp2` FROM `flights`
+expression: concat(origin, 'world')
+result: CONCAT( `flights`.`origin`, ? )
+parameters: world

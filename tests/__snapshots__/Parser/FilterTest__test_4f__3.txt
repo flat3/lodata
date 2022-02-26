@@ -1,0 +1,3 @@
+expression: year(origin) eq 1999
+result: ( DATE_PART( 'YEAR', "flights"."origin" ) = ? )
+parameters: 1999

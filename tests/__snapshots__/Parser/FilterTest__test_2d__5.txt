@@ -1,0 +1,3 @@
+expression: trim(origin) eq 'abc123'
+result: ( TRIM( [flights].[origin] ) = ? )
+parameters: abc123

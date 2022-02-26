@@ -10,7 +10,6 @@ use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Collection;
-use Flat3\Lodata\Type\String_;
 
 /**
  * Batch support
@@ -35,9 +34,7 @@ class BatchSupport extends Annotation
             ->setProperty($type->getProperty(BatchSupportType::etagReferencesSupported))
             ->setValue(new Boolean(true));
 
-        $supportedFormats = new Collection();
-        $supportedFormats->add(new String_(MediaType::json));
-        $supportedFormats->add(new String_(MediaType::multipartMixed));
+        $supportedFormats = new Collection([MediaType::json, MediaType::multipartMixed]);
         $value[] = (new PropertyValue())
             ->setProperty($type->getProperty(BatchSupportType::supportedFormats))
             ->setValue($supportedFormats);

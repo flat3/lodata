@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Tests\EntitySetCreate;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Tests\Laravel\Models\Enums\Colour;
 use Flat3\Lodata\Tests\TestCase;
 
 abstract class EntitySetCreateTest extends TestCase
@@ -130,6 +131,38 @@ abstract class EntitySetCreateTest extends TestCase
                 ->body([
                     'name' => 'Oobleck',
                     'aage' => 22,
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function test_enum_property()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'name' => 'Oobleck',
+                    'colour' => Colour::Blue->name,
+                    'sock_colours' => Colour::Green->name.','.Colour::Red->name,
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function test_collection_property()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'name' => 'Oobleck',
+                    'emails' => [
+                        'oob@example.com',
+                        'oo@test.com',
+                    ],
                 ]),
             Response::HTTP_CREATED
         );

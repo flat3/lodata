@@ -9,7 +9,6 @@ use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Illuminate\Support\Str;
 
@@ -44,18 +43,6 @@ class EntityType extends ComplexType implements PipeInterface
     public function hasKey(): bool
     {
         return $this->key instanceof DeclaredProperty;
-    }
-
-    /**
-     * Generate a new entity type
-     * @param  string|Identifier  $identifier
-     * @return EntityType Entity Type
-     * @codeCoverageIgnore
-     * @deprecated
-     */
-    public static function factory($identifier)
-    {
-        return new self($identifier);
     }
 
     /**

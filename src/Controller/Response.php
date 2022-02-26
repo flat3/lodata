@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\MediaType;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -93,7 +94,7 @@ abstract class Response extends StreamedResponse
         } catch (ProtocolException $e) {
             flush();
             ob_flush();
-            printf('OData-error: '.json_encode($e->toError(), JSON_UNESCAPED_SLASHES));
+            printf('OData-error: '.JSON::encode($e->toError()));
         }
 
         return $this;
@@ -160,13 +161,13 @@ abstract class Response extends StreamedResponse
 
     /**
      * Encode this response as JSON
-     * @return false|string
+     * @return string
      */
     public function toJson()
     {
-        return json_encode([
+        return JSON::encode([
             'status' => $this->statusCode,
             'headers' => $this->headers->all(),
-        ], JSON_UNESCAPED_SLASHES);
+        ]);
     }
 }

@@ -15,7 +15,10 @@
             "chips": null,
             "dq": null,
             "in_role": null,
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "id": 7,
@@ -26,7 +29,10 @@
             "chips": null,
             "dq": null,
             "in_role": null,
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

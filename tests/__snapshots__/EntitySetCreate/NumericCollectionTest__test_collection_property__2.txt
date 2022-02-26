@@ -1,0 +1,13 @@
+@@ @@
+         "in_role": 888.9,
+         "colour": null,
+         "sock_colours": null
++    },
++    {
++        "name": "Oobleck",
++        "emails": [
++            "oob@example.com",
++            "oo@test.com"
++        ]
+     }
+ ]

@@ -1,9 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tests (postgres)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
     <CommandLine>
-      <PhpTestInterpreterSettings>
-        <option name="interpreterName" value="lodata:latest" />
-      </PhpTestInterpreterSettings>
       <envs>
         <env name="DATABASE_URL" value="pgsql://postgres:my-secret-pw@localhost:5432/postgres?charset=utf8" />
       </envs>

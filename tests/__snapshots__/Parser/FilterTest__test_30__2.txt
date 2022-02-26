@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( `flights`.`origin` = ( ? DIV ? ) )
+expression: origin eq 4 div 3
+result: ( `flights`.`origin` = ( ? DIV ? ) )
+parameters: 4,3

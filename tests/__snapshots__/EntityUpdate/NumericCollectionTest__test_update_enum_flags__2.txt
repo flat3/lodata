@@ -1,0 +1,9 @@
+@@ @@
+         "open_time": "05:05:05",
+         "flight_id": 1,
+         "colour": 2,
+-        "sock_colours": 6,
++        "sock_colours": 12,
+         "emails": [
+             "alpha@example.com",
+             "alpha@beta.com"

@@ -1,1 +1,2 @@
-( ( endswith( origin , 'Veniam et' ) eq true ) and ( startswith( origin , 'Veniam et' ) eq true ) )
+expression: endswith(origin,'Veniam et') eq true and startswith(origin,'Veniam et') eq true
+result: ( ( endswith( origin, 'Veniam et' ) eq true ) and ( startswith( origin, 'Veniam et' ) eq true ) )

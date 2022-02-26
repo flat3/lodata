@@ -10,7 +10,10 @@
             "dq": "2001-02-02",
             "in_role": "P2DT5H5M5.2999999999884S",
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "id": 3,
@@ -21,7 +24,12 @@
             "dq": "2002-03-03",
             "in_role": "P4DT32M41S",
             "open_time": "07:07:07.000000",
-            "flight_id": 1
+            "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
         },
         {
             "id": 4,
@@ -32,7 +40,10 @@
             "dq": null,
             "in_role": "PT2M7S",
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "id": 5,
@@ -43,7 +54,10 @@
             "dq": "2003-04-04",
             "in_role": "PT14M48.9S",
             "open_time": "23:11:33.000000",
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ],
     "@count": 5

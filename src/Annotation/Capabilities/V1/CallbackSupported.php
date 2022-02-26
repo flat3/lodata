@@ -27,8 +27,7 @@ class CallbackSupported extends Annotation
             ->setProperty($callbackProtocolType->getProperty(Annotation\Capabilities\CallbackProtocol::id))
             ->setValue(new String_(Annotation\Capabilities\CallbackProtocol::http));
 
-        $callbackProtocols = new Collection();
-        $callbackProtocols->add($callbackProtocol);
+        $callbackProtocols = new Collection([$callbackProtocol]);
 
         $callbackType = new CallbackType();
         $record = new Annotation\Record();

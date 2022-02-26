@@ -162,9 +162,9 @@ class Model implements AnnotationInterface
     /**
      * Get a type definition from the model
      * @param  string  $name  Action name
-     * @return PrimitiveType|null Action
+     * @return Type|null Action
      */
-    public function getTypeDefinition(string $name): ?PrimitiveType
+    public function getTypeDefinition(string $name): ?Type
     {
         return $this->getTypeDefinitions()->get($name);
     }
@@ -236,11 +236,11 @@ class Model implements AnnotationInterface
 
     /**
      * Get the type definitions attached to the model
-     * @return ObjectArray|PrimitiveType[]
+     * @return ObjectArray|PrimitiveType[]|ComplexType[]
      */
     public function getTypeDefinitions(): ObjectArray
     {
-        return $this->model->sliceByClass(PrimitiveType::class);
+        return $this->model->sliceByClass([PrimitiveType::class, ComplexType::class]);
     }
 
     /**

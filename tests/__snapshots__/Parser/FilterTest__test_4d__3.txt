@@ -1,0 +1,3 @@
+expression: second(origin) eq 44
+result: ( DATE_PART( 'SECOND', "flights"."origin" ) = ? )
+parameters: 44

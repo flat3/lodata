@@ -1,1 +1,2 @@
-( ( id lt 4 ) or ( id in ( 3 , 1 ) and ( id ge 2 ) ) )
+expression: id lt 4 or id in (3, 1) and id ge 2
+result: ( ( id lt 4 ) or ( id in ( 3, 1 ) and ( id ge 2 ) ) )

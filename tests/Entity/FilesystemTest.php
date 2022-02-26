@@ -121,4 +121,16 @@ class FilesystemTest extends EntityTest
     public function test_read_alternative_key()
     {
     }
+
+    public function test_read_collection_property()
+    {
+    }
+
+    public function test_raw()
+    {
+    }
+
+    public function test_raw_collection_error()
+    {
+    }
 }

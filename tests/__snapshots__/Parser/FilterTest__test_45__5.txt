@@ -1,0 +1,3 @@
+expression: origin eq P10DT2H30M
+result: ( [flights].[origin] = ? )
+parameters: 873000

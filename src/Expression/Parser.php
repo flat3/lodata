@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Expression;
 
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Internal\ParserException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Node\Func;
@@ -362,6 +363,50 @@ abstract class Parser
 
         $operand = new Literal\Duration($this);
         $operand->setValue($token);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    /**
+     * Tokenize an enum
+     * @return bool
+     */
+    public function tokenizeEnum(): bool
+    {
+        $enumeratedTypes = [];
+
+        $resource = $this->getCurrentResource();
+
+        if (!$resource) {
+            return false;
+        }
+
+        foreach ($resource->getType()->getDeclaredProperties() as $declaredProperty) {
+            $type = $declaredProperty->getType();
+            if (!$type instanceof EnumerationType) {
+                continue;
+            }
+
+            $enumeratedTypes[$type->getIdentifier()->getQualifiedName()] = $type;
+            $enumeratedTypes[$type->getName()] = $type;
+        }
+
+        $enumeratedTypeNames = array_keys($enumeratedTypes);
+
+        $typeToken = $this->lexer->maybeKeyword(...$enumeratedTypeNames);
+
+        if (!$typeToken) {
+            return false;
+        }
+
+        $enumeratedType = $enumeratedTypes[$typeToken];
+
+        $flagsToken = $this->lexer->quotedString();
+
+        $operand = new Literal\Enum($this);
+        $operand->setValue($enumeratedType->instance($flagsToken));
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
 

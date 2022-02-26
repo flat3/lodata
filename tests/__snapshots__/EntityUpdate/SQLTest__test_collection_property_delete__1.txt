@@ -1,0 +1,12 @@
+@@ @@
+             "open_time": "05:05:05",
+             "colour": 2,
+             "sock_colours": 6,
+-            "emails": [
+-                "alpha@example.com",
+-                "alpha@beta.com"
+-            ]
++            "emails": []
+         },
+         {
+             "id": 2,

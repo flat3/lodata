@@ -1,1 +1,2 @@
-( floor( origin ) eq 4 )
+expression: floor(origin) eq 4
+result: ( floor( origin ) eq 4 )

@@ -95,8 +95,8 @@ http://localhost:8000/odata/hello
 If the return type of the method is void then Lodata assumes an `Edm.String` response.
 To properly type a string response you can add the PHP return type `string`.
 
-This method also works with `int` (converted to `Edm.Int64`), `float` (converted to `Edm.Double`) and `bool`
-(converted to `Edm.Boolean`):
+This method also works with `int` (converted to `Edm.Int64`), `float` (converted to `Edm.Double`), `bool`
+(converted to `Edm.Boolean`) and `array` (converted to a collection).
 
 <code-group>
 <code-block title="Class">

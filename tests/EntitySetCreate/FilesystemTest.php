@@ -107,4 +107,12 @@ class FilesystemTest extends EntitySetCreateTest
     public function test_modified_source_name()
     {
     }
+
+    public function test_enum_property()
+    {
+    }
+
+    public function test_collection_property()
+    {
+    }
 }

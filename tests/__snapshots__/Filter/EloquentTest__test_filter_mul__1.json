@@ -10,7 +10,10 @@
             "chips": false,
             "dq": "2001-02-02",
             "in_role": "P2DT5H5M5.2999999999884S",
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ]
 }

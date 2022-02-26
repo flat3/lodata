@@ -115,7 +115,7 @@ abstract class Annotation
                 break;
 
             case $value instanceof Enum:
-                $element->addAttribute('EnumMember', $value->getIdentifier().'/'.$value->toUrl());
+                $element->addAttribute('EnumMember', $value->getIdentifier().'/'.$value->toJson());
                 break;
 
             case $value instanceof Record:

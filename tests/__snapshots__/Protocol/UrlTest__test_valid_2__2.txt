@@ -1,7 +1,7 @@
 @@ @@
-             "dq": "2003-04-04",
-             "in_role": 888.9,
-             "open_time": "23:11:33"
+             "colour": null,
+             "sock_colours": null,
+             "emails": null
 +        },
 +        {
 +            "id": 6,
@@ -12,7 +12,10 @@
 +            "chips": null,
 +            "dq": null,
 +            "in_role": null,
-+            "open_time": null
++            "open_time": null,
++            "colour": null,
++            "sock_colours": null,
++            "emails": null
 +        },
 +        {
 +            "id": 7,
@@ -23,7 +26,10 @@
 +            "chips": null,
 +            "dq": null,
 +            "in_role": null,
-+            "open_time": null
++            "open_time": null,
++            "colour": null,
++            "sock_colours": null,
++            "emails": null
          }
      ],
      "pets": [

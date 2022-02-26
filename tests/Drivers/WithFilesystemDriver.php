@@ -17,7 +17,6 @@ trait WithFilesystemDriver
         $this->entitySet = 'disk';
         $this->entityId = 'a1.txt';
         $this->missingEntityId = 'qq.txt';
-        $this->etag = 'W/"45864cdcbec5a5019eaf681663ce38ff409d517ac8103e89eeb7b01f2b312036"';
 
         /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('testing');
@@ -29,6 +28,7 @@ trait WithFilesystemDriver
         $entitySet->setDisk($disk);
 
         Lodata::add($entitySet);
+        $this->updateETag();
     }
 
     protected function assertFile(string $path)

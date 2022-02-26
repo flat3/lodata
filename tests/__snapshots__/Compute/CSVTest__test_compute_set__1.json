@@ -11,6 +11,12 @@
             "in_role": "P1DT0S",
             "open_time": "05:05:05.000000",
             "flight_id": 1,
+            "colour": "Green",
+            "sock_colours": "Green,Blue",
+            "emails": [
+                "alpha@example.com",
+                "alpha@beta.com"
+            ],
             "myName": "Alpha is my name"
         },
         {
@@ -23,6 +29,9 @@
             "in_role": "P2DT5H5M5.2999999999884S",
             "open_time": null,
             "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": [],
             "myName": "Beta is my name"
         },
         {
@@ -35,6 +44,11 @@
             "in_role": "P4DT32M41S",
             "open_time": "07:07:07.000000",
             "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ],
             "myName": "Gamma is my name"
         },
         {
@@ -47,6 +61,9 @@
             "in_role": "PT2M7S",
             "open_time": null,
             "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": [],
             "myName": "Delta is my name"
         },
         {
@@ -59,6 +76,9 @@
             "in_role": "PT14M48.9S",
             "open_time": "23:11:33.000000",
             "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": [],
             "myName": "Epsilon is my name"
         }
     ]

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Http\Response;
@@ -34,7 +35,7 @@ class PBIDS extends Controller
         );
         $response->headers->set('Content-Disposition', $disposition);
 
-        $response->setContent(json_encode([
+        $response->setContent(JSON::encode([
             'version' => '0.1',
             'connections' => [
                 [
@@ -46,7 +47,7 @@ class PBIDS extends Controller
                     ],
                 ],
             ],
-        ], JSON_UNESCAPED_SLASHES));
+        ]));
 
         return $response;
     }

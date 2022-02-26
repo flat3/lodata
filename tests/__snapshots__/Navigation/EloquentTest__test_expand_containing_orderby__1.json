@@ -15,7 +15,12 @@
             "chips": true,
             "dq": "2002-03-03",
             "in_role": "P4DT32M41S",
-            "open_time": "07:07:07.000000"
+            "open_time": "07:07:07.000000",
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
         },
         {
             "id": 1,
@@ -26,7 +31,13 @@
             "chips": true,
             "dq": "2000-01-01",
             "in_role": "P1DT0S",
-            "open_time": "05:05:05.000000"
+            "open_time": "05:05:05.000000",
+            "colour": "Green",
+            "sock_colours": "Green,Blue",
+            "emails": [
+                "alpha@example.com",
+                "alpha@beta.com"
+            ]
         }
     ]
 }

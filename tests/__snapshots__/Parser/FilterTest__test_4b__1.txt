@@ -1,1 +1,2 @@
-( month( origin ) eq 11 )
+expression: month(origin) eq 11
+result: ( month( origin ) eq 11 )

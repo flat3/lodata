@@ -7,7 +7,6 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
-use RuntimeException;
 
 /**
  * Primitive Type
@@ -21,21 +20,17 @@ class PrimitiveType extends Type implements IdentifierInterface
     const identifier = 'Edm.PrimitiveType';
 
     /**
-     * The underlying type of this type
-     * @var PrimitiveType $underlyingType
+     * The underlying type of this primitive type
+     * @var Type $underlyingType
      */
     protected $underlyingType;
 
     public function __construct(string $factory)
     {
-        if (!is_a($factory, Primitive::class, true)) {
-            throw new RuntimeException('Invalid source for type definition');
-        }
-
         $this->factory = $factory;
 
         if ($factory::underlyingType) {
-            $this->underlyingType = new self($factory::underlyingType);
+            $this->setUnderlyingType(new self($factory::underlyingType));
         }
     }
 
@@ -68,12 +63,24 @@ class PrimitiveType extends Type implements IdentifierInterface
     }
 
     /**
-     * Get the underlying type of this enumerated type
-     * @return ?PrimitiveType Underlying type
+     * Get the underlying type of this type
+     * @return ?Type Type
      */
-    public function getUnderlyingType(): ?PrimitiveType
+    public function getUnderlyingType(): ?Type
     {
         return $this->underlyingType;
+    }
+
+    /**
+     * Set the underlying type of this resource
+     * @param  Type  $underlyingType  Underlying type
+     * @return $this
+     */
+    public function setUnderlyingType(Type $underlyingType): self
+    {
+        $this->underlyingType = $underlyingType;
+
+        return $this;
     }
 
     /**

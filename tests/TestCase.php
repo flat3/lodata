@@ -4,12 +4,16 @@ namespace Flat3\Lodata\Tests;
 
 use Faker\Factory;
 use Faker\Generator as FakerGenerator;
+use Flat3\Lodata\Controller\Request as LodataRequest;
+use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
+use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
@@ -26,6 +30,7 @@ use Generator;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Http\Request as IlluminateRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -232,8 +237,27 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         );
     }
 
+    protected function addEnumerationTypes()
+    {
+        $colour = Type::enum('Colours');
+        $colour[] = 'Red';
+        $colour[] = 'Green';
+        $colour[] = 'Blue';
+        $colour[] = 'Brown';
+        Lodata::add($colour);
+
+        $multiColour = Type::enum('MultiColours');
+        $multiColour->setIsFlags();
+        $multiColour[] = 'Red';
+        $multiColour[] = 'Green';
+        $multiColour[] = 'Blue';
+        $multiColour[] = 'Brown';
+        Lodata::add($multiColour);
+    }
+
     protected function addPassengerProperties(EntityType $entityType)
     {
+        $this->addEnumerationTypes();
         $entityType->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false));
         $entityType->addDeclaredProperty('age', Type::double());
         $entityType->addDeclaredProperty('dob', Type::datetimeoffset());
@@ -242,6 +266,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $entityType->addDeclaredProperty('in_role', Type::duration());
         $entityType->addDeclaredProperty('open_time', Type::timeofday());
         $entityType->addDeclaredProperty('flight_id', Type::int64());
+        $entityType->addDeclaredProperty('colour', Lodata::getTypeDefinition('Colours'));
+        $entityType->addDeclaredProperty('sock_colours', Lodata::getTypeDefinition('MultiColours'));
+        $entityType->addDeclaredProperty('emails', Type::collection(Type::string()));
     }
 
     protected function getSeed(): array
@@ -256,6 +283,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'in_role' => 86400,
                 'open_time' => '05:05:05',
                 'flight_id' => 1,
+                'colour' => 2,
+                'sock_colours' => 2 | 4,
+                'emails' => [
+                    'alpha@example.com',
+                    'alpha@beta.com',
+                ],
             ],
             'beta' => [
                 'name' => 'Beta',
@@ -264,6 +297,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'chips' => false,
                 'dq' => '2001-02-02',
                 'in_role' => 191105.3,
+                'colour' => null,
+                'sock_colours' => null,
             ],
             'gamma' => [
                 'name' => 'Gamma',
@@ -274,6 +309,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'in_role' => 347561,
                 'open_time' => '07:07:07',
                 'flight_id' => 1,
+                'colour' => 4,
+                'sock_colours' => 1 | 2 | 4,
+                'emails' => [
+                    'gamma@example.com',
+                ],
             ],
             'delta' => [
                 'name' => 'Delta',
@@ -286,6 +326,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'dq' => '2003-04-04',
                 'open_time' => '23:11:33',
                 'in_role' => 888.9,
+                'colour' => null,
+                'sock_colours' => null,
             ]
         ];
     }
@@ -446,5 +488,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $ageProperty->setName('aage');
         $passengerSet->getType()->getProperties()->reKey();
         $passengerSet->setPropertySourceName($ageProperty, 'age');
+    }
+
+    protected function updateETag(): void
+    {
+        /** @var ReadInterface $entitySet */
+        $entitySet = Lodata::getEntitySet($this->entitySet);
+        $entityType = $entitySet->getType();
+        $set = clone $entitySet;
+        $set->setTransaction((new Transaction)->initialize(new LodataRequest(new IlluminateRequest())));
+        $this->etag = $set->read((new PropertyValue)->setProperty($entityType->getKey())->setValue($entityType->getKey()->getType()->instance($this->entityId)))->getETag();
     }
 }

@@ -1,0 +1,7 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "name": "Oobleck",
+    "colour": "Blue",
+    "sock_colours": "Red,Green",
+    "id": 5
+}

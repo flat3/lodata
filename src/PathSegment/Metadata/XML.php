@@ -12,6 +12,8 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\CollectionType;
+use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -26,7 +28,6 @@ use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Type\Boolean;
-use Flat3\Lodata\Type\EnumMember;
 use SimpleXMLElement;
 
 /**
@@ -84,7 +85,7 @@ class XML extends Metadata implements StreamInterface
                     foreach ($typeDefinition->getMembers() as $memberName => $memberValue) {
                         $memberElement = $typeDefinitionElement->addChild('Member');
                         $memberElement->addAttribute('Name', $memberName);
-                        $memberElement->addAttribute('Value', (string) $memberValue->getValue()->get());
+                        $memberElement->addAttribute('Value', (string) $memberValue->getValue());
                     }
                     break;
 
@@ -129,12 +130,19 @@ class XML extends Metadata implements StreamInterface
                 $entityTypeProperty->addAttribute('Name', $property->getName());
 
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Type
-                $entityTypeProperty->addAttribute('Type', $property->getType()->getIdentifier()->getQualifiedName());
+                $propertyType = $property->getType();
+                $propertyTypeName = $propertyType->getIdentifier()->getQualifiedName();
+
+                if ($propertyType instanceof CollectionType) {
+                    $propertyTypeName = sprintf('Collection(%s)', $propertyTypeName);
+                }
+
+                $entityTypeProperty->addAttribute('Type', $propertyTypeName);
 
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_TypeFacets
                 $entityTypeProperty->addAttribute(
                     'Nullable',
-                    (new Boolean($property->isNullable()))->toUrl()
+                    (new Boolean(!$propertyType instanceof CollectionType && $property->isNullable()))->toUrl()
                 );
 
                 if ($property->hasStaticDefaultValue()) {
@@ -231,10 +239,14 @@ class XML extends Metadata implements StreamInterface
                     foreach ($resource->getMetadataArguments() as $argument) {
                         $parameterElement = $resourceElement->addChild('Parameter');
                         $parameterElement->addAttribute('Name', $argument->getName());
-                        $parameterElement->addAttribute(
-                            'Type',
-                            $argument->getType()->getIdentifier()->getQualifiedName()
-                        );
+                        $argumentType = $argument->getType();
+                        $argumentTypeName = $argumentType->getIdentifier()->getQualifiedName();
+
+                        if ($argumentType instanceof CollectionType) {
+                            $argumentTypeName = sprintf('Collection(%s)', $argumentTypeName);
+                        }
+
+                        $parameterElement->addAttribute('Type', $argumentTypeName);
                         $parameterElement->addAttribute(
                             'Nullable',
                             (new Boolean($argument->isNullable()))->toUrl()
@@ -246,8 +258,10 @@ class XML extends Metadata implements StreamInterface
                         $returnTypeElement = $resourceElement->addChild('ReturnType');
 
                         if ($resource->returnsCollection()) {
-                            $returnTypeElement->addAttribute('Type',
-                                'Collection('.$returnType->getIdentifier()->getQualifiedName().')');
+                            $returnTypeElement->addAttribute(
+                                'Type',
+                                sprintf("Collection(%s)", $returnType->getIdentifier()->getQualifiedName())
+                            );
                         } else {
                             $returnTypeElement->addAttribute('Type', $returnType->getIdentifier()->getQualifiedName());
                         }

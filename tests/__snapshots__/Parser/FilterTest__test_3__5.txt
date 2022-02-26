@@ -1,0 +1,3 @@
+expression: id eq 4
+result: ( [flights].[id] = ? )
+parameters: 4

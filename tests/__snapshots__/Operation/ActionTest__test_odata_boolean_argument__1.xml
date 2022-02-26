@@ -68,6 +68,18 @@
         </EntitySet>
         <ActionImport Name="op" Action="com.example.odata.op"/>
       </EntityContainer>
+      <EnumType Name="Colours" UnderlyingType="Edm.Int64" IsFlags="false">
+        <Member Name="Red" Value="1"/>
+        <Member Name="Green" Value="2"/>
+        <Member Name="Blue" Value="4"/>
+        <Member Name="Brown" Value="8"/>
+      </EnumType>
+      <EnumType Name="MultiColours" UnderlyingType="Edm.Int64" IsFlags="true">
+        <Member Name="Red" Value="1"/>
+        <Member Name="Green" Value="2"/>
+        <Member Name="Blue" Value="4"/>
+        <Member Name="Brown" Value="8"/>
+      </EnumType>
       <EntityType Name="passenger">
         <Key>
           <PropertyRef Name="id"/>
@@ -83,6 +95,9 @@
         <Property Name="in_role" Type="Edm.Duration" Nullable="true"/>
         <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
         <Property Name="flight_id" Type="Edm.Int64" Nullable="true"/>
+        <Property Name="colour" Type="com.example.odata.Colours" Nullable="true"/>
+        <Property Name="sock_colours" Type="com.example.odata.MultiColours" Nullable="true"/>
+        <Property Name="emails" Type="Collection(Edm.String)" Nullable="false"/>
       </EntityType>
       <Action Name="op" IsBound="false">
         <Parameter Name="arg" Type="Edm.Boolean" Nullable="false"/>

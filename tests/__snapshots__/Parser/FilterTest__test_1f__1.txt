@@ -1,1 +1,2 @@
-( ( origin eq 'b' ) or ( not ( origin eq 'a' ) ) )
+expression: origin eq 'b' or not(origin eq 'a')
+result: ( ( origin eq 'b' ) or ( not ( origin eq 'a' ) ) )

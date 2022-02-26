@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( DATE_PART( 'DAY', "flights"."origin" ) = ? )
+expression: day(origin) eq 4
+result: ( CAST( STRFTIME( '%d', "flights"."origin" ) AS NUMERIC ) = ? )
+parameters: 4

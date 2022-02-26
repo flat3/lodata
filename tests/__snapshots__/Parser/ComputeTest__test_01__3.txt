@@ -1,0 +1,3 @@
+expression: concat(origin, 'world')
+result: CONCAT( CAST( "flights"."origin" AS TEXT ), CAST( ? AS TEXT ) )
+parameters: world

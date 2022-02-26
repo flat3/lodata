@@ -1,0 +1,3 @@
+expression: not(contains(origin,'a')) and ((origin eq 'abcd') or (origin eq 'e'))
+result: ( ( NOT [flights].[origin] LIKE ? ) AND ( ( [flights].[origin] = ? ) OR ( [flights].[origin] = ? ) ) )
+parameters: %a%,abcd,e

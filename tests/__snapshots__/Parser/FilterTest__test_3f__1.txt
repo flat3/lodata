@@ -1,1 +1,2 @@
-( origin eq 2000-01-01 )
+expression: origin eq 2000-01-01
+result: ( origin eq 2000-01-01 )

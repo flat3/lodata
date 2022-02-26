@@ -21,7 +21,7 @@ class Lexer
     public const identifier = '([A-Za-z_\p{L}\p{Nl}][A-Za-z_0-9\p{L}\p{Nl}\p{Nd}\p{Mn}\p{Mc}\p{Pc}\p{Cf}]{0,127})';
     public const qualifiedIdentifier = '(?:'.self::identifier.'\.?)*'.self::identifier;
     public const parameterAlias = '\@'.self::identifier;
-    public const duration = '-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?';
+    public const duration = '(-?)P(?=\d|T\d)(\d+Y)?(\d+M)?(\d+[DW])?(T(\d+H)?(\d+M)?((\d+(\.\d+)?)S)?)?';
     public const dateTimeOffset = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])';
     public const date = '[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])';
     public const guid = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';

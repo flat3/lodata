@@ -152,16 +152,25 @@ module.exports = {
                         path: '/modelling/drivers/',
                         collapsable: true,
                         children: [
-                            'modelling/drivers/',
                             'modelling/drivers/eloquent',
                             'modelling/drivers/database',
                             'modelling/drivers/filesystem',
                             'modelling/drivers/redis',
                             'modelling/drivers/collection',
                             'modelling/drivers/csv',
+                            'modelling/drivers/caching',
+                            'modelling/drivers/renaming',
                         ],
                     },
-                    'modelling/types',
+                    {
+                        title: 'Types',
+                        path: '/modelling/types/',
+                        collapsable: true,
+                        children: [
+                            'modelling/types/collections',
+                            'modelling/types/enumerations',
+                       ],
+                    },
                     'modelling/relationships',
                     'modelling/operations',
                     'modelling/singletons',
@@ -175,7 +184,6 @@ module.exports = {
                 path: '/making-requests/',
                 collapsable: false,
                 children: [
-                    'making-requests/',
                     'making-requests/requesting-data',
                     'making-requests/querying-data',
                     'making-requests/modifying-data',
@@ -190,7 +198,6 @@ module.exports = {
                 path: '/clients/',
                 collapsable: false,
                 children: [
-                    'clients/',
                     'clients/excel',
                     'clients/powerbi',
                     'clients/openapi',
@@ -203,7 +210,6 @@ module.exports = {
                 path: '/internals/',
                 collapsable: false,
                 children: [
-                    'internals/',
                     'internals/transactions',
                     'internals/annotations',
                     'internals/expressions',

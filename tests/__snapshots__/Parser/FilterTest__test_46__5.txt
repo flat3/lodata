@@ -1,0 +1,3 @@
+expression: round(origin) eq 4
+result: ( ROUND( [flights].[origin], 0 ) = ? )
+parameters: 4

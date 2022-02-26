@@ -3,17 +3,15 @@
 namespace Flat3\Lodata\Tests\Parser;
 
 use Carbon\Carbon;
-use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Parser\Common;
 use Flat3\Lodata\Expression\Parser\Filter;
 use Flat3\Lodata\Primitive;
-use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Date;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\TimeOfDay;
 use RuntimeException;
 
-class CommonExpressionTest extends TestCase
+class CommonExpressionTest extends ExpressionTest
 {
     public function test_0()
     {
@@ -913,36 +911,6 @@ class CommonExpressionTest extends TestCase
     public function test_192()
     {
         $this->assertSameExpression(5.0, 'round(4.5)');
-    }
-
-    public function assertTrueExpression($expression): void
-    {
-        $this->assertTrue($this->evaluate($expression));
-    }
-
-    public function assertFalseExpression($expression): void
-    {
-        $this->assertFalse($this->evaluate($expression));
-    }
-
-    public function assertNullExpression($expression): void
-    {
-        $this->assertNull($this->evaluate($expression));
-    }
-
-    public function assertSameExpression($expected, $expression): void
-    {
-        $this->assertSame($expected, $this->evaluate($expression));
-    }
-
-    public function assertBadExpression($expression): void
-    {
-        try {
-            $this->evaluate($expression);
-            throw new RuntimeException('Failed to throw exception');
-        } catch (BadRequestException $e) {
-            return;
-        }
     }
 
     public function evaluate(string $expression)

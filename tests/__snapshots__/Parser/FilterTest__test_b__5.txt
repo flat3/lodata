@@ -1,0 +1,3 @@
+expression: id in (4, 3)
+result: [flights].[id] IN ( ?, ? )
+parameters: 4,3

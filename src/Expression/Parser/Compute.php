@@ -58,24 +58,6 @@ class Compute extends Common
     ];
 
     /**
-     * Tokenize a literal
-     * @link https://github.com/oasis-tcs/odata-abnf/blob/master/abnf/odata-abnf-construction-rules.txt#L871
-     * @return bool
-     */
-    public function tokenizeLiteral(): bool
-    {
-        return $this->tokenizeNull() ||
-            $this->tokenizeBoolean() ||
-            $this->tokenizeGuid() ||
-            $this->tokenizeDateTimeOffset() ||
-            $this->tokenizeDate() ||
-            $this->tokenizeTimeOfDay() ||
-            $this->tokenizeNumber() ||
-            $this->tokenizeSingleQuotedString() ||
-            $this->tokenizeDuration();
-    }
-
-    /**
      * Valid token types for this expression
      * @return bool
      * @throws ParserException
@@ -83,7 +65,15 @@ class Compute extends Common
     protected function findToken(): bool
     {
         return $this->tokenizeSpace() ||
-            $this->tokenizeLiteral() ||
+            $this->tokenizeNull() ||
+            $this->tokenizeBoolean() ||
+            $this->tokenizeGuid() ||
+            $this->tokenizeDateTimeOffset() ||
+            $this->tokenizeDate() ||
+            $this->tokenizeTimeOfDay() ||
+            $this->tokenizeNumber() ||
+            $this->tokenizeSingleQuotedString() ||
+            $this->tokenizeDuration() ||
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeComma() ||

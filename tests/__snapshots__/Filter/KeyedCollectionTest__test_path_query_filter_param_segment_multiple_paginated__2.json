@@ -9,8 +9,11 @@
             "chips": false,
             "dq": "2001-02-02",
             "in_role": "P2DT5H5M5.2999999999884S",
+            "colour": null,
+            "sock_colours": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "emails": []
         }
     ],
     "@nextLink": "http://localhost/odata/passengers/$filter(@b)?%24filter=dob%20gt%202000-01-01&%40b=endswith%28name%2C%20%27a%27%29&top=1&skip=2"

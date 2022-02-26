@@ -1,0 +1,3 @@
+expression: endswith(origin, 'b')
+result: [flights].[origin] LIKE ?
+parameters: %b

@@ -10,7 +10,12 @@
             "chips": true,
             "dq": "2002-03-03",
             "in_role": "P4DT32M41S",
-            "open_time": "07:07:07.000000"
+            "open_time": "07:07:07.000000",
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
         }
     ]
 }

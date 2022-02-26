@@ -8,7 +8,7 @@
   </edmx:Reference>
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
-      <EnumType Name="hello" UnderlyingType="Edm.Int32" IsFlags="true">
+      <EnumType Name="hello" UnderlyingType="Edm.Int64" IsFlags="true">
         <Member Name="aaa" Value="1"/>
         <Member Name="bbb" Value="2"/>
       </EnumType>

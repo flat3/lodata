@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( ( "flights"."origin" )::time = ? )
+expression: time(origin) eq 10:00:00
+result: ( STRFTIME( '%H:%M:%S', "flights"."origin" ) = ? )
+parameters: 10:00:00

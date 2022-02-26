@@ -1,0 +1,3 @@
+expression: floor(origin) eq 4
+result: ( FLOOR( [flights].[origin] ) = ? )
+parameters: 4

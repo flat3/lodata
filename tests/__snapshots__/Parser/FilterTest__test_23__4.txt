@@ -1,1 +1,2 @@
-The concat function requires 2 arguments
+expression: concat(origin, 'abc', 4.0) eq '123abc'
+result: The concat function requires 2 arguments

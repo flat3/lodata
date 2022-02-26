@@ -1,0 +1,12 @@
+@@ @@
+         "flight_id": 1,
+         "colour": 2,
+         "sock_colours": 6,
+-        "emails": [
+-            "alpha@example.com",
+-            "alpha@beta.com"
+-        ]
++        "emails": []
+     },
+     "beta": {
+         "name": "Beta",

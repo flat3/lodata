@@ -1,1 +1,2 @@
-( 4 lt startswith( origin , 'Veniam et' ) )
+expression: 4 lt startswith(origin,'Veniam et')
+result: ( 4 lt startswith( origin, 'Veniam et' ) )

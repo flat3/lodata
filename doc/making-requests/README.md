@@ -1,4 +1,4 @@
-# Introduction
+# Making requests
 
 The Open Data Protocol (OData) is a data access protocol built on core protocols like HTTP and commonly accepted
 methodologies like REST for the web. There are various kinds of libraries and tools can be used to consume OData services.

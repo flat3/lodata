@@ -1,4 +1,4 @@
-# Specification Compliance
+# Compliance
 
 The relevant parts of the specification used for Lodata are linked in the navigation bar under **OData Specification**.
 
@@ -29,24 +29,26 @@ Lodata supports many sections of the OData specification, these are the major ar
 * [Deep update](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) support at any depth
 * [Resolving](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ResolvinganEntityId) entity IDs into representations
 * [Stream](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ManagingStreamProperties) properties in the payload and via read links
-* Edit links, and POST/PATCH/DELETE requests for new or existing entities
+* [Edit](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControlInformationeditLinkandreadLin) links, and POST/PATCH/DELETE requests for new or existing entities
 * Use of [ETags](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) for avoiding update conflicts
 * [Lambda](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_LambdaOperators) operators `any` and `all`
-* Composable URLs
-* Declared and navigation properties
-* Referential constraints
-* Entity singletons
-* Key as segment
+* Composable [URLs](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_AddressingEntities)
+* [Declared](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_StructuralProperty) and [navigation](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_NavigationProperty) properties
+* Referential [constraints](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_ReferentialConstraint)
+* Entity [singletons](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Singleton)
+* Key as segment [convention](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_KeyasSegmentConvention)
 * Passing query options in the [request body](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_PassingQueryOptionsintheRequestBody)
 * Database [transactions](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ClientErrorResponses)
 * Requesting [entity references](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_EntityReference)
 * [IEEE754](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheRepresentationofNumber) number-as-string support
 * Primitive [literals](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_PrimitiveLiterals) including duration and enumeration in URLs.
+* Enumeration [types](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EnumerationType)
+* Collection [properties](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_CollectionofPrimitiveValues)
 * Full, minimal and no [metadata](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ControllingtheAmountofControlInforma) requests
 * Function and Action [operations](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_Operations), including bound operations and inline parameters
 * Addressing [All Entities](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html#sec_AddressingAllEntitiesinaService) in a service
 * Automatic discovery of PDO or Eloquent model tables, and relationships between Eloquent models
-* All database backends that Laravel supports (MySQL, PostgreSQL, SQLite and Microsoft SQL Server) including all possible $filter expressions
+* All database backends that Laravel supports (MySQL, PostgreSQL, SQLite and Microsoft SQL Server) including all possible `$filter` expressions
 * Automatic discovery of OData feeds by PowerBI (using [PBIDS](https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources#using-pbids-files-to-get-data)) and Excel (using [ODCFF](https://docs.microsoft.com/en-us/openspecs/office_file_formats/ms-odcff/09a237b3-a761-4847-a54c-eb665f5b0a6e))
 * Custom entity type, primitive type and entity set support
 * Extensible driver model enabling the integration of data stores such as Redis, local files and third party REST APIs.

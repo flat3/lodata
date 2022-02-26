@@ -1,0 +1,3 @@
+expression: year(origin) eq 1999
+result: ( DATEPART( year, [flights].[origin] ) = ? )
+parameters: 1999

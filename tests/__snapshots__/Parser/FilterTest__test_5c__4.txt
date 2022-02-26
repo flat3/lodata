@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( ( "flights"."origin" LIKE ? ) AND ( NOT ( "flights"."origin" LIKE ? ) ) )
+expression: endswith(origin,'Veniam et') eq true and not(startswith(origin,'Veniam et') eq true)
+result: ( ( "flights"."origin" LIKE ? ) AND ( NOT ( "flights"."origin" LIKE ? ) ) )
+parameters: %Veniam et,Veniam et%

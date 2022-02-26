@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( INSTR( `flights`.`origin`, ? ) = ? )
+expression: indexof(origin,'a') eq 1
+result: ( INSTR( `flights`.`origin`, ? ) = ? )
+parameters: a,1

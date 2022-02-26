@@ -22,6 +22,9 @@
             "in_role": null,
             "open_time": null,
             "flight_id": 4,
+            "colour": null,
+            "sock_colours": null,
+            "emails": [],
             "pets": [
                 {
                     "@type": "#com.example.odata.pet",
@@ -47,7 +50,10 @@
             "dq": null,
             "in_role": null,
             "open_time": null,
-            "flight_id": 4
+            "flight_id": 4,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ],
     "passengers@navigationLink": "http://localhost/odata/flights(4)/passengers"

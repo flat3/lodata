@@ -1,1 +1,0 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( ( "flights"."id" + CAST( ? AS NUMERIC ) ) IN ( CAST( ? AS NUMERIC ), CAST( ? AS NUMERIC ) ) OR ( ( "flights"."id" > CAST( ? AS NUMERIC ) ) AND ( "flights"."id" > ( ? + ? ) ) ) )

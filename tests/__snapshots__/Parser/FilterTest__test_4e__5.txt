@@ -1,0 +1,3 @@
+expression: time(origin) eq 10:00:00
+result: ( FORMAT( [flights].[origin] , 'HH:mm:ss') = ? )
+parameters: 10:00:00

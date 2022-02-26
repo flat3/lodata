@@ -1,0 +1,3 @@
+expression: tolower(origin) eq 'abc123'
+result: ( LOWER( [flights].[origin] ) = ? )
+parameters: abc123

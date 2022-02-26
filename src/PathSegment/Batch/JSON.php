@@ -85,7 +85,7 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
                 [],
                 [],
                 [],
-                json_encode($body)
+                \Flat3\Lodata\Helper\JSON::encode($body)
             );
 
             $headers = array_change_key_case($requestData['headers'] ?? [], CASE_LOWER);

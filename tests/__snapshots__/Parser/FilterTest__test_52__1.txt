@@ -1,1 +1,2 @@
-startswith( origin , 'a' )
+expression: startswith(origin,'a')
+result: startswith( origin, 'a' )

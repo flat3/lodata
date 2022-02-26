@@ -1,1 +1,2 @@
-( now( ) eq 10:00:00 )
+expression: now() eq 10:00:00
+result: ( now( ) eq 10:00:00 )

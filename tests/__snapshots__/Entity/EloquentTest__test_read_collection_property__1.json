@@ -1,0 +1,7 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers(1)/emails",
+    "value": [
+        "alpha@example.com",
+        "alpha@beta.com"
+    ]
+}

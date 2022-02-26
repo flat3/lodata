@@ -1,0 +1,3 @@
+expression: time(origin) eq 10:00:00
+result: ( ( "flights"."origin" )::time = ? )
+parameters: 10:00:00

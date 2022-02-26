@@ -16,6 +16,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Arguments;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
@@ -23,6 +24,7 @@ use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Operation\Argument;
+use Flat3\Lodata\Operation\CollectionArgument;
 use Flat3\Lodata\Operation\EntityArgument;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
@@ -32,8 +34,9 @@ use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
+use Flat3\Lodata\Type\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as ICollection;
 use Illuminate\Support\Facades\App;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
@@ -218,7 +221,9 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
     {
         $returnType = $this->getCallableReturnType();
 
-        return $returnType === 'array' || is_a($returnType, EntitySet::class, true);
+        return $returnType === 'array' ||
+            is_a($returnType, Collection::class, true) ||
+            is_a($returnType, EntitySet::class, true);
     }
 
     /**
@@ -368,7 +373,7 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
 
             return 0;
         })->filter(function ($argument) {
-            if ($argument instanceof PrimitiveArgument || $argument instanceof ValueArgument) {
+            if ($argument instanceof PrimitiveArgument || $argument instanceof ValueArgument || $argument instanceof CollectionArgument) {
                 return true;
             }
 
@@ -403,6 +408,10 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
 
                 case is_a($type, Entity::class, true):
                     $arguments[] = new EntityArgument($this, $parameter);
+                    break;
+
+                case $type === 'array' || is_a($type, Collection::class, true):
+                    $arguments[] = new CollectionArgument($this, $parameter);
                     break;
 
                 case is_a($type, Primitive::class, true):
@@ -490,9 +499,9 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
 
     /**
      * Parse the arguments provided to this function
-     * @return Collection
+     * @return ICollection
      */
-    protected function parseFunctionParameters(): Collection
+    protected function parseFunctionParameters(): ICollection
     {
         $arguments = collect();
 
@@ -521,7 +530,13 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
 
             if ($lexer->maybeChar('@')) {
                 $parameterAlias = $lexer->identifier();
-                $arguments[$key] = $type->instance($this->transaction->getParameterAlias($parameterAlias));
+                $parameterBody = $this->transaction->getParameterAlias($parameterAlias);
+
+                if ($argument instanceof CollectionArgument) {
+                    $parameterBody = JSON::decode($parameterBody);
+                }
+
+                $arguments[$key] = $type->instance($parameterBody);
             } else {
                 /** @var Primitive $factory */
                 $factory = $type->getFactory();
@@ -547,9 +562,9 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
 
     /**
      * Parse the arguments provided to this action
-     * @return Collection
+     * @return ICollection
      */
-    protected function parseActionParameters(): Collection
+    protected function parseActionParameters(): ICollection
     {
         $callableArguments = $this->getCallableArguments();
         $arguments = collect();

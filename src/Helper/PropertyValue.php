@@ -366,9 +366,42 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
             case Request::METHOD_DELETE:
                 return $this->delete($transaction, $context);
+
+            case Request::METHOD_PUT:
+                return $this->put($transaction, $context);
+
+            case Request::METHOD_POST:
+                return $this->post($transaction, $context);
         }
 
-        throw new MethodNotAllowedException();
+        throw new MethodNotAllowedException;
+    }
+
+    public function put(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if (!$this->getProperty()->getType() instanceof CollectionType) {
+            throw new MethodNotAllowedException;
+        }
+
+        return $this->update($transaction, $context);
+    }
+
+    public function post(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if (!$this->getProperty()->getType() instanceof CollectionType) {
+            throw new MethodNotAllowedException;
+        }
+
+        return $this->update($transaction, $context);
+    }
+
+    public function patch(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if ($this->getProperty()->getType() instanceof CollectionType) {
+            throw new MethodNotAllowedException;
+        }
+
+        return $this->update($transaction, $context);
     }
 
     public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
@@ -433,7 +466,7 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
         });
     }
 
-    public function patch(Transaction $transaction, ?ContextInterface $context = null): Response
+    public function update(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         if (!$this->parent instanceof Entity) {
             throw new BadRequestException(
@@ -461,7 +494,17 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
         Gate::update($this, $transaction)->ensure();
 
-        $this->setValue($property->getType()->instance($value));
+        $propertyType = $property->getType();
+
+        switch (true) {
+            case Request::METHOD_POST === $transaction->getMethod() && $propertyType instanceof CollectionType:
+                $this->getPrimitive()[] = $value;
+                break;
+
+            default:
+                $this->setValue($propertyType->instance($value));
+                break;
+        }
 
         $propertyValues = new PropertyValues();
         $propertyValues[] = $this;

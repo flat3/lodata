@@ -31,7 +31,17 @@ class String_ extends Primitive
             return Constants::null;
         }
 
-        return "'".str_replace("'", "''", $this->value)."'";
+        return self::escape($this->value);
+    }
+
+    /**
+     * Escape quotes in a string when using URLs
+     * @param  string  $value
+     * @return string URL Encoded value
+     */
+    public static function escape(string $value): string
+    {
+        return sprintf("'%s'", str_replace("'", "''", $value));
     }
 
     public function set($value): self

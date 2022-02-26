@@ -1,1 +1,2 @@
-matchesPattern( origin , '^A.*e$' )
+expression: matchesPattern(origin,'^A.*e$')
+result: matchesPattern( origin, '^A.*e$' )

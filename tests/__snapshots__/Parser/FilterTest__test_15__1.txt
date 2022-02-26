@@ -1,1 +1,2 @@
-( ( ( id lt 4 ) and ( id ge 7 ) ) or ( ( id gt 3 ) and ( id gt 2 ) ) )
+expression: (id lt 4 and id ge 7) or (id gt 3 and id gt 2)
+result: ( ( ( id lt 4 ) and ( id ge 7 ) ) or ( ( id gt 3 ) and ( id gt 2 ) ) )

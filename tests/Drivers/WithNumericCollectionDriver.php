@@ -17,7 +17,6 @@ trait WithNumericCollectionDriver
     {
         $this->entityId = 0;
         $this->missingEntityId = 99;
-        $this->etag = 'W/"ebfc135d107351a03fcdc08f917af37891403e478938884f004d697f64d96646"';
 
         $collection = collect(array_values($this->getSeed()));
 
@@ -29,6 +28,7 @@ trait WithNumericCollectionDriver
         $entitySet->setCollection($collection);
 
         Lodata::add($entitySet);
+        $this->updateETag();
         $this->keepDriverState();
     }
 
@@ -37,7 +37,8 @@ trait WithNumericCollectionDriver
         $this->assertDriverStateDiffSnapshot();
     }
 
-    protected function captureDriverState():array {
+    protected function captureDriverState(): array
+    {
         return array_values(Lodata::getEntitySet($this->entitySet)->getCollection()->toArray());
     }
 }

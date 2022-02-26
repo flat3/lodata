@@ -1,0 +1,2 @@
+expression: origin
+result: [flights].[origin]

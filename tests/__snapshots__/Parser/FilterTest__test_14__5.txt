@@ -1,0 +1,3 @@
+expression: id lt 4 or (id gt 3 and id gt 2)
+result: ( ( [flights].[id] < ? ) OR ( ( [flights].[id] > ? ) AND ( [flights].[id] > ? ) ) )
+parameters: 4,3,2

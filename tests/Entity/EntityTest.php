@@ -66,6 +66,14 @@ abstract class EntityTest extends TestCase
         );
     }
 
+    public function test_read_collection_property()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath.'/emails')
+        );
+    }
+
     public function test_missing()
     {
         $key = $this->missingEntityId;
@@ -93,6 +101,15 @@ abstract class EntityTest extends TestCase
         $this->assertResponseSnapshot(
             (new Request)
                 ->path($this->entityPath)
+        );
+    }
+
+    public function test_read_an_entity_etag_select()
+    {
+        $this->assertResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath)
+                ->select('name')
         );
     }
 
@@ -245,6 +262,22 @@ abstract class EntityTest extends TestCase
         $this->assertNoContent(
             (new Request)
                 ->path(sprintf("%s/%s/age", $this->entitySetPath, $altKey))
+        );
+    }
+
+    public function test_raw()
+    {
+        $this->assertResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath.'/name/$value')
+        );
+    }
+
+    public function test_raw_collection_error()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path($this->entityPath.'/emails/$value')
         );
     }
 

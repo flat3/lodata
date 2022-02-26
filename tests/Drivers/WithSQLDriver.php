@@ -9,6 +9,7 @@ use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\ReferentialConstraint;
@@ -21,7 +22,6 @@ trait WithSQLDriver
     {
         $this->entityId = 1;
         $this->missingEntityId = 99;
-        $this->etag = 'W/"e4452fdbb9a32df3b92bbee272e822594ba256420eb230af48264f053ecb015c"';
 
         /** @var EntityType $passengerType */
         $passengerType = Lodata::add(
@@ -219,27 +219,34 @@ trait WithSQLDriver
         $airportType->addProperty($airportToFlights);
         $airportSet->addNavigationBinding($binding);
 
+        $encodeArrays = function (array $record): array {
+            return array_map(function ($value) {
+                return is_array($value) ? JSON::encode($value) : $value;
+            }, $record);
+        };
+
         foreach ($this->getSeed() as $record) {
-            DB::table('passengers')->insert($record);
+            DB::table('passengers')->insert($encodeArrays($record));
         }
 
         foreach ($this->getAirportSeed() as $record) {
-            DB::table('airports')->insert($record);
+            DB::table('airports')->insert($encodeArrays($record));
         }
 
         foreach ($this->getFlightSeed() as $record) {
-            DB::table('flights')->insert($record);
+            DB::table('flights')->insert($encodeArrays($record));
         }
 
         foreach ($this->getCountrySeed() as $record) {
-            DB::table('countries')->insert($record);
+            DB::table('countries')->insert($encodeArrays($record));
         }
 
         foreach ($this->getPetSeed() as $record) {
-            DB::table('pets')->insert($record);
+            DB::table('pets')->insert($encodeArrays($record));
         }
 
         $this->keepDriverState();
+        $this->updateETag();
     }
 
     protected function tearDownDriver(): void

@@ -11,9 +11,9 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
-use Flat3\Lodata\Interfaces\ETagInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
+use Flat3\Lodata\Interfaces\SerializeInterface;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
@@ -22,7 +22,7 @@ use Flat3\Lodata\Type\Untyped;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 
-class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceInterface
+class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceInterface, SerializeInterface
 {
     use UseReferences;
     use HasTransaction;
@@ -147,10 +147,9 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
     /**
      * Get a property value from this complex value
      * @param  mixed  $offset  Property name
-     * @return PropertyValue Property value
+     * @return ?PropertyValue Property value
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?PropertyValue
     {
         return $this->propertyValues->get($offset);
     }
@@ -371,7 +370,12 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
      */
     public function getETag(): string
     {
-        $input = [];
+        return sprintf('W/"%s"', ETag::hash($this->toMixed()));
+    }
+
+    public function toMixed(): array
+    {
+        $record = [];
 
         /** @var PropertyValue $propertyValue */
         foreach ($this->propertyValues as $propertyValue) {
@@ -379,13 +383,14 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
 
             if ($property instanceof DeclaredProperty) {
                 $value = $propertyValue->getValue();
-                if ($value instanceof ETagInterface) {
-                    $input[$property->getName()] = $value->toEtag();
+
+                if ($value instanceof SerializeInterface) {
+                    $record[$property->getName()] = $value->toMixed();
                 }
             }
         }
 
-        return sprintf('W/"%s"', ETag::hash($input));
+        return $record;
     }
 
     /**

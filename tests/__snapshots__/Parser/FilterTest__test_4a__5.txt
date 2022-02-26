@@ -1,0 +1,3 @@
+expression: minute(origin) eq 33
+result: ( DATEPART( minute, [flights].[origin] ) = ? )
+parameters: 33

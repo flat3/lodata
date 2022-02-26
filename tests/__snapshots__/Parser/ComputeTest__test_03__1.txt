@@ -1,1 +1,2 @@
-false as comp3
+expression: false
+result: false

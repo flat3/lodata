@@ -1,1 +1,2 @@
-( substring( origin , 1 ) eq 'abc123' )
+expression: substring(origin,1) eq 'abc123'
+result: ( substring( origin, 1 ) eq 'abc123' )

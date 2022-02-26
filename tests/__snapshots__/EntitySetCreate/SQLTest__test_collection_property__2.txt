@@ -1,0 +1,24 @@
+@@ @@
+             "colour": null,
+             "sock_colours": null,
+             "emails": null
++        },
++        {
++            "id": 6,
++            "flight_id": null,
++            "name": "Oobleck",
++            "dob": null,
++            "age": null,
++            "chips": null,
++            "dq": null,
++            "in_role": null,
++            "open_time": null,
++            "colour": null,
++            "sock_colours": null,
++            "emails": [
++                "oob@example.com",
++                "oo@test.com"
++            ]
+         }
+     ],
+     "pets": [

@@ -1,0 +1,9 @@
+@@ @@
+             "dq": "2000-01-01",
+             "in_role": 86400,
+             "open_time": "05:05:05",
+-            "colour": 2,
++            "colour": 8,
+             "sock_colours": 6,
+             "emails": [
+                 "alpha@example.com",

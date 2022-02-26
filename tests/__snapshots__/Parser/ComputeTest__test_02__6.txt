@@ -1,1 +1,2 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin", "flights"."destination" AS "destination", ( "flights"."origin" || ? ) AS "comp1", ( ? + ? ) AS "comp2" FROM "flights"
+expression: 1 add 2
+result: ( 1 add 2 )

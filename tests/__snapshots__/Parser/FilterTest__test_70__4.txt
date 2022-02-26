@@ -1,0 +1,3 @@
+expression: priority has Priorities'high'
+result: ( "flights"."priority" & ? = ? )
+parameters: 1,1

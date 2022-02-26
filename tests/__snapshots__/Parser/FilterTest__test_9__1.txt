@@ -1,1 +1,2 @@
-origin in ( 'a' , 'b' , 'c' )
+expression: origin in ('a', 'b', 'c')
+result: origin in ( 'a', 'b', 'c' )

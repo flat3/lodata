@@ -1,0 +1,3 @@
+expression: now() eq 10:00:00
+result: ( CURRENT_TIMESTAMP( ) = ? )
+parameters: 10:00:00

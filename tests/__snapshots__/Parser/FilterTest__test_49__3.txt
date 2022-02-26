@@ -1,0 +1,3 @@
+expression: hour(origin) eq 3
+result: ( DATE_PART( 'HOUR', "flights"."origin" ) = ? )
+parameters: 3

@@ -1,1 +1,2 @@
-( round( origin ) eq 4 )
+expression: round(origin) eq 4
+result: ( round( origin ) eq 4 )

@@ -22,6 +22,9 @@
             "dq": null,
             "in_role": null,
             "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": [],
             "pets": [
                 {
                     "@type": "#com.example.odata.Pet",
@@ -47,7 +50,10 @@
             "chips": null,
             "dq": null,
             "in_role": null,
-            "open_time": null
+            "open_time": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         }
     ],
     "passengers@navigationLink": "http://localhost/odata/Flights(4)/passengers"

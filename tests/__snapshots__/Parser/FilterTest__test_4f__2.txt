@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( YEAR( `flights`.`origin` ) = ? )
+expression: year(origin) eq 1999
+result: ( YEAR( `flights`.`origin` ) = ? )
+parameters: 1999

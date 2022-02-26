@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE `flights`.`origin` LIKE ?
+expression: endswith(origin,'a')
+result: `flights`.`origin` LIKE ?
+parameters: %a

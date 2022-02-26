@@ -1,1 +1,2 @@
-contains( origin , 'b' )
+expression: contains(origin, 'b')
+result: contains( origin, 'b' )

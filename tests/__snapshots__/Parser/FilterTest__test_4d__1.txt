@@ -1,1 +1,2 @@
-( second( origin ) eq 44 )
+expression: second(origin) eq 44
+result: ( second( origin ) eq 44 )

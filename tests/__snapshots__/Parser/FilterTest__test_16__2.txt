@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( ( `flights`.`id` + ? ) = ? )
+expression: id add 3.14 eq 1.59
+result: ( ( `flights`.`id` + ? ) = ? )
+parameters: 3.14,1.59

@@ -13,7 +13,13 @@
             "dq": "2000-01-01",
             "in_role": "P1DT0S",
             "open_time": "05:05:05.000000",
-            "flight_id": 1
+            "flight_id": 1,
+            "colour": "Green",
+            "sock_colours": "Green,Blue",
+            "emails": [
+                "alpha@example.com",
+                "alpha@beta.com"
+            ]
         },
         {
             "@type": "#com.example.odata.passenger",
@@ -26,8 +32,11 @@
             "chips": false,
             "dq": "2001-02-02",
             "in_role": "P2DT5H5M5.2999999999884S",
+            "colour": null,
+            "sock_colours": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.passenger",
@@ -41,7 +50,12 @@
             "dq": "2002-03-03",
             "in_role": "P4DT32M41S",
             "open_time": "07:07:07.000000",
-            "flight_id": 1
+            "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
         },
         {
             "@type": "#com.example.odata.passenger",
@@ -55,7 +69,10 @@
             "chips": null,
             "dq": null,
             "open_time": null,
-            "flight_id": null
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.passenger",
@@ -68,8 +85,11 @@
             "dq": "2003-04-04",
             "open_time": "23:11:33.000000",
             "in_role": "PT14M48.9S",
+            "colour": null,
+            "sock_colours": null,
             "chips": null,
-            "flight_id": null
+            "flight_id": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.sType",

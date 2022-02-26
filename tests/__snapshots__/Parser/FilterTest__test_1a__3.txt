@@ -1,0 +1,3 @@
+expression: id add 3.14 in (1.59, 2.14)
+result: ( "flights"."id" + ? IN ( ?, ? ) )
+parameters: 3.14,1.59,2.14

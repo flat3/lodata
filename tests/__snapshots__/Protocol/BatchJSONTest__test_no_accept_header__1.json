@@ -5,7 +5,7 @@
             "status": 200,
             "headers": {
                 "content-type": "application/json",
-                "etag": "W/\"2ccaaf443e26494dff243377cb72fb508b6dfad077dd4216f294be3fc0e7d0b5\""
+                "etag": "W/\"a714e2db58e276ecdcfcd98c25a0085a1465f571f780135a3ef2e976ec3a0afe\""
             },
             "body": {
                 "@context": "http://localhost/odata/$metadata#flights/$entity",

@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "key": "zeta",
+    "name": "Zeta",
+    "emails": [
+        "oob@example.com",
+        "oo@test.com"
+    ]
+}

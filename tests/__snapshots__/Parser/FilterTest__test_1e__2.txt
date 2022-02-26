@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( ( `flights`.`origin` = ? ) AND ( NOT ( `flights`.`origin` = ? ) ) )
+expression: origin eq 'b' and not(origin eq 'a')
+result: ( ( `flights`.`origin` = ? ) AND ( NOT ( `flights`.`origin` = ? ) ) )
+parameters: b,a

@@ -49,18 +49,6 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     }
 
     /**
-     * Generate a new complex type
-     * @param  string|Identifier  $identifier
-     * @return ComplexType Complex Type
-     * @codeCoverageIgnore
-     * @deprecated
-     */
-    public static function factory($identifier)
-    {
-        return new self($identifier);
-    }
-
-    /**
      * Add a property
      * @param  Property  $property  The property to add
      * @return $this

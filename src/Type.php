@@ -7,10 +7,10 @@ namespace Flat3\Lodata;
 use Carbon\CarbonImmutable;
 use DateTime;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
-use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Date;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
@@ -36,12 +36,13 @@ use TypeError;
  * @method static PrimitiveType binary() Binary type
  * @method static PrimitiveType boolean() Boolean type
  * @method static PrimitiveType byte() Byte type
- * @method static PrimitiveType collection() Collection type
+ * @method static CollectionType collection(?Type $type = null) Collection type
  * @method static PrimitiveType date() Date type
  * @method static PrimitiveType datetimeoffset() DateTimeOffset type
  * @method static PrimitiveType decimal() Decimal type
  * @method static PrimitiveType double() Double type
  * @method static PrimitiveType duration() Duration type
+ * @method static EnumerationType enum(string $identifier) Enumeration type
  * @method static PrimitiveType guid() GUID type
  * @method static PrimitiveType int16() Int16 type
  * @method static PrimitiveType int32() Int32 type
@@ -67,39 +68,80 @@ abstract class Type
     /**
      * Generate a new type container
      * @param  string  $name  Type name
-     * @return PrimitiveType OData primitive type
+     * @return PrimitiveType|CollectionType|EnumerationType OData type
      */
     public static function __callStatic($name, $arguments): PrimitiveType
     {
-        $resolver = [
-            'binary' => Binary::class,
-            'boolean' => Boolean::class,
-            'byte' => Byte::class,
-            'collection' => Collection::class,
-            'date' => Date::class,
-            'datetimeoffset' => DateTimeOffset::class,
-            'decimal' => Decimal::class,
-            'double' => Double::class,
-            'duration' => Duration::class,
-            'guid' => Guid::class,
-            'int16' => Int16::class,
-            'int32' => Int32::class,
-            'int64' => Int64::class,
-            'sbyte' => SByte::class,
-            'single' => Single::class,
-            'stream' => Stream::class,
-            'string' => String_::class,
-            'timeofday' => TimeOfDay::class,
-            'uint16' => UInt16::class,
-            'uint32' => UInt32::class,
-            'uint64' => UInt64::class,
-        ];
+        switch ($name) {
+            case 'binary':
+                return new PrimitiveType(Binary::class);
 
-        if (!array_key_exists($name, $resolver)) {
-            throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: '.$name);
+            case 'boolean':
+                return new PrimitiveType(Boolean::class);
+
+            case 'byte':
+                return new PrimitiveType(Byte::class);
+
+            case 'collection':
+                return new CollectionType(...$arguments);
+
+            case 'date':
+                return new PrimitiveType(Date::class);
+
+            case 'datetimeoffset':
+                return new PrimitiveType(DateTimeOffset::class);
+
+            case 'decimal':
+                return new PrimitiveType(Decimal::class);
+
+            case 'double':
+                return new PrimitiveType(Double::class);
+
+            case 'duration':
+                return new PrimitiveType(Duration::class);
+
+            case 'enum':
+                return new EnumerationType(...$arguments);
+
+            case 'guid':
+                return new PrimitiveType(Guid::class);
+
+            case 'int16':
+                return new PrimitiveType(Int16::class);
+
+            case 'int32':
+                return new PrimitiveType(Int32::class);
+
+            case 'int64':
+                return new PrimitiveType(Int64::class);
+
+            case 'sbyte':
+                return new PrimitiveType(SByte::class);
+
+            case 'single':
+                return new PrimitiveType(Single::class);
+
+            case 'stream':
+                return new PrimitiveType(Stream::class);
+
+            case 'string':
+                return new PrimitiveType(String_::class);
+
+            case 'timeofday':
+                return new PrimitiveType(TimeOfDay::class);
+
+            case 'uint16':
+                return new PrimitiveType(UInt16::class);
+
+            case 'uint32':
+                return new PrimitiveType(UInt32::class);
+
+            case 'uint64':
+                return new PrimitiveType(UInt64::class);
+
         }
 
-        return new PrimitiveType($resolver[$name]);
+        throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: '.$name);
     }
 
     /**
@@ -154,15 +196,15 @@ abstract class Type
             case 'boolean':
                 return self::boolean();
 
+            case CarbonImmutable::class:
             case is_a($type, DateTime::class, true):
                 return self::datetimeoffset();
 
             case 'array':
+                return self::collection();
+
             case 'stdClass':
                 return new Untyped();
-
-            case CarbonImmutable::class:
-                return new PrimitiveType(DateTimeOffset::class);
         }
 
         throw new TypeError('Could not cast the provided internal type');

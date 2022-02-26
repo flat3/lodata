@@ -1,0 +1,10 @@
+@@ @@
+         "colour": 2,
+         "sock_colours": 6,
+         "emails": [
+-            "alpha@example.com",
+-            "alpha@beta.com"
++            "only@thisemail.com"
+         ]
+     },
+     "beta": {

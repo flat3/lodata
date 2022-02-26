@@ -1,0 +1,3 @@
+expression: origin eq 4 div 3
+result: ( "flights"."origin" = DIV( CAST( ? AS NUMERIC ), CAST( ? AS NUMERIC ) ) )
+parameters: 4,3

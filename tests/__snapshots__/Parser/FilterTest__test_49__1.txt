@@ -1,1 +1,2 @@
-( hour( origin ) eq 3 )
+expression: hour(origin) eq 3
+result: ( hour( origin ) eq 3 )

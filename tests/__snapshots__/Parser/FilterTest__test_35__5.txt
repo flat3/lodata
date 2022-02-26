@@ -1,0 +1,2 @@
+expression: origin eq 4 mod 3
+result: This entity set does not support the operator "mod"

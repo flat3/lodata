@@ -1,1 +1,2 @@
-( "t1" OR "t2" )
+expression: t1 OR t2
+result: ( "t1" OR "t2" )

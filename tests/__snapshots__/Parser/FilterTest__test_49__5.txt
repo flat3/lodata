@@ -1,0 +1,3 @@
+expression: hour(origin) eq 3
+result: ( DATEPART( hour, [flights].[origin] ) = ? )
+parameters: 3

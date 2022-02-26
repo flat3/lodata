@@ -1,1 +1,2 @@
-endswith( origin , 'b' )
+expression: endswith(origin, 'b')
+result: endswith( origin, 'b' )

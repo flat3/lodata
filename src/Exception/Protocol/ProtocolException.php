@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Exception\Protocol;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\App;
@@ -165,7 +166,7 @@ abstract class ProtocolException extends RuntimeException implements Responsable
                 return;
             }
 
-            echo json_encode(['error' => $this->toError()], JSON_UNESCAPED_SLASHES);
+            echo JSON::encode(['error' => $this->toError()]);
         });
 
         $response->setProtocolVersion('1.1');

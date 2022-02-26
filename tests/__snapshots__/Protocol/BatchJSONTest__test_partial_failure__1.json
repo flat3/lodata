@@ -6,7 +6,7 @@
             "headers": {
                 "content-type": "application/json",
                 "location": "http://localhost/odata/airports(5)",
-                "etag": "W/\"6c4d02fdd2a0e35813f2b5ad092edf2c1747b43d0f10e735ca2b5e8dc4f16e21\""
+                "etag": "W/\"0c127b8123416153ea8d4c619bb7e3be7b8db9410b4f332cb2e9485b1aefa6b2\""
             },
             "body": {
                 "@context": "http://localhost/odata/$metadata#airports/$entity",

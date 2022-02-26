@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin", "flights"."destination" AS "destination", CONCAT( CAST( "flights"."origin" AS TEXT ), CAST( ? AS TEXT ) ) AS "comp" FROM "flights"
+expression: concat(origin, 'world')
+result: ( "flights"."origin" || ? )
+parameters: world

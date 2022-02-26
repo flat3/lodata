@@ -1,0 +1,3 @@
+expression: length(origin) eq 1
+result: ( LEN( [flights].[origin] ) = ? )
+parameters: 1

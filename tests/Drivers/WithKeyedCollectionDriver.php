@@ -16,7 +16,6 @@ trait WithKeyedCollectionDriver
     {
         $this->entityId = 'alpha';
         $this->missingEntityId = 'notfound';
-        $this->etag = 'W/"bc1beaef1f65da0e00aceab2d8af7224e08c4173772bfb721195bd0bd94c8de7"';
 
         $collection = collect($this->getSeed());
 
@@ -28,6 +27,7 @@ trait WithKeyedCollectionDriver
         $entitySet->setCollection($collection);
 
         Lodata::add($entitySet);
+        $this->updateETag();
         $this->keepDriverState();
     }
 
@@ -36,7 +36,8 @@ trait WithKeyedCollectionDriver
         $this->assertDriverStateDiffSnapshot();
     }
 
-    protected function captureDriverState():array {
+    protected function captureDriverState(): array
+    {
         return Lodata::getEntitySet($this->entitySet)->getCollection()->toArray();
     }
 }

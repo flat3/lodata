@@ -1,0 +1,3 @@
+expression: month(origin) eq 11
+result: ( DATE_PART( 'MONTH', "flights"."origin" ) = ? )
+parameters: 11

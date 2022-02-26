@@ -1,1 +1,2 @@
-concat( origin , 'world' ) as comp1, ( 1 add 2 ) as comp2
+expression: concat(origin, 'world')
+result: concat( origin, 'world' )

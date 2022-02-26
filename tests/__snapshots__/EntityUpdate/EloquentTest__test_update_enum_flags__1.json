@@ -1,0 +1,18 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers/$entity",
+    "id": 1,
+    "flight_id": 1,
+    "name": "Alpha",
+    "dob": "2000-01-01T04:04:04+00:00",
+    "age": 4,
+    "chips": true,
+    "dq": "2000-01-01",
+    "in_role": "P1DT0S",
+    "open_time": "05:05:05.000000",
+    "colour": "Green",
+    "sock_colours": "Blue,Brown",
+    "emails": [
+        "alpha@example.com",
+        "alpha@beta.com"
+    ]
+}

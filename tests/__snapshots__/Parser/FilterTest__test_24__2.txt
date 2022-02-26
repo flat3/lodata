@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( CONCAT( `flights`.`origin`, `flights`.`id` ) = ? )
+expression: concat(origin, id) eq '123abc'
+result: ( CONCAT( `flights`.`origin`, `flights`.`id` ) = ? )
+parameters: 123abc

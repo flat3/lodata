@@ -43,7 +43,10 @@
                                     "dq",
                                     "in_role",
                                     "open_time",
-                                    "flight_id"
+                                    "flight_id",
+                                    "colour",
+                                    "sock_colours",
+                                    "emails"
                                 ]
                             }
                         }
@@ -91,7 +94,11 @@
                                     "open_time",
                                     "open_time desc",
                                     "flight_id",
-                                    "flight_id desc"
+                                    "flight_id desc",
+                                    "colour",
+                                    "colour desc",
+                                    "sock_colours",
+                                    "sock_colours desc"
                                 ]
                             }
                         }
@@ -203,7 +210,10 @@
                                     "dq",
                                     "in_role",
                                     "open_time",
-                                    "flight_id"
+                                    "flight_id",
+                                    "colour",
+                                    "sock_colours",
+                                    "emails"
                                 ]
                             }
                         }
@@ -436,7 +446,7 @@
                     "in_role": {
                         "type": "string",
                         "format": "duration",
-                        "pattern": "^-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?$",
+                        "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$",
                         "nullable": true
                     },
                     "open_time": {
@@ -451,6 +461,33 @@
                         "minimum": -9223372036854775808,
                         "maximum": 9223372036854775807,
                         "nullable": true
+                    },
+                    "colour": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "sock_colours": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": false
                     }
                 }
             },
@@ -496,7 +533,7 @@
                     "in_role": {
                         "type": "string",
                         "format": "duration",
-                        "pattern": "^-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?$",
+                        "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$",
                         "nullable": true
                     },
                     "open_time": {
@@ -511,6 +548,33 @@
                         "minimum": -9223372036854775808,
                         "maximum": 9223372036854775807,
                         "nullable": true
+                    },
+                    "colour": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "sock_colours": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": false
                     }
                 }
             },
@@ -556,7 +620,7 @@
                     "in_role": {
                         "type": "string",
                         "format": "duration",
-                        "pattern": "^-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?$",
+                        "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$",
                         "nullable": true
                     },
                     "open_time": {
@@ -571,6 +635,33 @@
                         "minimum": -9223372036854775808,
                         "maximum": 9223372036854775807,
                         "nullable": true
+                    },
+                    "colour": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "sock_colours": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": false
                     }
                 }
             },
@@ -641,7 +732,7 @@
             "Edm.Duration": {
                 "type": "string",
                 "format": "duration",
-                "pattern": "^-?P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?$"
+                "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$"
             },
             "Edm.Guid": {
                 "type": "string",

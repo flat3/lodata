@@ -1,0 +1,3 @@
+expression: toupper(origin) eq 'abc123'
+result: ( UPPER( [flights].[origin] ) = ? )
+parameters: abc123

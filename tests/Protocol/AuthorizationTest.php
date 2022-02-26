@@ -6,7 +6,6 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate as LaravelGate;
 
 class AuthorizationTest extends TestCase
@@ -32,7 +31,7 @@ class AuthorizationTest extends TestCase
 
     public function gateAssertion()
     {
-        LaravelGate::shouldReceive('check')->andReturnUsing(function(string $lodata, Gate $gate) {
+        LaravelGate::shouldReceive('check')->andReturnUsing(function (string $lodata, Gate $gate) {
             $this->assertMatchesSnapshot([
                 $lodata,
                 $gate->getAccess(),

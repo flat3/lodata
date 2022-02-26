@@ -10,6 +10,11 @@
             "in_role": "P4DT32M41S",
             "open_time": "07:07:07.000000",
             "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ],
             "key": "gamma"
         },
         {

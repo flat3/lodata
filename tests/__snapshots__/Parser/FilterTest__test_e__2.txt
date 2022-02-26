@@ -1,1 +1,3 @@
-SELECT `flights`.`id` AS `id`, `flights`.`origin` AS `origin` FROM `flights` WHERE ( ( ( `flights`.`id` < ? ) OR ( `flights`.`id` < ? ) ) OR ( `flights`.`id` < ? ) )
+expression: id lt 4 or id lt 3 or id lt 2
+result: ( ( ( `flights`.`id` < ? ) OR ( `flights`.`id` < ? ) ) OR ( `flights`.`id` < ? ) )
+parameters: 4,3,2

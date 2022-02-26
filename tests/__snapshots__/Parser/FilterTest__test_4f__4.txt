@@ -1,1 +1,3 @@
-SELECT "flights"."id" AS "id", "flights"."origin" AS "origin" FROM "flights" WHERE ( DATE_PART( 'YEAR', "flights"."origin" ) = ? )
+expression: year(origin) eq 1999
+result: ( CAST( STRFTIME( '%Y', "flights"."origin" ) AS NUMERIC ) = ? )
+parameters: 1999

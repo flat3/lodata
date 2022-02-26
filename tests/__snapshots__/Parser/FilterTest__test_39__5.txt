@@ -1,0 +1,3 @@
+expression: origin in (4,3)
+result: [flights].[origin] IN ( ?, ? )
+parameters: 4,3
