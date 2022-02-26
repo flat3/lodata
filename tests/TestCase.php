@@ -151,6 +151,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return $id;
     }
 
+    protected function getSnapshotDirectory(): string
+    {
+        $root = dirname(__FILE__);
+        return sprintf(
+            '%s%s__snapshots__%s',
+            $root,
+            DIRECTORY_SEPARATOR,
+            substr(dirname((new ReflectionClass($this))->getFileName()), strlen($root))
+        );
+    }
+
     protected function getPackageProviders($app): array
     {
         return [
