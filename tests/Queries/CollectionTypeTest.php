@@ -10,6 +10,7 @@ use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
+use Flat3\Lodata\Type\Collection;
 
 class CollectionTypeTest extends TestCase
 {
@@ -28,6 +29,25 @@ class CollectionTypeTest extends TestCase
         $type->addDeclaredProperty('col', Type::collection(Type::string()));
         $entity = new Singleton('example', $type);
         $entity['col'] = ['aaa'];
+        Lodata::add($entity);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path('/example')
+        );
+    }
+
+    public function test_singleton_split()
+    {
+        $type = new EntityType('test');
+
+        $type->addDeclaredProperty('col', Type::collection(Type::string()));
+
+        $entity = new Singleton('example', $type);
+        $collection = new Collection();
+        $collection[] = 'aaa';
+        $entity['col'] = $collection;
+
         Lodata::add($entity);
 
         $this->assertJsonResponseSnapshot(
