@@ -3,7 +3,7 @@
 content-type: application/http
 
 HTTP/1.0 200 OK
-content-type: application/json
+content-type: application/json;metadata=minimal
 etag: W/"a714e2db58e276ecdcfcd98c25a0085a1465f571f780135a3ef2e976ec3a0afe"
 
 {"@context":"http://localhost/odata/$metadata#flights/$entity","id":1,"origin":"lhr","destination":"lax","gate":null,"duration":"PT11H25M0S"}
@@ -15,7 +15,7 @@ content-type: multipart/mixed;boundary=00000000-0000-0000-0000-000000000004
 content-type: application/http
 
 HTTP/1.0 201 Created
-content-type: application/json
+content-type: application/json;metadata=minimal
 location: http://localhost/odata/airports(5)
 etag: W/"9dcfebb4cce3bc22f0333343727cdc6ef96cc0d0026b89ca181a1c40cb250907"
 
@@ -33,7 +33,7 @@ content-type: application/json
 content-type: application/http
 
 HTTP/1.0 200 OK
-content-type: application/json
+content-type: application/json;metadata=minimal
 
 {"@context":"http://localhost/odata/$metadata#airports","value":[{"id":1,"name":"Heathrow","code":"lhr","construction_date":"1946-03-25","open_time":"09:00:00.000000","sam_datetime":"2001-11-10T14:00:00+00:00","review_score":null,"is_big":true,"country_id":1},{"id":2,"name":"Los Angeles","code":"lax","construction_date":"1930-01-01","open_time":"08:00:00.000000","sam_datetime":"2000-11-10T14:00:00+00:00","review_score":null,"is_big":false,"country_id":2},{"id":3,"name":"San Francisco","code":"sfo","construction_date":"1930-01-01","open_time":"15:00:00.000000","sam_datetime":"2001-11-10T14:00:01+00:00","review_score":null,"is_big":null,"country_id":null},{"id":4,"name":"O'Hare","code":"ohr","construction_date":"1930-01-01","open_time":"15:00:00.000000","sam_datetime":"1999-11-10T14:00:01+00:00","review_score":null,"is_big":true,"country_id":null},{"id":5,"name":"One","code":"one","construction_date":null,"open_time":null,"sam_datetime":null,"review_score":null,"is_big":null,"country_id":null}]}
 --00000000-0000-0000-0000-000000000002--

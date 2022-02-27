@@ -55,9 +55,11 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $key
      * @param  mixed|null  $value
      */
-    public function add($key, $value = null): void
+    public function add($key, $value = null): self
     {
         $this->set($key, $value);
+
+        return $this;
     }
 
     /**
@@ -65,7 +67,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $key
      * @param  mixed|null  $value
      */
-    public function set($key, $value = null): void
+    public function set($key, $value = null): self
     {
         if (!$key) {
             $key = $value;
@@ -86,6 +88,8 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
         }
 
         $this->array[(string) $key] = $value;
+
+        return $this;
     }
 
     /**

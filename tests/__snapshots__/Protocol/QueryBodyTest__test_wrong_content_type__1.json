@@ -1,7 +1,7 @@
 {
     "error": {
         "code": "unsupported_content_type",
-        "message": "This route does not support the requested content type, unsupported parameters may have been supplied",
+        "message": "Requests to this endpoint must use the text/plain content type",
         "target": null,
         "details": [],
         "innererror": {}

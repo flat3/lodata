@@ -4,7 +4,7 @@
             "id": 0,
             "status": 200,
             "headers": {
-                "content-type": "application/json"
+                "content-type": "application/json;metadata=minimal"
             },
             "body": {
                 "@context": "http://localhost/odata/$metadata#Edm.Int32",

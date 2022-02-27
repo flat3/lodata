@@ -6,7 +6,6 @@ namespace Flat3\Lodata\Tests\EntitySetCreate;
 
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Helpers\Request;
-use Flat3\Lodata\Tests\Laravel\Models\Enums\Colour;
 use Flat3\Lodata\Tests\TestCase;
 
 abstract class EntitySetCreateTest extends TestCase

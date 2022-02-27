@@ -38,6 +38,7 @@ use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\IEEE754Compatible;
 use Flat3\Lodata\Transaction\MediaType;
+use Flat3\Lodata\Transaction\MediaTypes;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Transaction\NavigationRequest;
@@ -624,9 +625,9 @@ class Transaction
 
     /**
      * Get the content type requested by the client
-     * @return MediaType
+     * @return MediaTypes
      */
-    public function getAcceptedContentType(): MediaType
+    public function getAcceptedContentTypes(): MediaTypes
     {
         $formatQueryOption = $this->getFormat()->getValue();
 
@@ -638,20 +639,20 @@ class Transaction
                 );
             }
 
-            return (new MediaType)->parse('application/'.$formatQueryOption);
+            return MediaTypes::factory('application/'.$formatQueryOption);
         }
 
         if ($formatQueryOption) {
-            return (new MediaType)->parse($formatQueryOption);
+            return MediaTypes::factory($formatQueryOption);
         }
 
         $acceptHeader = $this->getRequestHeader('accept');
 
         if ($acceptHeader) {
-            return (new MediaType)->parse($acceptHeader);
+            return MediaTypes::factory($acceptHeader);
         }
 
-        return (new MediaType)->parse('*/*');
+        return MediaTypes::factory(MediaType::any);
     }
 
     /**
@@ -1146,54 +1147,71 @@ class Transaction
 
         $lastSegment = Arr::last($pathSegments);
 
-        $requiredType = (new MediaType)
-            ->parse(MediaType::json)
-            ->setParameter(Constants::streaming, Constants::true)
-            ->setParameter(Constants::metadata, MetadataType\Minimal::name)
-            ->setParameter(Constants::ieee754Compatible, Constants::false);
-
         if ($this->getPreferenceValue(Constants::omitValues) === Constants::nulls) {
             $this->preferenceApplied(Constants::omitValues, Constants::nulls);
         }
 
-        $acceptedContentType = $this->getAcceptedContentType();
+        $acceptedTypes = $this->getAcceptedContentTypes();
 
         switch ($lastSegment) {
-            case '$batch':
-                $requiredType = (new MediaType)->parse($acceptedContentType->getOriginal());
-                break;
-
             case '$metadata':
-                $requiredType = $acceptedContentType ?: (new MediaType)->parse(MediaType::xml);
+                $providedTypes = MediaTypes::factory(MediaType::xml, MediaType::json);
                 break;
 
-            case '$value':
-                $requiredType = $acceptedContentType ?: (new MediaType)->parse(MediaType::text);
+            case '$batch':
+                $providedTypes = MediaTypes::factory(MediaType::multipartMixed, MediaType::json);
                 break;
 
             case '$count':
-            case '$query':
-                $requiredType = (new MediaType)->parse(MediaType::text);
+                $providedTypes = MediaTypes::factory(MediaType::text);
+                break;
+
+            case '$value':
+                $providedTypes = MediaTypes::factory(MediaType::any);
+                break;
+
+            default:
+                $providedTypes = (new MediaTypes)->add(
+                    (new MediaType)
+                        ->parse(MediaType::json)
+                        ->setParameter(Constants::charset, 'utf-8')
+                        ->setParameter(Constants::streaming, Constants::true)
+                        ->setParameter(Constants::metadata, MetadataType\Minimal::name)
+                        ->setParameter(Constants::ieee754Compatible, Constants::false)
+                );
                 break;
         }
 
-        $requiredType->setParameter('charset', 'utf-8');
-        $contentType = $requiredType->negotiate($this->getAcceptedContentType()->getOriginal());
+        $acceptedType = MediaTypes::negotiate($acceptedTypes, $providedTypes);
+
+        if (null === $acceptedType) {
+            throw new NotAcceptableException(
+                'unsupported_accept',
+                'This route does not support the accepted type, unsupported parameters may have been supplied'
+            );
+        }
 
         $this->metadataType = MetadataType::factory(
-            $contentType->getParameter(Constants::metadata),
+            $acceptedType->getParameter(Constants::metadata),
             $this->version
         );
 
+        if ('json' === $acceptedType->getSubtype()) {
+            $acceptedType->setParameter(
+                $this->version->prefixParameter(Constants::metadata),
+                $this->metadataType::name
+            );
+        }
+
         $this->ieee754compatible = new IEEE754Compatible(
-            $contentType->getParameter(Constants::ieee754Compatible)
+            $acceptedType->getParameter(Constants::ieee754Compatible)
         );
 
-        $this->sendContentType($contentType);
+        $this->sendContentType($acceptedType);
         $this->sendHeader(Constants::odataVersion, $this->getVersion());
         $this->response->setStatusCode(Response::HTTP_OK);
 
-        if ($requiredType->getParameter(Constants::streaming) === Constants::false) {
+        if ($acceptedType->getParameter(Constants::streaming) === Constants::false) {
             $this->response->setStreaming(false);
         }
 

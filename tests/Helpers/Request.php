@@ -215,7 +215,7 @@ class Request
 
     public function text(): Request
     {
-        $this->header('accept', 'text/plain');
+        $this->header('accept', 'text/plain;charset=utf-8');
         return $this;
     }
 

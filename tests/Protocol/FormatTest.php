@@ -79,6 +79,33 @@ class FormatTest extends TestCase
         );
     }
 
+    public function test_accepts_xml_subtype_on_metadata()
+    {
+        $this->assertResponseSnapshot(
+            (new Request)
+                ->header('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+                ->path('/$metadata')
+        );
+    }
+
+    public function test_prefers_json()
+    {
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->header('accept', 'application/json,application/xml')
+                ->path('/$metadata')
+        );
+    }
+
+    public function test_prefers_xml()
+    {
+        $this->assertXmlResponseSnapshot(
+            (new Request)
+                ->header('accept', 'application/xml,application/json')
+                ->path('/$metadata')
+        );
+    }
+
     public function test_accepts_xml_on_metadata()
     {
         $this->assertResponseSnapshot(

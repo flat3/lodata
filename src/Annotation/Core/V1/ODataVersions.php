@@ -18,6 +18,6 @@ class ODataVersions extends Annotation
 
     public function __construct()
     {
-        $this->value = new String_(Version::version);
+        $this->value = new String_(Version::v4_01);
     }
 }

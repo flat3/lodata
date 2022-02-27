@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Protocol;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\MediaType;
 
 class QueryBodyTest extends TestCase
 {
@@ -23,7 +24,7 @@ class QueryBodyTest extends TestCase
     {
         $this->assertMethodNotAllowed(
             (new Request)
-                ->text()
+                ->header('content-type', MediaType::text)
                 ->path($this->entitySetPath.'/$query')
         );
     }
@@ -34,7 +35,7 @@ class QueryBodyTest extends TestCase
             (new Request)
                 ->path($this->entitySetPath.'/$query')
                 ->post()
-                ->text()
+                ->header('content-type', MediaType::text)
                 ->body(http_build_query([
                     '$count' => 'true',
                     '$filter' => "name eq 'Alpha'",

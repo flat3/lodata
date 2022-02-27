@@ -18,6 +18,7 @@ class MediaType
     const json = 'application/json';
     const text = 'text/plain';
     const multipartMixed = 'multipart/mixed';
+    const any = '*/*';
 
     protected $original;
     protected $type;
@@ -30,59 +31,6 @@ class MediaType
      * @var Parameter $parameter
      */
     protected $parameter;
-
-    /**
-     * Negotiate the value of the type based on the provided options
-     * @param  string  $requestedTypes
-     * @return $this
-     */
-    public function negotiate(string $requestedTypes): MediaType
-    {
-        $types = [];
-
-        foreach (explode(',', $requestedTypes) as $type) {
-            $types[] = (new MediaType)->parse($type);
-        }
-
-        // Order by priority
-        usort($types, function (MediaType $a, MediaType $b) {
-            return $b->getParameter(Constants::q) <=> $a->getParameter(Constants::q);
-        });
-
-        foreach ($types as $type) {
-            // Reject formats with unknown format parameters
-            if (array_diff($type->getParameterKeys(), [
-                Constants::ieee754Compatible,
-                Constants::metadata,
-                Constants::streaming,
-                Constants::charset,
-                Constants::q,
-            ])) {
-                continue;
-            }
-
-            if ($type->getSubtype() !== '*' && $type->getSubtype() !== $this->getSubtype()) {
-                continue;
-            }
-
-            foreach ($this->getParameterKeys() as $parameterKey) {
-                $parameterValue = $type->getParameter($parameterKey);
-
-                if ($parameterValue) {
-                    $this->setParameter($parameterKey, $parameterValue);
-                } else {
-                    $this->dropParameter($parameterKey);
-                }
-            }
-
-            return $this;
-        }
-
-        throw new NotAcceptableException(
-            'unsupported_content_type',
-            'This route does not support the requested content type, unsupported parameters may have been supplied'
-        );
-    }
 
     /**
      * Parse media type

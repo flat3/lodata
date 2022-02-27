@@ -4,7 +4,7 @@
             "id": 0,
             "status": 201,
             "headers": {
-                "content-type": "application/json",
+                "content-type": "application/json;metadata=minimal",
                 "location": "http://localhost/odata/airports(5)",
                 "etag": "W/\"0c127b8123416153ea8d4c619bb7e3be7b8db9410b4f332cb2e9485b1aefa6b2\""
             },

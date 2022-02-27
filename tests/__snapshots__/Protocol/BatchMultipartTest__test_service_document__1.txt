@@ -3,7 +3,7 @@
 content-type: application/http
 
 HTTP/1.0 200 OK
-content-type: application/json
+content-type: application/json;metadata=minimal
 
 {"@context":"http://localhost/odata/$metadata","value":[{"name":"passengers","kind":"EntitySet","url":"passengers"},{"name":"flights","kind":"EntitySet","url":"flights"},{"name":"airports","kind":"EntitySet","url":"airports"},{"name":"pets","kind":"EntitySet","url":"pets"},{"name":"countries","kind":"EntitySet","url":"countries"}]}
 --00000000-0000-0000-0000-000000000002--

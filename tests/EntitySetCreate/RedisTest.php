@@ -8,7 +8,6 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
-use Flat3\Lodata\Tests\Laravel\Models\Enums\Colour;
 
 class RedisTest extends EntitySetCreateTest
 {

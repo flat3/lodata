@@ -10,6 +10,8 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\Transaction\MediaType;
+use Flat3\Lodata\Transaction\MediaTypes;
 use Illuminate\Http\Request;
 
 /**
@@ -34,7 +36,10 @@ abstract class Metadata implements PipeInterface, ResponseInterface
 
         $transaction->assertMethod(Request::METHOD_GET);
 
-        $contentType = $transaction->getAcceptedContentType();
+        $contentType = MediaTypes::negotiate(
+            $transaction->getAcceptedContentTypes(),
+            MediaTypes::factory(MediaType::any)
+        );
 
         switch ($contentType->getSubtype()) {
             case 'xml':
@@ -51,5 +56,4 @@ abstract class Metadata implements PipeInterface, ResponseInterface
                 );
         }
     }
-
 }

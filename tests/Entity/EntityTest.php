@@ -169,7 +169,7 @@ abstract class EntityTest extends TestCase
 
     public function test_read_an_entity_with_full_metadata()
     {
-        $this->assertJsonResponseSnapshot(
+        $this->assertJsonMetadataResponse(
             (new Request)
                 ->metadata(MetadataType\Full::name)
                 ->path($this->entityPath)
@@ -178,7 +178,7 @@ abstract class EntityTest extends TestCase
 
     public function test_read_an_entity_with_no_metadata()
     {
-        $this->assertJsonResponseSnapshot(
+        $this->assertJsonMetadataResponse(
             (new Request)
                 ->metadata(MetadataType\None::name)
                 ->path($this->entityPath)
@@ -269,6 +269,7 @@ abstract class EntityTest extends TestCase
     {
         $this->assertResponseSnapshot(
             (new Request)
+                ->text()
                 ->path($this->entityPath.'/name/$value')
         );
     }
@@ -277,6 +278,7 @@ abstract class EntityTest extends TestCase
     {
         $this->assertBadRequest(
             (new Request)
+                ->text()
                 ->path($this->entityPath.'/emails/$value')
         );
     }
@@ -296,6 +298,7 @@ abstract class EntityTest extends TestCase
 
         $this->assertNoContent(
             (new Request)
+                ->text()
                 ->path(sprintf("%s/%s/dob/\$value", $this->entitySetPath, $altKey))
         );
     }

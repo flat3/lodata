@@ -95,11 +95,10 @@ class ErrorReportingTest extends TestCase
 
     public function test_stream_buffered_error()
     {
-        $this->assertJsonMetadataResponse(
+        $this->assertNotImplemented(
             (new Request)
                 ->accept('application/json;odata.streaming=false')
-                ->path('/texts'),
-            Response::HTTP_NOT_IMPLEMENTED
+                ->path('/texts')
         );
     }
 

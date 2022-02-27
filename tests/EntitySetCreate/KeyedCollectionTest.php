@@ -7,7 +7,6 @@ namespace Flat3\Lodata\Tests\EntitySetCreate;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
-use Flat3\Lodata\Tests\Laravel\Models\Enums\Colour;
 
 class KeyedCollectionTest extends EntitySetCreateTest
 {
