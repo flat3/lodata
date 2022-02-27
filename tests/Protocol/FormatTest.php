@@ -15,6 +15,14 @@ class FormatTest extends TestCase
         );
     }
 
+    public function test_no_accept_header()
+    {
+        $this->assertResponseSnapshot(
+            (new Request)
+                ->unsetHeader('accept')
+        );
+    }
+
     public function test_rejects_bad_accept_type_subtype()
     {
         $this->assertNotAcceptable(
