@@ -86,4 +86,48 @@ class CollectionTypeTest extends TestCase
                 ->path('/example')
         );
     }
+
+    public function test_dynamic_complex()
+    {
+        $type = new EntityType('test');
+        $entity = new Singleton('example', $type);
+        $entity['col'] = [
+            [
+                'one' => 'one',
+                'two' => 2,
+            ],
+            [
+                'one' => 'two',
+                'two' => 3,
+            ],
+        ];
+        Lodata::add($entity);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path('/example')
+        );
+    }
+
+    public function test_dynamic_collection()
+    {
+        $type = new EntityType('test');
+        $entity = new Singleton('example', $type);
+        $entity['col'] = [
+            [
+                'one',
+                'two',
+            ],
+            [
+                'three',
+                'four',
+            ],
+        ];
+        Lodata::add($entity);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path('/example')
+        );
+    }
 }

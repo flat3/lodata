@@ -29,32 +29,34 @@ use Flat3\Lodata\Type\UInt16;
 use Flat3\Lodata\Type\UInt32;
 use Flat3\Lodata\Type\UInt64;
 use Flat3\Lodata\Type\Untyped;
+use Illuminate\Support\Arr;
 use TypeError;
 
 /**
  * Type
- * @method static PrimitiveType binary() Binary type
- * @method static PrimitiveType boolean() Boolean type
- * @method static PrimitiveType byte() Byte type
- * @method static CollectionType collection(?Type $type = null) Collection type
- * @method static PrimitiveType date() Date type
- * @method static PrimitiveType datetimeoffset() DateTimeOffset type
- * @method static PrimitiveType decimal() Decimal type
- * @method static PrimitiveType double() Double type
- * @method static PrimitiveType duration() Duration type
- * @method static EnumerationType enum(string $identifier) Enumeration type
- * @method static PrimitiveType guid() GUID type
- * @method static PrimitiveType int16() Int16 type
- * @method static PrimitiveType int32() Int32 type
- * @method static PrimitiveType int64() Int64 type
- * @method static PrimitiveType sbyte() SByte type
- * @method static PrimitiveType single() Single type
- * @method static PrimitiveType stream() Stream type
- * @method static PrimitiveType string() String type
- * @method static PrimitiveType timeofday() TimeOfDay type
- * @method static PrimitiveType uint16() UInt16 type
- * @method static PrimitiveType uint32() UInt32 type
- * @method static PrimitiveType uint64() UInt64 type
+ * @method static PrimitiveType binary() Edm.Binary
+ * @method static PrimitiveType boolean() Edm.Boolean
+ * @method static PrimitiveType byte() Edm.Byte
+ * @method static CollectionType collection(?Type $type = null) Collection()
+ * @method static PrimitiveType date() Edm.Date
+ * @method static PrimitiveType datetimeoffset() Edm.DateTimeOffset
+ * @method static PrimitiveType decimal() Edm.Decimal
+ * @method static PrimitiveType double() Edm.Double
+ * @method static PrimitiveType duration() Edm.Duration
+ * @method static EnumerationType enum(string $identifier) Edm.EnumType
+ * @method static PrimitiveType guid() Edm.Guid
+ * @method static PrimitiveType int16() Edm.Int16
+ * @method static PrimitiveType int32() Edm.Int32
+ * @method static PrimitiveType int64() Edm.Int64
+ * @method static PrimitiveType sbyte() Edm.SByte
+ * @method static PrimitiveType single() Edm.Single
+ * @method static PrimitiveType stream() Edm.Stream
+ * @method static PrimitiveType string() Edm.String
+ * @method static PrimitiveType timeofday() Edm.TimeOfDay
+ * @method static PrimitiveType uint16() UInt16
+ * @method static PrimitiveType uint32() UInt32
+ * @method static PrimitiveType uint64() UInt64
+ * @method static Untyped untyped() Edm.Untyped
  * @package Flat3\Lodata
  */
 abstract class Type
@@ -68,9 +70,9 @@ abstract class Type
     /**
      * Generate a new type container
      * @param  string  $name  Type name
-     * @return PrimitiveType|CollectionType|EnumerationType OData type
+     * @return PrimitiveType|ComplexType OData type
      */
-    public static function __callStatic($name, $arguments): PrimitiveType
+    public static function __callStatic($name, $arguments): Type
     {
         switch ($name) {
             case 'binary':
@@ -139,6 +141,8 @@ abstract class Type
             case 'uint64':
                 return new PrimitiveType(UInt64::class);
 
+            case 'untyped':
+                return new Untyped();
         }
 
         throw new InternalServerErrorException('invalid_type', 'An invalid type was requested: '.$name);
@@ -166,6 +170,10 @@ abstract class Type
     {
         if (is_object($value)) {
             return self::fromInternalType(get_class($value));
+        }
+
+        if (is_array($value)) {
+            return Arr::isAssoc($value) ? self::untyped() : self::collection();
         }
 
         return self::fromInternalType(gettype($value));

@@ -1,0 +1,13 @@
+{
+    "@context": "http://localhost/odata/$metadata#example",
+    "col": [
+        {
+            "one": "one",
+            "two": 2
+        },
+        {
+            "one": "two",
+            "two": 3
+        }
+    ]
+}
