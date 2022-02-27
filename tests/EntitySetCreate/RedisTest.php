@@ -109,8 +109,8 @@ class RedisTest extends EntitySetCreateTest
                 ->body([
                     'key' => 'zeta',
                     'name' => 'Zeta',
-                    'colour' => Colour::Blue->name,
-                    'sock_colours' => Colour::Green->name.','.Colour::Red->name,
+                    'colour' => 'Blue',
+                    'sock_colours' => 'Green,Red',
                 ]),
             Response::HTTP_CREATED
         );
