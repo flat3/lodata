@@ -144,8 +144,8 @@ abstract class EntitySetCreateTest extends TestCase
                 ->path($this->entitySetPath)
                 ->body([
                     'name' => 'Oobleck',
-                    'colour' => Colour::Blue->name,
-                    'sock_colours' => Colour::Green->name.','.Colour::Red->name,
+                    'colour' => 'Blue',
+                    'sock_colours' => 'Green,Red',
                 ]),
             Response::HTTP_CREATED
         );
