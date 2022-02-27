@@ -136,7 +136,7 @@ class MetadataContainer implements ArrayAccess
         return array_key_exists($offset, $this->properties);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?string
     {
         return $this->properties[$offset];
     }
