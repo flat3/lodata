@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Transaction;
 
-use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
-use Flat3\Lodata\Helper\Constants;
-
 /**
  * Media Type
  * @link https://tools.ietf.org/html/rfc2045
@@ -99,6 +96,16 @@ class MediaType
     }
 
     /**
+     * Check whether the type has the provided parameter
+     * @param  string  $key  Parameter
+     * @return bool
+     */
+    public function hasParameter(string $key): bool
+    {
+        return null !== $this->getParameter($key);
+    }
+
+    /**
      * Get all parameter keys in the media type
      * @return array
      */
@@ -112,6 +119,15 @@ class MediaType
      * @return string
      */
     public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Get the type with subtype
+     * @return string
+     */
+    public function getFullType(): string
     {
         return $this->type.'/'.$this->subtype;
     }

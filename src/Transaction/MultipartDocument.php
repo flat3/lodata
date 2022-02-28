@@ -72,7 +72,7 @@ class MultipartDocument
     {
         $this->body = $body;
 
-        if ($this->getContentType()->getType() === MediaType::multipartMixed) {
+        if ($this->getContentType()->getFullType() === MediaType::multipartMixed) {
             $this->parseDocuments();
         }
 

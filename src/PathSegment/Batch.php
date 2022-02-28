@@ -46,7 +46,7 @@ abstract class Batch implements PipeInterface, ResponseInterface
 
         $contentType = $transaction->getProvidedContentType();
 
-        switch ($contentType->getType()) {
+        switch ($contentType->getFullType()) {
             case MediaType::multipartMixed:
                 return new Batch\Multipart();
 

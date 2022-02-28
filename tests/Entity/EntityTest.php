@@ -9,6 +9,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Int32;
@@ -300,24 +301,6 @@ abstract class EntityTest extends TestCase
             (new Request)
                 ->text()
                 ->path(sprintf("%s/%s/dob/\$value", $this->entitySetPath, $altKey))
-        );
-    }
-
-    public function test_raw_custom_accept()
-    {
-        $this->assertResponseSnapshot(
-            (new Request)
-                ->header('accept', 'application/octet-stream')
-                ->path($this->entityPath.'/name/$value')
-        );
-    }
-
-    public function test_raw_custom_format()
-    {
-        $this->assertResponseSnapshot(
-            (new Request)
-                ->format('application/octet-stream')
-                ->path($this->entityPath.'/name/$value')
         );
     }
 

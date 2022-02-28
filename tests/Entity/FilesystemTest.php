@@ -110,14 +110,6 @@ class FilesystemTest extends EntityTest
     {
     }
 
-    public function test_raw_custom_accept()
-    {
-    }
-
-    public function test_raw_custom_format()
-    {
-    }
-
     public function test_read_alternative_key()
     {
     }
@@ -127,6 +119,14 @@ class FilesystemTest extends EntityTest
     }
 
     public function test_raw()
+    {
+    }
+
+    public function test_raw_no_accept()
+    {
+    }
+
+    public function test_raw_accept_any()
     {
     }
 

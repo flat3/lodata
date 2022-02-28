@@ -1167,7 +1167,7 @@ class Transaction
                 break;
 
             case '$value':
-                $providedTypes = MediaTypes::factory(MediaType::any);
+                $providedTypes = MediaTypes::factory(MediaType::text, MediaType::any);
                 break;
 
             default:
@@ -1195,6 +1195,10 @@ class Transaction
             $acceptedType->getParameter(Constants::metadata),
             $this->version
         );
+
+        if ('text' === $acceptedType->getType() && !$acceptedType->hasParameter(Constants::charset)) {
+            $acceptedType->setParameter(Constants::charset, 'utf-8');
+        }
 
         if ('json' === $acceptedType->getSubtype()) {
             $acceptedType->setParameter(
