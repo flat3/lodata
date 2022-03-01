@@ -7,7 +7,6 @@ namespace Flat3\Lodata\PathSegment;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
-use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Transaction\MediaType;
@@ -38,22 +37,15 @@ abstract class Metadata implements PipeInterface, ResponseInterface
 
         $contentType = MediaTypes::negotiate(
             $transaction->getAcceptedContentTypes(),
-            MediaTypes::factory(MediaType::any)
+            MediaTypes::factory(MediaType::xml, MediaType::json)
         );
 
         switch ($contentType->getSubtype()) {
-            case 'xml':
-            case '*':
-                return new Metadata\XML();
-
             case 'json':
                 return new Metadata\JSON();
 
             default:
-                throw new NotAcceptableException(
-                    'unknown_metadata_type',
-                    'The requested metadata content type was not known'
-                );
+                return new Metadata\XML();
         }
     }
 }
