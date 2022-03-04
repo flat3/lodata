@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Controller;
 
 use Exception;
-use Flat3\Lodata\Drivers\StaticEntitySet;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -59,6 +58,7 @@ use Flat3\Lodata\Transaction\Option\Top;
 use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Transaction\Version;
+use Flat3\Lodata\Type\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -227,6 +227,7 @@ class Transaction
         PathSegment\Filter::class,
         PathSegment\Query::class,
         PathSegment\Reference::class,
+        PathSegment\Each::class,
         Operation::class,
         Singleton::class,
         PropertyValue::class,
@@ -1433,7 +1434,8 @@ class Transaction
         /** @var NavigationProperty $navigationProperty */
         foreach ($navigationProperties as $navigationProperty) {
             $deltaPayloads = $body[$navigationProperty->getName()] ?? [];
-            $deltaResponseSet = new StaticEntitySet($navigationProperty->getEntityType());
+            $deltaResponseSet = new Collection();
+            $deltaResponseSet->setUnderlyingType($navigationProperty->getEntityType());
 
             foreach ($deltaPayloads as $deltaPayload) {
                 $entity = null;

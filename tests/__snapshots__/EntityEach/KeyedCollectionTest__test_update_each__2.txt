@@ -1,0 +1,29 @@
+@@ @@
+ {
+     "alpha": {
+-        "name": "Alpha",
++        "name": "Oop",
+         "age": 4,
+         "dob": "2000-01-01 04:04:04",
+         "chips": true,
+@@ @@
+         ]
+     },
+     "beta": {
+-        "name": "Beta",
++        "name": "Oop",
+         "age": 3,
+         "dob": "2001-02-02 05:05:05",
+         "chips": false,
+         "dq": "2001-02-02",
+         "in_role": 191105.3,
+-        "colour": null,
+-        "sock_colours": null
++        "colour": 0,
++        "sock_colours": 0,
++        "open_time": null,
++        "flight_id": null,
++        "emails": []
+     },
+     "gamma": {
+         "name": "Gamma",

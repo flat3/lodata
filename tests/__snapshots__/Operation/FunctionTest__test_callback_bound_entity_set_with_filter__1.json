@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#passengers",
+    "@context": "http://localhost/odata/$metadata#Collection(com.example.odata.passenger)",
     "value": [
         {
             "id": 0,

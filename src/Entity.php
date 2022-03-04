@@ -241,9 +241,8 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
      * Delete this entity
      * @param  Transaction  $transaction  Related transaction
      * @param  ContextInterface|null  $context  Current context
-     * @return Response Client response
      */
-    public function delete(Transaction $transaction, ?ContextInterface $context = null): Response
+    public function delete(Transaction $transaction, ?ContextInterface $context = null): void
     {
         $entitySet = $this->entitySet;
 
@@ -255,8 +254,6 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
         $transaction->assertIfMatchHeader($this->getETag());
 
         $entitySet->delete($this->getEntityId());
-
-        throw new NoContentException('deleted', 'Content was deleted');
     }
 
     /**
@@ -331,7 +328,8 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
                 return $this->patch($transaction, $context);
 
             case Request::METHOD_DELETE:
-                return $this->delete($transaction, $context);
+                $this->delete($transaction, $context);
+                throw new NoContentException('deleted', 'Content was deleted');
 
             case Request::METHOD_GET:
                 return $this->get($transaction, $context);

@@ -43,6 +43,33 @@ GET http://localhost:8000/odata/People?$filter=FirstName eq 'Scott'
 </code-block>
 </code-group>
 
+`$filter` can also be used as a path segment, and used multiple times to sequentially add filter parameters.
+
+<code-group>
+<code-block title="Request">
+```uri
+GET http://localhost:8000/odata/People/$filter(@a)/$filter(@b)?@a=DOB gt 2000-01-01&@b=endswith(FirstName, 'tt')
+```
+</code-block>
+
+<code-block title="Response">
+```json
+{
+  "@context": "http://localhost:8000/odata/$metadata#People",
+  "value": [
+    {
+      "id": 1,
+      "FirstName": "Scott",
+      "LastName": "Bumble",
+      "Email": "scott.bumble@gmail.com",
+      "DOB": "2001-01-01"
+    }
+  ]
+}
+```
+</code-block>
+</code-group>
+
 ## $orderby
 
 The `$orderby` system query option allows clients to request resources in either ascending order using asc or descending
@@ -457,3 +484,61 @@ GET http://localhost:8000/odata/People?$filter=pets/any(s:endswith(s/Name, 'The 
 ```
 </code-block>
 </code-group>
+
+## $each
+
+The `$each` path segment enables actions and odata operations such as deletes and updates to be run on sequences of
+entities server-side. To filter the sequence the `$filter` path segment must be used.
+
+Members of a collection can be updated by submitting a PATCH request to the URL constructed by appending `/$each` to the
+resource path of the collection. The additional path segment expresses that the request body describes an update to
+each member of the collection, not an update to the collection itself.
+
+<code-group>
+<code-block title="Request">
+```uri
+PATCH http://localhost/odata/People/$filter(@bar)/$each?@bar=Color eq 'beige-brown'
+{
+  "Color": "taupe"
+}
+```
+</code-block>
+
+<code-block title="Response">
+```json
+{
+  "@context": "http://localhost:8000/odata/$metadata#People",
+  "value": [
+    {
+      "id": 1,
+      "FirstName": "Scott",
+      "LastName": "Bumble",
+      "Color": "taupe"
+    },
+    {
+      "id": 3,
+      "FirstName": "Michael",
+      "LastName": "Scott",
+      "Color": "taupe"
+    }
+  ]
+}
+```
+</code-block>
+</code-group>
+
+Members of a collection can be deleted by submitting a DELETE request to the URL constructed by appending `/$each`
+to the resource path of the collection. The additional path segment expresses that the collection itself is not
+deleted.
+
+```uri
+DELETE http://localhost/odata/People/$filter(@bar)/$each?@bar=Color eq 'beige-brown'
+```
+
+A bound operation with a single-valued binding parameter can be applied to each member of a collection by appending
+the path segment `$each` to the resource path of the collection, followed by a forward slash and the namespace- or
+alias-qualified name of the bound operation.
+
+```uri
+GET http://localhost/odata/People/$each/SampleModel.MostRecentOrder()
+```

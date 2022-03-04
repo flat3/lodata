@@ -22,14 +22,15 @@ use TypeError;
  */
 class Collection extends Primitive implements ArrayAccess
 {
-    /** @var Primitive[] $value */
-    protected $value = [];
+    /** @var Primitive[]|\Illuminate\Support\Collection $value */
+    protected $value = null;
 
     /** @var CollectionType $type */
     protected $type;
 
     public function __construct($value = null)
     {
+        $this->value = collect();
         $this->setCollectionType(new CollectionType);
         parent::__construct($value);
     }
@@ -48,9 +49,9 @@ class Collection extends Primitive implements ArrayAccess
 
     public function toMixed(): ?array
     {
-        return array_map(function (SerializeInterface $value) {
+        return $this->value->map(function (SerializeInterface $value) {
             return $value->toMixed();
-        }, $this->value);
+        })->toArray();
     }
 
     /**
@@ -170,14 +171,14 @@ class Collection extends Primitive implements ArrayAccess
     {
         $transaction->outputJsonArrayStart();
 
-        reset($this->value);
+        $iterator = $this->value->getIterator();
 
-        while (current($this->value)) {
-            $value = current($this->value);
+        while ($iterator->current()) {
+            $value = $iterator->current();
             $value->emitJson($transaction);
-            next($this->value);
+            $iterator->next();
 
-            if (current($this->value)) {
+            if ($iterator->current()) {
                 $transaction->outputJsonSeparator();
             }
         }

@@ -272,15 +272,15 @@ class FunctionTest extends TestCase
     public function test_callback_bound_entity_set_with_filter()
     {
         $sorter = new Operation\Function_('sorter');
-        $sorter->setCallable(function (String_ $field, EntitySet $passengers): EntitySet {
-            $result = new StaticEntitySet($passengers->getType());
-            $result->setIdentifier($passengers->getIdentifier());
+        $sorter->setCallable(function (String_ $field, EntitySet $passengers): Collection {
+            $result = new Collection();
+            $result->setUnderlyingType($passengers->getType());
 
             foreach ($passengers->query() as $airport) {
                 $result[] = $airport;
             }
 
-            $result->sort(function (Entity $a1, Entity $a2) use ($field) {
+            $result->get()->sort(function (Entity $a1, Entity $a2) use ($field) {
                 return $a1[$field->get()]->getPrimitiveValue() <=> $a2[$field->get()]->getPrimitiveValue();
             });
 

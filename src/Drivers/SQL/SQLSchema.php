@@ -68,7 +68,10 @@ trait SQLSchema
             $key = $this->columnToDeclaredProperty($column);
 
             if (null === $key) {
-                throw new ConfigurationException('missing_key', sprintf('The table %s had no resolvable key', $this->getTable()));
+                throw new ConfigurationException(
+                    'missing_key',
+                    sprintf('The table %s had no resolvable key', $this->getTable())
+                );
             }
 
             if ($column->getAutoincrement()) {

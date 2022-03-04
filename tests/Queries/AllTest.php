@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Queries;
 
-use Flat3\Lodata\Drivers\StaticEntitySet;
+use Flat3\Lodata\Drivers\CollectionEntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
@@ -90,7 +90,7 @@ class AllTest extends TestCase
 
     public function test_read_empty()
     {
-        Lodata::add(new StaticEntitySet(new EntityType('basic')));
+        Lodata::add(new CollectionEntitySet(new EntityType('basic')));
 
         $this->assertJsonResponseSnapshot(
             (new Request)

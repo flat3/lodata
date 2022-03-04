@@ -9,6 +9,7 @@ use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Lexer;
+use Flat3\Lodata\Interfaces\EntitySet\FilterInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 
 /**
@@ -35,6 +36,13 @@ class Filter implements PipeInterface
             throw new BadRequestException(
                 'missing_filter_argument',
                 'The $filter segment must have an argument',
+            );
+        }
+
+        if (!$argument instanceof FilterInterface) {
+            throw new BadRequestException(
+                'entityset_cannot_filter',
+                'The requested entity set does not support filter',
             );
         }
 

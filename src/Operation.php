@@ -13,6 +13,7 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Arguments;
@@ -22,6 +23,7 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
+use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\RepositoryInterface;
@@ -36,6 +38,7 @@ use Flat3\Lodata\Operation\PrimitiveArgument;
 use Flat3\Lodata\Operation\Repository;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Operation\ValueArgument;
+use Flat3\Lodata\PathSegment\Each;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
@@ -637,6 +640,41 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             );
         }
 
+        if ($argument instanceof Each) {
+            $entitySet = $argument->getArgument();
+
+            if (!$entitySet instanceof QueryInterface) {
+                throw new NotImplementedException(
+                    'entityset_cannot_query',
+                    'This entity set cannot be queried',
+                );
+            }
+
+            $result = new Collection();
+            $result->setUnderlyingType($operation->getReturnType());
+
+            foreach ($entitySet->query() as $entity) {
+                $operationInstance = clone $operation;
+                $operationTransaction = new Transaction();
+                $request = Request::create(
+                    '',
+                    Request::METHOD_POST,
+                    [],
+                    [],
+                    [],
+                    [],
+                    $transaction->getRequest()->getContent()
+                );
+                $request->headers->replace($transaction->getRequestHeaders());
+                $operationTransaction->initialize(new Controller\Request($request));
+                $operationInstance->setTransaction($operationTransaction);
+                $operationInstance->setBoundParameter($entity);
+                $result[] = $operationInstance->executeAction();
+            }
+
+            return $result;
+        }
+
         $operation = clone $operation;
         $operation->setTransaction($transaction);
         $operation->setBoundParameter($argument);
@@ -734,11 +772,16 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             );
         }
 
-        if ($returnType instanceof EntityType && !$result->getType() instanceof $returnType) {
-            throw new InternalServerErrorException(
-                'invalid_entity_type_returned',
-                'The operation returned an entity type that did not match its defined type',
-            );
+        if ($returnType instanceof EntityType) {
+            if (
+                ($result instanceof Collection && !$result->getUnderlyingType() instanceof $returnType) ||
+                ($result instanceof ComplexValue && !$result->getType() instanceof $returnType)
+            ) {
+                throw new InternalServerErrorException(
+                    'invalid_entity_type_returned',
+                    'The operation returned an entity type that did not match its defined type',
+                );
+            }
         }
 
         if ($returnType instanceof PrimitiveType && !$result instanceof Primitive) {

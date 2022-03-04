@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Drivers;
 
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
+use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Parser\Common;
 use Flat3\Lodata\Expression\Parser\Search;
@@ -28,6 +29,13 @@ abstract class EnumerableEntitySet extends EntitySet implements ReadInterface, Q
 {
     /** @var Enumerable|Collection|LazyCollection $enumerable */
     protected $enumerable;
+
+    public function __construct(string $identifier, ?EntityType $entityType = null)
+    {
+        parent::__construct($identifier, $entityType);
+
+        $this->enumerable = new Collection();
+    }
 
     /**
      * Query this entity set

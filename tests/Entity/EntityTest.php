@@ -9,7 +9,6 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Int32;
