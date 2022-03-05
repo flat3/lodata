@@ -25,6 +25,20 @@ class DiscoveryTest extends TestCase
         Lodata::discover(Passenger::class);
         Lodata::discover(Pet::class);
 
+        Lodata::discover(Passenger::class);
+        $passengers = Lodata::getEntitySet('Passengers');
+        $passengerType = $passengers->getType();
+        $passengers->discoverRelationship('pets');
+
+        if (!Lodata::getTypeDefinition('colour')) {
+            $this->addEnumerationTypes();
+            $passengerType->addDeclaredProperty('colour', Lodata::getTypeDefinition('Colours'));
+            $passengerType->addDeclaredProperty('sock_colours', Lodata::getTypeDefinition('MultiColours'));
+        }
+
+        $pets = Lodata::getEntitySet('Pets');
+        $pets->discoverRelationship('passenger');
+
         $instance = new Instance();
         $instance->a = 'c';
         Lodata::discover($instance);

@@ -17,6 +17,9 @@ use Flat3\Lodata\Transaction\MetadataType\None;
 abstract class MetadataType
 {
     public const name = '';
+    public const Full = Full::name;
+    public const Minimal = Minimal::name;
+    public const None = None::name;
     protected $requiredProperties = [];
 
     /**

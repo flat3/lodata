@@ -7,9 +7,12 @@ namespace Flat3\Lodata\Drivers;
 use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
+use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
-use Flat3\Lodata\Attributes\LodataEnum;
+use Flat3\Lodata\Attributes\LodataIdentifier;
+use Flat3\Lodata\Attributes\LodataProperty;
 use Flat3\Lodata\Attributes\LodataRelationship;
+use Flat3\Lodata\Attributes\LodataTypeIdentifier;
 use Flat3\Lodata\ComputedProperty;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQL\SQLConnection;
@@ -126,8 +129,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $builder->select('*');
         $this->selectComputedProperties($builder);
 
-        return $builder->where($this->getPropertySourceName($key->getProperty()),
-            $key->getPrimitive()->toMixed())->first();
+        return $builder->where(
+            $this->getPropertySourceName($key->getProperty()),
+            $key->getPrimitive()->toMixed()
+        )->first();
     }
 
     /**
@@ -394,7 +399,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $esn = self::convertClassName(get_class($r->getRelated()));
             $right = Lodata::getEntitySet($esn);
             if (!$right) {
-                $right = self::discover(get_class($r->getRelated()));
+                $right = (new self(get_class($r->getRelated())))->discover();
             }
 
             $nav = (new NavigationProperty($method, $right->getType()))
@@ -573,33 +578,83 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     }
 
     /**
-     * Convert the provided eloquent model definition to an OData entity set and type
-     * @param  string  $model  Eloquent model class
-     * @return EloquentEntitySet
+     * Discover elements on this entity set model
+     * @return $this
      * @throws ReflectionException
      */
-    public static function discover(string $model): EloquentEntitySet
+    public function discover(): self
     {
-        /** @var EloquentEntitySet $set */
-        $set = Lodata::getEntitySet(EntitySet::convertClassName($model));
+        $entityType = $this->getType();
 
-        if ($set instanceof EntitySet) {
-            return $set;
+        $reflectionClass = new ReflectionClass($this->model);
+
+        $propertyAttributes = [];
+
+        if (Discovery::supportsAttributes()) {
+            $propertyAttributes = $reflectionClass->getAttributes(
+                LodataProperty::class,
+                ReflectionAttribute::IS_INSTANCEOF
+            );
         }
 
-        $set = new EloquentEntitySet($model);
-        Lodata::add($set);
-        $set->discoverProperties();
+        if ($propertyAttributes) {
+            foreach ($propertyAttributes as $propertyAttribute) {
+                /** @var LodataProperty $instance */
+                $instance = $propertyAttribute->newInstance();
 
-        if (!$set->getType()->getKey()) {
-            throw new ConfigurationException('missing_model_key', sprintf('The model %s had no primary key', $model));
+                $property = new DeclaredProperty($instance->getName(), $instance->getType());
+                $property->setNullable($instance->isNullable());
+
+                if ($instance->isComputed()) {
+                    $property->addAnnotation(new Computed);
+                }
+
+                if ($instance->isKey()) {
+                    $entityType->setKey($property);
+                } else {
+                    $entityType->addProperty($property);
+                }
+
+                if ($instance->hasSource()) {
+                    $this->setPropertySourceName($property, $instance->getSource());
+                }
+            }
+        } else {
+            $this->discoverProperties();
         }
+
+        if (!$entityType->getKey()) {
+            throw new ConfigurationException(
+                'missing_model_key',
+                sprintf('The model %s had no primary key', $this->model)
+            );
+        }
+
+        Lodata::add($this);
 
         if (!Discovery::supportsAttributes()) {
-            return $set;
+            return $this;
         }
 
-        foreach (Discovery::getReflectedMethods($model) as $reflectionMethod) {
+        $typeIdentifierAttribute = Discovery::getFirstAttribute($reflectionClass, LodataTypeIdentifier::class);
+        if ($typeIdentifierAttribute) {
+            /** @var LodataTypeIdentifier $instance */
+            $instance = $typeIdentifierAttribute->newInstance();
+            Lodata::drop($this->getType());
+            $this->getType()->setIdentifier($instance->getIdentifier());
+            Lodata::add($this->getType());
+        }
+
+        $identifierAttribute = Discovery::getFirstAttribute($reflectionClass, LodataIdentifier::class);
+        if ($identifierAttribute) {
+            /** @var LodataIdentifier $instance */
+            $instance = $identifierAttribute->newInstance();
+            Lodata::drop($this);
+            $this->setIdentifier($instance->getIdentifier());
+            Lodata::add($this);
+        }
+
+        foreach (Discovery::getReflectedMethods($this->model) as $reflectionMethod) {
             if (!$reflectionMethod->getAttributes(LodataRelationship::class, ReflectionAttribute::IS_INSTANCEOF)) {
                 continue;
             }
@@ -607,24 +662,11 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $relationshipMethod = $reflectionMethod->getName();
 
             try {
-                $set->discoverRelationship($relationshipMethod);
+                $this->discoverRelationship($relationshipMethod);
             } catch (ConfigurationException $e) {
             }
         }
 
-        $reflectionClass = new ReflectionClass($model);
-        $enumerationAttributes = $reflectionClass->getAttributes(LodataEnum::class);
-
-        if (Discovery::supportsEnum()) {
-            /** @var LodataEnum $enumerationAttribute */
-            foreach ($enumerationAttributes as $enumerationAttribute) {
-                $instance = $enumerationAttribute->newInstance();
-                $type = EnumerationType::discover($instance->getEnum());
-                $type->setIsFlags($instance->getIsFlags());
-                $set->getType()->getDeclaredProperty($instance->getName())->setType($type);
-            }
-        }
-
-        return $set;
+        return $this;
     }
 }

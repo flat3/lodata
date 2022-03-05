@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.01">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
+      <EntityContainer Name="DefaultContainer">
+        <Singleton Name="exa" Type="com.example.odata.ston"/>
+      </EntityContainer>
+      <EnumType Name="enu" UnderlyingType="Edm.Int64" IsFlags="false">
+        <Member Name="aaa" Value="1"/>
+        <Member Name="bbb" Value="2"/>
+      </EnumType>
+      <EntityType Name="ston">
+        <Property Name="ecol" Type="Collection(com.example.odata.enu)" Nullable="false"/>
+      </EntityType>
+      <Annotations Target="com.example.odata.DefaultContainer">
+        <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.DefaultNamespace" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.DereferencableIDs" Bool="true"/>
+        <Annotation Term="Org.OData.Core.V1.ODataVersions" String="4.01"/>
+        <Annotation Term="Org.OData.Capabilities.V1.AsynchronousRequestsSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.BatchSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.BatchSupport">
+          <Record>
+            <PropertyValue Property="Supported" Bool="true"/>
+            <PropertyValue Property="EtagReferencesSupported" Bool="true"/>
+            <PropertyValue Property="SupportedFormats">
+              <Collection>
+                <String>application/json</String>
+                <String>multipart/mixed</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.CallbackSupported">
+          <Record>
+            <PropertyValue Property="CallbackProtocols">
+              <Collection>
+                <Record>
+                  <PropertyValue Property="Id" String="http"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.ConformanceLevel" EnumMember="Org.OData.Capabilities.V1.ConformanceLevelType/Advanced"/>
+        <Annotation Term="Org.OData.Capabilities.V1.KeyAsSegmentSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.QuerySegmentSupported" Bool="true"/>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
+          <Collection>
+            <String>application/json;metadata=full;IEEE754Compatible=true;streaming=true</String>
+            <String>application/json;metadata=minimal;IEEE754Compatible=true;streaming=true</String>
+            <String>application/json;metadata=none;IEEE754Compatible=true;streaming=true</String>
+          </Collection>
+        </Annotation>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedMetadataFormats">
+          <Collection>
+            <String>application/json</String>
+            <String>application/xml</String>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

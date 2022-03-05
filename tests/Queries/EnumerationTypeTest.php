@@ -10,6 +10,7 @@ use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
+use Flat3\Lodata\Type;
 use TypeError;
 
 class EnumerationTypeTest extends TestCase
@@ -64,6 +65,7 @@ class EnumerationTypeTest extends TestCase
     {
         $type = new EntityType('outer');
         $enumeration = new EnumerationType('inner');
+        $enumeration->setIsFlags();
         $enumeration[] = 'aaa';
         $enumeration[] = 'bbb';
         Lodata::add($enumeration);
@@ -131,7 +133,7 @@ class EnumerationTypeTest extends TestCase
 
         $this->assertJsonResponseSnapshot(
             (new Request)
-                ->metadata(MetadataType\Full::name)
+                ->metadata(MetadataType::Full)
                 ->path('/example')
         );
     }
@@ -148,5 +150,28 @@ class EnumerationTypeTest extends TestCase
         $this->expectException(BadRequestException::class);
         $this->expectExceptionMessage('The provided flag value "bbb" was not valid for this type');
         $entity['inner'] = 'bbb';
+    }
+
+    public function test_singleton_collection_enum()
+    {
+        $enu = new EnumerationType('enu');
+        $enu[] = 'aaa';
+        $enu[] = 'bbb';
+        Lodata::add($enu);
+
+        $ston = new EntityType('ston');
+        $ston->addDeclaredProperty('ecol', Type::collection($enu));
+
+        $entity = new Singleton('exa', $ston);
+        $entity['ecol'] = ['aaa', 'bbb'];
+
+        Lodata::add($entity);
+
+        $this->assertMetadataSnapshot();
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->metadata(MetadataType::Full)
+                ->path('/exa')
+        );
     }
 }

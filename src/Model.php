@@ -136,6 +136,16 @@ class Model implements AnnotationInterface
     }
 
     /**
+     * Get an enumeration type from the model
+     * @param  string  $name  Enumeration name
+     * @return EnumerationType|null Enumeration type
+     */
+    public function getEnumerationType(string $name): ?EnumerationType
+    {
+        return $this->getEnumerationTypes()->get($name);
+    }
+
+    /**
      * Get a function from the model
      * @param  string  $name  Function name
      * @return Operation|null Function
@@ -284,7 +294,7 @@ class Model implements AnnotationInterface
      */
     public function discoverEloquentModel(string $model): EloquentEntitySet
     {
-        return EloquentEntitySet::discover($model);
+        return (new EloquentEntitySet($model))->discover();
     }
 
     /**

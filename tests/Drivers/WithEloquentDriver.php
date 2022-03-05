@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\Drivers;
 
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Operation\Function_;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Country;
@@ -55,7 +54,7 @@ trait WithEloquentDriver
         Lodata::discover(Pet::class);
         $pets = Lodata::getEntitySet('Pets');
 
-        if (!Discovery::supportsEnum()) {
+        if (!Lodata::getTypeDefinition('colour')) {
             $this->addEnumerationTypes();
             $passengerType->addDeclaredProperty('colour', Lodata::getTypeDefinition('Colours'));
             $passengerType->addDeclaredProperty('sock_colours', Lodata::getTypeDefinition('MultiColours'));

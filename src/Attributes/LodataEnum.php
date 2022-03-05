@@ -5,24 +5,19 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Attributes;
 
 use Attribute;
+use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Type;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
-class LodataEnum
+class LodataEnum extends LodataProperty
 {
-    protected string $name;
     protected string $enum;
-    protected bool $isFlags = false;
 
-    public function __construct(string $name, string $enum, ?bool $isFlags = false)
+    public function __construct(string $name, string $enum, ?string $source = null)
     {
-        $this->name = $name;
+        parent::__construct($name, $source);
         $this->enum = $enum;
-        $this->isFlags = $isFlags;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function getEnum(): string
@@ -30,8 +25,12 @@ class LodataEnum
         return $this->enum;
     }
 
-    public function getIsFlags(): bool
+    public function getType(): Type
     {
-        return $this->isFlags;
+        if (EnumerationType::isEnum($this->enum)) {
+            return EnumerationType::discover($this->enum);
+        }
+
+        return Lodata::getEnumerationType($this->enum);
     }
 }

@@ -35,6 +35,7 @@ abstract class ExpressionTest extends TestCase
     protected function assertFilter(string $expression)
     {
         $priority = new EnumerationType('Priorities');
+        $priority->setIsFlags();
         $priority[] = 'high';
         $priority[] = 'medium';
         $priority[] = 'low';

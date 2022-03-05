@@ -60,6 +60,11 @@ class Enum extends Primitive
         return $this->value;
     }
 
+    public function isFlags(): bool
+    {
+        return $this->type->getIsFlags();
+    }
+
     /**
      * Set the value of this enumeration
      * @param $value
@@ -119,7 +124,7 @@ class Enum extends Primitive
      */
     public function addFlag(EnumMember $flag): self
     {
-        $this->value |= $flag->getValue();
+        $this->value = $this->isFlags() ? ($this->value | $flag->getValue()) : $flag->getValue();
 
         return $this;
     }
@@ -131,7 +136,7 @@ class Enum extends Primitive
      */
     public function dropFlag(EnumMember $flag): self
     {
-        $this->value &= ~$flag->getValue();
+        $this->value = $this->isFlags() ? ($this->value & ~$flag->getValue()) : 0;
 
         return $this;
     }
@@ -143,7 +148,7 @@ class Enum extends Primitive
      */
     public function hasFlag(EnumMember $flag): bool
     {
-        return ($flag->getValue() & $this->value) === $flag->getValue();
+        return $this->isFlags() ? ($flag->getValue() & $this->value) === $flag->getValue() : $this->value === $flag->getValue();
     }
 
     /**
@@ -153,6 +158,10 @@ class Enum extends Primitive
      */
     public function hasFlags(array $flags): bool
     {
+        if (!$this->isFlags()) {
+            return count($flags) === 1 && ($flags[0]->getValue() === $this->value);
+        }
+
         $sum = 0;
 
         foreach ($flags as $flag) {

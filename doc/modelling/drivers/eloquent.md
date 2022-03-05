@@ -1,7 +1,7 @@
 # Eloquent
 
-Lodata can 'discover' Eloquent models, the relationships between the models, and expose methods as operations on the
-models.
+Lodata can 'discover' Eloquent model properties, the relationships between the models, and expose methods as operations
+on the models.
 
 ::: tip
 The Eloquent driver extends the SQL driver, so the same `$filter` capabilities exist in both.
@@ -24,6 +24,50 @@ class LodataServiceProvider extends ServiceProvider
     {
         \Lodata::discover(\App\Models\Flight::class);
     }
+}
+```
+
+## Attributes
+
+When using discovery Lodata will introspect the database schema to discover basic properties and types.
+For more control over exactly how entity sets, types and properties are discovered you can use PHP attributes on the
+model class.
+
+When you attach the first _property_ attribute, the automatic discovery of attributes is disabled automatically.
+Attributes all use the `Flat3\Lodata\Attributes` namespace.
+
+Property attributes optionally support providing a `source` to map an OData property name to a different
+underlying field name.
+
+Available attributes include:
+
+* Primitive [types](../types/README.md) such as `LodataBinary`, `LodataString`.
+* Collections (`LodataCollection`), that support attaching an underlying type.
+* Enumerations (`LodataEnum`), that support an attached enum type such as a PHP backed enum.
+* `LodataIdentifier` to customize the entity set name.
+* `LodataTypeIdentifier` to customize the entity type name.
+
+```php
+use App\Enums\Colours;
+use Flat3\Lodata\Attributes\LodataCollection;
+use Flat3\Lodata\Attributes\LodataDate;
+use Flat3\Lodata\Attributes\LodataDuration;
+use Flat3\Lodata\Attributes\LodataEnum;
+use Flat3\Lodata\Attributes\LodataIdentifier;
+use Flat3\Lodata\Attributes\LodataTypeIdentifier;
+use Flat3\Lodata\Type\SByte;
+use Illuminate\Database\Eloquent\Model;
+
+#[
+    LodataIdentifier('flights'),
+    LodataTypeIdentifier('flight'),
+    LodataCollection(name: 'Items', underlyingType: SByte::class, source: 'items'),
+    LodataDate(name: 'OpenTime', source: 'open_time'),
+    LodataEnum(name: 'Colours', enum: Colours::class),
+    LodataDuration(name: 'Duration', source: 'timeDuration'),
+]
+class Flight extends Model
+{
 }
 ```
 

@@ -1,0 +1,9 @@
+{
+    "@context": "http://localhost/odata/$metadata#exa",
+    "@type": "#com.example.odata.ston",
+    "@readLink": "http://localhost/odata/exa",
+    "ecol": [
+        "aaa",
+        "bbb"
+    ]
+}

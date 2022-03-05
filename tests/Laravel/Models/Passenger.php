@@ -2,14 +2,9 @@
 
 namespace Flat3\Lodata\Tests\Laravel\Models;
 
-use Flat3\Lodata\Attributes\LodataEnum;
 use Flat3\Lodata\Attributes\LodataRelationship;
-use Flat3\Lodata\Tests\Laravel\Models\Enums\Colour;
-use Flat3\Lodata\Tests\Laravel\Models\Enums\MultiColour;
 use Illuminate\Database\Eloquent\Model;
 
-#[LodataEnum(name: 'colour', enum: Colour::class, isFlags: false)]
-#[LodataEnum(name: 'sock_colours', enum: MultiColour::class, isFlags: true)]
 class Passenger extends Model
 {
     public $timestamps = false;

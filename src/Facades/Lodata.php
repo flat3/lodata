@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Operation getOperation(Identifier|string $name) Get an operation from the model
  * @method static Operation getFunction(Identifier|string $name) Get a function from the model
  * @method static Operation getAction(Identifier|string $name) Get an action from the model
+ * @method static EnumerationType getEnumerationType(Identifier|string $name) Get an enumeration type from the model
  * @method static PrimitiveType getTypeDefinition(Identifier|string $name) Get a type definition from the model
  * @method static EntityType getEntityType(Identifier|string $name) Get an entity type from the model
  * @method static ComplexType getComplexType(Identifier|string $name) Get a complex type from the model

@@ -1,0 +1,229 @@
+{
+    "$Version": "4.01",
+    "$EntityContainer": "com.example.odata.DefaultContainer",
+    "$Reference": {
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Core.V1"
+                }
+            ]
+        },
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Capabilities.V1"
+                }
+            ]
+        }
+    },
+    "com.example.odata": {
+        "$Kind": "EntityContainer",
+        "Alternative": {
+            "$EntityType": "com.example.odata.AlternativeType",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "$Annotations": {
+            "com.example.odata.DefaultContainer": {
+                "@Org.OData.Core.V1.ConventionalIDs": true,
+                "@Org.OData.Core.V1.DefaultNamespace": true,
+                "@Org.OData.Core.V1.DereferencableIDs": true,
+                "@Org.OData.Core.V1.ODataVersions": "4.01",
+                "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.CallbackSupported": {
+                    "CallbackProtocols": [
+                        {
+                            "Id": "http"
+                        }
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
+                "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
+                "@Org.OData.Capabilities.V1.SupportedFormats": [
+                    "application/json;metadata=full;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=minimal;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=none;IEEE754Compatible=true;streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
+                ]
+            }
+        }
+    },
+    "Recs": {
+        "$Kind": "ComplexType"
+    },
+    "Colours": {
+        "$Kind": "EnumType",
+        "$IsFlags": false,
+        "Red": 1,
+        "Green": 2,
+        "Blue": 4,
+        "Brown": 8,
+        "$UnderlyingType": "Edm.Int64"
+    },
+    "MultiColours": {
+        "$Kind": "EnumType",
+        "$IsFlags": true,
+        "Red": 1,
+        "Green": 2,
+        "Blue": 4,
+        "Brown": 8,
+        "$UnderlyingType": "Edm.Int64"
+    },
+    "AlternativeType": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "Id"
+        ],
+        "Id": {
+            "$Type": "Edm.Guid",
+            "$Nullable": false
+        },
+        "One": {
+            "$Type": "Edm.Boolean",
+            "$Nullable": true
+        },
+        "Two": {
+            "$Type": "Edm.Byte",
+            "$Nullable": true
+        },
+        "Three": {
+            "$Collection": true,
+            "$Type": "Edm.Untyped",
+            "$Nullable": false
+        },
+        "ThreeOne": {
+            "$Collection": true,
+            "$Type": "Edm.SByte",
+            "$Nullable": false
+        },
+        "ThreeTwo": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Recs",
+            "$Nullable": false
+        },
+        "ThreeThree": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Colours",
+            "$Nullable": false
+        },
+        "Four": {
+            "$Type": "Edm.Date",
+            "$Nullable": true
+        },
+        "Five": {
+            "$Type": "Edm.DateTimeOffset",
+            "$Nullable": true
+        },
+        "Six": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": false
+        },
+        "Seven": {
+            "$Type": "Edm.Double",
+            "$Nullable": true
+        },
+        "Eight": {
+            "$Type": "Edm.Duration",
+            "$Nullable": false
+        },
+        "Nine": {
+            "$Type": "com.example.odata.Colours",
+            "$Nullable": true
+        },
+        "NineOne": {
+            "$Type": "com.example.odata.Colours",
+            "$Nullable": true
+        },
+        "NineTwo": {
+            "$Type": "com.example.odata.MultiColours",
+            "$Nullable": true
+        },
+        "Ten": {
+            "$Type": "Edm.Int16",
+            "$Nullable": true
+        },
+        "Eleven": {
+            "$Type": "Edm.Int32",
+            "$Nullable": true
+        },
+        "Twelve": {
+            "$Type": "Edm.Int64",
+            "$Nullable": true
+        },
+        "Thirteen": {
+            "$Type": "Edm.SByte",
+            "$Nullable": true
+        },
+        "Fourteen": {
+            "$Type": "Edm.Single",
+            "$Nullable": true
+        },
+        "Fifteen": {
+            "$Type": "Edm.TimeOfDay",
+            "$Nullable": true
+        },
+        "Sixteen": {
+            "$Type": "com.example.odata.UInt16",
+            "$Nullable": true
+        },
+        "Seventeen": {
+            "$Type": "com.example.odata.UInt32",
+            "$Nullable": true
+        },
+        "Eighteen": {
+            "$Type": "com.example.odata.UInt64",
+            "$Nullable": true
+        }
+    }
+}
