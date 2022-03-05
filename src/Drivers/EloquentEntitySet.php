@@ -121,7 +121,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $builder->select('*');
         $this->selectComputedProperties($builder);
 
-        return $builder->where($key->getProperty()->getName(), $key->getPrimitive()->toMixed())->first();
+        return $builder->where($this->getPropertySourceName($key->getProperty()), $key->getPrimitive()->toMixed())->first();
     }
 
     /**
