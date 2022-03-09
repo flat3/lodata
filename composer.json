@@ -64,7 +64,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "test": "phpunit",
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit"
+        ],
         "test-parallel": "testbench package:test --parallel",
         "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover clover.xml",
         "analyse": "phpstan analyse --memory-limit 1G"
