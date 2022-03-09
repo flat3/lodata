@@ -5584,16 +5584,16 @@
         },
         {
             "name": "eclipxe/xmlschemavalidator",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eclipxe13/XmlSchemaValidator.git",
-                "reference": "eef33bfc105e1da4750f4bd2f3e0d223476bd913"
+                "reference": "85931d6a242c5b562f82220945fc25a01afba3f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eclipxe13/XmlSchemaValidator/zipball/eef33bfc105e1da4750f4bd2f3e0d223476bd913",
-                "reference": "eef33bfc105e1da4750f4bd2f3e0d223476bd913",
+                "url": "https://api.github.com/repos/eclipxe13/XmlSchemaValidator/zipball/85931d6a242c5b562f82220945fc25a01afba3f5",
+                "reference": "85931d6a242c5b562f82220945fc25a01afba3f5",
                 "shasum": ""
             },
             "require": {
@@ -5633,7 +5633,7 @@
                 "issues": "https://github.com/eclipxe13/XmlSchemaValidator/issues",
                 "source": "https://github.com/eclipxe13/XmlSchemaValidator"
             },
-            "time": "2021-06-18T18:50:20+00:00"
+            "time": "2022-03-08T18:51:17+00:00"
         },
         {
             "name": "facade/ignition-contracts",
