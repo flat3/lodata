@@ -284,7 +284,7 @@ class Model implements AnnotationInterface
      */
     public function discoverEloquentModel(string $model): EloquentEntitySet
     {
-        return (new Discovery)->discoverEloquentModel($model);
+        return EloquentEntitySet::discover($model);
     }
 
     /**

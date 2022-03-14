@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use ArrayAccess;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Type\Enum;
+use Illuminate\Support\Str;
 
 /**
  * Enumeration Type
@@ -143,5 +147,58 @@ class EnumerationType extends PrimitiveType implements ArrayAccess
             'type' => Constants::oapiString,
             'enum' => $this->getMembers()->keys(),
         ];
+    }
+
+    /**
+     * Get the OData enumeration type name for this class
+     * @param  string  $enum  Enum class name
+     * @return string OData identifier
+     */
+    public static function convertClassName(string $enum): string
+    {
+        return Str::pluralStudly(class_basename($enum));
+    }
+
+    /**
+     * Convert the provided Enum class into an OData type
+     * @param  string|Enum  $enum  Enum type
+     * @return EnumerationType OData type
+     */
+    public static function discover($enum): EnumerationType
+    {
+        if (!self::isEnum($enum)) {
+            throw new ConfigurationException('invalid_enum', 'The provided enum was not valid');
+        }
+
+        /** @var EnumerationType $type */
+        $type = Lodata::getTypeDefinition(self::convertClassName($enum));
+
+        if ($type instanceof EnumerationType) {
+            return $type;
+        }
+
+        $type = new EnumerationType(self::convertClassName($enum));
+
+        foreach ($enum::cases() as $case) {
+            $type[$case->name] = $case->value;
+        }
+
+        if (defined($enum.'::isFlags')) {
+            $type->setIsFlags($enum::isFlags);
+        }
+
+        Lodata::add($type);
+
+        return $type;
+    }
+
+    /**
+     * Determine whether the passed string represents an enum class
+     * @param  string  $enum  Enum class
+     * @return bool
+     */
+    public static function isEnum(string $enum): bool
+    {
+        return Discovery::supportsEnum() && enum_exists($enum);
     }
 }

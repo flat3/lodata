@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Attributes\LodataNamespace;
+use Flat3\Lodata\Attributes\LodataOperation;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
@@ -15,19 +17,23 @@ use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Arguments;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
+use Flat3\Lodata\Interfaces\RepositoryInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Operation\Argument;
 use Flat3\Lodata\Operation\CollectionArgument;
 use Flat3\Lodata\Operation\EntityArgument;
+use Flat3\Lodata\Operation\EntityFunction;
 use Flat3\Lodata\Operation\EntitySetArgument;
 use Flat3\Lodata\Operation\PrimitiveArgument;
+use Flat3\Lodata\Operation\Repository;
 use Flat3\Lodata\Operation\TransactionArgument;
 use Flat3\Lodata\Operation\ValueArgument;
 use Flat3\Lodata\Traits\HasAnnotations;
@@ -35,9 +41,13 @@ use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Type\Collection;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection as ICollection;
 use Illuminate\Support\Facades\App;
+use ReflectionAttribute;
+use ReflectionClass;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
@@ -736,5 +746,70 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
         }
 
         return $result;
+    }
+
+    /**
+     * Discover operations on the provided class and add them to the model
+     * @param  string|object|EloquentModel|RepositoryInterface  $discoverable
+     * @return void
+     * @throws \ReflectionException
+     */
+    public static function discover($discoverable)
+    {
+        if (!Discovery::supportsAttributes()) {
+            return;
+        }
+
+        $namespace = null;
+        $reflectionClass = new ReflectionClass($discoverable);
+
+        /** @var ReflectionAttribute $namespaceAttribute */
+        $namespaceAttribute = Arr::first($reflectionClass->getAttributes(LodataNamespace::class));
+        if ($namespaceAttribute) {
+            $namespace = $namespaceAttribute->newInstance()->getName();
+        }
+
+        foreach (Discovery::getReflectedMethods($discoverable) as $reflectionMethod) {
+            foreach ($reflectionMethod->getAttributes(
+                LodataOperation::class,
+                ReflectionAttribute::IS_INSTANCEOF
+            ) as $operationAttribute) {
+                /** @var LodataOperation $attributeInstance */
+                $attributeInstance = $operationAttribute->newInstance();
+
+                $operationName = $attributeInstance->getName() ?: $reflectionMethod->getName();
+
+                switch (true) {
+                    case is_a($discoverable, EloquentModel::class, true):
+                        $operation = new EntityFunction($operationName);
+                        break;
+
+                    case is_a($discoverable, RepositoryInterface::class, true):
+                        $operation = new Repository($operationName);
+                        break;
+
+                    default:
+                        $operation = new Operation($operationName);
+                        break;
+                }
+
+                $operation->setKind($attributeInstance::operationType);
+                $operation->setCallable([$discoverable, $reflectionMethod->getName()]);
+
+                if ($namespace) {
+                    $operation->getIdentifier()->setNamespace($namespace);
+                }
+
+                if ($attributeInstance->hasBindingParameterName()) {
+                    $operation->setBindingParameterName($attributeInstance->getBindingParameterName());
+                }
+
+                if ($attributeInstance->hasReturnType()) {
+                    $operation->setReturnType($attributeInstance->getReturnType());
+                }
+
+                Lodata::add($operation);
+            }
+        }
     }
 }
