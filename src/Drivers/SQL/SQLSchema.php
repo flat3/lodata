@@ -10,6 +10,7 @@ use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Type;
@@ -66,6 +67,10 @@ trait SQLSchema
 
             $key = $this->columnToDeclaredProperty($column);
 
+            if (null === $key) {
+                throw new ConfigurationException('missing_key', sprintf('The table %s had no resolvable key', $this->getTable()));
+            }
+
             if ($column->getAutoincrement()) {
                 $key->addAnnotation(new Computed);
             }
@@ -87,6 +92,11 @@ trait SQLSchema
             }
 
             $property = $this->columnToDeclaredProperty($column);
+
+            if (null === $property) {
+                continue;
+            }
+
             $property->setNullable(!$column->getNotnull());
 
             if ($column->getDefault()) {
@@ -103,9 +113,9 @@ trait SQLSchema
     /**
      * Convert an SQL column to an OData declared property
      * @param  Column  $column  SQL column
-     * @return DeclaredProperty OData declared property
+     * @return ?DeclaredProperty OData declared property
      */
-    public function columnToDeclaredProperty(Column $column): DeclaredProperty
+    public function columnToDeclaredProperty(Column $column): ?DeclaredProperty
     {
         $columnType = $column->getType();
 

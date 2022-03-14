@@ -495,9 +495,16 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @param  Column  $column  SQL column
      * @return DeclaredProperty OData declared property
      */
-    public function columnToDeclaredProperty(Column $column): DeclaredProperty
+    public function columnToDeclaredProperty(Column $column): ?DeclaredProperty
     {
         $model = $this->getModel();
+
+        $hidden = $model->getHidden();
+        $visible = $model->getVisible();
+
+        if (in_array($column->getName(), $hidden) || ($visible && !in_array($column->getName(), $visible))) {
+            return null;
+        }
 
         $property = $this->schemaColumnToDeclaredProperty($column);
 
