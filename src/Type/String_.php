@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Type;
 
-use ErrorException;
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Primitive;
@@ -46,11 +44,7 @@ class String_ extends Primitive
 
     public function set($value): self
     {
-        try {
-            $this->value = null === $value ? null : (string) $value;
-        } catch (ErrorException $e) {
-            throw new InternalServerErrorException('invalid_conversion', 'Could not convert value to string');
-        }
+        $this->value = null === $value ? null : (string) $value;
 
         return $this;
     }

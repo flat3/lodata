@@ -11,6 +11,7 @@ use Flat3\Lodata\Transaction\MediaType;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\App;
 use RuntimeException;
+use Throwable;
 
 /**
  * Protocol Exception
@@ -27,8 +28,9 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     protected $innerError = [];
     protected $headers = [];
     protected $suppressContent = false;
+    protected $originalException = null;
 
-    public function __construct(string $code = null, string $message = null)
+    public function __construct(string $code = null, string $message = null, Throwable $originalException = null)
     {
         if ($code) {
             $this->odataCode = $code;
@@ -36,6 +38,10 @@ abstract class ProtocolException extends RuntimeException implements Responsable
 
         if ($message) {
             $this->message = $message;
+        }
+
+        if ($originalException) {
+            $this->originalException = $originalException;
         }
 
         parent::__construct($this->message);
@@ -150,6 +156,16 @@ abstract class ProtocolException extends RuntimeException implements Responsable
             'details' => $this->details,
             'innererror' => $this->innerError ?: (object) [],
         ];
+    }
+
+    /**
+     * Get the original exception that caused this exception
+     *
+     * @return Throwable|null
+     */
+    public function getOriginalException(): ?Throwable
+    {
+        return $this->originalException;
     }
 
     /**

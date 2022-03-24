@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Controller;
 
-use Exception;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -65,6 +64,7 @@ use Illuminate\Support\Str;
 use JsonException;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Throwable;
 
 /**
  * Transaction
@@ -833,7 +833,7 @@ class Transaction
             try {
                 $content = JSON::decode($content);
             } catch (JsonException $e) {
-                throw new BadRequestException('invalid_json', 'Invalid JSON was provided');
+                throw new BadRequestException('invalid_json', 'Invalid JSON was provided', $e);
             }
         }
 
@@ -1266,9 +1266,9 @@ class Transaction
         } catch (ProtocolException $e) { // Error responses
             $this->rollback();
             throw $e;
-        } catch (Exception $e) { // Uncaptured errors
+        } catch (Throwable $e) { // Uncaptured errors
             $this->rollback();
-            throw new InternalServerErrorException('unknown_error', $e->getMessage());
+            throw new InternalServerErrorException('unknown_error', $e->getMessage(), $e);
         }
     }
 
@@ -1448,7 +1448,8 @@ class Transaction
                     } catch (PathNotHandledException|NotFoundException $e) {
                         throw new BadRequestException(
                             'related_entity_missing',
-                            'The requested related entity did not exist'
+                            'The requested related entity did not exist',
+                            $e
                         );
                     }
 

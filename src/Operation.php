@@ -491,13 +491,10 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
         try {
             $result = $argument->resolveParameter($parameter);
         } catch (TypeError $e) {
-            throw new BadRequestException(
-                'invalid_argument_type',
-                sprintf(
-                    'The provided argument (%s) was not of the correct type for this function',
-                    $argument->getName()
-                )
-            );
+            throw new BadRequestException('invalid_argument_type', sprintf(
+                'The provided argument (%s) was not of the correct type for this function',
+                $argument->getName()
+            ), $e);
         }
 
         if (null === $result && !$argument->isNullable()) {
@@ -561,7 +558,7 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
                         'The provided argument %s was not of type %s',
                         $key,
                         $type->getIdentifier()
-                    ));
+                    ), $e);
                 }
 
                 $arguments[$key] = $result;
@@ -682,7 +679,11 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             try {
                 $operation->setClientParameters($lexer->matchingParenthesis());
             } catch (LexerException $e) {
-                throw new BadRequestException('malformed_parameters', 'The provided parameters were not well formed');
+                throw new BadRequestException(
+                    'malformed_parameters',
+                    'The provided parameters were not well formed',
+                    $e
+                );
             }
         }
 

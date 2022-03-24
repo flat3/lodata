@@ -56,7 +56,11 @@ class ParameterList
                 }
             }
         } catch (LexerException $e) {
-            throw new InternalServerErrorException('invalid_parameterlist', 'An invalid parameter list was provided');
+            throw new InternalServerErrorException(
+                'invalid_parameterlist',
+                'An invalid parameter list was provided',
+                $e
+            );
         }
     }
 

@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "unknown_error",
+        "message": "Division by zero",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

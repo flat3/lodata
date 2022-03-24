@@ -229,7 +229,8 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         } catch (PDOException $e) {
             throw new InternalServerErrorException(
                 'query_error',
-                sprintf('The executed query returned an error: %s', $e->getMessage())
+                sprintf('The executed query returned an error: %s', $e->getMessage()),
+                $e
             );
         }
 
@@ -252,7 +253,8 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         } catch (PDOException $e) {
             throw new InternalServerErrorException(
                 'query_error',
-                sprintf('The executed query returned an error: %s', $e->getMessage())
+                sprintf('The executed query returned an error: %s', $e->getMessage()),
+                $e
             );
         }
 

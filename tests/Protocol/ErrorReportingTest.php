@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Protocol;
 
+use DivisionByZeroError;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
@@ -10,6 +11,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
+use Flat3\Lodata\Operation\Function_;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Helpers\StreamingJsonDriver;
 use Flat3\Lodata\Tests\TestCase;
@@ -71,6 +73,23 @@ class ErrorReportingTest extends TestCase
             $testResponse = new TestResponse($response);
             $this->assertMatchesSnapshot($testResponse->streamedContent(), new StreamingJsonDriver());
         }
+    }
+
+    public function test_get_original_exception()
+    {
+        $func = new Function_('divzero');
+        $func->setCallable(function () {
+            /** @noinspection PhpDivisionByZeroInspection */
+            $a = 4 / 0;
+        });
+        Lodata::add($func);
+
+        $testResponse = $this->assertInternalServerError(
+            (new Request)
+                ->path('/divzero()')
+        );
+
+        $this->assertInstanceOf(DivisionByZeroError::class, $testResponse->exception->getOriginalException());
     }
 
     public function test_stream_error()

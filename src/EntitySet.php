@@ -521,7 +521,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         try {
             $id = $lexer->matchingParenthesis();
         } catch (LexerException $e) {
-            throw new BadRequestException('invalid_entity_set_suffix', 'The expected entity set suffix was not found');
+            throw new BadRequestException(
+                'invalid_entity_set_suffix',
+                'The expected entity set suffix was not found',
+                $e
+            );
         }
 
         $lexer = new Lexer($id);
@@ -576,7 +580,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         } catch (LexerException $e) {
             throw (new BadRequestException(
                 'invalid_identifier_value',
-                'The type of the provided identifier value was not valid for this entity type'
+                'The type of the provided identifier value was not valid for this entity type',
+                $e
             ))->lexer($lexer);
         }
 

@@ -9,6 +9,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\MediaType;
+use Illuminate\Http\ResponseTrait;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -18,6 +19,8 @@ use Throwable;
  */
 abstract class Response extends StreamedResponse
 {
+    use ResponseTrait;
+
     const httpOkAny = '2XX';
     const httpErrorAny = '4XX';
 

@@ -235,7 +235,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         try {
             $model->delete();
         } catch (Exception $e) {
-            throw new InternalServerErrorException('deletion_error', $e->getMessage());
+            throw new InternalServerErrorException('deletion_error', $e->getMessage(), $e);
         }
     }
 
@@ -426,7 +426,8 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         } catch (ReflectionException $e) {
             throw new ConfigurationException(
                 'cannot_add_constraint',
-                'The constraint method did not exist on the model: '.get_class($model)
+                'The constraint method did not exist on the model: '.get_class($model),
+                $e
             );
         }
 

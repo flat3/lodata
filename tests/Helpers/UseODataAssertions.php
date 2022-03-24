@@ -18,6 +18,7 @@ trait UseODataAssertions
             $response = $this->req($request);
         } catch (ProtocolException $e) {
             $response = new TestResponse($e->toResponse());
+            $response->withException($e);
         }
 
         $content = $this->getResponseContent($response);

@@ -55,7 +55,7 @@ class Parameter
                 $lexer->maybeChar(';');
             }
         } catch (LexerException $e) {
-            throw new InternalServerErrorException('invalid_parameter', 'An invalid parameter was provided');
+            throw new InternalServerErrorException('invalid_parameter', 'An invalid parameter was provided', $e);
         }
     }
 
