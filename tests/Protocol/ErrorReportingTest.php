@@ -3,6 +3,7 @@
 namespace Flat3\Lodata\Tests\Protocol;
 
 use DivisionByZeroError;
+use ErrorException;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\DeclaredProperty;
@@ -89,7 +90,11 @@ class ErrorReportingTest extends TestCase
                 ->path('/divzero()')
         );
 
-        $this->assertInstanceOf(DivisionByZeroError::class, $testResponse->exception->getOriginalException());
+        if (PHP_VERSION_ID > 80000) {
+            $this->assertInstanceOf(DivisionByZeroError::class, $testResponse->exception->getOriginalException());
+        } else {
+            $this->assertInstanceOf(ErrorException::class, $testResponse->exception->getOriginalException());
+        }
     }
 
     public function test_stream_error()

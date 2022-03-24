@@ -36,3 +36,18 @@ An example OData error object:
   }
 }
 ```
+
+## Exceptions
+
+If an exception occurs during processing Lodata will return a `Flat3\Lodata\Exception\ProtocolException` that converts
+correctly to an OData error response. To retrieve the original exception the `getOriginalException()` method can be
+used.
+
+```php
+try {
+  // XXX
+} catch (ProtocolException $protocolException) {
+  /** @var Throwable $originalException */
+  $originalException = $protocolException->getOriginalException();
+}
+```
