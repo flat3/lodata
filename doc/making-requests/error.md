@@ -1,5 +1,28 @@
 # Errors
 
+`Exception` and `Throwable` exceptions thrown during processing such as SQL driver errors, operation errors etc. will
+be converted into
+[OData errors](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ErrorResponse).
+
+OData errors have a suitable HTTP response code and a standard JSON object format to present information about the
+error.
+
+An example OData error object:
+
+```json
+{
+  "error": {
+    "code": "no_handler",
+    "message": "No route handler was able to process this request",
+    "target": null,
+    "details": [],
+    "innererror": {}
+  }
+}
+```
+
+## Streaming responses
+
 Lodata implements [Streaming JSON](../internals/streaming-json.md) by default. This is very efficient, but it can encounter a
 situation where a fatal error occurs part way through sending a response, and after sending a successful HTTP code to
 the client.
@@ -19,29 +42,11 @@ Alternatively, you can globally disable the streaming behaviour by setting `stre
 set the `Accept` header with a parameter of `streaming=true`.
 
 Any calling client in streaming mode must be aware of this in order to deal with JSON responses that cannot be decoded, and in
-this event should check the trailing header to get
-[an error object](https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ErrorResponse)
-which will be well-formed.
-
-An example OData error object:
-
-```json
-{
-  "error": {
-    "code": "no_handler",
-    "message": "No route handler was able to process this request",
-    "target": null,
-    "details": [],
-    "innererror": {}
-  }
-}
-```
+this event should check the trailing header to get the JSON error object.
 
 ## Exceptions
 
-If an exception occurs during processing Lodata will return a `Flat3\Lodata\Exception\ProtocolException` that converts
-correctly to an OData error response. To retrieve the original exception the `getOriginalException()` method can be
-used.
+To retrieve the original exception that caused the Lodata error, the `getOriginalException()` method can be used.
 
 ```php
 try {
@@ -50,4 +55,10 @@ try {
   /** @var Throwable $originalException */
   $originalException = $protocolException->getOriginalException();
 }
+```
+
+Or, if you have captured a `Response` object the exception can be obtained with:
+
+```php
+$originalException = $response->exception->getOriginalException();
 ```
