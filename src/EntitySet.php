@@ -541,7 +541,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         // Test for alternative key syntax
-        $alternateKey = $lexer->maybeIdentifier();
+        $alternateKey = $lexer->with(function (Lexer $lexer) {
+            return $lexer->identifier();
+        });
+
         if ($alternateKey) {
             if ($lexer->maybeChar('=')) {
                 // Test for referenced value syntax

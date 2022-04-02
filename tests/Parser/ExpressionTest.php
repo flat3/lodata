@@ -38,6 +38,7 @@ abstract class ExpressionTest extends TestCase
         $priority[] = 'high';
         $priority[] = 'medium';
         $priority[] = 'low';
+        Lodata::add($priority);
 
         $type = (new EntityType('flight'))
             ->setKey(new DeclaredProperty('id', Type::int32()))

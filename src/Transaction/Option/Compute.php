@@ -33,15 +33,12 @@ class Compute extends Option
 
         while (!$lexer->finished()) {
             $commonExpression = $lexer->computeExpression();
-            $lexer->whitespace();
-            $lexer->keyword('as');
-            $lexer->whitespace();
+            $lexer->literal(' as ');
             $identifier = $lexer->identifier();
             $computedProperty = new ComputedProperty($identifier);
             $computedProperty->setExpression($commonExpression);
             $computedProperties[] = $computedProperty;
-            $lexer->maybeChar(',');
-            $lexer->maybeWhitespace();
+            $lexer->maybeExpression(',\s?');
         }
 
         return $computedProperties;

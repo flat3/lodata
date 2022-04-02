@@ -1293,7 +1293,9 @@ class Transaction
 
             $navigationRequest = new NavigationRequest();
             $navigationRequest->setPath($path);
-            $queryParameters = $lexer->maybeMatchingParenthesis();
+            $queryParameters = $lexer->with(function (Lexer $lexer) {
+                return $lexer->matchingParenthesis();
+            });
             if ($queryParameters) {
                 $navigationRequest->setQueryString($queryParameters);
             }

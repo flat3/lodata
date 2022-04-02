@@ -14,7 +14,7 @@ use Flat3\Lodata\Expression\Node;
  */
 class Compute extends Common
 {
-    protected $operators = [
+    protected $symbols = [
         Node\Func\StringCollection\Concat::class,
         Node\Func\StringCollection\Contains::class,
         Node\Func\StringCollection\EndsWith::class,
@@ -64,8 +64,7 @@ class Compute extends Common
      */
     protected function findToken(): bool
     {
-        return $this->tokenizeSpace() ||
-            $this->tokenizeNull() ||
+        return $this->tokenizeNull() ||
             $this->tokenizeBoolean() ||
             $this->tokenizeGuid() ||
             $this->tokenizeDateTimeOffset() ||
@@ -76,7 +75,7 @@ class Compute extends Common
             $this->tokenizeDuration() ||
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
-            $this->tokenizeComma() ||
+            $this->tokenizeSeparator() ||
             $this->tokenizeDeclaredProperty() ||
             $this->tokenizeOperator();
     }

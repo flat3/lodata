@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
  */
 class Search extends Parser
 {
-    protected $operators = [
+    protected $symbols = [
         Node\Operator\Comparison\Not_::class,
         Node\Operator\Comparison\And_::class,
         Node\Operator\Comparison\Or_::class,
@@ -35,12 +35,12 @@ class Search extends Parser
      */
     protected function findToken(): bool
     {
-        return $this->tokenizeSpace() ||
-            $this->tokenizeLeftParen() ||
+        return $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
             $this->tokenizeNonOperatorString() ||
             $this->tokenizeOperator() ||
-            $this->tokenizeDoubleQuotedString();
+            $this->tokenizeDoubleQuotedString() ||
+            $this->tokenizeSpace();
     }
 
     /**

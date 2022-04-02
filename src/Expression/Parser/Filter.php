@@ -15,7 +15,7 @@ use Flat3\Lodata\Expression\Node;
  */
 class Filter extends Common
 {
-    protected $operators = [
+    protected $symbols = [
         // Primary
         Node\Operator\Logical\Has::class,
         Node\Operator\Logical\In::class,
@@ -93,8 +93,7 @@ class Filter extends Common
      */
     protected function findToken(): bool
     {
-        return $this->tokenizeSpace() ||
-            $this->tokenizeNull() ||
+        return $this->tokenizeNull() ||
             $this->tokenizeBoolean() ||
             $this->tokenizeGuid() ||
             $this->tokenizeDateTimeOffset() ||
@@ -106,7 +105,7 @@ class Filter extends Common
             $this->tokenizeEnum() ||
             $this->tokenizeLeftParen() ||
             $this->tokenizeRightParen() ||
-            $this->tokenizeComma() ||
+            $this->tokenizeSeparator() ||
             $this->tokenizeParameterAlias() ||
             $this->tokenizeLambdaVariable() ||
             $this->tokenizeLambdaProperty() ||
@@ -122,7 +121,9 @@ class Filter extends Common
      */
     public function tokenizeParameterAlias(): bool
     {
-        $token = $this->lexer->maybeParameterAlias();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->parameterAlias();
+        });
 
         if (!$token) {
             return false;

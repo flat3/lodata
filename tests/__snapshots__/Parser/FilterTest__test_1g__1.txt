@@ -1,0 +1,2 @@
+expression: -2.40
+result: -2.4

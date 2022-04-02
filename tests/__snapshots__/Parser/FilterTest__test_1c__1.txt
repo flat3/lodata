@@ -1,2 +1,2 @@
-expression: not(contains(origin,'a')) and ((origin eq 'abcd') or (origin eq 'e'))
+expression: not (contains(origin,'a')) and ((origin eq 'abcd') or (origin eq 'e'))
 result: ( ( not contains( origin, 'a' ) ) and ( ( origin eq 'abcd' ) or ( origin eq 'e' ) ) )

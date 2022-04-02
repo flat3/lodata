@@ -27,7 +27,7 @@ class Filter implements PipeInterface
         $lexer = new Lexer($currentSegment);
 
         try {
-            $lexer->keyword('$filter');
+            $lexer->literal('$filter');
         } catch (LexerException $e) {
             throw new PathNotHandledException();
         }

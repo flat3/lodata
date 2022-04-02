@@ -837,21 +837,13 @@ class SQLExpression
     protected function propertyExpression(Property $node): void
     {
         /** @var \Flat3\Lodata\Property $property */
-        $property = null;
+        $property = $node->getValue();
 
-        switch (true) {
-            case $node instanceof Property\Navigation:
-            case $node instanceof Property\Lambda:
-            case $node instanceof Property\Declared:
-                $type = $this->entitySet->getType();
+        if ($node instanceof Property\Lambda) {
+            $type = $this->entitySet->getType();
 
-                /** @var DeclaredProperty $property */
-                $property = $type->getProperty($node->getValue());
-                break;
-
-            case $node instanceof Property\Computed:
-                $property = $this->entitySet->getCompute()->getProperties()->get($node->getValue());
-                break;
+            /** @var DeclaredProperty $property */
+            $property = $type->getProperty($node->getValue());
         }
 
         if (!$property || !$property->isFilterable()) {

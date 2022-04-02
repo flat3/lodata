@@ -11,9 +11,13 @@ use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Expression\Node\Func;
 use Flat3\Lodata\Expression\Node\Group;
 use Flat3\Lodata\Expression\Node\Literal;
+use Flat3\Lodata\Expression\Node\Operator\Comparison\Not_;
 use Flat3\Lodata\Expression\Node\Operator\Lambda;
 use Flat3\Lodata\Expression\Node\Operator\Logical;
 use Flat3\Lodata\Expression\Node\Property;
+use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Identifier;
 use Illuminate\Support\Arr;
 
 /**
@@ -24,14 +28,8 @@ use Illuminate\Support\Arr;
 abstract class Parser
 {
     /**
-     * The list of operators supported by this parser
-     * @var Operator[] $operators
-     */
-    protected $operators = [];
-
-    /**
-     * The map of symbols to operators understood by this parser
-     * @var Operator[] $symbols
+     * The list of symbols supported by this parser
+     * @var Node[] $symbols
      */
     protected $symbols = [];
 
@@ -67,9 +65,9 @@ abstract class Parser
 
     public function __construct()
     {
-        foreach ($this->operators as $operator) {
-            $this->symbols[$operator::getSymbol()] = $operator;
-        }
+        $this->symbols = collect($this->symbols)->keyBy(function (string $node) {
+            return strtolower($node::symbol);
+        })->toArray();
     }
 
     /**
@@ -254,9 +252,9 @@ abstract class Parser
      * When a comma is encountered, pop-and-apply operators back to a left paren; the operand on the top of the stack is then the next argument,
      * and should be popped and added to the argument list.
      */
-    public function tokenizeComma(): bool
+    public function tokenizeSeparator(): bool
     {
-        if (!$this->lexer->maybeChar(',')) {
+        if (!$this->lexer->maybeExpression(',\s?')) {
             return false;
         }
 
@@ -282,11 +280,34 @@ abstract class Parser
      */
     public function tokenizeOperator(): bool
     {
-        $token = $this->lexer->maybeKeyword(...array_keys($this->symbols));
+        $token = null;
+
+        foreach ($this->symbols as $symbol) {
+            switch (true) {
+                case is_a($symbol, Func::class, true):
+                case is_a($symbol, Lambda::class, true):
+                    $token = $this->lexer->func($symbol::getSymbol());
+                    break;
+
+                case is_a($symbol, Not_::class, true):
+                    $token = $this->lexer->unaryOperator($symbol::getSymbol());
+                    break;
+
+                default:
+                    $token = $this->lexer->operator($symbol::getSymbol());
+                    break;
+            }
+
+            if ($token) {
+                break;
+            }
+        }
 
         if (!$token) {
             return false;
         }
+
+        $token = strtolower($token);
 
         /**
          * While there’s an operator on top of the operator stack of precedence higher than or equal to that of the operator we’re currently processing, pop it off and "apply" it.
@@ -337,7 +358,10 @@ abstract class Parser
      */
     public function tokenizeGuid(): bool
     {
-        $token = $this->lexer->maybeGuid();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->guid();
+        });
+
         if (!$token) {
             return false;
         }
@@ -356,7 +380,10 @@ abstract class Parser
      */
     public function tokenizeDuration(): bool
     {
-        $token = $this->lexer->maybeDuration();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->duration();
+        });
+
         if (!$token) {
             return false;
         }
@@ -375,38 +402,42 @@ abstract class Parser
      */
     public function tokenizeEnum(): bool
     {
-        $enumeratedTypes = [];
-
         $resource = $this->getCurrentResource();
 
         if (!$resource) {
             return false;
         }
 
-        foreach ($resource->getType()->getDeclaredProperties() as $declaredProperty) {
-            $type = $declaredProperty->getType();
-            if (!$type instanceof EnumerationType) {
-                continue;
+        $enum = $this->lexer->with(function () {
+            $identifier = $this->lexer->with(function () {
+                return $this->lexer->qualifiedIdentifier();
+            });
+
+            if (!$identifier) {
+                $identifier = $this->lexer->identifier();
             }
 
-            $enumeratedTypes[$type->getIdentifier()->getQualifiedName()] = $type;
-            $enumeratedTypes[$type->getName()] = $type;
-        }
+            if (!$identifier) {
+                return null;
+            }
 
-        $enumeratedTypeNames = array_keys($enumeratedTypes);
+            $type = Lodata::getTypeDefinition((new Identifier($identifier))->getName());
 
-        $typeToken = $this->lexer->maybeKeyword(...$enumeratedTypeNames);
+            if (!$type instanceof EnumerationType) {
+                return null;
+            }
 
-        if (!$typeToken) {
+            $flag = $this->lexer->quotedString();
+
+            return $type->instance($flag);
+        });
+
+        if (!$enum) {
             return false;
         }
 
-        $enumeratedType = $enumeratedTypes[$typeToken];
-
-        $flagsToken = $this->lexer->quotedString();
-
         $operand = new Literal\Enum($this);
-        $operand->setValue($enumeratedType->instance($flagsToken));
+        $operand->setValue($enum);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
 
@@ -419,7 +450,8 @@ abstract class Parser
      */
     public function tokenizeNull(): bool
     {
-        $token = $this->lexer->maybeKeyword('null');
+        $token = $this->lexer->maybeLiteral(Constants::null);
+
         if (null === $token) {
             return false;
         }
@@ -437,7 +469,9 @@ abstract class Parser
      */
     public function tokenizeNumber(): bool
     {
-        $token = $this->lexer->maybeNumber();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->number();
+        });
 
         if (null === $token) {
             return false;
@@ -458,7 +492,9 @@ abstract class Parser
      */
     public function tokenizeBoolean(): bool
     {
-        $token = $this->lexer->maybeBoolean();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->boolean();
+        });
 
         if (!$token) {
             return false;
@@ -478,7 +514,9 @@ abstract class Parser
      */
     public function tokenizeSingleQuotedString(): bool
     {
-        $token = $this->lexer->maybeSingleQuotedString();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->quotedString();
+        });
 
         if (null === $token) {
             return false;
@@ -518,7 +556,9 @@ abstract class Parser
      */
     public function tokenizeDateTimeOffset(): bool
     {
-        $token = $this->lexer->maybeDateTimeOffset();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->datetimeoffset();
+        });
 
         if (!$token) {
             return false;
@@ -538,7 +578,9 @@ abstract class Parser
      */
     public function tokenizeDate(): bool
     {
-        $token = $this->lexer->maybeDate();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->date();
+        });
 
         if (!$token) {
             return false;
@@ -558,7 +600,9 @@ abstract class Parser
      */
     public function tokenizeTimeOfDay(): bool
     {
-        $token = $this->lexer->maybeTimeOfDay();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->timeOfDay();
+        });
 
         if (!$token) {
             return false;
@@ -586,16 +630,25 @@ abstract class Parser
 
         $navigationProperties = $currentResource->getType()->getNavigationProperties();
 
-        $token = $this->lexer->maybeKeyword(...$navigationProperties->keys());
+        $token = $this->lexer->with(function () {
+            $identifier = $this->lexer->identifier();
+            $this->lexer->char(Lexer::pathSeparator);
+
+            return $identifier;
+        });
 
         if (!$token) {
             return false;
         }
 
-        $this->lexer->char('/');
+        $property = $navigationProperties->get($token);
+
+        if (!$property) {
+            return false;
+        }
 
         $operand = new Node\Property\Navigation($this);
-        $operand->setValue($navigationProperties[$token]);
+        $operand->setValue($property);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
 
@@ -608,7 +661,9 @@ abstract class Parser
      */
     public function tokenizeLambdaVariable(): bool
     {
-        $token = $this->lexer->maybeLambdaVariable();
+        $token = $this->lexer->with(function () {
+            return $this->lexer->expression(Lexer::lambdaVariable);
+        });
 
         if (!$token) {
             return false;
@@ -643,7 +698,7 @@ abstract class Parser
             return false;
         }
 
-        $preamble = $this->lexer->maybeKeyword($variable->getValue().'/');
+        $preamble = $this->lexer->maybeLiteral($variable->getValue().'/');
 
         if (!$preamble) {
             return false;
@@ -702,16 +757,19 @@ abstract class Parser
             return false;
         }
 
-        $properties = $currentResource->getType()->getDeclaredProperties()->keys();
+        $properties = $currentResource->getType()->getDeclaredProperties();
 
-        $token = $this->lexer->maybeKeyword(...$properties);
+        $property = $this->lexer->with(function () use ($properties) {
+            $token = $this->lexer->identifier();
+            return $properties->get($token);
+        });
 
-        if (!$token) {
+        if (!$property) {
             return false;
         }
 
         $operand = new Property\Declared($this);
-        $operand->setValue($token);
+        $operand->setValue($property);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
 
@@ -740,16 +798,19 @@ abstract class Parser
             return false;
         }
 
-        $properties = $compute->getProperties()->keys();
+        $properties = $compute->getProperties();
 
-        $token = $this->lexer->maybeKeyword(...$properties);
+        $property = $this->lexer->with(function () use ($properties) {
+            $token = $this->lexer->identifier();
+            return $properties->get($token);
+        });
 
-        if (!$token) {
+        if (!$property) {
             return false;
         }
 
         $operand = new Property\Computed($this);
-        $operand->setValue($token);
+        $operand->setValue($property);
         $this->operandStack[] = $operand;
         $this->tokens[] = $operand;
 

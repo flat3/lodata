@@ -146,22 +146,27 @@ class FilterTest extends ExpressionTest
 
     public function test_1c()
     {
-        $this->assertFilter("not(contains(origin,'a')) and ((origin eq 'abcd') or (origin eq 'e'))");
+        $this->assertFilter("not (contains(origin,'a')) and ((origin eq 'abcd') or (origin eq 'e'))");
     }
 
     public function test_1d()
     {
-        $this->assertFilter("not(origin eq 'a')");
+        $this->assertFilter("not (origin eq 'a')");
     }
 
     public function test_1e()
     {
-        $this->assertFilter("origin eq 'b' and not(origin eq 'a')");
+        $this->assertFilter("origin eq 'b' and not (origin eq 'a')");
     }
 
     public function test_1f()
     {
-        $this->assertFilter("origin eq 'b' or not(origin eq 'a')");
+        $this->assertFilter("origin eq 'b' or not (origin eq 'a')");
+    }
+
+    public function test_1g()
+    {
+        $this->assertFilter('-2.40');
     }
 
     public function test_20()
@@ -456,12 +461,12 @@ class FilterTest extends ExpressionTest
 
     public function test_5a()
     {
-        $this->assertFilter("endswith(origin,'Veniam et') eq true and not(startswith(origin,'Veniam et') eq true)");
+        $this->assertFilter("endswith(origin,'Veniam et') eq true and not (startswith(origin,'Veniam et') eq true)");
     }
 
     public function test_5c()
     {
-        $this->assertFilter("endswith(origin,'Veniam et') eq true and not(startswith(origin,'Veniam et') eq true)");
+        $this->assertFilter("endswith(origin,'Veniam et') eq true and not (startswith(origin,'Veniam et') eq true)");
     }
 
     public function test_5f()
