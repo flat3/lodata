@@ -31,11 +31,9 @@ class LodataServiceProvider extends ServiceProvider
 
 When using discovery Lodata will introspect the database schema to discover basic properties and types.
 For more control over exactly how entity sets, types and properties are discovered you can use PHP attributes on the
-model class.
+model class. When you attach the first _property_ attribute, the automatic discovery of attributes is disabled.
 
-When you attach the first _property_ attribute, the automatic discovery of attributes is disabled automatically.
 Attributes all use the `Flat3\Lodata\Attributes` namespace.
-
 Property attributes optionally support providing a `source` to map an OData property name to a different
 underlying field name.
 
