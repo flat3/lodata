@@ -86,6 +86,10 @@ class XML extends Metadata implements StreamInterface
                         $memberElement = $typeDefinitionElement->addChild('Member');
                         $memberElement->addAttribute('Name', $memberName);
                         $memberElement->addAttribute('Value', (string) $memberValue->getValue());
+
+                        foreach ($memberValue->getAnnotations() as $annotation) {
+                            $annotation->appendXml($memberElement);
+                        }
                     }
                     break;
 

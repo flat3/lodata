@@ -11,6 +11,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Type\Enum;
 use Illuminate\Support\Str;
@@ -20,7 +21,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EnumerationType
  * @package Flat3\Lodata
  */
-class EnumerationType extends PrimitiveType implements ArrayAccess
+class EnumerationType extends PrimitiveType implements ArrayAccess, IdentifierInterface
 {
     use HasIdentifier;
 

@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Capabilities\BatchSupportType;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Type\Boolean;
@@ -17,10 +18,9 @@ use Flat3\Lodata\Type\Collection;
  */
 class BatchSupport extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.BatchSupport';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.BatchSupport');
         $type = new BatchSupportType();
 
         $value = new Annotation\Record();

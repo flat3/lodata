@@ -64,6 +64,10 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
 
                     foreach ($typeDefinition->getMembers() as $member) {
                         $typeDefinitionElement->{$member->getName()} = $member->getValue();
+
+                        foreach ($member->getAnnotations() as $annotation) {
+                            $annotation->appendJson($typeDefinitionElement);
+                        }
                     }
                     break;
 

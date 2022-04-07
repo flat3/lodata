@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Capabilities\CallbackType;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\String_;
@@ -16,10 +17,9 @@ use Flat3\Lodata\Type\String_;
  */
 class CallbackSupported extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.CallbackSupported';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.CallbackSupported');
         $callbackProtocolType = new Annotation\Capabilities\CallbackProtocol();
         $callbackProtocol = new Annotation\Record();
         $callbackProtocol->setType($callbackProtocolType);

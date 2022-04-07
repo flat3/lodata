@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
+use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasName;
 
 /**
  * Enum Member
  * @package Flat3\Lodata\Type
  */
-class EnumMember implements NameInterface
+class EnumMember implements NameInterface, AnnotationInterface
 {
     use HasName;
+    use HasAnnotations;
 
     const identifier = 'Edm.Member';
 

@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Capabilities\ReadRestrictionsType;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;
 
@@ -15,10 +16,9 @@ use Flat3\Lodata\Type\Boolean;
  */
 class ReadRestrictions extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.ReadRestrictions';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.ReadRestrictions');
         $type = new ReadRestrictionsType();
 
         $value = new Annotation\Record();

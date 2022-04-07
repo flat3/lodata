@@ -2,10 +2,12 @@
 
 namespace Flat3\Lodata\Tests\Queries;
 
+use Flat3\Lodata\Annotation\Term;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
@@ -33,6 +35,22 @@ class EnumerationTypeTest extends TestCase
         $type[] = 'bbb';
         Lodata::add($type);
 
+        $this->assertMetadataSnapshot();
+    }
+
+    public function test_metadata_terms()
+    {
+        $type = new EnumerationType('hello');
+        $type->getMembers()->add(
+            (new EnumMember($type))
+                ->setValue(1)
+                ->setName('first')
+                ->addAnnotation(
+                    (new Term)->setIdentifier('Example.Name')
+                        ->setValue(Type::string()->instance('Double Wide'))
+                )
+        );
+        Lodata::add($type);
         $this->assertMetadataSnapshot();
     }
 

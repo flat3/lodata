@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Transaction\MetadataType\Full;
@@ -19,10 +20,9 @@ use Flat3\Lodata\Type\Collection;
  */
 class SupportedFormats extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.SupportedFormats';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.SupportedFormats');
         $this->value = new Collection();
 
         /** @var MetadataType $attribute */

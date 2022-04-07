@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Capabilities\UpdateRestrictionsType;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Boolean;
 
@@ -15,10 +16,9 @@ use Flat3\Lodata\Type\Boolean;
  */
 class UpdateRestrictions extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.UpdateRestrictions';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.UpdateRestrictions');
         $type = new UpdateRestrictionsType();
 
         $value = new Annotation\Record();

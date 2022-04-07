@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
 use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Helper\Identifier;
 
 /**
  * Conformance Level
@@ -13,10 +14,9 @@ use Flat3\Lodata\EnumerationType;
  */
 class ConformanceLevel extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.ConformanceLevel';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.ConformanceLevel');
         $type = new EnumerationType('Org.OData.Capabilities.V1.ConformanceLevelType');
 
         $type[] = 'Minimal';

@@ -7,6 +7,8 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Annotation\Record;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\IdentifierInterface;
+use Flat3\Lodata\Traits\HasIdentifier;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
 use Flat3\Lodata\Type\Collection;
@@ -19,14 +21,11 @@ use SimpleXMLElement;
  * @package Flat3\Lodata
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530341
  */
-abstract class Annotation
+abstract class Annotation implements IdentifierInterface
 {
-    const identifier = 'Edm.AnnotationPath';
+    use HasIdentifier;
 
-    /**
-     * @var string $name Annotation name
-     */
-    protected $name;
+    const identifier = 'Edm.AnnotationPath';
 
     /**
      * @var Primitive $value Annotation value
@@ -40,7 +39,7 @@ abstract class Annotation
      */
     public function appendJson(object $schema): self
     {
-        $schema->{'@'.$this->name} = $this->appendJsonValue($this->value);
+        $schema->{'@'.$this->identifier} = $this->appendJsonValue($this->value);
 
         return $this;
     }
@@ -88,7 +87,7 @@ abstract class Annotation
     public function appendXml(SimpleXMLElement $schema): self
     {
         $annotationElement = $schema->addChild('Annotation');
-        $annotationElement->addAttribute('Term', $this->name);
+        $annotationElement->addAttribute('Term', $this->identifier->getQualifiedName());
         $this->appendXmlValue($annotationElement, $this->value);
 
         return $this;
@@ -158,20 +157,24 @@ abstract class Annotation
     }
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->name;
-    }
-
-    /**
      * Get the value of the annotation
      * @return Primitive
      */
     public function getValue(): Primitive
     {
         return $this->value;
+    }
+
+    /**
+     * Set the value of the annotation
+     * @param  Primitive  $value
+     * @return $this
+     */
+    public function setValue(Primitive $value): self
+    {
+        $this->value = $value;
+
+        return $this;
     }
 
     /**

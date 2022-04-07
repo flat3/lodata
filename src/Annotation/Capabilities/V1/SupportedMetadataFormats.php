@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Annotation\Capabilities\V1;
 
 use Flat3\Lodata\Annotation;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Type\Collection;
 
@@ -14,10 +15,9 @@ use Flat3\Lodata\Type\Collection;
  */
 class SupportedMetadataFormats extends Annotation
 {
-    protected $name = 'Org.OData.Capabilities.V1.SupportedMetadataFormats';
-
     public function __construct()
     {
+        $this->identifier = new Identifier('Org.OData.Capabilities.V1.SupportedMetadataFormats');
         $this->value = new Collection([MediaType::json, MediaType::xml]);
     }
 }
