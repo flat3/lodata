@@ -21,7 +21,7 @@ use SimpleXMLElement;
  * @package Flat3\Lodata
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530341
  */
-abstract class Annotation implements IdentifierInterface
+class Annotation implements IdentifierInterface
 {
     use HasIdentifier;
 

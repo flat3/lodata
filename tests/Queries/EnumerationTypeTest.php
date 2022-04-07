@@ -2,6 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Queries;
 
+use Flat3\Lodata\Annotation;
 use Flat3\Lodata\Annotation\Term;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
@@ -46,7 +47,7 @@ class EnumerationTypeTest extends TestCase
                 ->setValue(1)
                 ->setName('first')
                 ->addAnnotation(
-                    (new Term)->setIdentifier('Example.Name')
+                    (new Annotation)->setIdentifier('Example.Name')
                         ->setValue(Type::string()->instance('Double Wide'))
                 )
         );
