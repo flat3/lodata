@@ -14,6 +14,7 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
 use Flat3\Lodata\Type;
+use Flat3\Lodata\Type\String_;
 use TypeError;
 
 class EnumerationTypeTest extends TestCase
@@ -47,8 +48,9 @@ class EnumerationTypeTest extends TestCase
                 ->setValue(1)
                 ->setName('first')
                 ->addAnnotation(
-                    (new Annotation)->setIdentifier('Example.Name')
-                        ->setValue(Type::string()->instance('Double Wide'))
+                    (new Annotation)
+                        ->setIdentifier('Example.Name')
+                        ->setValue(new String_('Double Wide'))
                 )
         );
         Lodata::add($type);
