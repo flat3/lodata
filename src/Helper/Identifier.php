@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Helper;
 
-use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Expression\Lexer;
 use Illuminate\Support\Str;
 
@@ -33,7 +33,7 @@ final class Identifier
         }
 
         if (!Lexer::patternCheck(Lexer::qualifiedIdentifier, $identifier)) {
-            throw new InternalServerErrorException('invalid_name', 'The provided name was invalid: '.$identifier);
+            throw new ConfigurationException('invalid_name', 'The provided name was invalid: '.$identifier);
         }
 
         $this->name = Str::afterLast($identifier, '.');
