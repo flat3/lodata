@@ -9,6 +9,7 @@ use Flat3\Lodata\Annotation\Core;
 use Flat3\Lodata\Annotation\Reference;
 use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Helper\Discovery;
+use Flat3\Lodata\Helper\EntityContainer;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\References;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
@@ -38,9 +39,16 @@ class Model implements AnnotationInterface
      */
     protected $references;
 
+    /**
+     * The model's entity container
+     * @var EntityContainer $entityContainer
+     */
+    protected $entityContainer;
+
     public function __construct()
     {
         $this->model = new ObjectArray();
+        $this->entityContainer = new EntityContainer();
         $this->references = new References();
 
         $this->addReference(new Core\V1\Reference());
@@ -68,7 +76,12 @@ class Model implements AnnotationInterface
      */
     public function add(IdentifierInterface $item): IdentifierInterface
     {
-        $this->model->add($item);
+        if ($item instanceof ServiceInterface) {
+            $this->entityContainer->add($item);
+        } else {
+            $this->model->add($item);
+        }
+
         return $item;
     }
 
@@ -190,12 +203,17 @@ class Model implements AnnotationInterface
 
     /**
      * Drop a named resource or type from the model
-     * @param  string  $key  Resource or type
+     * @param  IdentifierInterface  $item  Resource or type
      * @return $this
      */
-    public function drop(string $key): self
+    public function drop(IdentifierInterface $item): self
     {
-        $this->model->drop($key);
+        if ($item instanceof ServiceInterface) {
+            $this->entityContainer->drop($item);
+        } else {
+            $this->model->drop($item);
+        }
+
         return $this;
     }
 
@@ -232,7 +250,7 @@ class Model implements AnnotationInterface
      */
     public function getResources(): ObjectArray
     {
-        return $this->model->sliceByClass(ResourceInterface::class);
+        return $this->entityContainer->sliceByClass(ResourceInterface::class);
     }
 
     /**
@@ -241,7 +259,7 @@ class Model implements AnnotationInterface
      */
     public function getServices(): ObjectArray
     {
-        return $this->model->sliceByClass(ServiceInterface::class);
+        return $this->entityContainer->sliceByClass(ServiceInterface::class);
     }
 
     /**
@@ -285,6 +303,15 @@ class Model implements AnnotationInterface
         $this->model[] = $typeDefinition;
 
         return $this;
+    }
+
+    /**
+     * Get the entity container
+     * @return EntityContainer
+     */
+    public function getEntityContainer(): EntityContainer
+    {
+        return $this->entityContainer;
     }
 
     /**
