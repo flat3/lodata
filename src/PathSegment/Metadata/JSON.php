@@ -11,6 +11,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\CollectionType;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -23,6 +24,7 @@ use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
+use Flat3\Lodata\Transaction\Version;
 
 /**
  * JSON
@@ -43,7 +45,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
         $namespace = Model::getNamespace();
 
         $schema->{'$Version'} = $version;
-        $schema->{'$EntityContainer'} = $namespace.'.'.'DefaultContainer';
+        $schema->{'$EntityContainer'} = (string) Lodata::getEntityContainer()->getIdentifier();
 
         $schema->{'$Reference'} = [];
         foreach (Lodata::getReferences() as $reference) {
@@ -116,6 +118,22 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
 
                 if ($property->hasStaticDefaultValue()) {
                     $complexTypeProperty->{'$DefaultValue'} = $property->computeDefaultValue()->toJson();
+                }
+
+                if ($property->hasMaxLength()) {
+                    $complexTypeProperty->{'$MaxLength'} = $property->getMaxLength();
+                }
+
+                if ($property->hasPrecision()) {
+                    $complexTypeProperty->{'$Precision'} = $property->getPrecision();
+                }
+
+                if ($property->hasScale()) {
+                    $scale = $property->getScale();
+
+                    if ($scale !== Constants::floating || $transaction->getVersion() !== Version::v4_0) {
+                        $complexTypeProperty->{'$Scale'} = $scale;
+                    }
                 }
 
                 foreach ($property->getAnnotations() as $annotation) {

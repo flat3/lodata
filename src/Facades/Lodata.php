@@ -12,6 +12,7 @@ use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Helper\Annotations;
+use Flat3\Lodata\Helper\EntityContainer;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\References;
@@ -46,6 +47,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Singleton getSingleton(Identifier|string $name) Get a singleton from the model
  * @method static IdentifierInterface add(IdentifierInterface $item) Add a named resource or type to the model
  * @method static Model drop(Identifier|string $key) Drop a named resource or type from the model
+ * @method static EntityContainer getEntityContainer() Get the entity container
  * @method static string getNamespace() Get the namespace of this model
  * @method static EloquentEntitySet discoverEloquentModel(string $class) Discover the Eloquent model provided as a class name
  * @method static Model discover($discoverable) Discover sets and operations on the provided class name or object instance

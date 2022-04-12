@@ -5,12 +5,21 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Helper\CollectionType;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasName;
+use Flat3\Lodata\Type\Binary;
+use Flat3\Lodata\Type\DateTimeOffset;
+use Flat3\Lodata\Type\Decimal;
+use Flat3\Lodata\Type\Duration;
+use Flat3\Lodata\Type\Stream;
+use Flat3\Lodata\Type\String_;
+use Flat3\Lodata\Type\TimeOfDay;
 
 /**
  * Property
@@ -60,6 +69,24 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
      */
     protected $type;
 
+    /**
+     * The precision assigned to this property
+     * @var null|int $precision
+     */
+    protected $precision = null;
+
+    /**
+     * The maximum length assigned to this property
+     * @var null|int $maxLength
+     */
+    protected $maxLength = null;
+
+    /**
+     * The scale assigned to this property
+     * @var null|int|string
+     */
+    protected $scale = null;
+
     public function __construct($name, Type $type)
     {
         $this->setName($name);
@@ -96,6 +123,127 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     public function hasDynamicDefaultValue(): bool
     {
         return is_callable($this->default);
+    }
+
+    /**
+     * Whether this property has a maximum length
+     * @return bool
+     */
+    public function hasMaxLength(): bool
+    {
+        return null !== $this->maxLength;
+    }
+
+    /**
+     * Set the maximum length of this property
+     * @param  int  $maxLength
+     * @return $this
+     */
+    public function setMaxLength(int $maxLength): self
+    {
+        if (!$this->type->instance() instanceof Binary && !$this->type->instance() instanceof Stream && !$this->type->instance() instanceof String_) {
+            throw new ConfigurationException(
+                'unsupported_max_length',
+                sprintf('The property "%s" does not support a max length', $this->getName())
+            );
+        }
+
+        $this->maxLength = $maxLength;
+
+        return $this;
+    }
+
+    /**
+     * Get the maximum length of this property
+     * @return int|null
+     */
+    public function getMaxLength(): ?int
+    {
+        return $this->maxLength;
+    }
+
+    /**
+     * Whether this property has a defined precision
+     * @return bool
+     */
+    public function hasPrecision(): bool
+    {
+        return null !== $this->precision;
+    }
+
+    /**
+     * Set the precision of this property
+     * @param  int  $precision
+     * @return $this
+     */
+    public function setPrecision(int $precision): self
+    {
+        if (!$this->type->instance() instanceof Decimal && !$this->type->instance() instanceof DateTimeOffset && !$this->type->instance() instanceof Duration && !$this->type->instance() instanceof TimeOfDay) {
+            throw new ConfigurationException(
+                'unsupported_precision',
+                sprintf('The property "%s" does not support a precision', $this->getName())
+            );
+        }
+
+        $this->precision = $precision;
+
+        return $this;
+    }
+
+    /**
+     * Get the precision of this property
+     * @return int|null
+     */
+    public function getPrecision(): ?int
+    {
+        return $this->precision;
+    }
+
+    /**
+     * Whether this property has a defined scale
+     * @return bool
+     */
+    public function hasScale(): bool
+    {
+        return null !== $this->scale;
+    }
+
+    /**
+     * Set the scale for this property
+     * @param $scale
+     * @return $this
+     */
+    public function setScale($scale): self
+    {
+        if (!$this->type->instance() instanceof Decimal) {
+            throw new ConfigurationException(
+                'unsupported_scale',
+                sprintf('The property "%s" does not support a scale', $this->getName())
+            );
+        }
+
+        if (!is_int($scale) && !in_array($scale, [Constants::floating, Constants::variable])) {
+            throw new ConfigurationException(
+                'unsupported_scale_value',
+                sprintf(
+                    'The scale for property %s must be a non-negative integer value, or one of the symbolic values "floating" or "variable"',
+                    $this->getName()
+                )
+            );
+        }
+
+        $this->scale = $scale;
+
+        return $this;
+    }
+
+    /**
+     * Get the scale for this property
+     * @return int|string|null
+     */
+    public function getScale()
+    {
+        return $this->scale;
     }
 
     /**
@@ -237,6 +385,31 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
 
         if ($this->hasStaticDefaultValue()) {
             $schema['default'] = $this->computeDefaultValue();
+        }
+
+        if ($this->hasMaxLength()) {
+            $schema['maxLength'] = $this->getMaxLength();
+        }
+
+        $scale = $this->getScale();
+        if (is_int($scale)) {
+            $schema['multipleOf'] = 1 / (10 ** $scale);
+        }
+
+        if ($this->hasPrecision()) {
+            $precision = $this->getPrecision();
+
+            switch ($scale) {
+                case Constants::variable:
+                    $schema['maximum'] = (10 ** $precision) - 1;
+                    break;
+
+                default:
+                    $schema['maximum'] = (10 ** $precision) - (10 ** -$scale);
+                    break;
+            }
+
+            $schema['minimum'] = -$schema['maximum'];
         }
 
         return $schema;

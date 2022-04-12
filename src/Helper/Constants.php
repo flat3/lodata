@@ -18,6 +18,7 @@ class Constants
     public const date = 'date';
     public const etag = 'etag';
     public const false = 'false';
+    public const floating = 'floating';
     public const ieee754Compatible = 'IEEE754Compatible';
     public const ifMatch = 'if-match';
     public const ifNoneMatch = 'if-none-match';
@@ -50,5 +51,6 @@ class Constants
     public const streaming = 'streaming';
     public const trailer = 'trailer';
     public const true = 'true';
+    public const variable = 'variable';
     public const vary = 'vary';
 }

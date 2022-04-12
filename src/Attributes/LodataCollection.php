@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Attributes;
 
 use Attribute;
 use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\PrimitiveType;
@@ -25,23 +26,36 @@ class LodataCollection extends LodataProperty
 
     public function getType(): Type
     {
-        $underlyingType = $this->getUnderlyingType();
+        $requestedType = $this->getUnderlyingType();
 
         $type = Type::collection();
 
-        if (!$underlyingType) {
+        if (!$requestedType) {
             return $type;
         }
 
-        if (is_a($underlyingType, Primitive::class, true)) {
-            $type->setUnderlyingType(new PrimitiveType($underlyingType));
-        } else {
-            if (EnumerationType::isEnum($underlyingType)) {
-                $type->setUnderlyingType(EnumerationType::discover($underlyingType));
-            } else {
-                $type->setUnderlyingType(Lodata::getTypeDefinition($underlyingType));
-            }
+        switch (true) {
+            case is_a($requestedType, Primitive::class, true):
+                $underlyingType = new PrimitiveType($requestedType);
+                break;
+
+            case EnumerationType::isEnum($requestedType):
+                $underlyingType = EnumerationType::discover($requestedType);
+                break;
+
+            default:
+                $underlyingType = Lodata::getTypeDefinition($requestedType);
+                break;
         }
+
+        if (null === $underlyingType) {
+            throw new ConfigurationException(
+                'missing_underlying_type',
+                sprintf('The specified type %s was missing', $requestedType)
+            );
+        }
+
+        $type->setUnderlyingType($underlyingType);
 
         return $type;
     }

@@ -28,8 +28,13 @@ abstract class ExpressionTest extends TestCase
     {
         parent::setUp();
 
-        Lodata::drop('airports');
-        Lodata::drop('flights');
+        if ($airports = Lodata::getEntitySet('airports')) {
+            Lodata::drop($airports);
+        }
+
+        if ($flights = Lodata::getEntitySet('flights')) {
+            Lodata::drop($flights);
+        }
     }
 
     protected function assertFilter(string $expression)

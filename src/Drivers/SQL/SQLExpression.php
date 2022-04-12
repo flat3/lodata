@@ -65,6 +65,7 @@ use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\ReferentialConstraint;
+use Flat3\Lodata\Type\Enum;
 
 /**
  * SQL Expression, with its associated parameters
@@ -369,8 +370,12 @@ class SQLExpression
                 break;
 
             case $node instanceof Has:
-                $this->pushStatement('&');
-                $this->evaluate($right);
+                $enum = $right->getValue();
+                if ($enum instanceof Enum && $enum->isFlags()) {
+                    $this->pushStatement('&');
+                    $this->evaluate($right);
+                }
+
                 $this->pushStatement('=');
                 $this->evaluate($right);
                 $this->pushStatement(')');

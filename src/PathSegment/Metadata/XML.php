@@ -13,6 +13,7 @@ use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\CollectionType;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
@@ -27,6 +28,7 @@ use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
+use Flat3\Lodata\Transaction\Version;
 use Flat3\Lodata\Type\Boolean;
 use SimpleXMLElement;
 
@@ -60,11 +62,17 @@ class XML extends Metadata implements StreamInterface
 
         // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityContainer
         $entityContainer = $schema->addChild('EntityContainer');
-        $entityContainer->addAttribute('Name', 'DefaultContainer');
+        $entityContainer->addAttribute('Name', Lodata::getEntityContainer()->getName());
 
         foreach (Lodata::getTypeDefinitions() as $typeDefinition) {
             switch (true) {
                 case $typeDefinition instanceof EnumerationType:
+                    $members = $typeDefinition->getMembers();
+
+                    if ($members->isEmpty()) {
+                        break;
+                    }
+
                     $typeDefinitionElement = $schema->addChild('EnumType');
                     $typeDefinitionElement->addAttribute(
                         'Name',
@@ -82,9 +90,9 @@ class XML extends Metadata implements StreamInterface
                     );
 
                     /** @var EnumMember $memberValue */
-                    foreach ($typeDefinition->getMembers() as $memberName => $memberValue) {
+                    foreach ($members as $memberValue) {
                         $memberElement = $typeDefinitionElement->addChild('Member');
-                        $memberElement->addAttribute('Name', $memberName);
+                        $memberElement->addAttribute('Name', $memberValue->getName());
                         $memberElement->addAttribute('Value', (string) $memberValue->getValue());
 
                         foreach ($memberValue->getAnnotations() as $annotation) {
@@ -111,7 +119,7 @@ class XML extends Metadata implements StreamInterface
         // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntityType
         foreach (Lodata::getComplexTypes() as $complexType) {
             $complexTypeElement = $schema->addChild($complexType instanceof EntityType ? 'EntityType' : 'ComplexType');
-            $complexTypeElement->addAttribute('Name', $complexType->getIdentifier()->getResolvedName($namespace));
+            $complexTypeElement->addAttribute('Name', $complexType->getIdentifier()->getName());
 
             if ($complexType instanceof EntityType) {
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
@@ -151,6 +159,22 @@ class XML extends Metadata implements StreamInterface
 
                 if ($property->hasStaticDefaultValue()) {
                     $entityTypeProperty->addAttribute('DefaultValue', $property->computeDefaultValue()->toJson());
+                }
+
+                if ($property->hasPrecision()) {
+                    $entityTypeProperty->addAttribute('Precision', (string) $property->getPrecision());
+                }
+
+                if ($property->hasMaxLength()) {
+                    $entityTypeProperty->addAttribute('MaxLength', (string) $property->getMaxLength());
+                }
+
+                if ($property->hasScale()) {
+                    $scale = $property->getScale();
+
+                    if ($scale !== Constants::floating || $transaction->getVersion() !== Version::v4_0) {
+                        $entityTypeProperty->addAttribute('Scale', (string) $scale);
+                    }
                 }
 
                 foreach ($property->getAnnotations() as $annotation) {

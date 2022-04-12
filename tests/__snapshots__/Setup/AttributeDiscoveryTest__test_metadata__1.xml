@@ -99,6 +99,9 @@
         <Property Name="Four" Type="Edm.Date" Nullable="true"/>
         <Property Name="Five" Type="Edm.DateTimeOffset" Nullable="true"/>
         <Property Name="Six" Type="Edm.Decimal" Nullable="false"/>
+        <Property Name="SixOne" Type="Edm.Decimal" Nullable="true" Precision="5"/>
+        <Property Name="SixTwo" Type="Edm.Decimal" Nullable="true" Precision="5" Scale="5"/>
+        <Property Name="SixThree" Type="Edm.Decimal" Nullable="true" Precision="5" Scale="variable"/>
         <Property Name="Seven" Type="Edm.Double" Nullable="true"/>
         <Property Name="Eight" Type="Edm.Duration" Nullable="false"/>
         <Property Name="Nine" Type="com.example.odata.Colours" Nullable="true"/>
@@ -109,10 +112,12 @@
         <Property Name="Twelve" Type="Edm.Int64" Nullable="true"/>
         <Property Name="Thirteen" Type="Edm.SByte" Nullable="true"/>
         <Property Name="Fourteen" Type="Edm.Single" Nullable="true"/>
-        <Property Name="Fifteen" Type="Edm.TimeOfDay" Nullable="true"/>
-        <Property Name="Sixteen" Type="com.example.odata.UInt16" Nullable="true"/>
-        <Property Name="Seventeen" Type="com.example.odata.UInt32" Nullable="true"/>
-        <Property Name="Eighteen" Type="com.example.odata.UInt64" Nullable="true"/>
+        <Property Name="Fifteen" Type="Edm.String" Nullable="true"/>
+        <Property Name="FifteenOne" Type="Edm.String" Nullable="true" MaxLength="4"/>
+        <Property Name="Sixteen" Type="Edm.TimeOfDay" Nullable="true"/>
+        <Property Name="Seventeen" Type="com.example.odata.UInt16" Nullable="true"/>
+        <Property Name="Eighteen" Type="com.example.odata.UInt32" Nullable="true"/>
+        <Property Name="Nineteen" Type="com.example.odata.UInt64" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

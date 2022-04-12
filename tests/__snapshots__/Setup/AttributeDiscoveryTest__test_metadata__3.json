@@ -169,6 +169,23 @@
             "$Type": "Edm.Decimal",
             "$Nullable": false
         },
+        "SixOne": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true,
+            "$Precision": 5
+        },
+        "SixTwo": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true,
+            "$Precision": 5,
+            "$Scale": 5
+        },
+        "SixThree": {
+            "$Type": "Edm.Decimal",
+            "$Nullable": true,
+            "$Precision": 5,
+            "$Scale": "variable"
+        },
         "Seven": {
             "$Type": "Edm.Double",
             "$Nullable": true
@@ -210,18 +227,27 @@
             "$Nullable": true
         },
         "Fifteen": {
+            "$Type": "Edm.String",
+            "$Nullable": true
+        },
+        "FifteenOne": {
+            "$Type": "Edm.String",
+            "$Nullable": true,
+            "$MaxLength": 4
+        },
+        "Sixteen": {
             "$Type": "Edm.TimeOfDay",
             "$Nullable": true
         },
-        "Sixteen": {
+        "Seventeen": {
             "$Type": "com.example.odata.UInt16",
             "$Nullable": true
         },
-        "Seventeen": {
+        "Eighteen": {
             "$Type": "com.example.odata.UInt32",
             "$Nullable": true
         },
-        "Eighteen": {
+        "Nineteen": {
             "$Type": "com.example.odata.UInt64",
             "$Nullable": true
         }

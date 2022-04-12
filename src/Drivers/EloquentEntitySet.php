@@ -609,6 +609,18 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                     $property->addAnnotation(new Computed);
                 }
 
+                if ($instance->hasMaxLength()) {
+                    $property->setMaxLength($instance->getMaxLength());
+                }
+
+                if ($instance->hasPrecision()) {
+                    $property->setPrecision($instance->getPrecision());
+                }
+
+                if ($instance->hasScale()) {
+                    $property->setScale($instance->getScale());
+                }
+
                 if ($instance->isKey()) {
                     $entityType->setKey($property);
                 } else {

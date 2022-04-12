@@ -45,6 +45,9 @@
                                     "Four",
                                     "Five",
                                     "Six",
+                                    "SixOne",
+                                    "SixTwo",
+                                    "SixThree",
                                     "Seven",
                                     "Eight",
                                     "Nine",
@@ -56,9 +59,11 @@
                                     "Thirteen",
                                     "Fourteen",
                                     "Fifteen",
+                                    "FifteenOne",
                                     "Sixteen",
                                     "Seventeen",
-                                    "Eighteen"
+                                    "Eighteen",
+                                    "Nineteen"
                                 ]
                             }
                         }
@@ -101,6 +106,12 @@
                                     "Five desc",
                                     "Six",
                                     "Six desc",
+                                    "SixOne",
+                                    "SixOne desc",
+                                    "SixTwo",
+                                    "SixTwo desc",
+                                    "SixThree",
+                                    "SixThree desc",
                                     "Seven",
                                     "Seven desc",
                                     "Eight",
@@ -123,12 +134,16 @@
                                     "Fourteen desc",
                                     "Fifteen",
                                     "Fifteen desc",
+                                    "FifteenOne",
+                                    "FifteenOne desc",
                                     "Sixteen",
                                     "Sixteen desc",
                                     "Seventeen",
                                     "Seventeen desc",
                                     "Eighteen",
-                                    "Eighteen desc"
+                                    "Eighteen desc",
+                                    "Nineteen",
+                                    "Nineteen desc"
                                 ]
                             }
                         }
@@ -241,6 +256,9 @@
                                     "Four",
                                     "Five",
                                     "Six",
+                                    "SixOne",
+                                    "SixTwo",
+                                    "SixThree",
                                     "Seven",
                                     "Eight",
                                     "Nine",
@@ -252,9 +270,11 @@
                                     "Thirteen",
                                     "Fourteen",
                                     "Fifteen",
+                                    "FifteenOne",
                                     "Sixteen",
                                     "Seventeen",
-                                    "Eighteen"
+                                    "Eighteen",
+                                    "Nineteen"
                                 ]
                             }
                         }
@@ -487,6 +507,61 @@
                         ],
                         "nullable": false
                     },
+                    "SixOne": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "maximum": 99999,
+                        "minimum": -99999
+                    },
+                    "SixTwo": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "multipleOf": 1.0e-5,
+                        "maximum": 99999.99999,
+                        "minimum": -99999.99999
+                    },
+                    "SixThree": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "maximum": 99999,
+                        "minimum": -99999
+                    },
                     "Seven": {
                         "anyOf": [
                             {
@@ -585,25 +660,34 @@
                     },
                     "Fifteen": {
                         "type": "string",
+                        "nullable": true
+                    },
+                    "FifteenOne": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 4
+                    },
+                    "Sixteen": {
+                        "type": "string",
                         "format": "time",
                         "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
                         "nullable": true
                     },
-                    "Sixteen": {
+                    "Seventeen": {
                         "type": "integer",
                         "format": "int16",
                         "minimum": 0,
                         "maximum": 32767,
                         "nullable": true
                     },
-                    "Seventeen": {
+                    "Eighteen": {
                         "type": "integer",
                         "format": "int32",
                         "minimum": 0,
                         "maximum": 2147483647,
                         "nullable": true
                     },
-                    "Eighteen": {
+                    "Nineteen": {
                         "type": "integer",
                         "format": "int64",
                         "minimum": 0,
@@ -699,6 +783,61 @@
                         ],
                         "nullable": false
                     },
+                    "SixOne": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "maximum": 99999,
+                        "minimum": -99999
+                    },
+                    "SixTwo": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "multipleOf": 1.0e-5,
+                        "maximum": 99999.99999,
+                        "minimum": -99999.99999
+                    },
+                    "SixThree": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "maximum": 99999,
+                        "minimum": -99999
+                    },
                     "Seven": {
                         "anyOf": [
                             {
@@ -797,25 +936,34 @@
                     },
                     "Fifteen": {
                         "type": "string",
+                        "nullable": true
+                    },
+                    "FifteenOne": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 4
+                    },
+                    "Sixteen": {
+                        "type": "string",
                         "format": "time",
                         "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
                         "nullable": true
                     },
-                    "Sixteen": {
+                    "Seventeen": {
                         "type": "integer",
                         "format": "int16",
                         "minimum": 0,
                         "maximum": 32767,
                         "nullable": true
                     },
-                    "Seventeen": {
+                    "Eighteen": {
                         "type": "integer",
                         "format": "int32",
                         "minimum": 0,
                         "maximum": 2147483647,
                         "nullable": true
                     },
-                    "Eighteen": {
+                    "Nineteen": {
                         "type": "integer",
                         "format": "int64",
                         "minimum": 0,
@@ -905,6 +1053,61 @@
                         ],
                         "nullable": false
                     },
+                    "SixOne": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "maximum": 99999,
+                        "minimum": -99999
+                    },
+                    "SixTwo": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "multipleOf": 1.0e-5,
+                        "maximum": 99999.99999,
+                        "minimum": -99999.99999
+                    },
+                    "SixThree": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "decimal"
+                            },
+                            {
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ]
+                            }
+                        ],
+                        "nullable": true,
+                        "maximum": 99999,
+                        "minimum": -99999
+                    },
                     "Seven": {
                         "anyOf": [
                             {
@@ -1003,25 +1206,34 @@
                     },
                     "Fifteen": {
                         "type": "string",
+                        "nullable": true
+                    },
+                    "FifteenOne": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 4
+                    },
+                    "Sixteen": {
+                        "type": "string",
                         "format": "time",
                         "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
                         "nullable": true
                     },
-                    "Sixteen": {
+                    "Seventeen": {
                         "type": "integer",
                         "format": "int16",
                         "minimum": 0,
                         "maximum": 32767,
                         "nullable": true
                     },
-                    "Seventeen": {
+                    "Eighteen": {
                         "type": "integer",
                         "format": "int32",
                         "minimum": 0,
                         "maximum": 2147483647,
                         "nullable": true
                     },
-                    "Eighteen": {
+                    "Nineteen": {
                         "type": "integer",
                         "format": "int64",
                         "minimum": 0,

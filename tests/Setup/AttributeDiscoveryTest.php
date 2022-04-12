@@ -27,6 +27,7 @@ use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\Int64;
 use Flat3\Lodata\Type\SByte;
 use Flat3\Lodata\Type\Single;
+use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
 use Flat3\Lodata\Type\UInt16;
 use Flat3\Lodata\Type\UInt32;
@@ -64,14 +65,14 @@ class AttributeDiscoveryTest extends TestCase
                 Collection::class,
                 null,
                 null,
-                'SByte',
+                ['type' => 'SByte'],
             ],
             'ThreeTwo' => [
                 'ThreeTwo',
                 Collection::class,
                 null,
                 null,
-                'Recs',
+                ['type' => 'Recs'],
             ],
             'Four' => [
                 'Four',
@@ -84,6 +85,27 @@ class AttributeDiscoveryTest extends TestCase
             'Six' => [
                 'Six',
                 Decimal::class,
+            ],
+            'SixOne' => [
+                'SixOne',
+                Decimal::class,
+                null,
+                null,
+                ['precision' => 5],
+            ],
+            'SixTwo' => [
+                'SixTwo',
+                Decimal::class,
+                null,
+                null,
+                ['precision' => 5, 'scale' => 5],
+            ],
+            'SixThree' => [
+                'SixThree',
+                Decimal::class,
+                null,
+                null,
+                ['precision' => 5, 'scale' => 'variable'],
             ],
             'Seven' => [
                 'Seven',
@@ -102,14 +124,14 @@ class AttributeDiscoveryTest extends TestCase
                 Enum::class,
                 null,
                 null,
-                Colour::class,
+                ['type' => Colour::class],
             ],
             'NineTwo' => [
                 'NineTwo',
                 Enum::class,
                 null,
                 null,
-                MultiColour::class,
+                ['type' => MultiColour::class],
             ],
             'Ten' => [
                 'Ten',
@@ -133,18 +155,29 @@ class AttributeDiscoveryTest extends TestCase
             ],
             'Fifteen' => [
                 'Fifteen',
-                TimeOfDay::class,
+                String_::class,
+            ],
+            'FifteenOne' => [
+                'FifteenOne',
+                String_::class,
+                null,
+                null,
+                ['maxLength' => 4],
             ],
             'Sixteen' => [
                 'Sixteen',
-                UInt16::class,
+                TimeOfDay::class,
             ],
             'Seventeen' => [
                 'Seventeen',
-                UInt32::class,
+                UInt16::class,
             ],
             'Eighteen' => [
                 'Eighteen',
+                UInt32::class,
+            ],
+            'Nineteen' => [
+                'Nineteen',
                 UInt64::class,
             ],
         ];
@@ -168,7 +201,7 @@ class AttributeDiscoveryTest extends TestCase
     /**
      * @dataProvider attributes
      */
-    public function test_attributes($name, $type, $key = null, $source = null, $underlyingType = null)
+    public function test_attributes($name, $type, $key = null, $source = null, $extra = [])
     {
         $entitySet = Lodata::getEntitySet('Alternative');
         $entityType = $entitySet->getType();
@@ -185,8 +218,20 @@ class AttributeDiscoveryTest extends TestCase
             $this->assertEquals($source, $entitySet->getPropertySourceName($property));
         }
 
-        if ($propertyType->instance() instanceof Collection && $underlyingType) {
-            $this->assertEquals($underlyingType, $propertyType->getUnderlyingType()->getName());
+        if ($propertyType->instance() instanceof Collection && $extra) {
+            $this->assertEquals($extra['type'], $propertyType->getUnderlyingType()->getName());
+        }
+
+        if ($extra['precision'] ?? null) {
+            $this->assertEquals($extra['precision'], $property->getPrecision());
+        }
+
+        if ($extra['scale'] ?? null) {
+            $this->assertEquals($extra['scale'], $property->getScale());
+        }
+
+        if ($extra['maxLength'] ?? null) {
+            $this->assertEquals($extra['maxLength'], $property->getMaxLength());
         }
     }
 

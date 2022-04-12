@@ -20,6 +20,7 @@ use Flat3\Lodata\Attributes\LodataInt32;
 use Flat3\Lodata\Attributes\LodataInt64;
 use Flat3\Lodata\Attributes\LodataSByte;
 use Flat3\Lodata\Attributes\LodataSingle;
+use Flat3\Lodata\Attributes\LodataString;
 use Flat3\Lodata\Attributes\LodataTimeOfDay;
 use Flat3\Lodata\Attributes\LodataTypeIdentifier;
 use Flat3\Lodata\Attributes\LodataUInt16;
@@ -41,6 +42,9 @@ use Illuminate\Database\Eloquent\Model;
     LodataDate(name: 'Four'),
     LodataDateTimeOffset(name: 'Five'),
     LodataDecimal(name: 'Six', nullable: false),
+    LodataDecimal(name: 'SixOne', precision: 5),
+    LodataDecimal(name: 'SixTwo', precision: 5, scale: 5),
+    LodataDecimal(name: 'SixThree', precision: 5, scale: 'variable'),
     LodataDouble(name: 'Seven'),
     LodataDuration(name: 'Eight', nullable: false),
     LodataEnum(name: 'Nine', enum: 'Colours'),
@@ -51,10 +55,12 @@ use Illuminate\Database\Eloquent\Model;
     LodataInt64(name: 'Twelve'),
     LodataSByte(name: 'Thirteen'),
     LodataSingle(name: 'Fourteen'),
-    LodataTimeOfDay(name: 'Fifteen'),
-    LodataUInt16(name: 'Sixteen'),
-    LodataUInt32(name: 'Seventeen'),
-    LodataUInt64(name: 'Eighteen')
+    LodataString(name: 'Fifteen'),
+    LodataString(name: 'FifteenOne', maxLength: 4),
+    LodataTimeOfDay(name: 'Sixteen'),
+    LodataUInt16(name: 'Seventeen'),
+    LodataUInt32(name: 'Eighteen'),
+    LodataUInt64(name: 'Nineteen')
 ]
 class AllAttribute extends Model
 {
