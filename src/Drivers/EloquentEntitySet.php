@@ -7,7 +7,6 @@ namespace Flat3\Lodata\Drivers;
 use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
-use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\Attributes\LodataIdentifier;
 use Flat3\Lodata\Attributes\LodataProperty;
@@ -603,23 +602,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $instance = $propertyAttribute->newInstance();
 
                 $property = new DeclaredProperty($instance->getName(), $instance->getType());
-                $property->setNullable($instance->isNullable());
-
-                if ($instance->isComputed()) {
-                    $property->addAnnotation(new Computed);
-                }
-
-                if ($instance->hasMaxLength()) {
-                    $property->setMaxLength($instance->getMaxLength());
-                }
-
-                if ($instance->hasPrecision()) {
-                    $property->setPrecision($instance->getPrecision());
-                }
-
-                if ($instance->hasScale()) {
-                    $property->setScale($instance->getScale());
-                }
+                $instance->applyPropertyAttributes($property);
 
                 if ($instance->isKey()) {
                     $entityType->setKey($property);

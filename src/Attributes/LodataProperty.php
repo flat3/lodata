@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Attributes;
 
+use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\Type;
 
 abstract class LodataProperty
@@ -95,6 +97,27 @@ abstract class LodataProperty
     public function getScale()
     {
         return $this->scale;
+    }
+
+    public function applyPropertyAttributes(Property $property): void
+    {
+        $property->setNullable($this->isNullable());
+
+        if ($this->isComputed()) {
+            $property->addAnnotation(new Computed);
+        }
+
+        if ($this->hasMaxLength()) {
+            $property->setMaxLength($this->getMaxLength());
+        }
+
+        if ($this->hasPrecision()) {
+            $property->setPrecision($this->getPrecision());
+        }
+
+        if ($this->hasScale()) {
+            $property->setScale($this->getScale());
+        }
     }
 
     abstract public function getType(): Type;
