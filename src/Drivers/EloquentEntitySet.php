@@ -171,6 +171,24 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     }
 
     /**
+     * Apply the provided property values to the provided model
+     * @param  Model  $model  Model instance
+     * @param  PropertyValues  $propertyValues  Property values
+     * @return Model
+     */
+    protected function setModelAttributes(Model $model, PropertyValues $propertyValues): Model
+    {
+        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
+            $model->setAttribute(
+                $this->getPropertySourceName($propertyValue->getProperty()),
+                $propertyValue->getPrimitive()->toMixed()
+            );
+        }
+
+        return $model;
+    }
+
+    /**
      * Update an Eloquent model
      * @param  PropertyValue  $key  Model key
      * @param  PropertyValues  $propertyValues  Property values
@@ -179,12 +197,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     public function update(PropertyValue $key, PropertyValues $propertyValues): Entity
     {
         $entity = $this->read($key);
-        $model = $entity->getSource();
-
-        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitive()->toMixed();
-        }
-
+        $model = $this->setModelAttributes($entity->getSource(), $propertyValues);
         $model->save();
 
         return $this->read($key);
@@ -197,12 +210,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function create(PropertyValues $propertyValues): Entity
     {
-        $model = $this->getModel();
-
-        /** @var DeclaredProperty $declaredProperty */
-        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model[$this->getPropertySourceName($propertyValue->getProperty())] = $propertyValue->getPrimitive()->toMixed();
-        }
+        $model = $this->setModelAttributes($this->getModel(), $propertyValues);
 
         if ($this->navigationSource) {
             /** @var NavigationProperty $navigationProperty */
@@ -211,7 +219,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $model[$referencedProperty->getName()] = $this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed();
+                $model->setAttribute(
+                    $referencedProperty->getName(),
+                    $this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed()
+                );
             }
         }
 
@@ -335,12 +346,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         foreach ($this->getType()->getDeclaredProperties() as $declaredProperty) {
             $propertyValue = $entity->newPropertyValue();
             $propertyValue->setProperty($declaredProperty);
-            $propertyValue->setValue($declaredProperty->getType()->instance($model->{$this->getPropertySourceName($declaredProperty)}));
+            $propertyValue->setValue($declaredProperty->getType()->instance($model->getAttribute($this->getPropertySourceName($declaredProperty))));
             $entity->addPropertyValue($propertyValue);
         }
 
         foreach ($this->getCompute()->getProperties() as $computedProperty) {
-            $value = $model->{$this->getPropertySourceName($computedProperty)};
+            $value = $model->getAttribute($this->getPropertySourceName($computedProperty));
 
             if (is_string($value) && is_numeric($value)) {
                 $value = JSON::decode($value);
