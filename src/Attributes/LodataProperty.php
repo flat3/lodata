@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Attributes;
 
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\Type;
 
@@ -99,8 +101,20 @@ abstract class LodataProperty
         return $this->scale;
     }
 
-    public function applyPropertyAttributes(Property $property): void
+    public function addProperty(EntitySet $entitySet): Property
     {
+        $property = new DeclaredProperty($this->getName(), $this->getType());
+
+        if ($this->isKey()) {
+            $entitySet->getType()->setKey($property);
+        } else {
+            $entitySet->getType()->addProperty($property);
+        }
+
+        if ($this->hasSource()) {
+            $entitySet->setPropertySourceName($property, $this->getSource());
+        }
+
         $property->setNullable($this->isNullable());
 
         if ($this->isComputed()) {
@@ -118,6 +132,8 @@ abstract class LodataProperty
         if ($this->hasScale()) {
             $property->setScale($this->getScale());
         }
+
+        return $property;
     }
 
     abstract public function getType(): Type;

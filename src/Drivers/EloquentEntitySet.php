@@ -612,18 +612,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 /** @var LodataProperty $instance */
                 $instance = $propertyAttribute->newInstance();
 
-                $property = new DeclaredProperty($instance->getName(), $instance->getType());
-                $instance->applyPropertyAttributes($property);
-
-                if ($instance->isKey()) {
-                    $entityType->setKey($property);
-                } else {
-                    $entityType->addProperty($property);
-                }
-
-                if ($instance->hasSource()) {
-                    $this->setPropertySourceName($property, $instance->getSource());
-                }
+                $instance->addProperty($this);
             }
         } else {
             $this->discoverProperties();
