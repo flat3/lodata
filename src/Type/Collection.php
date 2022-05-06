@@ -14,6 +14,7 @@ use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Interfaces\SerializeInterface;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type;
+use Illuminate\Contracts\Support\Arrayable;
 use TypeError;
 
 /**
@@ -132,13 +133,17 @@ class Collection extends Primitive implements ArrayAccess
 
     /**
      * Replace the value of this collection
-     * @param  array  $value
+     * @param  array|Arrayable  $value
      * @return $this
      */
     public function set($value = [])
     {
         if (null === $value) {
             $value = [];
+        }
+
+        if ($value instanceof Arrayable) {
+            $value = $value->toArray();
         }
 
         if (!is_array($value)) {
