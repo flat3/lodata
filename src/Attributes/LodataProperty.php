@@ -68,7 +68,7 @@ abstract class LodataProperty
 
     public function isNullable(): bool
     {
-        return $this->nullable;
+        return $this->nullable && !$this->key;
     }
 
     public function hasPrecision(): bool
