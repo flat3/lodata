@@ -258,7 +258,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function addPassengerProperties(EntityType $entityType)
     {
         $this->addEnumerationTypes();
-        $entityType->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false));
+        $entityType->addProperty((new DeclaredProperty('name', Type::string()))->setNullable(false)->setMaxLength(255));
         $entityType->addDeclaredProperty('age', Type::double());
         $entityType->addDeclaredProperty('dob', Type::datetimeoffset());
         $entityType->addDeclaredProperty('chips', Type::boolean());

@@ -79,7 +79,7 @@ trait WithEloquentDriver
         $airport->getDeclaredProperty('code')->setAlternativeKey();
 
         $passenger = Lodata::getEntityType('Passenger');
-        $passenger->getDeclaredProperty('name')->setSearchable();
+        $passenger->getDeclaredProperty('name')->setSearchable()->setMaxLength(255);
 
         foreach ($this->getSeed() as $record) {
             (new Passenger)->newInstance($record)->save();

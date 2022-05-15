@@ -372,6 +372,13 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
                 sprintf("The property '%s' cannot be set to null", $this->getName())
             );
         }
+
+        if (is_string($value) && $this->hasMaxLength() && strlen($value) > $this->getMaxLength()) {
+            throw new BadRequestException(
+                'property_too_long',
+                sprintf("The value property '%s' exceeds the maximum length", $this->getName())
+            );
+        }
     }
 
     /**

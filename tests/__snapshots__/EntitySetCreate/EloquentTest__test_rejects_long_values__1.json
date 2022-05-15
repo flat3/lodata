@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "property_too_long",
+        "message": "The value property 'name' exceeds the maximum length",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

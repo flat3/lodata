@@ -108,6 +108,10 @@ class FilesystemTest extends EntitySetCreateTest
     {
     }
 
+    public function test_rejects_long_values()
+    {
+    }
+
     public function test_enum_property()
     {
     }

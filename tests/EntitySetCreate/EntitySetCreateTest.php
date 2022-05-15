@@ -119,6 +119,18 @@ abstract class EntitySetCreateTest extends TestCase
         );
     }
 
+    public function test_rejects_long_values()
+    {
+        $this->assertBadRequest(
+            (new Request)
+                ->path($this->entitySetPath)
+                ->post()
+                ->body([
+                    'name' => str_repeat('a', 256),
+                ])
+        );
+    }
+
     public function test_modified_source_name()
     {
         $this->withModifiedPropertySourceName();

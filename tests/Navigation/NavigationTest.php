@@ -373,7 +373,7 @@ abstract class NavigationTest extends TestCase
 
     public function test_expand_property_count()
     {
-        $this->assertJsonResponseSnapshot(
+        $this->assertTextResponseSnapshot(
             (new Request)
                 ->text()
                 ->path($this->airportEntitySetPath.'/1/flights/$count')
