@@ -20,6 +20,9 @@ abstract class LodataProperty
     protected ?int $maxLength = null;
     protected ?int $precision = null;
     protected $scale = null;
+    protected bool $alternativeKey = false;
+    protected bool $searchable = false;
+    protected bool $filterable = true;
 
     public function __construct(
         string $name,
@@ -29,7 +32,10 @@ abstract class LodataProperty
         ?bool $nullable = true,
         ?int $maxLength = null,
         ?int $precision = null,
-        $scale = null
+        $scale = null,
+        $alternativeKey = false,
+        $searchable = false,
+        $filterable = true
     ) {
         $this->name = $name;
         $this->source = $source;
@@ -39,6 +45,9 @@ abstract class LodataProperty
         $this->maxLength = $maxLength;
         $this->precision = $precision;
         $this->scale = $scale;
+        $this->alternativeKey = $alternativeKey;
+        $this->searchable = $searchable;
+        $this->filterable = $filterable;
     }
 
     public function getName(): ?string
@@ -69,6 +78,21 @@ abstract class LodataProperty
     public function isNullable(): bool
     {
         return $this->nullable && !$this->key;
+    }
+
+    public function isSearchable(): bool
+    {
+        return $this->searchable;
+    }
+
+    public function isFilterable(): bool
+    {
+        return $this->filterable;
+    }
+
+    public function isAlternativeKey(): bool
+    {
+        return $this->alternativeKey;
     }
 
     public function hasPrecision(): bool
@@ -132,6 +156,10 @@ abstract class LodataProperty
         if ($this->hasScale()) {
             $property->setScale($this->getScale());
         }
+
+        $property->setAlternativeKey($this->isAlternativeKey());
+        $property->setFilterable($this->isFilterable());
+        $property->setSearchable($this->isSearchable());
 
         return $property;
     }
