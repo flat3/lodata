@@ -2782,7 +2782,8 @@
                     },
                     "name": {
                         "type": "string",
-                        "nullable": false
+                        "nullable": false,
+                        "maxLength": 255
                     },
                     "age": {
                         "anyOf": [
@@ -2869,7 +2870,8 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "nullable": false
+                        "nullable": false,
+                        "maxLength": 255
                     },
                     "age": {
                         "anyOf": [
@@ -2956,7 +2958,8 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "nullable": false
+                        "nullable": false,
+                        "maxLength": 255
                     },
                     "age": {
                         "anyOf": [

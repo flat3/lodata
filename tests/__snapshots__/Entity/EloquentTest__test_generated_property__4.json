@@ -3802,7 +3802,8 @@
                     },
                     "name": {
                         "type": "string",
-                        "nullable": false
+                        "nullable": false,
+                        "maxLength": 255
                     },
                     "dob": {
                         "type": "string",
@@ -3889,7 +3890,8 @@
                     },
                     "name": {
                         "type": "string",
-                        "nullable": false
+                        "nullable": false,
+                        "maxLength": 255
                     },
                     "dob": {
                         "type": "string",
@@ -3976,7 +3978,8 @@
                     },
                     "name": {
                         "type": "string",
-                        "nullable": false
+                        "nullable": false,
+                        "maxLength": 255
                     },
                     "dob": {
                         "type": "string",

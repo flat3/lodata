@@ -436,7 +436,8 @@
         },
         "name": {
             "$Type": "Edm.String",
-            "$Nullable": false
+            "$Nullable": false,
+            "$MaxLength": 255
         },
         "dob": {
             "$Type": "Edm.DateTimeOffset",

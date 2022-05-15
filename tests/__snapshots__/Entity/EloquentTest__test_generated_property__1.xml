@@ -406,7 +406,7 @@
           <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>
         <Property Name="flight_id" Type="Edm.Int64" Nullable="true"/>
-        <Property Name="name" Type="Edm.String" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="false" MaxLength="255"/>
         <Property Name="dob" Type="Edm.DateTimeOffset" Nullable="true"/>
         <Property Name="age" Type="Edm.Decimal" Nullable="true"/>
         <Property Name="chips" Type="Edm.Boolean" Nullable="true"/>

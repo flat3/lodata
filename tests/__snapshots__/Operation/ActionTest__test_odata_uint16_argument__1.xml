@@ -87,7 +87,7 @@
         <Property Name="id" Type="Edm.Int64" Nullable="false">
           <Annotation Term="Org.OData.Core.V1.ComputedDefaultValue" Bool="true"/>
         </Property>
-        <Property Name="name" Type="Edm.String" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" Nullable="false" MaxLength="255"/>
         <Property Name="age" Type="Edm.Double" Nullable="true"/>
         <Property Name="dob" Type="Edm.DateTimeOffset" Nullable="true"/>
         <Property Name="chips" Type="Edm.Boolean" Nullable="true"/>
