@@ -99,13 +99,13 @@ class ErrorReportingTest extends TestCase
 
     public function test_stream_error()
     {
-        ob_start();
+        if (version_compare(app()->version(), '9.14', '<')) {
+            $this->markTestSkipped();
+        }
 
         $this->assertTextMetadataResponse(
             (new Request)
                 ->path('/texts'));
-
-        $this->assertMatchesSnapshot(ob_get_clean());
     }
 
     public function test_disable_streaming_json()

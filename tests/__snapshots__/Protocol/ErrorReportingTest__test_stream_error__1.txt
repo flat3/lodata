@@ -1,1 +1,1 @@
-OData-error: {"code":"not_implemented","message":"Error during stream","target":null,"details":[],"innererror":{}}
+{"@context":"http://localhost/odata/$metadata#texts","value":{"key":"value"OData-error: {"code":"not_implemented","message":"Error during stream","target":null,"details":[],"innererror":{}}
