@@ -1,0 +1,12 @@
+{
+    "@context": "http://localhost/odata/$metadata#Airports(code,flights(duration),country(name))/$entity",
+    "code": "lhr",
+    "flights": [
+        {
+            "duration": "PT11H25M0S"
+        }
+    ],
+    "country": {
+        "name": "England"
+    }
+}

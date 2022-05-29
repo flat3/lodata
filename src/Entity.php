@@ -66,6 +66,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
     {
         $this->entitySet = $entitySet;
         $this->type = $entitySet->getType();
+        $this->transaction = $entitySet->getTransaction();
         return $this;
     }
 
