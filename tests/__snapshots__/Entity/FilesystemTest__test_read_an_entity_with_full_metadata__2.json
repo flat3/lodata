@@ -1,0 +1,17 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=full"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "etag": [
+            "W/\"25b013ed142ead351b7ca242da5bb4961185c64c39040cbf7dd814dca4591f3e\""
+        ]
+    },
+    "status": 200
+}

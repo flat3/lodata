@@ -44,10 +44,10 @@ trait UseSnapshots
 
     protected function assertResponseHeaderSnapshot(TestResponse $response)
     {
-        $this->assertMatchesSnapshot([
+        $this->doSnapshotAssertion([
             'headers' => array_diff_key($response->baseResponse->headers->all(), array_flip(['date'])),
             'status' => $response->baseResponse->getStatusCode(),
-        ]);
+        ], new StreamingJsonDriver);
     }
 
     protected function assertResponseSnapshot(Request $request): TestResponse
@@ -62,7 +62,7 @@ trait UseSnapshots
         $response = $this->req($request);
         $content = $this->getResponseContent($response);
         $this->assertEquals($statusCode, $response->getStatusCode());
-        $this->assertMatchesSnapshot($content, new StreamingJsonDriver());
+        $this->assertMatchesSnapshot($content, new StreamingJsonDriver);
         return $response;
     }
 

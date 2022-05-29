@@ -1,0 +1,14 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;IEEE754Compatible=true;metadata=minimal"
+        ],
+        "odata-version": [
+            "4.01"
+        ]
+    },
+    "status": 200
+}

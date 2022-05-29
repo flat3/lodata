@@ -1,0 +1,17 @@
+{
+    "headers": {
+        "preference-applied": [
+            "return=minimal"
+        ],
+        "odata-entityid": [
+            "http://localhost/odata/disk('d1/a2.txt')"
+        ],
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json"
+        ]
+    },
+    "status": 204
+}

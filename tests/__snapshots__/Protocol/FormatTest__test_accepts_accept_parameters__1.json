@@ -1,0 +1,14 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=full"
+        ],
+        "odata-version": [
+            "4.01"
+        ]
+    },
+    "status": 200
+}

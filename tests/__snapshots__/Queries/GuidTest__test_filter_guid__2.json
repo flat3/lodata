@@ -1,0 +1,20 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=minimal"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "location": [
+            "http://localhost/odata/examples(00000000-0000-0000-0000-0012EA25EEFB)"
+        ],
+        "etag": [
+            "W/\"5bc25a652eb459a80e84d01ee9dfb75aa904832bfaf93eea87c991182cbf66f4\""
+        ]
+    },
+    "status": 201
+}

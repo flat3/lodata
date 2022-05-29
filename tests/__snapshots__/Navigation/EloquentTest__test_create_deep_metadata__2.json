@@ -1,0 +1,20 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=full"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "location": [
+            "http://localhost/odata/Flights(4)"
+        ],
+        "etag": [
+            "W/\"aaa20f67c741356acb78538d146ece6b8837a47b014ea4e9edf644c927ecab89\""
+        ]
+    },
+    "status": 201
+}

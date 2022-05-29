@@ -1,0 +1,14 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "multipart/mixed;boundary=00000000-0000-0000-0000-000000000002"
+        ],
+        "odata-version": [
+            "4.01"
+        ]
+    },
+    "status": 200
+}

@@ -1,0 +1,20 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=minimal"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "location": [
+            "http://localhost/odata/passengers(5)"
+        ],
+        "etag": [
+            "W/\"56b0adcb8b5b3ed4747d54eb86582256a8b15c7c1f05fd77c1d41b870cd3090c\""
+        ]
+    },
+    "status": 201
+}

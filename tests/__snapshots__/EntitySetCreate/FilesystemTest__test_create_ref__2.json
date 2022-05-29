@@ -1,0 +1,20 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=minimal"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "location": [
+            "http://localhost/odata/disk('d1/a2.txt')"
+        ],
+        "etag": [
+            "W/\"c4de0dcdf21b37b302079acdcc016ada902eb2c573ef73c8113505650939307d\""
+        ]
+    },
+    "status": 201
+}

@@ -1,0 +1,20 @@
+{
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json;metadata=minimal"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "preference-applied": [
+            "maxpagesize=1"
+        ],
+        "vary": [
+            "prefer"
+        ]
+    },
+    "status": 200
+}
