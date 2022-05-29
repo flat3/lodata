@@ -1,0 +1,25 @@
+{
+    "@context": "http://localhost/odata/$metadata#flights(id,duration,passengers(dob,age,pets(name)))/$entity",
+    "id": 1,
+    "duration": "PT11H25M0S",
+    "passengers": [
+        {
+            "age": 4,
+            "dob": "2000-01-01T04:04:04+00:00",
+            "pets": [
+                {
+                    "name": "Banana"
+                }
+            ]
+        },
+        {
+            "age": 2,
+            "dob": "2002-03-03T06:06:06+00:00",
+            "pets": [
+                {
+                    "name": "Coconut"
+                }
+            ]
+        }
+    ]
+}

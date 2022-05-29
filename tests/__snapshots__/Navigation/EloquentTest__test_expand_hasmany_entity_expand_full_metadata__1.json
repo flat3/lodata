@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#Flights(passengers())",
+    "@context": "http://localhost/odata/$metadata#Flights(passengers(flight()))",
     "@readLink": "http://localhost/odata/Flights",
     "value": [
         {

@@ -976,18 +976,11 @@ class Transaction
             foreach ($navigationRequests as $navigationRequest) {
                 $navigationTransaction = new Transaction();
                 $navigationTransaction->setRequest($navigationRequest);
-                $navigationProperties = [];
-
-                if ($navigationTransaction->getSelect()->hasValue()) {
-                    foreach ($navigationTransaction->getSelect()->getCommaSeparatedValues() as $navigationSelect) {
-                        $navigationProperties[] = $navigationSelect;
-                    }
-                }
 
                 $properties[$navigationRequest->path()] = sprintf(
                     '%s(%s)',
                     $navigationRequest->path(),
-                    implode(',', $navigationProperties)
+                    implode(',', $navigationTransaction->getProjectedProperties())
                 );
             }
         }
