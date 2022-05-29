@@ -39,6 +39,5 @@
                 "gamma@example.com"
             ]
         }
-    ],
-    "passengers@nextLink": "http://localhost/odata/Flights(1)/passengers?top=2&skip=2"
+    ]
 }

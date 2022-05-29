@@ -415,7 +415,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $nav = (new NavigationProperty($method, $right->getType()))
                 ->setCollection(true);
 
-            if ($r instanceof HasOne || $r instanceof HasOneOrMany) {
+            if ($r instanceof HasOneOrMany) {
                 $localProperty = $this->getType()->getProperty($r->getLocalKeyName());
                 $foreignProperty = $right->getType()->getProperty($r->getForeignKeyName());
 
@@ -471,6 +471,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     public function count(): int
     {
         $builder = $this->getBuilder();
+
+        if ($this->navigationSource) {
+            /** @var Entity $sourceEntity */
+            $sourceEntity = $this->navigationSource->getParent();
+            $expansionPropertyName = $this->navigationSource->getProperty()->getName();
+            $builder = $sourceEntity->getSource()->$expansionPropertyName();
+        }
 
         $where = $this->generateWhere();
 

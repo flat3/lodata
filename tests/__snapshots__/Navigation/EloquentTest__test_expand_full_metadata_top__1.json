@@ -34,7 +34,7 @@
                 }
             ],
             "passengers@navigationLink": "http://localhost/odata/Flights(1)/passengers",
-            "passengers@count": 5,
+            "passengers@count": 2,
             "passengers@nextLink": "http://localhost/odata/Flights(1)/passengers?%24count=true&top=1&skip=1"
         },
         {
@@ -48,7 +48,7 @@
             "duration": "PT39M44S",
             "passengers": [],
             "passengers@navigationLink": "http://localhost/odata/Flights(2)/passengers",
-            "passengers@count": 5
+            "passengers@count": 0
         },
         {
             "@type": "#com.example.odata.Flight",
@@ -61,7 +61,7 @@
             "duration": "PT35M33S",
             "passengers": [],
             "passengers@navigationLink": "http://localhost/odata/Flights(3)/passengers",
-            "passengers@count": 5
+            "passengers@count": 0
         }
     ]
 }

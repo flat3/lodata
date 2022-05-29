@@ -10,6 +10,5 @@
             "flight_id": 1,
             "name": "Gamma"
         }
-    ],
-    "passengers@nextLink": "http://localhost/odata/Flights(1)/passengers?%24select=flight_id%2Cname&top=2&skip=2"
+    ]
 }
