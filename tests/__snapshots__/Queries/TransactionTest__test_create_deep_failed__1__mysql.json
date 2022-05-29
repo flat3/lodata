@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "query_error",
+        "message": "The executed query returned an error: SQLSTATE[HY000]: General error: 1364 Field 'name' doesn't have a default value",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

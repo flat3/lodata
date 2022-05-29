@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "query_error",
+        "message": "The executed query returned an error: SQLSTATE[23000]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Cannot insert the value NULL into column 'name', table 'msdb.dbo.passengers'; column does not allow nulls. INSERT fails.",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

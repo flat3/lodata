@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "query_error",
+        "message": "The executed query returned an error: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column \"name\" of relation \"passengers\" violates not-null constraint\nDETAIL:  Failing row contains (7, 4, null, null, null, null, null, null, null, null, null, null).",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}
