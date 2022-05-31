@@ -3,7 +3,8 @@
     "description": "OData v4.01 Producer for Laravel",
     "keywords": [
         "odata",
-        "laravel"
+        "laravel",
+        "openapi"
     ],
     "homepage": "https://github.com/flat3/lodata",
     "license": "MIT",
