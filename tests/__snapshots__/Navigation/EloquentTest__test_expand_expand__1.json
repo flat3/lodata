@@ -9,6 +9,9 @@
             "pets": [
                 {
                     "name": "Banana"
+                },
+                {
+                    "name": "Berry"
                 }
             ]
         },
@@ -16,6 +19,9 @@
             "dob": "2002-03-03T06:06:06+00:00",
             "age": 2,
             "pets": [
+                {
+                    "name": "Apple"
+                },
                 {
                     "name": "Coconut"
                 }

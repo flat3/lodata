@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\Filter;
 
 use Flat3\Lodata\Drivers\SQLEntitySet;
+use Flat3\Lodata\Tests\Helpers\Request;
 
 abstract class DatabaseTest extends FilterTest
 {
@@ -55,5 +56,29 @@ abstract class DatabaseTest extends FilterTest
         $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
 
         parent::test_filter_substring_2();
+    }
+
+    public function test_filter_any()
+    {
+        $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySet)
+                ->filter("pets/any(f:f/type eq 'dog')")
+                ->expand('pets')
+        );
+    }
+
+    public function test_filter_all()
+    {
+        $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySet)
+                ->filter("pets/all(f:f/type eq 'cat')")
+                ->expand('pets')
+        );
     }
 }

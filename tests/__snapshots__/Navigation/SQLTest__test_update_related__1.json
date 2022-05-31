@@ -19,17 +19,17 @@
         {
             "id": 1,
             "name": "Banana",
-            "type": null,
+            "type": "dog",
             "passenger_id": 1
         },
         {
             "id": 2,
             "name": "Charlie",
-            "type": null,
+            "type": "dog",
             "passenger_id": 1
         },
         {
-            "id": 4,
+            "id": 6,
             "name": "Delta",
             "type": null,
             "passenger_id": 1
@@ -37,7 +37,7 @@
         {
             "id": 2,
             "name": "Charlie",
-            "type": null,
+            "type": "dog",
             "passenger_id": 1
         }
     ]

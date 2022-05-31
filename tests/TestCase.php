@@ -406,10 +406,22 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [
             [
                 'name' => 'Banana',
+                'type' => 'dog',
                 'passenger_id' => 1,
             ],
             [
+                'name' => 'Berry',
+                'type' => 'dog',
+                'passenger_id' => 1,
+            ],
+            [
+                'name' => 'Apple',
+                'type' => 'dog',
+                'passenger_id' => 3,
+            ],
+            [
                 'name' => 'Coconut',
+                'type' => 'cat',
                 'passenger_id' => 3,
             ],
             [

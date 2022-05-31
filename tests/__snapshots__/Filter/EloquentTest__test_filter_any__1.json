@@ -1,0 +1,66 @@
+{
+    "@context": "http://localhost/odata/$metadata#Passengers(pets())",
+    "value": [
+        {
+            "id": 1,
+            "flight_id": 1,
+            "name": "Alpha",
+            "dob": "2000-01-01T04:04:04+00:00",
+            "age": 4,
+            "chips": true,
+            "dq": "2000-01-01",
+            "in_role": "P1DT0S",
+            "open_time": "05:05:05.000000",
+            "colour": "Green",
+            "sock_colours": "Green,Blue",
+            "emails": [
+                "alpha@example.com",
+                "alpha@beta.com"
+            ],
+            "pets": [
+                {
+                    "id": 1,
+                    "passenger_id": 1,
+                    "name": "Banana",
+                    "type": "dog"
+                },
+                {
+                    "id": 2,
+                    "passenger_id": 1,
+                    "name": "Berry",
+                    "type": "dog"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "flight_id": 1,
+            "name": "Gamma",
+            "dob": "2002-03-03T06:06:06+00:00",
+            "age": 2,
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000",
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ],
+            "pets": [
+                {
+                    "id": 3,
+                    "passenger_id": 3,
+                    "name": "Apple",
+                    "type": "dog"
+                },
+                {
+                    "id": 4,
+                    "passenger_id": 3,
+                    "name": "Coconut",
+                    "type": "cat"
+                }
+            ]
+        }
+    ]
+}

@@ -28,9 +28,9 @@
             "pets": [
                 {
                     "@type": "#com.example.odata.Pet",
-                    "@id": "http://localhost/odata/Pets(4)",
-                    "@readLink": "http://localhost/odata/Pets(4)",
-                    "id": 4,
+                    "@id": "http://localhost/odata/Pets(6)",
+                    "@readLink": "http://localhost/odata/Pets(6)",
+                    "id": 6,
                     "passenger_id": 6,
                     "name": "Sparkles",
                     "type": "dog"
