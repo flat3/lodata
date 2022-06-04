@@ -49,13 +49,13 @@ abstract class Parser
      * The operator stack
      * @var Operator[] $operatorStack
      */
-    private $operatorStack = [];
+    protected $operatorStack = [];
 
     /**
      * The operand stack
      * @var Node[] $operandStack
      */
-    private $operandStack = [];
+    protected $operandStack = [];
 
     /**
      * The lexer instance
