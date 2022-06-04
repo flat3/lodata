@@ -260,7 +260,9 @@
         <Property Name="passenger_id" Type="Edm.Int64" Nullable="true"/>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
         <Property Name="type" Type="Edm.String" Nullable="true"/>
-        <NavigationProperty Name="passenger" Type="com.example.odata.Passenger" Nullable="true"/>
+        <NavigationProperty Name="passenger" Type="com.example.odata.Passenger" Nullable="true">
+          <ReferentialConstraint Property="passenger_id" ReferencedProperty="id"/>
+        </NavigationProperty>
       </EntityType>
       <Function Name="hello" IsBound="false">
         <ReturnType Type="Edm.String" Nullable="false"/>

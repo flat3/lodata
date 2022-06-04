@@ -415,9 +415,21 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $nav = (new NavigationProperty($method, $right->getType()))
                 ->setCollection(true);
 
-            if ($r instanceof HasOneOrMany) {
-                $localProperty = $this->getType()->getProperty($r->getLocalKeyName());
-                $foreignProperty = $right->getType()->getProperty($r->getForeignKeyName());
+            if ($r instanceof HasOneOrMany || $r instanceof BelongsTo) {
+                $localProperty = null;
+                $foreignProperty = null;
+
+                switch (true) {
+                    case $r instanceof HasOneOrMany:
+                        $localProperty = $this->getType()->getProperty($r->getLocalKeyName());
+                        $foreignProperty = $right->getType()->getProperty($r->getForeignKeyName());
+                        break;
+
+                    case $r instanceof BelongsTo:
+                        $localProperty = $this->getType()->getProperty($r->getForeignKeyName());
+                        $foreignProperty = $right->getType()->getProperty($r->getOwnerKeyName());
+                        break;
+                }
 
                 if (!$localProperty || !$foreignProperty) {
                     throw new ConfigurationException(

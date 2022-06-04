@@ -343,7 +343,9 @@
             "$Collection": false,
             "$Type": "com.example.odata.Country",
             "$Nullable": true,
-            "$ReferentialConstraint": {}
+            "$ReferentialConstraint": {
+                "country_id": "id"
+            }
         }
     },
     "Flight": {
@@ -492,7 +494,9 @@
             "$Collection": false,
             "$Type": "com.example.odata.Flight",
             "$Nullable": true,
-            "$ReferentialConstraint": {}
+            "$ReferentialConstraint": {
+                "flight_id": "id"
+            }
         },
         "originAirport": {
             "$Collection": false,
@@ -533,7 +537,9 @@
             "$Collection": false,
             "$Type": "com.example.odata.Passenger",
             "$Nullable": true,
-            "$ReferentialConstraint": {}
+            "$ReferentialConstraint": {
+                "passenger_id": "id"
+            }
         }
     },
     "Colours": {

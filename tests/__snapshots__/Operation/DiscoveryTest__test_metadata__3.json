@@ -322,7 +322,9 @@
             "$Collection": false,
             "$Type": "com.example.odata.Passenger",
             "$Nullable": true,
-            "$ReferentialConstraint": {}
+            "$ReferentialConstraint": {
+                "passenger_id": "id"
+            }
         }
     },
     "Colours": {

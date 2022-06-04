@@ -363,7 +363,9 @@
         <NavigationProperty Name="flights" Type="Collection(com.example.odata.Flight)" Nullable="true">
           <ReferentialConstraint Property="code" ReferencedProperty="origin"/>
         </NavigationProperty>
-        <NavigationProperty Name="country" Type="com.example.odata.Country" Nullable="true"/>
+        <NavigationProperty Name="country" Type="com.example.odata.Country" Nullable="true">
+          <ReferentialConstraint Property="country_id" ReferencedProperty="id"/>
+        </NavigationProperty>
       </EntityType>
       <EntityType Name="Flight">
         <Key>
@@ -420,7 +422,9 @@
         <NavigationProperty Name="pets" Type="Collection(com.example.odata.Pet)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="passenger_id"/>
         </NavigationProperty>
-        <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true"/>
+        <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true">
+          <ReferentialConstraint Property="flight_id" ReferencedProperty="id"/>
+        </NavigationProperty>
         <NavigationProperty Name="originAirport" Type="com.example.odata.Airport" Nullable="true"/>
         <NavigationProperty Name="destinationAirport" Type="com.example.odata.Airport" Nullable="true"/>
       </EntityType>
@@ -434,7 +438,9 @@
         <Property Name="passenger_id" Type="Edm.Int64" Nullable="true"/>
         <Property Name="name" Type="Edm.String" Nullable="true"/>
         <Property Name="type" Type="Edm.String" Nullable="true"/>
-        <NavigationProperty Name="passenger" Type="com.example.odata.Passenger" Nullable="true"/>
+        <NavigationProperty Name="passenger" Type="com.example.odata.Passenger" Nullable="true">
+          <ReferentialConstraint Property="passenger_id" ReferencedProperty="id"/>
+        </NavigationProperty>
       </EntityType>
       <Function Name="op1" IsBound="false">
         <ReturnType Type="Edm.String" Nullable="true"/>
