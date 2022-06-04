@@ -1,0 +1,3 @@
+expression: airports/any(d:d/name eq 'hello') and airports/any(d:d/name eq 'hello')
+result: ( ( "flights"."origin" = ANY ( SELECT "airports"."code" from "airports" WHERE ( "airports"."name" = ? ) ) ) OR  ( "flights"."destination" = ANY ( SELECT "airports"."code" from "airports" WHERE ( "airports"."name" = ? ) ) ) AND ( "flights"."origin" = ANY ( SELECT "airports"."code" from "airports" WHERE ( "airports"."name" = ? ) ) ) OR  ( "flights"."destination" = ANY ( SELECT "airports"."code" from "airports" WHERE ( "airports"."name" = ? ) ) ) )
+parameters: hello,hello,hello,hello

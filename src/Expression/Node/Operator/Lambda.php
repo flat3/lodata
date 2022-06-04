@@ -15,6 +15,7 @@ use Flat3\Lodata\Expression\Operator;
 abstract class Lambda extends Operator
 {
     const unary = true;
+    public const precedence = 8;
 
     /**
      * @var Navigation $navigationProperty

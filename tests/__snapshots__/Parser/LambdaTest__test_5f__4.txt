@@ -1,0 +1,2 @@
+expression: airports/any(d:d/name eq 'hello') and airports/any(d:d/name eq 'hello')
+result: This entity set does not support the operator "any"
