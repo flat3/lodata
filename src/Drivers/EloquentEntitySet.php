@@ -320,7 +320,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $computedProperties = $compute->getProperties();
 
         foreach ($computedProperties as $computedProperty) {
-            $expression = new SQLExpression($this);
+            $expression = $this->getSQLExpression();
             $computeParser = $this->getComputeParser();
             $computeParser->pushEntitySet($this);
             $tree = $computeParser->generateTree($computedProperty->getExpression());
@@ -372,7 +372,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $model = $this->getModel();
 
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
 
         switch (true) {
             case $property instanceof DeclaredProperty:
@@ -380,7 +380,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 break;
 
             case $property instanceof ComputedProperty:
-                $computedExpression = new SQLExpression($this);
+                $computedExpression = $this->getSQLExpression();
                 $computeParser = $this->getComputeParser();
                 $computeParser->pushEntitySet($this);
                 $tree = $computeParser->generateTree($property->getExpression());

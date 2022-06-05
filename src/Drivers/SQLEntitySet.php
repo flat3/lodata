@@ -141,7 +141,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function propertyToExpression(Property $property): SQLExpression
     {
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
 
         switch (true) {
             case $property instanceof DeclaredProperty:
@@ -155,7 +155,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 break;
 
             case $property instanceof ComputedProperty:
-                $computedExpression = new SQLExpression($this);
+                $computedExpression = $this->getSQLExpression();
                 $computeParser = $this->getComputeParser();
                 $computeParser->pushEntitySet($this);
                 $tree = $computeParser->generateTree($property->getExpression());
@@ -174,7 +174,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function read(PropertyValue $key): Entity
     {
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
         $expression->pushStatement('SELECT');
 
         $columns = $this->getColumnsToQuery();
@@ -289,7 +289,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function getCountExpression(): SQLExpression
     {
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
         $expression->pushStatement(sprintf('SELECT COUNT(*) FROM %s', $this->quoteSingleIdentifier($this->getTable())));
 
         $where = $this->generateWhere();
@@ -344,7 +344,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     public function getResultExpression(): SQLExpression
     {
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
         $expression->pushStatement('SELECT');
 
         $columns = $this->getColumnsToQuery();
@@ -461,7 +461,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         foreach ($properties as $property) {
             switch (true) {
                 case $property instanceof ComputedProperty:
-                    $expression = new SQLExpression($this);
+                    $expression = $this->getSQLExpression();
                     $computeParser = $this->getComputeParser();
                     $computeParser->pushEntitySet($this);
                     $tree = $computeParser->generateTree($property->getExpression());
@@ -505,7 +505,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
                 continue;
             }
 
-            $expression = new SQLExpression($this);
+            $expression = $this->getSQLExpression();
             $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($declaredProperty)));
             $expression->pushParameter($propertyValues[$declaredProperty->getName()]->getPrimitive()->toMixed());
             $expressions[] = $expression;
@@ -518,7 +518,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $expression = new SQLExpression($this);
+                $expression = $this->getSQLExpression();
                 $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($referencedProperty)));
                 $expression->pushParameter($this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed());
                 $expressions[] = $expression;
@@ -532,7 +532,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             );
         }
 
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
         $expression->pushStatement(sprintf("INSERT INTO %s", $this->quoteSingleIdentifier($this->getTable())));
         $fieldCount = count($expressions);
 
@@ -577,7 +577,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         $expressions = [];
 
         foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $expression = new SQLExpression($this);
+            $expression = $this->getSQLExpression();
             $expression->pushStatement(
                 sprintf(
                     '%s=?',
@@ -595,7 +595,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             /** @var ReferentialConstraint $constraint */
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
-                $expression = new SQLExpression($this);
+                $expression = $this->getSQLExpression();
                 $expression->pushStatement(
                     sprintf(
                         '%s=?',
@@ -608,7 +608,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
         }
 
         if ($expressions) {
-            $expression = new SQLExpression($this);
+            $expression = $this->getSQLExpression();
             $expression->pushStatement(sprintf('UPDATE %s SET', $this->quoteSingleIdentifier($this->getTable())));
 
             while ($expressions) {
@@ -639,7 +639,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
     {
         $type = $this->getType();
 
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
         $expression->pushStatement(
             sprintf(
                 "DELETE FROM %s WHERE %s=?",

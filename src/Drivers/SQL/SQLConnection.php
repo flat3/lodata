@@ -73,4 +73,14 @@ trait SQLConnection
 
         return $driver->quoteSingleIdentifier($identifier);
     }
+
+    /**
+     * Get an instance of the SQL Expression container
+     *
+     * @return SQLExpression
+     */
+    public function getSQLExpression(): SQLExpression
+    {
+        return new SQLExpression($this);
+    }
 }

@@ -989,7 +989,7 @@ class SQLExpression
             $operatingTargetSet = clone $targetSet;
 
             $parser->pushEntitySet($operatingTargetSet);
-            $targetExpression = new SQLExpression($operatingTargetSet);
+            $targetExpression = $operatingTargetSet->getSQLExpression();
             $targetExpression->evaluate($lambdaExpression);
             $parser->popEntitySet();
 

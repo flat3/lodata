@@ -15,12 +15,12 @@ trait SQLWhere
      */
     protected function generateWhere(): SQLExpression
     {
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
 
         $filter = $this->getFilter();
 
         if ($filter->hasValue()) {
-            $filterContainer = new SQLExpression($this);
+            $filterContainer = $this->getSQLExpression();
             $filter = $this->getFilter();
 
             $parser = $this->getFilterParser();

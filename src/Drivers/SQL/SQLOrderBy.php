@@ -20,7 +20,7 @@ trait SQLOrderBy
      */
     protected function generateOrderBy(): SQLExpression
     {
-        $expression = new SQLExpression($this);
+        $expression = $this->getSQLExpression();
 
         $orderby = $this->getOrderBy();
 
