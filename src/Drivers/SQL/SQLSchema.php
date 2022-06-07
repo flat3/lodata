@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers\SQL;
 
+use Carbon\Carbon;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
@@ -82,6 +83,7 @@ trait SQLSchema
         }
 
         $blacklist = config('lodata.discovery.blacklist', []);
+        $platform = $this->getConnection()->getDoctrineSchemaManager()->getDatabasePlatform();
 
         foreach ($columns as $column) {
             $columnName = $column->getName();
@@ -104,7 +106,19 @@ trait SQLSchema
 
             if ($column->getDefault()) {
                 $property->addAnnotation(new ComputedDefaultValue);
-                $property->setDefaultValue($column->getDefault());
+
+                switch (true) {
+                    case $column->getDefault() === $platform->getCurrentTimestampSQL():
+                        $property->setDefaultValue([Carbon::class, 'now']);
+                        break;
+
+                    case $platform->getReservedKeywordsList()->isKeyword($column->getDefault()):
+                        break;
+
+                    default:
+                        $property->setDefaultValue($column->getDefault());
+                        break;
+                }
             }
 
             $type->addProperty($property);

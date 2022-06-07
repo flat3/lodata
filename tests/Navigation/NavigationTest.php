@@ -120,7 +120,8 @@ abstract class NavigationTest extends TestCase
         );
     }
 
-    public function test_expand_expand() {
+    public function test_expand_expand()
+    {
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path($this->flightEntitySetPath.'/1')
