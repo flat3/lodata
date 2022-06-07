@@ -162,6 +162,13 @@ trait SQLSchema
                 break;
         }
 
-        return new DeclaredProperty($column->getName(), $type);
+        $columnName = $column->getNamespaceName() ? ($column->getNamespaceName().'_'.$column->getShortestName($column->getNamespaceName())) : $column->getName();
+        $property = new DeclaredProperty($columnName, $type);
+
+        if ($columnName !== $column->getName()) {
+            $this->setPropertySourceName($property, $column->getName());
+        }
+
+        return $property;
     }
 }

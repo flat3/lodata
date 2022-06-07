@@ -1,0 +1,13 @@
+{
+    "@context": "http://localhost/odata/$metadata#dots",
+    "value": [
+        {
+            "name_first": "Alice",
+            "name_last": "Moran"
+        },
+        {
+            "name_first": "Grace",
+            "name_last": "Gumbo"
+        }
+    ]
+}
