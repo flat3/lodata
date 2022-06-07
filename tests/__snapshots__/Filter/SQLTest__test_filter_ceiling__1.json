@@ -1,0 +1,33 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "id": 2,
+            "name": "Beta",
+            "age": 3,
+            "dob": "2001-02-02T05:05:05+00:00",
+            "chips": false,
+            "dq": "2001-02-02",
+            "in_role": "P2DT5H5M5.2999999999884S",
+            "open_time": null,
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
+        },
+        {
+            "id": 5,
+            "name": "Epsilon",
+            "age": 2.4,
+            "dob": "2003-04-04T07:07:07+00:00",
+            "chips": null,
+            "dq": "2003-04-04",
+            "in_role": "PT14M48.9S",
+            "open_time": "23:11:33.000000",
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
+        }
+    ]
+}

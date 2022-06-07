@@ -1,0 +1,35 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "id": 3,
+            "name": "Gamma",
+            "age": 2,
+            "dob": "2002-03-03T06:06:06+00:00",
+            "chips": true,
+            "dq": "2002-03-03",
+            "in_role": "P4DT32M41S",
+            "open_time": "07:07:07.000000",
+            "flight_id": 1,
+            "colour": "Blue",
+            "sock_colours": "Red,Green,Blue",
+            "emails": [
+                "gamma@example.com"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Epsilon",
+            "age": 2.4,
+            "dob": "2003-04-04T07:07:07+00:00",
+            "chips": null,
+            "dq": "2003-04-04",
+            "in_role": "PT14M48.9S",
+            "open_time": "23:11:33.000000",
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
+        }
+    ]
+}

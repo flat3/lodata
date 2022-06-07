@@ -57,6 +57,7 @@ services:
     volumes:
       - .:/lodata
     environment:
+      - CREATE_SNAPSHOTS=false
       - DATABASE_URL=mysql://root:my-secret-pw@mysql_db:3306/testing
     depends_on:
       mysql_db:
@@ -68,6 +69,7 @@ services:
     volumes:
       - .:/lodata
     environment:
+      - CREATE_SNAPSHOTS=false
       - DATABASE_URL=pgsql://postgres:my-secret-pw@postgres_db:5432/postgres?charset=utf8
     depends_on:
       postgres_db:
@@ -79,6 +81,7 @@ services:
     volumes:
       - .:/lodata
     environment:
+      - CREATE_SNAPSHOTS=false
       - DATABASE_URL=sqlsrv://sa:Your_password123@sqlsrv_db:1433/msdb
     depends_on:
       sqlsrv_db:
@@ -89,6 +92,8 @@ services:
     image: ghcr.io/flat3/lodata:$PHP
     volumes:
       - .:/lodata
+    environment:
+      - CREATE_SNAPSHOTS=false
     entrypoint: "composer test"
 
   require:
