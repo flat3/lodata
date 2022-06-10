@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * @requires PHP >= 8
+ */
 class MultiModelTest extends TestCase
 {
     protected $migrations = __DIR__.'/../Laravel/migrations/muli';
