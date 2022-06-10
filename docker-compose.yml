@@ -15,7 +15,7 @@ services:
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 --password=$$MYSQL_ROOT_PASSWORD
       timeout: 60s
-      retries: 10
+      retries: 20
       interval: 1s
 
   postgres_db:
