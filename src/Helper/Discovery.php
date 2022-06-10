@@ -39,6 +39,7 @@ class Discovery
             }
 
             (new EloquentEntitySet($discoverable))->discover();
+            return;
         }
 
         Operation::discover($discoverable);

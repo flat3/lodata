@@ -9,7 +9,7 @@
   <edmx:DataServices>
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
-        <EntitySet Name="Airports" EntityType="com.example.odata.Airport">
+        <EntitySet Name="Users" EntityType="com.example.odata.User">
           <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
             <Record>
               <PropertyValue Property="Countable" Bool="true"/>
@@ -71,36 +71,94 @@
             </Record>
           </Annotation>
         </EntitySet>
-        <FunctionImport Name="op1" Function="com.example.odata.op1"/>
-        <FunctionImport Name="op2" Function="com.example.odata.op2"/>
+        <FunctionImport Name="function1" Function="com.example.odata.function1"/>
+        <EntitySet Name="Orders" EntityType="com.example.odata.Order">
+          <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
+            <Record>
+              <PropertyValue Property="Countable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.TopSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SkipSupported" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
+            <Record>
+              <PropertyValue Property="Filterable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SortRestrictions">
+            <Record>
+              <PropertyValue Property="Sortable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+            <Record>
+              <PropertyValue Property="Expandable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="true"/>
+              <PropertyValue Property="DeltaUpdateSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.ReadRestrictions">
+            <Record>
+              <PropertyValue Property="Readable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.IndexableByKey" Bool="true"/>
+          <Annotation Term="Org.OData.Capabilities.V1.SelectSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Property="Supported" Bool="true"/>
+              <PropertyValue Property="ContentIDSupported" Bool="true"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <FunctionImport Name="function2" Function="com.example.odata.function2"/>
       </EntityContainer>
-      <EntityType Name="Airport">
+      <EntityType Name="User">
         <Key>
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Int64" Nullable="false">
           <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>
-        <Property Name="name" Type="Edm.String" Nullable="false"/>
-        <Property Name="code" Type="Edm.String" Nullable="false"/>
-        <Property Name="construction_date" Type="Edm.Date" Nullable="true"/>
-        <Property Name="sam_datetime" Type="Edm.DateTimeOffset" Nullable="true"/>
-        <Property Name="open_time" Type="Edm.TimeOfDay" Nullable="true"/>
-        <Property Name="review_score" Type="Edm.Decimal" Nullable="true"/>
-        <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
-        <Property Name="country_id" Type="Edm.Int64" Nullable="true"/>
       </EntityType>
-      <Function Name="op1" IsBound="false">
+      <EntityType Name="Order">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Int64" Nullable="false">
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
+        </Property>
+      </EntityType>
+      <Function Name="function1" IsBound="false">
+        <Parameter Name="param" Type="Edm.String" Nullable="false"/>
         <ReturnType Type="Edm.String" Nullable="true"/>
       </Function>
-      <Function Name="op2" IsBound="false">
-        <Parameter Name="prefix" Type="Edm.String" Nullable="false"/>
-        <ReturnType Type="Edm.String" Nullable="false"/>
-      </Function>
-      <Function Name="code" IsBound="true">
-        <Parameter Name="airport" Type="com.example.odata.Airport" Nullable="false"/>
-        <Parameter Name="suffix" Type="Edm.String" Nullable="true"/>
-        <ReturnType Type="Edm.String" Nullable="false"/>
+      <Function Name="function2" IsBound="false">
+        <Parameter Name="param" Type="Edm.String" Nullable="false"/>
+        <ReturnType Type="Edm.String" Nullable="true"/>
       </Function>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

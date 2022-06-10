@@ -12,15 +12,18 @@
     ],
     "tags": [
         {
-            "name": "Airports"
+            "name": "Users"
+        },
+        {
+            "name": "Orders"
         }
     ],
     "paths": {
-        "/Airports": {
+        "/Users": {
             "get": {
-                "summary": "Get entities from Airports",
+                "summary": "Get entities from Users",
                 "tags": [
-                    "Airports"
+                    "Users"
                 ],
                 "parameters": [
                     {
@@ -35,15 +38,7 @@
                                 "type": "string",
                                 "enum": [
                                     "*",
-                                    "id",
-                                    "name",
-                                    "code",
-                                    "construction_date",
-                                    "sam_datetime",
-                                    "open_time",
-                                    "review_score",
-                                    "is_big",
-                                    "country_id"
+                                    "id"
                                 ]
                             }
                         }
@@ -75,23 +70,7 @@
                                 "type": "string",
                                 "enum": [
                                     "id",
-                                    "id desc",
-                                    "name",
-                                    "name desc",
-                                    "code",
-                                    "code desc",
-                                    "construction_date",
-                                    "construction_date desc",
-                                    "sam_datetime",
-                                    "sam_datetime desc",
-                                    "open_time",
-                                    "open_time desc",
-                                    "review_score",
-                                    "review_score desc",
-                                    "is_big",
-                                    "is_big desc",
-                                    "country_id",
-                                    "country_id desc"
+                                    "id desc"
                                 ]
                             }
                         }
@@ -104,12 +83,12 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "title": "Collection of Airports",
+                                    "title": "Collection of Users",
                                     "properties": {
                                         "value": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/com.example.odata.Airport"
+                                                "$ref": "#/components/schemas/com.example.odata.User"
                                             }
                                         },
                                         "@count": {
@@ -126,9 +105,9 @@
                 }
             },
             "post": {
-                "summary": "Add new entity to Airports",
+                "summary": "Add new entity to Users",
                 "tags": [
-                    "Airports"
+                    "Users"
                 ],
                 "requestBody": {
                     "required": true,
@@ -136,7 +115,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.User~create"
                             }
                         }
                     }
@@ -147,7 +126,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/com.example.odata.Airport"
+                                    "$ref": "#/components/schemas/com.example.odata.User"
                                 }
                             }
                         }
@@ -161,7 +140,7 @@
                 }
             }
         },
-        "/Airports/{id}": {
+        "/Users/{id}": {
             "parameters": [
                 {
                     "description": "Key: id",
@@ -178,9 +157,9 @@
                 }
             ],
             "get": {
-                "summary": "Get entity from Airports by key",
+                "summary": "Get entity from Users by key",
                 "tags": [
-                    "Airports"
+                    "Users"
                 ],
                 "parameters": [
                     {
@@ -195,15 +174,7 @@
                                 "type": "string",
                                 "enum": [
                                     "*",
-                                    "id",
-                                    "name",
-                                    "code",
-                                    "construction_date",
-                                    "sam_datetime",
-                                    "open_time",
-                                    "review_score",
-                                    "is_big",
-                                    "country_id"
+                                    "id"
                                 ]
                             }
                         }
@@ -215,7 +186,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/com.example.odata.Airport"
+                                    "$ref": "#/components/schemas/com.example.odata.User"
                                 }
                             }
                         }
@@ -226,9 +197,9 @@
                 }
             },
             "patch": {
-                "summary": "Update entity in Airports",
+                "summary": "Update entity in Users",
                 "tags": [
-                    "Airports"
+                    "Users"
                 ],
                 "requestBody": {
                     "description": "New property values",
@@ -236,14 +207,14 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~update"
+                                "$ref": "#/components/schemas/com.example.odata.User~update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Airport"
+                        "$ref": "#/components/schemas/com.example.odata.User"
                     },
                     "204": {
                         "description": "Success"
@@ -254,9 +225,9 @@
                 }
             },
             "delete": {
-                "summary": "Delete entity from Airports",
+                "summary": "Delete entity from Users",
                 "tags": [
-                    "Airports"
+                    "Users"
                 ],
                 "responses": {
                     "204": {
@@ -268,13 +239,244 @@
                 }
             }
         },
-        "/op1": {
+        "/Orders": {
+            "get": {
+                "summary": "Get entities from Orders",
+                "tags": [
+                    "Orders"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "id"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "$ref": "#/components/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "id",
+                                    "id desc"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of Orders",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.Order"
+                                            }
+                                        },
+                                        "@count": {
+                                            "$ref": "#/components/schemas/count"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new entity to Orders",
+                "tags": [
+                    "Orders"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "New entity",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.Order~create"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Order"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/Orders/{id}": {
+            "parameters": [
+                {
+                    "description": "Key: id",
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entity from Orders by key",
+                "tags": [
+                    "Orders"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "id"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Order"
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update entity in Orders",
+                "tags": [
+                    "Orders"
+                ],
+                "requestBody": {
+                    "description": "New property values",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.Order~update"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/schemas/com.example.odata.Order"
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete entity from Orders",
+                "tags": [
+                    "Orders"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/function1": {
             "get": {
                 "tags": [
                     "Service Operations",
-                    "op1"
+                    "function1",
+                    "param"
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "param",
+                        "schema": {
+                            "type": "string",
+                            "nullable": false
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -295,18 +497,18 @@
                 }
             }
         },
-        "/op2": {
+        "/function2": {
             "get": {
                 "tags": [
                     "Service Operations",
-                    "op2",
-                    "prefix"
+                    "function2",
+                    "param"
                 ],
                 "parameters": [
                     {
                         "required": false,
                         "in": "query",
-                        "name": "prefix",
+                        "name": "param",
                         "schema": {
                             "type": "string",
                             "nullable": false
@@ -414,7 +616,7 @@
     },
     "components": {
         "schemas": {
-            "com.example.odata.Airport": {
+            "com.example.odata.User": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -423,177 +625,36 @@
                         "minimum": -9223372036854775808,
                         "maximum": 9223372036854775807,
                         "nullable": false
-                    },
-                    "name": {
-                        "type": "string",
-                        "nullable": false
-                    },
-                    "code": {
-                        "type": "string",
-                        "nullable": false
-                    },
-                    "construction_date": {
-                        "type": "string",
-                        "format": "date",
-                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
-                        "nullable": true
-                    },
-                    "sam_datetime": {
-                        "type": "string",
-                        "format": "date-time",
-                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
-                        "nullable": true
-                    },
-                    "open_time": {
-                        "type": "string",
-                        "format": "time",
-                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
-                        "nullable": true
-                    },
-                    "review_score": {
-                        "anyOf": [
-                            {
-                                "type": "number",
-                                "format": "decimal"
-                            },
-                            {
-                                "enum": [
-                                    "-INF",
-                                    "INF",
-                                    "NaN"
-                                ]
-                            }
-                        ],
-                        "nullable": true
-                    },
-                    "is_big": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "country_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "minimum": -9223372036854775808,
-                        "maximum": 9223372036854775807,
-                        "nullable": true
                     }
                 }
             },
-            "com.example.odata.Airport~create": {
+            "com.example.odata.User~create": {
+                "type": "object",
+                "properties": []
+            },
+            "com.example.odata.User~update": {
+                "type": "object",
+                "properties": []
+            },
+            "com.example.odata.Order": {
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "nullable": false
-                    },
-                    "code": {
-                        "type": "string",
-                        "nullable": false
-                    },
-                    "construction_date": {
-                        "type": "string",
-                        "format": "date",
-                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
-                        "nullable": true
-                    },
-                    "sam_datetime": {
-                        "type": "string",
-                        "format": "date-time",
-                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
-                        "nullable": true
-                    },
-                    "open_time": {
-                        "type": "string",
-                        "format": "time",
-                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
-                        "nullable": true
-                    },
-                    "review_score": {
-                        "anyOf": [
-                            {
-                                "type": "number",
-                                "format": "decimal"
-                            },
-                            {
-                                "enum": [
-                                    "-INF",
-                                    "INF",
-                                    "NaN"
-                                ]
-                            }
-                        ],
-                        "nullable": true
-                    },
-                    "is_big": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "country_id": {
+                    "id": {
                         "type": "integer",
                         "format": "int64",
                         "minimum": -9223372036854775808,
                         "maximum": 9223372036854775807,
-                        "nullable": true
+                        "nullable": false
                     }
                 }
             },
-            "com.example.odata.Airport~update": {
+            "com.example.odata.Order~create": {
                 "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "nullable": false
-                    },
-                    "code": {
-                        "type": "string",
-                        "nullable": false
-                    },
-                    "construction_date": {
-                        "type": "string",
-                        "format": "date",
-                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
-                        "nullable": true
-                    },
-                    "sam_datetime": {
-                        "type": "string",
-                        "format": "date-time",
-                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
-                        "nullable": true
-                    },
-                    "open_time": {
-                        "type": "string",
-                        "format": "time",
-                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
-                        "nullable": true
-                    },
-                    "review_score": {
-                        "anyOf": [
-                            {
-                                "type": "number",
-                                "format": "decimal"
-                            },
-                            {
-                                "enum": [
-                                    "-INF",
-                                    "INF",
-                                    "NaN"
-                                ]
-                            }
-                        ],
-                        "nullable": true
-                    },
-                    "is_big": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "country_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "minimum": -9223372036854775808,
-                        "maximum": 9223372036854775807,
-                        "nullable": true
-                    }
-                }
+                "properties": []
+            },
+            "com.example.odata.Order~update": {
+                "type": "object",
+                "properties": []
             },
             "Edm.ComplexType": {
                 "type": "object"

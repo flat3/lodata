@@ -19,8 +19,8 @@
     },
     "com.example.odata": {
         "$Kind": "EntityContainer",
-        "Airports": {
-            "$EntityType": "com.example.odata.Airport",
+        "Users": {
+            "$EntityType": "com.example.odata.User",
             "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
@@ -61,11 +61,53 @@
                 "ContentIDSupported": true
             }
         },
-        "op1Import": {
-            "$Function": "com.example.odata.op1"
+        "function1Import": {
+            "$Function": "com.example.odata.function1"
         },
-        "op2Import": {
-            "$Function": "com.example.odata.op2"
+        "Orders": {
+            "$EntityType": "com.example.odata.Order",
+            "$NavigationPropertyBinding": {},
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": true
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": true
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            },
+            "@Org.OData.Capabilities.V1.DeepInsertSupport": {
+                "Supported": true,
+                "ContentIDSupported": true
+            }
+        },
+        "function2Import": {
+            "$Function": "com.example.odata.function2"
         },
         "$Annotations": {
             "com.example.odata.DefaultContainer": {
@@ -105,7 +147,7 @@
             }
         }
     },
-    "Airport": {
+    "User": {
         "$Kind": "EntityType",
         "$Key": [
             "id"
@@ -114,56 +156,25 @@
             "$Type": "Edm.Int64",
             "$Nullable": false,
             "@Org.OData.Core.V1.Computed": true
-        },
-        "name": {
-            "$Type": "Edm.String",
-            "$Nullable": false
-        },
-        "code": {
-            "$Type": "Edm.String",
-            "$Nullable": false
-        },
-        "construction_date": {
-            "$Type": "Edm.Date",
-            "$Nullable": true
-        },
-        "sam_datetime": {
-            "$Type": "Edm.DateTimeOffset",
-            "$Nullable": true
-        },
-        "open_time": {
-            "$Type": "Edm.TimeOfDay",
-            "$Nullable": true
-        },
-        "review_score": {
-            "$Type": "Edm.Decimal",
-            "$Nullable": true
-        },
-        "is_big": {
-            "$Type": "Edm.Boolean",
-            "$Nullable": true
-        },
-        "country_id": {
+        }
+    },
+    "Order": {
+        "$Kind": "EntityType",
+        "$Key": [
+            "id"
+        ],
+        "id": {
             "$Type": "Edm.Int64",
-            "$Nullable": true
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
         }
     },
-    "op1": {
-        "$Kind": "Function",
-        "$IsBound": false,
-        "$Parameter": [],
-        "$ReturnType": {
-            "$Collection": false,
-            "$Type": "Edm.String",
-            "$Nullable": true
-        }
-    },
-    "op2": {
+    "function1": {
         "$Kind": "Function",
         "$IsBound": false,
         "$Parameter": [
             {
-                "$Name": "prefix",
+                "$Name": "param",
                 "$Nullable": false,
                 "$Type": "Edm.String"
             }
@@ -171,28 +182,23 @@
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",
-            "$Nullable": false
+            "$Nullable": true
         }
     },
-    "code": {
+    "function2": {
         "$Kind": "Function",
-        "$IsBound": true,
+        "$IsBound": false,
         "$Parameter": [
             {
-                "$Name": "airport",
+                "$Name": "param",
                 "$Nullable": false,
-                "$Type": "com.example.odata.Airport"
-            },
-            {
-                "$Name": "suffix",
-                "$Nullable": true,
                 "$Type": "Edm.String"
             }
         ],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",
-            "$Nullable": false
+            "$Nullable": true
         }
     }
 }

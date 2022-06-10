@@ -46,6 +46,7 @@ use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Operation;
 use Flat3\Lodata\Property;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type;
@@ -645,6 +646,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         Lodata::add($this);
+        Operation::discover($this->model);
 
         if (!Discovery::supportsAttributes()) {
             return $this;
