@@ -61,12 +61,6 @@
                 "ContentIDSupported": true
             }
         },
-        "op1Import": {
-            "$Function": "com.example.odata.op1"
-        },
-        "op2Import": {
-            "$Function": "com.example.odata.op2"
-        },
         "$Annotations": {
             "com.example.odata.DefaultContainer": {
                 "@Org.OData.Core.V1.ConventionalIDs": true,
@@ -146,32 +140,6 @@
         "country_id": {
             "$Type": "Edm.Int64",
             "$Nullable": true
-        }
-    },
-    "op1": {
-        "$Kind": "Function",
-        "$IsBound": false,
-        "$Parameter": [],
-        "$ReturnType": {
-            "$Collection": false,
-            "$Type": "Edm.String",
-            "$Nullable": true
-        }
-    },
-    "op2": {
-        "$Kind": "Function",
-        "$IsBound": false,
-        "$Parameter": [
-            {
-                "$Name": "prefix",
-                "$Nullable": false,
-                "$Type": "Edm.String"
-            }
-        ],
-        "$ReturnType": {
-            "$Collection": false,
-            "$Type": "Edm.String",
-            "$Nullable": false
         }
     },
     "code": {

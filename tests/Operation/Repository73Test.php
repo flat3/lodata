@@ -11,6 +11,9 @@ use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Repository as RepositoryModel;
 use Flat3\Lodata\Tests\TestCase;
 
+/**
+ * @requires PHP < 7.4
+ */
 class Repository73Test extends TestCase
 {
     public function setUp(): void

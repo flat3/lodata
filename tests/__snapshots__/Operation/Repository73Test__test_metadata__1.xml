@@ -71,8 +71,6 @@
             </Record>
           </Annotation>
         </EntitySet>
-        <FunctionImport Name="op1" Function="com.example.odata.op1"/>
-        <FunctionImport Name="op2" Function="com.example.odata.op2"/>
       </EntityContainer>
       <EntityType Name="Airport">
         <Key>
@@ -90,13 +88,6 @@
         <Property Name="is_big" Type="Edm.Boolean" Nullable="true"/>
         <Property Name="country_id" Type="Edm.Int64" Nullable="true"/>
       </EntityType>
-      <Function Name="op1" IsBound="false">
-        <ReturnType Type="Edm.String" Nullable="true"/>
-      </Function>
-      <Function Name="op2" IsBound="false">
-        <Parameter Name="prefix" Type="Edm.String" Nullable="false"/>
-        <ReturnType Type="Edm.String" Nullable="false"/>
-      </Function>
       <Function Name="code" IsBound="true">
         <Parameter Name="airport" Type="com.example.odata.Airport" Nullable="false"/>
         <Parameter Name="suffix" Type="Edm.String" Nullable="true"/>
