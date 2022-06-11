@@ -84,28 +84,28 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
 
         switch (true) {
             case $node instanceof Operator:
-                $this->addSearch('(');
+                $this->addSearch('( ');
 
                 switch (true) {
                     case $node instanceof Or_:
                         $this->searchExpression($left);
-                        $this->addSearch('OR');
+                        $this->addSearch(' OR ');
                         $this->searchExpression($right);
                         break;
 
                     case $node instanceof And_:
                         $this->searchExpression($left);
-                        $this->addSearch('AND');
+                        $this->addSearch(' AND ');
                         $this->searchExpression($right);
                         break;
 
                     case $node instanceof Not_:
-                        $this->addSearch('NOT');
+                        $this->addSearch('NOT ');
                         $this->searchExpression($left);
                         break;
                 }
 
-                $this->addSearch(')');
+                $this->addSearch(' )');
                 break;
 
             case $node instanceof Literal:
@@ -118,7 +118,7 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
 
     public function addSearch(string $s)
     {
-        $this->searchBuffer .= ' '.$s;
+        $this->searchBuffer .= $s;
     }
 
     public function commonExpression(Node $node): void
@@ -182,7 +182,7 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
                     )
                 );
                 $this->commonExpression($lambdaExpression);
-                $this->addCommon(')');
+                $this->addCommon(' )');
                 return;
 
             case $node instanceof Node\Func:
@@ -193,26 +193,26 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
                 return;
 
             case $node instanceof Not_:
-                $this->addCommon('(');
-                $this->addCommon($node::symbol);
+                $this->addCommon('( ');
+                $this->addCommon($node::symbol. ' ');
                 $this->commonExpression($node->getLeftNode());
-                $this->addCommon(')');
+                $this->addCommon(' )');
                 return;
 
             case $node instanceof Node\Operator\Logical\In:
                 $this->commonExpression($node->getLeftNode());
-                $this->addCommon($node::symbol);
+                $this->addCommon(sprintf(" %s ", $node::symbol));
                 $this->addCommon('(');
                 $this->addCommaSeparatedArguments($node);
                 $this->addCommon(')');
                 return;
 
             case $node instanceof Operator:
-                $this->addCommon('(');
+                $this->addCommon('( ');
                 $this->commonExpression($node->getLeftNode());
-                $this->addCommon($node::symbol);
+                $this->addCommon(sprintf(" %s ", $node::symbol));
                 $this->commonExpression($node->getRightNode());
-                $this->addCommon(')');
+                $this->addCommon(' )');
                 return;
 
             default:
@@ -226,16 +226,19 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
 
         while ($arguments) {
             $arg = array_shift($arguments);
+            $this->addCommon(' ');
             $this->commonExpression($arg);
 
             if ($arguments) {
                 $this->commonBuffer .= ',';
+            } else {
+                $this->commonBuffer .= ' ';
             }
         }
     }
 
     public function addCommon(string $s)
     {
-        $this->commonBuffer .= ' '.$s;
+        $this->commonBuffer .= $s;
     }
 }
