@@ -27,7 +27,7 @@ This example shows how you could allow access to the `Users` entity set only if 
 namespace App\Providers;
 
 use Flat3\Lodata\EntitySet;
-use Flat3\Lodata\Helpers\Gate as LodataGate;
+use Flat3\Lodata\Helper\Gate as LodataGate;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
