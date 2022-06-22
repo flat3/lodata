@@ -74,13 +74,17 @@ class Discovery
 
     public static function getFirstAttribute($class, $type): ?ReflectionAttribute
     {
+        if (!self::supportsAttributes()) {
+            //return null;
+        }
+
         return Arr::first($class->getAttributes($type));
     }
 
     public static function getFirstAttributeInstance($class, $type): ?object
     {
         /** @var ReflectionAttribute $attribute */
-        $attribute = Discovery::getFirstAttribute(new ReflectionClass($class), $type);
+        $attribute = self::getFirstAttribute(new ReflectionClass($class), $type);
 
         if (!$attribute) {
             return null;
