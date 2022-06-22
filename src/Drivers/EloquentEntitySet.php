@@ -407,8 +407,16 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             /** @var Relation $r */
             $r = $model->$method();
-            $esn = self::convertClassName(get_class($r->getRelated()));
-            $right = Lodata::getEntitySet($esn);
+
+            $relatedModel = get_class($r->getRelated());
+            $relatedIdentifier = self::convertClassName(get_class($r->getRelated()));
+            $relatedIdentifierAttribute = Discovery::getFirstAttributeInstance($relatedModel, LodataIdentifier::class);
+
+            if ($relatedIdentifierAttribute) {
+                $relatedIdentifier = $relatedIdentifierAttribute->getIdentifier();
+            }
+
+            $right = Lodata::getEntitySet($relatedIdentifier);
             if (!$right) {
                 $right = (new self(get_class($r->getRelated())))->discover();
             }
@@ -616,12 +624,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     {
         $entityType = $this->getType();
 
-        $reflectionClass = new ReflectionClass($this->model);
-
         $propertyAttributes = [];
 
         if (Discovery::supportsAttributes()) {
-            $propertyAttributes = $reflectionClass->getAttributes(
+            $propertyAttributes = (new ReflectionClass($this->model))->getAttributes(
                 LodataProperty::class,
                 ReflectionAttribute::IS_INSTANCEOF
             );
@@ -652,21 +658,17 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             return $this;
         }
 
-        $typeIdentifierAttribute = Discovery::getFirstAttribute($reflectionClass, LodataTypeIdentifier::class);
-        if ($typeIdentifierAttribute) {
-            /** @var LodataTypeIdentifier $instance */
-            $instance = $typeIdentifierAttribute->newInstance();
+        $typeAttribute = Discovery::getFirstAttributeInstance($this->model, LodataTypeIdentifier::class);
+        if ($typeAttribute) {
             Lodata::drop($this->getType());
-            $this->getType()->setIdentifier($instance->getIdentifier());
+            $this->getType()->setIdentifier($typeAttribute->getIdentifier());
             Lodata::add($this->getType());
         }
 
-        $identifierAttribute = Discovery::getFirstAttribute($reflectionClass, LodataIdentifier::class);
+        $identifierAttribute = Discovery::getFirstAttributeInstance($this->model, LodataIdentifier::class);
         if ($identifierAttribute) {
-            /** @var LodataIdentifier $instance */
-            $instance = $identifierAttribute->newInstance();
             Lodata::drop($this);
-            $this->setIdentifier($instance->getIdentifier());
+            $this->setIdentifier($identifierAttribute->getIdentifier());
             Lodata::add($this);
         }
 

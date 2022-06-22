@@ -76,4 +76,16 @@ class Discovery
     {
         return Arr::first($class->getAttributes($type));
     }
+
+    public static function getFirstAttributeInstance($class, $type): ?object
+    {
+        /** @var ReflectionAttribute $attribute */
+        $attribute = Discovery::getFirstAttribute(new ReflectionClass($class), $type);
+
+        if (!$attribute) {
+            return null;
+        }
+
+        return $attribute->newInstance();
+    }
 }
