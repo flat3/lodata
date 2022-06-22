@@ -36,6 +36,8 @@ class DiscoveryLoopTest extends TestCase
     public function test_loop()
     {
         Lodata::discover(A::class);
+        $this->assertInstanceOf(A::class, Lodata::getEntitySet('aa')->getModel());
+        $this->assertInstanceOf(B::class, Lodata::getEntitySet('bb')->getModel());
     }
 }
 

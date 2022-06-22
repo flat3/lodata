@@ -320,6 +320,22 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     }
 
     /**
+     * Return the first array value that satisfied the predicate
+     * @param  callable  $callback
+     * @return mixed|null
+     */
+    public function find(callable $callback)
+    {
+        foreach ($this->array as $value) {
+            if ($callback($value)) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get a a list of object keys
      * @return array
      */

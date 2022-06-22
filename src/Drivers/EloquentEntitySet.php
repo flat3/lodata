@@ -409,16 +409,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $r = $model->$method();
 
             $relatedModel = get_class($r->getRelated());
-            $relatedIdentifier = self::convertClassName(get_class($r->getRelated()));
-            $relatedIdentifierAttribute = Discovery::getFirstAttributeInstance($relatedModel, LodataIdentifier::class);
 
-            if ($relatedIdentifierAttribute) {
-                $relatedIdentifier = $relatedIdentifierAttribute->getIdentifier();
-            }
+            $right = Lodata::getResources()->sliceByClass(self::class)->find(function ($set) use ($relatedModel) {
+                return $set->getModel() instanceof $relatedModel;
+            });
 
-            $right = Lodata::getEntitySet($relatedIdentifier);
             if (!$right) {
-                $right = (new self(get_class($r->getRelated())))->discover();
+                $right = (new self($relatedModel))->discover();
             }
 
             $nav = (new NavigationProperty($method, $right->getType()))
