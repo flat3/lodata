@@ -4,13 +4,15 @@ namespace Flat3\Lodata\Tests\Setup;
 
 use Flat3\Lodata\Attributes\LodataIdentifier;
 use Flat3\Lodata\Attributes\LodataRelationship;
-use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * @requires PHP >= 8
+ */
 class DiscoveryLoopTest extends TestCase
 {
     public function setUp(): void

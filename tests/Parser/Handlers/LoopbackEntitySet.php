@@ -194,7 +194,7 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
 
             case $node instanceof Not_:
                 $this->addCommon('( ');
-                $this->addCommon($node::symbol. ' ');
+                $this->addCommon($node::symbol.' ');
                 $this->commonExpression($node->getLeftNode());
                 $this->addCommon(' )');
                 return;
