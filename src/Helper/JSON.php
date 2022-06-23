@@ -27,9 +27,10 @@ final class JSON
      * Encode a JSON string
      * @param $value
      * @return string
+     * @throws JsonException
      */
     public static function encode($value): string
     {
-        return json_encode($value, JSON_UNESCAPED_SLASHES);
+        return json_encode($value, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     }
 }
