@@ -158,7 +158,10 @@ class XML extends Metadata implements StreamInterface
                 );
 
                 if ($property->hasStaticDefaultValue()) {
-                    $entityTypeProperty->addAttribute('DefaultValue', $property->computeDefaultValue()->toJson());
+                    $entityTypeProperty->addAttribute(
+                        'DefaultValue',
+                        (string) $property->computeDefaultValue()->toJson()
+                    );
                 }
 
                 if ($property->hasPrecision()) {
