@@ -27,10 +27,6 @@ trait SQLConnection
         $dbh = $this->getConnection()->getPdo();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        if ($dbh->getAttribute(PDO::ATTR_DRIVER_NAME) === SQLEntitySet::SQLServer) {
-            $dbh->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_SYSTEM);
-        }
-
         return $dbh;
     }
 
