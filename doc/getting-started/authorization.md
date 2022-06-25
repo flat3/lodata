@@ -1,6 +1,9 @@
 # Authorization
 
-Lodata supports authorization via [Laravel gates](https://laravel.com/docs/8.x/authorization#gates).
+Lodata supports controlling access to OData endoints via [Laravel gates](https://laravel.com/docs/8.x/authorization#gates),
+and by subclassing `EntitySet` and overriding the relevant methods.
+
+## Gates
 
 Each API request will be checked via an ability named `lodata`.
 The gate will receive the standard `$user` argument, and a `Flat3\Lodata\Helper\Gate` object.
@@ -54,6 +57,44 @@ class LodataServiceProvider extends ServiceProvider
 
             return true;
         });
+    }
+}
+```
+
+## Overrides
+
+For more fine-grained control over the behaviour of the `EntitySet` you can subclass it and override methods.
+
+This example overrides the `create` method to only allow "admins" to create entities. Each of `query`, `read`,
+`update` and `delete` can also be overridden in this way.
+
+```php
+class ProtectedEntitySet extends EloquentEntitySet
+{
+    public function create(PropertyValues $propertyValues): Entity
+    {
+        if (!Auth::user()->isAdmin) {
+            throw new ForbiddenException('user_not_admin', 'Only an admin can create in this entity set');
+        }
+
+        return parent::create($propertyValues);
+    }
+}
+```
+
+## EloquentEntitySet
+
+The `EloquentEntitySet` uses the model's `Builder` to generate queries. The builder can be modified to provide
+additional scopes or clauses at runtime.
+
+This entity set adds the `active` scope to any builder.
+
+```php
+class FilteredUserEntitySet extends EloquentEntitySet
+{
+    public function getBuilder(): Builder
+    {
+        return parent::getBuilder()->active();
     }
 }
 ```
