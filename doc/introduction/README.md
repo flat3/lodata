@@ -31,10 +31,10 @@ where Lodata could be a great fit for your application:
   [Postman](https://www.postman.com/product/api-client/) to help third parties interact with your application.
 - Developing **microservices** in Laravel. With all OData services having the same request syntax, as your team develops
   many services you can guarantee API consistency.
-- Create [real simple integrations](../clients/README.md) with enterprise applications from
-  [SAP](https://help.sap.com/viewer/3f4043064eed446a895bc8ba7e61dc83/LATEST/en-US/8086d28511be408fbda1443166d350ad.html),
+- Create [real simple integrations](../clients/README.md) with enterprise applications like
+  [SAP Data Intelligence](https://help.sap.com/docs/SAP_DATA_INTELLIGENCE/ca509b7635484070a655738be408da63/8086d28511be408fbda1443166d350ad.html),
   [SalesForce](https://developer.salesforce.com/docs/atlas.en-us.integration_patterns_and_practices.meta/integration_patterns_and_practices/integ_pat_data_virtualization.htm)
-  and [Microsoft](https://docs.microsoft.com/en-us/powerapps/maker/data-platform/virtual-entity-odata-provider-requirements).
+  and [Microsoft PowerApps](https://docs.microsoft.com/en-us/powerapps/maker/data-platform/virtual-entity-odata-provider-requirements).
   Present forms, tabular data and search interfaces in these applications **without writing a single line of code**.
 
 You can construct OData requests using any HTTP client, but there are also many developer-friendly

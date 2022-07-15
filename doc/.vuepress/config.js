@@ -203,6 +203,7 @@ module.exports = {
                     'clients/openapi',
                     'clients/dataverse',
                     'clients/salesforce',
+                    'clients/sap',
                 ],
             },
             {
