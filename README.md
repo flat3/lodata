@@ -51,3 +51,8 @@ You can construct OData requests using any HTTP client, but there are also many 
 [OData libraries](https://www.odata.org/libraries/) for different programming languages.
 
 Now go check out the five-minute [getting started](https://lodata.io/getting-started/) guide!
+
+## Support
+
+<a href="https://flat3.co">Flat3</a> now provides commercial support for Lodata. If you need help integrating Lodata into your application, want to build
+a Lodata-powered service or need new features then <a href="https://flat3.co">get in touch.</a>
