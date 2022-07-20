@@ -4,14 +4,23 @@ heroText: Lodata
 tagline: The OData v4.01 Producer for Laravel
 actionText: Get started →
 actionLink: /introduction/
-features:
-- title: Supercharge your APIs
-  details: Develop single page and mobile applications with OData-supporting UI frameworks.
-- title: Get big data 
-  details: Make live connections to business intelligence tools including PowerBI, Tableau and Excel.
-- title: Integrate with everything
-  details: Create real simple integrations with enterprise applications from SAP, Salesforce and Microsoft without writing a single line of code.
 ---
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-8 mb-16">
+<div>
+<h2>Supercharge your APIs</h2>
+<p>Develop single page and mobile applications with OData-supporting UI frameworks.</p>
+</div>
+<div>
+<h2>Get big data</h2>
+<p>Make live connections to business intelligence tools including PowerBI, Tableau and Excel.</p>
+</div>
+<div>
+<h2>Commercial support</h2>
+<p><a href="https://flat3.co">Flat3</a> provides commercial support for Lodata. If you need help integrating Lodata into your application, want to build
+  a Lodata-powered service or need new features then <a href="https://flat3.co">get in touch</a>.</p>
+</div>
+</div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8 mb-16">
 <div>
