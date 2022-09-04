@@ -25,3 +25,30 @@ include `auth.basic` in the array of middleware:
 Similarly, if you are writing a [Single Page Application](https://laravel.com/docs/8.x/sanctum#how-it-works-spa-authentication)
 protected by [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum)
 you can [include](https://laravel.com/docs/8.x/sanctum#protecting-spa-routes) the `auth:sanctum` middleware.
+
+## OpenAPI
+
+The OpenAPI schema [supports](https://swagger.io/specification/#security-scheme-object) advertising the available
+security schemes for an API. Lodata can include this in the OpenAPI document by adding a `securitySchemes` property
+to the configuration. The content of this property is emitted as-is and should match the Security Scheme Object
+definition. This example shows adding an OAuth2 provider:
+
+```php
+...
+    /**
+     * Configuration for OpenAPI schema generation
+     */
+    'openapi' => [
+        'securityScheme' => [
+            'type' => 'oauth2',
+            'flows' => [
+                'clientCredentials' => [
+                    'tokenUrl' => '/oauth/token',
+                    'scopes' => (object)[],
+                ],
+            ],
+        ],
+    ],
+...
+```
+

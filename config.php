@@ -93,4 +93,9 @@ return [
          */
         'default' => 200,
     ],
+
+    /**
+     * Configuration for OpenAPI schema generation
+     */
+    'openapi' => [],
 ];

@@ -73,6 +73,11 @@ trait UseODataAssertions
         return $this->assertODataError($request, Response::HTTP_FORBIDDEN);
     }
 
+    protected function assertUnauthorized(Request $request): TestResponse
+    {
+        return $this->assertODataError($request, Response::HTTP_UNAUTHORIZED);
+    }
+
     protected function assertAccepted(Request $request): TestResponse
     {
         return $this->assertODataError($request, Response::HTTP_ACCEPTED);

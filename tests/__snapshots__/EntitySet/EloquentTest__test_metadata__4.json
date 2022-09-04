@@ -31,6 +31,7 @@
         "/Airports": {
             "get": {
                 "summary": "Get entities from Airports",
+                "operationId": "queryAirports",
                 "tags": [
                     "Airports"
                 ],
@@ -156,6 +157,7 @@
             },
             "post": {
                 "summary": "Add new entity to Airports",
+                "operationId": "addAirports",
                 "tags": [
                     "Airports"
                 ],
@@ -165,7 +167,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-create"
                             }
                         }
                     }
@@ -208,6 +210,7 @@
             ],
             "get": {
                 "summary": "Get entity from Airports by key",
+                "operationId": "getAirportsByKey",
                 "tags": [
                     "Airports"
                 ],
@@ -273,6 +276,7 @@
             },
             "patch": {
                 "summary": "Update entity in Airports",
+                "operationId": "updateAirports",
                 "tags": [
                     "Airports"
                 ],
@@ -282,14 +286,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~update"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Airport"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Airport"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -301,6 +312,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Airports",
+                "operationId": "deleteAirports",
                 "tags": [
                     "Airports"
                 ],
@@ -332,6 +344,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Flights",
+                "operationId": "queryRelatedFlights",
                 "tags": [
                     "Flights",
                     "Airports"
@@ -447,6 +460,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Flights",
+                "operationId": "addRelatedFlights",
                 "tags": [
                     "Flights",
                     "Airports"
@@ -457,7 +471,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Flight~create"
+                                "$ref": "#/components/schemas/com.example.odata.Flight-create"
                             }
                         }
                     }
@@ -500,6 +514,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Countries",
+                "operationId": "queryRelatedCountries",
                 "tags": [
                     "Countries",
                     "Airports"
@@ -604,6 +619,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Countries",
+                "operationId": "addRelatedCountries",
                 "tags": [
                     "Countries",
                     "Airports"
@@ -614,7 +630,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Country~create"
+                                "$ref": "#/components/schemas/com.example.odata.Country-create"
                             }
                         }
                     }
@@ -642,6 +658,7 @@
         "/Flights": {
             "get": {
                 "summary": "Get entities from Flights",
+                "operationId": "queryFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -756,6 +773,7 @@
             },
             "post": {
                 "summary": "Add new entity to Flights",
+                "operationId": "addFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -765,7 +783,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Flight~create"
+                                "$ref": "#/components/schemas/com.example.odata.Flight-create"
                             }
                         }
                     }
@@ -808,6 +826,7 @@
             ],
             "get": {
                 "summary": "Get entity from Flights by key",
+                "operationId": "getFlightsByKey",
                 "tags": [
                     "Flights"
                 ],
@@ -870,6 +889,7 @@
             },
             "patch": {
                 "summary": "Update entity in Flights",
+                "operationId": "updateFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -879,14 +899,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Flight~update"
+                                "$ref": "#/components/schemas/com.example.odata.Flight-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Flight"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Flight"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -898,6 +925,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Flights",
+                "operationId": "deleteFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -929,6 +957,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Passengers",
+                "operationId": "queryRelatedPassengers",
                 "tags": [
                     "Passengers",
                     "Flights"
@@ -1064,6 +1093,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Passengers",
+                "operationId": "addRelatedPassengers",
                 "tags": [
                     "Passengers",
                     "Flights"
@@ -1074,7 +1104,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Passenger~create"
+                                "$ref": "#/components/schemas/com.example.odata.Passenger-create"
                             }
                         }
                     }
@@ -1117,6 +1147,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Airports",
+                "operationId": "queryRelatedAirports",
                 "tags": [
                     "Airports",
                     "Flights"
@@ -1243,6 +1274,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Airports",
+                "operationId": "addRelatedAirports",
                 "tags": [
                     "Airports",
                     "Flights"
@@ -1253,7 +1285,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-create"
                             }
                         }
                     }
@@ -1296,6 +1328,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Airports",
+                "operationId": "queryRelatedAirports",
                 "tags": [
                     "Airports",
                     "Flights"
@@ -1422,6 +1455,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Airports",
+                "operationId": "addRelatedAirports",
                 "tags": [
                     "Airports",
                     "Flights"
@@ -1432,7 +1466,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-create"
                             }
                         }
                     }
@@ -1460,6 +1494,7 @@
         "/Countries": {
             "get": {
                 "summary": "Get entities from Countries",
+                "operationId": "queryCountries",
                 "tags": [
                     "Countries"
                 ],
@@ -1563,6 +1598,7 @@
             },
             "post": {
                 "summary": "Add new entity to Countries",
+                "operationId": "addCountries",
                 "tags": [
                     "Countries"
                 ],
@@ -1572,7 +1608,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Country~create"
+                                "$ref": "#/components/schemas/com.example.odata.Country-create"
                             }
                         }
                     }
@@ -1615,6 +1651,7 @@
             ],
             "get": {
                 "summary": "Get entity from Countries by key",
+                "operationId": "getCountriesByKey",
                 "tags": [
                     "Countries"
                 ],
@@ -1672,6 +1709,7 @@
             },
             "patch": {
                 "summary": "Update entity in Countries",
+                "operationId": "updateCountries",
                 "tags": [
                     "Countries"
                 ],
@@ -1681,14 +1719,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Country~update"
+                                "$ref": "#/components/schemas/com.example.odata.Country-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Country"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Country"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -1700,6 +1745,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Countries",
+                "operationId": "deleteCountries",
                 "tags": [
                     "Countries"
                 ],
@@ -1731,6 +1777,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Airports",
+                "operationId": "queryRelatedAirports",
                 "tags": [
                     "Airports",
                     "Countries"
@@ -1857,6 +1904,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Airports",
+                "operationId": "addRelatedAirports",
                 "tags": [
                     "Airports",
                     "Countries"
@@ -1867,7 +1915,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-create"
                             }
                         }
                     }
@@ -1895,6 +1943,7 @@
         "/Passengers": {
             "get": {
                 "summary": "Get entities from Passengers",
+                "operationId": "queryPassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -2029,6 +2078,7 @@
             },
             "post": {
                 "summary": "Add new entity to Passengers",
+                "operationId": "addPassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -2038,7 +2088,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Passenger~create"
+                                "$ref": "#/components/schemas/com.example.odata.Passenger-create"
                             }
                         }
                     }
@@ -2081,6 +2131,7 @@
             ],
             "get": {
                 "summary": "Get entity from Passengers by key",
+                "operationId": "getPassengersByKey",
                 "tags": [
                     "Passengers"
                 ],
@@ -2151,6 +2202,7 @@
             },
             "patch": {
                 "summary": "Update entity in Passengers",
+                "operationId": "updatePassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -2160,14 +2212,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Passenger~update"
+                                "$ref": "#/components/schemas/com.example.odata.Passenger-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Passenger"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Passenger"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -2179,6 +2238,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Passengers",
+                "operationId": "deletePassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -2210,6 +2270,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Pets",
+                "operationId": "queryRelatedPets",
                 "tags": [
                     "Pets",
                     "Passengers"
@@ -2320,6 +2381,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Pets",
+                "operationId": "addRelatedPets",
                 "tags": [
                     "Pets",
                     "Passengers"
@@ -2330,7 +2392,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Pet~create"
+                                "$ref": "#/components/schemas/com.example.odata.Pet-create"
                             }
                         }
                     }
@@ -2373,6 +2435,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Flights",
+                "operationId": "queryRelatedFlights",
                 "tags": [
                     "Flights",
                     "Passengers"
@@ -2488,6 +2551,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Flights",
+                "operationId": "addRelatedFlights",
                 "tags": [
                     "Flights",
                     "Passengers"
@@ -2498,7 +2562,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Flight~create"
+                                "$ref": "#/components/schemas/com.example.odata.Flight-create"
                             }
                         }
                     }
@@ -2541,6 +2605,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Airports",
+                "operationId": "queryRelatedAirports",
                 "tags": [
                     "Airports",
                     "Passengers"
@@ -2667,6 +2732,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Airports",
+                "operationId": "addRelatedAirports",
                 "tags": [
                     "Airports",
                     "Passengers"
@@ -2677,7 +2743,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-create"
                             }
                         }
                     }
@@ -2720,6 +2786,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Airports",
+                "operationId": "queryRelatedAirports",
                 "tags": [
                     "Airports",
                     "Passengers"
@@ -2846,6 +2913,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Airports",
+                "operationId": "addRelatedAirports",
                 "tags": [
                     "Airports",
                     "Passengers"
@@ -2856,7 +2924,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Airport~create"
+                                "$ref": "#/components/schemas/com.example.odata.Airport-create"
                             }
                         }
                     }
@@ -2884,6 +2952,7 @@
         "/Pets": {
             "get": {
                 "summary": "Get entities from Pets",
+                "operationId": "queryPets",
                 "tags": [
                     "Pets"
                 ],
@@ -2993,6 +3062,7 @@
             },
             "post": {
                 "summary": "Add new entity to Pets",
+                "operationId": "addPets",
                 "tags": [
                     "Pets"
                 ],
@@ -3002,7 +3072,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Pet~create"
+                                "$ref": "#/components/schemas/com.example.odata.Pet-create"
                             }
                         }
                     }
@@ -3045,6 +3115,7 @@
             ],
             "get": {
                 "summary": "Get entity from Pets by key",
+                "operationId": "getPetsByKey",
                 "tags": [
                     "Pets"
                 ],
@@ -3104,6 +3175,7 @@
             },
             "patch": {
                 "summary": "Update entity in Pets",
+                "operationId": "updatePets",
                 "tags": [
                     "Pets"
                 ],
@@ -3113,14 +3185,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Pet~update"
+                                "$ref": "#/components/schemas/com.example.odata.Pet-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Pet"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Pet"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -3132,6 +3211,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Pets",
+                "operationId": "deletePets",
                 "tags": [
                     "Pets"
                 ],
@@ -3163,6 +3243,7 @@
             ],
             "get": {
                 "summary": "Get entities from related Passengers",
+                "operationId": "queryRelatedPassengers",
                 "tags": [
                     "Passengers",
                     "Pets"
@@ -3298,6 +3379,7 @@
             },
             "post": {
                 "summary": "Add new entity to related Passengers",
+                "operationId": "addRelatedPassengers",
                 "tags": [
                     "Passengers",
                     "Pets"
@@ -3308,7 +3390,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Passenger~create"
+                                "$ref": "#/components/schemas/com.example.odata.Passenger-create"
                             }
                         }
                     }
@@ -3401,6 +3483,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -3411,7 +3494,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -3446,7 +3561,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -3481,6 +3615,7 @@
         "schemas": {
             "com.example.odata.Airport": {
                 "type": "object",
+                "title": "Airport",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -3544,8 +3679,9 @@
                     }
                 }
             },
-            "com.example.odata.Airport~create": {
+            "com.example.odata.Airport-create": {
                 "type": "object",
+                "title": "Airport (Create Schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3602,8 +3738,9 @@
                     }
                 }
             },
-            "com.example.odata.Airport~update": {
+            "com.example.odata.Airport-update": {
                 "type": "object",
+                "title": "Airport (Update Schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3662,6 +3799,7 @@
             },
             "com.example.odata.Flight": {
                 "type": "object",
+                "title": "Flight",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -3693,8 +3831,9 @@
                     }
                 }
             },
-            "com.example.odata.Flight~create": {
+            "com.example.odata.Flight-create": {
                 "type": "object",
+                "title": "Flight (Create Schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -3719,8 +3858,9 @@
                     }
                 }
             },
-            "com.example.odata.Flight~update": {
+            "com.example.odata.Flight-update": {
                 "type": "object",
+                "title": "Flight (Update Schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -3747,6 +3887,7 @@
             },
             "com.example.odata.Country": {
                 "type": "object",
+                "title": "Country",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -3761,8 +3902,9 @@
                     }
                 }
             },
-            "com.example.odata.Country~create": {
+            "com.example.odata.Country-create": {
                 "type": "object",
+                "title": "Country (Create Schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3770,8 +3912,9 @@
                     }
                 }
             },
-            "com.example.odata.Country~update": {
+            "com.example.odata.Country-update": {
                 "type": "object",
+                "title": "Country (Update Schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3781,6 +3924,7 @@
             },
             "com.example.odata.Passenger": {
                 "type": "object",
+                "title": "Passenger",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -3874,8 +4018,9 @@
                     }
                 }
             },
-            "com.example.odata.Passenger~create": {
+            "com.example.odata.Passenger-create": {
                 "type": "object",
+                "title": "Passenger (Create Schema)",
                 "properties": {
                     "flight_id": {
                         "type": "integer",
@@ -3962,8 +4107,9 @@
                     }
                 }
             },
-            "com.example.odata.Passenger~update": {
+            "com.example.odata.Passenger-update": {
                 "type": "object",
+                "title": "Passenger (Update Schema)",
                 "properties": {
                     "flight_id": {
                         "type": "integer",
@@ -4052,6 +4198,7 @@
             },
             "com.example.odata.Pet": {
                 "type": "object",
+                "title": "Pet",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -4077,8 +4224,9 @@
                     }
                 }
             },
-            "com.example.odata.Pet~create": {
+            "com.example.odata.Pet-create": {
                 "type": "object",
+                "title": "Pet (Create Schema)",
                 "properties": {
                     "passenger_id": {
                         "type": "integer",
@@ -4097,8 +4245,9 @@
                     }
                 }
             },
-            "com.example.odata.Pet~update": {
+            "com.example.odata.Pet-update": {
                 "type": "object",
+                "title": "Pet (Update Schema)",
                 "properties": {
                     "passenger_id": {
                         "type": "integer",
@@ -4270,6 +4419,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

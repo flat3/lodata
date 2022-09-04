@@ -57,6 +57,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -67,7 +68,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -102,7 +135,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -137,6 +189,7 @@
         "schemas": {
             "com.example.odata.ston": {
                 "type": "object",
+                "title": "ston",
                 "properties": {
                     "ecol": {
                         "type": "array",
@@ -151,8 +204,9 @@
                     }
                 }
             },
-            "com.example.odata.ston~create": {
+            "com.example.odata.ston-create": {
                 "type": "object",
+                "title": "ston (Create Schema)",
                 "properties": {
                     "ecol": {
                         "type": "array",
@@ -167,8 +221,9 @@
                     }
                 }
             },
-            "com.example.odata.ston~update": {
+            "com.example.odata.ston-update": {
                 "type": "object",
+                "title": "ston (Update Schema)",
                 "properties": {
                     "ecol": {
                         "type": "array",
@@ -336,6 +391,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

@@ -19,6 +19,7 @@
         "/atest": {
             "get": {
                 "summary": "Get entities from atest",
+                "operationId": "queryatest",
                 "tags": [
                     "atest"
                 ],
@@ -109,6 +110,7 @@
             },
             "post": {
                 "summary": "Add new entity to atest",
+                "operationId": "addatest",
                 "tags": [
                     "atest"
                 ],
@@ -118,7 +120,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.etype~create"
+                                "$ref": "#/components/schemas/com.example.odata.etype-create"
                             }
                         }
                     }
@@ -161,6 +163,7 @@
             ],
             "get": {
                 "summary": "Get entity from atest by key",
+                "operationId": "getatestByKey",
                 "tags": [
                     "atest"
                 ],
@@ -203,6 +206,7 @@
             },
             "patch": {
                 "summary": "Update entity in atest",
+                "operationId": "updateatest",
                 "tags": [
                     "atest"
                 ],
@@ -212,14 +216,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.etype~update"
+                                "$ref": "#/components/schemas/com.example.odata.etype-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.etype"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.etype"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -231,6 +242,7 @@
             },
             "delete": {
                 "summary": "Delete entity from atest",
+                "operationId": "deleteatest",
                 "tags": [
                     "atest"
                 ],
@@ -247,6 +259,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -257,7 +270,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -292,7 +337,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -327,6 +391,7 @@
         "schemas": {
             "com.example.odata.etype": {
                 "type": "object",
+                "title": "etype",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -341,6 +406,7 @@
                     },
                     "c": {
                         "type": "object",
+                        "title": "ctype",
                         "properties": {
                             "d": {
                                 "type": "string",
@@ -351,8 +417,9 @@
                     }
                 }
             },
-            "com.example.odata.etype~create": {
+            "com.example.odata.etype-create": {
                 "type": "object",
+                "title": "etype (Create Schema)",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -367,6 +434,7 @@
                     },
                     "c": {
                         "type": "object",
+                        "title": "ctype",
                         "properties": {
                             "d": {
                                 "type": "string",
@@ -377,8 +445,9 @@
                     }
                 }
             },
-            "com.example.odata.etype~update": {
+            "com.example.odata.etype-update": {
                 "type": "object",
+                "title": "etype (Update Schema)",
                 "properties": {
                     "b": {
                         "type": "string",
@@ -386,6 +455,7 @@
                     },
                     "c": {
                         "type": "object",
+                        "title": "ctype",
                         "properties": {
                             "d": {
                                 "type": "string",
@@ -549,6 +619,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

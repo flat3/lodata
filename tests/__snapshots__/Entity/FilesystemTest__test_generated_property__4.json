@@ -19,6 +19,7 @@
         "/disk": {
             "get": {
                 "summary": "Get entities from disk",
+                "operationId": "querydisk",
                 "tags": [
                     "disk"
                 ],
@@ -74,6 +75,7 @@
             },
             "post": {
                 "summary": "Add new entity to disk",
+                "operationId": "adddisk",
                 "tags": [
                     "disk"
                 ],
@@ -83,7 +85,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.file~create"
+                                "$ref": "#/components/schemas/com.example.odata.file-create"
                             }
                         }
                     }
@@ -123,6 +125,7 @@
             ],
             "get": {
                 "summary": "Get entity from disk by key",
+                "operationId": "getdiskByKey",
                 "tags": [
                     "disk"
                 ],
@@ -169,6 +172,7 @@
             },
             "patch": {
                 "summary": "Update entity in disk",
+                "operationId": "updatedisk",
                 "tags": [
                     "disk"
                 ],
@@ -178,14 +182,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.file~update"
+                                "$ref": "#/components/schemas/com.example.odata.file-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.file"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.file"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -197,6 +208,7 @@
             },
             "delete": {
                 "summary": "Delete entity from disk",
+                "operationId": "deletedisk",
                 "tags": [
                     "disk"
                 ],
@@ -213,6 +225,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -223,7 +236,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -258,7 +303,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -293,6 +357,7 @@
         "schemas": {
             "com.example.odata.file": {
                 "type": "object",
+                "title": "file",
                 "properties": {
                     "path": {
                         "type": "string",
@@ -326,8 +391,9 @@
                     }
                 }
             },
-            "com.example.odata.file~create": {
+            "com.example.odata.file-create": {
                 "type": "object",
+                "title": "file (Create Schema)",
                 "properties": {
                     "path": {
                         "type": "string",
@@ -340,8 +406,9 @@
                     }
                 }
             },
-            "com.example.odata.file~update": {
+            "com.example.odata.file-update": {
                 "type": "object",
+                "title": "file (Update Schema)",
                 "properties": {
                     "content": {
                         "type": "string",
@@ -503,6 +570,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

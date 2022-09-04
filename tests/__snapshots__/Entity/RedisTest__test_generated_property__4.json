@@ -19,6 +19,7 @@
         "/passengers": {
             "get": {
                 "summary": "Get entities from passengers",
+                "operationId": "querypassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -92,6 +93,7 @@
             },
             "post": {
                 "summary": "Add new entity to passengers",
+                "operationId": "addpassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -101,7 +103,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.passenger~create"
+                                "$ref": "#/components/schemas/com.example.odata.passenger-create"
                             }
                         }
                     }
@@ -141,6 +143,7 @@
             ],
             "get": {
                 "summary": "Get entity from passengers by key",
+                "operationId": "getpassengersByKey",
                 "tags": [
                     "passengers"
                 ],
@@ -193,6 +196,7 @@
             },
             "patch": {
                 "summary": "Update entity in passengers",
+                "operationId": "updatepassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -202,14 +206,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.passenger~update"
+                                "$ref": "#/components/schemas/com.example.odata.passenger-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.passenger"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.passenger"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -221,6 +232,7 @@
             },
             "delete": {
                 "summary": "Delete entity from passengers",
+                "operationId": "deletepassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -237,6 +249,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -247,7 +260,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -282,7 +327,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -317,6 +381,7 @@
         "schemas": {
             "com.example.odata.passenger": {
                 "type": "object",
+                "title": "passenger",
                 "properties": {
                     "key": {
                         "type": "string",
@@ -407,8 +472,9 @@
                     }
                 }
             },
-            "com.example.odata.passenger~create": {
+            "com.example.odata.passenger-create": {
                 "type": "object",
+                "title": "passenger (Create Schema)",
                 "properties": {
                     "key": {
                         "type": "string",
@@ -499,8 +565,9 @@
                     }
                 }
             },
-            "com.example.odata.passenger~update": {
+            "com.example.odata.passenger-update": {
                 "type": "object",
+                "title": "passenger (Update Schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -740,6 +807,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

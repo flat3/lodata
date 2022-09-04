@@ -96,6 +96,7 @@ class EntityType extends ComplexType implements PipeInterface
     {
         return [
             'type' => Constants::oapiObject,
+            'title' => __(':name (Update Schema)', ['name' => $this->getName()]),
             'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
                 return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty() && $property !== $this->getKey();
             })->map(function (DeclaredProperty $property) {

@@ -382,6 +382,7 @@ DESC, [
         $pathItemObject->{'post'} = $queryObject;
 
         $queryObject->summary = __('Send a group of requests');
+        $queryObject->operationId = "batch";
 
         $queryObject->description = __(
             'Group multiple requests into a single request payload, see :ref',
@@ -398,7 +399,39 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        'type' => Constants::oapiString,
+                        'type' => Constants::oapiObject,
+                        'properties' => [
+                            'requests' => [
+                                'type' => Constants::oapiArray,
+                                'items' => [
+                                    'type' => Constants::oapiObject,
+                                    'properties' => [
+                                        'id' => [
+                                            'type' => Constants::oapiString,
+                                        ],
+                                        'method' => [
+                                            'type' => Constants::oapiString,
+                                            'enum' => [
+                                                'get',
+                                                'post',
+                                                'patch',
+                                                'put',
+                                                'delete',
+                                            ],
+                                        ],
+                                        'url' => [
+                                            'type' => Constants::oapiString,
+                                        ],
+                                        'headers' => [
+                                            'type' => Constants::oapiObject,
+                                        ],
+                                        'body' => [
+                                            'type' => Constants::oapiString,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'example' => [
                         'requests' => [
@@ -448,7 +481,26 @@ DESC, [
                 'content' => [
                     MediaType::json => [
                         'schema' => [
-                            'type' => Constants::oapiString,
+                            'type' => Constants::oapiObject,
+                            'properties' => [
+                                'responses' => [
+                                    'type' => Constants::oapiArray,
+                                    'items' => [
+                                        'type' => Constants::oapiObject,
+                                        'properties' => [
+                                            'id' => [
+                                                'type' => Constants::oapiString,
+                                            ],
+                                            'status' => [
+                                                'type' => Constants::oapiInteger,
+                                            ],
+                                            'body' => [
+                                                'type' => Constants::oapiString,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
                         ],
                         'example' => [
                             'responses' => [
@@ -494,8 +546,8 @@ DESC, [
 
         foreach (Lodata::getEntityTypes() as $entityType) {
             $schemas->{$entityType->getIdentifier()} = $entityType->getOpenAPISchema();
-            $schemas->{$entityType->getIdentifier().'~create'} = $entityType->getOpenAPICreateSchema();
-            $schemas->{$entityType->getIdentifier().'~update'} = $entityType->getOpenAPIUpdateSchema();
+            $schemas->{$entityType->getIdentifier().'-create'} = $entityType->getOpenAPICreateSchema();
+            $schemas->{$entityType->getIdentifier().'-update'} = $entityType->getOpenAPIUpdateSchema();
         }
 
         $schemas->{ComplexType::identifier} = ['type' => Constants::oapiObject];
@@ -538,6 +590,7 @@ DESC, [
                     'type' => Constants::oapiString
                 ],
             ],
+            'title' => __('Count (parameter)'),
             'description' => __(
                 'The number of entities in the collection. Available when using the :ref query option',
                 ['ref' => '[$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount)']
@@ -659,6 +712,13 @@ DESC, [
             ),
         ];
 
+        if ($securityScheme = config('lodata.openapi.securityScheme')) {
+            $securitySchemes = (object) [];
+            $components->securitySchemes = $securitySchemes;
+            $securitySchemes->default = $securityScheme;
+            $document->security = [['default' => []]];
+        }
+
         $transaction->sendJson($document);
     }
 
@@ -759,9 +819,11 @@ DESC, [
 
         if ($relatedSet) {
             $queryObject->summary = __('Get entities from related :name', ['name' => $entitySet->getName()]);
+            $queryObject->operationId = sprintf('queryRelated%s', $entitySet->getName());
             $tags[] = $relatedSet->getName();
         } else {
             $queryObject->summary = __('Get entities from :name', ['name' => $entitySet->getName()]);
+            $queryObject->operationId = sprintf('query%s', $entitySet->getName());
         }
 
         $queryObject->tags = $this->uniqueTags($tags);
@@ -854,9 +916,11 @@ DESC, [
 
         if ($relatedSet) {
             $operationObject->summary = __('Add new entity to related :name', ['name' => $entitySet->getName()]);
+            $operationObject->operationId = sprintf('addRelated%s', $entitySet->getName());
             $tags[] = $relatedSet->getName();
         } else {
             $operationObject->summary = __('Add new entity to :name', ['name' => $entitySet->getName()]);
+            $operationObject->operationId = sprintf('add%s', $entitySet->getName());
         }
 
         $operationObject->tags = $this->uniqueTags($tags);
@@ -867,7 +931,7 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        '$ref' => "#/components/schemas/{$entitySet->getType()->getIdentifier()}~create",
+                        '$ref' => "#/components/schemas/{$entitySet->getType()->getIdentifier()}-create",
                     ]
                 ]
             ]
@@ -902,6 +966,7 @@ DESC, [
         $queryObject = (object) [];
         $pathItemObject->{'get'} = $queryObject;
         $queryObject->summary = __('Get entity from :set by key', ['set' => $resource->getName()]);
+        $queryObject->operationId = sprintf('get%sByKey', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         /** @var Annotations $annotations */
@@ -941,6 +1006,7 @@ DESC, [
         $pathItemObject->{'patch'} = $queryObject;
 
         $queryObject->summary = __('Update entity in :set', ['set' => $resource->getName()]);
+        $queryObject->operationId = sprintf('update%s', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         $queryObject->requestBody = [
@@ -949,7 +1015,7 @@ DESC, [
             'content' => [
                 MediaType::json => [
                     'schema' => [
-                        '$ref' => "#/components/schemas/{$entityType->getIdentifier()}~update",
+                        '$ref' => "#/components/schemas/{$entityType->getIdentifier()}-update",
                     ],
                 ],
             ],
@@ -957,7 +1023,14 @@ DESC, [
 
         $queryObject->responses = [
             Response::HTTP_OK => [
-                '$ref' => '#/components/schemas/'.$entityType->getIdentifier(),
+                'description' => __('Updated entity'),
+                'content' => [
+                    MediaType::json => [
+                        'schema' => [
+                            '$ref' => "#/components/schemas/{$entityType->getIdentifier()}",
+                        ],
+                    ],
+                ],
             ],
             Response::HTTP_NO_CONTENT => [
                 'description' => __('Success'),
@@ -974,6 +1047,7 @@ DESC, [
         $pathItemObject->{'delete'} = $queryObject;
 
         $queryObject->summary = __('Delete entity from :set', ['set' => $resource->getName()]);
+        $queryObject->operationId = sprintf('delete%s', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         $queryObject->responses = [

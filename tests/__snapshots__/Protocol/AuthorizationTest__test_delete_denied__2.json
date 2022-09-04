@@ -1,7 +1,7 @@
 {
     "error": {
-        "code": "forbidden",
-        "message": "This request is not permitted",
+        "code": "unauthorized",
+        "message": "Unauthorized",
         "target": null,
         "details": [],
         "innererror": {}

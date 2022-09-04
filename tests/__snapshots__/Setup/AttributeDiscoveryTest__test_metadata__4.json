@@ -19,6 +19,7 @@
         "/Alternative": {
             "get": {
                 "summary": "Get entities from Alternative",
+                "operationId": "queryAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -179,6 +180,7 @@
             },
             "post": {
                 "summary": "Add new entity to Alternative",
+                "operationId": "addAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -188,7 +190,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.AlternativeType~create"
+                                "$ref": "#/components/schemas/com.example.odata.AlternativeType-create"
                             }
                         }
                     }
@@ -230,6 +232,7 @@
             ],
             "get": {
                 "summary": "Get entity from Alternative by key",
+                "operationId": "getAlternativeByKey",
                 "tags": [
                     "Alternative"
                 ],
@@ -298,6 +301,7 @@
             },
             "patch": {
                 "summary": "Update entity in Alternative",
+                "operationId": "updateAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -307,14 +311,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.AlternativeType~update"
+                                "$ref": "#/components/schemas/com.example.odata.AlternativeType-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.AlternativeType"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.AlternativeType"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -326,6 +337,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Alternative",
+                "operationId": "deleteAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -342,6 +354,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -352,7 +365,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -387,7 +432,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -422,6 +486,7 @@
         "schemas": {
             "com.example.odata.AlternativeType": {
                 "type": "object",
+                "title": "AlternativeType",
                 "properties": {
                     "Id": {
                         "type": "string",
@@ -462,6 +527,7 @@
                         "type": "array",
                         "items": {
                             "type": "object",
+                            "title": "Recs",
                             "properties": []
                         },
                         "nullable": false
@@ -696,8 +762,9 @@
                     }
                 }
             },
-            "com.example.odata.AlternativeType~create": {
+            "com.example.odata.AlternativeType-create": {
                 "type": "object",
+                "title": "AlternativeType (Create Schema)",
                 "properties": {
                     "Id": {
                         "type": "string",
@@ -738,6 +805,7 @@
                         "type": "array",
                         "items": {
                             "type": "object",
+                            "title": "Recs",
                             "properties": []
                         },
                         "nullable": false
@@ -972,8 +1040,9 @@
                     }
                 }
             },
-            "com.example.odata.AlternativeType~update": {
+            "com.example.odata.AlternativeType-update": {
                 "type": "object",
+                "title": "AlternativeType (Update Schema)",
                 "properties": {
                     "One": {
                         "type": "boolean",
@@ -1008,6 +1077,7 @@
                         "type": "array",
                         "items": {
                             "type": "object",
+                            "title": "Recs",
                             "properties": []
                         },
                         "nullable": false
@@ -1395,6 +1465,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

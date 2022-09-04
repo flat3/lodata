@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Helper;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\ForbiddenException;
+use Flat3\Lodata\Exception\Protocol\UnauthorizedException;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Illuminate\Support\Facades\Gate as LaravelGate;
 
@@ -144,7 +145,7 @@ final class Gate
         }
 
         if (!LaravelGate::check('lodata', $this)) {
-            throw new ForbiddenException('forbidden', 'This request is not permitted');
+            throw new UnauthorizedException;
         }
     }
 }

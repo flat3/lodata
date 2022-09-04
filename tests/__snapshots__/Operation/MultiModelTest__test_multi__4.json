@@ -22,6 +22,7 @@
         "/Users": {
             "get": {
                 "summary": "Get entities from Users",
+                "operationId": "queryUsers",
                 "tags": [
                     "Users"
                 ],
@@ -106,6 +107,7 @@
             },
             "post": {
                 "summary": "Add new entity to Users",
+                "operationId": "addUsers",
                 "tags": [
                     "Users"
                 ],
@@ -115,7 +117,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.User~create"
+                                "$ref": "#/components/schemas/com.example.odata.User-create"
                             }
                         }
                     }
@@ -158,6 +160,7 @@
             ],
             "get": {
                 "summary": "Get entity from Users by key",
+                "operationId": "getUsersByKey",
                 "tags": [
                     "Users"
                 ],
@@ -198,6 +201,7 @@
             },
             "patch": {
                 "summary": "Update entity in Users",
+                "operationId": "updateUsers",
                 "tags": [
                     "Users"
                 ],
@@ -207,14 +211,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.User~update"
+                                "$ref": "#/components/schemas/com.example.odata.User-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.User"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.User"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -226,6 +237,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Users",
+                "operationId": "deleteUsers",
                 "tags": [
                     "Users"
                 ],
@@ -242,6 +254,7 @@
         "/Orders": {
             "get": {
                 "summary": "Get entities from Orders",
+                "operationId": "queryOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -326,6 +339,7 @@
             },
             "post": {
                 "summary": "Add new entity to Orders",
+                "operationId": "addOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -335,7 +349,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Order~create"
+                                "$ref": "#/components/schemas/com.example.odata.Order-create"
                             }
                         }
                     }
@@ -378,6 +392,7 @@
             ],
             "get": {
                 "summary": "Get entity from Orders by key",
+                "operationId": "getOrdersByKey",
                 "tags": [
                     "Orders"
                 ],
@@ -418,6 +433,7 @@
             },
             "patch": {
                 "summary": "Update entity in Orders",
+                "operationId": "updateOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -427,14 +443,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/com.example.odata.Order~update"
+                                "$ref": "#/components/schemas/com.example.odata.Order-update"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/schemas/com.example.odata.Order"
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Order"
+                                }
+                            }
+                        }
                     },
                     "204": {
                         "description": "Success"
@@ -446,6 +469,7 @@
             },
             "delete": {
                 "summary": "Delete entity from Orders",
+                "operationId": "deleteOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -538,6 +562,7 @@
         "/$batch": {
             "post": {
                 "summary": "Send a group of requests",
+                "operationId": "batch",
                 "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
                     "Batch Requests"
@@ -548,7 +573,39 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "example": {
                                 "requests": [
@@ -583,7 +640,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "example": {
                                     "responses": [
@@ -618,6 +694,7 @@
         "schemas": {
             "com.example.odata.User": {
                 "type": "object",
+                "title": "User",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -628,16 +705,19 @@
                     }
                 }
             },
-            "com.example.odata.User~create": {
+            "com.example.odata.User-create": {
                 "type": "object",
+                "title": "User (Create Schema)",
                 "properties": []
             },
-            "com.example.odata.User~update": {
+            "com.example.odata.User-update": {
                 "type": "object",
+                "title": "User (Update Schema)",
                 "properties": []
             },
             "com.example.odata.Order": {
                 "type": "object",
+                "title": "Order",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -648,12 +728,14 @@
                     }
                 }
             },
-            "com.example.odata.Order~create": {
+            "com.example.odata.Order-create": {
                 "type": "object",
+                "title": "Order (Create Schema)",
                 "properties": []
             },
-            "com.example.odata.Order~update": {
+            "com.example.odata.Order-update": {
                 "type": "object",
+                "title": "Order (Update Schema)",
                 "properties": []
             },
             "Edm.ComplexType": {
@@ -809,6 +891,7 @@
                         "type": "string"
                     }
                 ],
+                "title": "Count (parameter)",
                 "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
             }
         },

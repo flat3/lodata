@@ -45,7 +45,7 @@ class AuthorizationTest extends TestCase
     public function test_query_denied()
     {
         $this->gateAssertion();
-        $this->assertForbidden(
+        $this->assertUnauthorized(
             (new Request)
                 ->path($this->entitySetPath)
         );
@@ -54,7 +54,7 @@ class AuthorizationTest extends TestCase
     public function test_read_denied()
     {
         $this->gateAssertion();
-        $this->assertForbidden(
+        $this->assertUnauthorized(
             (new Request)
                 ->path($this->entityPath)
         );
@@ -63,7 +63,7 @@ class AuthorizationTest extends TestCase
     public function test_delete_denied()
     {
         $this->gateAssertion();
-        $this->assertForbidden(
+        $this->assertUnauthorized(
             (new Request)
                 ->delete()
                 ->path($this->entityPath)
@@ -73,7 +73,7 @@ class AuthorizationTest extends TestCase
     public function test_create_denied()
     {
         $this->gateAssertion();
-        $this->assertForbidden(
+        $this->assertUnauthorized(
             (new Request)
                 ->post()
                 ->body([])
@@ -84,7 +84,7 @@ class AuthorizationTest extends TestCase
     public function test_update_denied()
     {
         $this->gateAssertion();
-        $this->assertForbidden(
+        $this->assertUnauthorized(
             (new Request)
                 ->patch()
                 ->path($this->entityPath)
