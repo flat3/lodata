@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Attributes;
 
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Property;
@@ -13,6 +14,7 @@ use Flat3\Lodata\Type;
 abstract class LodataProperty
 {
     protected ?string $name;
+    protected ?string $description;
     protected ?string $source = null;
     protected bool $key = false;
     protected bool $computed = false;
@@ -26,6 +28,7 @@ abstract class LodataProperty
 
     public function __construct(
         string $name,
+        ?string $description = null,
         ?string $source = null,
         ?bool $key = false,
         ?bool $computed = false,
@@ -38,6 +41,7 @@ abstract class LodataProperty
         $filterable = true
     ) {
         $this->name = $name;
+        $this->description = $description;
         $this->source = $source;
         $this->key = $key;
         $this->computed = $computed;
@@ -53,6 +57,11 @@ abstract class LodataProperty
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 
     public function getSource(): ?string
@@ -140,6 +149,10 @@ abstract class LodataProperty
         }
 
         $property->setNullable($this->isNullable());
+
+        if ($this->getDescription()) {
+            $property->addAnnotation(new Description($this->getDescription()));
+        }
 
         if ($this->isComputed()) {
             $property->addAnnotation(new Computed);

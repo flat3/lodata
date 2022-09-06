@@ -118,6 +118,9 @@
         <Property Name="Seventeen" Type="com.example.odata.UInt16" Nullable="true"/>
         <Property Name="Eighteen" Type="com.example.odata.UInt32" Nullable="true"/>
         <Property Name="Nineteen" Type="com.example.odata.UInt64" Nullable="true"/>
+        <Property Name="Twenty" Type="Edm.String" Nullable="true">
+          <Annotation Term="Org.OData.Core.V1.Description" String="This is the *description*"/>
+        </Property>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

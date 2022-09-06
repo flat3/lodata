@@ -250,6 +250,11 @@
         "Nineteen": {
             "$Type": "com.example.odata.UInt64",
             "$Nullable": true
+        },
+        "Twenty": {
+            "$Type": "Edm.String",
+            "$Nullable": true,
+            "@Org.OData.Core.V1.Description": "This is the *description*"
         }
     }
 }

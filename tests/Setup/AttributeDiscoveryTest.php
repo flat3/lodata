@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Setup;
 
+use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\ComplexType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
@@ -180,6 +181,13 @@ class AttributeDiscoveryTest extends TestCase
                 'Nineteen',
                 UInt64::class,
             ],
+            'Twenty' => [
+                'Twenty',
+                String_::class,
+                null,
+                null,
+                ['description' => 'This is the *description*'],
+            ],
         ];
     }
 
@@ -232,6 +240,10 @@ class AttributeDiscoveryTest extends TestCase
 
         if ($extra['maxLength'] ?? null) {
             $this->assertEquals($extra['maxLength'], $property->getMaxLength());
+        }
+
+        if ($extra['description'] ?? null) {
+            $this->assertEquals($extra['description'], $property->getAnnotations()->firstByClass(Description::class)->toJson());
         }
     }
 

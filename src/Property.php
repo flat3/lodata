@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Helper\CollectionType;
@@ -401,6 +402,12 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
         $scale = $this->getScale();
         if (is_int($scale)) {
             $schema['multipleOf'] = 1 / (10 ** $scale);
+        }
+
+        /** @var Description $description */
+        $description = $this->getAnnotations()->firstByClass(Description::class);
+        if ($description) {
+            $schema['description'] = $description->toJson();
         }
 
         if ($this->hasPrecision()) {

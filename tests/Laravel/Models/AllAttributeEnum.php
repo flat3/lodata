@@ -62,7 +62,8 @@ use Illuminate\Database\Eloquent\Model;
     LodataTimeOfDay(name: 'Sixteen'),
     LodataUInt16(name: 'Seventeen'),
     LodataUInt32(name: 'Eighteen'),
-    LodataUInt64(name: 'Nineteen')
+    LodataUInt64(name: 'Nineteen'),
+    LodataString(name: 'Twenty', description: 'This is the *description*')
 ]
 class AllAttributeEnum extends Model
 {
