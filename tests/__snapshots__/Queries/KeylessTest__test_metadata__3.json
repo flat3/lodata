@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "names": {
             "$EntityType": "com.example.odata.name",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },

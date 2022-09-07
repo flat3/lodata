@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "tests": {
             "$EntityType": "com.example.odata.test",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },

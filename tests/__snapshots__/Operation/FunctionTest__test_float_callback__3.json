@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "passengers": {
             "$EntityType": "com.example.odata.passenger",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -177,7 +176,6 @@
     "floatv1": {
         "$Kind": "Function",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.Double",

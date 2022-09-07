@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "passengers": {
             "$EntityType": "com.example.odata.passenger",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -177,7 +176,6 @@
     "booleanv1": {
         "$Kind": "Action",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.Boolean",

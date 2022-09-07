@@ -158,7 +158,6 @@
         },
         "pets": {
             "$EntityType": "com.example.odata.pet",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -200,7 +199,6 @@
         },
         "countries": {
             "$EntityType": "com.example.odata.country",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },

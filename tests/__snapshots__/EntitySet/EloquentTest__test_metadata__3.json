@@ -497,14 +497,12 @@
         "originAirport": {
             "$Collection": false,
             "$Type": "com.example.odata.Airport",
-            "$Nullable": true,
-            "$ReferentialConstraint": {}
+            "$Nullable": true
         },
         "destinationAirport": {
             "$Collection": false,
             "$Type": "com.example.odata.Airport",
-            "$Nullable": true,
-            "$ReferentialConstraint": {}
+            "$Nullable": true
         }
     },
     "Pet": {
@@ -559,7 +557,6 @@
     "op1": {
         "$Kind": "Function",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",

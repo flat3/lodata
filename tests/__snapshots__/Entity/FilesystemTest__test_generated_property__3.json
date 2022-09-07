@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "disk": {
             "$EntityType": "com.example.odata.file",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": false
             },

@@ -157,7 +157,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                 $navigationPropertyElement->{'$Nullable'} = $navigationProperty->isNullable();
 
                 $constraints = $navigationProperty->getConstraints();
-                if ($constraints) {
+                if ($constraints->hasEntries()) {
                     $constraintsElement = (object) [];
                     $navigationPropertyElement->{'$ReferentialConstraint'} = $constraintsElement;
                     foreach ($navigationProperty->getConstraints() as $constraint) {
@@ -181,7 +181,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                     $resourceElement->{'$EntityType'} = $resource->getType()->getIdentifier()->getQualifiedName();
 
                     $navigationBindings = $resource->getNavigationBindings();
-                    if ($navigationBindings) {
+                    if ($navigationBindings->hasEntries()) {
                         $navigationPropertyBindingElement = (object) [];
                         $resourceElement->{'$NavigationPropertyBinding'} = $navigationPropertyBindingElement;
 
@@ -200,7 +200,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
 
                     $arguments = $resource->getMetadataArguments();
 
-                    if ($arguments) {
+                    if ($arguments->hasEntries()) {
                         $argumentsElement = [];
                         foreach ($arguments as $argument) {
                             $argumentType = $argument->getType();
@@ -233,7 +233,7 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                         $entityContainer->{$resource->getIdentifier()->getResolvedName($namespace).'Import'} = $operationImportElement;
                         $operationImportElement->{$resource->isAction() ? '$Action' : '$Function'} = $resource->getIdentifier()->getQualifiedName();
 
-                        if (null !== $returnType && $returnType instanceof EntitySet) {
+                        if ($returnType instanceof EntitySet) {
                             $operationImportElement->{'$EntitySet'} = $returnType->getName();
                         }
                     }

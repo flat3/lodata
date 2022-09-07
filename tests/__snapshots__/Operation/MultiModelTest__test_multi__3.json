@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "Users": {
             "$EntityType": "com.example.odata.User",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -66,7 +65,6 @@
         },
         "Orders": {
             "$EntityType": "com.example.odata.Order",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },

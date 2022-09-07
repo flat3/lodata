@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "Flights": {
             "$EntityType": "com.example.odata.Flight",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -348,7 +347,6 @@
     "hello": {
         "$Kind": "Function",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",
@@ -443,7 +441,6 @@
     "exec": {
         "$Kind": "Action",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",
@@ -453,7 +450,6 @@
     "exec2": {
         "$Kind": "Action",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",
@@ -463,7 +459,6 @@
     "insarg": {
         "$Kind": "Function",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",

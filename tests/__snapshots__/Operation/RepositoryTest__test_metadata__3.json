@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "Airports": {
             "$EntityType": "com.example.odata.Airport",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -151,7 +150,6 @@
     "op1": {
         "$Kind": "Function",
         "$IsBound": false,
-        "$Parameter": [],
         "$ReturnType": {
             "$Collection": false,
             "$Type": "Edm.String",
