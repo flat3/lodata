@@ -21,7 +21,6 @@
         "$Kind": "EntityContainer",
         "Airports": {
             "$EntityType": "com.example.odata.Airport",
-            "$NavigationPropertyBinding": {},
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
