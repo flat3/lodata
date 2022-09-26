@@ -232,7 +232,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     {
         return [
             'type' => Constants::oapiObject,
-            'title' => __(':name (Create Schema)', ['name' => $this->getName()]),
+            'title' => __('lodata:::name (Create schema)', ['name' => $this->getName()]),
             'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
                 return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {
@@ -249,7 +249,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     {
         return [
             'type' => Constants::oapiObject,
-            'title' => __(':name (Update Schema)', ['name' => $this->getName()]),
+            'title' => __('lodata:::name (Update schema)', ['name' => $this->getName()]),
             'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
                 return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {

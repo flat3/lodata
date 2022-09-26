@@ -118,14 +118,14 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
         $description = Description::getModelAnnotation();
         $info->title = $description
             ? $description->toJson()
-            : __('OData Service for namespace :namespace', ['namespace' => Model::getNamespace()]);
+            : __('lodata::OData Service for namespace :namespace', ['namespace' => Model::getNamespace()]);
 
         $schemaVersion = SchemaVersion::getModelAnnotation();
         $info->version = $schemaVersion ? $schemaVersion->toJson() : '1.0.0';
 
         $longDescription = LongDescription::getModelAnnotation();
         $standardDescription = __(<<<'DESC'
-This OData service is located at [:endpoint](:endpoint)
+lodata::This OData service is located at [:endpoint](:endpoint)
 
 ## References
 - :refCore
@@ -315,12 +315,12 @@ DESC, [
                 $__args = ['name' => $operation->getName()];
 
                 $tag['summary'] = $operation->isFunction()
-                    ? __('Invoke function :name', $__args)
-                    : __('Invoke action :name', $__args);
+                    ? __('lodata::Invoke function :name', $__args)
+                    : __('lodata::Invoke action :name', $__args);
             }
 
             $tags = [];
-            $tags[] = __('Service Operations');
+            $tags[] = __('lodata::Service operations');
             $tags[] = $operation->getName();
 
             if ($boundParameterName) {
@@ -362,7 +362,7 @@ DESC, [
             }
 
             $responses[Response::HTTP_NO_CONTENT] = [
-                'description' => __('Success'),
+                'description' => __('lodata::Success'),
             ];
 
             $responses[Response::httpErrorAny] = [
@@ -381,21 +381,21 @@ DESC, [
         $queryObject = (object) [];
         $pathItemObject->{'post'} = $queryObject;
 
-        $queryObject->summary = __('Send a group of requests');
+        $queryObject->summary = __('lodata::Send a group of requests');
         $queryObject->operationId = "batch";
 
         $queryObject->description = __(
-            'Group multiple requests into a single request payload, see :ref',
-            ['ref' => '[Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)']
+            'lodata::Group multiple requests into a single request payload, see :ref',
+            ['ref' => '[Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)']
         );
 
-        $queryObject->tags = [__('Batch Requests')];
+        $queryObject->tags = [__('lodata::Batch requests')];
 
         $route = ServiceProvider::route();
 
         $requestBody = [
             'required' => true,
-            'description' => __('Batch Request'),
+            'description' => __('lodata::Batch request'),
             'content' => [
                 MediaType::json => [
                     'schema' => [
@@ -477,7 +477,7 @@ DESC, [
 
         $queryObject->responses = [
             Response::HTTP_OK => [
-                'description' => __('Batch response'),
+                'description' => __('lodata::Batch response'),
                 'content' => [
                     MediaType::json => [
                         'schema' => [
@@ -590,9 +590,9 @@ DESC, [
                     'type' => Constants::oapiString
                 ],
             ],
-            'title' => __('Count (parameter)'),
+            'title' => __('lodata::Count (parameter)'),
             'description' => __(
-                'The number of entities in the collection. Available when using the :ref query option',
+                'lodata::The number of entities in the collection. Available when using the :ref query option',
                 ['ref' => '[$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount)']
             ),
         ];
@@ -601,7 +601,7 @@ DESC, [
         $components->responses = $responses;
 
         $responses->error = [
-            'description' => __('Error'),
+            'description' => __('lodata::Error'),
             'content' => [
                 MediaType::json => [
                     'schema' => [
@@ -626,7 +626,7 @@ DESC, [
                                     ],
                                     'innererror' => [
                                         'type' => Constants::oapiObject,
-                                        'description' => __('The structure of this object is service-specific'),
+                                        'description' => __('lodata::The structure of this object is service-specific'),
                                     ],
                                 ],
                             ],
@@ -646,7 +646,7 @@ DESC, [
             ],
             'in' => 'query',
             'description' => __(
-                'Show only the first n items, see :ref',
+                'lodata::Show only the first n items, see :ref',
                 ['ref' => '[OData Paging – Top](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptiontop)']
             ),
         ];
@@ -659,7 +659,7 @@ DESC, [
             ],
             'in' => 'query',
             'description' => __(
-                'Skip the first n items, see :ref',
+                'lodata::Skip the first n items, see :ref',
                 ['ref' => '[OData Paging - Skip](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionskip)'],
             ),
         ];
@@ -671,7 +671,7 @@ DESC, [
             ],
             'in' => 'query',
             'description' => __(
-                'Skip using a skip token, see :ref',
+                'lodata::Skip using a skip token, see :ref',
                 ['ref' => '[OData Server Driven Paging](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServerDrivenPaging)'],
             ),
         ];
@@ -683,7 +683,7 @@ DESC, [
             ],
             'in' => 'query',
             'description' => __(
-                'Include count of items, see :ref',
+                'lodata::Include count of items, see :ref',
                 ['ref' => '[OData Count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount)'],
             ),
         ];
@@ -695,7 +695,7 @@ DESC, [
             ],
             'in' => 'query',
             'description' => __(
-                'Filter items by property values, see :ref',
+                'lodata::Filter items by property values, see :ref',
                 ['ref' => '[OData Filtering](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionfilter)'],
             ),
         ];
@@ -707,7 +707,7 @@ DESC, [
             ],
             'in' => 'query',
             'description' => __(
-                'Search items by search phrases, see :ref',
+                'lodata::Search items by search phrases, see :ref',
                 ['ref' => '[OData Searching](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionsearch)'],
             ),
         ];
@@ -728,7 +728,7 @@ DESC, [
             'name' => 'expand',
             'in' => 'query',
             'description' => __(
-                'Expand related entities, see :ref',
+                'lodata::Expand related entities, see :ref',
                 ['ref' => '[OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)']
             ),
             'explode' => false,
@@ -756,7 +756,7 @@ DESC, [
             'name' => 'select',
             'in' => 'query',
             'description' => __(
-                'Select properties to be returned, see :ref',
+                'lodata::Select properties to be returned, see :ref',
                 ['ref' => '[OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)']
             ),
             'explode' => false,
@@ -789,7 +789,7 @@ DESC, [
             'name' => 'orderby',
             'in' => 'query',
             'description' => __(
-                'Order items by property values, see :ref',
+                'lodata::Order items by property values, see :ref',
                 ['ref' => '[OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)']
             ),
             'explode' => false,
@@ -818,11 +818,11 @@ DESC, [
         ];
 
         if ($relatedSet) {
-            $queryObject->summary = __('Get entities from related :name', ['name' => $entitySet->getName()]);
+            $queryObject->summary = __('lodata::Get entities from related :name', ['name' => $entitySet->getName()]);
             $queryObject->operationId = sprintf('queryRelated%s', $entitySet->getName());
             $tags[] = $relatedSet->getName();
         } else {
-            $queryObject->summary = __('Get entities from :name', ['name' => $entitySet->getName()]);
+            $queryObject->summary = __('lodata::Get entities from :name', ['name' => $entitySet->getName()]);
             $queryObject->operationId = sprintf('query%s', $entitySet->getName());
         }
 
@@ -885,12 +885,12 @@ DESC, [
 
         $queryObject->responses = [
             Response::HTTP_OK => [
-                'description' => __('Retrieved entities'),
+                'description' => __('lodata::Retrieved entities'),
                 'content' => [
                     MediaType::json => [
                         'schema' => [
                             'type' => Constants::oapiObject,
-                            'title' => __('Collection of :name', ['name' => $entitySet->getName()]),
+                            'title' => __('lodata::Collection of :name', ['name' => $entitySet->getName()]),
                             'properties' => $properties,
                         ]
                     ]
@@ -915,11 +915,11 @@ DESC, [
         ];
 
         if ($relatedSet) {
-            $operationObject->summary = __('Add new entity to related :name', ['name' => $entitySet->getName()]);
+            $operationObject->summary = __('lodata::Add new entity to related :name', ['name' => $entitySet->getName()]);
             $operationObject->operationId = sprintf('addRelated%s', $entitySet->getName());
             $tags[] = $relatedSet->getName();
         } else {
-            $operationObject->summary = __('Add new entity to :name', ['name' => $entitySet->getName()]);
+            $operationObject->summary = __('lodata::Add new entity to :name', ['name' => $entitySet->getName()]);
             $operationObject->operationId = sprintf('add%s', $entitySet->getName());
         }
 
@@ -927,7 +927,7 @@ DESC, [
 
         $requestBody = [
             'required' => true,
-            'description' => __('New entity'),
+            'description' => __('lodata::New entity'),
             'content' => [
                 MediaType::json => [
                     'schema' => [
@@ -940,7 +940,7 @@ DESC, [
 
         $responses = [
             Response::HTTP_CREATED => [
-                'description' => __('Created entity'),
+                'description' => __('lodata::Created entity'),
                 'content' => [
                     MediaType::json => [
                         'schema' => [
@@ -950,7 +950,7 @@ DESC, [
                 ]
             ],
             Response::HTTP_NO_CONTENT => [
-                'description' => __('Success'),
+                'description' => __('lodata::Success'),
             ],
             Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
@@ -965,7 +965,7 @@ DESC, [
         $entityType = $resource->getType();
         $queryObject = (object) [];
         $pathItemObject->{'get'} = $queryObject;
-        $queryObject->summary = __('Get entity from :set by key', ['set' => $resource->getName()]);
+        $queryObject->summary = __('lodata::Get entity from :set by key', ['set' => $resource->getName()]);
         $queryObject->operationId = sprintf('get%sByKey', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
@@ -984,7 +984,7 @@ DESC, [
 
         $queryObject->responses = [
             Response::HTTP_OK => [
-                'description' => __('Retrieved entity'),
+                'description' => __('lodata::Retrieved entity'),
                 'content' => [
                     MediaType::json => [
                         'schema' => [
@@ -1005,12 +1005,12 @@ DESC, [
         $queryObject = (object) [];
         $pathItemObject->{'patch'} = $queryObject;
 
-        $queryObject->summary = __('Update entity in :set', ['set' => $resource->getName()]);
+        $queryObject->summary = __('lodata::Update entity in :set', ['set' => $resource->getName()]);
         $queryObject->operationId = sprintf('update%s', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         $queryObject->requestBody = [
-            'description' => __('New property values'),
+            'description' => __('lodata::New property values'),
             'required' => true,
             'content' => [
                 MediaType::json => [
@@ -1023,7 +1023,7 @@ DESC, [
 
         $queryObject->responses = [
             Response::HTTP_OK => [
-                'description' => __('Updated entity'),
+                'description' => __('lodata::Updated entity'),
                 'content' => [
                     MediaType::json => [
                         'schema' => [
@@ -1033,7 +1033,7 @@ DESC, [
                 ],
             ],
             Response::HTTP_NO_CONTENT => [
-                'description' => __('Success'),
+                'description' => __('lodata::Success'),
             ],
             Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
@@ -1046,13 +1046,13 @@ DESC, [
         $queryObject = (object) [];
         $pathItemObject->{'delete'} = $queryObject;
 
-        $queryObject->summary = __('Delete entity from :set', ['set' => $resource->getName()]);
+        $queryObject->summary = __('lodata::Delete entity from :set', ['set' => $resource->getName()]);
         $queryObject->operationId = sprintf('delete%s', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         $queryObject->responses = [
             Response::HTTP_NO_CONTENT => [
-                'description' => __('Success'),
+                'description' => __('lodata::Success'),
             ],
             Response::httpErrorAny => [
                 '$ref' => '#/components/responses/error',
@@ -1065,7 +1065,7 @@ DESC, [
         $key = $entitySet->getType()->getKey();
 
         return [
-            'description' => __('Key: :key', ['key' => $key->getName()]),
+            'description' => __('lodata::Key: :key', ['key' => $key->getName()]),
             'in' => 'path',
             'name' => $key->getName(),
             'required' => true,

@@ -57,6 +57,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->publishes([__DIR__.'/../config.php' => config_path('lodata.php')], 'config');
         }
 
+        $this->loadJsonTranslationsFrom(__DIR__.'/../lang');
+
         $this->app->singleton(Model::class, function () {
             return new Model();
         });

@@ -57,7 +57,8 @@
         "brianium/paratest": "^6.2|^7.0",
         "eclipxe/xmlschemavalidator": "^3.0",
         "league/csv": "^9.7",
-        "sebastian/diff": "^4.0"
+        "sebastian/diff": "^4.0",
+        "aws/aws-sdk-php": "^3"
     },
     "suggest": {
         "league/csv": "To use the CSV entity set"
@@ -71,7 +72,8 @@
         ],
         "test-parallel": "testbench package:test --parallel",
         "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover clover.xml",
-        "analyse": "phpstan analyse --memory-limit 1G"
+        "analyse": "phpstan analyse --memory-limit 1G",
+        "translate": "@php bin/translate.php"
     },
     "config": {
         "allow-plugins": {
