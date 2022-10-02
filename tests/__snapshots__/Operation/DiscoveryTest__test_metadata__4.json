@@ -1207,7 +1207,7 @@
         "/hello": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "hello"
                 ],
                 "parameters": [],
@@ -1234,7 +1234,7 @@
         "/identity": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "identity",
                     "arg"
                 ],
@@ -1272,7 +1272,7 @@
         "/add": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "add",
                     "a",
                     "b"
@@ -1326,7 +1326,7 @@
         "/exec": {
             "post": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "exec"
                 ],
                 "parameters": [],
@@ -1353,7 +1353,7 @@
         "/exec2": {
             "post": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "exec2"
                 ],
                 "parameters": [],
@@ -1380,7 +1380,7 @@
         "/insarg": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "insarg"
                 ],
                 "parameters": [],
@@ -1408,13 +1408,13 @@
             "post": {
                 "summary": "Send a group of requests",
                 "operationId": "batch",
-                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
-                    "Batch Requests"
+                    "Batch requests"
                 ],
                 "requestBody": {
                     "required": true,
-                    "description": "Batch Request",
+                    "description": "Batch request",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -1583,7 +1583,7 @@
             },
             "com.example.odata.Flight-create": {
                 "type": "object",
-                "title": "Flight (Create Schema)",
+                "title": "Flight (Create schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -1620,7 +1620,7 @@
             },
             "com.example.odata.Flight-update": {
                 "type": "object",
-                "title": "Flight (Update Schema)",
+                "title": "Flight (Update schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -1762,7 +1762,7 @@
             },
             "com.example.odata.Passenger-create": {
                 "type": "object",
-                "title": "Passenger (Create Schema)",
+                "title": "Passenger (Create schema)",
                 "properties": {
                     "flight_id": {
                         "type": "integer",
@@ -1860,7 +1860,7 @@
             },
             "com.example.odata.Passenger-update": {
                 "type": "object",
-                "title": "Passenger (Update Schema)",
+                "title": "Passenger (Update schema)",
                 "properties": {
                     "flight_id": {
                         "type": "integer",
@@ -1986,7 +1986,7 @@
             },
             "com.example.odata.Pet-create": {
                 "type": "object",
-                "title": "Pet (Create Schema)",
+                "title": "Pet (Create schema)",
                 "properties": {
                     "passenger_id": {
                         "type": "integer",
@@ -2007,7 +2007,7 @@
             },
             "com.example.odata.Pet-update": {
                 "type": "object",
-                "title": "Pet (Update Schema)",
+                "title": "Pet (Update schema)",
                 "properties": {
                     "passenger_id": {
                         "type": "integer",

@@ -3422,7 +3422,7 @@
         "/op1": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "op1"
                 ],
                 "parameters": [],
@@ -3449,7 +3449,7 @@
         "/op2": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "op2",
                     "prefix"
                 ],
@@ -3488,13 +3488,13 @@
             "post": {
                 "summary": "Send a group of requests",
                 "operationId": "batch",
-                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
-                    "Batch Requests"
+                    "Batch requests"
                 ],
                 "requestBody": {
                     "required": true,
-                    "description": "Batch Request",
+                    "description": "Batch request",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -3685,7 +3685,7 @@
             },
             "com.example.odata.Airport-create": {
                 "type": "object",
-                "title": "Airport (Create Schema)",
+                "title": "Airport (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3744,7 +3744,7 @@
             },
             "com.example.odata.Airport-update": {
                 "type": "object",
-                "title": "Airport (Update Schema)",
+                "title": "Airport (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3837,7 +3837,7 @@
             },
             "com.example.odata.Flight-create": {
                 "type": "object",
-                "title": "Flight (Create Schema)",
+                "title": "Flight (Create schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -3864,7 +3864,7 @@
             },
             "com.example.odata.Flight-update": {
                 "type": "object",
-                "title": "Flight (Update Schema)",
+                "title": "Flight (Update schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -3908,7 +3908,7 @@
             },
             "com.example.odata.Country-create": {
                 "type": "object",
-                "title": "Country (Create Schema)",
+                "title": "Country (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3918,7 +3918,7 @@
             },
             "com.example.odata.Country-update": {
                 "type": "object",
-                "title": "Country (Update Schema)",
+                "title": "Country (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -4024,7 +4024,7 @@
             },
             "com.example.odata.Passenger-create": {
                 "type": "object",
-                "title": "Passenger (Create Schema)",
+                "title": "Passenger (Create schema)",
                 "properties": {
                     "flight_id": {
                         "type": "integer",
@@ -4113,7 +4113,7 @@
             },
             "com.example.odata.Passenger-update": {
                 "type": "object",
-                "title": "Passenger (Update Schema)",
+                "title": "Passenger (Update schema)",
                 "properties": {
                     "flight_id": {
                         "type": "integer",
@@ -4230,7 +4230,7 @@
             },
             "com.example.odata.Pet-create": {
                 "type": "object",
-                "title": "Pet (Create Schema)",
+                "title": "Pet (Create schema)",
                 "properties": {
                     "passenger_id": {
                         "type": "integer",
@@ -4251,7 +4251,7 @@
             },
             "com.example.odata.Pet-update": {
                 "type": "object",
-                "title": "Pet (Update Schema)",
+                "title": "Pet (Update schema)",
                 "properties": {
                     "passenger_id": {
                         "type": "integer",

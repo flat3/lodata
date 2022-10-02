@@ -293,7 +293,7 @@
         "/op": {
             "post": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "op",
                     "arg"
                 ],
@@ -334,13 +334,13 @@
             "post": {
                 "summary": "Send a group of requests",
                 "operationId": "batch",
-                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
-                    "Batch Requests"
+                    "Batch requests"
                 ],
                 "requestBody": {
                     "required": true,
-                    "description": "Batch Request",
+                    "description": "Batch request",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -561,7 +561,7 @@
             },
             "com.example.odata.passenger-create": {
                 "type": "object",
-                "title": "passenger (Create Schema)",
+                "title": "passenger (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -650,7 +650,7 @@
             },
             "com.example.odata.passenger-update": {
                 "type": "object",
-                "title": "passenger (Update Schema)",
+                "title": "passenger (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",

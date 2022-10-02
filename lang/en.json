@@ -2,7 +2,7 @@
     "lodata:::name (Create schema)": ":name (Create schema)",
     "lodata:::name (Update schema)": ":name (Update schema)",
     "lodata::OData Service for namespace :namespace": "OData Service for namespace :namespace",
-    "lodata::This OData service is located at [:endpoint](:endpoint)\n\n## References\n- :refCore\n- :refMeasures": "This OData service is located at [:endpoint](:endpoint)\n## References\n- :refCore\n- :refMeasures",
+    "lodata::This OData service is located at [:endpoint](:endpoint)\n\n## References\n- :refCore\n- :refMeasures": "This OData service is located at [:endpoint](:endpoint)\n\n## References\n- :refCore\n- :refMeasures",
     "lodata::Invoke function :name": "Invoke function :name",
     "lodata::Invoke action :name": "Invoke action :name",
     "lodata::Service operations": "Service operations",

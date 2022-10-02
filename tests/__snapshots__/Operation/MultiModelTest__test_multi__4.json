@@ -486,7 +486,7 @@
         "/function1": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "function1",
                     "param"
                 ],
@@ -524,7 +524,7 @@
         "/function2": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "function2",
                     "param"
                 ],
@@ -563,13 +563,13 @@
             "post": {
                 "summary": "Send a group of requests",
                 "operationId": "batch",
-                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
-                    "Batch Requests"
+                    "Batch requests"
                 ],
                 "requestBody": {
                     "required": true,
-                    "description": "Batch Request",
+                    "description": "Batch request",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -707,12 +707,12 @@
             },
             "com.example.odata.User-create": {
                 "type": "object",
-                "title": "User (Create Schema)",
+                "title": "User (Create schema)",
                 "properties": []
             },
             "com.example.odata.User-update": {
                 "type": "object",
-                "title": "User (Update Schema)",
+                "title": "User (Update schema)",
                 "properties": []
             },
             "com.example.odata.Order": {
@@ -730,12 +730,12 @@
             },
             "com.example.odata.Order-create": {
                 "type": "object",
-                "title": "Order (Create Schema)",
+                "title": "Order (Create schema)",
                 "properties": []
             },
             "com.example.odata.Order-update": {
                 "type": "object",
-                "title": "Order (Update Schema)",
+                "title": "Order (Update schema)",
                 "properties": []
             },
             "Edm.ComplexType": {

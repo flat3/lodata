@@ -2772,13 +2772,13 @@
             "post": {
                 "summary": "Send a group of requests",
                 "operationId": "batch",
-                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
-                    "Batch Requests"
+                    "Batch requests"
                 ],
                 "requestBody": {
                     "required": true,
-                    "description": "Batch Request",
+                    "description": "Batch request",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -2999,7 +2999,7 @@
             },
             "com.example.odata.passenger-create": {
                 "type": "object",
-                "title": "passenger (Create Schema)",
+                "title": "passenger (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3088,7 +3088,7 @@
             },
             "com.example.odata.passenger-update": {
                 "type": "object",
-                "title": "passenger (Update Schema)",
+                "title": "passenger (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3211,7 +3211,7 @@
             },
             "com.example.odata.flight-create": {
                 "type": "object",
-                "title": "flight (Create Schema)",
+                "title": "flight (Create schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -3238,7 +3238,7 @@
             },
             "com.example.odata.flight-update": {
                 "type": "object",
-                "title": "flight (Update Schema)",
+                "title": "flight (Update schema)",
                 "properties": {
                     "origin": {
                         "type": "string",
@@ -3331,7 +3331,7 @@
             },
             "com.example.odata.airport-create": {
                 "type": "object",
-                "title": "airport (Create Schema)",
+                "title": "airport (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3390,7 +3390,7 @@
             },
             "com.example.odata.airport-update": {
                 "type": "object",
-                "title": "airport (Update Schema)",
+                "title": "airport (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3477,7 +3477,7 @@
             },
             "com.example.odata.pet-create": {
                 "type": "object",
-                "title": "pet (Create Schema)",
+                "title": "pet (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3498,7 +3498,7 @@
             },
             "com.example.odata.pet-update": {
                 "type": "object",
-                "title": "pet (Update Schema)",
+                "title": "pet (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3536,7 +3536,7 @@
             },
             "com.example.odata.country-create": {
                 "type": "object",
-                "title": "country (Create Schema)",
+                "title": "country (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3546,7 +3546,7 @@
             },
             "com.example.odata.country-update": {
                 "type": "object",
-                "title": "country (Update Schema)",
+                "title": "country (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",

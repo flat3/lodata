@@ -283,7 +283,7 @@
         "/op1": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "op1"
                 ],
                 "parameters": [],
@@ -310,7 +310,7 @@
         "/op2": {
             "get": {
                 "tags": [
-                    "Service Operations",
+                    "Service operations",
                     "op2",
                     "prefix"
                 ],
@@ -349,13 +349,13 @@
             "post": {
                 "summary": "Send a group of requests",
                 "operationId": "batch",
-                "description": "Group multiple requests into a single request payload, see [Batch Requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
                 "tags": [
-                    "Batch Requests"
+                    "Batch requests"
                 ],
                 "requestBody": {
                     "required": true,
-                    "description": "Batch Request",
+                    "description": "Batch request",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -546,7 +546,7 @@
             },
             "com.example.odata.Airport-create": {
                 "type": "object",
-                "title": "Airport (Create Schema)",
+                "title": "Airport (Create schema)",
                 "properties": {
                     "name": {
                         "type": "string",
@@ -605,7 +605,7 @@
             },
             "com.example.odata.Airport-update": {
                 "type": "object",
-                "title": "Airport (Update Schema)",
+                "title": "Airport (Update schema)",
                 "properties": {
                     "name": {
                         "type": "string",
