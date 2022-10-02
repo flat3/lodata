@@ -88,14 +88,17 @@ class FilesystemTest extends EntityTest
 
     public function test_update_an_entity_set_primitive()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_null_no_content()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_read_an_entity_set_primitive_raw()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_read_an_entity_set_primitive()
@@ -108,29 +111,36 @@ class FilesystemTest extends EntityTest
 
     public function test_null_raw_no_content()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_read_alternative_key()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_read_collection_property()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_raw()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_raw_no_accept()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_raw_accept_any()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_raw_collection_error()
     {
+        $this->expectNotToPerformAssertions();
     }
 }

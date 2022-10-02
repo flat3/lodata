@@ -12,9 +12,11 @@ class RedisTest extends CountTest
 
     public function test_count_ignores_skip()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_count_path_ignores_skip()
     {
+        $this->expectNotToPerformAssertions();
     }
 }

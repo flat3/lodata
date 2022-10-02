@@ -208,12 +208,9 @@ abstract class ExpressionTest extends TestCase
 
     public function assertBadExpression($expression): void
     {
-        try {
-            $this->evaluate($expression);
-            throw new RuntimeException('Failed to throw exception');
-        } catch (BadRequestException $e) {
-            return;
-        }
+        $this->expectException(BadRequestException::class);
+        $this->evaluate($expression);
+        throw new RuntimeException('Failed to throw exception');
     }
 
     public function assertMatchesExpressionSnapshot(string $input, string $output, ?array $parameters = []): void

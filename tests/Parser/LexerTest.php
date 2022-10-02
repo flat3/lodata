@@ -38,6 +38,7 @@ class LexerTest extends TestCase
      */
     public function test_duration($duration)
     {
+        $this->expectNotToPerformAssertions();
         $lexer = new Lexer($duration);
         $lexer->duration();
     }

@@ -243,7 +243,10 @@ class AttributeDiscoveryTest extends TestCase
         }
 
         if ($extra['description'] ?? null) {
-            $this->assertEquals($extra['description'], $property->getAnnotations()->firstByClass(Description::class)->toJson());
+            $this->assertEquals(
+                $extra['description'],
+                $property->getAnnotations()->firstByClass(Description::class)->toJson()
+            );
         }
     }
 

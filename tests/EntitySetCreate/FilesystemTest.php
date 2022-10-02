@@ -106,17 +106,21 @@ class FilesystemTest extends EntitySetCreateTest
 
     public function test_modified_source_name()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_rejects_long_values()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_enum_property()
     {
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_collection_property()
     {
+        $this->expectNotToPerformAssertions();
     }
 }

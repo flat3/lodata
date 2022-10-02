@@ -12,5 +12,6 @@ class NumericCollectionTest extends EntityTest
 
     public function test_read_alternative_key()
     {
+        $this->expectNotToPerformAssertions();
     }
 }
