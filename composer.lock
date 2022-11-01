@@ -5753,16 +5753,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.240.4",
+            "version": "3.240.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "69c7fa97862694d8c0c03f2e905c7fe05683bee9"
+                "reference": "81d8e135af0bbd0fd4dc1ffbcfb8869595ddadd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/69c7fa97862694d8c0c03f2e905c7fe05683bee9",
-                "reference": "69c7fa97862694d8c0c03f2e905c7fe05683bee9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/81d8e135af0bbd0fd4dc1ffbcfb8869595ddadd2",
+                "reference": "81d8e135af0bbd0fd4dc1ffbcfb8869595ddadd2",
                 "shasum": ""
             },
             "require": {
@@ -5841,9 +5841,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.240.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.240.6"
             },
-            "time": "2022-10-27T19:19:40+00:00"
+            "time": "2022-10-31T18:22:22+00:00"
         },
         {
             "name": "brianium/paratest",
