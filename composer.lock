@@ -6020,16 +6020,16 @@
         },
         {
             "name": "eclipxe/xmlschemavalidator",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eclipxe13/XmlSchemaValidator.git",
-                "reference": "85931d6a242c5b562f82220945fc25a01afba3f5"
+                "reference": "b3ac2b4d3618d01455eff2427114a5d766b2e640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eclipxe13/XmlSchemaValidator/zipball/85931d6a242c5b562f82220945fc25a01afba3f5",
-                "reference": "85931d6a242c5b562f82220945fc25a01afba3f5",
+                "url": "https://api.github.com/repos/eclipxe13/XmlSchemaValidator/zipball/b3ac2b4d3618d01455eff2427114a5d766b2e640",
+                "reference": "b3ac2b4d3618d01455eff2427114a5d766b2e640",
                 "shasum": ""
             },
             "require": {
@@ -6069,7 +6069,7 @@
                 "issues": "https://github.com/eclipxe13/XmlSchemaValidator/issues",
                 "source": "https://github.com/eclipxe13/XmlSchemaValidator"
             },
-            "time": "2022-03-08T18:51:17+00:00"
+            "time": "2022-12-20T02:47:11+00:00"
         },
         {
             "name": "fakerphp/faker",
