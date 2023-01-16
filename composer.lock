@@ -1238,16 +1238,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.46.0",
+            "version": "v9.47.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "62b05b6de5733d89378a279e40230a71e5ab5d92"
+                "reference": "92810d88f9a4252095a56c05541b07940363367c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/62b05b6de5733d89378a279e40230a71e5ab5d92",
-                "reference": "62b05b6de5733d89378a279e40230a71e5ab5d92",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/92810d88f9a4252095a56c05541b07940363367c",
+                "reference": "92810d88f9a4252095a56c05541b07940363367c",
                 "shasum": ""
             },
             "require": {
@@ -1338,6 +1338,7 @@
                 "mockery/mockery": "^1.5.1",
                 "orchestra/testbench-core": "^7.16",
                 "pda/pheanstalk": "^4.0",
+                "phpstan/phpdoc-parser": "^1.15",
                 "phpstan/phpstan": "^1.4.7",
                 "phpunit/phpunit": "^9.5.8",
                 "predis/predis": "^1.1.9|^2.0.2",
@@ -1420,7 +1421,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-01-03T15:12:31+00:00"
+            "time": "2023-01-10T16:10:09+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -1921,16 +1922,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.64.1",
+            "version": "2.65.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "f2e59963f4c4f4fdfb9fcfd752e8d2e2b79a4e2c"
+                "reference": "09acf64155c16dc6f580f36569ae89344e9734a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/f2e59963f4c4f4fdfb9fcfd752e8d2e2b79a4e2c",
-                "reference": "f2e59963f4c4f4fdfb9fcfd752e8d2e2b79a4e2c",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/09acf64155c16dc6f580f36569ae89344e9734a3",
+                "reference": "09acf64155c16dc6f580f36569ae89344e9734a3",
                 "shasum": ""
             },
             "require": {
@@ -2019,7 +2020,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-01T23:17:36+00:00"
+            "time": "2023-01-06T15:55:01+00:00"
         },
         {
             "name": "nette/schema",
@@ -5583,16 +5584,16 @@
         },
         {
             "name": "zbateson/stream-decorators",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zbateson/stream-decorators.git",
-                "reference": "8f8ca208572963258b7e6d91106181706deacd10"
+                "reference": "0c2816e16a67d00c60680d8d4539ec555fb43d11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zbateson/stream-decorators/zipball/8f8ca208572963258b7e6d91106181706deacd10",
-                "reference": "8f8ca208572963258b7e6d91106181706deacd10",
+                "url": "https://api.github.com/repos/zbateson/stream-decorators/zipball/0c2816e16a67d00c60680d8d4539ec555fb43d11",
+                "reference": "0c2816e16a67d00c60680d8d4539ec555fb43d11",
                 "shasum": ""
             },
             "require": {
@@ -5632,7 +5633,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zbateson/stream-decorators/issues",
-                "source": "https://github.com/zbateson/stream-decorators/tree/1.0.7"
+                "source": "https://github.com/zbateson/stream-decorators/tree/1.0.8"
             },
             "funding": [
                 {
@@ -5640,7 +5641,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-08T15:44:55+00:00"
+            "time": "2022-12-30T20:50:33+00:00"
         }
     ],
     "packages-dev": [
@@ -6845,23 +6846,23 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v7.18.0",
+            "version": "v7.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "9c5f7bc111c9fe90dc74f16433116f9cd2912174"
+                "reference": "c413751e85972067e7c48cae68514935321c87f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/9c5f7bc111c9fe90dc74f16433116f9cd2912174",
-                "reference": "9c5f7bc111c9fe90dc74f16433116f9cd2912174",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/c413751e85972067e7c48cae68514935321c87f0",
+                "reference": "c413751e85972067e7c48cae68514935321c87f0",
                 "shasum": ""
             },
             "require": {
                 "fakerphp/faker": "^1.21",
                 "laravel/framework": "^9.45",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": "^7.18",
+                "orchestra/testbench-core": "^7.19",
                 "php": "^8.0",
                 "phpunit/phpunit": "^9.5.10",
                 "spatie/laravel-ray": "^1.28",
@@ -6898,22 +6899,22 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v7.18.0"
+                "source": "https://github.com/orchestral/testbench/tree/v7.19.0"
             },
-            "time": "2023-01-04T00:22:35+00:00"
+            "time": "2023-01-10T10:16:26+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v7.18.0",
+            "version": "v7.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "81edf14237d8ac31ebdb627128b62c08dce5c34a"
+                "reference": "2bfbbd451481cf27c9663060b792487925236500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/81edf14237d8ac31ebdb627128b62c08dce5c34a",
-                "reference": "81edf14237d8ac31ebdb627128b62c08dce5c34a",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/2bfbbd451481cf27c9663060b792487925236500",
+                "reference": "2bfbbd451481cf27c9663060b792487925236500",
                 "shasum": ""
             },
             "require": {
@@ -6987,7 +6988,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-01-04T00:14:05+00:00"
+            "time": "2023-01-10T10:14:44+00:00"
         },
         {
             "name": "phar-io/manifest",
