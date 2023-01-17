@@ -34,4 +34,13 @@ class CustomTypeTest extends TestCase
 
         $this->assertMetadataSnapshot();
     }
+
+    public function test_add_drop_property()
+    {
+        $type = new EntityType('a');
+        $type->addProperty(new DeclaredProperty('b', Type::uint64()));
+        $this->assertEquals(1, $type->getProperties()->count());
+        $type->dropProperty('b');
+        $this->assertEquals(0, $type->getProperties()->count());
+    }
 }
