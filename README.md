@@ -30,7 +30,7 @@ There are many tools and techniques for exposing APIs from Laravel and there are
 where Lodata could be a great fit for your application:
 
 - Developing **single page applications** and **mobile applications** with OData-supporting enterprise UI frameworks such as
-  [Sencha ExtJS](https://docs.sencha.com/extjs/7.4.0/modern/Ext.data.proxy.Rest.html),
+  [Sencha ExtJS](https://docs.sencha.com/extjs/latest/modern/Ext.data.proxy.Rest.html),
   [DevExtreme](https://js.devexpress.com/Documentation/Guide/Data_Binding/Specify_a_Data_Source/OData/) and
   [Kendo UI](https://docs.telerik.com/kendo-ui/framework/datasource/basic-usage).
 - Making live connections to **business intelligence** tools
