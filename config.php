@@ -33,6 +33,11 @@ return [
     'namespace' => env('LODATA_NAMESPACE', 'com.example.odata'),
 
     /*
+     * The default version of the OData protocol to support for every request.
+     */
+    'version' => env('LODATA_VERSION', '4.01'),
+
+    /*
      * The name of the Laravel disk to use to store asynchronously processed requests.
      * In a multi-server shared hosting environment, all hosts should be able to access this disk
      */

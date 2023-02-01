@@ -33,7 +33,7 @@ class Version
             );
         }
 
-        $this->version = ($maxVersion ?: $version) ?: self::v4_01;
+        $this->version = ($maxVersion ?: $version) ?: config('lodata.version', self::v4_01);
     }
 
     /**

@@ -204,6 +204,7 @@ module.exports = {
                     'clients/dataverse',
                     'clients/salesforce',
                     'clients/sap',
+                    'clients/devextreme',
                 ],
             },
             {

@@ -5,6 +5,7 @@ namespace Flat3\Lodata\Tests\Protocol;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Flat3\Lodata\Transaction\Version;
 
 class VersionTest extends TestCase
 {
@@ -45,6 +46,13 @@ class VersionTest extends TestCase
             (new Request)
                 ->header(Constants::odataMaxVersion, '4.0')
         );
+    }
+
+    public function test_config_default_version()
+    {
+        config(['lodata.version' => Version::v4_0]);
+
+        $this->assertResponseSnapshot((new Request));
     }
 }
 
