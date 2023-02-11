@@ -16,12 +16,6 @@ class Duration extends Primitive
 {
     const identifier = 'Edm.Duration';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'duration',
-        'pattern' => '^'.Lexer::duration.'$',
-    ];
-
     /** @var ?float $value */
     protected $value;
 
@@ -111,5 +105,14 @@ class Duration extends Primitive
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->duration());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'duration',
+            'pattern' => '^'.Lexer::duration.'$',
+        ];
     }
 }

@@ -45,6 +45,7 @@ use Flat3\Lodata\Transaction\Option\Search;
 use Flat3\Lodata\Transaction\Option\Skip;
 use Flat3\Lodata\Transaction\Option\SkipToken;
 use Flat3\Lodata\Transaction\Option\Top;
+use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Binary;
 use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
@@ -554,31 +555,31 @@ DESC, [
         $schemas->{EntityType::identifier} = ['type' => Constants::oapiObject];
         $schemas->{PrimitiveType::identifier} = [
             'anyOf' => [
-                Boolean::openApiSchema,
-                String_::openApiSchema,
+                Type::boolean()->getOpenAPISchema(),
+                Type::string()->getOpenAPISchema(),
                 ['type' => Constants::oapiNumber],
             ],
         ];
-        $schemas->{Annotation::identifier} = String_::openApiSchema;
-        $schemas->{NavigationProperty::identifier} = String_::openApiSchema;
-        $schemas->{Property::identifier} = String_::openApiSchema;
-        $schemas->{Binary::identifier} = Binary::openApiSchema;
-        $schemas->{Byte::identifier} = Byte::openApiSchema;
-        $schemas->{Date::identifier} = Date::openApiSchema;
-        $schemas->{DateTimeOffset::identifier} = DateTimeOffset::openApiSchema;
-        $schemas->{Double::identifier} = Double::openApiSchema;
-        $schemas->{Duration::identifier} = Duration::openApiSchema;
-        $schemas->{Guid::identifier} = Guid::openApiSchema;
-        $schemas->{Int16::identifier} = Int16::openApiSchema;
-        $schemas->{Int32::identifier} = Int32::openApiSchema;
-        $schemas->{Int64::identifier} = Int64::openApiSchema;
-        $schemas->{String_::identifier} = String_::openApiSchema;
-        $schemas->{Boolean::identifier} = Boolean::openApiSchema;
-        $schemas->{SByte::identifier} = SByte::openApiSchema;
-        $schemas->{Single::identifier} = Single::openApiSchema;
-        $schemas->{Decimal::identifier} = Decimal::openApiSchema;
-        $schemas->{Stream::identifier} = Stream::openApiSchema;
-        $schemas->{TimeOfDay::identifier} = TimeOfDay::openApiSchema;
+        $schemas->{Annotation::identifier} = Type::string()->getOpenAPISchema();
+        $schemas->{NavigationProperty::identifier} = Type::string()->getOpenAPISchema();
+        $schemas->{Property::identifier} = Type::string()->getOpenAPISchema();
+        $schemas->{Binary::identifier} = Type::binary()->getOpenAPISchema();
+        $schemas->{Byte::identifier} = Type::byte()->getOpenAPISchema();
+        $schemas->{Date::identifier} = Type::date()->getOpenAPISchema();
+        $schemas->{DateTimeOffset::identifier} = Type::datetimeoffset()->getOpenAPISchema();
+        $schemas->{Double::identifier} = Type::double()->getOpenAPISchema();
+        $schemas->{Duration::identifier} = Type::duration()->getOpenAPISchema();
+        $schemas->{Guid::identifier} = Type::guid()->getOpenAPISchema();
+        $schemas->{Int16::identifier} = Type::int16()->getOpenAPISchema();
+        $schemas->{Int32::identifier} = Type::int32()->getOpenAPISchema();
+        $schemas->{Int64::identifier} = Type::int64()->getOpenAPISchema();
+        $schemas->{String_::identifier} = Type::string()->getOpenAPISchema();
+        $schemas->{Boolean::identifier} = Type::boolean()->getOpenAPISchema();
+        $schemas->{SByte::identifier} = Type::sbyte()->getOpenAPISchema();
+        $schemas->{Single::identifier} = Type::single()->getOpenAPISchema();
+        $schemas->{Decimal::identifier} = Type::decimal()->getOpenAPISchema();
+        $schemas->{Stream::identifier} = Type::stream()->getOpenAPISchema();
+        $schemas->{TimeOfDay::identifier} = Type::timeofday()->getOpenAPISchema();
 
         $schemas->{'count'} = [
             'anyOf' => [

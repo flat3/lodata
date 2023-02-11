@@ -17,12 +17,6 @@ class TimeOfDay extends DateTimeOffset
 {
     const identifier = 'Edm.TimeOfDay';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'time',
-        'pattern' => '^'.Lexer::timeOfDay.'$',
-    ];
-
     public const dateFormat = 'H:i:s.u';
 
     protected function repack(Carbon $dt): Carbon
@@ -39,5 +33,14 @@ class TimeOfDay extends DateTimeOffset
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->timeOfDay());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'time',
+            'pattern' => '^'.Lexer::timeOfDay.'$',
+        ];
     }
 }

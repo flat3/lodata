@@ -14,19 +14,22 @@ class Single extends Decimal
 {
     const identifier = 'Edm.Single';
 
-    const openApiSchema = [
-        'anyOf' => [
-            [
-                'type' => Constants::oapiNumber,
-                'format' => 'single',
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'anyOf' => [
+                [
+                    'type' => Constants::oapiNumber,
+                    'format' => 'single',
+                ],
+                [
+                    'enum' => [
+                        Constants::negativeInfinity,
+                        Constants::infinity,
+                        Constants::notANumber,
+                    ]
+                ],
             ],
-            [
-                'enum' => [
-                    Constants::negativeInfinity,
-                    Constants::infinity,
-                    Constants::notANumber,
-                ]
-            ],
-        ],
-    ];
+        ];
+    }
 }

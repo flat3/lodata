@@ -16,13 +16,6 @@ class Byte extends Numeric
 {
     const identifier = 'Edm.Byte';
 
-    const openApiSchema = [
-        'type' => Constants::oapiInteger,
-        'format' => 'uint8',
-        'minimum' => 0,
-        'maximum' => 255,
-    ];
-
     public const format = 'C';
 
     /** @var ?int $value */
@@ -68,5 +61,15 @@ class Byte extends Numeric
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->number());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiInteger,
+            'format' => 'uint8',
+            'minimum' => 0,
+            'maximum' => 255,
+        ];
     }
 }

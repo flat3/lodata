@@ -190,4 +190,9 @@ class Collection extends Primitive implements ArrayAccess
 
         $transaction->outputJsonArrayEnd();
     }
+
+    public function getOpenAPISchema(): array
+    {
+        return $this->type->getOpenAPISchema();
+    }
 }

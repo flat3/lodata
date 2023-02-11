@@ -16,12 +16,15 @@ class UInt16 extends Int16
 
     const underlyingType = Int16::class;
 
-    const openApiSchema = [
-        'type' => Constants::oapiInteger,
-        'format' => 'int16',
-        'minimum' => 0,
-        'maximum' => (2 ** 15) - 1,
-    ];
-
     public const format = 'S';
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiInteger,
+            'format' => 'int16',
+            'minimum' => 0,
+            'maximum' => (2 ** 15) - 1,
+        ];
+    }
 }

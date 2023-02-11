@@ -21,11 +21,6 @@ class Stream extends Primitive
 {
     const identifier = 'Edm.Stream';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'base64url',
-    ];
-
     /** @var ?string $value */
     protected $value;
 
@@ -144,5 +139,13 @@ class Stream extends Primitive
     public function getReadLink(): ?Uri
     {
         return $this->readLink;
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'base64url',
+        ];
     }
 }

@@ -14,12 +14,15 @@ class SByte extends Byte
 {
     const identifier = 'Edm.SByte';
 
-    const openApiSchema = [
-        'type' => Constants::oapiInteger,
-        'format' => 'int8',
-        'minimum' => -128,
-        'maximum' => 127
-    ];
-
     public const format = 'c';
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiInteger,
+            'format' => 'int8',
+            'minimum' => -128,
+            'maximum' => 127
+        ];
+    }
 }

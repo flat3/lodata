@@ -203,4 +203,9 @@ class Enum extends Primitive
     {
         return $this->type->getIdentifier();
     }
+
+    public function getOpenAPISchema(): array
+    {
+        return $this->type->getOpenAPISchema();
+    }
 }

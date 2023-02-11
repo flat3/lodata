@@ -17,12 +17,6 @@ class Date extends DateTimeOffset
 {
     const identifier = 'Edm.Date';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'date',
-        'pattern' => '^'.Lexer::date.'$',
-    ];
-
     public const dateFormat = 'Y-m-d';
 
     protected function repack(Carbon $dt): Carbon
@@ -39,5 +33,14 @@ class Date extends DateTimeOffset
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->date());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'date',
+            'pattern' => '^'.Lexer::date.'$',
+        ];
     }
 }

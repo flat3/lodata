@@ -14,19 +14,22 @@ class Double extends Decimal
 {
     const identifier = 'Edm.Double';
 
-    const openApiSchema = [
-        'anyOf' => [
-            [
-                'type' => Constants::oapiNumber,
-                'format' => 'double',
-            ],
-            [
-                'enum' => [
-                    Constants::negativeInfinity,
-                    Constants::infinity,
-                    Constants::notANumber,
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'anyOf' => [
+                [
+                    'type' => Constants::oapiNumber,
+                    'format' => 'double',
                 ],
+                [
+                    'enum' => [
+                        Constants::negativeInfinity,
+                        Constants::infinity,
+                        Constants::notANumber,
+                    ],
+                ]
             ]
-        ],
-    ];
+        ];
+    }
 }

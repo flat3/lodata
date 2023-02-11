@@ -14,12 +14,15 @@ class Int32 extends Byte
 {
     const identifier = 'Edm.Int32';
 
-    const openApiSchema = [
-        'type' => Constants::oapiInteger,
-        'format' => 'int32',
-        'minimum' => -(2 ** 31),
-        'maximum' => (2 ** 31) - 1,
-    ];
-
     public const format = 'l';
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiInteger,
+            'format' => 'int32',
+            'minimum' => -(2 ** 31),
+            'maximum' => (2 ** 31) - 1,
+        ];
+    }
 }

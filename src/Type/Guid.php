@@ -16,12 +16,6 @@ class Guid extends Primitive
 {
     const identifier = 'Edm.Guid';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'uuid',
-        'pattern' => '^'.Lexer::guid.'$',
-    ];
-
     /** @var ?string $value */
     protected $value;
 
@@ -62,5 +56,14 @@ class Guid extends Primitive
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->guid());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'uuid',
+            'pattern' => '^'.Lexer::guid.'$',
+        ];
     }
 }

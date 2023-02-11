@@ -35,12 +35,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     const identifier = 'Edm.PrimitiveType';
 
     /**
-     * The OpenAPI schema definition of this type
-     * @type array openApiSchema
-     */
-    const openApiSchema = [];
-
-    /**
      * The underlying type class of this type
      * @type ?PrimitiveType underlyingType
      */
@@ -192,4 +186,10 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     {
         return (string) $this->value;
     }
+
+    /**
+     * The OpenAPI schema definition of this type
+     * @return array Schema
+     */
+    abstract public function getOpenAPISchema(): array;
 }

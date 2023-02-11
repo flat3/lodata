@@ -17,12 +17,6 @@ class DateTimeOffset extends Primitive
 {
     const identifier = 'Edm.DateTimeOffset';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'date-time',
-        'pattern' => '^'.Lexer::dateTimeOffset.'$',
-    ];
-
     public const dateFormat = 'c';
 
     /** @var ?Carbon $value */
@@ -85,5 +79,14 @@ class DateTimeOffset extends Primitive
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->datetimeoffset());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'date-time',
+            'pattern' => '^'.Lexer::dateTimeOffset.'$',
+        ];
     }
 }

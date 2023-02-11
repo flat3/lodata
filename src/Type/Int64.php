@@ -14,15 +14,18 @@ class Int64 extends Byte
 {
     const identifier = 'Edm.Int64';
 
-    const openApiSchema = [
-        'type' => Constants::oapiInteger,
-        'format' => 'int64',
-        'minimum' => PHP_INT_MIN,
-        'maximum' => PHP_INT_MAX,
-    ];
-
     protected function repack($value)
     {
         return (int) $value;
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiInteger,
+            'format' => 'int64',
+            'minimum' => PHP_INT_MIN,
+            'maximum' => PHP_INT_MAX,
+        ];
     }
 }

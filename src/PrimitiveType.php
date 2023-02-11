@@ -97,6 +97,6 @@ class PrimitiveType extends Type implements IdentifierInterface
      */
     public function getOpenAPISchema(): array
     {
-        return $this->instance()::openApiSchema;
+        return $this->instance()->getOpenAPISchema();
     }
 }

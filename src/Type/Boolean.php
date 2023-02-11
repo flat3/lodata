@@ -16,10 +16,6 @@ class Boolean extends Primitive
 {
     const identifier = 'Edm.Boolean';
 
-    const openApiSchema = [
-        'type' => Constants::oapiBoolean,
-    ];
-
     /** @var ?bool $value */
     protected $value;
 
@@ -86,5 +82,12 @@ class Boolean extends Primitive
     public static function true(): self
     {
         return new self(true);
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiBoolean,
+        ];
     }
 }

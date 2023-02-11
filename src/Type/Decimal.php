@@ -16,22 +16,6 @@ class Decimal extends Numeric
 {
     const identifier = 'Edm.Decimal';
 
-    const openApiSchema = [
-        'anyOf' => [
-            [
-                'type' => Constants::oapiNumber,
-                'format' => 'decimal',
-            ],
-            [
-                'enum' => [
-                    Constants::negativeInfinity,
-                    Constants::infinity,
-                    Constants::notANumber,
-                ]
-            ],
-        ],
-    ];
-
     /** @var ?double $value */
     protected $value;
 
@@ -130,5 +114,24 @@ class Decimal extends Numeric
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->number());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'anyOf' => [
+                [
+                    'type' => Constants::oapiNumber,
+                    'format' => 'decimal',
+                ],
+                [
+                    'enum' => [
+                        Constants::negativeInfinity,
+                        Constants::infinity,
+                        Constants::notANumber,
+                    ]
+                ],
+            ],
+        ];
     }
 }

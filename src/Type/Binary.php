@@ -16,12 +16,6 @@ class Binary extends Primitive
 {
     const identifier = 'Edm.Binary';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-        'format' => 'base64url',
-        'pattern' => '^'.Lexer::base64.'$',
-    ];
-
     /** @var ?string $value */
     protected $value;
 
@@ -65,5 +59,14 @@ class Binary extends Primitive
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->base64());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+            'format' => 'base64url',
+            'pattern' => '^'.Lexer::base64.'$',
+        ];
     }
 }

@@ -16,10 +16,6 @@ class String_ extends Primitive
 {
     const identifier = 'Edm.String';
 
-    const openApiSchema = [
-        'type' => Constants::oapiString,
-    ];
-
     /** @var ?string $value */
     protected $value;
 
@@ -68,5 +64,12 @@ class String_ extends Primitive
     {
         /** @phpstan-ignore-next-line */
         return new static($lexer->quotedString());
+    }
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiString,
+        ];
     }
 }

@@ -16,12 +16,15 @@ class UInt32 extends Int32
 
     const underlyingType = Int32::class;
 
-    const openApiSchema = [
-        'type' => Constants::oapiInteger,
-        'format' => 'int32',
-        'minimum' => 0,
-        'maximum' => (2 ** 31) - 1,
-    ];
-
     public const format = 'L';
+
+    public function getOpenAPISchema(): array
+    {
+        return [
+            'type' => Constants::oapiInteger,
+            'format' => 'int32',
+            'minimum' => 0,
+            'maximum' => (2 ** 31) - 1,
+        ];
+    }
 }
