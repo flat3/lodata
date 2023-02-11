@@ -19,7 +19,6 @@
         "/atest": {
             "get": {
                 "summary": "Get entities from atest",
-                "operationId": "queryatest",
                 "tags": [
                     "atest"
                 ],
@@ -110,7 +109,6 @@
             },
             "post": {
                 "summary": "Add new entity to atest",
-                "operationId": "addatest",
                 "tags": [
                     "atest"
                 ],
@@ -163,7 +161,6 @@
             ],
             "get": {
                 "summary": "Get entity from atest by key",
-                "operationId": "getatestByKey",
                 "tags": [
                     "atest"
                 ],
@@ -206,7 +203,6 @@
             },
             "patch": {
                 "summary": "Update entity in atest",
-                "operationId": "updateatest",
                 "tags": [
                     "atest"
                 ],
@@ -242,7 +238,6 @@
             },
             "delete": {
                 "summary": "Delete entity from atest",
-                "operationId": "deleteatest",
                 "tags": [
                     "atest"
                 ],
@@ -389,6 +384,36 @@
     },
     "components": {
         "schemas": {
+            "com.example.odata.ctype": {
+                "type": "object",
+                "title": "ctype",
+                "properties": {
+                    "d": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "com.example.odata.ctype-create": {
+                "type": "object",
+                "title": "ctype (Create schema)",
+                "properties": {
+                    "d": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "com.example.odata.ctype-update": {
+                "type": "object",
+                "title": "ctype (Update schema)",
+                "properties": {
+                    "d": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
             "com.example.odata.etype": {
                 "type": "object",
                 "title": "etype",
@@ -412,8 +437,7 @@
                                 "type": "string",
                                 "nullable": true
                             }
-                        },
-                        "nullable": true
+                        }
                     }
                 }
             },
@@ -440,8 +464,7 @@
                                 "type": "string",
                                 "nullable": true
                             }
-                        },
-                        "nullable": true
+                        }
                     }
                 }
             },
@@ -461,8 +484,7 @@
                                 "type": "string",
                                 "nullable": true
                             }
-                        },
-                        "nullable": true
+                        }
                     }
                 }
             },
@@ -522,6 +544,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -577,6 +600,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -592,6 +616,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -608,6 +633,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

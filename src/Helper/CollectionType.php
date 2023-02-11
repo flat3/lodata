@@ -31,14 +31,6 @@ class CollectionType extends PrimitiveType implements IdentifierInterface
         return (new Collection)->setCollectionType($this)->set($value);
     }
 
-    public function getOpenAPISchema(): array
-    {
-        return [
-            'type' => Constants::oapiArray,
-            'items' => $this->getUnderlyingType()->getOpenAPISchema(),
-        ];
-    }
-
     public function getIdentifier(): Identifier
     {
         return $this->getUnderlyingType()->getIdentifier();

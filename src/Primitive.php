@@ -188,8 +188,8 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
     }
 
     /**
-     * The OpenAPI schema definition of this type
+     * The OpenAPI schema definition of this primitive
      * @return array Schema
      */
-    abstract public function getOpenAPISchema(): array;
+    abstract public function getOpenAPISchema(?Property $property = null): array;
 }

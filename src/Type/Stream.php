@@ -7,7 +7,9 @@ namespace Flat3\Lodata\Type;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\JSON;
+use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\Transaction\MediaType;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\Utils;
@@ -141,11 +143,11 @@ class Stream extends Primitive
         return $this->readLink;
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return [
+        return OpenAPI::applyProperty($property, [
             'type' => Constants::oapiString,
             'format' => 'base64url',
-        ];
+        ]);
     }
 }

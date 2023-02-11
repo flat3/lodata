@@ -9,10 +9,12 @@ use Flat3\Lodata\Annotation\Record;
 use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\CollectionType;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Interfaces\SerializeInterface;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
 use Flat3\Lodata\Type;
 use Illuminate\Contracts\Support\Arrayable;
 use TypeError;
@@ -191,8 +193,11 @@ class Collection extends Primitive implements ArrayAccess
         $transaction->outputJsonArrayEnd();
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return $this->type->getOpenAPISchema();
+        return [
+            'type' => Constants::oapiArray,
+            'items' => $this->getUnderlyingType()->instance()->getOpenAPISchema($property),
+        ];
     }
 }

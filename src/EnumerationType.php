@@ -139,18 +139,6 @@ class EnumerationType extends PrimitiveType implements ArrayAccess, IdentifierIn
     }
 
     /**
-     * Get the OpenAPI schema for this primitive type
-     * @return array
-     */
-    public function getOpenAPISchema(): array
-    {
-        return [
-            'type' => Constants::oapiString,
-            'enum' => $this->getMembers()->keys(),
-        ];
-    }
-
-    /**
      * Get the OData enumeration type name for this class
      * @param  string  $enum  Enum class name
      * @return string OData identifier

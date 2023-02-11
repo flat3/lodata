@@ -218,7 +218,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return [
             'type' => Constants::oapiObject,
             'title' => $this->getName(),
-            'properties' => $this->getDeclaredProperties()->map(function (DeclaredProperty $property) {
+            'properties' => (object)$this->getDeclaredProperties()->map(function (DeclaredProperty $property) {
                 return $property->getOpenAPISchema();
             })
         ];
@@ -233,7 +233,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return [
             'type' => Constants::oapiObject,
             'title' => __('lodata:::name (Create schema)', ['name' => $this->getName()]),
-            'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
+            'properties' => (object)$this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
                 return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {
                 return $property->getOpenAPISchema();
@@ -250,7 +250,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         return [
             'type' => Constants::oapiObject,
             'title' => __('lodata:::name (Update schema)', ['name' => $this->getName()]),
-            'properties' => $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
+            'properties' => (object)$this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
                 return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {
                 return $property->getOpenAPISchema();

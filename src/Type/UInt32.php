@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PathSegment\OpenAPI;
+use Flat3\Lodata\Property;
 
 /**
  * UInt32
@@ -18,13 +20,13 @@ class UInt32 extends Int32
 
     public const format = 'L';
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return [
+        return OpenAPI::applyProperty($property, [
             'type' => Constants::oapiInteger,
             'format' => 'int32',
             'minimum' => 0,
             'maximum' => (2 ** 31) - 1,
-        ];
+        ]);
     }
 }

@@ -39,5 +39,8 @@
     "lodata::New property values": "New property values",
     "lodata::Updated entity": "Updated entity",
     "lodata::Delete entity from :set": "Delete entity from :set",
-    "lodata::Key: :key": "Key: :key"
+    "lodata::Key: :key": "Key: :key",
+    "lodata::Invocation response": "Invocation response",
+    "lodata::Singleton response": "Singleton response",
+    "lodata::Get entity from :name": "Get entity from :name"
 }

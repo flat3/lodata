@@ -19,7 +19,6 @@
         "/passengers": {
             "get": {
                 "summary": "Get entities from passengers",
-                "operationId": "querypassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -92,7 +91,6 @@
             },
             "post": {
                 "summary": "Add new entity to passengers",
-                "operationId": "addpassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -142,7 +140,6 @@
             ],
             "get": {
                 "summary": "Get entity from passengers by key",
-                "operationId": "getpassengersByKey",
                 "tags": [
                     "passengers"
                 ],
@@ -194,7 +191,6 @@
             },
             "patch": {
                 "summary": "Update entity in passengers",
-                "operationId": "updatepassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -230,7 +226,6 @@
             },
             "delete": {
                 "summary": "Delete entity from passengers",
-                "operationId": "deletepassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -394,17 +389,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "dob": {
                         "type": "string",
@@ -464,9 +461,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -487,17 +484,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "dob": {
                         "type": "string",
@@ -557,9 +556,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -576,17 +575,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "dob": {
                         "type": "string",
@@ -646,9 +647,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -708,6 +709,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -763,6 +765,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -778,6 +781,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -794,6 +798,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

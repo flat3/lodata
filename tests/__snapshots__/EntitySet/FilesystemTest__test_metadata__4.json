@@ -19,7 +19,6 @@
         "/disk": {
             "get": {
                 "summary": "Get entities from disk",
-                "operationId": "querydisk",
                 "tags": [
                     "disk"
                 ],
@@ -74,7 +73,6 @@
             },
             "post": {
                 "summary": "Add new entity to disk",
-                "operationId": "adddisk",
                 "tags": [
                     "disk"
                 ],
@@ -124,7 +122,6 @@
             ],
             "get": {
                 "summary": "Get entity from disk by key",
-                "operationId": "getdiskByKey",
                 "tags": [
                     "disk"
                 ],
@@ -170,7 +167,6 @@
             },
             "patch": {
                 "summary": "Update entity in disk",
-                "operationId": "updatedisk",
                 "tags": [
                     "disk"
                 ],
@@ -206,7 +202,6 @@
             },
             "delete": {
                 "summary": "Delete entity from disk",
-                "operationId": "deletedisk",
                 "tags": [
                     "disk"
                 ],
@@ -471,6 +466,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -526,6 +522,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -541,6 +538,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -557,6 +555,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

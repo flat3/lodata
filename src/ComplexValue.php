@@ -404,4 +404,12 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
 
         return $metadata;
     }
+
+    /**
+     * @return array
+     */
+    public function getOpenAPISchema(): array
+    {
+        return $this->getType()->getOpenAPISchema();
+    }
 }

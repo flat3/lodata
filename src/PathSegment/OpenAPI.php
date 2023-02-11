@@ -20,6 +20,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Annotations;
 use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
@@ -63,6 +64,10 @@ use Flat3\Lodata\Type\Single;
 use Flat3\Lodata\Type\Stream;
 use Flat3\Lodata\Type\String_;
 use Flat3\Lodata\Type\TimeOfDay;
+use Flat3\Lodata\Type\UInt16;
+use Flat3\Lodata\Type\UInt32;
+use Flat3\Lodata\Type\UInt64;
+use Flat3\Lodata\Type\Untyped;
 use Illuminate\Http\Request;
 
 class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
@@ -248,6 +253,8 @@ DESC, [
             $queryObject = (object) [];
             $pathItemObject->{'get'} = $queryObject;
 
+            $queryObject->summary = __('lodata::Get entity from :name', ['name' => $singleton->getName()]);
+
             if ($singleton instanceof DeleteInterface) {
                 $this->generateDeleteRoutes($pathItemObject, $singleton);
             }
@@ -266,7 +273,7 @@ DESC, [
 
             $responses = [
                 Response::HTTP_OK => [
-                    'description' => '',
+                    'description' => __('lodata::Singleton response'),
                     'content' => [
                         MediaType::json => [
                             'schema' => [
@@ -308,18 +315,6 @@ DESC, [
             $queryObject = (object) [];
             $pathItemObject->{$operation->isFunction() ? 'get' : 'post'} = $queryObject;
 
-            $summary = $operation->getAnnotations()->sliceByClass(Description::class)->first();
-
-            if ($summary) {
-                $tag['summary'] = $summary->toJson();
-            } else {
-                $__args = ['name' => $operation->getName()];
-
-                $tag['summary'] = $operation->isFunction()
-                    ? __('lodata::Invoke function :name', $__args)
-                    : __('lodata::Invoke action :name', $__args);
-            }
-
             $tags = [];
             $tags[] = __('lodata::Service operations');
             $tags[] = $operation->getName();
@@ -347,11 +342,23 @@ DESC, [
             $queryObject->tags = $this->uniqueTags($tags);
             $queryObject->parameters = $parameters;
 
+            $summary = $operation->getAnnotations()->sliceByClass(Description::class)->first();
+
+            if ($summary) {
+                $queryObject->summary = $summary->toJson();
+            } else {
+                $__args = ['name' => $operation->getName()];
+
+                $queryObject->summary = $operation->isFunction()
+                    ? __('lodata::Invoke function :name', $__args)
+                    : __('lodata::Invoke action :name', $__args);
+            }
+
             $responses = [];
 
             if ($returnType) {
                 $responses[Response::HTTP_OK] = [
-                    'description' => '',
+                    'description' => __('lodata::Invocation response'),
                     'content' => [
                         MediaType::json => [
                             'schema' => [
@@ -545,41 +552,45 @@ DESC, [
         $schemas = (object) [];
         $components->schemas = $schemas;
 
-        foreach (Lodata::getEntityTypes() as $entityType) {
-            $schemas->{$entityType->getIdentifier()} = $entityType->getOpenAPISchema();
-            $schemas->{$entityType->getIdentifier().'-create'} = $entityType->getOpenAPICreateSchema();
-            $schemas->{$entityType->getIdentifier().'-update'} = $entityType->getOpenAPIUpdateSchema();
+        foreach (Lodata::getComplexTypes() as $complexType) {
+            $schemas->{$complexType->getIdentifier()} = $complexType->getOpenAPISchema();
+            $schemas->{$complexType->getIdentifier().'-create'} = $complexType->getOpenAPICreateSchema();
+            $schemas->{$complexType->getIdentifier().'-update'} = $complexType->getOpenAPIUpdateSchema();
         }
 
-        $schemas->{ComplexType::identifier} = ['type' => Constants::oapiObject];
-        $schemas->{EntityType::identifier} = ['type' => Constants::oapiObject];
-        $schemas->{PrimitiveType::identifier} = [
+        $schemas->{Identifier::from(ComplexType::identifier)} = ['type' => Constants::oapiObject];
+        $schemas->{Identifier::from(EntityType::identifier)} = ['type' => Constants::oapiObject];
+        $schemas->{Identifier::from(PrimitiveType::identifier)} = [
             'anyOf' => [
                 Type::boolean()->getOpenAPISchema(),
                 Type::string()->getOpenAPISchema(),
                 ['type' => Constants::oapiNumber],
             ],
         ];
-        $schemas->{Annotation::identifier} = Type::string()->getOpenAPISchema();
-        $schemas->{NavigationProperty::identifier} = Type::string()->getOpenAPISchema();
-        $schemas->{Property::identifier} = Type::string()->getOpenAPISchema();
-        $schemas->{Binary::identifier} = Type::binary()->getOpenAPISchema();
-        $schemas->{Byte::identifier} = Type::byte()->getOpenAPISchema();
-        $schemas->{Date::identifier} = Type::date()->getOpenAPISchema();
-        $schemas->{DateTimeOffset::identifier} = Type::datetimeoffset()->getOpenAPISchema();
-        $schemas->{Double::identifier} = Type::double()->getOpenAPISchema();
-        $schemas->{Duration::identifier} = Type::duration()->getOpenAPISchema();
-        $schemas->{Guid::identifier} = Type::guid()->getOpenAPISchema();
-        $schemas->{Int16::identifier} = Type::int16()->getOpenAPISchema();
-        $schemas->{Int32::identifier} = Type::int32()->getOpenAPISchema();
-        $schemas->{Int64::identifier} = Type::int64()->getOpenAPISchema();
-        $schemas->{String_::identifier} = Type::string()->getOpenAPISchema();
-        $schemas->{Boolean::identifier} = Type::boolean()->getOpenAPISchema();
-        $schemas->{SByte::identifier} = Type::sbyte()->getOpenAPISchema();
-        $schemas->{Single::identifier} = Type::single()->getOpenAPISchema();
-        $schemas->{Decimal::identifier} = Type::decimal()->getOpenAPISchema();
-        $schemas->{Stream::identifier} = Type::stream()->getOpenAPISchema();
-        $schemas->{TimeOfDay::identifier} = Type::timeofday()->getOpenAPISchema();
+        $schemas->{Identifier::from(Annotation::identifier)} = Type::string()->getOpenAPISchema();
+        $schemas->{Identifier::from(NavigationProperty::identifier)} = Type::string()->getOpenAPISchema();
+        $schemas->{Identifier::from(Property::identifier)} = Type::string()->getOpenAPISchema();
+        $schemas->{Identifier::from(Binary::identifier)} = Type::binary()->getOpenAPISchema();
+        $schemas->{Identifier::from(Byte::identifier)} = Type::byte()->getOpenAPISchema();
+        $schemas->{Identifier::from(Date::identifier)} = Type::date()->getOpenAPISchema();
+        $schemas->{Identifier::from(DateTimeOffset::identifier)} = Type::datetimeoffset()->getOpenAPISchema();
+        $schemas->{Identifier::from(Double::identifier)} = Type::double()->getOpenAPISchema();
+        $schemas->{Identifier::from(Duration::identifier)} = Type::duration()->getOpenAPISchema();
+        $schemas->{Identifier::from(Guid::identifier)} = Type::guid()->getOpenAPISchema();
+        $schemas->{Identifier::from(Int16::identifier)} = Type::int16()->getOpenAPISchema();
+        $schemas->{Identifier::from(Int32::identifier)} = Type::int32()->getOpenAPISchema();
+        $schemas->{Identifier::from(Int64::identifier)} = Type::int64()->getOpenAPISchema();
+        $schemas->{Identifier::from(String_::identifier)} = Type::string()->getOpenAPISchema();
+        $schemas->{Identifier::from(Boolean::identifier)} = Type::boolean()->getOpenAPISchema();
+        $schemas->{Identifier::from(SByte::identifier)} = Type::sbyte()->getOpenAPISchema();
+        $schemas->{Identifier::from(Single::identifier)} = Type::single()->getOpenAPISchema();
+        $schemas->{Identifier::from(Decimal::identifier)} = Type::decimal()->getOpenAPISchema();
+        $schemas->{Identifier::from(Stream::identifier)} = Type::stream()->getOpenAPISchema();
+        $schemas->{Identifier::from(TimeOfDay::identifier)} = Type::timeofday()->getOpenAPISchema();
+        $schemas->{Identifier::from(Untyped::identifier)} = Type::untyped()->getOpenAPISchema();
+        $schemas->{Identifier::from(UInt16::identifier)} = Type::uint16()->getOpenAPISchema();
+        $schemas->{Identifier::from(UInt32::identifier)} = Type::uint32()->getOpenAPISchema();
+        $schemas->{Identifier::from(UInt64::identifier)} = Type::uint64()->getOpenAPISchema();
 
         $schemas->{'count'} = [
             'anyOf' => [
@@ -820,11 +831,9 @@ DESC, [
 
         if ($relatedSet) {
             $queryObject->summary = __('lodata::Get entities from related :name', ['name' => $entitySet->getName()]);
-            $queryObject->operationId = sprintf('queryRelated%s', $entitySet->getName());
             $tags[] = $relatedSet->getName();
         } else {
             $queryObject->summary = __('lodata::Get entities from :name', ['name' => $entitySet->getName()]);
-            $queryObject->operationId = sprintf('query%s', $entitySet->getName());
         }
 
         $queryObject->tags = $this->uniqueTags($tags);
@@ -916,12 +925,13 @@ DESC, [
         ];
 
         if ($relatedSet) {
-            $operationObject->summary = __('lodata::Add new entity to related :name', ['name' => $entitySet->getName()]);
-            $operationObject->operationId = sprintf('addRelated%s', $entitySet->getName());
+            $operationObject->summary = __(
+                'lodata::Add new entity to related :name',
+                ['name' => $entitySet->getName()]
+            );
             $tags[] = $relatedSet->getName();
         } else {
             $operationObject->summary = __('lodata::Add new entity to :name', ['name' => $entitySet->getName()]);
-            $operationObject->operationId = sprintf('add%s', $entitySet->getName());
         }
 
         $operationObject->tags = $this->uniqueTags($tags);
@@ -967,7 +977,6 @@ DESC, [
         $queryObject = (object) [];
         $pathItemObject->{'get'} = $queryObject;
         $queryObject->summary = __('lodata::Get entity from :set by key', ['set' => $resource->getName()]);
-        $queryObject->operationId = sprintf('get%sByKey', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         /** @var Annotations $annotations */
@@ -1007,7 +1016,6 @@ DESC, [
         $pathItemObject->{'patch'} = $queryObject;
 
         $queryObject->summary = __('lodata::Update entity in :set', ['set' => $resource->getName()]);
-        $queryObject->operationId = sprintf('update%s', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         $queryObject->requestBody = [
@@ -1048,7 +1056,6 @@ DESC, [
         $pathItemObject->{'delete'} = $queryObject;
 
         $queryObject->summary = __('lodata::Delete entity from :set', ['set' => $resource->getName()]);
-        $queryObject->operationId = sprintf('delete%s', $resource->getName());
         $queryObject->tags = [$resource->getName()];
 
         $queryObject->responses = [
@@ -1077,5 +1084,53 @@ DESC, [
     protected function uniqueTags(array $tags): array
     {
         return collect($tags)->unique()->values()->toArray();
+    }
+
+    /**
+     * Apply property-specific type information to the provided schema
+     *
+     * @param  Property|null  $property
+     * @param  array  $schema
+     * @return array
+     */
+    public static function applyProperty(?Property $property = null, array $schema = []): array
+    {
+        if (!$property instanceof Property) {
+            return $schema;
+        }
+
+        $schema['nullable'] = $property->isNullable();
+
+        if ($property->hasStaticDefaultValue()) {
+            $schema['default'] = $property->computeDefaultValue();
+        }
+
+        if ($property->hasMaxLength()) {
+            $schema['maxLength'] = $property->getMaxLength();
+        }
+
+        $scale = $property->getScale();
+
+        if (is_int($scale)) {
+            $schema['multipleOf'] = 1 / (10 ** $scale);
+        }
+
+        if ($property->hasPrecision()) {
+            $precision = $property->getPrecision();
+
+            switch ($scale) {
+                case Constants::variable:
+                    $schema['maximum'] = (10 ** $precision) - 1;
+                    break;
+
+                default:
+                    $schema['maximum'] = (10 ** $precision) - (10 ** -$scale);
+                    break;
+            }
+
+            $schema['minimum'] = -$schema['maximum'];
+        }
+
+        return $schema;
     }
 }

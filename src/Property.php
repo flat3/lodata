@@ -388,42 +388,12 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
      */
     public function getOpenAPISchema(): array
     {
-        $schema = $this->getType()->getOpenAPISchema();
-        $schema['nullable'] = !$this->getType() instanceof CollectionType && $this->nullable;
-
-        if ($this->hasStaticDefaultValue()) {
-            $schema['default'] = $this->computeDefaultValue();
-        }
-
-        if ($this->hasMaxLength()) {
-            $schema['maxLength'] = $this->getMaxLength();
-        }
-
-        $scale = $this->getScale();
-        if (is_int($scale)) {
-            $schema['multipleOf'] = 1 / (10 ** $scale);
-        }
+        $schema = $this->getType()->instance()->getOpenAPISchema($this);
 
         /** @var Description $description */
         $description = $this->getAnnotations()->firstByClass(Description::class);
         if ($description) {
             $schema['description'] = $description->toJson();
-        }
-
-        if ($this->hasPrecision()) {
-            $precision = $this->getPrecision();
-
-            switch ($scale) {
-                case Constants::variable:
-                    $schema['maximum'] = (10 ** $precision) - 1;
-                    break;
-
-                default:
-                    $schema['maximum'] = (10 ** $precision) - (10 ** -$scale);
-                    break;
-            }
-
-            $schema['minimum'] = -$schema['maximum'];
         }
 
         return $schema;

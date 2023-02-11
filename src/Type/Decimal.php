@@ -6,7 +6,9 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
 
 /**
  * Decimal
@@ -116,21 +118,22 @@ class Decimal extends Numeric
         return new static($lexer->number());
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
         return [
             'anyOf' => [
-                [
+                OpenAPI::applyProperty($property, [
                     'type' => Constants::oapiNumber,
                     'format' => 'decimal',
-                ],
-                [
+                ]),
+                OpenAPI::applyProperty($property, [
+                    'type' => Constants::oapiString,
                     'enum' => [
                         Constants::negativeInfinity,
                         Constants::infinity,
                         Constants::notANumber,
-                    ]
-                ],
+                    ],
+                ]),
             ],
         ];
     }

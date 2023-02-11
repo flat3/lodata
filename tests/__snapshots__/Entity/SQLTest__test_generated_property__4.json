@@ -31,7 +31,6 @@
         "/passengers": {
             "get": {
                 "summary": "Get entities from passengers",
-                "operationId": "querypassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -165,7 +164,6 @@
             },
             "post": {
                 "summary": "Add new entity to passengers",
-                "operationId": "addpassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -218,7 +216,6 @@
             ],
             "get": {
                 "summary": "Get entity from passengers by key",
-                "operationId": "getpassengersByKey",
                 "tags": [
                     "passengers"
                 ],
@@ -288,7 +285,6 @@
             },
             "patch": {
                 "summary": "Update entity in passengers",
-                "operationId": "updatepassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -324,7 +320,6 @@
             },
             "delete": {
                 "summary": "Delete entity from passengers",
-                "operationId": "deletepassengers",
                 "tags": [
                     "passengers"
                 ],
@@ -356,7 +351,6 @@
             ],
             "get": {
                 "summary": "Get entities from related flights",
-                "operationId": "queryRelatedflights",
                 "tags": [
                     "flights",
                     "passengers"
@@ -473,7 +467,6 @@
             },
             "post": {
                 "summary": "Add new entity to related flights",
-                "operationId": "addRelatedflights",
                 "tags": [
                     "flights",
                     "passengers"
@@ -527,7 +520,6 @@
             ],
             "get": {
                 "summary": "Get entities from related pets",
-                "operationId": "queryRelatedpets",
                 "tags": [
                     "pets",
                     "passengers"
@@ -622,7 +614,6 @@
             },
             "post": {
                 "summary": "Add new entity to related pets",
-                "operationId": "addRelatedpets",
                 "tags": [
                     "pets",
                     "passengers"
@@ -661,7 +652,6 @@
         "/flights": {
             "get": {
                 "summary": "Get entities from flights",
-                "operationId": "queryflights",
                 "tags": [
                     "flights"
                 ],
@@ -777,7 +767,6 @@
             },
             "post": {
                 "summary": "Add new entity to flights",
-                "operationId": "addflights",
                 "tags": [
                     "flights"
                 ],
@@ -830,7 +819,6 @@
             ],
             "get": {
                 "summary": "Get entity from flights by key",
-                "operationId": "getflightsByKey",
                 "tags": [
                     "flights"
                 ],
@@ -894,7 +882,6 @@
             },
             "patch": {
                 "summary": "Update entity in flights",
-                "operationId": "updateflights",
                 "tags": [
                     "flights"
                 ],
@@ -930,7 +917,6 @@
             },
             "delete": {
                 "summary": "Delete entity from flights",
-                "operationId": "deleteflights",
                 "tags": [
                     "flights"
                 ],
@@ -962,7 +948,6 @@
             ],
             "get": {
                 "summary": "Get entities from related airports",
-                "operationId": "queryRelatedairports",
                 "tags": [
                     "airports",
                     "flights"
@@ -1089,7 +1074,6 @@
             },
             "post": {
                 "summary": "Add new entity to related airports",
-                "operationId": "addRelatedairports",
                 "tags": [
                     "airports",
                     "flights"
@@ -1143,7 +1127,6 @@
             ],
             "get": {
                 "summary": "Get entities from related airports",
-                "operationId": "queryRelatedairports",
                 "tags": [
                     "airports",
                     "flights"
@@ -1270,7 +1253,6 @@
             },
             "post": {
                 "summary": "Add new entity to related airports",
-                "operationId": "addRelatedairports",
                 "tags": [
                     "airports",
                     "flights"
@@ -1324,7 +1306,6 @@
             ],
             "get": {
                 "summary": "Get entities from related airports",
-                "operationId": "queryRelatedairports",
                 "tags": [
                     "airports",
                     "flights"
@@ -1451,7 +1432,6 @@
             },
             "post": {
                 "summary": "Add new entity to related airports",
-                "operationId": "addRelatedairports",
                 "tags": [
                     "airports",
                     "flights"
@@ -1505,7 +1485,6 @@
             ],
             "get": {
                 "summary": "Get entities from related passengers",
-                "operationId": "queryRelatedpassengers",
                 "tags": [
                     "passengers",
                     "flights"
@@ -1640,7 +1619,6 @@
             },
             "post": {
                 "summary": "Add new entity to related passengers",
-                "operationId": "addRelatedpassengers",
                 "tags": [
                     "passengers",
                     "flights"
@@ -1679,7 +1657,6 @@
         "/airports": {
             "get": {
                 "summary": "Get entities from airports",
-                "operationId": "queryairports",
                 "tags": [
                     "airports"
                 ],
@@ -1805,7 +1782,6 @@
             },
             "post": {
                 "summary": "Add new entity to airports",
-                "operationId": "addairports",
                 "tags": [
                     "airports"
                 ],
@@ -1858,7 +1834,6 @@
             ],
             "get": {
                 "summary": "Get entity from airports by key",
-                "operationId": "getairportsByKey",
                 "tags": [
                     "airports"
                 ],
@@ -1924,7 +1899,6 @@
             },
             "patch": {
                 "summary": "Update entity in airports",
-                "operationId": "updateairports",
                 "tags": [
                     "airports"
                 ],
@@ -1960,7 +1934,6 @@
             },
             "delete": {
                 "summary": "Delete entity from airports",
-                "operationId": "deleteairports",
                 "tags": [
                     "airports"
                 ],
@@ -1992,7 +1965,6 @@
             ],
             "get": {
                 "summary": "Get entities from related countries",
-                "operationId": "queryRelatedcountries",
                 "tags": [
                     "countries",
                     "airports"
@@ -2081,7 +2053,6 @@
             },
             "post": {
                 "summary": "Add new entity to related countries",
-                "operationId": "addRelatedcountries",
                 "tags": [
                     "countries",
                     "airports"
@@ -2135,7 +2106,6 @@
             ],
             "get": {
                 "summary": "Get entities from related flights",
-                "operationId": "queryRelatedflights",
                 "tags": [
                     "flights",
                     "airports"
@@ -2252,7 +2222,6 @@
             },
             "post": {
                 "summary": "Add new entity to related flights",
-                "operationId": "addRelatedflights",
                 "tags": [
                     "flights",
                     "airports"
@@ -2291,7 +2260,6 @@
         "/pets": {
             "get": {
                 "summary": "Get entities from pets",
-                "operationId": "querypets",
                 "tags": [
                     "pets"
                 ],
@@ -2385,7 +2353,6 @@
             },
             "post": {
                 "summary": "Add new entity to pets",
-                "operationId": "addpets",
                 "tags": [
                     "pets"
                 ],
@@ -2438,7 +2405,6 @@
             ],
             "get": {
                 "summary": "Get entity from pets by key",
-                "operationId": "getpetsByKey",
                 "tags": [
                     "pets"
                 ],
@@ -2482,7 +2448,6 @@
             },
             "patch": {
                 "summary": "Update entity in pets",
-                "operationId": "updatepets",
                 "tags": [
                     "pets"
                 ],
@@ -2518,7 +2483,6 @@
             },
             "delete": {
                 "summary": "Delete entity from pets",
-                "operationId": "deletepets",
                 "tags": [
                     "pets"
                 ],
@@ -2535,7 +2499,6 @@
         "/countries": {
             "get": {
                 "summary": "Get entities from countries",
-                "operationId": "querycountries",
                 "tags": [
                     "countries"
                 ],
@@ -2623,7 +2586,6 @@
             },
             "post": {
                 "summary": "Add new entity to countries",
-                "operationId": "addcountries",
                 "tags": [
                     "countries"
                 ],
@@ -2676,7 +2638,6 @@
             ],
             "get": {
                 "summary": "Get entity from countries by key",
-                "operationId": "getcountriesByKey",
                 "tags": [
                     "countries"
                 ],
@@ -2718,7 +2679,6 @@
             },
             "patch": {
                 "summary": "Update entity in countries",
-                "operationId": "updatecountries",
                 "tags": [
                     "countries"
                 ],
@@ -2754,7 +2714,6 @@
             },
             "delete": {
                 "summary": "Delete entity from countries",
-                "operationId": "deletecountries",
                 "tags": [
                     "countries"
                 ],
@@ -2921,17 +2880,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "dob": {
                         "type": "string",
@@ -2991,9 +2952,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -3010,17 +2971,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "dob": {
                         "type": "string",
@@ -3080,9 +3043,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -3099,17 +3062,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "dob": {
                         "type": "string",
@@ -3169,9 +3134,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -3304,17 +3269,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "is_big": {
                         "type": "boolean",
@@ -3363,17 +3330,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "is_big": {
                         "type": "boolean",
@@ -3422,17 +3391,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "is_big": {
                         "type": "boolean",
@@ -3610,6 +3581,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -3665,6 +3637,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -3680,6 +3653,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -3696,6 +3670,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

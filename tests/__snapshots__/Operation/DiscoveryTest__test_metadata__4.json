@@ -25,7 +25,6 @@
         "/Flights": {
             "get": {
                 "summary": "Get entities from Flights",
-                "operationId": "queryFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -122,7 +121,6 @@
             },
             "post": {
                 "summary": "Add new entity to Flights",
-                "operationId": "addFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -175,7 +173,6 @@
             ],
             "get": {
                 "summary": "Get entity from Flights by key",
-                "operationId": "getFlightsByKey",
                 "tags": [
                     "Flights"
                 ],
@@ -220,7 +217,6 @@
             },
             "patch": {
                 "summary": "Update entity in Flights",
-                "operationId": "updateFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -256,7 +252,6 @@
             },
             "delete": {
                 "summary": "Delete entity from Flights",
-                "operationId": "deleteFlights",
                 "tags": [
                     "Flights"
                 ],
@@ -273,7 +268,6 @@
         "/Passengers": {
             "get": {
                 "summary": "Get entities from Passengers",
-                "operationId": "queryPassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -405,7 +399,6 @@
             },
             "post": {
                 "summary": "Add new entity to Passengers",
-                "operationId": "addPassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -458,7 +451,6 @@
             ],
             "get": {
                 "summary": "Get entity from Passengers by key",
-                "operationId": "getPassengersByKey",
                 "tags": [
                     "Passengers"
                 ],
@@ -526,7 +518,6 @@
             },
             "patch": {
                 "summary": "Update entity in Passengers",
-                "operationId": "updatePassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -562,7 +553,6 @@
             },
             "delete": {
                 "summary": "Delete entity from Passengers",
-                "operationId": "deletePassengers",
                 "tags": [
                     "Passengers"
                 ],
@@ -594,7 +584,6 @@
             ],
             "get": {
                 "summary": "Get entities from related Pets",
-                "operationId": "queryRelatedPets",
                 "tags": [
                     "Pets",
                     "Passengers"
@@ -705,7 +694,6 @@
             },
             "post": {
                 "summary": "Add new entity to related Pets",
-                "operationId": "addRelatedPets",
                 "tags": [
                     "Pets",
                     "Passengers"
@@ -744,7 +732,6 @@
         "/Pets": {
             "get": {
                 "summary": "Get entities from Pets",
-                "operationId": "queryPets",
                 "tags": [
                     "Pets"
                 ],
@@ -854,7 +841,6 @@
             },
             "post": {
                 "summary": "Add new entity to Pets",
-                "operationId": "addPets",
                 "tags": [
                     "Pets"
                 ],
@@ -907,7 +893,6 @@
             ],
             "get": {
                 "summary": "Get entity from Pets by key",
-                "operationId": "getPetsByKey",
                 "tags": [
                     "Pets"
                 ],
@@ -967,7 +952,6 @@
             },
             "patch": {
                 "summary": "Update entity in Pets",
-                "operationId": "updatePets",
                 "tags": [
                     "Pets"
                 ],
@@ -1003,7 +987,6 @@
             },
             "delete": {
                 "summary": "Delete entity from Pets",
-                "operationId": "deletePets",
                 "tags": [
                     "Pets"
                 ],
@@ -1035,7 +1018,6 @@
             ],
             "get": {
                 "summary": "Get entities from related Passengers",
-                "operationId": "queryRelatedPassengers",
                 "tags": [
                     "Passengers",
                     "Pets"
@@ -1168,7 +1150,6 @@
             },
             "post": {
                 "summary": "Add new entity to related Passengers",
-                "operationId": "addRelatedPassengers",
                 "tags": [
                     "Passengers",
                     "Pets"
@@ -1211,9 +1192,10 @@
                     "hello"
                 ],
                 "parameters": [],
+                "summary": "Invoke function hello",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1249,9 +1231,10 @@
                         }
                     }
                 ],
+                "summary": "Invoke function identity",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1303,9 +1286,10 @@
                         }
                     }
                 ],
+                "summary": "Invoke function add",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1330,9 +1314,10 @@
                     "exec"
                 ],
                 "parameters": [],
+                "summary": "Invoke action exec",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1357,9 +1342,10 @@
                     "exec2"
                 ],
                 "parameters": [],
+                "summary": "Invoke action exec2",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1384,9 +1370,10 @@
                     "insarg"
                 ],
                 "parameters": [],
+                "summary": "Invoke function insarg",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1567,17 +1554,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     }
                 }
             },
@@ -1604,17 +1593,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     }
                 }
             },
@@ -1641,17 +1632,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     }
                 }
             },
@@ -1687,17 +1680,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "chips": {
                         "type": "boolean",
@@ -1713,17 +1708,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "open_time": {
                         "type": "string",
@@ -1754,9 +1751,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -1785,17 +1782,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "chips": {
                         "type": "boolean",
@@ -1811,17 +1810,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "open_time": {
                         "type": "string",
@@ -1852,9 +1853,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -1883,17 +1884,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "chips": {
                         "type": "boolean",
@@ -1909,17 +1912,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "open_time": {
                         "type": "string",
@@ -1950,9 +1955,9 @@
                     "emails": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": false
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 }
             },
@@ -2082,6 +2087,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -2137,6 +2143,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -2152,6 +2159,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -2168,6 +2176,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

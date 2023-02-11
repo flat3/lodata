@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Operation;
 
+use Flat3\Lodata\DynamicProperty;
 use Flat3\Lodata\Interfaces\NameInterface;
 use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Operation;
@@ -99,8 +100,8 @@ abstract class Argument implements NameInterface, TypeInterface
      */
     public function getOpenAPISchema(): array
     {
-        return array_merge($this->getType()->getOpenAPISchema(), [
-            'nullable' => $this->isNullable(),
-        ]);
+        return (new DynamicProperty('arg', $this->getType()))
+            ->setNullable($this->isNullable())
+            ->getOpenAPISchema();
     }
 }

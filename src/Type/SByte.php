@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PathSegment\OpenAPI;
+use Flat3\Lodata\Property;
 
 /**
  * SByte
@@ -16,13 +18,13 @@ class SByte extends Byte
 
     public const format = 'c';
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return [
+        return OpenAPI::applyProperty($property, [
             'type' => Constants::oapiInteger,
             'format' => 'int8',
             'minimum' => -128,
-            'maximum' => 127
-        ];
+            'maximum' => 127,
+        ]);
     }
 }

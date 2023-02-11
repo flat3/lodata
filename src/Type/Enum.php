@@ -11,7 +11,10 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\JSON;
+use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
+use JsonException;
 
 /**
  * Enum
@@ -69,7 +72,7 @@ class Enum extends Primitive
      * Set the value of this enumeration
      * @param $value
      * @return $this
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function set($value): self
     {
@@ -204,8 +207,11 @@ class Enum extends Primitive
         return $this->type->getIdentifier();
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return $this->type->getOpenAPISchema();
+        return OpenAPI::applyProperty($property, [
+            'type' => Constants::oapiString,
+            'enum' => $this->type->getMembers()->keys(),
+        ]);
     }
 }

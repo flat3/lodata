@@ -156,12 +156,6 @@ abstract class Type
     abstract public function instance($value = null);
 
     /**
-     * Get the OpenAPI schema for this type
-     * @return array
-     */
-    abstract public function getOpenAPISchema(): array;
-
-    /**
      * Return a type object based on the provided value
      * @param  mixed  $value  PHP value
      * @return Type OData type representation

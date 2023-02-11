@@ -9,6 +9,7 @@ use Countable;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Illuminate\Support\Arr;
 use Iterator;
+use ReturnTypeWillChange;
 use TypeError;
 
 /**
@@ -115,7 +116,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * Get the current value in the array
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return current($this->array);
@@ -200,7 +201,7 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
      * @param  mixed  $offset
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);

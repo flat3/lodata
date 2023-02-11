@@ -19,7 +19,6 @@
         "/Alternative": {
             "get": {
                 "summary": "Get entities from Alternative",
-                "operationId": "queryAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -183,7 +182,6 @@
             },
             "post": {
                 "summary": "Add new entity to Alternative",
-                "operationId": "addAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -235,7 +233,6 @@
             ],
             "get": {
                 "summary": "Get entity from Alternative by key",
-                "operationId": "getAlternativeByKey",
                 "tags": [
                     "Alternative"
                 ],
@@ -305,7 +302,6 @@
             },
             "patch": {
                 "summary": "Update entity in Alternative",
-                "operationId": "updateAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -341,7 +337,6 @@
             },
             "delete": {
                 "summary": "Delete entity from Alternative",
-                "operationId": "deleteAlternative",
                 "tags": [
                     "Alternative"
                 ],
@@ -488,6 +483,21 @@
     },
     "components": {
         "schemas": {
+            "com.example.odata.Recs": {
+                "type": "object",
+                "title": "Recs",
+                "properties": {}
+            },
+            "com.example.odata.Recs-create": {
+                "type": "object",
+                "title": "Recs (Create schema)",
+                "properties": {}
+            },
+            "com.example.odata.Recs-update": {
+                "type": "object",
+                "title": "Recs (Update schema)",
+                "properties": {}
+            },
             "com.example.odata.AlternativeType": {
                 "type": "object",
                 "title": "AlternativeType",
@@ -514,8 +524,7 @@
                         "items": {
                             "type": "object",
                             "additionalProperties": true
-                        },
-                        "nullable": false
+                        }
                     },
                     "ThreeOne": {
                         "type": "array",
@@ -523,18 +532,17 @@
                             "type": "integer",
                             "format": "int8",
                             "minimum": -128,
-                            "maximum": 127
-                        },
-                        "nullable": false
+                            "maximum": 127,
+                            "nullable": true
+                        }
                     },
                     "ThreeTwo": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "title": "Recs",
-                            "properties": []
-                        },
-                        "nullable": false
+                            "properties": {}
+                        }
                     },
                     "ThreeThree": {
                         "type": "array",
@@ -545,9 +553,9 @@
                                 "Green",
                                 "Blue",
                                 "Brown"
-                            ]
-                        },
-                        "nullable": false
+                            ],
+                            "nullable": true
+                        }
                     },
                     "Four": {
                         "type": "string",
@@ -565,88 +573,105 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": false
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": false
                             }
-                        ],
-                        "nullable": false
+                        ]
                     },
                     "SixOne": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             }
-                        ],
-                        "nullable": true,
-                        "maximum": 99999,
-                        "minimum": -99999
+                        ]
                     },
                     "SixTwo": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "multipleOf": 1.0e-5,
+                                "maximum": 99999.99999,
+                                "minimum": -99999.99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "multipleOf": 1.0e-5,
+                                "maximum": 99999.99999,
+                                "minimum": -99999.99999
                             }
-                        ],
-                        "nullable": true,
-                        "multipleOf": 1.0e-5,
-                        "maximum": 99999.99999,
-                        "minimum": -99999.99999
+                        ]
                     },
                     "SixThree": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             }
-                        ],
-                        "nullable": true,
-                        "maximum": 99999,
-                        "minimum": -99999
+                        ]
                     },
                     "Seven": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "Eight": {
                         "type": "string",
@@ -716,17 +741,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "single"
+                                "format": "single",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "Fifteen": {
                         "type": "string",
@@ -797,8 +824,7 @@
                         "items": {
                             "type": "object",
                             "additionalProperties": true
-                        },
-                        "nullable": false
+                        }
                     },
                     "ThreeOne": {
                         "type": "array",
@@ -806,18 +832,17 @@
                             "type": "integer",
                             "format": "int8",
                             "minimum": -128,
-                            "maximum": 127
-                        },
-                        "nullable": false
+                            "maximum": 127,
+                            "nullable": true
+                        }
                     },
                     "ThreeTwo": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "title": "Recs",
-                            "properties": []
-                        },
-                        "nullable": false
+                            "properties": {}
+                        }
                     },
                     "ThreeThree": {
                         "type": "array",
@@ -828,9 +853,9 @@
                                 "Green",
                                 "Blue",
                                 "Brown"
-                            ]
-                        },
-                        "nullable": false
+                            ],
+                            "nullable": true
+                        }
                     },
                     "Four": {
                         "type": "string",
@@ -848,88 +873,105 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": false
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": false
                             }
-                        ],
-                        "nullable": false
+                        ]
                     },
                     "SixOne": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             }
-                        ],
-                        "nullable": true,
-                        "maximum": 99999,
-                        "minimum": -99999
+                        ]
                     },
                     "SixTwo": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "multipleOf": 1.0e-5,
+                                "maximum": 99999.99999,
+                                "minimum": -99999.99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "multipleOf": 1.0e-5,
+                                "maximum": 99999.99999,
+                                "minimum": -99999.99999
                             }
-                        ],
-                        "nullable": true,
-                        "multipleOf": 1.0e-5,
-                        "maximum": 99999.99999,
-                        "minimum": -99999.99999
+                        ]
                     },
                     "SixThree": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             }
-                        ],
-                        "nullable": true,
-                        "maximum": 99999,
-                        "minimum": -99999
+                        ]
                     },
                     "Seven": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "Eight": {
                         "type": "string",
@@ -999,17 +1041,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "single"
+                                "format": "single",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "Fifteen": {
                         "type": "string",
@@ -1074,8 +1118,7 @@
                         "items": {
                             "type": "object",
                             "additionalProperties": true
-                        },
-                        "nullable": false
+                        }
                     },
                     "ThreeOne": {
                         "type": "array",
@@ -1083,18 +1126,17 @@
                             "type": "integer",
                             "format": "int8",
                             "minimum": -128,
-                            "maximum": 127
-                        },
-                        "nullable": false
+                            "maximum": 127,
+                            "nullable": true
+                        }
                     },
                     "ThreeTwo": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "title": "Recs",
-                            "properties": []
-                        },
-                        "nullable": false
+                            "properties": {}
+                        }
                     },
                     "ThreeThree": {
                         "type": "array",
@@ -1105,9 +1147,9 @@
                                 "Green",
                                 "Blue",
                                 "Brown"
-                            ]
-                        },
-                        "nullable": false
+                            ],
+                            "nullable": true
+                        }
                     },
                     "Four": {
                         "type": "string",
@@ -1125,88 +1167,105 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": false
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": false
                             }
-                        ],
-                        "nullable": false
+                        ]
                     },
                     "SixOne": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             }
-                        ],
-                        "nullable": true,
-                        "maximum": 99999,
-                        "minimum": -99999
+                        ]
                     },
                     "SixTwo": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "multipleOf": 1.0e-5,
+                                "maximum": 99999.99999,
+                                "minimum": -99999.99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "multipleOf": 1.0e-5,
+                                "maximum": 99999.99999,
+                                "minimum": -99999.99999
                             }
-                        ],
-                        "nullable": true,
-                        "multipleOf": 1.0e-5,
-                        "maximum": 99999.99999,
-                        "minimum": -99999.99999
+                        ]
                     },
                     "SixThree": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "decimal"
+                                "format": "decimal",
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true,
+                                "maximum": 99999,
+                                "minimum": -99999
                             }
-                        ],
-                        "nullable": true,
-                        "maximum": 99999,
-                        "minimum": -99999
+                        ]
                     },
                     "Seven": {
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "double"
+                                "format": "double",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "Eight": {
                         "type": "string",
@@ -1276,17 +1335,19 @@
                         "anyOf": [
                             {
                                 "type": "number",
-                                "format": "single"
+                                "format": "single",
+                                "nullable": true
                             },
                             {
+                                "type": "string",
                                 "enum": [
                                     "-INF",
                                     "INF",
                                     "NaN"
-                                ]
+                                ],
+                                "nullable": true
                             }
-                        ],
-                        "nullable": true
+                        ]
                     },
                     "Fifteen": {
                         "type": "string",
@@ -1387,6 +1448,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -1442,6 +1504,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -1457,6 +1520,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -1473,6 +1537,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

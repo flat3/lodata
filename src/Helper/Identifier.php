@@ -41,6 +41,16 @@ final class Identifier
     }
 
     /**
+     * Factory method to create an identifier
+     * @param  string  $identifier  Identifier
+     * @return Identifier
+     */
+    public static function from(string $identifier): Identifier
+    {
+        return new self($identifier);
+    }
+
+    /**
      * Get the identifier name
      * @return string
      */

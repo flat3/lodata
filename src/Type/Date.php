@@ -7,7 +7,9 @@ namespace Flat3\Lodata\Type;
 use Carbon\CarbonImmutable as Carbon;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
 
 /**
  * Date
@@ -35,12 +37,12 @@ class Date extends DateTimeOffset
         return new static($lexer->date());
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return [
+        return OpenAPI::applyProperty($property, [
             'type' => Constants::oapiString,
             'format' => 'date',
             'pattern' => '^'.Lexer::date.'$',
-        ];
+        ]);
     }
 }

@@ -6,7 +6,9 @@ namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
+use Flat3\Lodata\Property;
 
 /**
  * Binary
@@ -61,12 +63,12 @@ class Binary extends Primitive
         return new static($lexer->base64());
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return [
+        return OpenAPI::applyProperty($property, [
             'type' => Constants::oapiString,
             'format' => 'base64url',
             'pattern' => '^'.Lexer::base64.'$',
-        ];
+        ]);
     }
 }

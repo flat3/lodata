@@ -22,7 +22,6 @@
         "/Users": {
             "get": {
                 "summary": "Get entities from Users",
-                "operationId": "queryUsers",
                 "tags": [
                     "Users"
                 ],
@@ -107,7 +106,6 @@
             },
             "post": {
                 "summary": "Add new entity to Users",
-                "operationId": "addUsers",
                 "tags": [
                     "Users"
                 ],
@@ -160,7 +158,6 @@
             ],
             "get": {
                 "summary": "Get entity from Users by key",
-                "operationId": "getUsersByKey",
                 "tags": [
                     "Users"
                 ],
@@ -201,7 +198,6 @@
             },
             "patch": {
                 "summary": "Update entity in Users",
-                "operationId": "updateUsers",
                 "tags": [
                     "Users"
                 ],
@@ -237,7 +233,6 @@
             },
             "delete": {
                 "summary": "Delete entity from Users",
-                "operationId": "deleteUsers",
                 "tags": [
                     "Users"
                 ],
@@ -254,7 +249,6 @@
         "/Orders": {
             "get": {
                 "summary": "Get entities from Orders",
-                "operationId": "queryOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -339,7 +333,6 @@
             },
             "post": {
                 "summary": "Add new entity to Orders",
-                "operationId": "addOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -392,7 +385,6 @@
             ],
             "get": {
                 "summary": "Get entity from Orders by key",
-                "operationId": "getOrdersByKey",
                 "tags": [
                     "Orders"
                 ],
@@ -433,7 +425,6 @@
             },
             "patch": {
                 "summary": "Update entity in Orders",
-                "operationId": "updateOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -469,7 +460,6 @@
             },
             "delete": {
                 "summary": "Delete entity from Orders",
-                "operationId": "deleteOrders",
                 "tags": [
                     "Orders"
                 ],
@@ -501,9 +491,10 @@
                         }
                     }
                 ],
+                "summary": "Invoke function function1",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -539,9 +530,10 @@
                         }
                     }
                 ],
+                "summary": "Invoke function function2",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Invocation response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -708,12 +700,12 @@
             "com.example.odata.User-create": {
                 "type": "object",
                 "title": "User (Create schema)",
-                "properties": []
+                "properties": {}
             },
             "com.example.odata.User-update": {
                 "type": "object",
                 "title": "User (Update schema)",
-                "properties": []
+                "properties": {}
             },
             "com.example.odata.Order": {
                 "type": "object",
@@ -731,12 +723,12 @@
             "com.example.odata.Order-create": {
                 "type": "object",
                 "title": "Order (Create schema)",
-                "properties": []
+                "properties": {}
             },
             "com.example.odata.Order-update": {
                 "type": "object",
                 "title": "Order (Update schema)",
-                "properties": []
+                "properties": {}
             },
             "Edm.ComplexType": {
                 "type": "object"
@@ -794,6 +786,7 @@
                         "format": "double"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -849,6 +842,7 @@
                         "format": "single"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -864,6 +858,7 @@
                         "format": "decimal"
                     },
                     {
+                        "type": "string",
                         "enum": [
                             "-INF",
                             "INF",
@@ -880,6 +875,28 @@
                 "type": "string",
                 "format": "time",
                 "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
             },
             "count": {
                 "anyOf": [

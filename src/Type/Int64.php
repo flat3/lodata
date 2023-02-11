@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Type;
 
 use Flat3\Lodata\Helper\Constants;
+use Flat3\Lodata\PathSegment\OpenAPI;
+use Flat3\Lodata\Property;
 
 /**
  * Int64
@@ -19,13 +21,13 @@ class Int64 extends Byte
         return (int) $value;
     }
 
-    public function getOpenAPISchema(): array
+    public function getOpenAPISchema(?Property $property = null): array
     {
-        return [
+        return OpenAPI::applyProperty($property, [
             'type' => Constants::oapiInteger,
             'format' => 'int64',
             'minimum' => PHP_INT_MIN,
             'maximum' => PHP_INT_MAX,
-        ];
+        ]);
     }
 }
