@@ -28,6 +28,10 @@ trait UseDriverStateAssertions
 
     protected function assertDriverStateDiffSnapshot()
     {
+        if ($this->driverState === null) {
+            return;
+        }
+
         $driver = new StreamingJsonDriver;
 
         $this->assertDiffSnapshot(

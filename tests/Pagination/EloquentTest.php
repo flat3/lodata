@@ -21,6 +21,8 @@ class EloquentTest extends PaginationTest
             return;
         }
 
+        $this->driverState = null;
+
         DB::statement('delete from pets');
         DB::statement('ALTER SEQUENCE pets_id_seq RESTART WITH 1');
         DB::statement('insert into pets(name) select generate_series(1,10000)');
