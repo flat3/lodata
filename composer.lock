@@ -6859,16 +6859,16 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v7.0.1",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "0422294fcfb1ca2e15dfc20122d218c45c5bbf51"
+                "reference": "15e5fe35305419c9c6cf196be8d62cf70087a20c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/0422294fcfb1ca2e15dfc20122d218c45c5bbf51",
-                "reference": "0422294fcfb1ca2e15dfc20122d218c45c5bbf51",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/15e5fe35305419c9c6cf196be8d62cf70087a20c",
+                "reference": "15e5fe35305419c9c6cf196be8d62cf70087a20c",
                 "shasum": ""
             },
             "require": {
@@ -6886,7 +6886,7 @@
                 "nunomaduro/larastan": "^2.4.0",
                 "orchestra/testbench-core": "^8.0.0",
                 "pestphp/pest": "^2.0.0",
-                "phpunit/phpunit": "^10.0.6",
+                "phpunit/phpunit": "^10.0.7",
                 "spatie/laravel-ignition": "^2.0.0"
             },
             "type": "library",
@@ -6946,7 +6946,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-02-08T12:07:35+00:00"
+            "time": "2023-02-11T18:10:08+00:00"
         },
         {
             "name": "orchestra/testbench",
@@ -9656,5 +9656,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
