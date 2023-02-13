@@ -6,5 +6,5 @@
             "name": "Alpha"
         }
     ],
-    "@nextLink": "http://localhost/odata/Flights/1/passengers?%24select=flight_id%2Cname&top=1&skip=1"
+    "@nextLink": "http://localhost/odata/Flights/1/passengers?%24select=flight_id%2Cname&top=1&skiptoken=1"
 }

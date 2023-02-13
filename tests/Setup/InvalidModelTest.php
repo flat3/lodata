@@ -15,6 +15,8 @@ class InvalidModelTest extends TestCase
     public function testMissingPrimaryKey()
     {
         if ($this->getConnection()->getDriverName() !== SQLEntitySet::SQLite) {
+            $this->expectNotToPerformAssertions();
+
             return;
         }
 

@@ -206,8 +206,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $top = $this->getTop();
         $limit = $top->getValue();
+        $total = 0;
 
         while ($results->valid()) {
+            $total++;
+
             if ($top->hasValue() && $limit === 0) {
                 break;
             }
@@ -230,6 +233,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         $transaction->outputJsonArrayEnd();
+
+        if ($total < $this->getTop()->getValue()) {
+            $this->getSkipToken()->clearValue();
+        }
     }
 
     /**

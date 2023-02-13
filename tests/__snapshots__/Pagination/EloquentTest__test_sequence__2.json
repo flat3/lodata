@@ -32,5 +32,5 @@
             "emails": []
         }
     ],
-    "@nextLink": "http://localhost/odata/Passengers?top=2&skip=4"
+    "@nextLink": "http://localhost/odata/Passengers?top=2&skiptoken=4"
 }

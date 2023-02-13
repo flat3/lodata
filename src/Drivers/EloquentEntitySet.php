@@ -42,6 +42,7 @@ use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
+use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationBinding;
@@ -72,7 +73,7 @@ use ReflectionMethod;
  * Eloquent Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface
+class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, TokenPaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface
 {
     use SQLConnection;
     use SQLOrderBy;
@@ -292,7 +293,9 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $builder->limit($this->getTop()->getValue());
         }
 
-        if ($this->getSkip()->hasValue()) {
+        if ($this->getSkipToken()->hasValue()) {
+            $builder->where($this->getModel()->getKeyName(), '>', $this->getSkipToken()->getValue());
+        } else if ($this->getSkip()->hasValue()) {
             if (!$this->getTop()->hasValue()) {
                 $builder->limit(PHP_INT_MAX);
             }
@@ -302,6 +305,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         foreach ($builder->lazyById() as $model) {
             yield $this->modelToEntity($model);
+
+            if ($this->getTop()->hasValue()) {
+                $this->getSkipToken()->setValue((string) $model->getKey());
+            }
         }
     }
 

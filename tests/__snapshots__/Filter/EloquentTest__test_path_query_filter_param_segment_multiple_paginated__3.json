@@ -17,5 +17,6 @@
                 "gamma@example.com"
             ]
         }
-    ]
+    ],
+    "@nextLink": "http://localhost/odata/Passengers/$filter(@b)?%24filter=dob%20gt%202000-01-01&%40b=endswith%28name%2C%20%27a%27%29&top=1&skiptoken=3"
 }

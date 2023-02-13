@@ -25,6 +25,7 @@ use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ExpandInterface;
+use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
@@ -860,9 +861,12 @@ DESC, [
 
         if ($annotations->supportsTop()) {
             $parameters[] = ['$ref' => '#/components/parameters/top'];
+
             if ($entitySet instanceof TokenPaginationInterface) {
                 $parameters[] = ['$ref' => '#/components/parameters/skiptoken'];
-            } else {
+            }
+
+            if ($entitySet instanceof PaginationInterface) {
                 $parameters[] = ['$ref' => '#/components/parameters/skip'];
             }
         }

@@ -20,5 +20,5 @@
         }
     ],
     "@count": 5,
-    "@nextLink": "http://localhost/odata/Passengers?%24count=true&top=1&skip=1"
+    "@nextLink": "http://localhost/odata/Passengers?%24count=true&top=1&skiptoken=1"
 }
