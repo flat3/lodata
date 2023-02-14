@@ -300,7 +300,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $builder->skip($this->getSkip()->getValue());
         }
 
-        foreach ($builder->lazyById() as $model) {
+        foreach ($builder->cursor() as $model) {
             yield $this->modelToEntity($model);
         }
     }
