@@ -15,18 +15,18 @@ jobs:
       matrix:
         include:
           - php: 81
-            laravel: 9
+            laravel: 10
             database: sqlite
           - php: 81
-            laravel: 9
+            laravel: 10
             database: sqlsrv
           - php: 81
-            laravel: 9
+            laravel: 10
             database: postgres
           - php: 81
-            laravel: 9
+            laravel: 10
             database: mysql
-          - php: 80
+          - php: 81
             laravel: 9
             database: sqlite
           - php: 81
