@@ -427,13 +427,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
                 switch (true) {
                     case $r instanceof HasOneOrMany:
-                        $localProperty = $this->getType()->getProperty($r->getLocalKeyName());
-                        $foreignProperty = $right->getType()->getProperty($r->getForeignKeyName());
+                        $localProperty = $this->getPropertyBySourceName($r->getLocalKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName($r->getForeignKeyName());
                         break;
 
                     case $r instanceof BelongsTo:
-                        $localProperty = $this->getType()->getProperty($r->getForeignKeyName());
-                        $foreignProperty = $right->getType()->getProperty($r->getOwnerKeyName());
+                        $localProperty = $this->getPropertyBySourceName($r->getForeignKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName($r->getOwnerKeyName());
                         break;
                 }
 

@@ -337,6 +337,22 @@ class ObjectArray implements Countable, Iterator, ArrayAccess
     }
 
     /**
+     * Return the key associated with the provided value
+     * @param $value
+     * @return string|null Key
+     */
+    public function keyByValue($value): ?string
+    {
+        foreach ($this->array as $k => $v) {
+            if ($value === $v) {
+                return $k;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get a a list of object keys
      * @return array
      */

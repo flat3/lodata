@@ -1081,6 +1081,16 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
+     * Get a property by its source name, falling back to its standard name
+     * @param  string  $name  Source name
+     * @return Property|null Property
+     */
+    public function getPropertyBySourceName(string $name): ?Property
+    {
+        return $this->getType()->getProperty($this->sourceMap->keyByValue($name) ?? $name);
+    }
+
+    /**
      * Set an underlying source name for the given property
      * @param  Property  $property  Property
      * @param  string  $sourceName  Source name
