@@ -12,6 +12,8 @@ jobs:
 
       - name: Install and Build
         working-directory: doc
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           yarn
           yarn build
