@@ -23,6 +23,7 @@ class BinaryTest extends TestCase
 
         $type = new EntityType('Example');
         $set = new SQLEntitySet('Examples', $type);
+        $set->setTable('examples');
         $set->discoverProperties();
         $type->setKey(new DeclaredProperty('id', Type::guid()));
         Lodata::add($set);
