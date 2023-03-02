@@ -393,7 +393,7 @@
                         "type": "string",
                         "format": "base64url",
                         "pattern": "^([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?$",
-                        "nullable": false
+                        "nullable": true
                     }
                 }
             },
@@ -411,7 +411,7 @@
                         "type": "string",
                         "format": "base64url",
                         "pattern": "^([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?$",
-                        "nullable": false
+                        "nullable": true
                     }
                 }
             },
@@ -423,7 +423,7 @@
                         "type": "string",
                         "format": "base64url",
                         "pattern": "^([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?$",
-                        "nullable": false
+                        "nullable": true
                     }
                 }
             },

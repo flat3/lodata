@@ -15,7 +15,7 @@ class Binary extends Migration
     {
         Schema::create('examples', function (Blueprint $table) {
             $table->uuid('id');
-            $table->binary('photo');
+            $table->binary('photo')->nullable();
         });
     }
 

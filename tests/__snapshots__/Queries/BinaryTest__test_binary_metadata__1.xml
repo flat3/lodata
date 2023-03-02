@@ -77,7 +77,7 @@
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Guid" Nullable="false"/>
-        <Property Name="photo" Type="Edm.Binary" Nullable="false"/>
+        <Property Name="photo" Type="Edm.Binary" Nullable="true"/>
       </EntityType>
       <Annotations Target="com.example.odata.DefaultContainer">
         <Annotation Term="Org.OData.Core.V1.ConventionalIDs" Bool="true"/>

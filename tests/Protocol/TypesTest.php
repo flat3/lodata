@@ -17,14 +17,14 @@ class TypesTest extends TestCase
                     ['aGVsbG8=', 'aGVsbG8'],
                     ['7/s5mg==', '7_s5mg'],
                     ['7_s5mg', '7_s5mg'],
-                    ['hello', 'hell'],
+                    ['hello', 'aGVsbG8'],
                 ],
                 'toJson' => [
                     [null, null],
                     ['aGVsbG8=', 'aGVsbG8='],
                     ['7/s5mg==', '7/s5mg=='],
                     ['7_s5mg', '7/s5mg=='],
-                    ['hello', 'hell'],
+                    ['hello', 'aGVsbG8='],
                 ],
             ],
             [
