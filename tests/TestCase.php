@@ -167,6 +167,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         );
     }
 
+    protected function getFixturesDirectory(): string
+    {
+        $root = dirname(__FILE__);
+        return sprintf(
+            '%s%s__fixtures__',
+            $root,
+            DIRECTORY_SEPARATOR
+        );
+    }
+
     protected function getPackageProviders($app): array
     {
         return [

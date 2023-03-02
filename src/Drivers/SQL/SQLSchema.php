@@ -137,6 +137,11 @@ trait SQLSchema
         $columnType = $column->getType();
 
         switch (true) {
+            case $columnType instanceof Types\BlobType:
+            case $columnType instanceof Types\BinaryType:
+                $type = Type::binary();
+                break;
+
             case $columnType instanceof Types\BooleanType:
                 $type = Type::boolean();
                 break;

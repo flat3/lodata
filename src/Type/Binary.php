@@ -42,19 +42,15 @@ class Binary extends Primitive
 
     public function set($value): self
     {
-        $result = base64_decode(str_replace(['-', '_'], ['+', '/'], (string) $value));
+        $result = base64_decode(str_replace(['-', '_'], ['+', '/'], (string) $value), true);
+
         if (false === $result) {
-            $result = null;
+            $result = $value;
         }
 
         $this->value = null === $value ? null : $result;
 
         return $this;
-    }
-
-    public function get(): ?string
-    {
-        return parent::get();
     }
 
     public static function fromLexer(Lexer $lexer): Primitive
