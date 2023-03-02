@@ -51,6 +51,7 @@ use Illuminate\Support\Collection as ICollection;
 use Illuminate\Support\Facades\App;
 use ReflectionAttribute;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
@@ -796,7 +797,7 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
      * Discover operations on the provided class and add them to the model
      * @param  string|object|EloquentModel|RepositoryInterface  $discoverable
      * @return void
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function discover($discoverable)
     {

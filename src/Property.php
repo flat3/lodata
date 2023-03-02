@@ -7,7 +7,6 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
-use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\AnnotationInterface;
 use Flat3\Lodata\Interfaces\NameInterface;
