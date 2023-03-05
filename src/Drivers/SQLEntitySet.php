@@ -278,7 +278,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
             $stmt->bindValue(
                 is_string($key) ? $key : $key + 1,
                 $value,
-                is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR
+                is_int($value) ? PDO::PARAM_INT : (is_resource($value) ? PDO::PARAM_LOB : PDO::PARAM_STR)
             );
         }
     }

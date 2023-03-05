@@ -17,9 +17,15 @@ class BinaryTest extends TestCase
 {
     protected $migrations = __DIR__.'/../Laravel/migrations/binary';
 
+    protected $image = null;
+
     public function setUp(): void
     {
         parent::setUp();
+
+        if ($this->getConnection()->getDriverName() === SQLEntitySet::SQLServer) {
+            $this->markTestSkipped();
+        }
 
         $type = new EntityType('Example');
         $set = new SQLEntitySet('Examples', $type);
@@ -28,10 +34,13 @@ class BinaryTest extends TestCase
         $type->setKey(new DeclaredProperty('id', Type::guid()));
         Lodata::add($set);
 
-        DB::table('examples')->insert([
-            'id' => Str::uuid(),
-            'photo' => file_get_contents(sprintf('%s/image.png', $this->getFixturesDirectory())),
-        ]);
+        $this->image = fopen(sprintf('%s/image.png', $this->getFixturesDirectory()), 'rb');
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        fclose($this->image);
     }
 
     public function test_binary_metadata()
@@ -41,6 +50,13 @@ class BinaryTest extends TestCase
 
     public function test_binary_retrieve()
     {
+        rewind($this->image);
+
+        DB::table('examples')->insert([
+            'id' => Str::uuid(),
+            'photo' => $this->image,
+        ]);
+
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path('/Examples')
@@ -61,9 +77,10 @@ class BinaryTest extends TestCase
             Response::HTTP_CREATED
         );
 
+        rewind($this->image);
         $this->assertDatabaseHas('examples', [
             'id' => $id,
-            'photo' => file_get_contents(sprintf('%s/image.png', $this->getFixturesDirectory())),
+            'photo' => $this->image,
         ]);
     }
 }

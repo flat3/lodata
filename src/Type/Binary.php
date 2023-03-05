@@ -18,37 +18,46 @@ class Binary extends Primitive
 {
     const identifier = 'Edm.Binary';
 
-    /** @var ?string $value */
-    protected $value;
-
     public function toUrl(): string
     {
         if (null === $this->value) {
             return Constants::null;
         }
 
-        return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($this->value));
+        return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(stream_get_contents($this->value)));
     }
 
     public function toJson(): ?string
     {
-        return null === $this->value ? null : base64_encode($this->value);
+        return null === $this->value ? null : base64_encode(stream_get_contents($this->value));
     }
 
-    public function toMixed(): ?string
+    public function toMixed()
     {
         return $this->value;
     }
 
     public function set($value): self
     {
-        $result = base64_decode(str_replace(['-', '_'], ['+', '/'], (string) $value), true);
-
-        if (false === $result) {
-            $result = $value;
+        if (null === $value) {
+            $this->value = null;
+            return $this;
         }
 
-        $this->value = null === $value ? null : $result;
+        if (is_resource($value)) {
+            $this->value = $value;
+            return $this;
+        }
+
+        $this->value = fopen('php://memory', 'r+');
+
+        if (($decoded = base64_decode(str_replace(['-', '_'], ['+', '/'], (string) $value), true)) !== false) {
+            fwrite($this->value, $decoded);
+        } else {
+            fwrite($this->value, $value);
+        }
+
+        rewind($this->value);
 
         return $this;
     }
