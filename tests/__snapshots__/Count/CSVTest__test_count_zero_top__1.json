@@ -1,0 +1,5 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [],
+    "@count": 5
+}

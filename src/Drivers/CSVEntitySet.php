@@ -74,7 +74,13 @@ class CSVEntitySet extends EntitySet implements ReadInterface, QueryInterface, P
         }
 
         if ($this->getTop()->hasValue()) {
-            $statement = $statement->limit($this->getTop()->getValue());
+            $topValue = $this->getTop()->getValue();
+
+            if ($topValue === 0) {
+                return;
+            }
+
+            $statement = $statement->limit($topValue);
         }
 
         if ($this->getOrderBy()->hasValue()) {

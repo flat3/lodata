@@ -84,4 +84,14 @@ abstract class CountTest extends TestCase
                 ->query('$count', 'invalid')
         );
     }
+
+    public function test_count_zero_top()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath)
+                ->query('$count', 'true')
+                ->top('0')
+        );
+    }
 }

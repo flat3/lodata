@@ -247,7 +247,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $defaultPageSize = config('lodata.pagination.default');
         $maxPageSize = config('lodata.pagination.max');
         $preferPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
-        $targetPageSize = $top->getValue() ?: $preferPageSize ?: $defaultPageSize;
+        $targetPageSize = $top->getValue() ?? $preferPageSize ?? $defaultPageSize;
 
         if ($maxPageSize && (!$targetPageSize || $targetPageSize > $maxPageSize)) {
             $targetPageSize = $maxPageSize;

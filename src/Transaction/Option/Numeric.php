@@ -43,6 +43,11 @@ abstract class Numeric extends Option
         return $this->value;
     }
 
+    public function hasValue(): bool
+    {
+        return is_numeric($this->value);
+    }
+
     public function increment(): self
     {
         $this->value++;
