@@ -59,7 +59,7 @@
         "sebastian/diff": "^4.0",
         "aws/aws-sdk-php": "^3",
         "m6web/redis-mock": "^5.4",
-        "predis/predis": "2.1.1"
+        "predis/predis": "2.1.2"
     },
     "suggest": {
         "league/csv": "To use the CSV entity set"
