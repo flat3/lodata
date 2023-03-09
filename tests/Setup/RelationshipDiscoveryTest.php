@@ -29,12 +29,10 @@ class RelationshipDiscoveryTest extends TestCase
     }
 }
 
-#[
-    LodataIdentifier('People'),
-    LodataTypeIdentifier('Person'),
-    LodataInt32('PersonID', key: true, source: 'person_id'),
-    LodataString('PersonName', source: 'name'),
-]
+#[LodataIdentifier('People')]
+#[LodataTypeIdentifier('Person')]
+#[LodataInt32('PersonID', key: true, source: 'person_id')]
+#[LodataString('PersonName', source: 'name')]
 class Person extends Model
 {
     public $primaryKey = 'person_id';
@@ -46,13 +44,11 @@ class Person extends Model
     }
 }
 
-#[
-    LodataIdentifier('Pets'),
-    LodataTypeIdentifier('Pet'),
-    LodataInt32('PetID', key: true, source: 'pet_id'),
-    LodataString('PetName', source: 'name'),
-    LodataInt32('OwnerID', source: 'owner_id'),
-]
+#[LodataIdentifier('Pets')]
+#[LodataTypeIdentifier('Pet')]
+#[LodataInt32('PetID', key: true, source: 'pet_id')]
+#[LodataString('PetName', source: 'name')]
+#[LodataInt32('OwnerID', source: 'owner_id')]
 class Pet extends Model
 {
     public $primaryKey = 'pet_id';
