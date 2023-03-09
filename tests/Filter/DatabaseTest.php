@@ -65,8 +65,8 @@ abstract class DatabaseTest extends FilterTest
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path($this->entitySet)
-                ->filter("pets/any(f:f/type eq 'dog')")
-                ->expand('pets')
+                ->filter("MyPets/any(f:f/type eq 'dog')")
+                ->expand('MyPets')
         );
     }
 
@@ -77,8 +77,8 @@ abstract class DatabaseTest extends FilterTest
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path($this->entitySet)
-                ->filter("pets/all(f:f/type eq 'cat')")
-                ->expand('pets')
+                ->filter("MyPets/all(f:f/type eq 'cat')")
+                ->expand('MyPets')
         );
     }
 }

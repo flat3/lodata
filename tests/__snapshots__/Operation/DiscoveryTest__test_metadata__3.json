@@ -78,7 +78,7 @@
         "Passengers": {
             "$EntityType": "com.example.odata.Passenger",
             "$NavigationPropertyBinding": {
-                "pets": "Pets"
+                "MyPets": "Pets"
             },
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
@@ -286,13 +286,14 @@
             "$Type": "Edm.String",
             "$Nullable": false
         },
-        "pets": {
+        "MyPets": {
             "$Collection": true,
             "$Type": "com.example.odata.Pet",
             "$Nullable": true,
             "$ReferentialConstraint": {
                 "id": "passenger_id"
-            }
+            },
+            "@Org.OData.Core.V1.Description": "All my pets"
         }
     },
     "Pet": {

@@ -11,7 +11,7 @@
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="passengers" EntityType="com.example.odata.passenger">
           <NavigationPropertyBinding Path="flight" Target="flights"/>
-          <NavigationPropertyBinding Path="pets" Target="pets"/>
+          <NavigationPropertyBinding Path="MyPets" Target="pets"/>
           <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
             <Record>
               <PropertyValue Property="Countable" Bool="true"/>
@@ -362,8 +362,9 @@
         <NavigationProperty Name="flight" Type="com.example.odata.flight" Nullable="true">
           <ReferentialConstraint Property="flight_id" ReferencedProperty="id"/>
         </NavigationProperty>
-        <NavigationProperty Name="pets" Type="Collection(com.example.odata.pet)" Nullable="true">
+        <NavigationProperty Name="MyPets" Type="Collection(com.example.odata.pet)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="passenger_id"/>
+          <Annotation Term="Org.OData.Core.V1.Description" String="All my pets"/>
         </NavigationProperty>
       </EntityType>
       <EntityType Name="flight">

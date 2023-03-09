@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\Drivers;
 
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
@@ -178,12 +179,14 @@ trait WithSQLDriver
             $petType->getProperty('passenger_id')
         );
 
-        $passengerToPets = (new NavigationProperty($petSet, $petType))
+        $passengerToPets = (new NavigationProperty('MyPets', $petType))
             ->setCollection(true)
-            ->addConstraint($petPassenger);
+            ->addConstraint($petPassenger)
+            ->addAnnotation(new Description('All my pets'));
         $binding = new NavigationBinding($passengerToPets, $petSet);
         $passengerType->addProperty($passengerToPets);
         $passengerSet->addNavigationBinding($binding);
+        $passengerSet->setPropertySourceName($passengerToPets, 'pets');
 
         // Airport -> Country
 

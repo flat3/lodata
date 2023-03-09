@@ -126,7 +126,7 @@ abstract class NavigationTest extends TestCase
             (new Request)
                 ->path($this->flightEntitySetPath.'/1')
                 ->select('id,duration')
-                ->expand('passengers($select=dob,age&$expand=pets($select=name))')
+                ->expand('passengers($select=dob,age&$expand=MyPets($select=name))')
         );
     }
 
@@ -451,7 +451,7 @@ abstract class NavigationTest extends TestCase
                 ->patch()
                 ->body([
                     'name' => 'Zooey Zamblo',
-                    'pets' => [
+                    'MyPets' => [
                         [
                             '@id' => $this->petEntitySet.'(1)',
                         ],
@@ -481,7 +481,7 @@ abstract class NavigationTest extends TestCase
                 ->patch()
                 ->body([
                     'name' => 'Zooey Zamblo',
-                    'pets' => [
+                    'MyPets' => [
                         [
                             '@id' => 'pets(99)',
                         ],
@@ -497,7 +497,7 @@ abstract class NavigationTest extends TestCase
                 ->path($this->entityPath)
                 ->patch()
                 ->body([
-                    'pets' => [
+                    'MyPets' => [
                         [
                             '@removed' => ['reason' => 'changed'],
                             '@id' => $this->petEntitySet.'(1)',
@@ -591,7 +591,7 @@ abstract class NavigationTest extends TestCase
                     'passengers' => [
                         [
                             'name' => 'Alice',
-                            'pets' => [
+                            'MyPets' => [
                                 [
                                     'name' => 'Sparkles',
                                     'type' => 'dog',
@@ -615,7 +615,7 @@ abstract class NavigationTest extends TestCase
         );
 
         $this->assertJsonResponseSnapshot(
-            $this->urlToReq($response->passengers[0]->{'pets@navigationLink'})
+            $this->urlToReq($response->passengers[0]->{'MyPets@navigationLink'})
         );
     }
 }

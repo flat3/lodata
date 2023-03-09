@@ -15,7 +15,7 @@
         "alpha@example.com",
         "alpha@beta.com"
     ],
-    "pets": [
+    "MyPets": [
         {
             "id": 1,
             "passenger_id": 1,

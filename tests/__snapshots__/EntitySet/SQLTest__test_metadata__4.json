@@ -78,7 +78,7 @@
                                 "type": "string",
                                 "enum": [
                                     "flight",
-                                    "pets"
+                                    "MyPets"
                                 ]
                             }
                         }
@@ -259,7 +259,7 @@
                                 "type": "string",
                                 "enum": [
                                     "flight",
-                                    "pets"
+                                    "MyPets"
                                 ]
                             }
                         }
@@ -500,7 +500,8 @@
                 }
             }
         },
-        "/passengers/{id}/pets": {
+        "/passengers/{id}/MyPets": {
+            "summary": "All my pets",
             "parameters": [
                 {
                     "description": "Key: id",
@@ -1531,7 +1532,7 @@
                                 "type": "string",
                                 "enum": [
                                     "flight",
-                                    "pets"
+                                    "MyPets"
                                 ]
                             }
                         }

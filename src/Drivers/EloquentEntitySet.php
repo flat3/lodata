@@ -8,6 +8,7 @@ use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
+use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\Attributes\LodataIdentifier;
 use Flat3\Lodata\Attributes\LodataProperty;
 use Flat3\Lodata\Attributes\LodataRelationship;
@@ -266,7 +267,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         if ($this->navigationSource) {
             /** @var Entity $sourceEntity */
             $sourceEntity = $this->navigationSource->getParent();
-            $expansionPropertyName = $this->navigationSource->getProperty()->getName();
+            $expansionPropertyName = $sourceEntity->getEntitySet()->getPropertySourceName($this->navigationSource->getProperty());
             $builder = $sourceEntity->getSource()->$expansionPropertyName();
 
             if ($builder instanceof HasManyThrough) {
@@ -396,19 +397,26 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     /**
      * Discover an Eloquent relationship method and add it to the model
      * @param  string  $method  Relationship method name
+     * @param  string|null  $name  Property name
+     * @param  string|null  $description  Property description
+     * @param  bool|null  $nullable  Whether the property can be made null
      * @return $this
      */
-    public function discoverRelationship(string $method): self
-    {
+    public function discoverRelationship(
+        string $method,
+        ?string $name = null,
+        ?string $description = null,
+        ?bool $nullable = true
+    ): self {
         $model = $this->getModel();
 
         try {
             new ReflectionMethod($model, $method);
 
-            /** @var Relation $r */
-            $r = $model->$method();
+            /** @var Relation $relation */
+            $relation = $model->$method();
 
-            $relatedModel = get_class($r->getRelated());
+            $relatedModel = get_class($relation->getRelated());
 
             $right = Lodata::getResources()->sliceByClass(self::class)->find(function ($set) use ($relatedModel) {
                 return $set->getModel() instanceof $relatedModel;
@@ -418,22 +426,27 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $right = (new self($relatedModel))->discover();
             }
 
-            $nav = (new NavigationProperty($method, $right->getType()))
-                ->setCollection(true);
+            $navigationProperty = (new NavigationProperty($name ?? $method, $right->getType()))->setCollection(true);
 
-            if ($r instanceof HasOneOrMany || $r instanceof BelongsTo) {
+            if ($description) {
+                $navigationProperty->addAnnotation(new Description($description));
+            }
+
+            $navigationProperty->setNullable($nullable);
+
+            if ($relation instanceof HasOneOrMany || $relation instanceof BelongsTo) {
                 $localProperty = null;
                 $foreignProperty = null;
 
                 switch (true) {
-                    case $r instanceof HasOneOrMany:
-                        $localProperty = $this->getPropertyBySourceName($r->getLocalKeyName());
-                        $foreignProperty = $right->getPropertyBySourceName($r->getForeignKeyName());
+                    case $relation instanceof HasOneOrMany:
+                        $localProperty = $this->getPropertyBySourceName($relation->getLocalKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName($relation->getForeignKeyName());
                         break;
 
-                    case $r instanceof BelongsTo:
-                        $localProperty = $this->getPropertyBySourceName($r->getForeignKeyName());
-                        $foreignProperty = $right->getPropertyBySourceName($r->getOwnerKeyName());
+                    case $relation instanceof BelongsTo:
+                        $localProperty = $this->getPropertyBySourceName($relation->getForeignKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName($relation->getOwnerKeyName());
                         break;
                 }
 
@@ -444,17 +457,22 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                     );
                 }
 
-                $rc = new ReferentialConstraint($localProperty, $foreignProperty);
-                $nav->addConstraint($rc);
+                $referentialConstraint = new ReferentialConstraint($localProperty, $foreignProperty);
+                $navigationProperty->addConstraint($referentialConstraint);
             }
 
-            if ($r instanceof BelongsTo || $r instanceof HasOneThrough || $r instanceof HasOne) {
-                $nav->setCollection(false);
+            if ($relation instanceof BelongsTo || $relation instanceof HasOneThrough || $relation instanceof HasOne) {
+                $navigationProperty->setCollection(false);
             }
 
-            $binding = new NavigationBinding($nav, $right);
+            $binding = new NavigationBinding($navigationProperty, $right);
 
-            $this->getType()->addProperty($nav);
+            $this->getType()->addProperty($navigationProperty);
+
+            if ($name && $name !== $method) {
+                $this->setPropertySourceName($navigationProperty, $method);
+            }
+
             $this->addNavigationBinding($binding);
         } catch (ReflectionException $e) {
             throw new ConfigurationException(
@@ -493,7 +511,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         if ($this->navigationSource) {
             /** @var Entity $sourceEntity */
             $sourceEntity = $this->navigationSource->getParent();
-            $expansionPropertyName = $this->navigationSource->getProperty()->getName();
+            $expansionPropertyName = $sourceEntity->getEntitySet()->getPropertySourceName($this->navigationSource->getProperty());
             $builder = $sourceEntity->getSource()->$expansionPropertyName();
         }
 
@@ -655,29 +673,41 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             return $this;
         }
 
-        $typeAttribute = Discovery::getFirstAttributeInstance($this->model, LodataTypeIdentifier::class);
+        $typeAttribute = Discovery::getFirstClassAttributeInstance($this->model, LodataTypeIdentifier::class);
         if ($typeAttribute) {
             Lodata::drop($this->getType());
             $this->getType()->setIdentifier($typeAttribute->getIdentifier());
             Lodata::add($this->getType());
         }
 
-        $identifierAttribute = Discovery::getFirstAttributeInstance($this->model, LodataIdentifier::class);
+        $identifierAttribute = Discovery::getFirstClassAttributeInstance($this->model, LodataIdentifier::class);
         if ($identifierAttribute) {
             Lodata::drop($this);
             $this->setIdentifier($identifierAttribute->getIdentifier());
             Lodata::add($this);
         }
 
+        /** @var ReflectionMethod $reflectionMethod */
         foreach (Discovery::getReflectedMethods($this->model) as $reflectionMethod) {
-            if (!$reflectionMethod->getAttributes(LodataRelationship::class, ReflectionAttribute::IS_INSTANCEOF)) {
+            /** @var LodataRelationship $relationshipInstance */
+            $relationshipInstance = Discovery::getFirstMethodAttributeInstance(
+                $reflectionMethod,
+                LodataRelationship::class
+            );
+
+            if (!$relationshipInstance) {
                 continue;
             }
 
             $relationshipMethod = $reflectionMethod->getName();
 
             try {
-                $this->discoverRelationship($relationshipMethod);
+                $this->discoverRelationship(
+                    $relationshipMethod,
+                    $relationshipInstance->getName(),
+                    $relationshipInstance->getDescription(),
+                    $relationshipInstance->isNullable()
+                );
             } catch (ConfigurationException $e) {
             }
         }

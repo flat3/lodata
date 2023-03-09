@@ -28,7 +28,6 @@ class DiscoveryTest extends TestCase
         Lodata::discover(Passenger::class);
         $passengers = Lodata::getEntitySet('Passengers');
         $passengerType = $passengers->getType();
-        $passengers->discoverRelationship('pets');
 
         if (!Lodata::getTypeDefinition('colour')) {
             $this->addEnumerationTypes();
@@ -37,7 +36,6 @@ class DiscoveryTest extends TestCase
         }
 
         $pets = Lodata::getEntitySet('Pets');
-        $pets->discoverRelationship('passenger');
 
         $instance = new Instance();
         $instance->a = 'c';

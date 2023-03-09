@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @requires PHP >= 8
  */
-class RelationshipDiscovery extends TestCase
+class RelationshipDiscoveryTest extends TestCase
 {
     protected $migrations = __DIR__.'/Laravel/migrations/variantid';
 

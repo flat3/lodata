@@ -314,7 +314,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets"
+                                    "MyPets"
                                 ]
                             }
                         }
@@ -494,7 +494,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets"
+                                    "MyPets"
                                 ]
                             }
                         }
@@ -566,7 +566,8 @@
                 }
             }
         },
-        "/Passengers/{id}/pets": {
+        "/Passengers/{id}/MyPets": {
+            "summary": "All my pets",
             "parameters": [
                 {
                     "description": "Key: id",
@@ -1065,7 +1066,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets"
+                                    "MyPets"
                                 ]
                             }
                         }

@@ -1,5 +1,5 @@
 {
-    "@context": "http://localhost/odata/$metadata#passengers(pets())",
+    "@context": "http://localhost/odata/$metadata#passengers(MyPets())",
     "value": [
         {
             "id": 1,
@@ -17,7 +17,7 @@
                 "alpha@example.com",
                 "alpha@beta.com"
             ],
-            "pets": [
+            "MyPets": [
                 {
                     "id": 1,
                     "name": "Banana",
@@ -47,7 +47,7 @@
             "emails": [
                 "gamma@example.com"
             ],
-            "pets": [
+            "MyPets": [
                 {
                     "id": 3,
                     "name": "Apple",

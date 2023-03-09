@@ -164,6 +164,10 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
                         $constraintsElement->{$constraint->getProperty()->getName()} = $constraint->getReferencedProperty()->getName();
                     }
                 }
+
+                foreach ($navigationProperty->getAnnotations() as $annotation) {
+                    $annotation->appendJson($navigationPropertyElement);
+                }
             }
         }
 

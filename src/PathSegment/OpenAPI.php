@@ -231,6 +231,11 @@ DESC, [
                 $pathItemObject = (object) [];
                 $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
 
+                /** @var Description $description */
+                if ($description = $navigationProperty->getAnnotations()->sliceByClass(Description::class)->first()) {
+                    $pathItemObject->summary = $description->toJson();
+                }
+
                 $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
                 if ($entitySet instanceof QueryInterface) {

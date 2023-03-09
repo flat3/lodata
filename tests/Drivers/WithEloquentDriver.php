@@ -66,7 +66,7 @@ trait WithEloquentDriver
         $airports->discoverRelationship('flights');
         $airports->discoverRelationship('country');
         $flights->discoverRelationship('passengers');
-        $passengers->discoverRelationship('pets');
+        $passengers->discoverRelationship('pets', 'MyPets', 'All my pets');
         $passengers->discoverRelationship('flight');
         $countries->discoverRelationship('airports');
         $passengers->discoverRelationship('originAirport');

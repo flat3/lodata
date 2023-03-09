@@ -163,7 +163,7 @@
         "Passengers": {
             "$EntityType": "com.example.odata.Passenger",
             "$NavigationPropertyBinding": {
-                "pets": "Pets",
+                "MyPets": "Pets",
                 "flight": "Flights",
                 "originAirport": "Airports",
                 "destinationAirport": "Airports"
@@ -478,13 +478,14 @@
             "$Type": "Edm.String",
             "$Nullable": false
         },
-        "pets": {
+        "MyPets": {
             "$Collection": true,
             "$Type": "com.example.odata.Pet",
             "$Nullable": true,
             "$ReferentialConstraint": {
                 "id": "passenger_id"
-            }
+            },
+            "@Org.OData.Core.V1.Description": "All my pets"
         },
         "flight": {
             "$Collection": false,

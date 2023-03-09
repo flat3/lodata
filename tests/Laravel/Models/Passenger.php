@@ -36,7 +36,7 @@ class Passenger extends Model
         return $this->hasOneThrough(Airport::class, Flight::class, 'id', 'code', 'flight_id', 'destination');
     }
 
-    #[LodataRelationship]
+    #[LodataRelationship(name: "MyPets", description:"All my pets")]
     public function pets()
     {
         return $this->hasMany(Pet::class);

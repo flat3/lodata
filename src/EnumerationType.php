@@ -7,7 +7,6 @@ namespace Flat3\Lodata;
 use ArrayAccess;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
-use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\EnumMember;
 use Flat3\Lodata\Helper\ObjectArray;

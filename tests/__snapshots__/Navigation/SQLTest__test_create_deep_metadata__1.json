@@ -25,7 +25,7 @@
             "colour": null,
             "sock_colours": null,
             "emails": [],
-            "pets": [
+            "MyPets": [
                 {
                     "@type": "#com.example.odata.pet",
                     "@id": "http://localhost/odata/pets(6)",
@@ -36,7 +36,7 @@
                     "passenger_id": 6
                 }
             ],
-            "pets@navigationLink": "http://localhost/odata/passengers(6)/pets"
+            "MyPets@navigationLink": "http://localhost/odata/passengers(6)/MyPets"
         },
         {
             "@type": "#com.example.odata.passenger",

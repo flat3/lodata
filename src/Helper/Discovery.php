@@ -72,16 +72,16 @@ class Discovery
             );
     }
 
-    public static function getFirstAttribute($class, $type): ?ReflectionAttribute
+    public static function getFirstAttribute($hasAttributes, $type): ?ReflectionAttribute
     {
         if (!self::supportsAttributes()) {
             return null;
         }
 
-        return Arr::first($class->getAttributes($type));
+        return Arr::first($hasAttributes->getAttributes($type));
     }
 
-    public static function getFirstAttributeInstance($class, $type): ?object
+    public static function getFirstClassAttributeInstance($class, string $type): ?object
     {
         /** @var ReflectionAttribute $attribute */
         $attribute = self::getFirstAttribute(new ReflectionClass($class), $type);
@@ -91,5 +91,16 @@ class Discovery
         }
 
         return $attribute->newInstance();
+    }
+
+    public static function getFirstMethodAttributeInstance(ReflectionMethod $method, string $type): ?object
+    {
+        $reflectionAttributes = $method->getAttributes($type, ReflectionAttribute::IS_INSTANCEOF);
+
+        if (!$reflectionAttributes) {
+            return null;
+        }
+
+        return Arr::first($reflectionAttributes)->newInstance();
     }
 }

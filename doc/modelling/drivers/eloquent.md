@@ -110,6 +110,28 @@ also be used in `$expand` requests.
 If Lodata is able to determine the relationship cardinality it will be represented in the service metadata
 document.
 
+You can customize the property name, description and whether it can be made null using attribute arguments:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+class Flight extends Model
+{
+    #[LodataRelationship(name: 'Travelers', description: 'Navigate to travelers': nullable: true)]
+    public function passengers()
+    {
+        return $this->hasMany(Passenger::class);
+    }
+}
+```
+
+The `discoverRelationship` method supports the same arguments as the attribute:
+
+```php
+\Lodata::getEntitySet('Flights')
+  ->discoverRelationship('passengers', 'Travelers', 'Navigate to travelers', true)
+```
+
 ## Operations
 
 Lodata can also expose model methods as operations. The method will be called on the specific instance of the entity

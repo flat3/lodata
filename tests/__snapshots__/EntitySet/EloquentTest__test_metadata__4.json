@@ -990,7 +990,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets",
+                                    "MyPets",
                                     "flight",
                                     "originAirport",
                                     "destinationAirport"
@@ -1962,7 +1962,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets",
+                                    "MyPets",
                                     "flight",
                                     "originAirport",
                                     "destinationAirport"
@@ -2145,7 +2145,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets",
+                                    "MyPets",
                                     "flight",
                                     "originAirport",
                                     "destinationAirport"
@@ -2220,7 +2220,8 @@
                 }
             }
         },
-        "/Passengers/{id}/pets": {
+        "/Passengers/{id}/MyPets": {
+            "summary": "All my pets",
             "parameters": [
                 {
                     "description": "Key: id",
@@ -3245,7 +3246,7 @@
                             "items": {
                                 "type": "string",
                                 "enum": [
-                                    "pets",
+                                    "MyPets",
                                     "flight",
                                     "originAirport",
                                     "destinationAirport"

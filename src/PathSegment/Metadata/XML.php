@@ -221,6 +221,10 @@ class XML extends Metadata implements StreamInterface
                         $constraint->getReferencedProperty()->getName()
                     );
                 }
+
+                foreach ($navigationProperty->getAnnotations() as $annotation) {
+                    $annotation->appendXml($navigationPropertyElement);
+                }
             }
         }
 

@@ -23,7 +23,7 @@
             "$EntityType": "com.example.odata.passenger",
             "$NavigationPropertyBinding": {
                 "flight": "flights",
-                "pets": "pets"
+                "MyPets": "pets"
             },
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
@@ -340,13 +340,14 @@
                 "flight_id": "id"
             }
         },
-        "pets": {
+        "MyPets": {
             "$Collection": true,
             "$Type": "com.example.odata.pet",
             "$Nullable": true,
             "$ReferentialConstraint": {
                 "id": "passenger_id"
-            }
+            },
+            "@Org.OData.Core.V1.Description": "All my pets"
         }
     },
     "Colours": {

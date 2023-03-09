@@ -204,7 +204,7 @@
           </Annotation>
         </EntitySet>
         <EntitySet Name="Passengers" EntityType="com.example.odata.Passenger">
-          <NavigationPropertyBinding Path="pets" Target="Pets"/>
+          <NavigationPropertyBinding Path="MyPets" Target="Pets"/>
           <NavigationPropertyBinding Path="flight" Target="Flights"/>
           <NavigationPropertyBinding Path="originAirport" Target="Airports"/>
           <NavigationPropertyBinding Path="destinationAirport" Target="Airports"/>
@@ -419,8 +419,9 @@
         <Property Name="sock_colours" Type="com.example.odata.MultiColours" Nullable="true"/>
         <Property Name="emails" Type="Collection(Edm.String)" Nullable="false"/>
         <Property Name="cp" Type="Edm.Int32" Nullable="true"/>
-        <NavigationProperty Name="pets" Type="Collection(com.example.odata.Pet)" Nullable="true">
+        <NavigationProperty Name="MyPets" Type="Collection(com.example.odata.Pet)" Nullable="true">
           <ReferentialConstraint Property="id" ReferencedProperty="passenger_id"/>
+          <Annotation Term="Org.OData.Core.V1.Description" String="All my pets"/>
         </NavigationProperty>
         <NavigationProperty Name="flight" Type="com.example.odata.Flight" Nullable="true">
           <ReferentialConstraint Property="flight_id" ReferencedProperty="id"/>
