@@ -1,0 +1,19 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "id": 5,
+            "name": "Epsilon",
+            "age": 2.4,
+            "dob": "2003-04-04T07:07:07+00:00",
+            "chips": null,
+            "dq": "2003-04-04",
+            "in_role": "PT14M48.9S",
+            "open_time": "23:11:33.000000",
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
+        }
+    ]
+}

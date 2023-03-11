@@ -1,0 +1,97 @@
+{
+    "@context": "http://localhost/odata/$metadata#Pets",
+    "value": [
+        {
+            "id": 43,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 42,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 41,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 40,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 39,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 38,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 37,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 36,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 35,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 34,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 33,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 32,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 31,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 30,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 29,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        }
+    ],
+    "@count": 43,
+    "@nextLink": "http://localhost/odata/Pets?%24orderby=id%20desc&%24filter=type%20eq%20%27dog%27&%24count=true&top=15&skip=17"
+}

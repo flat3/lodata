@@ -22,15 +22,19 @@ abstract class Pagination extends TestCase
 
     public function test_skip()
     {
-        if (!Lodata::getEntitySet('passengers') instanceof PaginationInterface) {
-            $this->expectNotToPerformAssertions();
-            return;
-        }
-
         $this->assertJsonResponseSnapshot(
             (new Request)
-                ->top('2')
                 ->skip('2')
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_top_skip()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->skip('2')
+                ->top('2')
                 ->path($this->entitySetPath)
         );
     }
@@ -40,6 +44,16 @@ abstract class Pagination extends TestCase
         $this->assertPaginationSequence(
             (new Request)
                 ->top('2')
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_sequence_skip()
+    {
+        $this->assertPaginationSequence(
+            (new Request)
+                ->top('2')
+                ->skip('2')
                 ->path($this->entitySetPath)
         );
     }

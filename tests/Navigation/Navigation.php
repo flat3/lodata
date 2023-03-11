@@ -8,6 +8,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
+use Illuminate\Support\Facades\DB;
 
 abstract class Navigation extends TestCase
 {
@@ -127,6 +128,17 @@ abstract class Navigation extends TestCase
                 ->path($this->flightEntitySetPath.'/1')
                 ->select('id,duration')
                 ->expand('passengers($select=dob,age&$expand=MyPets($select=name))')
+        );
+    }
+
+    public function test_expand_expand_filter_filter()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->filter('duration eq PT11H25M0S')
+                ->select('id,duration')
+                ->expand("passengers(\$filter=age gt 3&\$expand=MyPets(\$filter=name eq 'Banana'))")
         );
     }
 

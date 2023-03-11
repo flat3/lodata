@@ -21,6 +21,11 @@ trait UseDriverStateAssertions
         return [];
     }
 
+    protected function clearDriverState(): void
+    {
+        $this->driverState = null;
+    }
+
     protected function assertDriverStateUnchanged()
     {
         $this->assertEquals($this->driverState, $this->captureDriverState());
@@ -30,7 +35,7 @@ trait UseDriverStateAssertions
     {
         $driver = new StreamingJsonDriver;
 
-        $this->assertDiffSnapshot(
+        $this->driverState !== null && $this->assertDiffSnapshot(
             $driver->serialize($this->driverState),
             $driver->serialize($this->captureDriverState())
         );

@@ -9,4 +9,19 @@ use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 class RedisTest extends Pagination
 {
     use WithRedisDriver;
+
+    public function test_skip()
+    {
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function test_top_skip()
+    {
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function test_sequence_skip()
+    {
+        $this->expectNotToPerformAssertions();
+    }
 }

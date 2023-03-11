@@ -138,6 +138,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->airportEntitySetPath = '/'.$this->airportEntitySet;
         $this->flightEntitySetPath = '/'.$this->flightEntitySet;
         $this->countryEntitySetPath = '/'.$this->countryEntitySet;
+        $this->petEntitySetPath = '/'.$this->petEntitySet;
         $this->entityPath = $this->entitySetPath.'/'.$this->entityId;
         $this->escapedEntityId = $this->entityId;
 

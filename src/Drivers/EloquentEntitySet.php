@@ -61,6 +61,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -87,6 +88,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @var Model|Builder $model
      */
     protected $model;
+
+    /**
+     * Chunk size used for internal pagination
+     * @var int $chunkSize
+     */
+    public static $chunkSize = 1000;
 
     public function __construct(string $model, ?EntityType $entityType = null)
     {
@@ -268,13 +275,54 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             /** @var Entity $sourceEntity */
             $sourceEntity = $this->navigationSource->getParent();
             $expansionPropertyName = $sourceEntity->getEntitySet()->getPropertySourceName($this->navigationSource->getProperty());
-            $builder = $sourceEntity->getSource()->$expansionPropertyName();
+
+            /** @var Model $source */
+            $source = $sourceEntity->getSource();
+            $expansionBuilder = $source->$expansionPropertyName();
+
+            if ($source->relationLoaded($expansionPropertyName)) {
+                foreach (Collection::wrap($source->getRelation($expansionPropertyName)) as $model) {
+                    yield $this->modelToEntity($model);
+                }
+
+                return;
+            }
+
+            $builder = $expansionBuilder;
 
             if ($builder instanceof HasManyThrough) {
                 $builder->select($builder->getRelated()->getTable().'.*');
             }
         }
 
+        $this->configureBuilder($builder);
+
+        $builder->with($this->getRelationships());
+
+        $page = 1;
+        $skipValue = $this->getSkip()->getValue();
+
+        while (true) {
+            $offset = (($page++ - 1) * self::$chunkSize) + $skipValue;
+            $results = $builder->offset($offset)->limit(self::$chunkSize)->get();
+
+            foreach ($results as $result) {
+                yield $this->modelToEntity($result);
+            }
+
+            if ($results->count() < self::$chunkSize) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Implement $compute, $top, $skip, $orderby, $filter, $search to Builder
+     * @param $builder
+     * @return void
+     */
+    protected function configureBuilder($builder)
+    {
         $this->selectComputedProperties($builder);
 
         $where = $this->generateWhere();
@@ -300,10 +348,44 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             $builder->skip($this->getSkip()->getValue());
         }
+    }
 
-        foreach ($builder->cursor() as $model) {
-            yield $this->modelToEntity($model);
+    /**
+     * Get relations by navigation requests
+     * @return Closure[]
+     */
+    protected function getRelationships(): array
+    {
+        $relations = [];
+
+        foreach ($this->getType()->getNavigationProperties() as $navigationProperty) {
+            $navigationRequest = $this->getTransaction()->getNavigationRequests()->get($navigationProperty->getName());
+
+            if (!$navigationRequest) {
+                continue;
+            }
+
+            $expansionPropertyName = $this->getPropertySourceName($navigationProperty);
+            $expansionTransaction = clone $this->getTransaction();
+            $expansionTransaction->setRequest($navigationRequest);
+            $expansionSet = clone $this->getBindingByNavigationProperty($navigationProperty)->getTarget();
+            $expansionSet->setTransaction($expansionTransaction);
+
+            $relations[$expansionPropertyName] = function ($builder) use ($expansionSet) {
+                $expansionSet->configureBuilder($builder);
+            };
+
+            $relations = array_merge(
+                $relations,
+                Collection::make($expansionSet->getRelationships())
+                    ->mapWithKeys(function ($item, $key) use ($expansionPropertyName) {
+                        return ["{$expansionPropertyName}.".$key => $item];
+                    })
+                    ->all()
+            );
         }
+
+        return $relations;
     }
 
     /**
