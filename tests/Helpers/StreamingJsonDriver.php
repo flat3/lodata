@@ -40,6 +40,6 @@ class StreamingJsonDriver implements Driver
         Assert::assertJson($expected, $message);
         Assert::assertJson($actual, $message);
 
-        Assert::assertThat($actual, app(StreamingJsonMatches::class, ['value' => $expected]), $message);
+        Assert::assertThat($actual, app(StreamingJsonMatches::class, [$expected]), $message);
     }
 }
