@@ -7,7 +7,7 @@ use Flat3\Lodata\Type;
 
 class TypesTest extends TestCase
 {
-    public function typeProvider()
+    static public function typeProvider()
     {
         return [
             [

@@ -9,7 +9,7 @@ use Flat3\Lodata\Transaction\MediaType;
 
 class MediaTypeTest extends TestCase
 {
-    public function typeProvider()
+    static public function typeProvider()
     {
         return [
             [

@@ -11,3 +11,4 @@ parameters:
         analyse:
             - src/Helper/Flysystem/Flysystem1.php
             - tests/Helpers/Flysystem/TestFilesystemAdapter1.php
+            - tests/Helpers/StreamingJsonMatches/StreamingJsonMatches80.php

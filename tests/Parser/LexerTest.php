@@ -10,7 +10,7 @@ use Flat3\Lodata\Tests\TestCase;
 
 class LexerTest extends TestCase
 {
-    public function durations()
+    static public function durations()
     {
         return [
             ['P1Y'],
@@ -25,7 +25,7 @@ class LexerTest extends TestCase
         ];
     }
 
-    public function bad_durations()
+    static public function bad_durations()
     {
         return [
             ['P'],

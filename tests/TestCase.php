@@ -157,6 +157,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $id = sprintf(
             "%s__%s__%s",
             (new ReflectionClass($this))->getShortName(),
+            /** @phpstan-ignore-next-line */
             method_exists($this, 'nameWithDataSet') ? $this->nameWithDataSet() : $this->getName(),
             $this->snapshotIncrementor
         );

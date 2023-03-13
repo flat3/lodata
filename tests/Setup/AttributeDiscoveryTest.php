@@ -39,7 +39,7 @@ use Flat3\Lodata\Type\UInt64;
  */
 class AttributeDiscoveryTest extends TestCase
 {
-    public function attributes()
+    static public function attributes()
     {
         return [
             'Id' => [
