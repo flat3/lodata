@@ -19,6 +19,7 @@ use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Tests\Helpers\RedisMockServiceProvider;
 use Flat3\Lodata\Tests\Helpers\Request;
+use Flat3\Lodata\Tests\Helpers\StreamingJsonMatches;
 use Flat3\Lodata\Tests\Helpers\TestFilesystemAdapter;
 use Flat3\Lodata\Tests\Helpers\UseDatabaseAssertions;
 use Flat3\Lodata\Tests\Helpers\UseDriverStateAssertions;
@@ -30,6 +31,7 @@ use Flat3\Lodata\Type\Int32;
 use Generator;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Http\Request as IlluminateRequest;
 use Illuminate\Support\Facades\Gate;
@@ -103,6 +105,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         TestFilesystemAdapter::bind();
 
         $this->faker = Factory::create();
+
+        $app->bind(StreamingJsonMatches::class, function (Application $app, $args) {
+            return version_compare(
+                phpversion(),
+                '8.1.0',
+                '>='
+            ) ? new StreamingJsonMatches\StreamingJsonMatches81(...$args) :
+                new StreamingJsonMatches\StreamingJsonMatches80(...$args);
+        });
     }
 
     public function setUp(): void
@@ -145,7 +156,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $id = sprintf(
             "%s__%s__%s",
             (new ReflectionClass($this))->getShortName(),
-            $this->getName(),
+            $this->nameWithDataSet(),
             $this->snapshotIncrementor
         );
 

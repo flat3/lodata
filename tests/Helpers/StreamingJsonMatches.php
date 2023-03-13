@@ -6,7 +6,7 @@ use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Util\Json;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
-class StreamingJsonMatches extends Constraint
+abstract class StreamingJsonMatches extends Constraint
 {
     private $value;
 
@@ -33,7 +33,7 @@ class StreamingJsonMatches extends Constraint
         return json_encode(json_decode($string));
     }
 
-    protected function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
+    protected function _fail($other, string $description, ComparisonFailure $comparisonFailure = null): void
     {
         if ($comparisonFailure === null) {
             $decodedOther = json_decode($other);
@@ -53,7 +53,6 @@ class StreamingJsonMatches extends Constraint
                 $decodedOther,
                 Json::prettify($this->value),
                 Json::prettify($other),
-                false,
                 'Failed asserting that two streaming json values are equal.'
             );
         }

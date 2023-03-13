@@ -1,6 +1,7 @@
 vendor/
 .php_cs.cache
 .phpunit.result.cache
+.phpunit.cache/test-results
 .phpdoc/
 .idea/dataSources.xml
 .idea/**/tasks.xml
