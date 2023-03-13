@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
+use PHPUnit\Runner\Version;
 use Ramsey\Uuid\Uuid;
 use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -108,8 +109,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $app->bind(StreamingJsonMatches::class, function (Application $app, $args) {
             return version_compare(
-                phpversion(),
-                '8.1.0',
+                Version::id(),
+                '10.0.0',
                 '>='
             ) ? new StreamingJsonMatches\StreamingJsonMatches81(...$args) :
                 new StreamingJsonMatches\StreamingJsonMatches80(...$args);
@@ -156,7 +157,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $id = sprintf(
             "%s__%s__%s",
             (new ReflectionClass($this))->getShortName(),
-            $this->nameWithDataSet(),
+            method_exists($this, 'nameWithDataSet') ? $this->nameWithDataSet() : $this->getName(),
             $this->snapshotIncrementor
         );
 

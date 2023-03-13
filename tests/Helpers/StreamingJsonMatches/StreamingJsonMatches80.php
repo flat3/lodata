@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Helpers\StreamingJsonMatches;
 
+use Flat3\Lodata\Tests\Helpers\StreamingJsonMatches;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
-class StreamingJsonMatches80 extends \Flat3\Lodata\Tests\Helpers\StreamingJsonMatches
+class StreamingJsonMatches80 extends StreamingJsonMatches
 {
-    public function fail($other, string $description, ComparisonFailure $comparisonFailure = null): void
+    public function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
     {
         $this->fail($other, $description, $comparisonFailure);
     }
