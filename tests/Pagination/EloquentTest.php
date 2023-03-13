@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Pagination;
 
 use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 
-class EloquentTest extends PaginationTest
+class EloquentTest extends Pagination
 {
     use WithEloquentDriver;
 }

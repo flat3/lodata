@@ -9,7 +9,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 
-class RedisTest extends EntitySetCreateTest
+class RedisTest extends EntitySetCreate
 {
     use WithRedisDriver;
 

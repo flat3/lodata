@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Compute;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends ComputeTest
+class KeyedCollectionTest extends Compute
 {
     use WithKeyedCollectionDriver;
 }

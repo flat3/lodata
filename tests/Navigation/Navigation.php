@@ -9,7 +9,7 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
 
-abstract class NavigationTest extends TestCase
+abstract class Navigation extends TestCase
 {
     public function test_expand()
     {

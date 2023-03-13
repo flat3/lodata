@@ -10,7 +10,7 @@ use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Type\DateTimeOffset;
 
-class FilesystemTest extends EntitySetCreateTest
+class FilesystemTest extends EntitySetCreate
 {
     use WithFilesystemDriver;
 

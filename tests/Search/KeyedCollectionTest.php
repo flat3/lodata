@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Search;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends SearchTest
+class KeyedCollectionTest extends Search
 {
     use WithKeyedCollectionDriver;
 }

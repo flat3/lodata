@@ -10,7 +10,7 @@ use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type;
 use RuntimeException;
 
-class SearchExpressionTest extends ExpressionTest
+class SearchExpressionTest extends Expression
 {
     public function test_1()
     {

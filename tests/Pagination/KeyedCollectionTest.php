@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Pagination;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends PaginationTest
+class KeyedCollectionTest extends Pagination
 {
     use WithKeyedCollectionDriver;
 }

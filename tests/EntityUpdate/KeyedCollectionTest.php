@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\EntityUpdate;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends EntityUpdateTest
+class KeyedCollectionTest extends EntityUpdate
 {
     use WithKeyedCollectionDriver;
 }

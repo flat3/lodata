@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\EntityUpdate;
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 use Illuminate\Support\Facades\Redis;
 
-class RedisTest extends EntityUpdateTest
+class RedisTest extends EntityUpdate
 {
     use WithRedisDriver;
 

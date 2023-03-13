@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Navigation;
 
 use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 
-class EloquentTest extends NavigationTest
+class EloquentTest extends Navigation
 {
     use WithEloquentDriver;
 }

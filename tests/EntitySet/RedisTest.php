@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\EntitySet;
 
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 
-class RedisTest extends EntitySetTest
+class RedisTest extends EntitySet
 {
     use WithRedisDriver;
 }

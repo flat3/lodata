@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Navigation;
 
 use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 
-class SQLTest extends NavigationTest
+class SQLTest extends Navigation
 {
     use WithSQLDriver;
 }

@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Count;
 
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 
-class NumericCollectionTest extends CountTest
+class NumericCollectionTest extends Count
 {
     use WithNumericCollectionDriver;
 }

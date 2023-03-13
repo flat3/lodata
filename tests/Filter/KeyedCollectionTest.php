@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Filter;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends FilterTest
+class KeyedCollectionTest extends Filter
 {
     use WithKeyedCollectionDriver;
 }

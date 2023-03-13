@@ -11,7 +11,7 @@ use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\TimeOfDay;
 use RuntimeException;
 
-class CommonExpressionTest extends ExpressionTest
+class CommonExpressionTest extends Expression
 {
     public function test_0()
     {

@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\ComputeOrderBy;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends ComputeOrderByTest
+class KeyedCollectionTest extends ComputeOrderBy
 {
     use WithKeyedCollectionDriver;
 }

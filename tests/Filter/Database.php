@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\Filter;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\Tests\Helpers\Request;
 
-abstract class DatabaseTest extends FilterTest
+abstract class Database extends Filter
 {
     public function test_filter_matchespattern()
     {

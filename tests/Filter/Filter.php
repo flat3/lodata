@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\Filter;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class FilterTest extends TestCase
+abstract class Filter extends TestCase
 {
     public function test_filter()
     {

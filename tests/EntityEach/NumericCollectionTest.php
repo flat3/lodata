@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\EntityEach;
 
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 
-class NumericCollectionTest extends EntityEachTest
+class NumericCollectionTest extends EntityEach
 {
     use WithNumericCollectionDriver;
 }

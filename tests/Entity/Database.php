@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Entity;
 
 use Flat3\Lodata\Tests\Helpers\Request;
 
-abstract class DatabaseTest extends EntityTest
+abstract class Database extends Entity
 {
     public function test_read_alternative_key()
     {

@@ -8,7 +8,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class EntitySetCreateTest extends TestCase
+abstract class EntitySetCreate extends TestCase
 {
     public function test_create()
     {

@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Parser;
 
-class FilterTest extends ExpressionTest
+class FilterTest extends Expression
 {
     public function test_0()
     {

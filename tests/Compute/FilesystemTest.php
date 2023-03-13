@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Compute;
 
 use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 
-class FilesystemTest extends ComputeTest
+class FilesystemTest extends Compute
 {
     use WithFilesystemDriver;
 

@@ -8,7 +8,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class SearchTest extends TestCase
+abstract class Search extends TestCase
 {
     public function test_search()
     {

@@ -8,7 +8,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 
-class KeyedCollectionTest extends EntitySetCreateTest
+class KeyedCollectionTest extends EntitySetCreate
 {
     use WithKeyedCollectionDriver;
 

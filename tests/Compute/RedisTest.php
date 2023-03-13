@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Compute;
 
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 
-class RedisTest extends ComputeTest
+class RedisTest extends Compute
 {
     use WithRedisDriver;
 }

@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\Compute;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class ComputeTest extends TestCase
+abstract class Compute extends TestCase
 {
     protected $computeString = 'name';
     protected $computeDate = 'dob';

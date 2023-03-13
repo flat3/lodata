@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Count;
 
 use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 
-class SQLTest extends CountTest
+class SQLTest extends Count
 {
     use WithSQLDriver;
 }

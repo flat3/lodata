@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Filter;
 
 use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 
-class EloquentTest extends DatabaseTest
+class EloquentTest extends Database
 {
     use WithEloquentDriver;
 }

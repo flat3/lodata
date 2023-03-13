@@ -14,7 +14,7 @@ use Flat3\Lodata\Type;
 use Flat3\Lodata\Type\Int32;
 use Flat3\Lodata\Type\String_;
 
-abstract class EntityTest extends TestCase
+abstract class Entity extends TestCase
 {
     public function test_read()
     {

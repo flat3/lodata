@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Search;
 
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 
-class NumericCollectionTest extends SearchTest
+class NumericCollectionTest extends Search
 {
     use WithNumericCollectionDriver;
 }

@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Compute;
 
 use Flat3\Lodata\Tests\Drivers\WithCSVDriver;
 
-class CSVTest extends ComputeTest
+class CSVTest extends Compute
 {
     use WithCSVDriver;
 }

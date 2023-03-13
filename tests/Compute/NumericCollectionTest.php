@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Compute;
 
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 
-class NumericCollectionTest extends ComputeTest
+class NumericCollectionTest extends Compute
 {
     use WithNumericCollectionDriver;
 }

@@ -22,7 +22,7 @@ use Flat3\Lodata\Transaction\Option\Compute;
 use Flat3\Lodata\Type;
 use RuntimeException;
 
-abstract class ExpressionTest extends TestCase
+abstract class Expression extends TestCase
 {
     public function setUp(): void
     {

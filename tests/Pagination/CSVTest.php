@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Pagination;
 
 use Flat3\Lodata\Tests\Drivers\WithCSVDriver;
 
-class CSVTest extends PaginationTest
+class CSVTest extends Pagination
 {
     use WithCSVDriver;
 }

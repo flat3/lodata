@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\Entity;
 use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 
-class FilesystemTest extends EntityTest
+class FilesystemTest extends Entity
 {
     use WithFilesystemDriver;
 

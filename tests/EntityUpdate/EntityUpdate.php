@@ -8,7 +8,7 @@ use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class EntityUpdateTest extends TestCase
+abstract class EntityUpdate extends TestCase
 {
     public function test_delete()
     {

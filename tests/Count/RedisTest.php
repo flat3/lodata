@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Count;
 
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 
-class RedisTest extends CountTest
+class RedisTest extends Count
 {
     use WithRedisDriver;
 

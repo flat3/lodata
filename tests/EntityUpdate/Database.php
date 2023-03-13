@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\EntityUpdate;
 
 use Flat3\Lodata\Tests\Helpers\Request;
 
-abstract class DatabaseTest extends EntityUpdateTest
+abstract class Database extends EntityUpdate
 {
     public function test_update_rejects_null_properties()
     {

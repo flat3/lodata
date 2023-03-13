@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Compute;
 
 use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 
-class EloquentTest extends ComputeTest
+class EloquentTest extends Compute
 {
     use WithEloquentDriver;
 }

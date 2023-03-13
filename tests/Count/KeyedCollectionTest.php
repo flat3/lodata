@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Count;
 
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 
-class KeyedCollectionTest extends CountTest
+class KeyedCollectionTest extends Count
 {
     use WithKeyedCollectionDriver;
 }

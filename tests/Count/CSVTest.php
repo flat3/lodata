@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Count;
 
 use Flat3\Lodata\Tests\Drivers\WithCSVDriver;
 
-class CSVTest extends CountTest
+class CSVTest extends Count
 {
     use WithCSVDriver;
 }

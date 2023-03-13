@@ -9,7 +9,7 @@ use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class PaginationTest extends TestCase
+abstract class Pagination extends TestCase
 {
     public function test_top()
     {

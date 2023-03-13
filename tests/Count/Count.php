@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\Count;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class CountTest extends TestCase
+abstract class Count extends TestCase
 {
     public function test_count_path()
     {

@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Pagination;
 
 use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 
-class SQLTest extends PaginationTest
+class SQLTest extends Pagination
 {
     use WithSQLDriver;
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Flat3\Lodata\Drivers\SQL\SQLConnection;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
@@ -7,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 class Dot extends Migration
 {
-    use \Flat3\Lodata\Drivers\SQL\SQLConnection;
+    use SQLConnection;
 
     public function getDriver(): string
     {

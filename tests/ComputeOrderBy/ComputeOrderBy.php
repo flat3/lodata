@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Tests\ComputeOrderBy;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
-abstract class ComputeOrderByTest extends TestCase
+abstract class ComputeOrderBy extends TestCase
 {
     public function test_compute_orderby()
     {

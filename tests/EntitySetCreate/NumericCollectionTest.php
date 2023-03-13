@@ -8,7 +8,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 
-class NumericCollectionTest extends EntitySetCreateTest
+class NumericCollectionTest extends EntitySetCreate
 {
     use WithNumericCollectionDriver;
 

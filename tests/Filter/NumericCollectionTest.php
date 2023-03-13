@@ -6,7 +6,7 @@ namespace Flat3\Lodata\Tests\Filter;
 
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 
-class NumericCollectionTest extends FilterTest
+class NumericCollectionTest extends Filter
 {
     use WithNumericCollectionDriver;
 }

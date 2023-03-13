@@ -2,7 +2,7 @@
 
 namespace Flat3\Lodata\Tests\Parser;
 
-class LambdaTest extends ExpressionTest
+class LambdaTest extends Expression
 {
     public function test_5b()
     {
