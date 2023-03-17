@@ -4,7 +4,7 @@ DevExtreme (by DevExpress) supports OData as a [data source](https://js.devexpre
 However, it supports only OData 4.0, not OData 4.01. To support Lodata you must send the "OData-Version" header with every request.
 
 Alternatively, you can configure Lodata to default to OData 4.0 if the client does not specify a version by modifying the
-[configuration](/getting-started/configuration.md)
+[configuration](/getting-started/configuration.md).
 
 This Vue example shows how to send the header, and load data into a DxDataGrid.
 

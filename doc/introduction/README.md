@@ -21,8 +21,9 @@ where Lodata could be a great fit for your application:
 
 - Developing **single page applications** and **mobile applications** with OData-supporting enterprise UI frameworks such as
   [Sencha ExtJS](https://docs.sencha.com/extjs/latest/modern/Ext.data.proxy.Rest.html),
-  [DevExtreme](https://js.devexpress.com/Documentation/Guide/Data_Binding/Specify_a_Data_Source/OData/) and
-  [Kendo UI](https://docs.telerik.com/kendo-ui/framework/datasource/basic-usage).
+  [DevExtreme](https://js.devexpress.com/Documentation/Guide/Data_Binding/Specify_a_Data_Source/OData/),
+  [Kendo UI](https://docs.telerik.com/kendo-ui/framework/datasource/basic-usage) and
+  [Syncfusion](https://ej2.syncfusion.com/documentation/data/adaptors/#odatav4-adaptor)
 - Making live connections to **business intelligence** tools
   such as [Excel](https://docs.microsoft.com/en-us/power-query/connectors/odatafeed),
   [PowerBI](https://docs.microsoft.com/en-us/power-bi/connect-data/desktop-connect-odata),

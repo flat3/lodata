@@ -205,6 +205,7 @@ module.exports = {
                     'clients/salesforce',
                     'clients/sap',
                     'clients/devextreme',
+                    'clients/syncfusion',
                 ],
             },
             {
