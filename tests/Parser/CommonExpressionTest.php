@@ -693,7 +693,7 @@ class CommonExpressionTest extends Expression
 
     public function test_141a()
     {
-        $this->assertSameExpression(0, "length(null)");
+        $this->assertNullExpression("length(null)");
     }
 
     public function test_142()
@@ -911,6 +911,152 @@ class CommonExpressionTest extends Expression
     public function test_192()
     {
         $this->assertSameExpression(5.0, 'round(4.5)');
+    }
+
+    public function test_200()
+    {
+        $this->assertSameExpression(1, "cast('1', 'Edm.Int32')");
+    }
+
+    public function test_201()
+    {
+        $this->assertSameExpression('1', "cast(1, 'Edm.String')");
+    }
+
+    public function test_202()
+    {
+        $this->assertTrueExpression("cast('true', 'Edm.Boolean')");
+    }
+
+    public function test_203()
+    {
+        $this->assertFalseExpression("cast('false', 'Edm.Boolean')");
+    }
+
+    public function test_204()
+    {
+        $this->assertSameExpression('2000-01-01', "cast('2000-01-01', 'Edm.Date')");
+    }
+
+    public function test_205()
+    {
+        $this->assertSameExpression(
+            '2001-01-01T09:01:02+00:00',
+            "cast('2001-01-01T09:01:02+00:00', 'Edm.DateTimeOffset')"
+        );
+    }
+
+    public function test_206()
+    {
+        $this->assertSameExpression(2.0, "cast(2, 'Edm.Double')");
+    }
+
+    public function test_207()
+    {
+        $this->assertSameExpression(86400.0, "cast('P1D', 'Edm.Duration')");
+    }
+
+    public function test_208()
+    {
+        $this->assertSameExpression(
+            '0CFA779C-C41D-11ED-967E-B3BFF6C61C95',
+            "cast('0cfa779c-c41d-11ed-967e-b3bff6c61c95', 'Edm.Guid')"
+        );
+    }
+
+    public function test_209()
+    {
+        $this->assertSameExpression(23, "cast('23', 'Edm.Int16')");
+    }
+
+    public function test_210()
+    {
+        $this->assertSameExpression(233333, "cast('233333', 'Edm.Int32')");
+    }
+
+    public function test_211()
+    {
+        $this->assertSameExpression(23333333333333, "cast('23333333333333', 'Edm.Int64')");
+    }
+
+    public function test_212()
+    {
+        $this->assertSameExpression(2, "cast('2', 'Edm.SByte')");
+    }
+
+    public function test_213()
+    {
+        $this->assertSameExpression(2.0, "cast(2, 'Edm.Single')");
+    }
+
+    public function test_214()
+    {
+        $this->assertSameExpression(2.2, "cast('2.2', 'Edm.Single')");
+    }
+
+    public function test_215()
+    {
+        $this->assertSameExpression('23:23:23.000000', "cast('23:23:23', 'Edm.TimeOfDay')");
+    }
+
+    public function test_220()
+    {
+        $this->assertSameExpression('2001', "cast(year(2001-01-01T09:01:02.400Z), 'Edm.String')");
+    }
+
+    public function test_221()
+    {
+        $this->assertSameExpression(4294967294, "cast('-2', 'UInt32')");
+    }
+
+    public function test_222()
+    {
+        $this->assertSameExpression(99, "cast('-99', 'UInt64')");
+    }
+
+    public function test_223()
+    {
+        $this->assertSameExpression(65534, "cast('-2', 'UInt16')");
+    }
+
+    public function test_231()
+    {
+        $this->assertNullExpression("cast(null, 'Edm.String')");
+    }
+
+    public function test_232()
+    {
+        $this->assertNullExpression("cast(null, 'Edm.Boolean')");
+    }
+
+    public function test_233()
+    {
+        $this->assertSameExpression('2001-01-01 09:01:02', "cast(2001-01-01T09:01:02.400Z, 'Edm.String')");
+    }
+
+    public function test_234()
+    {
+        $this->assertSameExpression(2001, "year(cast('2001-01-01T14:14:00+00:00', 'Edm.DateTimeOffset'))");
+    }
+
+    public function test_240()
+    {
+        $this->assertSameExpression('2000', "cast(2000, 'Edm.String')");
+    }
+
+    public function test_241()
+    {
+        $this->assertSameExpression('2001-01-01 00:00:00', "cast(2001-01-01, 'Edm.String')");
+    }
+
+    public function test_242()
+    {
+        $this->assertSameExpression('2001-01-01', "cast(2001-01-01T09:01:02.400Z, 'Edm.Date')");
+    }
+
+    public function test_243()
+    {
+        $this->assertSameExpression('09:01:02.400000', "cast(2001-01-01T09:01:02.400Z, 'Edm.TimeOfDay')");
     }
 
     public function evaluate(string $expression)

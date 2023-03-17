@@ -1,3 +1,3 @@
 expression: second(origin) eq 44
-result: ( DATE_PART( 'SECOND', "flights"."origin" ) = ? )
+result: ( DATE_PART( 'SECOND', "flights"."origin" ::timestamp)::integer = ? )
 parameters: 44

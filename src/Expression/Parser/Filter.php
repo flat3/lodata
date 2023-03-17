@@ -54,6 +54,7 @@ class Filter extends Common
 
         // Unary
         Node\Operator\Comparison\Not_::class,
+        Node\Func\Type\Cast::class,
 
         // Multiplicative
         Node\Operator\Arithmetic\Mul::class,

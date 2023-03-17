@@ -11,6 +11,6 @@ class StreamingJsonMatches80 extends StreamingJsonMatches
 {
     public function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
     {
-        $this->fail($other, $description, $comparisonFailure);
+        $this->_fail($other, $description, $comparisonFailure);
     }
 }

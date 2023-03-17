@@ -708,4 +708,22 @@ abstract class Filter extends TestCase
                 ->select('name,open_time')
         );
     }
+
+    public function test_filter_cast()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->filter("substring(cast(dob, 'Edm.String'), 0, 6) eq '2000-0'")
+                ->path($this->entitySetPath)
+        );
+    }
+
+    public function test_filter_search()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->filter("(contains(tolower(cast(name, 'Edm.String')),'alpha')) or (contains(tolower(cast(dob, 'Edm.String')),'alpha'))")
+                ->path($this->entitySetPath)
+        );
+    }
 }

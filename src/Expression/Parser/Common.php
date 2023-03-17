@@ -13,6 +13,7 @@ use Flat3\Lodata\Expression\Parser;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Type;
 use Illuminate\Support\Str;
+use TypeError;
 
 /**
  * Common expression parser
@@ -71,6 +72,13 @@ abstract class Common extends Parser
 
             case $node instanceof Node\Operator\Comparison\Not_:
                 if ($lValue === null) {
+                    return null;
+                }
+                break;
+
+            // 5.1.1.4 Canonical Functions
+            case $node instanceof Node\Func;
+                if (in_array(null, $argv, true)) {
                     return null;
                 }
                 break;
@@ -466,6 +474,26 @@ abstract class Common extends Parser
             case $node instanceof Node\Func\Arithmetic\Round:
                 self::assertTypes($node, $args, [Type\Numeric::class]);
                 return $arg0 ? new $args[0](round($arg0)) : null;
+
+            // 5.1.1.10 Type functions
+            case $node instanceof Node\Func\Type\Cast:
+                self::assertTypes($node, $args, [Primitive::class, Type\String_::class]);
+
+                foreach ([
+                             Type\Binary::class, Type\Boolean::class, Type\Byte::class, Type\Date::class,
+                             Type\DateTimeOffset::class, Type\Decimal::class, Type\Double::class, Type\Duration::class,
+                             Type\Guid::class, Type\Int16::class, Type\Int32::class, Type\Int64::class,
+                             Type\SByte::class, Type\Single::class, Type\String_::class, Type\TimeOfDay::class,
+                             Type\UInt16::class, Type\UInt32::class, Type\UInt64::class,
+                         ] as $type) {
+                    if ($type::identifier === $argv[1]) {
+                        try {
+                            return new $type($arg0);
+                        } catch (TypeError $e) {
+                            return null;
+                        }
+                    }
+                }
         }
 
         throw new NotImplementedException();

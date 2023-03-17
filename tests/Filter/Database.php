@@ -46,16 +46,29 @@ abstract class Database extends Filter
 
     public function test_filter_substring_1()
     {
-        $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+        if (version_compare(PHP_VERSION, '7.4', '<')) {
+            $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+        }
 
         parent::test_filter_substring_1();
     }
 
     public function test_filter_substring_2()
     {
-        $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+        if (version_compare(PHP_VERSION, '7.4', '<')) {
+            $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+        }
 
         parent::test_filter_substring_2();
+    }
+
+    public function test_filter_cast()
+    {
+        if (version_compare(PHP_VERSION, '7.4', '<')) {
+            $this->markTestSkippedForDriver(SQLEntitySet::SQLite);
+        }
+
+        parent::test_filter_cast();
     }
 
     public function test_filter_any()

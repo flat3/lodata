@@ -65,7 +65,7 @@ use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\ReferentialConstraint;
-use Flat3\Lodata\Type\Enum;
+use Flat3\Lodata\Type;
 
 /**
  * SQL Expression, with its associated parameters
@@ -371,7 +371,7 @@ class SQLExpression
 
             case $node instanceof Has:
                 $enum = $right->getValue();
-                if ($enum instanceof Enum && $enum->isFlags()) {
+                if ($enum instanceof Type\Enum && $enum->isFlags()) {
                     $this->pushStatement('&');
                     $this->evaluate($right);
                 }
@@ -420,6 +420,310 @@ class SQLExpression
                 }
                 break;
 
+            case $node instanceof Func\Type\Cast:
+                $arguments = $node->getArguments();
+                list($arg1, $arg2) = $arguments;
+                $targetType = null;
+
+                switch ($arg2->getValue()) {
+                    case Type\Binary::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'TEXT';
+                                break;
+
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'bytea';
+                                break;
+
+                            default:
+                                $targetType = 'BINARY';
+                                break;
+                        }
+                        break;
+
+                    case Type\UInt16::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'SMALLINT';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'UNSIGNED INTEGER';
+                                break;
+                        }
+                        break;
+
+                    case Type\UInt32::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::PostgreSQL:
+                            case SQLEntitySet::SQLite:
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'UNSIGNED INTEGER';
+                                break;
+                        }
+                        break;
+
+                    case Type\UInt64::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'BIGINT';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'UNSIGNED INTEGER';
+                                break;
+                        }
+                        break;
+
+                    case Type\Boolean::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'UNSIGNED INTEGER';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'BIT';
+                                break;
+
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'BOOLEAN';
+                                break;
+
+                        }
+                        break;
+
+                    case Type\Date::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'TEXT';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                            case SQLEntitySet::PostgreSQL:
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'DATE';
+                                break;
+                        }
+                        break;
+
+                    case Type\DateTimeOffset::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'TEXT';
+                                break;
+
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'TIMESTAMP(3)';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'DATETIMEOFFSET';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'DATETIME(3)';
+                                break;
+                        }
+                        break;
+
+                    case Type\Decimal::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'REAL';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                            case SQLEntitySet::PostgreSQL:
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'DECIMAL(10,10)';
+                                break;
+                        }
+                        break;
+
+                    case Type\Double::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'REAL';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'DOUBLE PRECISION';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'DOUBLE';
+                                break;
+                        }
+                        break;
+
+                    case Type\Int16::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'SIGNED INTEGER';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'SMALLINT';
+                                break;
+                        }
+                        break;
+
+                    case Type\Int32::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::PostgreSQL:
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'SIGNED INTEGER';
+                                break;
+                        }
+                        break;
+
+                    case Type\Int64::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'SIGNED INTEGER';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'BIGINT';
+                                break;
+                        }
+                        break;
+
+                    case Type\SByte::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'INTEGER';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'SIGNED INTEGER';
+                                break;
+
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'SMALLINT';
+                                break;
+
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'TINYINT';
+                                break;
+                        }
+                        break;
+
+                    case Type\Single::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                            case SQLEntitySet::PostgreSQL:
+                                $targetType = 'REAL';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'FLOAT';
+                                break;
+                        }
+                        break;
+
+                    case Type\String_::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'TEXT';
+                                break;
+
+                            case SQLEntitySet::PostgreSQL:
+                            case SQLEntitySet::SQLServer:
+                                $targetType = 'VARCHAR';
+                                break;
+
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'CHAR';
+                                break;
+                        }
+                        break;
+
+                    case Type\TimeOfDay::identifier:
+                        switch ($this->entitySet->getDriver()) {
+                            case SQLEntitySet::SQLite:
+                                $targetType = 'TEXT';
+                                break;
+
+                            case SQLEntitySet::PostgreSQL:
+                            case SQLEntitySet::SQLServer:
+                            case SQLEntitySet::MySQL:
+                                $targetType = 'TIME(3)';
+                                break;
+                        }
+                        break;
+
+                    default:
+                        $node->notImplemented();
+                }
+
+                switch ($this->entitySet->getDriver()) {
+                    case SQLEntitySet::SQLServer:
+                        $this->pushStatement('CONVERT(');
+                        $this->pushStatement($targetType);
+                        $this->pushComma();
+                        $this->evaluate($arg1);
+                        $this->pushComma();
+                        // https://learn.microsoft.com/en-us/sql/t-sql/functions/cast-and-convert-transact-sql#date-and-time-styles
+                        $this->pushStatement('120');
+                        $this->pushStatement(')');
+                        break;
+
+                    case SQLEntitySet::PostgreSQL:
+                    case SQLEntitySet::SQLite:
+                        $this->pushStatement('CAST(');
+                        $this->evaluate($arg1);
+                        $this->pushStatement('AS');
+                        $this->pushStatement($targetType);
+                        $this->pushStatement(')');
+                        break;
+
+                    case SQLEntitySet::MySQL:
+                        $this->pushStatement('CONVERT(');
+                        $this->evaluate($arg1);
+                        $this->pushComma();
+                        $this->pushStatement($targetType);
+                        $this->pushStatement(')');
+                        break;
+                }
+                return;
+
             case $node instanceof Node\Func\DateTime\Date:
                 switch ($driver) {
                     case SQLEntitySet::MySQL:
@@ -455,7 +759,9 @@ class SQLExpression
 
                     case SQLEntitySet::PostgreSQL:
                         $this->pushStatement("DATE_PART( 'DAY',");
-                        break;
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement('::timestamp)::integer');
+                        return;
 
                     case SQLEntitySet::MySQL:
                         $this->pushStatement('DAY(');
@@ -484,7 +790,9 @@ class SQLExpression
 
                     case SQLEntitySet::PostgreSQL:
                         $this->pushStatement("DATE_PART( 'HOUR',");
-                        break;
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement('::timestamp)::integer');
+                        return;
 
                     case SQLEntitySet::SQLite:
                         $this->pushStatement("CAST( STRFTIME( '%H',");
@@ -505,7 +813,9 @@ class SQLExpression
 
                     case SQLEntitySet::PostgreSQL:
                         $this->pushStatement("DATE_PART( 'MINUTE',");
-                        break;
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement('::timestamp)::integer');
+                        return;
 
                     case SQLEntitySet::MySQL:
                         $this->pushStatement('MINUTE(');
@@ -534,7 +844,9 @@ class SQLExpression
 
                     case SQLEntitySet::PostgreSQL:
                         $this->pushStatement("DATE_PART( 'MONTH',");
-                        break;
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement('::timestamp)::integer');
+                        return;
 
                     case SQLEntitySet::SQLite:
                         $this->pushStatement("CAST( STRFTIME( '%m',");
@@ -579,7 +891,9 @@ class SQLExpression
 
                     case SQLEntitySet::PostgreSQL:
                         $this->pushStatement("DATE_PART( 'SECOND',");
-                        break;
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement('::timestamp)::integer');
+                        return;
 
                     case SQLEntitySet::SQLite:
                         $this->pushStatement("CAST( STRFTIME( '%S',");
@@ -630,8 +944,10 @@ class SQLExpression
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $this->pushStatement("DATE_PART( 'YEAR',");
-                        break;
+                        $this->pushStatement("DATE_PART( 'YEAR', ");
+                        $this->evaluate($node->getArgument());
+                        $this->pushStatement('::timestamp)::integer');
+                        return;
 
                     case SQLEntitySet::SQLite:
                         $this->pushStatement("CAST( STRFTIME( '%Y',");
@@ -828,6 +1144,9 @@ class SQLExpression
                 $arg2->setValue($value);
                 $this->evaluate($arg2);
                 return;
+
+            default:
+                $node->notImplemented();
         }
 
         $this->addCommaSeparatedArguments($node);
@@ -910,12 +1229,31 @@ class SQLExpression
 
             case $node instanceof DateTimeOffset:
                 $this->pushStatement('?');
-                $this->pushParameter($node->getValue()->get()->format('Y-m-d H:i:s'));
+
+                switch ($this->entitySet->getDriver()) {
+                    case SQLEntitySet::SQLite:
+                    case SQLEntitySet::SQLServer:
+                        $this->pushParameter($node->getValue()->get()->format('Y-m-d H:i:s'));
+                        break;
+
+                    default:
+                        $this->pushParameter($node->getValue()->get()->format('Y-m-d H:i:s.v'));
+                        break;
+                }
                 break;
 
             case $node instanceof TimeOfDay:
                 $this->pushStatement('?');
-                $this->pushParameter($node->getValue()->get()->format('H:i:s'));
+                switch ($this->entitySet->getDriver()) {
+                    case SQLEntitySet::SQLite:
+                    case SQLEntitySet::SQLServer:
+                        $this->pushParameter($node->getValue()->get()->format('H:i:s'));
+                        break;
+
+                    default:
+                        $this->pushParameter($node->getValue()->get()->format('H:i:s.v'));
+                        break;
+                }
                 break;
 
             case $node instanceof Double:
