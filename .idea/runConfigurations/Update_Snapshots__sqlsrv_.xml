@@ -2,7 +2,7 @@
   <configuration default="false" name="Update Snapshots (sqlsrv)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
     <CommandLine>
       <envs>
-        <env name="DATABASE_URL" value="sqlsrv://sa:Your_password123@localhost:1433/msdb" />
+        <env name="DATABASE_URL" value="sqlsrv://sa:Your_password123@localhost:1433/msdb?trust_server_certificate=true" />
       </envs>
     </CommandLine>
     <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" options="-d --update-snapshots" />

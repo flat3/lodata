@@ -39,13 +39,13 @@ abstract class StreamingJsonMatches extends Constraint
             $decodedOther = json_decode($other);
 
             if (json_last_error()) {
-                parent::fail($other, $description);
+                $this->fail($other, $description);
             }
 
             $decodedValue = json_decode($this->value);
 
             if (json_last_error()) {
-                parent::fail($other, $description);
+                $this->fail($other, $description);
             }
 
             $comparisonFailure = new ComparisonFailure(
@@ -57,6 +57,6 @@ abstract class StreamingJsonMatches extends Constraint
             );
         }
 
-        parent::fail($other, $description, $comparisonFailure);
+        $this->fail($other, $description, $comparisonFailure);
     }
 }
