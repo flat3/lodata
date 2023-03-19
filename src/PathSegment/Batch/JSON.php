@@ -185,10 +185,10 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
                 throw new NotImplementedException('atomicity_not_available', 'Atomicity groups are not supported');
             }
 
-            if (!in_array(strtolower($request['method']), ['delete', 'get', 'patch', 'post', 'put'])) {
+            if (!in_array(strtolower($request['method'] ?? ''), ['delete', 'get', 'patch', 'post', 'put'])) {
                 throw new BadRequestException(
                     'incorrect_request_method',
-                    sprintf('Request %s had an invalid method %s', $request['id'], $request['method'])
+                    sprintf('Request %s had an invalid method "%s"', $request['id'], $request['method'])
                 );
             }
         }

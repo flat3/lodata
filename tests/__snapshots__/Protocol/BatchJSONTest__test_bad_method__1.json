@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "incorrect_request_method",
+        "message": "Request 0 had an invalid method \"Invalid\"",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}
