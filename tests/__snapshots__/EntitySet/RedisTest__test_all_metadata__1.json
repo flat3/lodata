@@ -14,7 +14,10 @@
             "in_role": "P2DT5H5M5.2999999999884S",
             "colour": null,
             "sock_colours": null,
-            "key": "beta"
+            "key": "beta",
+            "open_time": null,
+            "flight_id": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.passenger",
@@ -41,7 +44,16 @@
             "@readLink": "http://localhost/odata/passengers('delta')",
             "name": "Delta",
             "in_role": "PT2M7S",
-            "key": "delta"
+            "key": "delta",
+            "age": null,
+            "dob": null,
+            "chips": null,
+            "dq": null,
+            "open_time": null,
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "@type": "#com.example.odata.passenger",
@@ -55,7 +67,10 @@
             "in_role": "PT14M48.9S",
             "colour": null,
             "sock_colours": null,
-            "key": "epsilon"
+            "key": "epsilon",
+            "chips": null,
+            "flight_id": null,
+            "emails": []
         }
     ]
 }

@@ -3,5 +3,13 @@
     "name": "Oobleck",
     "colour": "Blue",
     "sock_colours": "Red,Green",
-    "id": 5
+    "id": 5,
+    "age": null,
+    "dob": null,
+    "chips": null,
+    "dq": null,
+    "in_role": null,
+    "open_time": null,
+    "flight_id": null,
+    "emails": []
 }

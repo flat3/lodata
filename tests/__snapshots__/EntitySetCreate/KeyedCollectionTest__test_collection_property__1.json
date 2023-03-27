@@ -5,5 +5,14 @@
     "emails": [
         "oob@example.com",
         "oo@test.com"
-    ]
+    ],
+    "age": null,
+    "dob": null,
+    "chips": null,
+    "dq": null,
+    "in_role": null,
+    "open_time": null,
+    "flight_id": null,
+    "colour": null,
+    "sock_colours": null
 }

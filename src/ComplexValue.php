@@ -305,6 +305,12 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
             $navigationProperty->generatePropertyValue($transaction, $navigationRequest, $this);
         }
 
+        foreach ($complexType->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
+            return !$this->propertyValues->exists($property->getName()) && $property->isNullable();
+        }) as $property) {
+            $this[$property->getName()] = null;
+        }
+
         $transaction->outputJsonObjectStart();
 
         $metadata = $this->getMetadata($transaction);

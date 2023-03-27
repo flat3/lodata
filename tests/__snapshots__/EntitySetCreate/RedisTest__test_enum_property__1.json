@@ -3,5 +3,13 @@
     "key": "zeta",
     "name": "Zeta",
     "colour": "Blue",
-    "sock_colours": "Red,Green"
+    "sock_colours": "Red,Green",
+    "age": null,
+    "dob": null,
+    "chips": null,
+    "dq": null,
+    "in_role": null,
+    "open_time": null,
+    "flight_id": null,
+    "emails": []
 }

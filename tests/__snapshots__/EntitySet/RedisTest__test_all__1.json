@@ -10,7 +10,10 @@
             "in_role": "P2DT5H5M5.2999999999884S",
             "colour": null,
             "sock_colours": null,
-            "key": "beta"
+            "key": "beta",
+            "open_time": null,
+            "flight_id": null,
+            "emails": []
         },
         {
             "name": "Gamma",
@@ -31,7 +34,16 @@
         {
             "name": "Delta",
             "in_role": "PT2M7S",
-            "key": "delta"
+            "key": "delta",
+            "age": null,
+            "dob": null,
+            "chips": null,
+            "dq": null,
+            "open_time": null,
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
         },
         {
             "name": "Epsilon",
@@ -42,7 +54,10 @@
             "in_role": "PT14M48.9S",
             "colour": null,
             "sock_colours": null,
-            "key": "epsilon"
+            "key": "epsilon",
+            "chips": null,
+            "flight_id": null,
+            "emails": []
         }
     ]
 }
