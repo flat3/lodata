@@ -57,6 +57,25 @@ class BatchJSONTest extends TestCase
         );
     }
 
+    public function test_any_response_type()
+    {
+        $this->assertJsonMetadataResponse(
+            (new Request)
+                ->path('/$batch')
+                ->post()
+                ->accept('*/*')
+                ->body([
+                    'requests' => [
+                        [
+                            'id' => 0,
+                            'method' => 'get',
+                            'url' => 'http://localhost/odata/flights(1)',
+                        ]
+                    ]
+                ])
+        );
+    }
+
     public function test_bad_method()
     {
         $this->assertBadRequest(

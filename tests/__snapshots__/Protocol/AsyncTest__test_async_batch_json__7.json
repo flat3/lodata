@@ -4,7 +4,7 @@
             "no-cache, private"
         ],
         "content-type": [
-            "application/json;metadata=minimal"
+            "application/json"
         ],
         "odata-version": [
             "4.01"

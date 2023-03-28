@@ -162,6 +162,12 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
     public function response(Transaction $transaction, ?ContextInterface $context = null): Response
     {
         $transaction->assertContentTypeJson();
+
+        $transaction->sendContentType(
+            (new MediaType)
+                ->parse(MediaType::json)
+        );
+
         $body = $transaction->getBody();
 
         if (!array_key_exists('requests', $body) || !is_array($body['requests'])) {
