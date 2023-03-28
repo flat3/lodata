@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Parser;
 
+use Exception;
 use Flat3\Lodata\Drivers\SQL\SQLExpression;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\EntityType;
@@ -203,7 +204,7 @@ class CastingTest extends Expression
             $expected = array_key_exists($set->getDriver(), $expected) ? $expected[$set->getDriver()] : $expected[0];
         }
 
-        if (is_a($expected, \Exception::class, true)) {
+        if (is_a($expected, Exception::class, true)) {
             $this->expectException($expected);
         }
 

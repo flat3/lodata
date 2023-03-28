@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
@@ -14,6 +16,7 @@ use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasName;
 use Flat3\Lodata\Type\Binary;
+use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\DateTimeOffset;
 use Flat3\Lodata\Type\Decimal;
 use Flat3\Lodata\Type\Duration;
@@ -396,5 +399,16 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
         }
 
         return $schema;
+    }
+
+    /**
+     * Determine whether this property is computed
+     * @return bool
+     */
+    public function isComputed(): bool
+    {
+        return $this instanceof ComputedProperty ||
+            $this->hasAnnotation(new Computed, Boolean::true()) ||
+            $this->hasAnnotation(new ComputedDefaultValue, Boolean::true());
     }
 }

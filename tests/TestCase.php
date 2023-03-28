@@ -69,6 +69,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected $missingEntityId = 99;
     protected $etag = 'W/""';
     protected $escapedEntityId;
+    protected $escapedMissingEntityId;
 
     protected $airportEntitySet = 'airports';
     protected $airportEntitySetPath = null;
@@ -141,9 +142,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->petEntitySetPath = '/'.$this->petEntitySet;
         $this->entityPath = $this->entitySetPath.'/'.$this->entityId;
         $this->escapedEntityId = $this->entityId;
+        $this->escapedMissingEntityId = $this->missingEntityId;
 
         if (is_string($this->escapedEntityId)) {
             $this->escapedEntityId = "'{$this->escapedEntityId}'";
+        }
+
+        if (is_string($this->escapedMissingEntityId)) {
+            $this->escapedMissingEntityId = "'{$this->escapedMissingEntityId}'";
         }
     }
 

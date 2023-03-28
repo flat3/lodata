@@ -288,7 +288,7 @@ class Transaction
             );
         }
 
-        if ($this->getRequestHeader('isolation') || $this->getRequestHeader('odata-isolation')) {
+        if ($this->hasRequestHeader('isolation') || $this->hasRequestHeader('odata-isolation')) {
             throw new PreconditionFailedException('isolation_not_supported', 'Isolation is not supported');
         }
 
@@ -337,6 +337,16 @@ class Transaction
     public function getRequestHeader(string $key): ?string
     {
         return $this->request->headers->get($key);
+    }
+
+    /**
+     * Return whether the provided request header exists
+     * @param  string  $key  Key
+     * @return bool
+     */
+    public function hasRequestHeader(string $key): bool
+    {
+        return null !== $this->getRequestHeader($key);
     }
 
     /**
@@ -1436,10 +1446,18 @@ class Transaction
                 $entity = null;
                 $binding = $parentEntity->getEntitySet()->getBindingByNavigationProperty($navigationProperty);
 
+                $deltaRequest = new NavigationRequest();
+                $deltaRequest->setOuterRequest($this->getRequest());
+                $deltaRequest->setContent(JSON::encode($deltaPayload));
+                $deltaRequest->setNavigationProperty($navigationProperty);
+
+                $deltaTransaction = clone $this;
+                $deltaTransaction->setRequest($deltaRequest);
+
                 if (array_key_exists('@id', $deltaPayload)) {
                     /** @var Entity $entity */
                     try {
-                        $entity = EntitySet::pipe($this, $deltaPayload['@id']);
+                        $entity = EntitySet::pipe($deltaTransaction, $deltaPayload['@id']);
                     } catch (PathNotHandledException|NotFoundException $e) {
                         throw new BadRequestException(
                             'related_entity_missing',
@@ -1455,14 +1473,6 @@ class Transaction
                         );
                     }
                 }
-
-                $deltaRequest = new NavigationRequest();
-                $deltaRequest->setOuterRequest($this->getRequest());
-                $deltaRequest->setContent(JSON::encode($deltaPayload));
-                $deltaRequest->setNavigationProperty($navigationProperty);
-
-                $deltaTransaction = clone $this;
-                $deltaTransaction->setRequest($deltaRequest);
 
                 $entityId = $parentEntity->newPropertyValue();
                 $entityId->setProperty($navigationProperty);

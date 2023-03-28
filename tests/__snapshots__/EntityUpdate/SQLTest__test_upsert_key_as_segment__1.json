@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "cannot_upsert_computed_key",
+        "message": "Cannot upsert on an entity set with a computed key",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

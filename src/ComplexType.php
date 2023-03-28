@@ -6,7 +6,6 @@ namespace Flat3\Lodata;
 
 use ArrayAccess;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
-use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
@@ -19,7 +18,6 @@ use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
 use Flat3\Lodata\Traits\HasIdentifier;
-use Flat3\Lodata\Type\Boolean;
 
 /**
  * Complex Type
@@ -281,11 +279,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
                 continue;
             }
 
-            if (
-                $declaredProperty->isNullable()
-                || $declaredProperty->hasAnnotation(new Computed, Boolean::true())
-                || $declaredProperty->hasAnnotation(new ComputedDefaultValue, Boolean::true())
-            ) {
+            if ($declaredProperty->isNullable() || $declaredProperty->isComputed()) {
                 continue;
             }
 

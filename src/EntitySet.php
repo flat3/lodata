@@ -14,6 +14,7 @@ use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Expression\Parser\Compute;
@@ -57,6 +58,7 @@ use Flat3\Lodata\Traits\HasTitle;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
 use Flat3\Lodata\Transaction\MetadataContainer;
+use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Transaction\Option;
 use Generator;
 use Illuminate\Http\Request;
@@ -588,11 +590,53 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             ))->lexer($lexer);
         }
 
-        if (!$entitySet instanceof ReadInterface) {
+        return $entitySet->negotiateUpsert($keyValue, $transaction);
+    }
+
+    /**
+     * Negotiate a potential upsert request
+     * @param  PropertyValue  $entityId  Entity ID
+     * @param  Transaction  $transaction  Transaction
+     * @return PipeInterface
+     */
+    public function negotiateUpsert(PropertyValue $entityId, Transaction $transaction): PipeInterface
+    {
+        $key = $this->getType()->getKey();
+
+        if (!$this instanceof ReadInterface) {
             throw new NotImplementedException('entity_cannot_read', 'This entity set cannot read');
         }
 
-        return $entitySet->read($keyValue);
+        try {
+            return $this->read($entityId);
+        } catch (NotFoundException $e) {
+            if (
+                $transaction->getMethod() !== Request::METHOD_PATCH ||
+                !$this instanceof UpdateInterface ||
+                $transaction->hasRequestHeader(Constants::ifMatch) ||
+                $transaction->getRequest() instanceof NavigationRequest
+            ) {
+                throw $e;
+            }
+        }
+
+        if ($key->isComputed()) {
+            throw new BadRequestException(
+                'cannot_upsert_computed_key',
+                'Cannot upsert on an entity set with a computed key'
+            );
+        }
+
+        $request = $transaction->getRequest();
+        $request->setMethod(Request::METHOD_POST);
+        $body = $transaction->getBodyAsArray();
+
+        if (!array_key_exists($key->getName(), $body)) {
+            $body[$key->getName()] = $entityId->getPrimitiveValue();
+            $request->setContent(JSON::encode($body));
+        }
+
+        return EntitySet::pipe($transaction, $this->getName());
     }
 
     /**

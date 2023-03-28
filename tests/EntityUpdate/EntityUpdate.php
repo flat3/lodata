@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Tests\EntityUpdate;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use Illuminate\Http\Response;
 
 abstract class EntityUpdate extends TestCase
 {
@@ -34,6 +35,38 @@ abstract class EntityUpdate extends TestCase
                     'name' => 'Alph',
                 ])
         );
+    }
+
+    public function test_upsert_key_as_segment()
+    {
+        $response = (new Request)
+            ->path($this->entitySetPath.'/'.$this->missingEntityId)
+            ->patch()
+            ->body([
+                'name' => 'Alph',
+            ]);
+
+        if (Lodata::getEntitySet($this->entitySet)->getType()->getKey()->isComputed()) {
+            $this->assertBadRequest($response);
+        } else {
+            $this->assertJsonResponseSnapshot($response, Response::HTTP_CREATED);
+        }
+    }
+
+    public function test_upsert()
+    {
+        $response = (new Request)
+            ->path($this->entitySetPath.'('.$this->escapedMissingEntityId.')')
+            ->patch()
+            ->body([
+                'name' => 'Alph',
+            ]);
+
+        if (Lodata::getEntitySet($this->entitySet)->getType()->getKey()->isComputed()) {
+            $this->assertBadRequest($response);
+        } else {
+            $this->assertJsonResponseSnapshot($response, Response::HTTP_CREATED);
+        }
     }
 
     public function test_update_put()

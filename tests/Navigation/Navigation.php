@@ -8,7 +8,6 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MetadataType;
-use Illuminate\Support\Facades\DB;
 
 abstract class Navigation extends TestCase
 {

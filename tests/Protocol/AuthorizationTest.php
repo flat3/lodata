@@ -87,6 +87,7 @@ class AuthorizationTest extends TestCase
         $this->assertUnauthorized(
             (new Request)
                 ->patch()
+                ->body([])
                 ->path($this->entityPath)
         );
     }
