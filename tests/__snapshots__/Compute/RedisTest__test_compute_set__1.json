@@ -36,9 +36,9 @@
         {
             "name": "Delta",
             "in_role": "PT2M7S",
+            "age": null,
             "key": "delta",
             "myName": "Delta is my name",
-            "age": null,
             "dob": null,
             "chips": null,
             "dq": null,

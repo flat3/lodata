@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Type;
 
 use ArrayAccess;
+use ArrayObject;
 use Flat3\Lodata\Annotation\Record;
 use Flat3\Lodata\ComplexValue;
 use Flat3\Lodata\Controller\Transaction;
@@ -146,6 +147,10 @@ class Collection extends Primitive implements ArrayAccess
 
         if ($value instanceof Arrayable) {
             $value = $value->toArray();
+        }
+
+        if ($value instanceof ArrayObject) {
+            $value = $value->getArrayCopy();
         }
 
         if (!is_array($value)) {

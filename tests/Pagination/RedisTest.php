@@ -6,6 +6,9 @@ namespace Flat3\Lodata\Tests\Pagination;
 
 use Flat3\Lodata\Tests\Drivers\WithRedisDriver;
 
+/**
+ * @group redis
+ */
 class RedisTest extends Pagination
 {
     use WithRedisDriver;

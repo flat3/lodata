@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Helper;
 
 use Flat3\Lodata\Drivers\EloquentEntitySet;
+use Flat3\Lodata\Drivers\MongoEntitySet;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
@@ -13,6 +14,7 @@ use Flat3\Lodata\Operation;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use MongoDB\Collection as MongoCollection;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
@@ -40,6 +42,10 @@ class Discovery
 
             (new EloquentEntitySet($discoverable))->discover();
             return;
+        }
+
+        if (is_a($discoverable, MongoCollection::class, true)) {
+            MongoEntitySet::discover($discoverable);
         }
 
         Operation::discover($discoverable);

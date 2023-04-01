@@ -8,6 +8,9 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @group sql
+ */
 class UrlTest extends TestCase
 {
     use WithSQLDriver;

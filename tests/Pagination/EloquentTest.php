@@ -9,6 +9,9 @@ use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Laravel\Models\Pet;
 
+/**
+ * @group eloquent
+ */
 class EloquentTest extends Pagination
 {
     use WithEloquentDriver;

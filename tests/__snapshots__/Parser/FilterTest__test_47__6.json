@@ -1,0 +1,11 @@
+{
+    "$eq": [
+        {
+            "$dateToString": {
+                "date": "$origin",
+                "format": "%Y-%m-%d"
+            }
+        },
+        "2001-01-01"
+    ]
+}

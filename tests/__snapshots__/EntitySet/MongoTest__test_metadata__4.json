@@ -1,0 +1,976 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "OData Service for namespace com.example.odata",
+        "version": "1.0.0",
+        "description": "This OData service is located at [http://localhost/odata](http://localhost/odata)\n\n## References\n- [Org.OData.Core.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.md)\n- [Org.OData.Measures.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.md)"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/odata"
+        }
+    ],
+    "tags": [
+        {
+            "name": "passengers"
+        }
+    ],
+    "paths": {
+        "/passengers": {
+            "get": {
+                "summary": "Get entities from passengers",
+                "tags": [
+                    "passengers"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "_id",
+                                    "name",
+                                    "age",
+                                    "dob",
+                                    "chips",
+                                    "dq",
+                                    "in_role",
+                                    "open_time",
+                                    "flight_id",
+                                    "colour",
+                                    "sock_colours",
+                                    "emails"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "$ref": "#/components/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "_id",
+                                    "_id desc",
+                                    "name",
+                                    "name desc",
+                                    "age",
+                                    "age desc",
+                                    "dob",
+                                    "dob desc",
+                                    "chips",
+                                    "chips desc",
+                                    "dq",
+                                    "dq desc",
+                                    "in_role",
+                                    "in_role desc",
+                                    "open_time",
+                                    "open_time desc",
+                                    "flight_id",
+                                    "flight_id desc",
+                                    "colour",
+                                    "colour desc",
+                                    "sock_colours",
+                                    "sock_colours desc"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of passengers",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.passenger"
+                                            }
+                                        },
+                                        "@count": {
+                                            "$ref": "#/components/schemas/count"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new entity to passengers",
+                "tags": [
+                    "passengers"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "New entity",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.passenger-create"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.passenger"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/passengers/{_id}": {
+            "parameters": [
+                {
+                    "description": "Key: _id",
+                    "in": "path",
+                    "name": "_id",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entity from passengers by key",
+                "tags": [
+                    "passengers"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "_id",
+                                    "name",
+                                    "age",
+                                    "dob",
+                                    "chips",
+                                    "dq",
+                                    "in_role",
+                                    "open_time",
+                                    "flight_id",
+                                    "colour",
+                                    "sock_colours",
+                                    "emails"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.passenger"
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update entity in passengers",
+                "tags": [
+                    "passengers"
+                ],
+                "requestBody": {
+                    "description": "New property values",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.passenger-update"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.passenger"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete entity from passengers",
+                "tags": [
+                    "passengers"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/$batch": {
+            "post": {
+                "summary": "Send a group of requests",
+                "operationId": "batch",
+                "description": "Group multiple requests into a single request payload, see [Batch requests](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_BatchRequests)",
+                "tags": [
+                    "Batch requests"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Batch request",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "method": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "get",
+                                                        "post",
+                                                        "patch",
+                                                        "put",
+                                                        "delete"
+                                                    ]
+                                                },
+                                                "url": {
+                                                    "type": "string"
+                                                },
+                                                "headers": {
+                                                    "type": "object"
+                                                },
+                                                "body": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "requests": [
+                                    {
+                                        "id": "0",
+                                        "method": "get",
+                                        "url": "/odata/resource(1)"
+                                    },
+                                    {
+                                        "id": "1",
+                                        "method": "patch",
+                                        "url": "/odata/resource(2)",
+                                        "headers": {
+                                            "Prefer": "return=minimal"
+                                        },
+                                        "body": "<JSON representation of changes to entity>"
+                                    }
+                                ]
+                            }
+                        },
+                        "multipart/mixed;boundary=request-separator": {
+                            "schema": {
+                                "type": "string"
+                            },
+                            "example": "--request-separator\nContent-Type: application/http\nContent-Transfer-Encoding: binary\n\nGET odata/resource HTTP/1.1\nAccept: application/json\n\n\n-request-separator--"
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Batch response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "responses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer"
+                                                    },
+                                                    "body": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "responses": [
+                                        {
+                                            "id": "0",
+                                            "status": 200,
+                                            "body": "<JSON representation of the entity with key 1>"
+                                        },
+                                        {
+                                            "id": "1",
+                                            "status": 204
+                                        }
+                                    ]
+                                }
+                            },
+                            "multipart/mixed": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "--response-separator\nContent-Type: application/http\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{...}\n--response-separator--"
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "com.example.odata.passenger": {
+                "type": "object",
+                "title": "passenger",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": false,
+                        "maxLength": 255
+                    },
+                    "age": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double",
+                                "nullable": true
+                            },
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ],
+                                "nullable": true
+                            }
+                        ]
+                    },
+                    "dob": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                        "nullable": true
+                    },
+                    "chips": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "dq": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
+                        "nullable": true
+                    },
+                    "in_role": {
+                        "type": "string",
+                        "format": "duration",
+                        "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$",
+                        "nullable": true
+                    },
+                    "open_time": {
+                        "type": "string",
+                        "format": "time",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
+                        "nullable": true
+                    },
+                    "flight_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    },
+                    "colour": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "sock_colours": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                }
+            },
+            "com.example.odata.passenger-create": {
+                "type": "object",
+                "title": "passenger (Create schema)",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": false,
+                        "maxLength": 255
+                    },
+                    "age": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double",
+                                "nullable": true
+                            },
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ],
+                                "nullable": true
+                            }
+                        ]
+                    },
+                    "dob": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                        "nullable": true
+                    },
+                    "chips": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "dq": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
+                        "nullable": true
+                    },
+                    "in_role": {
+                        "type": "string",
+                        "format": "duration",
+                        "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$",
+                        "nullable": true
+                    },
+                    "open_time": {
+                        "type": "string",
+                        "format": "time",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
+                        "nullable": true
+                    },
+                    "flight_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    },
+                    "colour": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "sock_colours": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                }
+            },
+            "com.example.odata.passenger-update": {
+                "type": "object",
+                "title": "passenger (Update schema)",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": false,
+                        "maxLength": 255
+                    },
+                    "age": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double",
+                                "nullable": true
+                            },
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "-INF",
+                                    "INF",
+                                    "NaN"
+                                ],
+                                "nullable": true
+                            }
+                        ]
+                    },
+                    "dob": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                        "nullable": true
+                    },
+                    "chips": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "dq": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
+                        "nullable": true
+                    },
+                    "in_role": {
+                        "type": "string",
+                        "format": "duration",
+                        "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$",
+                        "nullable": true
+                    },
+                    "open_time": {
+                        "type": "string",
+                        "format": "time",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$",
+                        "nullable": true
+                    },
+                    "flight_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": true
+                    },
+                    "colour": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "sock_colours": {
+                        "type": "string",
+                        "enum": [
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Brown"
+                        ],
+                        "nullable": true
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                }
+            },
+            "Edm.ComplexType": {
+                "type": "object"
+            },
+            "Edm.EntityType": {
+                "type": "object"
+            },
+            "Edm.PrimitiveType": {
+                "anyOf": [
+                    {
+                        "type": "boolean"
+                    },
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "number"
+                    }
+                ]
+            },
+            "Edm.AnnotationPath": {
+                "type": "string"
+            },
+            "Edm.NavigationPropertyPath": {
+                "type": "string"
+            },
+            "Edm.PropertyPath": {
+                "type": "string"
+            },
+            "Edm.Binary": {
+                "type": "string",
+                "format": "base64url",
+                "pattern": "^([A-Za-z0-9_-]{4})*([A-Za-z0-9_-]{3}[A-Za-z0-9_-]|[A-Za-z0-9_-]{2}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-][AQgw](==)?)?$"
+            },
+            "Edm.Byte": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0,
+                "maximum": 255
+            },
+            "Edm.Date": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+            },
+            "Edm.DateTimeOffset": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$"
+            },
+            "Edm.Double": {
+                "anyOf": [
+                    {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "type": "string",
+                        "enum": [
+                            "-INF",
+                            "INF",
+                            "NaN"
+                        ]
+                    }
+                ]
+            },
+            "Edm.Duration": {
+                "type": "string",
+                "format": "duration",
+                "pattern": "^(-?)P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+[DW])?(T(\\d+H)?(\\d+M)?((\\d+(\\.\\d+)?)S)?)?$"
+            },
+            "Edm.Guid": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            },
+            "Edm.Int16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": -32768,
+                "maximum": 32767
+            },
+            "Edm.Int32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+            },
+            "Edm.Int64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+            },
+            "Edm.String": {
+                "type": "string"
+            },
+            "Edm.Boolean": {
+                "type": "boolean"
+            },
+            "Edm.SByte": {
+                "type": "integer",
+                "format": "int8",
+                "minimum": -128,
+                "maximum": 127
+            },
+            "Edm.Single": {
+                "anyOf": [
+                    {
+                        "type": "number",
+                        "format": "single"
+                    },
+                    {
+                        "type": "string",
+                        "enum": [
+                            "-INF",
+                            "INF",
+                            "NaN"
+                        ]
+                    }
+                ]
+            },
+            "Edm.Decimal": {
+                "anyOf": [
+                    {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    {
+                        "type": "string",
+                        "enum": [
+                            "-INF",
+                            "INF",
+                            "NaN"
+                        ]
+                    }
+                ]
+            },
+            "Edm.Stream": {
+                "type": "string",
+                "format": "base64url"
+            },
+            "Edm.TimeOfDay": {
+                "type": "string",
+                "format": "time",
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?$"
+            },
+            "Edm.Untyped": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "com.example.odata.UInt16": {
+                "type": "integer",
+                "format": "int16",
+                "minimum": 0,
+                "maximum": 32767
+            },
+            "com.example.odata.UInt32": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 2147483647
+            },
+            "com.example.odata.UInt64": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0,
+                "maximum": 9223372036854775807
+            },
+            "count": {
+                "anyOf": [
+                    {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    {
+                        "type": "string"
+                    }
+                ],
+                "title": "Count (parameter)",
+                "description": "The number of entities in the collection. Available when using the [$count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount) query option"
+            }
+        },
+        "responses": {
+            "error": {
+                "description": "Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "target": {
+                                            "type": "string"
+                                        },
+                                        "details": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "string"
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
+                                                    },
+                                                    "target": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "innererror": {
+                                            "type": "object",
+                                            "description": "The structure of this object is service-specific"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "top": {
+                "name": "top",
+                "schema": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "in": "query",
+                "description": "Show only the first n items, see [OData Paging \u2013 Top](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptiontop)"
+            },
+            "skip": {
+                "name": "skip",
+                "schema": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "in": "query",
+                "description": "Skip the first n items, see [OData Paging - Skip](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionskip)"
+            },
+            "skiptoken": {
+                "name": "skiptoken",
+                "schema": {
+                    "type": "string"
+                },
+                "in": "query",
+                "description": "Skip using a skip token, see [OData Server Driven Paging](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServerDrivenPaging)"
+            },
+            "count": {
+                "name": "count",
+                "schema": {
+                    "type": "boolean"
+                },
+                "in": "query",
+                "description": "Include count of items, see [OData Count](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptioncount)"
+            },
+            "filter": {
+                "name": "filter",
+                "schema": {
+                    "type": "string"
+                },
+                "in": "query",
+                "description": "Filter items by property values, see [OData Filtering](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionfilter)"
+            },
+            "search": {
+                "name": "search",
+                "schema": {
+                    "type": "string"
+                },
+                "in": "query",
+                "description": "Search items by search phrases, see [OData Searching](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionsearch)"
+            }
+        }
+    }
+}

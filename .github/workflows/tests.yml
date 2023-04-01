@@ -8,84 +8,163 @@ on:
     types: [ ready_for_review, synchronize, opened ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  matrix:
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
       matrix:
         include:
-          - php: 81
+          - php: "8.1"
             laravel: 10
-            database: sqlite
-          - php: 81
-            laravel: 10
-            database: sqlsrv
-          - php: 81
-            laravel: 10
-            database: postgres
-          - php: 81
-            laravel: 10
-            database: mysql
-          - php: 81
+          - php: "8.1"
             laravel: 9
-            database: sqlite
-          - php: 81
+          - php: "8.1"
             laravel: 8
-            database: sqlite
-          - php: 80
+          - php: "8.0"
             laravel: 8
-            database: sqlite
-          - php: 74
+          - php: "7.4"
             laravel: 8
-            database: sqlite
-          - php: 73
+          - php: "7.3"
             laravel: 8
-            database: sqlite
-    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }} / ${{matrix.database}}
-    env:
-      PHP: ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v3
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
-
-      - name: Install Composer dependencies
-        env:
-          PACKAGE: "laravel/framework:^${{ matrix.laravel }}.0"
+          php-version: ${{ matrix.php }}
+      - name: Composer
         run: |
-          docker compose up require
-          docker compose up update
+          rm composer.lock
+          composer require laravel/framework:^${{ matrix.laravel }}
+      - name: Test
+        env:
+          CREATE_SNAPSHOTS: false
+        run: composer test -- --exclude-group redis,mongo
 
-      - name: Run tests
-        run: docker compose up --exit-code-from ${{ matrix.database }} ${{ matrix.database }}
+  sqlsrv:
+    runs-on: ubuntu-22.04
+    name: Microsoft SQL Server
+    steps:
+      - uses: actions/checkout@v3
+      - name: MSSQL Server
+        run: docker run --detach -p 1433:1433 -e SA_PASSWORD=Your_password123 -e ACCEPT_EULA=Y mcr.microsoft.com/mssql/server
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: pdo_sqlsrv odbc pdo_odbc
+      - name: Composer
+        run: composer update
+      - name: Wait for containers
+        run: until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q "SELECT 1" || false; do sleep 1; done
+      - name: Test
+        env:
+          CREATE_SNAPSHOTS: false
+          DATABASE_URL: sqlsrv://sa:Your_password123@localhost:1433/msdb
+        run: composer test -- --group sql,eloquent
 
-      - name: Shutdown
-        run: docker compose down
+  postgres:
+    runs-on: ubuntu-22.04
+    name: PostgreSQL
+    steps:
+      - uses: actions/checkout@v3
+      - name: PostgreSQL
+        run: docker run --detach -p 5432:5432 -e POSTGRES_PASSWORD=my-secret-pw postgres:latest postgres -c shared_buffers=256MB -c max_connections=2000
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: pdo_pgsql
+      - name: Composer
+        run: composer update
+      - name: Wait for containers
+        run: until pg_isready -q -d postgres -U postgres -h localhost; do sleep 1; done
+      - name: Test
+        env:
+          CREATE_SNAPSHOTS: false
+          DATABASE_URL: pgsql://postgres:my-secret-pw@localhost:5432/postgres?charset=utf8
+        run:
+          composer test -- --group sql,eloquent
+
+  mysql:
+    runs-on: ubuntu-22.04
+    name: MySQL
+    steps:
+      - uses: actions/checkout@v3
+      - name: MySQL
+        run: docker run --detach -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=testing mysql:latest mysqld --max-connections=8000
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: pdo_mysql
+      - name: Composer
+        run: composer update
+      - name: Wait for containers
+        run: until mysqladmin ping -h 127.0.0.1 --password=my-secret-pw; do sleep 1; done
+      - name: Test
+        env:
+          CREATE_SNAPSHOTS: false
+          DATABASE_URL: mysql://root:my-secret-pw@127.0.0.1:3306/testing
+        run: composer test -- --group sql,eloquent
+
+  mongo:
+    runs-on: ubuntu-22.04
+    name: MongoDB
+    steps:
+      - uses: actions/checkout@v3
+      - name: Mongo
+        run: docker run --detach -p 27017:27017 mongo
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: mongodb
+      - name: Composer
+        run: composer update
+      - name: Wait for containers
+        run: until curl --silent localhost:27017 2>&1 > /dev/null || false; do sleep 1; done
+      - name: Test
+        env:
+          CREATE_SNAPSHOTS: false
+        run: composer test -- --group mongo
+
+  redis:
+    runs-on: ubuntu-22.04
+    name: Redis
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: redis
+      - name: Composer
+        run: composer update
+      - name: Test
+        env:
+          CREATE_SNAPSHOTS: false
+        run: composer test -- --group redis
 
   analysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: Analysis
-    env:
-      PHP: 81
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Update
-        run: docker compose up update
-
-      - name: Static analysis
-        run: docker compose up --exit-code-from analyse analyse
-
-      - name: Test Coverage
-        run: GIT_COMMITTED_AT=`git log -1 --pretty=format:%ct` docker compose up --exit-code-from coverage coverage
+      - name: Get git commited-at
+        run: echo "GIT_COMMITTED_AT=$(git log -1 --pretty=format:%ct)" >> $GITHUB_ENV
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: pdo_pgsql, mongodb
+      - name: Containers
+        run: |
+          docker run --detach -p 5432:5432 -e POSTGRES_PASSWORD=my-secret-pw postgres:latest postgres -c shared_buffers=256MB -c max_connections=2000
+          docker run --detach -p 27017:27017 mongo
+      - name: Composer
+        run: composer update
+      - name: Wait for containers
+        run: |
+          until pg_isready -q -d postgres -U postgres -h localhost; do sleep 1; done
+          until curl --silent localhost:27017 2>&1 > /dev/null || false; do sleep 1; done
+      - name: Analyze
+        env:
+          COMPOSER_PROCESS_TIMEOUT: 10000
+        run: composer analyse
+      - name: Report coverage
+        uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID: 1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
+          COMPOSER_PROCESS_TIMEOUT: 10000
+        with:
+          coverageCommand: composer coverage

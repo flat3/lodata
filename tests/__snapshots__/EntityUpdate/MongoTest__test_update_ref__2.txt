@@ -1,0 +1,10 @@
+@@ @@
+ [
+     {
+-        "_id": "alpha",
+-        "name": "Alpha",
++        "_id": "lh",
++        "name": "lh",
+         "age": 4,
+         "dob": {
+             "$date": {

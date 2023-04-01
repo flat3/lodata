@@ -588,7 +588,7 @@ abstract class Filter extends TestCase
             (new Request)
                 ->path($this->entitySetPath)
                 ->filter('dob eq 2001-02-02T05:05:05Z')
-                ->select('id,dob')
+                ->select($this->entitySetKey.',dob')
         );
     }
 
@@ -598,7 +598,7 @@ abstract class Filter extends TestCase
             (new Request)
                 ->path($this->entitySetPath)
                 ->filter('dob gt 2001-02-02T05:05:05Z')
-                ->select('id,dob')
+                ->select($this->entitySetKey.',dob')
         );
     }
 
@@ -608,7 +608,7 @@ abstract class Filter extends TestCase
             (new Request)
                 ->path($this->entitySetPath)
                 ->filter('dob lt 2001-02-02T05:05:05Z')
-                ->select('id,dob')
+                ->select($this->entitySetKey.',dob')
         );
     }
 

@@ -1,0 +1,28 @@
+{
+    "$and": [
+        {
+            "$eq": [
+                {
+                    "$regexMatch": {
+                        "input": "$origin",
+                        "regex": "Veniam et$"
+                    }
+                },
+                true
+            ]
+        },
+        {
+            "$not": {
+                "$eq": [
+                    {
+                        "$regexMatch": {
+                            "input": "$origin",
+                            "regex": "^Veniam et"
+                        }
+                    },
+                    true
+                ]
+            }
+        }
+    ]
+}

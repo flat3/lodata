@@ -7,6 +7,9 @@ use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
+/**
+ * @group sql
+ */
 class TransactionTest extends TestCase
 {
     use WithSQLDriver;

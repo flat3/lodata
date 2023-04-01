@@ -1,0 +1,12 @@
+@@ @@
+         "in_role": 888.9,
+         "colour": 0,
+         "sock_colours": 0
++    },
++    {
++        "_id": "oobleck",
++        "name": "Oobleck",
++        "colour": 4,
++        "sock_colours": 3
+     }
+ ]

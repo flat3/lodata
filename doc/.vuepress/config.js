@@ -156,6 +156,7 @@ module.exports = {
                             'modelling/drivers/database',
                             'modelling/drivers/filesystem',
                             'modelling/drivers/redis',
+                            'modelling/drivers/mongo',
                             'modelling/drivers/collection',
                             'modelling/drivers/csv',
                             'modelling/drivers/caching',

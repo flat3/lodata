@@ -153,6 +153,10 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
                     case $node instanceof Enum:
                         $this->addCommon($node->getValue()->toUrl());
                         return;
+
+                    case $node instanceof Literal\Null_:
+                        $this->addCommon('null');
+                        return;
                 }
 
                 $this->addCommon($node->getValue());

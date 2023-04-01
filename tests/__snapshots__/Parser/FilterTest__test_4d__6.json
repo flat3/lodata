@@ -1,0 +1,16 @@
+{
+    "$eq": [
+        {
+            "$convert": {
+                "input": {
+                    "$dateToString": {
+                        "date": "$origin",
+                        "format": "%S"
+                    }
+                },
+                "to": "int"
+            }
+        },
+        44
+    ]
+}

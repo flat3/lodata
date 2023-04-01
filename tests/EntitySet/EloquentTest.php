@@ -11,6 +11,9 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @group eloquent
+ */
 class EloquentTest extends EntitySet
 {
     use WithEloquentDriver;

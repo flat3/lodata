@@ -493,4 +493,14 @@ class FilterTest extends Expression
     {
         $this->assertFilter("priority has com.example.odata.Priorities'high,medium'");
     }
+
+    public function test_73()
+    {
+        $this->assertFilter("(contains(tolower(cast(origin, 'Edm.String')),'alpha')) or (contains(tolower(cast(origin, 'Edm.String')),'alpha'))");
+    }
+
+    public function test_74()
+    {
+        $this->assertFilter("origin eq null");
+    }
 }

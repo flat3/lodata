@@ -1,0 +1,30 @@
+{
+    "$or": [
+        {
+            "$regexMatch": {
+                "input": {
+                    "$toLower": {
+                        "$convert": {
+                            "input": "$origin",
+                            "to": "string"
+                        }
+                    }
+                },
+                "regex": "alpha"
+            }
+        },
+        {
+            "$regexMatch": {
+                "input": {
+                    "$toLower": {
+                        "$convert": {
+                            "input": "$origin",
+                            "to": "string"
+                        }
+                    }
+                },
+                "regex": "alpha"
+            }
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "$regexMatch": {
+        "input": "$origin",
+        "regex": "b"
+    }
+}

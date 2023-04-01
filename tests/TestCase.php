@@ -64,6 +64,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected $entitySet = 'passengers';
     protected $entitySetPath = null;
+    protected $entitySetKey = 'id';
     protected $entityId = 1;
     protected $entityPath = null;
     protected $missingEntityId = 99;
@@ -338,6 +339,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'delta' => [
                 'name' => 'Delta',
                 'in_role' => 127,
+                'age' => null,
             ],
             'epsilon' => [
                 'name' => 'Epsilon',

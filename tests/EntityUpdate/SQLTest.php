@@ -6,6 +6,9 @@ namespace Flat3\Lodata\Tests\EntityUpdate;
 
 use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 
+/**
+ * @group sql
+ */
 class SQLTest extends Database
 {
     use WithSQLDriver;

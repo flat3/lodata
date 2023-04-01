@@ -1,0 +1,2 @@
+expression: (contains(tolower(cast(origin, 'Edm.String')),'alpha')) or (contains(tolower(cast(origin, 'Edm.String')),'alpha'))
+result: ( contains( tolower( cast( origin, 'Edm.String' ) ), 'alpha' ) or contains( tolower( cast( origin, 'Edm.String' ) ), 'alpha' ) )

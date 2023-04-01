@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "unsupported_accept",
+        "message": "This route does not support the accepted type, unsupported parameters may have been supplied",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

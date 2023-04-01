@@ -6,6 +6,9 @@ namespace Flat3\Lodata\Tests\OrderBy;
 
 use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 
+/**
+ * @group eloquent
+ */
 class EloquentTest extends OrderBy
 {
     use WithEloquentDriver;

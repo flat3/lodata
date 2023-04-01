@@ -1,0 +1,9 @@
+@@ @@
+     {
+         "_id": "alpha",
+         "name": "Alpha",
+-        "age": 4,
++        "age": null,
+         "dob": {
+             "$date": {
+                 "$numberLong": "946699444000"

@@ -6,6 +6,9 @@ namespace Flat3\Lodata\Tests\Entity;
 
 use Flat3\Lodata\Tests\Drivers\WithCSVDriver;
 
+/**
+ * @group csv
+ */
 class CSVTest extends Entity
 {
     use WithCSVDriver;

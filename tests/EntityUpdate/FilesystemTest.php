@@ -8,6 +8,9 @@ use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
+/**
+ * @group filesystem
+ */
 class FilesystemTest extends TestCase
 {
     use WithFilesystemDriver;

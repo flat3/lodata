@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09063c702c4ef3eef54c59ef81a2486c",
+    "content-hash": "dfc7f40445d1f8ed1d4041bd6404352e",
     "packages": [
         {
             "name": "brick/math",
@@ -6562,6 +6562,76 @@
             "time": "2022-09-07T15:32:08+00:00"
         },
         {
+            "name": "mongodb/mongodb",
+            "version": "1.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mongodb/mongo-php-library.git",
+                "reference": "3a681a3b2f2c0ebac227a3b86bb9057d0e6eb8f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/3a681a3b2f2c0ebac227a3b86bb9057d0e6eb8f8",
+                "reference": "3a681a3b2f2c0ebac227a3b86bb9057d0e6eb8f8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-hash": "*",
+                "ext-json": "*",
+                "ext-mongodb": "^1.15.0",
+                "jean85/pretty-package-versions": "^1.2 || ^2.0.1",
+                "php": "^7.2 || ^8.0",
+                "symfony/polyfill-php80": "^1.19"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^9.0",
+                "squizlabs/php_codesniffer": "^3.6",
+                "symfony/phpunit-bridge": "^5.2",
+                "vimeo/psalm": "^4.28"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.15.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "MongoDB\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Braun",
+                    "email": "andreas.braun@mongodb.com"
+                },
+                {
+                    "name": "Jeremy Mikola",
+                    "email": "jmikola@gmail.com"
+                }
+            ],
+            "description": "MongoDB driver library",
+            "homepage": "https://jira.mongodb.org/browse/PHPLIB",
+            "keywords": [
+                "database",
+                "driver",
+                "mongodb",
+                "persistence"
+            ],
+            "support": {
+                "issues": "https://github.com/mongodb/mongo-php-library/issues",
+                "source": "https://github.com/mongodb/mongo-php-library/tree/1.15.0"
+            },
+            "time": "2022-11-23T04:45:35+00:00"
+        },
+        {
             "name": "mtdowling/jmespath.php",
             "version": "2.6.1",
             "source": {
@@ -6835,16 +6905,16 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v8.1.1",
+            "version": "v8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "f8abc7e5e0e9fe240a4dc090113f034f2d06870e"
+                "reference": "8fc09a6db42760f38f9c27fa88273edf497bf74c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/f8abc7e5e0e9fe240a4dc090113f034f2d06870e",
-                "reference": "f8abc7e5e0e9fe240a4dc090113f034f2d06870e",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/8fc09a6db42760f38f9c27fa88273edf497bf74c",
+                "reference": "8fc09a6db42760f38f9c27fa88273edf497bf74c",
                 "shasum": ""
             },
             "require": {
@@ -6852,7 +6922,7 @@
                 "fakerphp/faker": "^1.21",
                 "laravel/framework": ">=10.4.1 <10.6.0",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": ">=8.2.0 <8.3.0",
+                "orchestra/testbench-core": ">=8.3.0 <8.4.0",
                 "php": "^8.1",
                 "phpunit/phpunit": "^9.6 || ^10.0.7",
                 "spatie/laravel-ray": "^1.32.4",
@@ -6884,22 +6954,22 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v8.1.1"
+                "source": "https://github.com/orchestral/testbench/tree/v8.2.0"
             },
-            "time": "2023-03-28T13:26:11+00:00"
+            "time": "2023-04-01T14:26:48+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.2.0",
+            "version": "v8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "80713894335a55e41ddc1a1e5c5cff3d45c36333"
+                "reference": "01476c2d7b0f1acf2ef5903d7e381155dca668b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/80713894335a55e41ddc1a1e5c5cff3d45c36333",
-                "reference": "80713894335a55e41ddc1a1e5c5cff3d45c36333",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/01476c2d7b0f1acf2ef5903d7e381155dca668b9",
+                "reference": "01476c2d7b0f1acf2ef5903d7e381155dca668b9",
                 "shasum": ""
             },
             "require": {
@@ -6964,16 +7034,16 @@
             "keywords": [
                 "BDD",
                 "TDD",
+                "dev",
                 "laravel",
-                "orchestra-platform",
-                "orchestral",
+                "laravel-packages",
                 "testing"
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-03-27T14:55:53+00:00"
+            "time": "2023-04-01T14:13:38+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7088,16 +7158,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.9",
+            "version": "1.10.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "9b13dafe3d66693d20fe5729c3dde1d31bb64703"
+                "reference": "f1e22c9b17a879987f8743d81533250a5fff47f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9b13dafe3d66693d20fe5729c3dde1d31bb64703",
-                "reference": "9b13dafe3d66693d20fe5729c3dde1d31bb64703",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f1e22c9b17a879987f8743d81533250a5fff47f9",
+                "reference": "f1e22c9b17a879987f8743d81533250a5fff47f9",
                 "shasum": ""
             },
             "require": {
@@ -7146,7 +7216,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-30T08:58:01+00:00"
+            "time": "2023-04-01T17:06:15+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -8786,16 +8856,16 @@
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
-            "version": "5.0.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/phpunit-snapshot-assertions.git",
-                "reference": "fda3c42cd84f0b96d0e3e3c54987d5e4e8739d28"
+                "reference": "bf9af3de290fc0332316f9c62b1f6624b36b771b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/fda3c42cd84f0b96d0e3e3c54987d5e4e8739d28",
-                "reference": "fda3c42cd84f0b96d0e3e3c54987d5e4e8739d28",
+                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/bf9af3de290fc0332316f9c62b1f6624b36b771b",
+                "reference": "bf9af3de290fc0332316f9c62b1f6624b36b771b",
                 "shasum": ""
             },
             "require": {
@@ -8809,6 +8879,7 @@
                 "symfony/serializer": "^5.2|^6.2",
                 "symfony/yaml": "^5.2|^6.2"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -8844,7 +8915,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/phpunit-snapshot-assertions/issues",
-                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/5.0.1"
+                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/main"
             },
             "funding": [
                 {
@@ -8852,7 +8923,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-02-13T07:44:22+00:00"
+            "time": "2023-04-01T15:06:09+00:00"
         },
         {
             "name": "spatie/ray",
@@ -9464,7 +9535,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "spatie/phpunit-snapshot-assertions": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -1,0 +1,11 @@
+{
+    "$eq": [
+        {
+            "$dateToString": {
+                "date": "$origin",
+                "format": "%H:%M:%S.%L"
+            }
+        },
+        "10:00:00.000"
+    ]
+}

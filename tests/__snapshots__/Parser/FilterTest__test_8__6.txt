@@ -1,0 +1,2 @@
+expression: id eq test
+result: Encountered an invalid symbol at: id eq >t<est

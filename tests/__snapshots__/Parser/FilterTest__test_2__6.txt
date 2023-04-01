@@ -1,0 +1,2 @@
+expression: origin eq 'test
+result: Encountered an invalid symbol at: origin eq >'<test

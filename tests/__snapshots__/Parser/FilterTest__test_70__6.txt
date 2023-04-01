@@ -1,0 +1,2 @@
+expression: priority has Priorities'high'
+result: This entity set does not support the operator "has"

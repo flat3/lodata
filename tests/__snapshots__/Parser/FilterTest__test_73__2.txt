@@ -1,0 +1,3 @@
+expression: (contains(tolower(cast(origin, 'Edm.String')),'alpha')) or (contains(tolower(cast(origin, 'Edm.String')),'alpha'))
+result: ( LOWER( CONVERT( `flights`.`origin`, CHAR ) ) LIKE ? OR LOWER( CONVERT( `flights`.`origin`, CHAR ) ) LIKE ? )
+parameters: %alpha%,%alpha%

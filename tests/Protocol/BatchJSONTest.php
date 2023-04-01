@@ -9,6 +9,9 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Int32;
 
+/**
+ * @group sql
+ */
 class BatchJSONTest extends TestCase
 {
     use WithSQLDriver;

@@ -1,0 +1,17 @@
+{
+    "_id": "alpha",
+    "name": "Alpha",
+    "age": 4,
+    "dob": "2000-01-01T04:04:04+00:00",
+    "chips": true,
+    "dq": "2000-01-01",
+    "in_role": "P1DT0S",
+    "open_time": "05:05:05.000000",
+    "flight_id": 1,
+    "colour": "Green",
+    "sock_colours": "Green,Blue",
+    "emails": [
+        "alpha@example.com",
+        "alpha@beta.com"
+    ]
+}

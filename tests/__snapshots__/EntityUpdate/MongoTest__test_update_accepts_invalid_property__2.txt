@@ -1,0 +1,10 @@
+@@ @@
+         "emails": [
+             "alpha@example.com",
+             "alpha@beta.com"
+-        ]
++        ],
++        "invalid": "ooo"
+     },
+     {
+         "_id": "beta",

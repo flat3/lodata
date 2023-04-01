@@ -52,78 +52,15 @@ services:
       retries: 10
       interval: 1s
 
-  mysql:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    environment:
-      - CREATE_SNAPSHOTS=false
-      - DATABASE_URL=mysql://root:my-secret-pw@mysql_db:3306/testing
-    depends_on:
-      mysql_db:
-        condition: service_healthy
-    entrypoint: "composer test"
-
-  postgres:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    environment:
-      - CREATE_SNAPSHOTS=false
-      - DATABASE_URL=pgsql://postgres:my-secret-pw@postgres_db:5432/postgres?charset=utf8
-    depends_on:
-      postgres_db:
-        condition: service_healthy
-    entrypoint: "composer test"
-
-  sqlsrv:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    environment:
-      - CREATE_SNAPSHOTS=false
-      - DATABASE_URL=sqlsrv://sa:Your_password123@sqlsrv_db:1433/msdb
-    depends_on:
-      sqlsrv_db:
-        condition: service_healthy
-    entrypoint: "composer test"
-
-  sqlite:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    environment:
-      - CREATE_SNAPSHOTS=false
-    entrypoint: "composer test"
-
-  require:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    environment:
-      - PACKAGE:${PACKAGE}
-    entrypoint: "composer require --no-interaction --no-update $PACKAGE"
-
-  update:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    entrypoint: "composer update"
-
-  analyse:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    entrypoint: "composer analyse"
-
-  coverage:
-    image: ghcr.io/flat3/lodata:$PHP
-    volumes:
-      - .:/lodata
-    environment:
-      - CC_TEST_REPORTER_ID=1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
-      - COMPOSER_PROCESS_TIMEOUT=10000
-      - GITHUB_SHA=${GITHUB_SHA}
-      - GITHUB_REF_NAME=${GITHUB_REF_NAME}
-      - GIT_COMMITTED_AT=${GIT_COMMITTED_AT}
-    entrypoint: "/bin/sh -c 'composer coverage && cc-reporter after-build -t clover --exit-code $$?'"
+  mongo_db:
+    image: "mongo"
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      timeout: 60s
+      retries: 10
+      interval: 1s

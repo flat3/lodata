@@ -1,0 +1,27 @@
+@@ @@
+ [
+     {
+-        "_id": "alpha",
+-        "name": "Alpha",
+-        "age": 4,
+-        "dob": {
+-            "$date": {
+-                "$numberLong": "946699444000"
+-            }
+-        },
+-        "chips": true,
+-        "dq": "2000-01-01",
+-        "in_role": 86400,
+-        "open_time": "05:05:05",
+-        "flight_id": 1,
+-        "colour": 2,
+-        "sock_colours": 6,
+-        "emails": [
+-            "alpha@example.com",
+-            "alpha@beta.com"
+-        ]
+-    },
+-    {
+         "_id": "beta",
+         "name": "Beta",
+         "age": 3,

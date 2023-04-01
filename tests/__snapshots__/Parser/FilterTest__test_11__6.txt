@@ -1,0 +1,2 @@
+expression: (id lt 4 and (id ge 7 or id gt 3)
+result: An operator was used without an operand at: id lt 4 and (id ge 7 or id gt 3)<END

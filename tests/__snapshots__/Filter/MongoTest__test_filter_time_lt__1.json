@@ -1,0 +1,21 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers(name,open_time)",
+    "value": [
+        {
+            "name": "Alpha",
+            "open_time": "05:05:05.000000"
+        },
+        {
+            "name": "Beta",
+            "open_time": null
+        },
+        {
+            "name": "Gamma",
+            "open_time": "07:07:07.000000"
+        },
+        {
+            "name": "Delta",
+            "open_time": null
+        }
+    ]
+}

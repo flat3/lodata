@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\Setup;
 
 use Doctrine\DBAL\Schema\Table;
+use Flat3\Lodata\Drivers\MongoEntitySet;
+use Flat3\Lodata\Drivers\MongoEntityType;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Pet;
@@ -78,5 +80,19 @@ class DiscoveryTest extends TestCase
         Lodata::discover(Pet::class);
         $this->assertSame($set, Lodata::getEntitySet('Pets'));
         $this->assertSame($type, Lodata::getEntityType('Pet'));
+    }
+
+    /**
+     * @group mongo
+     */
+    public function test_mongo_collection()
+    {
+        Lodata::discover((new \MongoDB\Client)->test->passengers);
+
+        $set = Lodata::getEntitySet('passengers');
+        $type = Lodata::getEntityType('passenger');
+
+        $this->assertInstanceOf(MongoEntitySet::class, $set);
+        $this->assertInstanceOf(MongoEntityType::class, $type);
     }
 }

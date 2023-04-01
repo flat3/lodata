@@ -1,0 +1,33 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers",
+    "value": [
+        {
+            "_id": "beta",
+            "name": "Beta",
+            "age": 3,
+            "dob": "2001-02-02T05:05:05+00:00",
+            "chips": false,
+            "dq": "2001-02-02",
+            "in_role": "P2DT5H5M5.2999999999884S",
+            "colour": null,
+            "sock_colours": null,
+            "open_time": null,
+            "flight_id": null,
+            "emails": []
+        },
+        {
+            "_id": "delta",
+            "name": "Delta",
+            "in_role": "PT2M7S",
+            "age": null,
+            "dob": null,
+            "chips": null,
+            "dq": null,
+            "open_time": null,
+            "flight_id": null,
+            "colour": null,
+            "sock_colours": null,
+            "emails": []
+        }
+    ]
+}

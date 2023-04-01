@@ -13,6 +13,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Tests\Parser\Handlers\LoopbackEntitySet;
+use Flat3\Lodata\Tests\Parser\Handlers\MongoEntitySet;
 use Flat3\Lodata\Tests\Parser\Handlers\MySQLEntitySet;
 use Flat3\Lodata\Tests\Parser\Handlers\PostgreSQLEntitySet;
 use Flat3\Lodata\Tests\Parser\Handlers\SQLiteEntitySet;
@@ -56,6 +57,7 @@ abstract class Expression extends TestCase
         (new PostgreSQLEntitySet($this, $type))->assertFilterExpression($expression);
         (new SQLiteEntitySet($this, $type))->assertFilterExpression($expression);
         (new SQLServerEntitySet($this, $type))->assertFilterExpression($expression);
+        (new MongoEntitySet($this, $type))->assertFilterExpression($expression);
     }
 
     protected function assertLambda(string $expression)

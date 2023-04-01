@@ -1,0 +1,28 @@
+{
+    "$and": [
+        {
+            "$not": {
+                "$regexMatch": {
+                    "input": "$origin",
+                    "regex": "a"
+                }
+            }
+        },
+        {
+            "$or": [
+                {
+                    "$eq": [
+                        "$origin",
+                        "abcd"
+                    ]
+                },
+                {
+                    "$eq": [
+                        "$origin",
+                        "e"
+                    ]
+                }
+            ]
+        }
+    ]
+}

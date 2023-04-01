@@ -1,0 +1,11 @@
+{
+    "$lt": [
+        4,
+        {
+            "$regexMatch": {
+                "input": "$origin",
+                "regex": "^Veniam et"
+            }
+        }
+    ]
+}

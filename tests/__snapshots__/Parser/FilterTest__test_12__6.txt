@@ -1,0 +1,2 @@
+expression: (id lt 4 a
+result: Encountered an invalid symbol at: (id lt 4> <a

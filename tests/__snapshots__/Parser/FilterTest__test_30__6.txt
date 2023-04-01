@@ -1,0 +1,2 @@
+expression: origin eq 4 div 3
+result: This entity set does not support the operator "div"

@@ -1,0 +1,15 @@
+{
+    "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "name": "Oobleck",
+    "colour": "Blue",
+    "sock_colours": "Red,Green",
+    "_id": "oobleck",
+    "age": null,
+    "dob": null,
+    "chips": null,
+    "dq": null,
+    "in_role": null,
+    "open_time": null,
+    "flight_id": null,
+    "emails": []
+}

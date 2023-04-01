@@ -1,0 +1,177 @@
+{
+    "$Version": "4.01",
+    "$EntityContainer": "com.example.odata.DefaultContainer",
+    "$Reference": {
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Core.V1"
+                }
+            ]
+        },
+        "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json": {
+            "$Include": [
+                {
+                    "$Namespace": "Org.OData.Capabilities.V1"
+                }
+            ]
+        }
+    },
+    "com.example.odata": {
+        "$Kind": "EntityContainer",
+        "passengers": {
+            "$EntityType": "com.example.odata.passenger",
+            "@Org.OData.Capabilities.V1.CountRestrictions": {
+                "Countable": true
+            },
+            "@Org.OData.Capabilities.V1.TopSupported": true,
+            "@Org.OData.Capabilities.V1.SkipSupported": true,
+            "@Org.OData.Capabilities.V1.FilterRestrictions": {
+                "Filterable": true
+            },
+            "@Org.OData.Capabilities.V1.SortRestrictions": {
+                "Sortable": true
+            },
+            "@Org.OData.Capabilities.V1.ExpandRestrictions": {
+                "Expandable": false
+            },
+            "@Org.OData.Capabilities.V1.SearchRestrictions": {
+                "Searchable": false
+            },
+            "@Org.OData.Capabilities.V1.InsertRestrictions": {
+                "Insertable": true
+            },
+            "@Org.OData.Capabilities.V1.UpdateRestrictions": {
+                "Updatable": true,
+                "DeltaUpdateSupported": true
+            },
+            "@Org.OData.Capabilities.V1.DeleteRestrictions": {
+                "Deletable": true
+            },
+            "@Org.OData.Capabilities.V1.ReadRestrictions": {
+                "Readable": true
+            },
+            "@Org.OData.Capabilities.V1.IndexableByKey": true,
+            "@Org.OData.Capabilities.V1.SelectSupport": {
+                "Supported": true
+            }
+        },
+        "$Annotations": {
+            "com.example.odata.DefaultContainer": {
+                "@Org.OData.Core.V1.ConventionalIDs": true,
+                "@Org.OData.Core.V1.DefaultNamespace": true,
+                "@Org.OData.Core.V1.DereferencableIDs": true,
+                "@Org.OData.Core.V1.ODataVersions": "4.01",
+                "@Org.OData.Capabilities.V1.AsynchronousRequestsSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupported": true,
+                "@Org.OData.Capabilities.V1.BatchSupport": {
+                    "Supported": true,
+                    "EtagReferencesSupported": true,
+                    "SupportedFormats": [
+                        "application/json",
+                        "multipart/mixed"
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.CallbackSupported": {
+                    "CallbackProtocols": [
+                        {
+                            "Id": "http"
+                        }
+                    ]
+                },
+                "@Org.OData.Capabilities.V1.ConformanceLevel": "Org.OData.Capabilities.V1.ConformanceLevelType/Advanced",
+                "@Org.OData.Capabilities.V1.KeyAsSegmentSupported": true,
+                "@Org.OData.Capabilities.V1.QuerySegmentSupported": true,
+                "@Org.OData.Capabilities.V1.SupportedFormats": [
+                    "application/json;metadata=full;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=minimal;IEEE754Compatible=true;streaming=true",
+                    "application/json;metadata=none;IEEE754Compatible=true;streaming=true"
+                ],
+                "@Org.OData.Capabilities.V1.SupportedMetadataFormats": [
+                    "application/json",
+                    "application/xml"
+                ]
+            }
+        }
+    },
+    "Colours": {
+        "$Kind": "EnumType",
+        "$IsFlags": false,
+        "Red": 1,
+        "Green": 2,
+        "Blue": 4,
+        "Brown": 8,
+        "$UnderlyingType": "Edm.Int64"
+    },
+    "MultiColours": {
+        "$Kind": "EnumType",
+        "$IsFlags": true,
+        "Red": 1,
+        "Green": 2,
+        "Blue": 4,
+        "Brown": 8,
+        "$UnderlyingType": "Edm.Int64"
+    },
+    "passenger": {
+        "$Kind": "EntityType",
+        "$OpenType": true,
+        "$Key": [
+            "_id"
+        ],
+        "_id": {
+            "$Type": "Edm.String",
+            "$Nullable": false,
+            "@Org.OData.Core.V1.Computed": true
+        },
+        "name": {
+            "$Type": "Edm.String",
+            "$Nullable": false,
+            "$MaxLength": 255
+        },
+        "age": {
+            "$Type": "Edm.Double",
+            "$Nullable": true
+        },
+        "dob": {
+            "$Type": "Edm.DateTimeOffset",
+            "$Nullable": true
+        },
+        "chips": {
+            "$Type": "Edm.Boolean",
+            "$Nullable": true
+        },
+        "dq": {
+            "$Type": "Edm.Date",
+            "$Nullable": true
+        },
+        "in_role": {
+            "$Type": "Edm.Duration",
+            "$Nullable": true
+        },
+        "open_time": {
+            "$Type": "Edm.TimeOfDay",
+            "$Nullable": true
+        },
+        "flight_id": {
+            "$Type": "Edm.Int64",
+            "$Nullable": true
+        },
+        "colour": {
+            "$Type": "com.example.odata.Colours",
+            "$Nullable": true
+        },
+        "sock_colours": {
+            "$Type": "com.example.odata.MultiColours",
+            "$Nullable": true
+        },
+        "emails": {
+            "$Collection": true,
+            "$Type": "Edm.String",
+            "$Nullable": false
+        },
+        "cp": {
+            "$Type": "Edm.Int32",
+            "$Nullable": true
+        }
+    }
+}
