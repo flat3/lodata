@@ -20,6 +20,7 @@ trait WithKeyedCollectionDriver
         $collection = collect($this->getSeed());
 
         $entityType = new EntityType('passenger');
+        $entityType->setOpen();
         $entityType->setKey(new DeclaredProperty('id', Type::string()));
         $this->addPassengerProperties($entityType);
         $entityType->getDeclaredProperty('name')->setSearchable();

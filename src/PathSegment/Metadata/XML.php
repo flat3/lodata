@@ -121,6 +121,10 @@ class XML extends Metadata implements StreamInterface
             $complexTypeElement = $schema->addChild($complexType instanceof EntityType ? 'EntityType' : 'ComplexType');
             $complexTypeElement->addAttribute('Name', $complexType->getIdentifier()->getName());
 
+            if ($complexType->isOpen()) {
+                $complexTypeElement->addAttribute('OpenType', Constants::true);
+            }
+
             if ($complexType instanceof EntityType) {
                 // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Key
                 $keyField = $complexType->getKey();

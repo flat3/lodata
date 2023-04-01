@@ -5,7 +5,7 @@
         <env name="DATABASE_URL" value="sqlsrv://sa:Your_password123@localhost:1433/msdb?trust_server_certificate=true" />
       </envs>
     </CommandLine>
-    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" paratest_binary_path="$PROJECT_DIR$/vendor/bin/paratest_for_phpstorm" scope="XML" />
     <method v="2" />
   </configuration>
 </component>

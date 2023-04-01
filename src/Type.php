@@ -162,6 +162,14 @@ abstract class Type
      */
     public static function fromInternalValue($value): Type
     {
+        if ($value instanceof ComplexValue) {
+            return $value->getType();
+        }
+
+        if ($value instanceof Primitive) {
+            return new PrimitiveType(get_class($value));
+        }
+
         if (is_object($value)) {
             return self::fromInternalType(get_class($value));
         }

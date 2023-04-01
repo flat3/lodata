@@ -80,7 +80,7 @@
         <Member Name="Blue" Value="4"/>
         <Member Name="Brown" Value="8"/>
       </EnumType>
-      <EntityType Name="passenger">
+      <EntityType Name="passenger" OpenType="true">
         <Key>
           <PropertyRef Name="id"/>
         </Key>

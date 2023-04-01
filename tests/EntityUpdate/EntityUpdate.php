@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\EntityUpdate;
 
+use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
-use Illuminate\Http\Response;
 
 abstract class EntityUpdate extends TestCase
 {
@@ -252,14 +252,34 @@ abstract class EntityUpdate extends TestCase
         $this->assertResponseHeaderSnapshot($response);
     }
 
-    public function test_update_invalid_property()
+    public function test_update_rejects_invalid_property()
     {
+        if (Lodata::getEntitySet($this->entitySet)->getType()->isOpen()) {
+            $this->markTestSkipped();
+        }
+
+        $this->assertNotAcceptable(
+            (new Request)
+                ->path($this->entityPath)
+                ->patch()
+                ->body([
+                    'invalid' => 'ooo',
+                ])
+        );
+    }
+
+    public function test_update_accepts_invalid_property()
+    {
+        if (!Lodata::getEntitySet($this->entitySet)->getType()->isOpen()) {
+            $this->markTestSkipped();
+        }
+
         $this->assertJsonResponseSnapshot(
             (new Request)
                 ->path($this->entityPath)
                 ->patch()
                 ->body([
-                    'origin' => 'ooo',
+                    'invalid' => 'ooo',
                 ])
         );
     }

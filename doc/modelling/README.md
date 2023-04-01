@@ -43,7 +43,7 @@ Each relationship has a cardinality.
 
 Enumeration types are named primitive types whose values are named constants with underlying integer values.
 
-[Type definitions](./types.md) are named primitive types with fixed facet values such as maximum length or precision. Type definitions
+[Type definitions](./types/README.md) are named primitive types with fixed facet values such as maximum length or precision. Type definitions
 can be used in place of primitive typed properties, for example, within property definitions.
 
 [Entity sets](./drivers/README.md) are named collections of entities (eg Customers is an entity set containing Customer entities, following

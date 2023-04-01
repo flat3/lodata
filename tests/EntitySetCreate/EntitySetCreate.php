@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata\Tests\EntitySetCreate;
 
 use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 
@@ -41,15 +42,38 @@ abstract class EntitySetCreate extends TestCase
         );
     }
 
-    public function test_create_rejects_missing_properties()
+    public function test_create_rejects_invalid_property()
     {
-        $this->assertBadRequest(
+        if (Lodata::getEntitySet($this->entitySet)->getType()->isOpen()) {
+            $this->markTestSkipped();
+        }
+
+        $this->assertNotAcceptable(
             (new Request)
                 ->path($this->entitySetPath)
                 ->post()
                 ->body([
-                    'invalid' => 'Test',
+                    'name' => 'lhr',
+                    'invalid' => 'ooo',
                 ])
+        );
+    }
+
+    public function test_create_accepts_invalid_property()
+    {
+        if (!Lodata::getEntitySet($this->entitySet)->getType()->isOpen()) {
+            $this->markTestSkipped();
+        }
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath)
+                ->post()
+                ->body([
+                    'name' => 'lhr',
+                    'invalid' => 'ooo',
+                ]),
+            Response::HTTP_CREATED
         );
     }
 
@@ -93,18 +117,6 @@ abstract class EntitySetCreate extends TestCase
         );
 
         $this->assertResponseHeaderSnapshot($response);
-    }
-
-    public function test_rejects_missing_properties()
-    {
-        $this->assertBadRequest(
-            (new Request)
-                ->path($this->entitySetPath)
-                ->post()
-                ->body([
-                    'dob' => '2001-01-01',
-                ])
-        );
     }
 
     public function test_rejects_null_properties()

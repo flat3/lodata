@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "invalid_property",
+        "message": "The provided property \"invalid\" could not be found on the type",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

@@ -441,7 +441,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $value = JSON::decode($value);
             }
 
-            $entity[$computedProperty->getName()] = $value;
+            $entity->addPropertyValue($computedProperty->toPropertyValue($value));
         }
 
         return $entity;

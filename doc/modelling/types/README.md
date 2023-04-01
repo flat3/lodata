@@ -42,6 +42,8 @@ The `Edm.Duration` type is stored internally as a number of seconds in a PHP flo
 
 Lodata supports [Collection](./collections) and [Enumeration](./enumerations) types.
 
+## Type extensions
+
 Lodata includes type extensions to support unsigned integer types `UInt16`, `UInt32` and `UInt64` which are
 extensions of the underlying canonical types `Edm.Int16`, `Edm.Int32` and `Edm.Int64`.
 
@@ -59,6 +61,8 @@ class LodataServiceProvider extends ServiceProvider
 }
 ```
 
+## Type discovery
+
 Lodata supports changing a property's type after definition or discovery using a call such as:
 
 ```php
@@ -69,6 +73,30 @@ class LodataServiceProvider extends ServiceProvider
         \Lodata::getEntityType('Flight')
           ->getProperty('duration')
           ->setType(\Flat3\Lodata\Type::uint32());
+    }
+}
+```
+
+## Open Types
+
+Open entity types and open complex types allow properties to be added dynamically to instances of the open type. This
+is useful when working with entity set types such as Redis or Mongo.
+
+An entity type may indicate that it is open and allow clients to add properties dynamically to instances of the type
+by specifying uniquely named property values in the payload used to insert or update an instance of the type.
+
+Some entity types are open by default, such as `RedisEntityType` and `MongoEntityType`. Lodata supports changing
+a property's open flag:
+
+```php
+class LodataServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        $type = new RedisEntityType('example');
+        $type->setOpen(false);
+        $set = new RedisEntitySet('examples', $type);
+        Lodata::add($set);
     }
 }
 ```

@@ -14,6 +14,8 @@ use Flat3\Lodata\Type;
  */
 class RedisEntityType extends EntityType
 {
+    protected $open = true;
+
     public function __construct($identifier)
     {
         parent::__construct($identifier);

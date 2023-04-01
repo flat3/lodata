@@ -1,0 +1,10 @@
+@@ @@
+         "in_role": 888.9,
+         "colour": null,
+         "sock_colours": null
++    },
++    {
++        "name": "lhr",
++        "invalid": "ooo"
+     }
+ ]

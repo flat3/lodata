@@ -277,7 +277,11 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
         $transaction->assertIfMatchHeader($this->getETag());
 
         $propertyValues = $entitySet->arrayToPropertyValues($entitySet->getTransaction()->getBodyAsArray());
+
+        $this->getType()->assertUpdateProperties($propertyValues);
+
         $entity = $entitySet->update($this->getEntityId(), $propertyValues);
+
         $transaction->processDeltaPayloads($entity);
 
         if (

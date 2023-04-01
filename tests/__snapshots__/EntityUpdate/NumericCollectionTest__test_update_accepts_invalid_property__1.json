@@ -1,5 +1,6 @@
 {
     "@context": "http://localhost/odata/$metadata#passengers/$entity",
+    "id": 0,
     "name": "Alpha",
     "age": 4,
     "dob": "2000-01-01T04:04:04+00:00",
@@ -14,6 +15,5 @@
         "alpha@example.com",
         "alpha@beta.com"
     ],
-    "key": "alpha",
-    "origin": "ooo"
+    "invalid": "ooo"
 }

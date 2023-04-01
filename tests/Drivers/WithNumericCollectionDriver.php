@@ -21,6 +21,7 @@ trait WithNumericCollectionDriver
         $collection = collect(array_values($this->getSeed()));
 
         $entityType = new EntityType('passenger');
+        $entityType->setOpen();
         $entityType->setKey((new DeclaredProperty('id', Type::int64()))->addAnnotation(new ComputedDefaultValue));
         $this->addPassengerProperties($entityType);
         $entityType->getDeclaredProperty('name')->setSearchable();

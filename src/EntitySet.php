@@ -330,7 +330,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 Gate::create($this, $transaction)->ensure();
 
                 $propertyValues = $this->arrayToPropertyValues($this->getTransaction()->getBodyAsArray());
-                $this->getType()->assertRequiredProperties($propertyValues, $this->navigationSource);
+                $this->getType()->assertCreateProperties($propertyValues, $this->navigationSource);
 
                 $transaction->getResponse()->setStatusCode(Response::HTTP_CREATED);
 
@@ -853,7 +853,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         Gate::create($this, $transaction)->ensure();
 
         $propertyValues = $this->arrayToPropertyValues($this->transaction->getBodyAsArray());
-        $this->getType()->assertRequiredProperties($propertyValues, $this->navigationSource);
+        $this->getType()->assertCreateProperties($propertyValues, $this->navigationSource);
         $entity = $this->create($propertyValues);
         $transaction->processDeltaPayloads($entity);
 
@@ -876,7 +876,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         Gate::update($entity, $transaction)->ensure();
 
         $propertyValues = $this->arrayToPropertyValues($transaction->getBodyAsArray());
+
+        $this->getType()->assertUpdateProperties($propertyValues);
+
         $entity = $this->update($entity->getEntityId(), $propertyValues);
+
         $transaction->processDeltaPayloads($entity);
 
         return $entity;
@@ -1186,7 +1190,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
         }
 
+        $computedProperties = $this->getCompute()->getProperties();
+
         foreach ($record as $key => $value) {
+            if ($computedProperties->exists($key)) {
+                $computedProperty = $computedProperties[$key];
+                $entity->addPropertyValue($computedProperty->toPropertyValue($record[$key]));
+                continue;
+            }
+
             $entity[$key] = $value;
         }
 

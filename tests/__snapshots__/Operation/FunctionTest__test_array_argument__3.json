@@ -118,6 +118,7 @@
     },
     "passenger": {
         "$Kind": "EntityType",
+        "$OpenType": true,
         "$Key": [
             "id"
         ],

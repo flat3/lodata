@@ -7,6 +7,7 @@ namespace Flat3\Lodata;
 use ArrayAccess;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\Properties;
@@ -37,6 +38,11 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     protected $properties;
 
     /**
+     * @var bool $open Open type
+     */
+    protected $open = false;
+
+    /**
      * ComplexType constructor.
      * @param  string|Identifier  $identifier
      */
@@ -44,6 +50,27 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     {
         $this->setIdentifier($identifier);
         $this->properties = new Properties();
+    }
+
+    /**
+     * Set whether this type is open
+     * @param $open
+     * @return $this
+     */
+    public function setOpen($open = true): self
+    {
+        $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * Get whether this type is open
+     * @return bool
+     */
+    public function isOpen(): bool
+    {
+        return $this->open;
     }
 
     /**
@@ -257,14 +284,55 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     }
 
     /**
-     * Ensure the provided property values meet the requirements of the entity type
-     * @param  PropertyValues  $propertyValues  Property values being mapped into this type
+     * Ensure the provided property values are valid against this type
+     * @param  PropertyValues  $propertyValues  Property values
+     * @return void
+     */
+    public function assertPropertyValues(PropertyValues $propertyValues): void
+    {
+        if ($this->isOpen()) {
+            return;
+        }
+
+        $properties = $this->getProperties();
+
+        /** @var PropertyValue $propertyValue */
+        foreach ($propertyValues as $propertyValue) {
+            if ($properties->exists($propertyValue)) {
+                continue;
+            }
+
+            throw new NotAcceptableException(
+                'invalid_property',
+                sprintf(
+                    'The provided property "%s" could not be found on the type',
+                    $propertyValue->getProperty()->getName()
+                )
+            );
+        }
+    }
+
+    /**
+     * Ensure the provided property values meet the update requirements of the entity type
+     * @param  PropertyValues  $propertyValues  Property values
+     * @return void
+     */
+    public function assertUpdateProperties(PropertyValues $propertyValues)
+    {
+        $this->assertPropertyValues($propertyValues);
+    }
+
+    /**
+     * Ensure the provided property values meet the create requirements of the entity type
+     * @param  PropertyValues  $propertyValues  Property values
      * @param  PropertyValue|null  $foreignKey  Foreign key value
      * @return void
      */
-    public function assertRequiredProperties(PropertyValues $propertyValues, ?PropertyValue $foreignKey = null)
+    public function assertCreateProperties(PropertyValues $propertyValues, ?PropertyValue $foreignKey = null)
     {
         $declaredProperties = $this->getDeclaredProperties();
+
+        $this->assertPropertyValues($propertyValues);
 
         foreach ($declaredProperties as $declaredProperty) {
             if ($propertyValues->exists($declaredProperty)) {

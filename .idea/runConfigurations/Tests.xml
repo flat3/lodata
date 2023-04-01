@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="false">
-    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" paratest_binary_path="$PROJECT_DIR$/vendor/bin/paratest_for_phpstorm" scope="XML" />
     <method v="2" />
   </configuration>
 </component>

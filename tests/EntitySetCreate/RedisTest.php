@@ -132,4 +132,19 @@ class RedisTest extends EntitySetCreate
             Response::HTTP_CREATED
         );
     }
+
+    public function test_create_accepts_invalid_property()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath)
+                ->post()
+                ->body([
+                    'key' => 'zeta',
+                    'name' => 'lhr',
+                    'invalid' => 'ooo',
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
 }

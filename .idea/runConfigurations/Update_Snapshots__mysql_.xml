@@ -5,7 +5,7 @@
         <env name="DATABASE_URL" value="mysql://root:my-secret-pw@127.0.0.1:3306/testing" />
       </envs>
     </CommandLine>
-    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" options="-d --update-snapshots" />
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" paratest_binary_path="$PROJECT_DIR$/vendor/bin/paratest_for_phpstorm" scope="XML" options="-d --update-snapshots" />
     <method v="2" />
   </configuration>
 </component>

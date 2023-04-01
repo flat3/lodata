@@ -88,7 +88,12 @@ class JSON extends Metadata implements ResponseInterface, JsonInterface
         foreach (Lodata::getComplexTypes() as $complexType) {
             $complexTypeElement = (object) [];
             $schema->{$complexType->getName()} = $complexTypeElement;
+
             $complexTypeElement->{'$Kind'} = $complexType instanceof EntityType ? 'EntityType' : 'ComplexType';
+
+            if ($complexType->isOpen()) {
+                $complexTypeElement->{'$OpenType'} = true;
+            }
 
             if ($complexType instanceof EntityType) {
                 $keyField = $complexType->getKey();

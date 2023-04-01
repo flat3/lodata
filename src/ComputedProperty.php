@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Type\Untyped;
 
 /**
@@ -45,5 +46,19 @@ class ComputedProperty extends Property
     public function getExpression(): string
     {
         return $this->expression;
+    }
+
+    /**
+     * Convert the provided value to a property value based on this property
+     * @param mixed $value Value
+     * @return PropertyValue Property Value
+     */
+    public function toPropertyValue($value): PropertyValue
+    {
+        $computedPropertyValue = new PropertyValue();
+        $computedPropertyValue->setProperty($this);
+        $computedPropertyValue->setValue(Type::fromInternalValue($value)->instance($value));
+
+        return $computedPropertyValue;
     }
 }
