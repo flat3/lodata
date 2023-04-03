@@ -1047,6 +1047,9 @@ class SQLExpression
                 break;
 
             case $node instanceof IndexOf:
+                $arguments = $node->getArguments();
+                list($arg1, $arg2) = $arguments;
+
                 switch ($driver) {
                     case SQLEntitySet::MySQL:
                     case SQLEntitySet::SQLite:
@@ -1055,22 +1058,23 @@ class SQLExpression
 
                     case SQLEntitySet::SQLServer:
                         $this->pushStatement('CHARINDEX(');
+                        list($arg2, $arg1) = $arguments;
                         break;
 
                     case SQLEntitySet::PostgreSQL:
-                        $arguments = $node->getArguments();
-                        list($arg1, $arg2) = $arguments;
-                        $this->pushStatement('POSITION(');
-                        $this->evaluate($arg1);
-                        $this->pushStatement('IN');
-                        $this->evaluate($arg2);
-                        $this->pushStatement(')');
-                        return;
+                        $this->pushStatement('STRPOS(');
+                        break;
 
                     default:
                         $node->notImplemented();
                 }
-                break;
+
+                $this->evaluate($arg1);
+                $this->pushComma();
+                $this->evaluate($arg2);
+                $this->pushStatement(')');
+                $this->pushStatement('-1');
+                return;
 
             case $node instanceof Length:
                 switch ($driver) {
