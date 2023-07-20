@@ -42,7 +42,7 @@ class Multipart extends Batch implements StreamInterface
             throw new BadRequestException('missing_boundary', 'The provided content type had no boundary parameter');
         }
 
-        array_unshift($this->boundaries, Str::uuid());
+        array_unshift($this->boundaries, (string) Str::uuid());
         $transaction->sendContentType(
             (new MediaType)
                 ->parse(MediaType::multipartMixed)

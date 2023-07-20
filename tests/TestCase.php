@@ -41,6 +41,7 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Runner\Version;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -99,7 +100,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $app->register(RedisMockServiceProvider::class);
 
-        Str::createUuidsUsing(function (): string {
+        Str::createUuidsUsing(function (): UuidInterface {
             return Uuid::fromInteger($this->uuid++);
         });
 
