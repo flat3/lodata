@@ -57,7 +57,6 @@
         "eclipxe/xmlschemavalidator": "^3.0",
         "league/csv": "^9.7",
         "sebastian/diff": "^4.0|^5.0",
-        "aws/aws-sdk-php": "^3",
         "m6web/redis-mock": "^5.5",
         "predis/predis": "^2.1.2",
         "mongodb/mongodb": "^1.11"
