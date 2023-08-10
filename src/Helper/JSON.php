@@ -31,6 +31,9 @@ final class JSON
      */
     public static function encode($value): string
     {
+        if (is_float($value)) {
+            return rtrim(sprintf('%.10f', $value), '0.') ?: '0';
+        }
         return json_encode($value, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     }
 }
