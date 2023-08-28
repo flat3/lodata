@@ -19,8 +19,6 @@ use Throwable;
  */
 abstract class Response extends StreamedResponse
 {
-    use ResponseTrait;
-
     const httpOkAny = '2XX';
     const httpErrorAny = '4XX';
 
@@ -35,6 +33,12 @@ abstract class Response extends StreamedResponse
      * @var bool $streaming
      */
     protected $streaming = true;
+
+    /**
+     * The exception that triggered the error response (if applicable).
+     * @var \Throwable|null
+     */
+    public $exception;
 
     public function __construct(callable $callback = null, int $status = 200, array $headers = [])
     {
@@ -172,5 +176,15 @@ abstract class Response extends StreamedResponse
             'status' => $this->statusCode,
             'headers' => $this->headers->all(),
         ]);
+    }
+
+    /**
+     * Set the exception to attach to the response.
+     */
+    public function withException(Throwable $e)
+    {
+        $this->exception = $e;
+
+        return $this;
     }
 }

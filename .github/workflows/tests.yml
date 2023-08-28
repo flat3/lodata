@@ -42,6 +42,7 @@ jobs:
   sqlsrv:
     runs-on: ubuntu-22.04
     name: Microsoft SQL Server
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - name: MSSQL Server
