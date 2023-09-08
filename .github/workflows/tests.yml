@@ -42,14 +42,12 @@ jobs:
   sqlsrv:
     runs-on: ubuntu-22.04
     name: Microsoft SQL Server
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - name: MSSQL Server
         run: docker run --detach -p 1433:1433 -e SA_PASSWORD=Your_password123 -e ACCEPT_EULA=Y mcr.microsoft.com/mssql/server
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.8'
           extensions: pdo_sqlsrv odbc pdo_odbc
       - name: Composer
         run: composer update
