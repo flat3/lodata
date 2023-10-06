@@ -6796,16 +6796,16 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.16.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "d4cdf057a67cb99a32db8984a16959bfa7ca7eb5"
+                "reference": "72d80889eb7567c0da4e7d4ddbdcf66dfea90ac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/d4cdf057a67cb99a32db8984a16959bfa7ca7eb5",
-                "reference": "d4cdf057a67cb99a32db8984a16959bfa7ca7eb5",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/72d80889eb7567c0da4e7d4ddbdcf66dfea90ac3",
+                "reference": "72d80889eb7567c0da4e7d4ddbdcf66dfea90ac3",
                 "shasum": ""
             },
             "require": {
@@ -6863,9 +6863,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/1.16.0"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/1.16.1"
             },
-            "time": "2023-06-22T11:04:04+00:00"
+            "time": "2023-09-26T15:44:10+00:00"
         },
         {
             "name": "myclabs/deep-copy",
