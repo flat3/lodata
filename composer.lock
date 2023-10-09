@@ -7220,16 +7220,16 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v8.12.2",
+            "version": "v8.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "1f1bba4effb8199b712cc07fe0073d4f5727c119"
+                "reference": "95052cafa48efc73d6c2ee3a6dd4797aecc46d82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/1f1bba4effb8199b712cc07fe0073d4f5727c119",
-                "reference": "1f1bba4effb8199b712cc07fe0073d4f5727c119",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/95052cafa48efc73d6c2ee3a6dd4797aecc46d82",
+                "reference": "95052cafa48efc73d6c2ee3a6dd4797aecc46d82",
                 "shasum": ""
             },
             "require": {
@@ -7238,7 +7238,7 @@
                 "laravel/framework": ">=10.23.1 <10.27.0",
                 "mockery/mockery": "^1.5.1",
                 "orchestra/testbench-core": ">=8.12.0 <8.13.0",
-                "orchestra/workbench": "^0.4.0",
+                "orchestra/workbench": "^0.4.0 || ^0.5.0",
                 "php": "^8.1",
                 "phpunit/phpunit": "^9.6 || ^10.1",
                 "spatie/laravel-ray": "^1.32.4",
@@ -7270,9 +7270,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v8.12.2"
+                "source": "https://github.com/orchestral/testbench/tree/v8.12.3"
             },
-            "time": "2023-10-03T04:16:40+00:00"
+            "time": "2023-10-08T10:02:38+00:00"
         },
         {
             "name": "orchestra/testbench-core",
@@ -7357,16 +7357,16 @@
         },
         {
             "name": "orchestra/workbench",
-            "version": "v0.4.1",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "21acf1015ac48e36cb468bffd161115689958782"
+                "reference": "01175d82fd80a6589ffaa9a861100a64c500b259"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/21acf1015ac48e36cb468bffd161115689958782",
-                "reference": "21acf1015ac48e36cb468bffd161115689958782",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/01175d82fd80a6589ffaa9a861100a64c500b259",
+                "reference": "01175d82fd80a6589ffaa9a861100a64c500b259",
                 "shasum": ""
             },
             "require": {
@@ -7391,7 +7391,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.4.x-dev"
+                    "dev-master": "0.5.x-dev"
                 }
             },
             "autoload": {
@@ -7418,9 +7418,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v0.4.1"
+                "source": "https://github.com/orchestral/workbench/tree/v0.5.0"
             },
-            "time": "2023-09-26T13:04:34+00:00"
+            "time": "2023-10-06T12:50:40+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7918,16 +7918,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.4.0",
+            "version": "10.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9784e877e3700de37475545bdbdce8383ff53d25"
+                "reference": "62bd7af13d282deeb95650077d28ba3600ca321c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9784e877e3700de37475545bdbdce8383ff53d25",
-                "reference": "9784e877e3700de37475545bdbdce8383ff53d25",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/62bd7af13d282deeb95650077d28ba3600ca321c",
+                "reference": "62bd7af13d282deeb95650077d28ba3600ca321c",
                 "shasum": ""
             },
             "require": {
@@ -7999,7 +7999,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.4.0"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.4.1"
             },
             "funding": [
                 {
@@ -8015,7 +8015,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-06T03:41:22+00:00"
+            "time": "2023-10-08T05:01:11+00:00"
         },
         {
             "name": "pimple/pimple",
