@@ -120,6 +120,13 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/uid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mongodb/mongodb" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/prompts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/tinker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/orchestra/canvas" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/orchestra/canvas-core" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/orchestra/workbench" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psy/psysh" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

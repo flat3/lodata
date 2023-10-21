@@ -207,7 +207,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $transaction->outputJsonArrayStart();
 
         $top = $this->getTop();
-        $limit = $top->getValue();
+        $limit = $top->getValue() ?? 0;
 
         while ($results->valid()) {
             if ($top->hasValue() && $limit === 0) {
