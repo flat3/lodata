@@ -302,15 +302,20 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $page = 1;
         $skipValue = $this->getSkip()->getValue();
 
+        $chunkSize = self::$chunkSize;
+        if ($this->getTop()->hasValue() && $this->getTop()->getValue() > 0) {
+            $chunkSize = $this->getTop()->getValue();
+        }
+
         while (true) {
-            $offset = (($page++ - 1) * self::$chunkSize) + $skipValue;
-            $results = $builder->offset($offset)->limit(self::$chunkSize)->get();
+            $offset = (($page++ - 1) * $chunkSize) + $skipValue;
+            $results = $builder->offset($offset)->limit($chunkSize)->get();
 
             foreach ($results as $result) {
                 yield $this->modelToEntity($result);
             }
 
-            if ($results->count() < self::$chunkSize) {
+            if ($results->count() < $chunkSize) {
                 break;
             }
         }
