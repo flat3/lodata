@@ -269,7 +269,18 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     public function query(): Generator
     {
         $builder = $this->getBuilder();
-        $builder->select('*');
+
+        $properties = $this->getSelectedProperties();
+
+        $key = $this->getType()->getKey();
+
+        if ($key && !$properties[$key]) {
+            $properties[] = $key;
+        }
+
+        $builder->select($properties->map(function (Property $property) {
+            return $this->getPropertySourceName($property);
+        }));
 
         if ($this->navigationSource) {
             /** @var Entity $sourceEntity */

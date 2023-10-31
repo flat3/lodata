@@ -407,19 +407,7 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
      */
     protected function getColumnsToQuery(): array
     {
-        $properties = $this->getType()->getDeclaredProperties();
-
-        $select = $this->getSelect();
-
-        if ($select->hasValue() && !$select->isStar()) {
-            $selectedProperties = $select->getCommaSeparatedValues();
-
-            foreach ($properties as $property) {
-                if (!in_array($property->getName(), $selectedProperties)) {
-                    $properties->drop($property);
-                }
-            }
-        }
+        $properties = $this->getSelectedProperties();
 
         $key = $this->getType()->getKey();
 

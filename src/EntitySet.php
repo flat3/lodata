@@ -27,6 +27,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\ObjectArray;
+use Flat3\Lodata\Helper\Properties;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
 use Flat3\Lodata\Helper\Url;
@@ -1203,6 +1204,30 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         return $entity;
+    }
+
+    /**
+     * Get the properties generated using the $compute system query option
+     * @return Properties
+     */
+    public function getComputedProperties(): Properties
+    {
+        return $this->getCompute()->getProperties();
+    }
+
+    /**
+     * Get the properties requsted using the $select system query option
+     * @return Properties
+     */
+    public function getSelectedProperties(): Properties
+    {
+        if (!$this->getSelect()->hasValue() || $this->getSelect()->isStar()) {
+            return $this->getType()->getDeclaredProperties();
+        }
+
+        return $this->getType()->getDeclaredProperties()->filter(function (Property $property) {
+            return in_array($property, $this->getSelect()->getCommaSeparatedValues());
+        });
     }
 
     /**
