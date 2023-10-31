@@ -443,7 +443,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         $entity->setSource($model);
         $entity->setEntityId($model->getKey());
 
-        foreach ($this->getType()->getDeclaredProperties() as $declaredProperty) {
+        foreach ($this->getSelectedProperties() as $declaredProperty) {
             $propertyValue = $entity->newPropertyValue();
             $propertyValue->setProperty($declaredProperty);
             $propertyValue->setValue($declaredProperty->getType()->instance($model->getAttribute($this->getPropertySourceName($declaredProperty))));
