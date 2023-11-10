@@ -373,6 +373,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 continue;
             }
 
+            if (Str::endsWith($key, '@odata.type')) {
+                continue;
+            }
+
             if (!$property) {
                 $property = new DynamicProperty($key, Type::fromInternalValue($value));
             }
