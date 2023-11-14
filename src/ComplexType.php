@@ -286,12 +286,12 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     /**
      * Ensure the provided property values are valid against this type
      * @param  PropertyValues  $propertyValues  Property values
-     * @return void
+     * @return PropertyValues
      */
-    public function assertPropertyValues(PropertyValues $propertyValues): void
+    public function assertPropertyValues(PropertyValues $propertyValues): PropertyValues
     {
         if ($this->isOpen()) {
-            return;
+            return $propertyValues;
         }
 
         $properties = $this->getProperties();
@@ -310,26 +310,32 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
                 )
             );
         }
+
+        return $propertyValues;
     }
 
     /**
      * Ensure the provided property values meet the update requirements of the entity type
      * @param  PropertyValues  $propertyValues  Property values
-     * @return void
+     * @return PropertyValues
      */
-    public function assertUpdateProperties(PropertyValues $propertyValues)
+    public function assertUpdateProperties(PropertyValues $propertyValues): PropertyValues
     {
-        $this->assertPropertyValues($propertyValues);
+        return $this->assertPropertyValues($propertyValues)->filter(function (PropertyValue $propertyValue) {
+            return !$propertyValue->getProperty()->isImmutable();
+        });
     }
 
     /**
      * Ensure the provided property values meet the create requirements of the entity type
      * @param  PropertyValues  $propertyValues  Property values
      * @param  PropertyValue|null  $foreignKey  Foreign key value
-     * @return void
+     * @return PropertyValues
      */
-    public function assertCreateProperties(PropertyValues $propertyValues, ?PropertyValue $foreignKey = null)
-    {
+    public function assertCreateProperties(
+        PropertyValues $propertyValues,
+        ?PropertyValue $foreignKey = null
+    ): PropertyValues {
         $declaredProperties = $this->getDeclaredProperties();
 
         $this->assertPropertyValues($propertyValues);
@@ -364,5 +370,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
 
             $declaredProperty->assertAllowsValue(null);
         }
+
+        return $propertyValues;
     }
 }

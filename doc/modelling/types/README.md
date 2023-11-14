@@ -100,3 +100,26 @@ class LodataServiceProvider extends ServiceProvider
     }
 }
 ```
+
+## Immutable properties
+
+Lodata supports annotating a property as `Immutable` meaning that it can be provided as part of a create request, but
+will be ignored during an update request.
+
+```php
+class LodataServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        $entityType = new \Flat3\Lodata\EntityType('example');
+        $entityType->setKey(new \Flat3\Lodata\DeclaredProperty('id', \Flat3\Lodata\Type::string()));
+        $entityType->addDeclaredProperty('name', \Flat3\Lodata\Type::string());
+        $dob = new \Flat3\Lodata\DeclaredProperty('dob', \Flat3\Lodata\Type::date());
+        $dob->addAnnotation(new \Flat3\Lodata\Annotation\Core\V1\Immutable);
+        $entityType->addProperty($dob);
+        $entitySet = new \Flat3\Lodata\Drivers\CollectionEntitySet('examples', $entityType);
+        $entitySet->setCollection($collection);
+        \Lodata::add($entitySet);
+    }
+}
+```

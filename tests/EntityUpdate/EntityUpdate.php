@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\EntityUpdate;
 
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
@@ -392,6 +393,21 @@ abstract class EntityUpdate extends TestCase
             (new Request)
                 ->delete()
                 ->path($this->entityPath.'/emails'),
+        );
+    }
+
+    public function test_ignores_immutable()
+    {
+        $type = Lodata::getEntitySet($this->entitySet)->getType();
+        $type->getProperty('name')->addAnnotation(new Immutable);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entityPath)
+                ->patch()
+                ->body([
+                    'name' => 'Alph',
+                ])
         );
     }
 }

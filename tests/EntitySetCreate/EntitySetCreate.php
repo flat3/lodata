@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\EntitySetCreate;
 
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Helpers\Request;
@@ -186,6 +187,23 @@ abstract class EntitySetCreate extends TestCase
                         'oob@example.com',
                         'oo@test.com',
                     ],
+                ]),
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function test_creates_with_immutable()
+    {
+        $type = Lodata::getEntitySet($this->entitySet)->getType();
+        $type->getProperty('age')->addAnnotation(new Immutable);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->post()
+                ->path($this->entitySetPath)
+                ->body([
+                    'name' => 'Four',
+                    'age' => 4,
                 ]),
             Response::HTTP_CREATED
         );

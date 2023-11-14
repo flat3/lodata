@@ -126,4 +126,9 @@ class FilesystemTest extends EntitySetCreate
     {
         $this->expectNotToPerformAssertions();
     }
+
+    public function test_creates_with_immutable()
+    {
+        $this->expectNotToPerformAssertions();
+    }
 }

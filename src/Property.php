@@ -7,6 +7,7 @@ namespace Flat3\Lodata;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\Annotation\Core\V1\Description;
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Helper\Constants;
@@ -410,5 +411,14 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
         return $this instanceof ComputedProperty ||
             $this->hasAnnotation(new Computed, Boolean::true()) ||
             $this->hasAnnotation(new ComputedDefaultValue, Boolean::true());
+    }
+
+    /**
+     * Determine whether this property is immutable
+     * @return bool
+     */
+    public function isImmutable(): bool
+    {
+        return $this->hasAnnotation(new Immutable);
     }
 }

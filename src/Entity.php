@@ -278,7 +278,7 @@ class Entity extends ComplexValue implements ResourceInterface, ResponseInterfac
 
         $propertyValues = $entitySet->arrayToPropertyValues($entitySet->getTransaction()->getBodyAsArray());
 
-        $this->getType()->assertUpdateProperties($propertyValues);
+        $propertyValues = $this->getType()->assertUpdateProperties($propertyValues);
 
         $entity = $entitySet->update($this->getEntityId(), $propertyValues);
 
