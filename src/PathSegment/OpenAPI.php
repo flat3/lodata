@@ -130,13 +130,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
         $info->version = $schemaVersion ? $schemaVersion->toJson() : '1.0.0';
 
         $longDescription = LongDescription::getModelAnnotation();
-        $standardDescription = __(<<<'DESC'
-lodata::This OData service is located at [:endpoint](:endpoint)
-
-## References
-- :refCore
-- :refMeasures
-DESC, [
+        $standardDescription = __('lodata::odata-service-location', [
             'endpoint' => $endpoint,
             'refCore' => '[Org.OData.Core.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.md)',
             'refMeasures' => '[Org.OData.Measures.V1](https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.md)',
