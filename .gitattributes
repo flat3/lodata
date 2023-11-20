@@ -9,3 +9,4 @@ Dockerfile export-ignore
 docker-compose.yml export-ignore
 phpstan.neon export-ignore
 phpunit.xml export-ignore
+*.txt binary
