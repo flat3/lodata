@@ -59,7 +59,15 @@
         "sebastian/diff": "^4.0|^5.0",
         "m6web/redis-mock": "^5.5",
         "predis/predis": "^2.1.2",
-        "mongodb/mongodb": "^1.11"
+        "mongodb/mongodb": "^1.11",
+        "ext-pdo_sqlsrv": "*",
+        "ext-odbc": "*",
+        "ext-pdo_odbc": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mongodb": "*",
+        "ext-redis": "*",
+        "ext-pdo_sqlite": "*"
     },
     "suggest": {
         "league/csv": "To use the CSV entity set",
