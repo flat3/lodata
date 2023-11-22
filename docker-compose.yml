@@ -1,7 +1,7 @@
 services:
   mysql_db:
     image: "mysql:latest"
-    restart: always
+    restart: on-failure
     expose:
       - 3306
     ports:
@@ -20,7 +20,7 @@ services:
 
   postgres_db:
     image: "postgres:latest"
-    restart: always
+    restart: on-failure
     expose:
       - 5432
     ports:
@@ -38,7 +38,7 @@ services:
 
   sqlsrv_db:
     image: "mcr.microsoft.com/mssql/server"
-    restart: always
+    restart: on-failure
     expose:
       - 1433
     ports:
@@ -54,7 +54,7 @@ services:
 
   mongo_db:
     image: "mongo"
-    restart: always
+    restart: on-failure
     expose:
       - 27017
     ports:
