@@ -121,10 +121,10 @@ class MultipartDocument
             list($headers, $body) = array_map('trim', explode("\r\n\r\n", $document, 2));
 
             foreach (explode("\r\n", $headers) as $header) {
-                list($key, $value) = explode(': ', $header, 2);
+                list($key, $value) = explode(':', $header, 2);
                 $key = strtolower($key);
                 $multipart->headers[$key] = $multipart->headers[$key] ?? [];
-                $multipart->headers[$key][] = $value;
+                $multipart->headers[$key][] = trim($value);
             }
 
             $multipart->setBody($body);
@@ -176,9 +176,9 @@ class MultipartDocument
                 break;
             }
 
-            list($key, $value) = explode(': ', $line, 2);
+            list($key, $value) = explode(':', $line, 2);
 
-            $headers[$key] = $value;
+            $headers[$key] = trim($value);
         }
 
         $body = implode("\r\n", $httpRequest);
