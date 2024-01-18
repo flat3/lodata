@@ -1,0 +1,24 @@
+{
+    "responses": [
+        {
+            "id": 0,
+            "status": 200,
+            "headers": {
+                "content-type": "application/json;metadata=minimal"
+            },
+            "body": {
+                "@context": "http://localhost/odata/$metadata#flights",
+                "value": [
+                    {
+                        "id": 1,
+                        "origin": "lhr",
+                        "destination": "lax",
+                        "gate": null,
+                        "duration": "PT11H25M0S"
+                    }
+                ],
+                "@nextLink": "http://localhost/odata/flights?top=1&skip=1"
+            }
+        }
+    ]
+}

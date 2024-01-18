@@ -102,6 +102,27 @@ MULTIPART
         );
     }
 
+    public function test_query_param()
+    {
+        $this->assertTextMetadataResponse(
+            (new Request)
+                ->path('/$batch')
+                ->header('content-type', 'multipart/mixed; boundary=batch_36522ad7-fc75-4b56-8c71-56071383e77c')
+                ->post()
+                ->multipart(<<<MULTIPART
+--batch_36522ad7-fc75-4b56-8c71-56071383e77c
+Content-Type: application/http
+
+GET http://localhost/odata/flights?\$top=1
+Host: localhost
+
+
+--batch_36522ad7-fc75-4b56-8c71-56071383e77c--
+MULTIPART
+                )
+        );
+    }
+
     public function test_absolute_path()
     {
         $this->assertTextMetadataResponse(

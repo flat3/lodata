@@ -162,7 +162,7 @@ class MultipartDocument
                 $uri = Url::http_build_url(
                     ServiceProvider::endpoint(),
                     $requestURI,
-                    Url::HTTP_URL_JOIN_PATH
+                    Url::HTTP_URL_JOIN_PATH | Url::HTTP_URL_JOIN_QUERY
                 );
                 break;
         }

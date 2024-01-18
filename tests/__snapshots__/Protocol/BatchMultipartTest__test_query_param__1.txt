@@ -1,0 +1,9 @@
+
+--00000000-0000-0000-0000-000000000002
+content-type: application/http
+
+HTTP/1.0 200 OK
+content-type: application/json;metadata=minimal
+
+{"@context":"http://localhost/odata/$metadata#flights","value":[{"id":1,"origin":"lhr","destination":"lax","gate":null,"duration":"PT11H25M0S"}],"@nextLink":"http://localhost/odata/flights?top=1&skip=1"}
+--00000000-0000-0000-0000-000000000002--
