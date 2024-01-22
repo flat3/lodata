@@ -167,10 +167,10 @@ class Request
         return $this->method(\Illuminate\Http\Request::METHOD_POST);
     }
 
-    public function multipart(string $body): self
+    public function multipart(string $body, bool $convertNewlines = true): self
     {
         $this->header('accept', 'multipart/mixed');
-        $this->body = str_replace("\n", "\r\n", $body);
+        $this->body = $convertNewlines ? str_replace("\n", "\r\n", $body) : $body;
 
         return $this;
     }

@@ -1,0 +1,10 @@
+
+--00000000-0000-0000-0000-000000000002
+content-type: application/http
+
+HTTP/1.0 200 OK
+content-type: application/json;metadata=minimal
+etag: W/"a714e2db58e276ecdcfcd98c25a0085a1465f571f780135a3ef2e976ec3a0afe"
+
+{"@context":"http://localhost/odata/$metadata#flights/$entity","id":1,"origin":"lhr","destination":"lax","gate":null,"duration":"PT11H25M0S"}
+--00000000-0000-0000-0000-000000000002--

@@ -118,9 +118,16 @@ class MultipartDocument
         foreach ($documents as $document) {
             $multipart = new self();
 
-            list($headers, $body) = array_map('trim', explode("\r\n\r\n", $document, 2));
+            list($headers, $body) = array_map(
+                'trim',
+                explode(
+                    "\n\n",
+                    str_replace("\r\n", "\n", $document),
+                    2
+                )
+            );
 
-            foreach (explode("\r\n", $headers) as $header) {
+            foreach (explode("\n", $headers) as $header) {
                 list($key, $value) = explode(':', $header, 2);
                 $key = strtolower($key);
                 $multipart->headers[$key] = $multipart->headers[$key] ?? [];
@@ -140,7 +147,7 @@ class MultipartDocument
      */
     public function toRequest(): Request
     {
-        $httpRequest = explode("\r\n", $this->body);
+        $httpRequest = explode("\n", $this->body);
         $requestLine = array_shift($httpRequest);
 
         list($method, $requestURI, $httpVersion) = array_pad(explode(' ', $requestLine), 3, '');
@@ -181,7 +188,7 @@ class MultipartDocument
             $headers[$key] = trim($value);
         }
 
-        $body = implode("\r\n", $httpRequest);
+        $body = implode("\n", $httpRequest);
 
         $request = Request::create($uri, $method, [], [], [], [], $body);
         $request->headers->replace($headers);
