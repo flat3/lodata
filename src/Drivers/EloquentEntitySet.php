@@ -757,13 +757,6 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $this->discoverProperties();
         }
 
-        if (!$entityType->getKey()) {
-            throw new ConfigurationException(
-                'missing_model_key',
-                sprintf('The model %s had no primary key', $this->model)
-            );
-        }
-
         Lodata::add($this);
         Operation::discover($this->model);
 
