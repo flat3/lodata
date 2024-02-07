@@ -514,6 +514,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             /** @var Relation $relation */
             $relation = $model->$method();
 
+            if (!$relation instanceof Relation) {
+                throw new ConfigurationException(
+                    'invalid_relationship',
+                    'The method could not return a valid relationship'
+                );
+            }
+
             $relatedModel = get_class($relation->getRelated());
 
             $right = Lodata::getResources()->sliceByClass(self::class)->find(function ($set) use ($relatedModel) {
