@@ -18,6 +18,8 @@ use Flat3\Lodata\Tests\Helpers\StreamingJsonDriver;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
 use Generator;
+use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Testing\TestResponse;
 
 class ErrorReportingTest extends TestCase
@@ -90,11 +92,20 @@ class ErrorReportingTest extends TestCase
                 ->path('/divzero()')
         );
 
+        $innerException = $testResponse->exception->getOriginalException();
+
         if (PHP_VERSION_ID > 80000) {
-            $this->assertInstanceOf(DivisionByZeroError::class, $testResponse->exception->getOriginalException());
+            $this->assertInstanceOf(DivisionByZeroError::class, $innerException);
         } else {
-            $this->assertInstanceOf(ErrorException::class, $testResponse->exception->getOriginalException());
+            $this->assertInstanceOf(ErrorException::class, $innerException);
         }
+
+        $spy = Log::spy();
+        $handler = app(Handler::class);
+        $handler->report($testResponse->exception);
+        $spy->shouldHaveReceived('error', function ($message, $context) use ($innerException) {
+            return $message === $innerException->getMessage() && $context['exception'] instanceof DivisionByZeroError;
+        });
     }
 
     public function test_stream_error()

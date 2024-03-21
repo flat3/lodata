@@ -192,4 +192,9 @@ abstract class ProtocolException extends RuntimeException implements Responsable
 
         return $response;
     }
+
+    public function getInnerException(): ?Throwable
+    {
+        return $this->originalException;
+    }
 }
