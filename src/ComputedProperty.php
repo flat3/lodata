@@ -50,7 +50,7 @@ class ComputedProperty extends Property
 
     /**
      * Convert the provided value to a property value based on this property
-     * @param mixed $value Value
+     * @param  mixed  $value  Value
      * @return PropertyValue Property Value
      */
     public function toPropertyValue($value): PropertyValue

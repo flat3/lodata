@@ -9,7 +9,6 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Transaction\MediaType;
-use Illuminate\Http\ResponseTrait;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -36,7 +35,7 @@ abstract class Response extends StreamedResponse
 
     /**
      * The exception that triggered the error response (if applicable).
-     * @var \Throwable|null
+     * @var Throwable|null
      */
     public $exception;
 

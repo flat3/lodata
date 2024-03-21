@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\DeclaredProperty;
+use Flat3\Lodata\Drivers\SQL\PDO\Doctrine;
 use Flat3\Lodata\Drivers\SQLEntitySet;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Facades\Lodata;
@@ -24,6 +25,8 @@ use Illuminate\Support\Arr;
  */
 trait SQLSchema
 {
+    use Doctrine;
+
     /**
      * Discover SQL fields on this entity set as OData properties
      * @return $this
@@ -35,7 +38,7 @@ trait SQLSchema
             function () {
                 /** @var Connection $connection */
                 $connection = $this->getConnection();
-                $manager = $connection->getDoctrineSchemaManager();
+                $manager = $this->getDoctrineSchemaManager();
                 $table = $this->getTable();
                 if ($connection->getDriverName() === SQLEntitySet::PostgreSQL) {
                     $table = $this->quoteSingleIdentifier($table);
@@ -83,7 +86,7 @@ trait SQLSchema
         }
 
         $blacklist = config('lodata.discovery.blacklist', []);
-        $platform = $this->getConnection()->getDoctrineSchemaManager()->getDatabasePlatform();
+        $platform = $this->getDoctrineSchemaManager()->getDatabasePlatform();
 
         foreach ($columns as $column) {
             $columnName = $column->getName();

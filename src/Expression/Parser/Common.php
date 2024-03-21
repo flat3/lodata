@@ -426,10 +426,10 @@ abstract class Common extends Parser
                 return new Type\Int32($arg0 ? $arg0->hour : null);
 
             case $node instanceof Node\Func\DateTime\MaxDateTime:
-                return new Type\DateTimeOffset(Carbon::maxValue());
+                return new Type\DateTimeOffset(Carbon::create(9999, 12, 31, 23, 59, 59));
 
             case $node instanceof Node\Func\DateTime\MinDateTime:
-                return new Type\DateTimeOffset(Carbon::minValue());
+                return new Type\DateTimeOffset(Carbon::create(1));
 
             case $node instanceof Node\Func\DateTime\Minute:
                 self::assertTypes($node, $args, [Type\TimeOfDay::class], [Type\DateTimeOffset::class]);

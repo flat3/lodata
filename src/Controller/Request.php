@@ -66,7 +66,7 @@ class Request extends IlluminateRequest implements RequestInterface
         $this->query = $request->query;
         $this->content = $request->content;
         $this->server = $request->server;
-        $this->request = $this;
+        $this->request = $request->request;
         $this->attributes = $request->attributes;
         $this->files = $request->files;
     }
