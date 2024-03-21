@@ -99,6 +99,27 @@ class ErrorReportingTest extends TestCase
         } else {
             $this->assertInstanceOf(ErrorException::class, $innerException);
         }
+    }
+
+    public function test_report_inner_exception()
+    {
+        if (version_compare(app()->version(), '9', '<')) {
+            $this->markTestSkipped();
+        }
+
+        $func = new Function_('divzero');
+        $func->setCallable(function () {
+            /** @noinspection PhpDivisionByZeroInspection */
+            $a = 4 / 0;
+        });
+        Lodata::add($func);
+
+        $testResponse = $this->assertInternalServerError(
+            (new Request)
+                ->path('/divzero()')
+        );
+
+        $innerException = $testResponse->exception->getOriginalException();
 
         $spy = Log::spy();
         $handler = app(Handler::class);
