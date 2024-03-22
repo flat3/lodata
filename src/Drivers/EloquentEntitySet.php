@@ -69,6 +69,8 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+use Staudenmeir\EloquentJsonRelations\Relations\BelongsToJson;
+use Staudenmeir\EloquentJsonRelations\Relations\HasManyJson;
 
 /**
  * Eloquent Entity Set
@@ -555,19 +557,18 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                         break;
                 }
 
-                if (!$localProperty || !$foreignProperty) {
-                    throw new ConfigurationException(
-                        'missing_properties',
-                        'The properties referenced for the relationship could not be found on the models'
-                    );
+                if ($localProperty && $foreignProperty) {
+                    $referentialConstraint = new ReferentialConstraint($localProperty, $foreignProperty);
+                    $navigationProperty->addConstraint($referentialConstraint);
                 }
-
-                $referentialConstraint = new ReferentialConstraint($localProperty, $foreignProperty);
-                $navigationProperty->addConstraint($referentialConstraint);
             }
 
             if ($relation instanceof BelongsTo || $relation instanceof HasOneThrough || $relation instanceof HasOne) {
                 $navigationProperty->setCollection(false);
+            }
+
+            if ($relation instanceof HasManyJson || $relation instanceof BelongsToJson) {
+                $navigationProperty->setCollection(true);
             }
 
             $binding = new NavigationBinding($navigationProperty, $right);

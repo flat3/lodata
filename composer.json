@@ -67,7 +67,8 @@
         "ext-pdo_mysql": "*",
         "ext-mongodb": "*",
         "ext-redis": "*",
-        "ext-pdo_sqlite": "*"
+        "ext-pdo_sqlite": "*",
+        "staudenmeir/eloquent-json-relations": "^1.12"
     },
     "suggest": {
         "league/csv": "To use the CSV entity set",
