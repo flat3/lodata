@@ -10,6 +10,7 @@
     <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.example.odata">
       <EntityContainer Name="DefaultContainer">
         <EntitySet Name="Users" EntityType="com.example.odata.User">
+          <NavigationPropertyBinding Path="orders" Target="Orders"/>
           <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
             <Record>
               <PropertyValue Property="Countable" Bool="true"/>
@@ -73,6 +74,7 @@
         </EntitySet>
         <FunctionImport Name="function1" Function="com.example.odata.function1"/>
         <EntitySet Name="Orders" EntityType="com.example.odata.Order">
+          <NavigationPropertyBinding Path="user" Target="Users"/>
           <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
             <Record>
               <PropertyValue Property="Countable" Bool="true"/>
@@ -143,6 +145,7 @@
         <Property Name="id" Type="Edm.Int64" Nullable="false">
           <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>
+        <NavigationProperty Name="orders" Type="Collection(com.example.odata.Order)" Nullable="true"/>
       </EntityType>
       <EntityType Name="Order">
         <Key>
@@ -151,6 +154,7 @@
         <Property Name="id" Type="Edm.Int64" Nullable="false">
           <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>
+        <NavigationProperty Name="user" Type="com.example.odata.User" Nullable="true"/>
       </EntityType>
       <Function Name="function1" IsBound="false">
         <Parameter Name="param" Type="Edm.String" Nullable="false"/>

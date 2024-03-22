@@ -21,6 +21,9 @@
         "$Kind": "EntityContainer",
         "Users": {
             "$EntityType": "com.example.odata.User",
+            "$NavigationPropertyBinding": {
+                "orders": "Orders"
+            },
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -65,6 +68,9 @@
         },
         "Orders": {
             "$EntityType": "com.example.odata.Order",
+            "$NavigationPropertyBinding": {
+                "user": "Users"
+            },
             "@Org.OData.Capabilities.V1.CountRestrictions": {
                 "Countable": true
             },
@@ -154,6 +160,11 @@
             "$Type": "Edm.Int64",
             "$Nullable": false,
             "@Org.OData.Core.V1.Computed": true
+        },
+        "orders": {
+            "$Collection": true,
+            "$Type": "com.example.odata.Order",
+            "$Nullable": true
         }
     },
     "Order": {
@@ -165,6 +176,11 @@
             "$Type": "Edm.Int64",
             "$Nullable": false,
             "@Org.OData.Core.V1.Computed": true
+        },
+        "user": {
+            "$Collection": false,
+            "$Type": "com.example.odata.User",
+            "$Nullable": true
         }
     },
     "function1": {

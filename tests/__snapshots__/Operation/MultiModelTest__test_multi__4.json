@@ -47,6 +47,22 @@
                         "$ref": "#/components/parameters/count"
                     },
                     {
+                        "name": "expand",
+                        "in": "query",
+                        "description": "Expand related entities, see [OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "orders"
+                                ]
+                            }
+                        }
+                    },
+                    {
                         "$ref": "#/components/parameters/filter"
                     },
                     {
@@ -178,6 +194,22 @@
                                 ]
                             }
                         }
+                    },
+                    {
+                        "name": "expand",
+                        "in": "query",
+                        "description": "Expand related entities, see [OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "orders"
+                                ]
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -246,6 +278,160 @@
                 }
             }
         },
+        "/Users/{id}/orders": {
+            "parameters": [
+                {
+                    "description": "Key: id",
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entities from related Orders",
+                "tags": [
+                    "Orders",
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "id"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "name": "expand",
+                        "in": "query",
+                        "description": "Expand related entities, see [OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "user"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "id",
+                                    "id desc"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of Orders",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.Order"
+                                            }
+                                        },
+                                        "@count": {
+                                            "$ref": "#/components/schemas/count"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new entity to related Orders",
+                "tags": [
+                    "Orders",
+                    "Users"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "New entity",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.Order-create"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Order"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
         "/Orders": {
             "get": {
                 "summary": "Get entities from Orders",
@@ -272,6 +458,22 @@
                     },
                     {
                         "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "name": "expand",
+                        "in": "query",
+                        "description": "Expand related entities, see [OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "user"
+                                ]
+                            }
+                        }
                     },
                     {
                         "$ref": "#/components/parameters/filter"
@@ -405,6 +607,22 @@
                                 ]
                             }
                         }
+                    },
+                    {
+                        "name": "expand",
+                        "in": "query",
+                        "description": "Expand related entities, see [OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "user"
+                                ]
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -464,6 +682,160 @@
                     "Orders"
                 ],
                 "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/Orders/{id}/user": {
+            "parameters": [
+                {
+                    "description": "Key: id",
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    }
+                }
+            ],
+            "get": {
+                "summary": "Get entities from related Users",
+                "tags": [
+                    "Users",
+                    "Orders"
+                ],
+                "parameters": [
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "Select properties to be returned, see [OData Select](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionselect)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "*",
+                                    "id"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/count"
+                    },
+                    {
+                        "name": "expand",
+                        "in": "query",
+                        "description": "Expand related entities, see [OData Expand](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionexpand)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "orders"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/top"
+                    },
+                    {
+                        "$ref": "#/components/parameters/skip"
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order items by property values, see [OData Sorting](https://docs.oasis-open.org/odata/odata/v4.01/cs01/part1-protocol/odata-v4.01-cs01-part1-protocol.html#sec_SystemQueryOptionorderby)",
+                        "explode": false,
+                        "schema": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "id",
+                                    "id desc"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieved entities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Collection of Users",
+                                    "properties": {
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/com.example.odata.User"
+                                            }
+                                        },
+                                        "@count": {
+                                            "$ref": "#/components/schemas/count"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new entity to related Users",
+                "tags": [
+                    "Users",
+                    "Orders"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "New entity",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/com.example.odata.User-create"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.User"
+                                }
+                            }
+                        }
+                    },
                     "204": {
                         "description": "Success"
                     },
