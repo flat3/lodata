@@ -121,6 +121,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     {
         $this->setIdentifier($identifier);
         $this->sourceMap = new ObjectArray();
+        $readonly = config('lodata.readonly');
 
         if ($entityType) {
             $this->setType($entityType);
@@ -163,17 +164,17 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $this->addAnnotation(
             (new Capabilities\V1\InsertRestrictions())
-                ->setInsertable($this instanceof CreateInterface)
+                ->setInsertable($this instanceof CreateInterface && !$readonly)
         );
 
         $this->addAnnotation(
             (new Capabilities\V1\UpdateRestrictions())
-                ->setUpdatable($this instanceof UpdateInterface)
+                ->setUpdatable($this instanceof UpdateInterface && !$readonly)
         );
 
         $this->addAnnotation(
             (new Capabilities\V1\DeleteRestrictions())
-                ->setDeletable($this instanceof DeleteInterface)
+                ->setDeletable($this instanceof DeleteInterface && !$readonly)
         );
 
         $this->addAnnotation(

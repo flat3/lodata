@@ -200,44 +200,46 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
              * 4.5.2 Paths for Single Entities
              * @link https://docs.oasis-open.org/odata/odata-openapi/v1.0/cn01/odata-openapi-v1.0-cn01.html#sec_PathsforSingleEntities
              */
-            if ($entityType->hasKey() && ($annotations->supportsRead() || $annotations->supportsUpdate() || $annotations->supportsDelete())) {
-                $pathItemObject = (object) [];
-                $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}"} = $pathItemObject;
+            if ($entityType->hasKey()) {
+                if ($annotations->supportsRead() || $annotations->supportsUpdate() || $annotations->supportsDelete()) {
+                    $pathItemObject = (object) [];
+                    $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}"} = $pathItemObject;
 
-                $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
+                    $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
-                if ($annotations->supportsRead()) {
-                    $this->generateReadRoutes($pathItemObject, $entitySet);
+                    if ($annotations->supportsRead()) {
+                        $this->generateReadRoutes($pathItemObject, $entitySet);
+                    }
+
+                    if ($annotations->supportsUpdate()) {
+                        $this->generateUpdateRoutes($pathItemObject, $entitySet);
+                    }
+
+                    if ($annotations->supportsDelete()) {
+                        $this->generateDeleteRoutes($pathItemObject, $entitySet);
+                    }
                 }
 
-                if ($annotations->supportsUpdate()) {
-                    $this->generateUpdateRoutes($pathItemObject, $entitySet);
-                }
+                foreach ($entityType->getNavigationProperties() as $navigationProperty) {
+                    $navigationSet = $entitySet->getBindingByNavigationProperty($navigationProperty)->getTarget();
 
-                if ($annotations->supportsDelete()) {
-                    $this->generateDeleteRoutes($pathItemObject, $entitySet);
-                }
-            }
+                    $pathItemObject = (object) [];
+                    $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
 
-            foreach ($entityType->getNavigationProperties() as $navigationProperty) {
-                $navigationSet = $entitySet->getBindingByNavigationProperty($navigationProperty)->getTarget();
+                    /** @var Description $description */
+                    if ($description = $navigationProperty->getAnnotations()->sliceByClass(Description::class)->first()) {
+                        $pathItemObject->summary = $description->toJson();
+                    }
 
-                $pathItemObject = (object) [];
-                $paths->{"/{$entitySet->getName()}/{{$entityType->getKey()->getName()}}/{$navigationProperty->getName()}"} = $pathItemObject;
+                    $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
 
-                /** @var Description $description */
-                if ($description = $navigationProperty->getAnnotations()->sliceByClass(Description::class)->first()) {
-                    $pathItemObject->summary = $description->toJson();
-                }
+                    if ($entitySet instanceof QueryInterface) {
+                        $this->generateQueryRoutes($pathItemObject, $navigationSet, $entitySet);
+                    }
 
-                $pathItemObject->parameters = [$this->generateKeyParameter($entitySet)];
-
-                if ($entitySet instanceof QueryInterface) {
-                    $this->generateQueryRoutes($pathItemObject, $navigationSet, $entitySet);
-                }
-
-                if ($annotations->supportsInsert()) {
-                    $this->generateCreateRoutes($pathItemObject, $navigationSet, $entitySet);
+                    if ($annotations->supportsInsert()) {
+                        $this->generateCreateRoutes($pathItemObject, $navigationSet, $entitySet);
+                    }
                 }
             }
         }
@@ -1090,6 +1092,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
      *
      * @param  Property|null  $property
      * @param  array  $schema
+     *
      * @return array
      */
     public static function applyProperty(?Property $property = null, array $schema = []): array
