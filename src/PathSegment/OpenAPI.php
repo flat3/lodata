@@ -826,15 +826,14 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
         $pathItemObject->{'get'} = $queryObject;
         $annotations = $entitySet->getAnnotations();
 
-        $tags = [
-            $entitySet->getName(),
-        ];
+        $tags = [];
 
         if ($relatedSet) {
             $queryObject->summary = __('lodata::Get entities from related :name', ['name' => $entitySet->getName()]);
             $tags[] = $relatedSet->getName();
         } else {
             $queryObject->summary = __('lodata::Get entities from :name', ['name' => $entitySet->getName()]);
+            $tags[] = $entitySet->getName();
         }
 
         $queryObject->tags = $this->uniqueTags($tags);

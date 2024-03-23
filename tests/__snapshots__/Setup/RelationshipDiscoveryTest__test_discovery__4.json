@@ -301,7 +301,6 @@
             "get": {
                 "summary": "Get entities from related Pets",
                 "tags": [
-                    "Pets",
                     "People"
                 ],
                 "parameters": [
@@ -728,7 +727,6 @@
             "get": {
                 "summary": "Get entities from related People",
                 "tags": [
-                    "People",
                     "Pets"
                 ],
                 "parameters": [

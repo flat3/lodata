@@ -586,7 +586,6 @@
             "get": {
                 "summary": "Get entities from related Pets",
                 "tags": [
-                    "Pets",
                     "Passengers"
                 ],
                 "parameters": [
@@ -1020,7 +1019,6 @@
             "get": {
                 "summary": "Get entities from related Passengers",
                 "tags": [
-                    "Passengers",
                     "Pets"
                 ],
                 "parameters": [

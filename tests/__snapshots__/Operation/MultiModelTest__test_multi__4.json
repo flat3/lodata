@@ -297,7 +297,6 @@
             "get": {
                 "summary": "Get entities from related Orders",
                 "tags": [
-                    "Orders",
                     "Users"
                 ],
                 "parameters": [
@@ -710,7 +709,6 @@
             "get": {
                 "summary": "Get entities from related Users",
                 "tags": [
-                    "Users",
                     "Orders"
                 ],
                 "parameters": [

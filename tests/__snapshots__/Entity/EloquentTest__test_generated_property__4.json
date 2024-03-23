@@ -340,7 +340,6 @@
             "get": {
                 "summary": "Get entities from related Flights",
                 "tags": [
-                    "Flights",
                     "Airports"
                 ],
                 "parameters": [
@@ -508,7 +507,6 @@
             "get": {
                 "summary": "Get entities from related Countries",
                 "tags": [
-                    "Countries",
                     "Airports"
                 ],
                 "parameters": [
@@ -944,7 +942,6 @@
             "get": {
                 "summary": "Get entities from related Passengers",
                 "tags": [
-                    "Passengers",
                     "Flights"
                 ],
                 "parameters": [
@@ -1133,7 +1130,6 @@
             "get": {
                 "summary": "Get entities from related Airports",
                 "tags": [
-                    "Airports",
                     "Flights"
                 ],
                 "parameters": [
@@ -1312,7 +1308,6 @@
             "get": {
                 "summary": "Get entities from related Airports",
                 "tags": [
-                    "Airports",
                     "Flights"
                 ],
                 "parameters": [
@@ -1754,7 +1749,6 @@
             "get": {
                 "summary": "Get entities from related Airports",
                 "tags": [
-                    "Airports",
                     "Countries"
                 ],
                 "parameters": [
@@ -2243,7 +2237,6 @@
             "get": {
                 "summary": "Get entities from related Pets",
                 "tags": [
-                    "Pets",
                     "Passengers"
                 ],
                 "parameters": [
@@ -2406,7 +2399,6 @@
             "get": {
                 "summary": "Get entities from related Flights",
                 "tags": [
-                    "Flights",
                     "Passengers"
                 ],
                 "parameters": [
@@ -2574,7 +2566,6 @@
             "get": {
                 "summary": "Get entities from related Airports",
                 "tags": [
-                    "Airports",
                     "Passengers"
                 ],
                 "parameters": [
@@ -2753,7 +2744,6 @@
             "get": {
                 "summary": "Get entities from related Airports",
                 "tags": [
-                    "Airports",
                     "Passengers"
                 ],
                 "parameters": [
@@ -3203,7 +3193,6 @@
             "get": {
                 "summary": "Get entities from related Passengers",
                 "tags": [
-                    "Passengers",
                     "Pets"
                 ],
                 "parameters": [
