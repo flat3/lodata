@@ -9,6 +9,7 @@ use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
+use UnitEnum;
 
 /**
  * String
@@ -42,6 +43,10 @@ class String_ extends Primitive
 
     public function set($value): self
     {
+        if ($value instanceof UnitEnum) {
+            $value = $value->value;
+        }
+
         $this->value = null === $value ? null : (string) $value;
 
         return $this;
