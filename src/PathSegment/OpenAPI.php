@@ -555,8 +555,10 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
         foreach (Lodata::getComplexTypes() as $complexType) {
             $schemas->{$complexType->getIdentifier()} = $complexType->getOpenAPISchema();
-            $schemas->{$complexType->getIdentifier().'-create'} = $complexType->getOpenAPICreateSchema();
-            $schemas->{$complexType->getIdentifier().'-update'} = $complexType->getOpenAPIUpdateSchema();
+            if (!config('lodata.readonly')) {
+                $schemas->{$complexType->getIdentifier().'-create'} = $complexType->getOpenAPICreateSchema();
+                $schemas->{$complexType->getIdentifier().'-update'} = $complexType->getOpenAPIUpdateSchema();
+            }
         }
 
         $schemas->{Identifier::from(ComplexType::identifier)} = ['type' => Constants::oapiObject];
