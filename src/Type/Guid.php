@@ -21,6 +21,19 @@ class Guid extends Primitive
     /** @var ?string $value */
     protected $value;
 
+    public function matches($value): bool
+    {
+        if ($value instanceof self) {
+            $value = $value->get();
+        }
+
+        if (is_scalar($value) || is_null($value) || $value instanceof \Stringable) {
+            return (string) $this->get() === strtoupper((string) $value);
+        }
+
+        return false;
+    }
+
     public function toUrl(): string
     {
         if (null === $this->value) {

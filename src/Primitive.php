@@ -170,6 +170,24 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
         return $value instanceof $this && $value->get() === $this->get();
     }
 
+    /**
+     * Return whether the provided value is a representation of this one
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function matches(mixed $value): bool
+    {
+        if ($value instanceof self) {
+            $value = $value->get();
+        }
+
+        if (is_scalar($value) || is_null($value) || $value instanceof \Stringable) {
+            return (string) $this->get() === (string) $value;
+        }
+
+        return false;
+    }
+
     public static function pipe(
         Transaction $transaction,
         string $currentSegment,

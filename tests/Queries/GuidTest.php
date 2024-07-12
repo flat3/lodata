@@ -48,5 +48,10 @@ class GuidTest extends TestCase
             (new Request)
                 ->path('/examples(00000000-0000-0000-0000-0012EA25EEFB)')
         );
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path('/examples(00000000-0000-0000-0000-0012ea25eefb)')
+        );
     }
 }

@@ -43,7 +43,7 @@ class Key implements PipeInterface
         $keyValue->setProperty($keyProperty);
         $keyValue->setValue($keyProperty->getType()->instance($currentSegment));
 
-        if ((string) $keyValue->getPrimitiveValue() !== $currentSegment) {
+        if (!$keyValue->getPrimitive()->matches($currentSegment)) {
             throw new PathNotHandledException();
         }
 
