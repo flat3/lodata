@@ -175,7 +175,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * @param  mixed  $value
      * @return bool
      */
-    public function matches(mixed $value): bool
+    public function matches($value): bool
     {
         if ($value instanceof self) {
             $value = $value->get();
