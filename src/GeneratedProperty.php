@@ -16,7 +16,7 @@ abstract class GeneratedProperty extends Property
     /**
      * Generate the property value for this property on the provided entity
      * @param  ComplexValue  $value  Entity this property is generated on
-     * @return PropertyValue
+     * @return Primitive|scalar|null
      */
     abstract public function invoke(ComplexValue $value);
 
