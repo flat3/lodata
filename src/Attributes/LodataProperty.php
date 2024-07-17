@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Attributes;
 
 use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\Description;
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\Property;
@@ -18,6 +19,7 @@ abstract class LodataProperty
     protected ?string $source = null;
     protected bool $key = false;
     protected bool $computed = false;
+    protected bool $immutable = false;
     protected bool $nullable = true;
     protected ?int $maxLength = null;
     protected ?int $precision = null;
@@ -38,13 +40,15 @@ abstract class LodataProperty
         $scale = null,
         $alternativeKey = false,
         $searchable = false,
-        $filterable = true
+        $filterable = true,
+        ?bool $immutable = false
     ) {
         $this->name = $name;
         $this->description = $description;
         $this->source = $source;
         $this->key = $key;
         $this->computed = $computed;
+        $this->immutable = $immutable;
         $this->nullable = $nullable;
         $this->maxLength = $maxLength;
         $this->precision = $precision;
@@ -82,6 +86,11 @@ abstract class LodataProperty
     public function isComputed(): bool
     {
         return $this->computed;
+    }
+
+    public function isImmutable(): bool
+    {
+        return $this->immutable;
     }
 
     public function isNullable(): bool
@@ -156,6 +165,10 @@ abstract class LodataProperty
 
         if ($this->isComputed()) {
             $property->addAnnotation(new Computed);
+        }
+
+        if ($this->isImmutable()) {
+            $property->addAnnotation(new Immutable);
         }
 
         if ($this->hasMaxLength()) {
