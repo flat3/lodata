@@ -548,7 +548,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $foreignProperty = null;
 
                 switch (true) {
-                    case $relation instanceof HasOneOrMany:
+                    case ($relation instanceof HasOneOrMany) || ($relation instanceof HasManyThrough):
                         $localProperty = $this->getPropertyBySourceName($relation->getLocalKeyName());
                         $foreignProperty = $right->getPropertyBySourceName($relation->getForeignKeyName());
                         break;
