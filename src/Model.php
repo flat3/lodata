@@ -45,6 +45,12 @@ class Model implements AnnotationInterface
      */
     protected $entityContainer;
 
+    /**
+     * Determine if routes should be ignored
+     * @var true
+     */
+    protected $registersRoutes;
+
     public function __construct()
     {
         $this->model = new ObjectArray();
@@ -371,5 +377,23 @@ class Model implements AnnotationInterface
     public function getOpenApiUrl(): string
     {
         return ServiceProvider::endpoint().'openapi.json';
+    }
+
+    /**
+     * Disable the automatic registration of the base routes
+     * @return void
+     */
+    public function ignoreRoutes(): void
+    {
+        $this->registersRoutes = false;
+    }
+
+    /**
+     * Determine if routes should be ignored
+     * @return bool True if routes should be ignored, false otherwise.
+     */
+    public function shouldIgnoreRoutes(): bool
+    {
+        return $this->registersRoutes;
     }
 }

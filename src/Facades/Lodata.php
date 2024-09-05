@@ -55,6 +55,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getOdcUrl(Identifier|string $set) Get the Office Data Connection URL of the provided entity set
  * @method static string getPbidsUrl() Get the PowerBI discovery URL of this service
  * @method static string getOpenApiUrl() Get the OpenAPI specification document URL of this service
+ * @method static void ignoreRoutes() Disable the automatic registration of the base routes
+ * @method static bool shouldIgnoreRoutes() Determine if routes should be ignored
  * @package Flat3\Lodata\Facades
  */
 class Lodata extends Facade
