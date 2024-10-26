@@ -77,6 +77,6 @@ class Reference
      */
     public function __toString()
     {
-        return $this->alias . '=' . $this->namespace;
+        return is_null($this->alias) ? $this->namespace : $this->alias . '=' . $this->namespace;
     }
 }
