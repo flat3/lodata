@@ -16,9 +16,10 @@ use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\Endpoint;
 use Flat3\Lodata\PathSegment\Batch;
-use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Transaction\MediaType;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -34,6 +35,10 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
      */
     protected $requests = [];
 
+    /**
+     * @throws BindingResolutionException
+     * @throws \JsonException
+     */
     public function emitJson(Transaction $transaction): void
     {
         $transaction->outputJsonObjectStart();
@@ -54,10 +59,11 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
 
             $requestURI = $requestData['url'];
 
+            $endpoint = app()->make(Endpoint::class)->endpoint();
             switch (true) {
                 case Str::startsWith($requestURI, '/'):
                     $uri = Url::http_build_url(
-                        ServiceProvider::endpoint(),
+                        $endpoint,
                         $requestURI,
                         Url::HTTP_URL_REPLACE
                     );
@@ -69,7 +75,7 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
 
                 default:
                     $uri = Url::http_build_url(
-                        ServiceProvider::endpoint(),
+                        $endpoint,
                         $requestURI,
                         Url::HTTP_URL_JOIN_PATH | Url::HTTP_URL_JOIN_QUERY
                     );

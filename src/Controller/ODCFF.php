@@ -8,7 +8,8 @@ use DOMDocument;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Constants;
-use Flat3\Lodata\ServiceProvider;
+use Flat3\Lodata\Endpoint;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
@@ -27,6 +28,7 @@ class ODCFF extends Controller
      * Generate an ODCFF response for the provided entity set identifier
      * @param  string  $identifier  Identifier
      * @return Response Client response
+     * @throws BindingResolutionException
      */
     public function get(string $identifier): Response
     {
@@ -165,7 +167,7 @@ class ODCFF extends Controller
         $formula = $mashupDoc->createElement('Formula');
         $formulaContent = $mashupDoc->createCDATASection(sprintf(
             'let Source = OData.Feed("%1$s", null, [Implementation="2.0"]), %2$s_table = Source{[Name="%2$s",Signature="table"]}[Data] in %2$s_table',
-            ServiceProvider::endpoint(),
+            app()->make(Endpoint::class)->endpoint(),
             $resourceId,
         ));
         $formula->appendChild($formulaContent);

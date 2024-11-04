@@ -22,6 +22,7 @@ use Flat3\Lodata\Interfaces\EntitySet\RelationshipInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Transaction\MetadataContainer;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -153,6 +154,9 @@ class Entity extends ComplexValue
         }
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     public static function pipe(
         Transaction $transaction,
         string $currentSegment,
@@ -174,8 +178,9 @@ class Entity extends ComplexValue
         }
 
         $entityId = $id->getValue();
-        if (Str::startsWith($entityId, ServiceProvider::endpoint())) {
-            $entityId = Str::substr($entityId, strlen(ServiceProvider::endpoint()));
+        $endpoint = app()->make(Endpoint::class)->endpoint();
+        if (Str::startsWith($entityId, $endpoint)) {
+            $entityId = Str::substr($entityId, strlen($endpoint));
         }
 
         return EntitySet::pipe($transaction, $entityId);

@@ -30,9 +30,9 @@ use Flat3\Lodata\Interfaces\RequestInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Endpoint;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PathSegment;
-use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\IEEE754Compatible;
 use Flat3\Lodata\Transaction\MediaType;
@@ -58,6 +58,7 @@ use Flat3\Lodata\Transaction\Parameter;
 use Flat3\Lodata\Transaction\ParameterList;
 use Flat3\Lodata\Transaction\Version;
 use Flat3\Lodata\Type\Collection;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -784,7 +785,7 @@ class Transaction
      */
     public function getRequestPath(): string
     {
-        $route = ServiceProvider::route();
+        $route = app()->make(Endpoint::class)->route();
         return Str::substr($this->request->path(), strlen($route));
     }
 
@@ -947,20 +948,22 @@ class Transaction
      * Get the service document context URL
      * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServiceDocument
      * @return string Context URL
+     * @throws BindingResolutionException
      */
     public function getContextUrl(): string
     {
-        return ServiceProvider::endpoint().'$metadata';
+        return self::getResourceUrl().'$metadata';
     }
 
     /**
      * Get the service document resource URL
      * https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServiceDocument
      * @return string Resource URL
+     * @throws BindingResolutionException
      */
     public static function getResourceUrl(): string
     {
-        return ServiceProvider::endpoint();
+        return app()->make(Endpoint::class)->endpoint();
     }
 
     /**

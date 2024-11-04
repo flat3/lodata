@@ -6,8 +6,9 @@ namespace Flat3\Lodata\Controller;
 
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\JSON;
-use Flat3\Lodata\ServiceProvider;
+use Flat3\Lodata\Endpoint;
 use Flat3\Lodata\Transaction\MediaType;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
@@ -23,6 +24,7 @@ class PBIDS extends Controller
     /**
      * Generate a PowerBI data source discovery file
      * @return Response Client response
+     * @throws BindingResolutionException
      */
     public function get(): Response
     {
@@ -42,7 +44,7 @@ class PBIDS extends Controller
                     'details' => [
                         'protocol' => 'odata',
                         'address' => [
-                            'url' => ServiceProvider::endpoint(),
+                            'url' => app()->make(Endpoint::class)->endpoint(),
                         ],
                     ],
                 ],

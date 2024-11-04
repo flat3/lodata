@@ -34,10 +34,10 @@ use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Model;
 use Flat3\Lodata\NavigationProperty;
+use Flat3\Lodata\Endpoint;
 use Flat3\Lodata\Operation;
 use Flat3\Lodata\PrimitiveType;
 use Flat3\Lodata\Property;
-use Flat3\Lodata\ServiceProvider;
 use Flat3\Lodata\Singleton;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\Option\Count;
@@ -409,7 +409,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
         $queryObject->tags = [__('lodata::Batch requests')];
 
-        $route = ServiceProvider::route();
+        $route = app()->make(Endpoint::class)->route();
 
         $requestBody = [
             'required' => true,

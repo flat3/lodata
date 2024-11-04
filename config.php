@@ -103,4 +103,9 @@ return [
      * Configuration for OpenAPI schema generation
      */
     'openapi' => [],
+
+    /**
+     * Configuration for multiple service endpoints
+     */
+    'endpoints' => [],
 ];

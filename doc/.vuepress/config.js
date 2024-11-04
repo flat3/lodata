@@ -134,6 +134,7 @@ module.exports = {
                 children: [
                     'getting-started/',
                     'getting-started/configuration',
+                    'getting-started/endpoint',
                     'getting-started/facade',
                     'getting-started/routing',
                     'getting-started/authentication',

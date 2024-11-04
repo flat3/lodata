@@ -6,7 +6,8 @@ namespace Flat3\Lodata\Transaction;
 
 use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Helper\Url;
-use Flat3\Lodata\ServiceProvider;
+use Flat3\Lodata\Endpoint;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -153,6 +154,7 @@ class MultipartDocument
     /**
      * Convert this document to a Request
      * @return Request
+     * @throws BindingResolutionException
      */
     public function toRequest(): Request
     {
@@ -161,10 +163,11 @@ class MultipartDocument
 
         list($method, $requestURI, $httpVersion) = array_pad(explode(' ', $requestLine), 3, '');
 
+        $endpoint = app()->make(Endpoint::class)->endpoint();
         switch (true) {
             case Str::startsWith($requestURI, '/'):
                 $uri = Url::http_build_url(
-                    ServiceProvider::endpoint(),
+                    $endpoint,
                     $requestURI,
                     Url::HTTP_URL_REPLACE
                 );
@@ -176,7 +179,7 @@ class MultipartDocument
 
             default:
                 $uri = Url::http_build_url(
-                    ServiceProvider::endpoint(),
+                    $endpoint,
                     $requestURI,
                     Url::HTTP_URL_JOIN_PATH | Url::HTTP_URL_JOIN_QUERY
                 );

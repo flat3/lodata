@@ -17,6 +17,7 @@ use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\ServiceInterface;
 use Flat3\Lodata\Traits\HasAnnotations;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 /**
  * Model
@@ -339,10 +340,11 @@ class Model implements AnnotationInterface
     /**
      * Get the REST endpoint of this OData model
      * @return string REST endpoint
+     * @throws BindingResolutionException
      */
     public function getEndpoint(): string
     {
-        return ServiceProvider::endpoint();
+        return app()->make(Endpoint::class)->endpoint();
     }
 
     /**
@@ -351,7 +353,7 @@ class Model implements AnnotationInterface
      */
     public function getPbidsUrl(): string
     {
-        return ServiceProvider::endpoint().'_lodata/odata.pbids';
+        return $this->getEndpoint().'_lodata/odata.pbids';
     }
 
     /**
@@ -361,7 +363,7 @@ class Model implements AnnotationInterface
      */
     public function getOdcUrl(string $set): string
     {
-        return sprintf('%s_lodata/%s.odc', ServiceProvider::endpoint(), $set);
+        return sprintf('%s_lodata/%s.odc', $this->getEndpoint(), $set);
     }
 
     /**
@@ -370,6 +372,6 @@ class Model implements AnnotationInterface
      */
     public function getOpenApiUrl(): string
     {
-        return ServiceProvider::endpoint().'openapi.json';
+        return $this->getEndpoint().'openapi.json';
     }
 }
