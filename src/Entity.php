@@ -178,7 +178,7 @@ class Entity extends ComplexValue
         }
 
         $entityId = $id->getValue();
-        $endpoint = app(Endpoint::class)->endpoint();
+        $endpoint = app()->make(Endpoint::class)->endpoint();
         if (Str::startsWith($entityId, $endpoint)) {
             $entityId = Str::substr($entityId, strlen($endpoint));
         }

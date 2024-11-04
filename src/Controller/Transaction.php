@@ -785,7 +785,7 @@ class Transaction
      */
     public function getRequestPath(): string
     {
-        $route = app(Endpoint::class)->route();
+        $route = app()->make(Endpoint::class)->route();
         return Str::substr($this->request->path(), strlen($route));
     }
 
@@ -963,7 +963,7 @@ class Transaction
      */
     public static function getResourceUrl(): string
     {
-        return app(Endpoint::class)->endpoint();
+        return app()->make(Endpoint::class)->endpoint();
     }
 
     /**

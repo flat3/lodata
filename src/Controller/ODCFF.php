@@ -167,7 +167,7 @@ class ODCFF extends Controller
         $formula = $mashupDoc->createElement('Formula');
         $formulaContent = $mashupDoc->createCDATASection(sprintf(
             'let Source = OData.Feed("%1$s", null, [Implementation="2.0"]), %2$s_table = Source{[Name="%2$s",Signature="table"]}[Data] in %2$s_table',
-            app(Endpoint::class)->endpoint(),
+            app()->make(Endpoint::class)->endpoint(),
             $resourceId,
         ));
         $formula->appendChild($formulaContent);

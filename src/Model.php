@@ -199,7 +199,7 @@ class Model implements AnnotationInterface
      */
     public static function getNamespace(): string
     {
-        return app(Endpoint::class)->namespace();
+        return config('lodata.namespace');
     }
 
     /**
@@ -344,7 +344,7 @@ class Model implements AnnotationInterface
      */
     public function getEndpoint(): string
     {
-        return app(Endpoint::class)->endpoint();
+        return app()->make(Endpoint::class)->endpoint();
     }
 
     /**

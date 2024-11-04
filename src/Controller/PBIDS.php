@@ -44,7 +44,7 @@ class PBIDS extends Controller
                     'details' => [
                         'protocol' => 'odata',
                         'address' => [
-                            'url' => app(Endpoint::class)->endpoint(),
+                            'url' => app()->make(Endpoint::class)->endpoint(),
                         ],
                     ],
                 ],

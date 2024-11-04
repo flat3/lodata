@@ -59,7 +59,7 @@ class JSON extends Batch implements JsonInterface, ResponseInterface
 
             $requestURI = $requestData['url'];
 
-            $endpoint = app(Endpoint::class)->endpoint();
+            $endpoint = app()->make(Endpoint::class)->endpoint();
             switch (true) {
                 case Str::startsWith($requestURI, '/'):
                     $uri = Url::http_build_url(
