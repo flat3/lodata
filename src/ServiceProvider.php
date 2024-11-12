@@ -81,6 +81,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         Route::get("{$route}/_lodata/odata.pbids", [PBIDS::class, 'get']);
         Route::get("{$route}/_lodata/{identifier}.odc", [ODCFF::class, 'get']);
         Route::resource("{$route}/_lodata/monitor", Monitor::class);
-        Route::any("{$route}{path}", [OData::class, 'handle'])->where('path', '(.*)')->middleware($middleware);
+
+        if (Lodata::shouldIgnoreRoutes()) {
+            Route::any("{$route}{path}", [OData::class, 'handle'])->where('path', '(.*)')->middleware($middleware);
+        }
     }
 }
