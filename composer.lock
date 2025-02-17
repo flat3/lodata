@@ -9324,16 +9324,16 @@
         },
         {
             "name": "staudenmeir/eloquent-json-relations",
-            "version": "v1.13.2",
+            "version": "v1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/staudenmeir/eloquent-json-relations.git",
-                "reference": "88896528f6b35e9c085daa7c6c788ac8e9753a66"
+                "reference": "aaa2c78868842b7cdf7a60b2a1d6b4be6517aa11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/staudenmeir/eloquent-json-relations/zipball/88896528f6b35e9c085daa7c6c788ac8e9753a66",
-                "reference": "88896528f6b35e9c085daa7c6c788ac8e9753a66",
+                "url": "https://api.github.com/repos/staudenmeir/eloquent-json-relations/zipball/aaa2c78868842b7cdf7a60b2a1d6b4be6517aa11",
+                "reference": "aaa2c78868842b7cdf7a60b2a1d6b4be6517aa11",
                 "shasum": ""
             },
             "require": {
@@ -9376,7 +9376,7 @@
             "description": "Laravel Eloquent relationships with JSON keys",
             "support": {
                 "issues": "https://github.com/staudenmeir/eloquent-json-relations/issues",
-                "source": "https://github.com/staudenmeir/eloquent-json-relations/tree/v1.13.2"
+                "source": "https://github.com/staudenmeir/eloquent-json-relations/tree/v1.13.3"
             },
             "funding": [
                 {
@@ -9384,7 +9384,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-02-02T12:10:24+00:00"
+            "time": "2025-02-16T14:49:18+00:00"
         },
         {
             "name": "symfony/polyfill-php81",
