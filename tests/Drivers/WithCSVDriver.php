@@ -19,6 +19,7 @@ trait WithCSVDriver
     {
         $this->entityId = 0;
         $this->missingEntityId = 99;
+        $this->entitySetKey = 'offset';
 
         /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('testing');

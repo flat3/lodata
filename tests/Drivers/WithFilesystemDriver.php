@@ -17,6 +17,7 @@ trait WithFilesystemDriver
         $this->entitySet = 'disk';
         $this->entityId = 'a1.txt';
         $this->missingEntityId = 'qq.txt';
+        $this->entitySetKey = 'path';
 
         /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('testing');
