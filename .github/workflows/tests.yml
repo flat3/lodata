@@ -34,7 +34,7 @@ jobs:
       - name: Test
         env:
           CREATE_SNAPSHOTS: false
-        run: composer test -- --exclude-group redis,mongo
+        run: composer test -- --exclude-group redis --exclude-group mongo
 
   sqlsrv:
     runs-on: ubuntu-22.04
