@@ -54,7 +54,7 @@ jobs:
         env:
           CREATE_SNAPSHOTS: false
           DATABASE_URL: sqlsrv://sa:Your_password123@localhost:1433/msdb
-        run: composer test -- --group sql,eloquent
+        run: composer test -- --group sql --group eloquent
 
   postgres:
     runs-on: ubuntu-22.04
@@ -75,7 +75,7 @@ jobs:
           CREATE_SNAPSHOTS: false
           DATABASE_URL: pgsql://postgres:my-secret-pw@localhost:5432/postgres?charset=utf8
         run:
-          composer test -- --group sql,eloquent
+          composer test -- --group sql --group eloquent
 
   mysql:
     runs-on: ubuntu-22.04
@@ -95,7 +95,7 @@ jobs:
         env:
           CREATE_SNAPSHOTS: false
           DATABASE_URL: mysql://root:my-secret-pw@127.0.0.1:3306/testing
-        run: composer test -- --group sql,eloquent
+        run: composer test -- --group sql --group eloquent
 
   mongo:
     runs-on: ubuntu-22.04
