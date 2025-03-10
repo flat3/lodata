@@ -32,6 +32,14 @@ abstract class Entity extends TestCase
         );
     }
 
+    public function test_read_key_as_long_form()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySetPath.'('.$this->entitySetKey.'='.$this->escapedEntityId.')')
+        );
+    }
+
     public function test_read_alternative_key()
     {
         $this->assertJsonResponseSnapshot(

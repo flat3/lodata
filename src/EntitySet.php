@@ -548,35 +548,36 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             );
         }
 
-        // Test for alternative key syntax
-        $alternateKey = $lexer->with(function (Lexer $lexer) {
+        // Test for non-canonical long form with specified key property name
+        $longFormKey = $lexer->with(function (Lexer $lexer) {
             return $lexer->identifier();
         });
 
-        if ($alternateKey) {
-            if ($lexer->maybeChar('=')) {
-                // Test for referenced value syntax
-                if ($lexer->maybeChar('@')) {
-                    $referencedKey = $lexer->identifier();
-                    $referencedValue = $transaction->getParameterAlias($referencedKey);
-                    $lexer = new Lexer($referencedValue);
-                }
-
-                $keyProperty = $entitySet->getType()->getProperty($alternateKey);
-
-                if ($keyProperty instanceof DeclaredProperty && !$keyProperty->isAlternativeKey()) {
-                    throw new BadRequestException(
-                        'property_not_alternative_key',
-                        sprintf(
-                            'The requested property (%s) is not configured as an alternative key',
-                            $alternateKey
-                        )
-                    );
-                }
-            } else {
-                // Captured value was not an alternative key, reset the lexer
-                $lexer = new Lexer($id);
+        if ($longFormKey && $lexer->maybeChar('=')) {
+            // Test for referenced value syntax
+            if ($lexer->maybeChar('@')) {
+                $referencedKey = $lexer->identifier();
+                $referencedValue = $transaction->getParameterAlias($referencedKey);
+                $lexer = new Lexer($referencedValue);
             }
+
+            $requestedKeyProperty = $entitySet->getType()->getProperty($longFormKey);
+
+            if ($requestedKeyProperty instanceof DeclaredProperty
+                && !($requestedKeyProperty->isAlternativeKey() || $keyProperty->getName() === $requestedKeyProperty->getName())) {
+                throw new BadRequestException(
+                    'property_not_alternative_key',
+                    sprintf(
+                        'The requested property (%s) is not configured as key or alternative key',
+                        $longFormKey
+                    )
+                );
+            }
+            $keyProperty = $requestedKeyProperty;
+
+        } else {
+            // Captured value was not an alternative key, reset the lexer
+            $lexer = new Lexer($id);
         }
 
         if (null === $keyProperty) {
