@@ -267,6 +267,10 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             return new PrimitiveType($returnType);
         }
 
+        if (is_a($returnType, ComplexValue::class, true)) {
+            return null;
+        }
+
         return Type::fromInternalType($returnType);
     }
 
