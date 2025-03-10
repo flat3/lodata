@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use ArrayAccess;
+use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\ETag;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
+use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\JsonInterface;
+use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ReferenceInterface;
+use Flat3\Lodata\Interfaces\ResourceInterface;
+use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Interfaces\SerializeInterface;
 use Flat3\Lodata\Traits\HasTransaction;
 use Flat3\Lodata\Traits\UseReferences;
@@ -20,9 +25,10 @@ use Flat3\Lodata\Transaction\MetadataContainer;
 use Flat3\Lodata\Transaction\NavigationRequest;
 use Flat3\Lodata\Type\Untyped;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceInterface, SerializeInterface
+class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceInterface, SerializeInterface, ResourceInterface, ResponseInterface, ContextInterface, PipeInterface
 {
     use UseReferences;
     use HasTransaction;
@@ -417,5 +423,44 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
     public function getOpenAPISchema(): array
     {
         return $this->getType()->getOpenAPISchema();
+    }
+
+    public function getContextUrl(Transaction $transaction): string
+    {
+        return $this->getType()->getContextUrl($transaction);
+    }
+
+    public static function pipe(
+        Transaction $transaction,
+        string $currentSegment,
+        ?string $nextSegment,
+        ?PipeInterface $argument
+    ): ?PipeInterface {
+        return null;
+    }
+
+    public function getResourceUrl(Transaction $transaction): string
+    {
+        return $this->getType()->getResourceUrl($transaction);
+    }
+
+    public function response(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if ($this->transaction) {
+            $transaction = $this->transaction->replaceQueryParams($transaction);
+        }
+
+        $transaction->assertMethod(Request::METHOD_GET);
+
+        $context = $context ?: $this;
+
+        $this->metadata = $transaction->createMetadataContainer();
+        $this->metadata['context'] = $context->getContextUrl($transaction);
+
+        $response = $transaction->getResponse();
+
+        return $response->setResourceCallback($this, function () use ($transaction) {
+            $this->emitJson($transaction);
+        });
     }
 }

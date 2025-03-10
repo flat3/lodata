@@ -31,7 +31,7 @@ use Illuminate\Support\Str;
  * @link https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#_Toc31358838
  * @package Flat3\Lodata
  */
-class Entity extends ComplexValue implements ResourceInterface, ResponseInterface, ContextInterface, PipeInterface
+class Entity extends ComplexValue
 {
     /**
      * The Entity ID

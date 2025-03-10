@@ -23,7 +23,7 @@ class LodataOperation
         $this->name = $name;
         $this->bind = $bind;
         if ($return) {
-            $this->return = Lodata::getEntityType($return);
+            $this->return = Lodata::getComplexType($return);
         }
     }
 
