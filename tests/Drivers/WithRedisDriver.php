@@ -16,6 +16,7 @@ trait WithRedisDriver
     {
         $this->entityId = 'alpha';
         $this->missingEntityId = 'missing';
+        $this->entitySetKey = 'key';
 
         foreach ($this->getSeed() as $key => $record) {
             // @phpstan-ignore-next-line
