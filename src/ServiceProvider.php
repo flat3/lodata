@@ -96,9 +96,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         // and register it with the container
         $this->app->instance(Model::class, $model);
 
-        // I don't get why you are doing this twice? You never load the model
-        // via app()->make('lodata.model') or app()->make(Model::class). What
-        // am I missing here?
+        // register alias
         $this->app->bind('lodata.model', function ($app) {
             return $app->make(Model::class);
         });
