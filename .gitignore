@@ -3,16 +3,7 @@ vendor/
 .phpunit.result.cache
 .phpunit.cache/test-results
 .phpdoc/
-.idea/dataSources.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/contentModel.xml
-.idea/**/dataSources.ids
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
+.idea
 *.iws
 coverage.xml
 out/
