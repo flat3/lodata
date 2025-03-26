@@ -27,6 +27,7 @@ use Flat3\Lodata\EnumerationType;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\JSON;
@@ -42,6 +43,7 @@ use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
+use Flat3\Lodata\Interfaces\EntitySet\RelationshipInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
@@ -56,6 +58,8 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
@@ -76,7 +80,7 @@ use Staudenmeir\EloquentJsonRelations\Relations\HasManyJson;
  * Eloquent Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface
+class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface, RelationshipInterface
 {
     use SQLConnection;
     use SQLOrderBy;
@@ -193,6 +197,80 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $value->getPrimitive()->toMixed(),
             );
         }, $model);
+    }
+
+    public function unlink(Entity $source, Property $property, Entity $target): Entity
+    {
+        if (get_class($source) !== $this->entityClass) {
+            throw new InternalServerErrorException(
+                'unexpected_link_source',
+                'The link source for this entity valid.'
+            );
+        }
+
+        /** @var $sourceModel Model */
+        $sourceModel = $source->getSource();
+        /** @var $targetModel Model */
+        $targetModel = $target->getSource();
+        if (!($sourceModel instanceof Model && $targetModel instanceof Model)) {
+            throw new InternalServerErrorException(
+                'can_only_link_eloquent',
+                'The link source or target is not supported for this entity set.'
+            );
+        }
+
+        $navigationRef = $this->getPropertySourceName($property);
+
+        $rel = $sourceModel->{$navigationRef}();
+        if ($rel instanceof BelongsToMany) {
+            $rel->detach($targetModel);
+        } elseif ($rel instanceof BelongsTo) {
+            $rel->dissociate();
+        } elseif ($rel instanceof HasMany) {
+            $targetModel->{$rel->getForeignKeyName()} = null;
+            $targetModel->save();
+        } else {
+            throw new NotImplementedException();
+        }
+
+        return $source;
+    }
+
+    public function link(Entity $source, Property $property, Entity $target): Entity
+    {
+        if (get_class($source) !== $this->entityClass) {
+            throw new InternalServerErrorException(
+                'unexpected_link_source',
+                'The link source for this entity valid.'
+            );
+        }
+
+        /** @var $sourceModel Model */
+        $sourceModel = $source->getSource();
+        /** @var $targetModel Model */
+        $targetModel = $target->getSource();
+        if (!($sourceModel instanceof Model && $targetModel instanceof Model)) {
+            throw new InternalServerErrorException(
+                'can_only_link_eloquent',
+                'The link source or target is not supported for this entity set.'
+            );
+        }
+
+        $navigationRef = $this->getPropertySourceName($property);
+
+        $rel = $sourceModel->{$navigationRef}();
+        if ($rel instanceof BelongsToMany) {
+            $rel->syncWithoutDetaching($targetModel);
+        } elseif ($rel instanceof BelongsTo) {
+            $rel->associate($targetModel);
+        } elseif ($rel instanceof HasMany) {
+            $targetModel->{$rel->getForeignKeyName()} = $sourceModel->{$rel->getLocalKeyName()};
+            $targetModel->save();
+        } else {
+            throw new NotImplementedException();
+        }
+
+        return $source;
     }
 
     /**
@@ -534,6 +612,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             }
 
             $navigationProperty = (new NavigationProperty($name ?? $method, $right->getType()))->setCollection(true);
+            $this->setPropertySourceName($navigationProperty, $method);
 
             if ($description) {
                 $navigationProperty->addAnnotation(new Description($description));

@@ -49,6 +49,6 @@ class Key implements PipeInterface
 
         $argument->setApplyQueryOptions(true);
 
-        return $argument->negotiateUpsert($keyValue, $transaction);
+        return $argument->negotiateUpsert($keyValue, $transaction, $nextSegment);
     }
 }

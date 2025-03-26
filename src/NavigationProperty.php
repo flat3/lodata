@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Flat3\Lodata\Controller\Request;
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
+use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
+use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\IdentifierInterface;
 use Flat3\Lodata\Transaction\NavigationRequest;
+use Illuminate\Support\Str;
 
 /**
  * Navigation Property
@@ -171,7 +177,19 @@ class NavigationProperty extends Property
         $expansionSet->setTransaction($expansionTransaction);
         $expansionSet->setNavigationSource($propertyValue);
 
-        if ($this->isCollection()) {
+        $requestedTarget = null;
+        if ($expansionSet instanceof ReadInterface && $target = $this->requestedTargetId($expansionSet, $navigationRequest, $transaction)) {
+            try {
+                $id = EntitySet::idToKeyProperty($target, $expansionSet, $transaction);
+                $requestedTarget = $expansionSet->read($id);
+            } catch (NotFoundException $e) {
+                // ignore
+            }
+        }
+
+        if ($requestedTarget) {
+            $propertyValue->setValue($requestedTarget);
+        } elseif ($this->isCollection()) {
             $propertyValue->setValue($expansionSet);
         } else {
             $expansionSingular = $expansionSet->query()->current();
@@ -181,5 +199,44 @@ class NavigationProperty extends Property
         $value->addPropertyValue($propertyValue);
 
         return $propertyValue;
+    }
+
+    protected function requestedTargetId(EntitySet $targetSet, NavigationRequest $navigationRequest, Transaction $transaction): ?string
+    {
+        if (!$targetSet instanceof ReadInterface) {
+            return null;
+        }
+
+        if ($params = $navigationRequest->getNavigationParameters()) {
+            return $params;
+        }
+
+        $qualifiedId = $transaction->getQueryParam('id');
+
+        if (!$qualifiedId && $transaction->getMethod() !== Request::METHOD_GET) {
+            try {
+                $body = $transaction->getBodyAsArray();
+            } catch (\Throwable $e) {
+                $body = [];
+            }
+            if (isset($body['@odata.id'])) {
+                $qualifiedId = $body['@odata.id'];
+            }
+        }
+
+        if (!$qualifiedId) {
+            return null;
+        }
+
+        $lexer = new Lexer(Str::after((string) $qualifiedId, ServiceProvider::route() . '/'));
+        $entity = $lexer->identifier();
+        if ($entity !== $targetSet->getName()) {
+            throw new BadRequestException(
+                'navigation_reference_invalid',
+                'Navigation reference entity type is invalid'
+            );
+        }
+
+        return $lexer->maybeMatchingParenthesis();
     }
 }

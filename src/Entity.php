@@ -18,10 +18,9 @@ use Flat3\Lodata\Helper\Gate;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\EntitySet\DeleteInterface;
+use Flat3\Lodata\Interfaces\EntitySet\RelationshipInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\PipeInterface;
-use Flat3\Lodata\Interfaces\ResourceInterface;
-use Flat3\Lodata\Interfaces\ResponseInterface;
 use Flat3\Lodata\Transaction\MetadataContainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -245,16 +244,39 @@ class Entity extends ComplexValue
      */
     public function delete(Transaction $transaction, ?ContextInterface $context = null): void
     {
-        $entitySet = $this->entitySet;
+        if ($this->parent && $this->usesReferences()) {
+            $this->deleteRelationship($transaction, $context);
+            return;
+        }
 
-        if (!$entitySet instanceof DeleteInterface) {
+        if (!$this->entitySet instanceof DeleteInterface) {
             throw new NotImplementedException('entityset_cannot_delete', 'This entity set cannot delete');
         }
 
         Gate::delete($this, $transaction)->ensure();
         $transaction->assertIfMatchHeader($this->getETag());
 
-        $entitySet->delete($this->getEntityId());
+        $this->entitySet->delete($this->getEntityId());
+    }
+
+    public function deleteRelationship(Transaction $transaction, ?ContextInterface $context = null): void
+    {
+        if (!$this->parent || !$this->usesReferences()) {
+            throw new BadRequestException();
+        }
+
+        Gate::update($this, $transaction)->ensure();
+
+        /** @var Entity $source */
+        $source = $this->parent->getParent();
+        $sourceEntitySet = $source->getEntitySet();
+
+        if ($sourceEntitySet instanceof RelationshipInterface) {
+            $sourceEntitySet->unlink($source, $this->parent->getProperty(), $this);
+            return;
+        }
+
+        throw new MethodNotAllowedException('entityset_cannot_link', 'This entity set cannot update relationships');
     }
 
     /**
@@ -297,6 +319,35 @@ class Entity extends ComplexValue
         return $entity->get($transaction, $context);
     }
 
+    public function post(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if ($this->parent && $this->usesReferences()) {
+            return $this->postRelationships($transaction, $context);
+        }
+
+        throw new MethodNotAllowedException();
+    }
+
+    public function postRelationships(Transaction $transaction, ?ContextInterface $context = null): Response
+    {
+        if (!$this->parent || !$this->usesReferences()) {
+            throw new BadRequestException();
+        }
+
+        Gate::update($this, $transaction)->ensure();
+
+        /** @var Entity $source */
+        $source = $this->parent->getParent();
+        $sourceEntitySet = $source->getEntitySet();
+
+        if ($sourceEntitySet instanceof RelationshipInterface) {
+            $sourceEntitySet->link($source, $this->parent->getProperty(), $this);
+            throw new NoContentException('success', 'Relationship was created');
+        }
+
+        throw new MethodNotAllowedException('entityset_cannot_link', 'This entity set cannot update relationships');
+    }
+
     /**
      * Read this entity
      * @param  Transaction  $transaction  Related transaction
@@ -333,6 +384,9 @@ class Entity extends ComplexValue
             case Request::METHOD_PATCH:
             case Request::METHOD_PUT:
                 return $this->patch($transaction, $context);
+
+            case Request::METHOD_POST:
+                return  $this->post($transaction, $context);
 
             case Request::METHOD_DELETE:
                 $this->delete($transaction, $context);

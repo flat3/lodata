@@ -334,6 +334,11 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             $navigationRequest = new NavigationRequest();
             $navigationRequest->setOuterRequest($transaction->getRequest());
             $navigationRequest->setNavigationProperty($property);
+
+            if ($propertyParams = $lexer->maybeMatchingParenthesis()) {
+                $navigationRequest->setNavigationParams($propertyParams);
+            }
+
             $property->generatePropertyValue($transaction, $navigationRequest, $argument);
         }
 

@@ -34,6 +34,12 @@ class NavigationRequest implements RequestInterface
     protected $basePath;
 
     /**
+     * Navigation parameters (eg. filters)
+     * @var ?string $navigationParams
+     */
+    protected $navigationParams;
+
+    /**
      * Body content
      * @var string $content
      */
@@ -42,6 +48,7 @@ class NavigationRequest implements RequestInterface
     public function __construct()
     {
         $this->request = new Request();
+        $this->navigationParams = null;
     }
 
     /**
@@ -68,6 +75,26 @@ class NavigationRequest implements RequestInterface
         $this->request->query->replace($parameters);
 
         return $this;
+    }
+
+    /**
+     * Set the navigation parameters
+     * @return $this
+     */
+    public function setNavigationParams(string $params): self
+    {
+        $this->navigationParams = $params;
+
+        return $this;
+    }
+
+    /**
+     * Get the navigation parameters
+     * @return ?string
+     */
+    public function getNavigationParameters(): ?string
+    {
+        return $this->navigationParams;
     }
 
     /**

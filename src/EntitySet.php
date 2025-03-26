@@ -42,6 +42,7 @@ use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
+use Flat3\Lodata\Interfaces\EntitySet\RelationshipInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
@@ -536,6 +537,19 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             );
         }
 
+        $keyValue = self::idToKeyProperty($id, $entitySet, $transaction);
+
+        return $entitySet->negotiateUpsert($keyValue, $transaction, $nextSegment);
+    }
+
+    /**
+     * @param  string  $id
+     * @param  EntitySet  $entitySet
+     * @param  Transaction|null  $transaction
+     * @return PropertyValue
+     */
+    public static function idToKeyProperty($id, EntitySet $entitySet, ?Transaction $transaction = null): PropertyValue
+    {
         $lexer = new Lexer($id);
 
         // Get the default key property
@@ -555,7 +569,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         if ($longFormKey && $lexer->maybeChar('=')) {
             // Test for referenced value syntax
-            if ($lexer->maybeChar('@')) {
+            if ($transaction && $lexer->maybeChar('@')) {
                 $referencedKey = $lexer->identifier();
                 $referencedValue = $transaction->getParameterAlias($referencedKey);
                 $lexer = new Lexer($referencedValue);
@@ -588,7 +602,9 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         $keyValue->setProperty($keyProperty);
 
         try {
-            $keyValue->setValue($lexer->type($keyProperty->getPrimitiveType()));
+            $prim = $keyProperty->getPrimitiveType();
+            $type = $lexer->type($prim);
+            $keyValue->setValue($type);
         } catch (LexerException $e) {
             throw (new BadRequestException(
                 'invalid_identifier_value',
@@ -597,7 +613,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             ))->lexer($lexer);
         }
 
-        return $entitySet->negotiateUpsert($keyValue, $transaction);
+        return $keyValue;
     }
 
     /**
@@ -606,7 +622,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      * @param  Transaction  $transaction  Transaction
      * @return PipeInterface
      */
-    public function negotiateUpsert(PropertyValue $entityId, Transaction $transaction): PipeInterface
+    public function negotiateUpsert(PropertyValue $entityId, Transaction $transaction, ?string $nextSegment = null): PipeInterface
     {
         $key = $this->getType()->getKey();
 
@@ -625,6 +641,13 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             ) {
                 throw $e;
             }
+        }
+
+        if ($nextSegment) {
+            throw new NotImplementedException(
+                'cannot_upsert_nested',
+                'Cannot create nested entity relationships'
+            );
         }
 
         if ($key->isComputed()) {
