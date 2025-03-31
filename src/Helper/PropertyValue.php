@@ -349,10 +349,10 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
 
         $target = $argument->getPropertyValues()->get($property);
 
-        if ($property instanceof NavigationProperty && $nextSegment === '$ref' && !($target instanceof Entity)) {
+        if ($property instanceof NavigationProperty && $nextSegment === '$ref' && !($target->getValue() instanceof Entity)) {
             throw new NotFoundException(
                 'entity_not_found',
-                'cannot create relationship with missing entity'
+                'cannot modify relationship with missing entity'
             );
         }
 

@@ -645,7 +645,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         if ($nextSegment && $nextSegment === '$ref') {
             throw new NotFoundException(
                 'entity_not_found',
-                'cannot create relationship with missing entity'
+                'cannot modify relationship with missing entity'
             );
         }
 
