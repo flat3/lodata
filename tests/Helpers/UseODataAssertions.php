@@ -22,7 +22,7 @@ trait UseODataAssertions
         }
 
         $content = $this->getResponseContent($response);
-        $this->assertEquals($code, $response->getStatusCode());
+        $this->assertEquals($code, $response->getStatusCode(), $content);
 
         if (!$content) {
             $this->assertContains($code, $emptyCodes);

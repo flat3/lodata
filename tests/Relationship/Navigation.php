@@ -77,4 +77,14 @@ abstract class Navigation extends TestCase
                 ->body([])
         );
     }
+
+    public function test_link_not_found()
+    {
+        $this->assertNotFound(
+            (new Request)
+                ->post()
+                ->path('/'.$this->entitySet.'(1)/MyPets(99)/$ref')
+                ->body([])
+        );
+    }
 }

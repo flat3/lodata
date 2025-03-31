@@ -16,6 +16,7 @@ use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\MethodNotAllowedException;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
+use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\GeneratedProperty;
 use Flat3\Lodata\Interfaces\ContextInterface;
@@ -346,7 +347,16 @@ class PropertyValue implements ContextInterface, PipeInterface, JsonInterface, R
             $property->generatePropertyValue($argument);
         }
 
-        return $argument->getPropertyValues()->get($property);
+        $target = $argument->getPropertyValues()->get($property);
+
+        if ($property instanceof NavigationProperty && $nextSegment === '$ref' && !($target instanceof Entity)) {
+            throw new NotFoundException(
+                'entity_not_found',
+                'cannot create relationship with missing entity'
+            );
+        }
+
+        return $target;
     }
 
     public function emitJson(Transaction $transaction): void

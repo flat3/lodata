@@ -42,7 +42,6 @@ use Flat3\Lodata\Interfaces\EntitySet\OrderByInterface;
 use Flat3\Lodata\Interfaces\EntitySet\PaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
-use Flat3\Lodata\Interfaces\EntitySet\RelationshipInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
 use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
@@ -643,10 +642,10 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
         }
 
-        if ($nextSegment) {
-            throw new NotImplementedException(
-                'cannot_upsert_nested',
-                'Cannot create nested entity relationships'
+        if ($nextSegment && $nextSegment === '$ref') {
+            throw new NotFoundException(
+                'entity_not_found',
+                'cannot create relationship with missing entity'
             );
         }
 
