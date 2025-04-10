@@ -314,7 +314,9 @@ class Entity extends ComplexValue
 
         $response = $transaction->getResponse();
         $transaction->assertIfMatchHeader($this->getETag());
-        $transaction->setETagHeader($this->getETag());
+        if (!$transaction->getExpand()->hasValue()) {
+            $transaction->setETagHeader($this->getETag());
+        }
 
         return $response->setResourceCallback($this, function () use ($transaction) {
             $this->emitJson($transaction);
