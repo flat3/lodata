@@ -251,11 +251,12 @@ abstract class Navigation extends TestCase
 
     public function test_expand_entity()
     {
-        $this->assertJsonResponseSnapshot(
-            (new Request)
-                ->path($this->airportEntitySetPath.'/1')
-                ->expand('flights')
-        );
+        $this
+            ->assertJsonResponseSnapshot(
+                (new Request)
+                    ->path($this->airportEntitySetPath.'/1')
+                    ->expand('flights'))
+            ->assertHeaderMissing('etag');
     }
 
     public function test_expand_hasone_entity()
