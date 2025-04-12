@@ -33,6 +33,7 @@ use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
 use Flat3\Lodata\Helper\PropertyValues;
+use Flat3\Lodata\Interfaces\AnnotationFactoryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ComputeInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CountInterface;
 use Flat3\Lodata\Interfaces\EntitySet\CreateInterface;
@@ -866,29 +867,27 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         /** @var ReflectionMethod $reflectionMethod */
-        foreach (Discovery::getReflectedMethods($this->model) as $reflectionMethod) {
-            /** @var LodataRelationship $relationshipInstance */
-            $relationshipInstance = Discovery::getFirstMethodAttributeInstance(
-                $reflectionMethod,
-                LodataRelationship::class
-            );
+        foreach (Discovery::getReflectedMethods($this->model) as $reflectionMethod)
+            foreach ($reflectionMethod->getAttributes() as $attribute) {
 
-            if (!$relationshipInstance) {
-                continue;
+                $instance = $attribute->newInstance();
+                if ($instance instanceof LodataRelationship) {
+                    $relationshipMethod = $reflectionMethod->getName();
+
+                    try {
+                        $this->discoverRelationship(
+                            $relationshipMethod,
+                            $instance->getName(),
+                            $instance->getDescription(),
+                            $instance->isNullable()
+                        );
+                    } catch (ConfigurationException $e) {
+                    }
+                }
+                else if ($instance instanceof AnnotationFactoryInterface) {
+                    $this->addAnnotation($instance->toAnnotation());
+                }
             }
-
-            $relationshipMethod = $reflectionMethod->getName();
-
-            try {
-                $this->discoverRelationship(
-                    $relationshipMethod,
-                    $relationshipInstance->getName(),
-                    $relationshipInstance->getDescription(),
-                    $relationshipInstance->isNullable()
-                );
-            } catch (ConfigurationException $e) {
-            }
-        }
 
         return $this;
     }
