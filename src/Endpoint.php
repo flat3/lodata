@@ -46,6 +46,22 @@ class Endpoint
     }
 
     /**
+     * This method is intended to be overridden by subclasses.
+     *
+     * The value of the function will be presented in the Schema Namespace attribute,
+     * https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_Schema
+     *
+     * @return string
+     */
+    public function getNamespace(): string
+    {
+        // override this function to set Schema Namespace attribute
+        return config('lodata.namespace');
+    }
+
+    /**
+     * This method is intended to be overridden by subclasses.
+     *
      * Discovers Schema and Annotations of the `$metadata` file for
      * the service.
      */
