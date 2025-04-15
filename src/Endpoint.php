@@ -21,7 +21,7 @@ class Endpoint
 
     public function __construct(string $serviceUri)
     {
-        $this->serviceUri = rtrim($serviceUri, '/');
+        $this->serviceUri = trim($serviceUri, '/');
 
         $prefix = rtrim(config('lodata.prefix'), '/');
         $this->route = ('' === $serviceUri)
