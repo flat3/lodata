@@ -20,6 +20,7 @@ use Flat3\Lodata\Drivers\SQL\SQLExpression;
 use Flat3\Lodata\Drivers\SQL\SQLOrderBy;
 use Flat3\Lodata\Drivers\SQL\SQLSchema;
 use Flat3\Lodata\Drivers\SQL\SQLWhere;
+use Flat3\Lodata\Endpoint;
 use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
@@ -115,7 +116,8 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $name = self::convertClassName($model);
         if (!$entityType) {
-            $entityType = new EntityType(EntityType::convertClassName($model));
+            $identifier = app(Endpoint::class)->getNamespace().'.'.EntityType::convertClassName($model);
+            $entityType = new EntityType($identifier);
         }
 
         parent::__construct($name, $entityType);
