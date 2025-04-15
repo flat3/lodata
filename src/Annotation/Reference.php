@@ -33,6 +33,21 @@ class Reference
      */
     protected $alias;
 
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
+
+    public function getNamespace(): string
+    {
+        return $this->namespace;
+    }
+
+    public function getAlias(): string
+    {
+        return is_null($this->alias) ? $this->namespace : $this->alias;
+    }
+
     /**
      * Append this reference to the provided XML element
      * @param  SimpleXMLElement  $schema  Schema

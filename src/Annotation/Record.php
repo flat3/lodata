@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Annotation;
 
+use Flat3\Lodata\Helper\Identifier;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Interfaces\TypeInterface;
 use Flat3\Lodata\Traits\HasComplexType;
@@ -16,4 +17,31 @@ use Flat3\Lodata\Traits\HasComplexType;
 class Record extends ObjectArray implements TypeInterface
 {
     use HasComplexType;
+
+    /**
+     * Resource identifier
+     * @var Identifier $identifier
+     */
+    protected $identifier;
+
+    /**
+     * Get the identifier
+     * @return Identifier Identifier
+     */
+    public function getIdentifier(): ?Identifier
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * Set the identifier
+     * @param  string|Identifier  $identifier  Identifier
+     * @return $this
+     */
+    public function setIdentifier($identifier): Record
+    {
+        $this->identifier = $identifier instanceof Identifier ? $identifier : new Identifier($identifier);
+
+        return $this;
+    }
 }
