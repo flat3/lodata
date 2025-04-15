@@ -14,7 +14,6 @@ use Flat3\Lodata\Helper\Filesystem;
 use Flat3\Lodata\Helper\Flysystem;
 use Flat3\Lodata\Helper\DBAL;
 use Flat3\Lodata\Helper\Symfony;
-use Illuminate\Database\ConnectionInterface;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Kernel;
@@ -51,13 +50,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $segments = explode('/', request()->path());
 
             // we only kick off operation when path prefix is configured in lodata.php
-            // as all requests share the same root configuration
+            // and bypass all other routes for performance
             if ($segments[0] === config('lodata.prefix')) {
 
                 // next look up the configured service endpoints
                 $serviceUris = config('lodata.endpoints', []);
 
-                $service = null;
                 if (0 === sizeof($serviceUris)) {
                     // when no locators are defined, fallback to global mode; this will
                     // ensure compatibility with prior versions of this package
@@ -68,10 +66,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                     $service = new $clazz($segments[1]);
                 }
                 else {
-                    // when no service definition is configured for the path segment,
-                    // we abort with an error condition; typically a dev working on
-                    // setting up his project
-                    abort('No odata service endpoint defined for path ' . $segments[1]);
+                    // when no service definition could be found for the path segment,
+                    // we assume global scope
+                    $service = new Endpoint('');
                 }
 
                 $this->bootServices($service);
@@ -86,6 +83,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         // calls with app()->make(ODataService::class)->route() or
         // app()->make(ODataService::class)->endpoint()
         $this->app->instance(Endpoint::class, $service);
+
+        $this->app->bind(DBAL::class, function (Application $app, array $args) {
+            return version_compare(InstalledVersions::getVersion('doctrine/dbal'), '4.0.0', '>=') ? new DBAL\DBAL4($args['connection']) : new DBAL\DBAL3($args['connection']);
+        });
 
         $this->loadJsonTranslationsFrom(__DIR__.'/../lang');
 
@@ -107,10 +108,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->bind(Filesystem::class, function () {
             return class_exists('League\Flysystem\Adapter\Local') ? new Flysystem\Flysystem1() : new Flysystem\Flysystem3();
-        });
-
-        $this->app->bind(DBAL::class, function (Application $app, array $args) {
-            return version_compare(InstalledVersions::getVersion('doctrine/dbal'), '4.0.0', '>=') ? new DBAL\DBAL4($args['connection']) : new DBAL\DBAL3($args['connection']);
         });
 
         $route = $service->route();
