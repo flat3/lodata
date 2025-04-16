@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Flat3\Lodata\PathSegment;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Endpoint;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Interfaces\PipeInterface;
 use Flat3\Lodata\Interfaces\ResponseInterface;
+use Flat3\Lodata\PathSegment\Metadata\CachedXML;
 use Flat3\Lodata\Transaction\MediaType;
 use Flat3\Lodata\Transaction\MediaTypes;
 use Illuminate\Http\Request;
@@ -45,6 +47,9 @@ abstract class Metadata implements PipeInterface, ResponseInterface
                 return new Metadata\JSON();
 
             default:
+                if (app(Endpoint::class)->cachedMetadataXMLPath()) {
+                    return new CachedXML();
+                }
                 return new Metadata\XML();
         }
     }
