@@ -199,7 +199,7 @@ class Model implements AnnotationInterface
      */
     public static function getNamespace(): string
     {
-        return app(Endpoint::class)->getNamespace();
+        return app(Endpoint::class)->namespace();
     }
 
     /**

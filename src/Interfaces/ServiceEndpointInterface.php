@@ -5,68 +5,33 @@ namespace Flat3\Lodata\Interfaces;
 use Flat3\Lodata\Model;
 
 /**
- * Interface for defining a modular OData service endpoint in Laravel.
+ * Interface for defining a custom OData service endpoint.
  *
- * Implementers of this interface represent individually addressable OData services.
- * Each mounted under its own URI segment and backed by a schema model.
- *
- * This enables clean separation of business domains and supports multi-endpoint
- * discovery for modular application design.
- *
- * Configuration versus Declaration
- * --------------------------------
- * The public URI segment used to expose a service is NOT determined by the
- * implementing class itself, but by the service map in `config/lodata.php`:
- *
- * ```php
- *   'endpoints' => [
- *       'users' => \App\OData\UsersEndpoint::class,
- *       'budgets' => \App\OData\BudgetsEndpoint::class,
- *   ]
- * ```
- *
- * This keeps the routing surface under application control, and avoids
- * conflicts when two modules declare the same internal segment.
- *
- * To implement an endpoint:
- *   - Extend `Flat3\Lodata\Endpoint` or implement this interface directly
- *   - Register the class in `config/lodata.php` under a unique segment key
- *   - Define the `discover()` method to expose entities via OData
+ * Implementers can use this interface to expose a specific service under a custom path,
+ * define its namespace, route behavior, and optionally provide a statically generated
+ * $metadata document.
  */
 interface ServiceEndpointInterface
 {
-    /**
-     * Returns the ServiceURI segment name for this OData endpoint.
-     *
-     * This value is used in routing and metadata resolution. It Must be globally unique.
-     *
-     * @return string The segment (path identifier) of the endpoint
-     */
-    public function serviceUri(): string;
 
     /**
-     * Returns the fully qualified URL for this OData endpoint.
+     * Returns the relative endpoint identifier within the OData service URI space.
      *
-     *  This includes the application host, port, and the configured segment,
-     *  https://<server>:<port>/<config('lodata.prefix')>/<service-uri>/,
-     *  Example: https://example.com/odata/users/
+     * This is the part that appears between the configured Lodata prefix and
+     * the `$metadata` segment, e.g.:
+     *   https://<server>:<port>/<config('lodata.prefix')>/<endpoint>/$metadata
      *
-     * This URL forms the base of the OData service space, and is used for navigation links
-     * and metadata discovery.
-     *
-     * @return string The full URL of the service endpoint
+     * @return string The relative OData endpoint path
      */
     public function endpoint(): string;
 
     /**
-     * Returns the internal Laravel route path for this OData service endpoint.
+     * Returns the full request route to this service endpoint.
      *
-     * This is the relative URI path that Laravel uses to match incoming requests,
-     * typically composed of the configured Lodata prefix and the service segment.
+     * This typically resolves to the route path used by Laravel to handle
+     * incoming requests for this specific service instance.
      *
-     * Example: "odata/users"
-     *
-     * @return string Relative route path for the endpoint
+     * @return string The full HTTP route to the endpoint
      */
     public function route(): string;
 
