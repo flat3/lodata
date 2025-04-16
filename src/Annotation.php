@@ -13,7 +13,6 @@ use Flat3\Lodata\Type\Boolean;
 use Flat3\Lodata\Type\Byte;
 use Flat3\Lodata\Type\Collection;
 use Flat3\Lodata\Type\Enum;
-use Flat3\Lodata\Type\PropertyPath;
 use Flat3\Lodata\Type\String_;
 use SimpleXMLElement;
 
@@ -58,10 +57,6 @@ class Annotation implements IdentifierInterface
 
             case $value instanceof Record:
                 $record = (object) [];
-
-                if (method_exists($value, 'getTypeName') && $value->getTypeName()) {
-                    $record->{'@type'} = $value->getTypeName();
-                }
 
                 /** @var PropertyValue $propertyValue */
                 foreach ($value as $propertyValue) {
@@ -114,10 +109,6 @@ class Annotation implements IdentifierInterface
                 $element->addAttribute('Int', $value->toUrl());
                 break;
 
-            case $value instanceof PropertyPath:
-                $element->addAttribute('PropertyPath', $value->get());
-                break;
-
             case $value instanceof String_:
                 $element->addAttribute('String', $value->get());
                 break;
@@ -156,10 +147,6 @@ class Annotation implements IdentifierInterface
     protected function appendXmlRecord(SimpleXMLElement $element, Record $record)
     {
         $recordElement = $element->addChild('Record');
-        $identifier = $record->getIdentifier();
-        if (!is_null($identifier)) {
-            $recordElement->addAttribute('Type', $identifier->getQualifiedName());
-        }
 
         /** @var PropertyValue $propertyValue */
         foreach ($record as $propertyValue) {

@@ -46,7 +46,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static ComplexType getComplexType(Identifier|string $name) Get a complex type from the model
  * @method static Singleton getSingleton(Identifier|string $name) Get a singleton from the model
  * @method static IdentifierInterface add(IdentifierInterface $item) Add a named resource or type to the model
- * @method static Model addReference(Reference $reference) Add a reference to an external CSDL document
  * @method static Model drop(Identifier|string $key) Drop a named resource or type from the model
  * @method static EntityContainer getEntityContainer() Get the entity container
  * @method static string getNamespace() Get the namespace of this model

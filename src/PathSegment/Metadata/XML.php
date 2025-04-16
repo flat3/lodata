@@ -239,14 +239,14 @@ class XML extends Metadata implements StreamInterface
                 case $resource instanceof Singleton:
                     // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530395
                     $resourceElement = $entityContainer->addChild('Singleton');
-                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getName());
+                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getResolvedName($namespace));
                     $resourceElement->addAttribute('Type', $resource->getType()->getIdentifier()->getQualifiedName());
                     break;
 
                 case $resource instanceof EntitySet:
                     // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_EntitySet
                     $resourceElement = $entityContainer->addChild('EntitySet');
-                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getName());
+                    $resourceElement->addAttribute('Name', $resource->getIdentifier()->getResolvedName($namespace));
                     $resourceElement->addAttribute(
                         'EntityType',
                         $resource->getType()->getIdentifier()->getQualifiedName()

@@ -26,11 +26,6 @@ final class Identifier
      */
     private $namespace;
 
-    /**
-     * @var string $alias
-     */
-    private $alias;
-
     public function __construct(string $identifier)
     {
         if (!Str::contains($identifier, '.')) {
@@ -43,14 +38,6 @@ final class Identifier
 
         $this->name = Str::afterLast($identifier, '.');
         $this->namespace = Str::beforeLast($identifier, '.');
-
-        // NB dirty hack to derive alias from namespace
-        if (preg_match('/\.([^.]+)\.V1$/', $this->namespace, $matches)) {
-            $this->alias = $matches[1];
-        }
-        else {
-            $this->alias = $this->namespace;
-        }
     }
 
     /**
@@ -111,7 +98,7 @@ final class Identifier
      */
     public function getQualifiedName(): string
     {
-        return $this->alias.'.'.$this->name;
+        return $this->namespace.'.'.$this->name;
     }
 
     /**
