@@ -98,9 +98,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->instance(Model::class, $model);
 
         // register alias
-        $this->app->bind('lodata.model', function ($app) {
-            return $app->make(Model::class);
-        });
+        $this->app->alias(Model::class, 'lodata.model');
 
         $this->app->bind(Response::class, function () {
             return Kernel::VERSION_ID < 60000 ? new Symfony\Response5() : new Symfony\Response6();
