@@ -100,7 +100,7 @@ abstract class Response extends StreamedResponse
         } catch (ProtocolException $e) {
             flush();
             ob_flush();
-            printf('OData-error: '.JSON::encode($e->toError()));
+            echo 'OData-error: '.JSON::encode($e->toError());
         }
 
         return $this;
