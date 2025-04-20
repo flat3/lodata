@@ -106,7 +106,7 @@ jobs:
         run: docker run --detach -p 27017:27017 mongo
       - uses: shivammathur/setup-php@v2
         with:
-          extensions: mongodb
+          extensions: mongodb-1.21.0
       - name: Composer
         run: composer update
       - name: Wait for containers
@@ -141,7 +141,7 @@ jobs:
         run: echo "GIT_COMMITTED_AT=$(git log -1 --pretty=format:%ct)" >> $GITHUB_ENV
       - uses: shivammathur/setup-php@v2
         with:
-          extensions: pdo_pgsql, mongodb
+          extensions: pdo_pgsql, mongodb-1.21.0
       - name: Containers
         run: |
           docker run --detach -p 5432:5432 -e POSTGRES_PASSWORD=my-secret-pw postgres:latest postgres -c shared_buffers=256MB -c max_connections=2000
