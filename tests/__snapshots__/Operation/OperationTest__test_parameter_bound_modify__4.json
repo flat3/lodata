@@ -288,10 +288,7 @@
         "/passengers/f1()": {
             "get": {
                 "tags": [
-                    "Service operations",
-                    "f1",
-                    "passengers",
-                    "b"
+                    "passengers"
                 ],
                 "parameters": [
                     {

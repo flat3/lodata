@@ -16,9 +16,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "add",
-                    "a",
-                    "b"
+                    "add"
                 ],
                 "parameters": [
                     {

@@ -307,8 +307,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "op2",
-                    "prefix"
+                    "op2"
                 ],
                 "parameters": [
                     {

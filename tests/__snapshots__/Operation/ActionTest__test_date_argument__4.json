@@ -289,8 +289,7 @@
             "post": {
                 "tags": [
                     "Service operations",
-                    "datev1",
-                    "dt"
+                    "datev1"
                 ],
                 "parameters": [
                     {

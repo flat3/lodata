@@ -289,8 +289,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "floatv1",
-                    "arg"
+                    "floatv1"
                 ],
                 "parameters": [
                     {

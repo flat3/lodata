@@ -289,8 +289,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "intv1",
-                    "arg"
+                    "intv1"
                 ],
                 "parameters": [
                     {

@@ -289,8 +289,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "arrayv1",
-                    "args"
+                    "arrayv1"
                 ],
                 "parameters": [
                     {

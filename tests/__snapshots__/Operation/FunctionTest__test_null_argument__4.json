@@ -289,10 +289,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "booleanv1",
-                    "a",
-                    "arg",
-                    "b"
+                    "booleanv1"
                 ],
                 "parameters": [
                     {

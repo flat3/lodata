@@ -302,31 +302,34 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
             $boundParameterName = $operation->getBindingParameterName();
             $boundParameter = $operation->getCallableArguments()[$boundParameterName] ?? null;
             $pathItemObject = (object) [];
+            $tags = [];
 
             switch (true) {
                 case null === $boundParameter:
                     $paths->{'/'.$operation->getName()} = $pathItemObject;
+                    $tags[] = __('lodata::Service operations');
+                    $tags[] = $operation->getName();
                     break;
 
                 case $boundParameter instanceof Operation\EntitySetArgument:
-                    $paths->{"/{$boundParameterName}/{$operation->getName()}()"} = $pathItemObject;
+                    $paths->{"/{$boundParameter->getName()}/{$operation->getName()}()"} = $pathItemObject;
+                    $tags[] = $boundParameter->getName();
                     break;
 
                 case $boundParameter instanceof Operation\EntityArgument:
-                    $paths->{"/{$boundParameterName}/{{$boundParameter->getType()->getKey()->getName()}}/{$operation->getName()}()"} = $pathItemObject;
+                    foreach (Lodata::getResources()->sliceByClass(EntitySet::class)->filter(function (
+                        EntitySet $entitySet
+                    ) use ($boundParameter) {
+                        return $entitySet->getType() === $boundParameter->getType();
+                    }) as $resource) {
+                        $paths->{"/{$resource->getName()}/{{$resource->getType()->getKey()->getName()}}/{$operation->getName()}()"} = $pathItemObject;
+                        $tags[] = $resource->getName();
+                    }
                     break;
             }
 
             $queryObject = (object) [];
             $pathItemObject->{$operation->isFunction() ? 'get' : 'post'} = $queryObject;
-
-            $tags = [];
-            $tags[] = __('lodata::Service operations');
-            $tags[] = $operation->getName();
-
-            if ($boundParameterName) {
-                $tags[] = $boundParameterName;
-            }
 
             $parameters = [];
 
@@ -337,8 +340,6 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
                 if ($operation->getBindingParameterName() === $argument->getName()) {
                     continue;
                 }
-
-                $tags[] = $argument->getName();
 
                 $parameters[] = [
                     'required' => !$argument->isNullable(),

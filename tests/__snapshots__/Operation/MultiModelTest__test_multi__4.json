@@ -847,8 +847,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "function1",
-                    "param"
+                    "function1"
                 ],
                 "parameters": [
                     {
@@ -886,8 +885,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "function2",
-                    "param"
+                    "function2"
                 ],
                 "parameters": [
                     {

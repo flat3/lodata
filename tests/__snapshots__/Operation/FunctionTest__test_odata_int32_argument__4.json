@@ -289,8 +289,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "op",
-                    "arg"
+                    "op"
                 ],
                 "parameters": [
                     {

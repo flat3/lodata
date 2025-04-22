@@ -1216,8 +1216,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "identity",
-                    "arg"
+                    "identity"
                 ],
                 "parameters": [
                     {
@@ -1251,12 +1250,10 @@
                 }
             }
         },
-        "/Flight/{id}/name()": {
+        "/Flights/{id}/name()": {
             "get": {
                 "tags": [
-                    "Service operations",
-                    "name",
-                    "Flight"
+                    "Flights"
                 ],
                 "parameters": [],
                 "summary": "Invoke function name",
@@ -1280,12 +1277,10 @@
                 }
             }
         },
-        "/Flight/{id}/i1()": {
+        "/Flights/{id}/i1()": {
             "get": {
                 "tags": [
-                    "Service operations",
-                    "i1",
-                    "Flight"
+                    "Flights"
                 ],
                 "parameters": [],
                 "summary": "Invoke function i1",
@@ -1313,9 +1308,7 @@
             "get": {
                 "tags": [
                     "Service operations",
-                    "add",
-                    "a",
-                    "b"
+                    "add"
                 ],
                 "parameters": [
                     {
