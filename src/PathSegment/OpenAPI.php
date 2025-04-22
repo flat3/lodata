@@ -311,6 +311,10 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
                 case $boundParameter instanceof Operation\EntitySetArgument:
                     $paths->{"/{$boundParameterName}/{$operation->getName()}()"} = $pathItemObject;
                     break;
+
+                case $boundParameter instanceof Operation\EntityArgument:
+                    $paths->{"/{$boundParameterName}/{{$boundParameter->getType()->getKey()->getName()}}/{$operation->getName()}()"} = $pathItemObject;
+                    break;
             }
 
             $queryObject = (object) [];
@@ -330,10 +334,14 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
             /** @var Operation\Argument $argument */
             foreach ($operation->getMetadataArguments() as $argument) {
+                if ($operation->getBindingParameterName() === $argument->getName()) {
+                    continue;
+                }
+
                 $tags[] = $argument->getName();
 
                 $parameters[] = [
-                    'required' => $argument->isNullable(),
+                    'required' => !$argument->isNullable(),
                     'in' => 'query',
                     'name' => $argument->getName(),
                     'schema' => $argument->getOpenAPISchema(),

@@ -294,7 +294,7 @@
                 ],
                 "parameters": [
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "args",
                         "schema": {

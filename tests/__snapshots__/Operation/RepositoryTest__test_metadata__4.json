@@ -312,7 +312,7 @@
                 ],
                 "parameters": [
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "prefix",
                         "schema": {

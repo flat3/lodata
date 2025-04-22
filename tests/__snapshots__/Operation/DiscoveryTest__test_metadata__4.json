@@ -1221,7 +1221,7 @@
                 ],
                 "parameters": [
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "arg",
                         "schema": {
@@ -1251,6 +1251,64 @@
                 }
             }
         },
+        "/Flight/{id}/name()": {
+            "get": {
+                "tags": [
+                    "Service operations",
+                    "name",
+                    "Flight"
+                ],
+                "parameters": [],
+                "summary": "Invoke function name",
+                "responses": {
+                    "200": {
+                        "description": "Invocation response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Edm.String"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
+        "/Flight/{id}/i1()": {
+            "get": {
+                "tags": [
+                    "Service operations",
+                    "i1",
+                    "Flight"
+                ],
+                "parameters": [],
+                "summary": "Invoke function i1",
+                "responses": {
+                    "200": {
+                        "description": "Invocation response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/com.example.odata.Flight"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Success"
+                    },
+                    "4XX": {
+                        "$ref": "#/components/responses/error"
+                    }
+                }
+            }
+        },
         "/add": {
             "get": {
                 "tags": [
@@ -1261,7 +1319,7 @@
                 ],
                 "parameters": [
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "a",
                         "schema": {
@@ -1273,7 +1331,7 @@
                         }
                     },
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "b",
                         "schema": {

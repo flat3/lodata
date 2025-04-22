@@ -295,7 +295,7 @@
                 ],
                 "parameters": [
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "a",
                         "schema": {
@@ -307,7 +307,7 @@
                         }
                     },
                     {
-                        "required": false,
+                        "required": true,
                         "in": "query",
                         "name": "b",
                         "schema": {
