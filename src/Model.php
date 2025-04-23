@@ -344,7 +344,7 @@ class Model implements AnnotationInterface
      */
     public function getEndpoint(): string
     {
-        return app()->make(Endpoint::class)->endpoint();
+        return app(Endpoint::class)->endpoint();
     }
 
     /**

@@ -3,7 +3,6 @@ vendor/
 .phpunit.result.cache
 .phpunit.cache/test-results
 .phpdoc/
-.idea
 .idea/dataSources.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
