@@ -409,7 +409,7 @@ class OpenAPI implements PipeInterface, ResponseInterface, JsonInterface
 
         $queryObject->tags = [__('lodata::Batch requests')];
 
-        $route = app()->make(Endpoint::class)->route();
+        $route = app(Endpoint::class)->route();
 
         $requestBody = [
             'required' => true,

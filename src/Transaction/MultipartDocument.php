@@ -163,7 +163,7 @@ class MultipartDocument
 
         list($method, $requestURI, $httpVersion) = array_pad(explode(' ', $requestLine), 3, '');
 
-        $endpoint = app()->make(Endpoint::class)->endpoint();
+        $endpoint = app(Endpoint::class)->endpoint();
         switch (true) {
             case Str::startsWith($requestURI, '/'):
                 $uri = Url::http_build_url(
