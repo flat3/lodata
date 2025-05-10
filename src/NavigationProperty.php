@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Controller\Transaction;
+use Flat3\Lodata\Drivers\CollectionEntitySet;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Helper\ObjectArray;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -168,6 +169,29 @@ class NavigationProperty extends Property
         $targetEntitySet = $binding->getTarget();
 
         $expansionSet = clone $targetEntitySet;
+
+        if ($expansionSet instanceof CollectionEntitySet) {
+            $targetConstraint = null;
+            foreach ($this->getConstraints() as $constraint) {
+                if ($this->getType()->getProperty($constraint->getReferencedProperty()->getName()) && $value->getEntitySet()->getType()->getProperty($constraint->getProperty()->getName())) {
+                    $targetConstraint = $constraint;
+                    break;
+                }
+            }
+
+            if ($targetConstraint) {
+                $foreignKey = $targetConstraint->getReferencedProperty()->getName();
+                $localKeyName = $value->getEntitySet()->getType()->getKey();
+                $localKey = $value->getPropertyValues()->get($localKeyName)->getValue();
+                $constraintInjection = $foreignKey . " eq '" . $localKey . "'";
+
+                $filterData = $expansionTransaction->getFilter()->getValue();
+                $filterData = $filterData ? "(" . $filterData . ") and " . $constraintInjection : $constraintInjection;
+
+                $expansionTransaction->getFilter()->setValue($filterData);
+            }
+        }
+
         $expansionSet->setTransaction($expansionTransaction);
         $expansionSet->setNavigationSource($propertyValue);
 
