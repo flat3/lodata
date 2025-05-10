@@ -56,6 +56,7 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
@@ -393,6 +394,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 $expansionSet->configureBuilder($builder);
             };
 
+
             $relations = array_merge(
                 $relations,
                 Collection::make($expansionSet->getRelationships())
@@ -541,24 +543,30 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             $navigationProperty->setNullable($nullable);
 
-            if ($relation instanceof HasOneOrMany || $relation instanceof BelongsTo) {
+            if ($relation instanceof HasOneOrMany || $relation instanceof BelongsTo || $relation instanceof HasManyThrough) {
                 $localProperty = null;
                 $foreignProperty = null;
 
+
                 switch (true) {
                     case $relation instanceof HasOneOrMany:
-                        $localProperty = $this->getPropertyBySourceName($relation->getLocalKeyName());
-                        $foreignProperty = $right->getPropertyBySourceName($relation->getForeignKeyName());
+                        $localProperty = $this->getPropertyBySourceName(is_array($relation->getLocalKeyName()) ? $relation->getLocalKeyName()[0] : $relation->getLocalKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName(is_array($relation->getForeignKeyName()) ? $relation->getForeignKeyName()[0] : $relation->getForeignKeyName());
                         break;
 
                     case $relation instanceof BelongsTo:
-                        $localProperty = $this->getPropertyBySourceName($relation->getForeignKeyName());
-                        $foreignProperty = $right->getPropertyBySourceName($relation->getOwnerKeyName());
+                        $localProperty = $this->getPropertyBySourceName(is_array($relation->getForeignKeyName()) ? $relation->getForeignKeyName()[0] : $relation->getForeignKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName(is_array($relation->getOwnerKeyName()) ? $relation->getOwnerKeyName()[0] : $relation->getOwnerKeyName());
+                        break;
+
+                    case $relation instanceof HasManyThrough:
+                        $localProperty = $this->getPropertyBySourceName(is_array($relation->getLocalKeyName()) ? $relation->getLocalKeyName()[0] : $relation->getLocalKeyName());
+                        $foreignProperty = $right->getPropertyBySourceName(is_array($relation->getForeignKeyName()) ? $relation->getForeignKeyName()[0] : $relation->getForeignKeyName());
                         break;
                 }
 
                 if ($localProperty && $foreignProperty) {
-                    $referentialConstraint = new ReferentialConstraint($localProperty, $foreignProperty);
+                    $referentialConstraint = new ReferentialConstraint($localProperty, $foreignProperty, $relation);
                     $navigationProperty->addConstraint($referentialConstraint);
                 }
             }

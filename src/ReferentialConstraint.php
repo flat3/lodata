@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+
 /**
  * Referential Constraint
  * @link https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530370
@@ -23,10 +25,13 @@ class ReferentialConstraint
      */
     protected $referencedProperty;
 
-    public function __construct(Property $property, Property $referenced_property)
+    private $relation;
+
+    public function __construct(Property $property, Property $referenced_property, Relation $relation = null)
     {
         $this->property = $property;
         $this->referencedProperty = $referenced_property;
+        $this->relation = $relation;
     }
 
     /**
@@ -45,6 +50,15 @@ class ReferentialConstraint
     public function getReferencedProperty(): Property
     {
         return $this->referencedProperty;
+    }
+
+    /**
+     * Get the referenced relation
+     * @return Relation|null
+     */
+    public function getRelation(): ?Relation
+    {
+        return $this->relation;
     }
 
     /**

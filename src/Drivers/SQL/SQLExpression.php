@@ -66,6 +66,7 @@ use Flat3\Lodata\NavigationBinding;
 use Flat3\Lodata\NavigationProperty;
 use Flat3\Lodata\ReferentialConstraint;
 use Flat3\Lodata\Type;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * SQL Expression, with its associated parameters
@@ -1317,16 +1318,29 @@ class SQLExpression
             $constraint = array_shift($constraints);
 
             $field = $this->entitySet->propertyToExpression($constraint->getProperty());
-            $this->pushParameters($field->getParameters());
 
-            $this->pushStatement(
-                sprintf('( %s = %s ( SELECT %s from %s WHERE',
-                    $field->getStatement(),
-                    $node instanceof Lambda\Any ? 'ANY' : 'ALL',
-                    $targetSet->propertyToExpression($constraint->getReferencedProperty())->getStatement(),
-                    $targetSet->quoteSingleIdentifier($targetSet->getTable()),
-                )
-            );
+            $relation = $constraint->getRelation();
+            if (isset($relation) && $relation instanceof HasManyThrough) {
+                $constraint->getRelation()->select($relation->getQualifiedFirstKeyName());
+                $where = preg_replace('/\s+where\s+.*$/i', '', $constraint->getRelation()->toSql());
+                $this->pushStatement(
+                    sprintf('( %s = %s ( %s WHERE',
+                        $field->getStatement(),
+                        $node instanceof Lambda\Any ? 'ANY' : 'ALL',
+                        $where,
+                    )
+                );
+            } else {
+                $this->pushParameters($field->getParameters());
+                $this->pushStatement(
+                    sprintf('( %s = %s ( SELECT %s from %s WHERE',
+                        $field->getStatement(),
+                        $node instanceof Lambda\Any ? 'ANY' : 'ALL',
+                        $targetSet->propertyToExpression($constraint->getReferencedProperty())->getStatement(),
+                        $targetSet->quoteSingleIdentifier($targetSet->getTable()),
+                    )
+                );
+            }
 
             $operatingTargetSet = clone $targetSet;
 
@@ -1334,6 +1348,7 @@ class SQLExpression
             $targetExpression = $operatingTargetSet->getSQLExpression();
             $targetExpression->evaluate($lambdaExpression);
             $parser->popEntitySet();
+
 
             $this->pushStatement($targetExpression->getStatement());
             $this->parameters = array_merge($this->parameters, $targetExpression->getParameters());
