@@ -8,9 +8,6 @@
         ],
         "cache-control": [
             "no-cache, private"
-        ],
-        "content-type": [
-            "application/json"
         ]
     },
     "status": 204

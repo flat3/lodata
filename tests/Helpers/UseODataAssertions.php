@@ -12,7 +12,7 @@ trait UseODataAssertions
 {
     protected function assertODataError(Request $request, int $code): TestResponse
     {
-        $emptyCodes = [Response::HTTP_NO_CONTENT, Response::HTTP_FOUND, Response::HTTP_NOT_MODIFIED];
+        $emptyCodes = [Response::HTTP_ACCEPTED, Response::HTTP_NO_CONTENT, Response::HTTP_FOUND, Response::HTTP_NOT_MODIFIED];
 
         try {
             $response = $this->req($request);
