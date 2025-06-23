@@ -56,9 +56,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 // next look up the configured service endpoints
                 $serviceUris = config('lodata.endpoints', []);
 
-                if (0 === sizeof($serviceUris)) {
-                    // when no locators are defined, fallback to global mode; this will
-                    // ensure compatibility with prior versions of this package
+                if (0 === sizeof($serviceUris) || count($segments) === 1) {
+                    // when no locators are defined, or the global locator ist requested,
+                    // enter global mode; this will ensure compatibility with prior
+                    // versions of this package
                     $service = new Endpoint('');
                 }
                 else if (array_key_exists($segments[1], $serviceUris)) {
