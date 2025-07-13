@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use RuntimeException;
 use Composer\InstalledVersions;
 use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
@@ -14,6 +15,7 @@ use Flat3\Lodata\Helper\Filesystem;
 use Flat3\Lodata\Helper\Flysystem;
 use Flat3\Lodata\Helper\DBAL;
 use Flat3\Lodata\Helper\Symfony;
+use Flat3\Lodata\Interfaces\ServiceEndpointInterface;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Kernel;
@@ -64,6 +66,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 }
                 else if (array_key_exists($segments[1], $serviceUris)) {
                     $clazz = $serviceUris[$segments[1]];
+                    if (!class_exists($clazz)) {
+                        throw new RuntimeException(sprintf('Endpoint class `%s` does not exist', $clazz));
+                    }
+                    if (!is_subclass_of($clazz, ServiceEndpointInterface::class)) {
+                        throw new RuntimeException(sprintf('Endpoint class `%s` must implement Flat3\\Lodata\\Interfaces\\ServiceEndpointInterface', $clazz));
+                    }
                     $service = new $clazz($segments[1]);
                 }
                 else {

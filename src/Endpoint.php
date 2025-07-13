@@ -17,11 +17,17 @@ class Endpoint implements ServiceEndpointInterface
         $this->serviceUri = trim($serviceUri, '/');
 
         $prefix = rtrim(config('lodata.prefix'), '/');
-        $this->route = ('' === $serviceUri)
+
+        $this->route = ('' === $this->serviceUri)
             ? $prefix
             : $prefix . '/' . $this->serviceUri;
 
         $this->endpoint = url($this->route) . '/';
+    }
+
+    public function serviceUri(): string
+    {
+        return $this->serviceUri;
     }
 
     public function endpoint(): string
