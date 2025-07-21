@@ -555,6 +555,17 @@ class Lexer
     }
 
     /**
+     * Maybe match whitespace
+     * @return string|null
+     */
+    public function maybeMatchingParenthesis(): ?string
+    {
+        return $this->with(function () {
+            return $this->matchingParenthesis();
+        });
+    }
+
+    /**
      * Match a string enclosed in matching parentheses
      * @return string
      * @throws LexerException
