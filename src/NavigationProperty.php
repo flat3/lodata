@@ -228,7 +228,7 @@ class NavigationProperty extends Property
             return null;
         }
 
-        $lexer = new Lexer(Str::after((string) $qualifiedId, ServiceProvider::route() . '/'));
+        $lexer = new Lexer(Str::after((string) $qualifiedId, app(Endpoint::class)->route() . '/'));
         $entity = $lexer->identifier();
         if ($entity !== $targetSet->getName()) {
             throw new BadRequestException(
