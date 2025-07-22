@@ -22,6 +22,17 @@ Accessing that endpoint in a browser or an API client such as [Postman](https://
 the [Service Document](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ServiceDocumentRequest)
 that describes the services available at this endpoint. This will show an empty array of services at the moment.
 
+### Register the Service Provider
+
+Lodata no longer registers its Laravel service provider automatically. To enable OData in your Laravel app,
+you must manually register the provider in your `bootstrap/providers.php` file:
+
+```php
+Flat3\Lodata\ServiceProvider::class,
+```
+
+> **Note:** If you're using a framework that integrates Lodata, this step may already be handled for you. In that case, you should skip registering the service provider manually.
+
 ## Step 2: Discovery
 
 The first thing we'll try is exposing the data managed by an Eloquent model.

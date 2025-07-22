@@ -9,6 +9,135 @@ By default, `flat3/lodata` exposes a **single global service endpoint**. However
 
 This is where **service endpoints** come in. They allow you to split your schema into smaller, focused units, each with its own `$metadata` document and queryable surface.
 
+## Replacing the ServiceProvider
+
+To enable multiple service endpoints you need to replace `\Flat3\Lodata\ServiceProvider` with your own implementation that inspects the request path and boots the appropriate endpoint based on your configuration.
+
+Take this sample implementation:
+
+```php
+<?php
+
+namespace App\Providers;
+
+use Composer\InstalledVersions;
+use Flat3\Lodata\Controller\Monitor;
+use Flat3\Lodata\Controller\OData;
+use Flat3\Lodata\Controller\ODCFF;
+use Flat3\Lodata\Controller\PBIDS;
+use Flat3\Lodata\Controller\Response;
+use Flat3\Lodata\Helper\Filesystem;
+use Flat3\Lodata\Helper\Flysystem;
+use Flat3\Lodata\Helper\DBAL;
+use Flat3\Lodata\Helper\Symfony;
+use Flat3\Lodata\Interfaces\ServiceEndpointInterface;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use RuntimeException;
+use Symfony\Component\HttpKernel\Kernel;
+
+class YourServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config.php', 'lodata');
+    }
+
+    public function boot()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__.'/../config.php' => config_path('lodata.php')], 'config');
+            $this->bootServices(new Endpoint(''));
+        }
+        else {
+            $segments = explode('/', request()->path());
+
+            if ($segments[0] === config('lodata.prefix')) {
+
+                $serviceUris = config('lodata.endpoints', []);
+
+                if (0 === sizeof($serviceUris) || count($segments) === 1) {
+                    $service = new Endpoint('');
+                }
+                else if (array_key_exists($segments[1], $serviceUris)) {
+                    $clazz = $serviceUris[$segments[1]];
+                    if (!class_exists($clazz)) {
+                        throw new RuntimeException(sprintf('Endpoint class `%s` does not exist', $clazz));
+                    }
+                    if (!is_subclass_of($clazz, ServiceEndpointInterface::class)) {
+                        throw new RuntimeException(sprintf('Endpoint class `%s` must implement Flat3\\Lodata\\Interfaces\\ServiceEndpointInterface', $clazz));
+                    }
+                    $service = new $clazz($segments[1]);
+                }
+                else {
+                    $service = new Endpoint('');
+                }
+
+                $this->bootServices($service);
+            }
+        }
+    }
+
+    private function bootServices(Endpoint $service): void
+    {
+        $this->app->instance(Endpoint::class, $service);
+
+        $this->app->bind(DBAL::class, function (Application $app, array $args) {
+            return version_compare(InstalledVersions::getVersion('doctrine/dbal'), '4.0.0', '>=') ? new DBAL\DBAL4($args['connection']) : new DBAL\DBAL3($args['connection']);
+        });
+
+        $this->loadJsonTranslationsFrom(__DIR__.'/../lang');
+
+        $model = $service->discover(new Model());
+        assert($model instanceof Model);
+
+        $this->app->instance(Model::class, $model);
+
+        $this->app->alias(Model::class, 'lodata.model');
+
+        $this->app->bind(Response::class, function () {
+            return Kernel::VERSION_ID < 60000 ? new Symfony\Response5() : new Symfony\Response6();
+        });
+
+        $this->app->bind(Filesystem::class, function () {
+            return class_exists('League\Flysystem\Adapter\Local') ? new Flysystem\Flysystem1() : new Flysystem\Flysystem3();
+        });
+
+        $route = $service->route();
+        $middleware = config('lodata.middleware', []);
+
+        Route::get("{$route}/_lodata/odata.pbids", [PBIDS::class, 'get']);
+        Route::get("{$route}/_lodata/{identifier}.odc", [ODCFF::class, 'get']);
+        Route::resource("{$route}/_lodata/monitor", Monitor::class);
+        Route::any("{$route}{path}", [OData::class, 'handle'])->where('path', '(.*)')->middleware($middleware);
+    }
+}
+```
+
+Register your new provider in `bootstrap/providers.php` instead of the original one.
+
+```php
+<?php
+
+return [
+    App\Providers\AppServiceProvider::class,
+    App\Providers\YourServiceProvider::class, <-- SP here
+    // more providers if needed
+];
+```
+
+And define your endpoints in `config/lodata.php`:
+
+```php
+'endpoints' => [
+    'projects' => \App\Endpoints\ProjectEndpoint::class,
+    'hr' => \App\Endpoints\HrEndpoint::class,
+],
+```
+
+This setup enables segmented endpoint support for your Laravel app, while keeping you in full control of the boot logic and route behavior.
+
 ## Defining Multiple Endpoints
 
 You can define service endpoints by registering them in your `config/lodata.php` configuration file:
