@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
-use RuntimeException;
 use Composer\InstalledVersions;
 use Flat3\Lodata\Controller\Monitor;
 use Flat3\Lodata\Controller\OData;
@@ -15,7 +14,6 @@ use Flat3\Lodata\Helper\Filesystem;
 use Flat3\Lodata\Helper\Flysystem;
 use Flat3\Lodata\Helper\DBAL;
 use Flat3\Lodata\Helper\Symfony;
-use Flat3\Lodata\Interfaces\ServiceEndpointInterface;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Kernel;
@@ -45,47 +43,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config.php' => config_path('lodata.php')], 'config');
-            $this->bootServices(new Endpoint(''));
         }
-        else {
-            // Let’s examine the request path
-            $segments = explode('/', request()->path());
-
-            // we only kick off operation when path prefix is configured in lodata.php
-            // and bypass all other routes for performance
-            if ($segments[0] === config('lodata.prefix')) {
-
-                // next look up the configured service endpoints
-                $serviceUris = config('lodata.endpoints', []);
-
-                if (0 === sizeof($serviceUris) || count($segments) === 1) {
-                    // when no locators are defined, or the global locator ist requested,
-                    // enter global mode; this will ensure compatibility with prior
-                    // versions of this package
-                    $service = new Endpoint('');
-                }
-                else if (array_key_exists($segments[1], $serviceUris)) {
-                    $clazz = $serviceUris[$segments[1]];
-                    if (!class_exists($clazz)) {
-                        throw new RuntimeException(sprintf('Endpoint class `%s` does not exist', $clazz));
-                    }
-                    if (!is_subclass_of($clazz, ServiceEndpointInterface::class)) {
-                        throw new RuntimeException(sprintf('Endpoint class `%s` must implement Flat3\\Lodata\\Interfaces\\ServiceEndpointInterface', $clazz));
-                    }
-                    $service = new $clazz($segments[1]);
-                }
-                else {
-                    // when no service definition could be found for the path segment,
-                    // we assume global scope
-                    $service = new Endpoint('');
-                }
-
-                $this->bootServices($service);
-            }
-        }
+        $this->bootServices(new Endpoint(''));
     }
 
-    private function bootServices($service): void
+    private function bootServices(Endpoint $service): void
     {
         // register the $service, which is a singleton, with the container; this allows us
         // to fulfill all old ServiceProvider::route() and ServiceProvider::endpoint()
