@@ -5,8 +5,6 @@
 <a href="https://packagist.org/packages/flat3/lodata"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/flat3/lodata"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img alt="Packagist Downloads" src="https://img.shields.io/packagist/dt/flat3/lodata"></a>
 <a href="https://packagist.org/packages/flat3/lodata"><img src="https://img.shields.io/packagist/l/flat3/lodata" alt="License"></a>
-<img alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability-percentage/flat3/lodata">
-<img alt="Code Climate coverage" src="https://img.shields.io/codeclimate/coverage/flat3/lodata">
 
 [Lodata](https://lodata.io) is an implementation of the OData v4.01 Producer protocol, designed for use with the Laravel framework.
 

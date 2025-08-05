@@ -157,10 +157,3 @@ jobs:
         env:
           COMPOSER_PROCESS_TIMEOUT: 10000
         run: composer analyse
-      - name: Report coverage
-        uses: paambaati/codeclimate-action@v9.0.0
-        env:
-          CC_TEST_REPORTER_ID: 1be98f680ca97065e8a18ad2df18e67210033bb0708b5b70e4d128b035b0cb45
-          COMPOSER_PROCESS_TIMEOUT: 10000
-        with:
-          coverageCommand: composer coverage
