@@ -24,6 +24,7 @@ use Flat3\Lodata\Entity;
 use Flat3\Lodata\EntitySet;
 use Flat3\Lodata\EntityType;
 use Flat3\Lodata\EnumerationType;
+use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ConfigurationException;
 use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
@@ -45,6 +46,7 @@ use Flat3\Lodata\Interfaces\EntitySet\QueryInterface;
 use Flat3\Lodata\Interfaces\EntitySet\ReadInterface;
 use Flat3\Lodata\Interfaces\EntitySet\RelationshipInterface;
 use Flat3\Lodata\Interfaces\EntitySet\SearchInterface;
+use Flat3\Lodata\Interfaces\EntitySet\TokenPaginationInterface;
 use Flat3\Lodata\Interfaces\EntitySet\UpdateInterface;
 use Flat3\Lodata\Interfaces\TransactionInterface;
 use Flat3\Lodata\NavigationBinding;
@@ -69,6 +71,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use JsonException;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
@@ -80,7 +83,7 @@ use Staudenmeir\EloquentJsonRelations\Relations\HasManyJson;
  * Eloquent Entity Set
  * @package Flat3\Lodata\Drivers
  */
-class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface, RelationshipInterface
+class EloquentEntitySet extends EntitySet implements CountInterface, CreateInterface, DeleteInterface, ExpandInterface, FilterInterface, OrderByInterface, PaginationInterface, QueryInterface, ReadInterface, SearchInterface, TransactionInterface, UpdateInterface, ComputeInterface, RelationshipInterface, TokenPaginationInterface
 {
     use SQLConnection;
     use SQLOrderBy;
@@ -100,6 +103,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @var int $chunkSize
      */
     public static $chunkSize = 1000;
+    protected $useTokenPagination = false;
 
     public function __construct(string $model, ?EntityType $entityType = null)
     {
@@ -398,6 +402,30 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $chunkSize = $this->getTop()->getValue();
         }
 
+        if ($this->useTokenPagination && !$this->getSkip()->hasValue() && $this->getOrderBy()->hasValue()) {
+            $result = null;
+            $results = $builder->limit($chunkSize)->get();
+
+            foreach ($results as $result) {
+                yield $this->modelToEntity($result);
+            }
+
+            $this->getSkip()->clearValue();
+            $this->getSkipToken()->clearValue();
+
+            if ($result && $results->count() === $chunkSize) {
+                $skipToken = [];
+
+                foreach ($this->getOrderBy()->getSortOrders() as $sortOrder) {
+                    $skipToken[$sortOrder[0]] = $result->getAttribute($this->getPropertySourceName($this->getType()->getProperty($sortOrder[0])));
+                }
+
+                $this->getSkipToken()->setValue(base64_encode(json_encode($skipToken)));
+            }
+
+            return;
+        }
+
         while (true) {
             $offset = (($page++ - 1) * $chunkSize) + $skipValue;
             $results = $builder->offset($offset)->limit($chunkSize)->get();
@@ -443,6 +471,49 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             }
 
             $builder->skip($this->getSkip()->getValue());
+        }
+
+        if (!$this->getSkip()->hasValue()) {
+            if (!$this->getOrderBy()->hasValue() && $this->getType()->getKey()) {
+                $this->getOrderBy()->setValue(sprintf('%s asc', $this->getType()->getKey()));
+            }
+
+            if ($this->getSkipToken()->hasValue()) {
+                $builder->where(function ($builder) {
+                    try {
+                        $skipToken = json_decode(
+                            base64_decode($this->getSkipToken()->getValue()),
+                            true,
+                            512,
+                            JSON_THROW_ON_ERROR
+                        );
+                    } catch (JsonException $e) {
+                        throw new BadRequestException('invalid_skip_token', 'Invalid skip token');
+                    }
+
+                    $orderBys = $this->getOrderBy()->getSortOrders();
+
+                    for ($outer = 0; $outer < count($orderBys); $outer++) {
+                        $builder->orWhere(function ($builder) use ($orderBys, $skipToken, $outer) {
+                            for ($inner = 0; $inner < $outer; $inner++) {
+                                $col = $orderBys[$inner][0];
+                                $builder->where(
+                                    $this->getPropertySourceName($this->getType()->getProperty($col)),
+                                    '=',
+                                    $skipToken[$col]
+                                );
+                            }
+
+                            $col = $orderBys[$outer][0];
+                            $builder->where(
+                                $this->getPropertySourceName($this->getType()->getProperty($col)),
+                                strtolower($orderBys[$outer][1]) === 'asc' ? '>' : '<',
+                                $skipToken[$col]
+                            );
+                        });
+                    }
+                });
+            }
         }
     }
 
@@ -889,6 +960,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             } catch (ConfigurationException $e) {
             }
         }
+
+        return $this;
+    }
+
+    public function useTokenPagination($use = true): self
+    {
+        $this->useTokenPagination = $use;
 
         return $this;
     }

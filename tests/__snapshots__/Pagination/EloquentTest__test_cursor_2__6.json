@@ -1,0 +1,36 @@
+{
+    "@context": "http://localhost/odata/$metadata#Pets",
+    "value": [
+        {
+            "id": 36,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 37,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 38,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 39,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 40,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        }
+    ],
+    "@count": 40
+}

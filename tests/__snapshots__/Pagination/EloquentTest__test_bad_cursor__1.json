@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "invalid_skip_token",
+        "message": "Invalid skip token",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}

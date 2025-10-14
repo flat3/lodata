@@ -1,0 +1,49 @@
+{
+    "@context": "http://localhost/odata/$metadata#Pets",
+    "value": [
+        {
+            "id": 15,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 16,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 17,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 18,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 19,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 20,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        },
+        {
+            "id": 21,
+            "passenger_id": null,
+            "name": "rocket",
+            "type": "dog"
+        }
+    ],
+    "@count": 40,
+    "@nextLink": "http://localhost/odata/Pets?%24count=true&top=7&skiptoken=eyJpZCI6MjF9"
+}

@@ -821,24 +821,22 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             $paginationParams = [];
 
             if ($top->hasValue() && ($count === null || $top->getValue() < $count)) {
-                switch (true) {
-                    case $this instanceof TokenPaginationInterface:
-                        $skipToken = $transaction->getSkipToken();
+                if ($this instanceof TokenPaginationInterface) {
+                    $skipToken = $transaction->getSkipToken();
 
-                        if ($skipToken->hasValue()) {
-                            $paginationParams[$top::param] = $top->getValue();
-                            $paginationParams[$skipToken::param] = $skipToken->getValue();
-                        }
-                        break;
+                    if ($skipToken->hasValue()) {
+                        $paginationParams[$top::param] = $top->getValue();
+                        $paginationParams[$skipToken::param] = $skipToken->getValue();
+                    }
+                }
 
-                    case $this instanceof PaginationInterface:
-                        $skip = $transaction->getSkip();
+                if ($this instanceof PaginationInterface) {
+                    $skip = $transaction->getSkip();
 
-                        if ($skip->hasValue() && ($count === null || $skip->getValue() < $count)) {
-                            $paginationParams[$top::param] = $top->getValue();
-                            $paginationParams[$skip::param] = $skip->getValue();
-                        }
-                        break;
+                    if ($skip->hasValue() && ($count === null || $skip->getValue() < $count)) {
+                        $paginationParams[$top::param] = $top->getValue();
+                        $paginationParams[$skip::param] = $skip->getValue();
+                    }
                 }
             }
 
