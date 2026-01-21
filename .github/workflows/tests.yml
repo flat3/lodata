@@ -50,21 +50,6 @@ jobs:
       - name: Composer
         run: composer update
 
-      - name: List all Docker containers (before wait)
-        run: docker ps -a
-
-      - name: Show SQL Server logs (before wait)
-        run: |
-          SQL_ID=$(docker ps --filter ancestor=mcr.microsoft.com/mssql/server --format "{{.ID}}")
-          if [ -n "$SQL_ID" ]; then
-            docker logs $SQL_ID || true
-          else
-            echo "No running SQL Server container found!"
-          fi
-
-      - name: Show netstat for port 1433
-        run: sudo netstat -tulnp | grep 1433 || true
-
       - name: Wait for containers
         run: |
           max=20
@@ -103,21 +88,6 @@ jobs:
           extensions: pdo_pgsql, mongodb-1.21.0
       - name: Composer
         run: composer update
-
-      - name: List all Docker containers (before wait)
-        run: docker ps -a
-
-      - name: Show Postgres logs (before wait)
-        run: |
-          POSTGRES_ID=$(docker ps --filter ancestor=postgres --format "{{.ID}}")
-          if [ -n "$POSTGRES_ID" ]; then
-            docker logs $POSTGRES_ID || true
-          else
-            echo "No running Postgres container found!"
-          fi
-
-      - name: Show netstat for port 5432
-        run: sudo netstat -tulnp | grep 5432 || true
 
       - name: Wait for containers
         run: |
@@ -158,21 +128,6 @@ jobs:
       - name: Composer
         run: composer update
 
-      - name: List all Docker containers (before wait)
-        run: docker ps -a
-
-      - name: Show MySQL logs (before wait)
-        run: |
-          MYSQL_ID=$(docker ps --filter ancestor=mysql --format "{{.ID}}")
-          if [ -n "$MYSQL_ID" ]; then
-            docker logs $MYSQL_ID || true
-          else
-            echo "No running MySQL container found!"
-          fi
-
-      - name: Show netstat for port 3306
-        run: sudo netstat -tulnp | grep 3306 || true
-
       - name: Wait for containers
         run: |
           max=20
@@ -211,21 +166,6 @@ jobs:
           extensions: mongodb-1.21.0
       - name: Composer
         run: composer update
-
-      - name: List all Docker containers (before wait)
-        run: docker ps -a
-
-      - name: Show Mongo logs (before wait)
-        run: |
-          MONGO_ID=$(docker ps --filter ancestor=mongo --format "{{.ID}}")
-          if [ -n "$MONGO_ID" ]; then
-            docker logs $MONGO_ID || true
-          else
-            echo "No running Mongo container found!"
-          fi
-
-      - name: Show netstat for port 27017
-        run: sudo netstat -tulnp | grep 27017 || true
 
       - name: Wait for containers
         run: |
@@ -266,21 +206,6 @@ jobs:
       - name: Start Redis
         run: docker run --detach -p 6379:6379 redis
 
-      - name: List all Docker containers (before wait)
-        run: docker ps -a
-
-      - name: Show Redis logs (before wait)
-        run: |
-          REDIS_ID=$(docker ps --filter ancestor=redis --format "{{.ID}}")
-          if [ -n "$REDIS_ID" ]; then
-            docker logs $REDIS_ID || true
-          else
-            echo "No running Redis container found!"
-          fi
-
-      - name: Show netstat for port 6379
-        run: sudo netstat -tulnp | grep 6379 || true
-
       - name: Wait for containers
         run: |
           max=20
@@ -318,6 +243,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
+          php-version: '8.4'
           extensions: pdo_pgsql, mongodb-1.21.0
 
       - name: Start Docker containers
@@ -325,32 +251,8 @@ jobs:
           docker run --detach -p 5432:5432 -e POSTGRES_PASSWORD=my-secret-pw postgres:latest postgres -c shared_buffers=256MB -c max_connections=2000
           docker run --detach -p 27017:27017 mongo
 
-      - name: List all Docker containers (before wait)
-        run: docker ps -a
-
-      - name: Show Postgres logs (before wait)
-        run: |
-          POSTGRES_ID=$(docker ps --filter ancestor=postgres --format "{{.ID}}")
-          if [ -n "$POSTGRES_ID" ]; then
-            docker logs $POSTGRES_ID || true
-          else
-            echo "No running Postgres container found!"
-          fi
-
-      - name: Show Mongo logs (before wait)
-        run: |
-          MONGO_ID=$(docker ps --filter ancestor=mongo --format "{{.ID}}")
-          if [ -n "$MONGO_ID" ]; then
-            docker logs $MONGO_ID || true
-          else
-            echo "No running Mongo container found!"
-          fi
-
       - name: Composer
         run: composer update
-
-      - name: Show netstat for port 5432
-        run: sudo netstat -tulnp | grep 5432 || true
 
       - name: Wait for Postgres
         run: |
@@ -371,9 +273,6 @@ jobs:
             echo "No running Postgres container found!"
           fi
           exit 1
-
-      - name: Show netstat for port 27017
-        run: sudo netstat -tulnp | grep 27017 || true
 
       - name: Wait for Mongo
         run: |
