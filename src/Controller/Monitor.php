@@ -54,12 +54,18 @@ class Monitor extends Controller
     /**
      * Delete the requested job
      * @param  string  $transactionId  Transaction ID
+     * @return Response Client response
      */
     public function destroy(string $transactionId)
     {
         $job = new Async();
         $job->setId($transactionId);
         $job->destroy();
+
+        $response = App::make(Response::class);
+        $response->setStatusCode(204);
+
+        return $response;
     }
 
     /**

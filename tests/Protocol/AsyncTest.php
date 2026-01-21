@@ -84,7 +84,7 @@ class AsyncTest extends TestCase
 
         $location = parse_url($acceptedResponse->headers->get('location'), PHP_URL_PATH);
 
-        $this->assertResponseSnapshot(
+        $this->assertNoContent(
             (new Request)
                 ->delete()
                 ->path($location, false)

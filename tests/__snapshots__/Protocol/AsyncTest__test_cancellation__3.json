@@ -1,11 +1,9 @@
 {
-    "headers": {
-        "content-type": [
-            "text/html; charset=UTF-8"
-        ],
-        "cache-control": [
-            "no-cache, private"
-        ]
-    },
-    "status": 200
+    "error": {
+        "code": "not_found",
+        "message": "Not found",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
 }
