@@ -49,8 +49,42 @@ jobs:
           extensions: pdo_sqlsrv, odbc, pdo_odbc, mongodb-1.21.0
       - name: Composer
         run: composer update
+
+      - name: List all Docker containers (before wait)
+        run: docker ps -a
+
+      - name: Show SQL Server logs (before wait)
+        run: |
+          SQL_ID=$(docker ps --filter ancestor=mcr.microsoft.com/mssql/server --format "{{.ID}}")
+          if [ -n "$SQL_ID" ]; then
+            docker logs $SQL_ID || true
+          else
+            echo "No running SQL Server container found!"
+          fi
+
+      - name: Show netstat for port 1433
+        run: sudo netstat -tulnp | grep 1433 || true
+
       - name: Wait for containers
-        run: until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q "SELECT 1" || false; do sleep 1; done
+        run: |
+          max=20
+          for i in $(seq 1 $max); do
+            if /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q "SELECT 1" > /dev/null 2>&1; then
+              echo "SQL Server is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::SQL Server failed to start after $max seconds"
+          docker ps -a
+          SQL_ID=$(docker ps --filter ancestor=mcr.microsoft.com/mssql/server --format "{{.ID}}")
+          if [ -n "$SQL_ID" ]; then
+            docker logs $SQL_ID || true
+          else
+            echo "No running SQL Server container found!"
+          fi
+          exit 1
+
       - name: Test
         env:
           CREATE_SNAPSHOTS: false
@@ -69,14 +103,47 @@ jobs:
           extensions: pdo_pgsql, mongodb-1.21.0
       - name: Composer
         run: composer update
+
+      - name: List all Docker containers (before wait)
+        run: docker ps -a
+
+      - name: Show Postgres logs (before wait)
+        run: |
+          POSTGRES_ID=$(docker ps --filter ancestor=postgres --format "{{.ID}}")
+          if [ -n "$POSTGRES_ID" ]; then
+            docker logs $POSTGRES_ID || true
+          else
+            echo "No running Postgres container found!"
+          fi
+
+      - name: Show netstat for port 5432
+        run: sudo netstat -tulnp | grep 5432 || true
+
       - name: Wait for containers
-        run: until pg_isready -q -d postgres -U postgres -h localhost; do sleep 1; done
+        run: |
+          max=20
+          for i in $(seq 1 $max); do
+            if pg_isready -q -d postgres -U postgres -h localhost; then
+              echo "Postgres is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Postgres failed to start after $max seconds"
+          docker ps -a
+          POSTGRES_ID=$(docker ps --filter ancestor=postgres --format "{{.ID}}")
+          if [ -n "$POSTGRES_ID" ]; then
+            docker logs $POSTGRES_ID || true
+          else
+            echo "No running Postgres container found!"
+          fi
+          exit 1
+
       - name: Test
         env:
           CREATE_SNAPSHOTS: false
           DATABASE_URL: pgsql://postgres:my-secret-pw@localhost:5432/postgres?charset=utf8
-        run:
-          composer test -- --group sql --group eloquent
+        run: composer test -- --group sql --group eloquent
 
   mysql:
     runs-on: ubuntu-22.04
@@ -90,8 +157,42 @@ jobs:
           extensions: pdo_mysql, mongodb-1.21.0
       - name: Composer
         run: composer update
+
+      - name: List all Docker containers (before wait)
+        run: docker ps -a
+
+      - name: Show MySQL logs (before wait)
+        run: |
+          MYSQL_ID=$(docker ps --filter ancestor=mysql --format "{{.ID}}")
+          if [ -n "$MYSQL_ID" ]; then
+            docker logs $MYSQL_ID || true
+          else
+            echo "No running MySQL container found!"
+          fi
+
+      - name: Show netstat for port 3306
+        run: sudo netstat -tulnp | grep 3306 || true
+
       - name: Wait for containers
-        run: until mysqladmin ping -h 127.0.0.1 --password=my-secret-pw; do sleep 1; done
+        run: |
+          max=20
+          for i in $(seq 1 $max); do
+            if mysqladmin ping -h 127.0.0.1 --password=my-secret-pw > /dev/null 2>&1; then
+              echo "MySQL is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::MySQL failed to start after $max seconds"
+          docker ps -a
+          MYSQL_ID=$(docker ps --filter ancestor=mysql --format "{{.ID}}")
+          if [ -n "$MYSQL_ID" ]; then
+            docker logs $MYSQL_ID || true
+          else
+            echo "No running MySQL container found!"
+          fi
+          exit 1
+
       - name: Test
         env:
           CREATE_SNAPSHOTS: false
@@ -110,8 +211,42 @@ jobs:
           extensions: mongodb-1.21.0
       - name: Composer
         run: composer update
+
+      - name: List all Docker containers (before wait)
+        run: docker ps -a
+
+      - name: Show Mongo logs (before wait)
+        run: |
+          MONGO_ID=$(docker ps --filter ancestor=mongo --format "{{.ID}}")
+          if [ -n "$MONGO_ID" ]; then
+            docker logs $MONGO_ID || true
+          else
+            echo "No running Mongo container found!"
+          fi
+
+      - name: Show netstat for port 27017
+        run: sudo netstat -tulnp | grep 27017 || true
+
       - name: Wait for containers
-        run: until curl --silent localhost:27017 2>&1 > /dev/null || false; do sleep 1; done
+        run: |
+          max=20
+          for i in $(seq 1 $max); do
+            if nc -z localhost 27017; then
+              echo "Mongo is ready              echo "Mongo is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Mongo failed to start after $max seconds"
+          docker ps -a
+          MONGO_ID=$(docker ps --filter ancestor=mongo --format "{{.ID}}")
+          if [ -n "$MONGO_ID" ]; then
+            docker logs $MONGO_ID || true
+          else
+            echo "No running Mongo container found!"
+          fi
+          exit 1
+
       - name: Test
         env:
           CREATE_SNAPSHOTS: false
@@ -127,6 +262,45 @@ jobs:
           extensions: redis, mongodb-1.21.0
       - name: Composer
         run: composer update
+
+      - name: Start Redis
+        run: docker run --detach -p 6379:6379 redis
+
+      - name: List all Docker containers (before wait)
+        run: docker ps -a
+
+      - name: Show Redis logs (before wait)
+        run: |
+          REDIS_ID=$(docker ps --filter ancestor=redis --format "{{.ID}}")
+          if [ -n "$REDIS_ID" ]; then
+            docker logs $REDIS_ID || true
+          else
+            echo "No running Redis container found!"
+          fi
+
+      - name: Show netstat for port 6379
+        run: sudo netstat -tulnp | grep 6379 || true
+
+      - name: Wait for containers
+        run: |
+          max=20
+          for i in $(seq 1 $max); do
+            if nc -z localhost 6379; then
+              echo "Redis is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Redis failed to start after $max seconds"
+          docker ps -a
+          REDIS_ID=$(docker ps --filter ancestor=redis --format "{{.ID}}")
+          if [ -n "$REDIS_ID" ]; then
+            docker logs $REDIS_ID || true
+          else
+            echo "No running Redis container found!"
+          fi
+          exit 1
+
       - name: Test
         env:
           CREATE_SNAPSHOTS: false
@@ -138,21 +312,89 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Get git commited-at
         run: echo "GIT_COMMITTED_AT=$(git log -1 --pretty=format:%ct)" >> $GITHUB_ENV
+
       - uses: shivammathur/setup-php@v2
         with:
           extensions: pdo_pgsql, mongodb-1.21.0
-      - name: Containers
+
+      - name: Start Docker containers
         run: |
           docker run --detach -p 5432:5432 -e POSTGRES_PASSWORD=my-secret-pw postgres:latest postgres -c shared_buffers=256MB -c max_connections=2000
           docker run --detach -p 27017:27017 mongo
+
+      - name: List all Docker containers (before wait)
+        run: docker ps -a
+
+      - name: Show Postgres logs (before wait)
+        run: |
+          POSTGRES_ID=$(docker ps --filter ancestor=postgres --format "{{.ID}}")
+          if [ -n "$POSTGRES_ID" ]; then
+            docker logs $POSTGRES_ID || true
+          else
+            echo "No running Postgres container found!"
+          fi
+
+      - name: Show Mongo logs (before wait)
+        run: |
+          MONGO_ID=$(docker ps --filter ancestor=mongo --format "{{.ID}}")
+          if [ -n "$MONGO_ID" ]; then
+            docker logs $MONGO_ID || true
+          else
+            echo "No running Mongo container found!"
+          fi
+
       - name: Composer
         run: composer update
-      - name: Wait for containers
+
+      - name: Show netstat for port 5432
+        run: sudo netstat -tulnp | grep 5432 || true
+
+      - name: Wait for Postgres
         run: |
-          until pg_isready -q -d postgres -U postgres -h localhost; do sleep 1; done
-          until curl --silent localhost:27017 2>&1 > /dev/null || false; do sleep 1; done
+          max=20
+          for i in $(seq 1 $max); do
+            if pg_isready -q -d postgres -U postgres -h localhost; then
+              echo "Postgres is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Postgres failed to start after $max seconds"
+          docker ps -a
+          POSTGRES_ID=$(docker ps --filter ancestor=postgres --format "{{.ID}}")
+          if [ -n "$POSTGRES_ID" ]; then
+            docker logs $POSTGRES_ID || true
+          else
+            echo "No running Postgres container found!"
+          fi
+          exit 1
+
+      - name: Show netstat for port 27017
+        run: sudo netstat -tulnp | grep 27017 || true
+
+      - name: Wait for Mongo
+        run: |
+          max=20
+          for i in $(seq 1 $max); do
+            if nc -z localhost 27017; then
+              echo "Mongo is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Mongo failed to start after $max seconds"
+          docker ps -a
+          MONGO_ID=$(docker ps --filter ancestor=mongo --format "{{.ID}}")
+          if [ -n "$MONGO_ID" ]; then
+            docker logs $MONGO_ID || true
+          else
+            echo "No running Mongo container found!"
+          fi
+          exit 1
+
       - name: Analyze
         env:
           COMPOSER_PROCESS_TIMEOUT: 10000
