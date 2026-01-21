@@ -232,7 +232,7 @@ jobs:
           max=20
           for i in $(seq 1 $max); do
             if nc -z localhost 27017; then
-              echo "Mongo is ready              echo "Mongo is ready!"
+              echo "Mongo is ready!"
               exit 0
             fi
             sleep 1
