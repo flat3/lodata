@@ -155,7 +155,13 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function getTable(): string
     {
-        return $this->getModel()->getTable();
+        $modelConnection = $this->getConnection();
+        $prefix = "";
+        if (method_exists($modelConnection, 'getTablePrefix')) {
+            $prefix = $modelConnection->getTablePrefix();
+        }
+
+        return $prefix . $this->getModel()->getTable();
     }
 
     /**
