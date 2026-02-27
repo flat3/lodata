@@ -435,6 +435,30 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $orderby = $this->generateOrderBy();
 
+        // Add LEFT JOINs for navigation properties referenced in $orderby
+        if (!empty($this->orderByNavigationJoins)) {
+            // Qualify SELECT columns to avoid ambiguity with joined tables
+            $builder->select($this->getTable().'.*');
+
+            foreach ($this->orderByNavigationJoins as $joinInfo) {
+                $navigationProperty = $joinInfo['navigationProperty'];
+                $binding = $joinInfo['binding'];
+                $targetSet = $binding->getTarget();
+
+                $constraints = $navigationProperty->getConstraints();
+                foreach ($constraints as $constraint) {
+                    $localColumn = $this->getModel()->qualifyColumn(
+                        $this->getPropertySourceName($constraint->getProperty())
+                    );
+                    $targetTable = $targetSet->getTable();
+                    $targetColumn = $targetTable . '.' .
+                        $targetSet->getPropertySourceName($constraint->getReferencedProperty());
+
+                    $builder->leftJoin($targetTable, $localColumn, '=', $targetColumn);
+                }
+            }
+        }
+
         if ($orderby->hasStatement()) {
             $builder->orderByRaw($orderby->getStatement(), $orderby->getParameters());
         }

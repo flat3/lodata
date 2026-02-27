@@ -1123,10 +1123,70 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             return $sort[0];
         }, $orderby->getSortOrders());
 
-        if ($diff = array_diff($sortProperties, $keys)) {
+        $invalidProperties = [];
+
+        foreach ($sortProperties as $propertyName) {
+            // Direct property — already valid
+            if (in_array($propertyName, $keys)) {
+                continue;
+            }
+
+            // Check for navigation property path (e.g., "Status/SortOrder")
+            if (str_contains($propertyName, '/')) {
+                $segments = explode('/', $propertyName);
+
+                if (count($segments) !== 2) {
+                    $invalidProperties[] = $propertyName;
+                    continue;
+                }
+
+                [$navPropertyName, $targetPropertyName] = $segments;
+
+                $navigationProperty = $this->getType()->getNavigationProperties()->get($navPropertyName);
+
+                if (!$navigationProperty) {
+                    $invalidProperties[] = $propertyName;
+                    continue;
+                }
+
+                if ($navigationProperty->isCollection()) {
+                    throw new BadRequestException(
+                        'invalid_orderby_collection_navigation',
+                        sprintf(
+                            'Cannot order by collection navigation property (%s)',
+                            $navPropertyName
+                        )
+                    );
+                }
+
+                $binding = $this->getBindingByNavigationProperty($navigationProperty);
+                if (!$binding) {
+                    $invalidProperties[] = $propertyName;
+                    continue;
+                }
+
+                $targetType = $binding->getTarget()->getType();
+                $targetProperty = $targetType->getProperty($targetPropertyName);
+
+                if (!$targetProperty) {
+                    $invalidProperties[] = $propertyName;
+                    continue;
+                }
+
+                // Valid navigation property path
+                continue;
+            }
+
+            $invalidProperties[] = $propertyName;
+        }
+
+        if ($invalidProperties) {
             throw new BadRequestException(
                 'invalid_sort_property',
-                sprintf('The orderby parameter specified properties (%s) that did not exist', join(',', $diff))
+                sprintf(
+                    'The orderby parameter specified properties (%s) that did not exist',
+                    join(',', $invalidProperties)
+                )
             );
         }
     }
