@@ -749,7 +749,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $this->modelInstance = App::make($this->model);
         }
 
-        return $this->modelInstance;
+        return clone $this->modelInstance;
     }
 
     /**
