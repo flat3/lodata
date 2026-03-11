@@ -86,6 +86,9 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     use SQLOrderBy;
     use SQLSchema {
         columnToDeclaredProperty as protected schemaColumnToDeclaredProperty;
+        buildPropertyDescriptors as protected schemaBuildPropertyDescriptors;
+        resolveType as protected schemaResolveType;
+        discoverProperties as protected schemaDiscoverProperties;
     }
     use SQLWhere;
 
@@ -756,7 +759,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     protected function buildPropertyDescriptors(): array
     {
-        $result = parent::buildPropertyDescriptors();
+        $result = $this->schemaBuildPropertyDescriptors();
         $model = $this->getModel();
 
         $hidden = $model->getHidden();
@@ -780,6 +783,15 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $keyName = $result['key']['source_name'] ?? $result['key']['name'];
             if (in_array($keyName, $hidden) || ($visible && !in_array($keyName, $visible))) {
                 $result['key'] = null;
+            } else {
+                // Apply Eloquent cast to primary key if applicable
+                if (array_key_exists($keyName, $casts)) {
+                    $cast = $casts[$keyName];
+                    $castType = $this->castToTypeName($cast);
+                    if ($castType !== null) {
+                        $result['key']['type'] = $castType;
+                    }
+                }
             }
         }
 
@@ -923,7 +935,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                 return Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
 
             default:
-                return parent::resolveType($typeName);
+                return $this->schemaResolveType($typeName);
         }
     }
 

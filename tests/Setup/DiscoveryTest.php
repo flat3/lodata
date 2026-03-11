@@ -61,9 +61,12 @@ class DiscoveryTest extends TestCase
         ]);
 
         Lodata::discoverEloquentModel(Airport::class);
-        $table = Cache::store('redis')->get('lodata.discovery.sql.testing.airports');
-        $this->assertInstanceOf(Table::class, $table);
-        $this->assertEquals(-2, Cache::store('redis')->getRedis()->ttl('lodata.discovery.sql.testing.airports'));
+        $cacheKey = 'lodata.discovery.sql.properties.testing.airports.' . str_replace('\\', '.', Airport::class);
+        $cached = Cache::store('redis')->get($cacheKey);
+        $this->assertIsArray($cached);
+        $this->assertArrayHasKey('key', $cached);
+        $this->assertArrayHasKey('properties', $cached);
+        $this->assertEquals(-2, Cache::store('redis')->getRedis()->ttl($cacheKey));
     }
 
     public function test_default_config()
