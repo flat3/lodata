@@ -86,6 +86,9 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
     use SQLOrderBy;
     use SQLSchema {
         columnToDeclaredProperty as protected schemaColumnToDeclaredProperty;
+        buildPropertyDescriptors as protected schemaBuildPropertyDescriptors;
+        resolveType as protected schemaResolveType;
+        discoverProperties as protected schemaDiscoverProperties;
     }
     use SQLWhere;
 
@@ -94,6 +97,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      * @var Model|Builder $model
      */
     protected $model;
+
+    /**
+     * Cached model instance to avoid repeated App::make() calls
+     * @var Model|null $modelInstance
+     */
+    protected ?Model $modelInstance = null;
 
     /**
      * Chunk size used for internal pagination
@@ -736,7 +745,198 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     public function getModel(): Model
     {
-        return App::make($this->model);
+        if ($this->modelInstance === null) {
+            $this->modelInstance = App::make($this->model);
+        }
+
+        return clone $this->modelInstance;
+    }
+
+    /**
+     * Override to incorporate Eloquent-specific logic (hidden/visible, casts)
+     * into the cached property descriptors.
+     * @return array
+     */
+    protected function buildPropertyDescriptors(): array
+    {
+        $result = $this->schemaBuildPropertyDescriptors();
+        $model = $this->getModel();
+
+        $hidden = $model->getHidden();
+        $visible = $model->getVisible();
+        $casts = $model->getCasts();
+
+        // Filter properties based on hidden/visible
+        $result['properties'] = array_values(array_filter($result['properties'], function ($propDesc) use ($hidden, $visible) {
+            $name = $propDesc['source_name'] ?? $propDesc['name'];
+            if (in_array($name, $hidden)) {
+                return false;
+            }
+            if ($visible && !in_array($name, $visible)) {
+                return false;
+            }
+            return true;
+        }));
+
+        // Also filter key if hidden
+        if ($result['key']) {
+            $keyName = $result['key']['source_name'] ?? $result['key']['name'];
+            if (in_array($keyName, $hidden) || ($visible && !in_array($keyName, $visible))) {
+                $result['key'] = null;
+            } else {
+                // Apply Eloquent cast to primary key if applicable
+                if (array_key_exists($keyName, $casts)) {
+                    $cast = $casts[$keyName];
+                    $castType = $this->castToTypeName($cast);
+                    if ($castType !== null) {
+                        $result['key']['type'] = $castType;
+                    }
+                }
+            }
+        }
+
+        // Apply Eloquent cast type overrides and model default values
+        foreach ($result['properties'] as &$propDesc) {
+            $columnName = $propDesc['source_name'] ?? $propDesc['name'];
+
+            // Check for model default values
+            $defaultValue = $model->getAttributeValue($columnName);
+            if ($defaultValue) {
+                $propDesc['model_default'] = $defaultValue;
+            }
+
+            // Apply Eloquent cast type override
+            if (array_key_exists($columnName, $casts)) {
+                $cast = $casts[$columnName];
+                $castType = $this->castToTypeName($cast);
+                if ($castType !== null) {
+                    $propDesc['type'] = $castType;
+                }
+            }
+        }
+        unset($propDesc);
+
+        return $result;
+    }
+
+    /**
+     * Override to handle Eloquent-specific property hydration from cached descriptors.
+     * @return $this
+     */
+    public function discoverProperties()
+    {
+        $cacheKey = sprintf("sql.properties.%s.%s.%s",
+            $this->getConnection()->getName(),
+            $this->getTable(),
+            str_replace('\\', '.', $this->model)
+        );
+
+        $propertyDescriptors = (new Discovery)->remember($cacheKey, function () {
+            return $this->buildPropertyDescriptors();
+        });
+
+        $type = $this->getType();
+
+        // Hydrate key
+        if (isset($propertyDescriptors['key'])) {
+            $keyDesc = $propertyDescriptors['key'];
+            $key = new DeclaredProperty($keyDesc['name'], $this->resolveType($keyDesc['type']));
+            if ($keyDesc['computed']) {
+                $key->addAnnotation(new Computed);
+            }
+            $type->setKey($key);
+        }
+
+        // Hydrate properties with Eloquent-specific data
+        foreach ($propertyDescriptors['properties'] as $propDesc) {
+            $property = new DeclaredProperty($propDesc['name'], $this->resolveType($propDesc['type']));
+            $property->setNullable($propDesc['nullable']);
+
+            // Model default value (from Eloquent model)
+            if (isset($propDesc['model_default'])) {
+                $property->addAnnotation(new Computed);
+                $property->setDefaultValue($propDesc['model_default']);
+            }
+
+            if ($propDesc['has_default']) {
+                $property->addAnnotation(new \Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue);
+                if ($propDesc['default_value'] !== null) {
+                    $property->setDefaultValue($propDesc['default_value']);
+                }
+                if ($propDesc['default_is_carbon_now'] ?? false) {
+                    $property->setDefaultValue([\Carbon\Carbon::class, 'now']);
+                }
+            }
+
+            if (isset($propDesc['source_name'])) {
+                $this->setPropertySourceName($property, $propDesc['source_name']);
+            }
+
+            $type->addProperty($property);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Map an Eloquent cast name to an OData type name string.
+     * @param string $cast
+     * @return string|null Type name or null to keep the column's DBAL-derived type
+     */
+    protected function castToTypeName(string $cast): ?string
+    {
+        switch (true) {
+            case 'boolean' === $cast:
+                return 'boolean';
+            case 'array' === $cast:
+                return 'collection_string';
+            case EnumerationType::isEnum($cast):
+                return 'enum:' . $cast;
+            case in_array($cast, ['date', 'datetime:Y-m-d']) || Str::startsWith($cast, 'date:'):
+                return 'date';
+            case in_array($cast, ['decimal', 'float', 'real']):
+                return 'decimal';
+            case 'double' === $cast:
+                return 'double';
+            case in_array($cast, ['int', 'integer']):
+                return PHP_INT_SIZE === 8 ? 'int64_or_uint64' : 'int32_or_uint32';
+            case in_array($cast, ['datetime:H:i:s', 'timestamp']):
+                return 'timeofday';
+            case 'datetime' === $cast || Str::startsWith($cast, 'datetime:'):
+                return 'datetimeoffset';
+            default:
+                return null; // Keep DBAL-derived type
+        }
+    }
+
+    /**
+     * Override to handle Eloquent-specific cached type names.
+     * @param string $typeName
+     * @return Type
+     */
+    protected function resolveType(string $typeName): Type
+    {
+        // Handle Eloquent-specific type names from castToTypeName()
+        switch (true) {
+            case $typeName === 'collection_string':
+                return Type::collection(Type::string());
+
+            case $typeName === 'double':
+                return Type::double();
+
+            case Str::startsWith($typeName, 'enum:'):
+                $enumClass = Str::after($typeName, 'enum:');
+                return EnumerationType::discover($enumClass);
+
+            case $typeName === 'int64_or_uint64':
+                return Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
+
+            case $typeName === 'int32_or_uint32':
+                return Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
+
+            default:
+                return $this->schemaResolveType($typeName);
+        }
     }
 
     /**

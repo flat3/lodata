@@ -14,6 +14,12 @@ use PDO;
 trait SQLConnection
 {
     /**
+     * Cached DBAL instance to avoid recreating DoctrineConnection per call
+     * @var DBAL|null $dbalInstance
+     */
+    private ?DBAL $dbalInstance = null;
+
+    /**
      * Get a database handle
      * @return PDO Handle
      */
@@ -61,6 +67,10 @@ trait SQLConnection
      */
     public function getDatabase(): DBAL
     {
-        return app(DBAL::class, ['connection' => $this->getConnection()]);
+        if ($this->dbalInstance === null) {
+            $this->dbalInstance = app(DBAL::class, ['connection' => $this->getConnection()]);
+        }
+
+        return $this->dbalInstance;
     }
 }
