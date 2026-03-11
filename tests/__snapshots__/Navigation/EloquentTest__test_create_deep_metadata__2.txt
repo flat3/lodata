@@ -1,0 +1,48 @@
+@@ @@
+             "destination": "lax",
+             "gate": null,
+             "duration": 2133
++        },
++        {
++            "id": 4,
++            "origin": "lhr",
++            "destination": "sfo",
++            "gate": null,
++            "duration": null
+         }
+     ],
+     "passengers": [
+@@ @@
+             "colour": null,
+             "sock_colours": null,
+             "emails": null
++        },
++        {
++            "id": 6,
++            "flight_id": 4,
++            "name": "Bob",
++            "dob": null,
++            "age": null,
++            "chips": null,
++            "dq": null,
++            "in_role": null,
++            "open_time": null,
++            "colour": null,
++            "sock_colours": null,
++            "emails": null
+         }
+     ],
+     "pets": [
+@@ @@
+             "passenger_id": null,
+             "name": "Dog",
+             "type": null
++        },
++        {
++            "id": 6,
++            "passenger_id": 6,
++            "name": "Sparkles",
++            "type": "dog"
+         }
+     ]
+ }
