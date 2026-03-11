@@ -99,17 +99,23 @@ trait SQLSchema
 
             if ($column->getDefault()) {
                 $property->addAnnotation(new ComputedDefaultValue);
+                $default = $column->getDefault();
 
                 switch (true) {
-                    case $column->getDefault() === $platform->getCurrentTimestampSQL():
+                    // DBAL 4.x returns DefaultExpression objects instead of strings
+                    case !is_string($default):
                         $property->setDefaultValue([Carbon::class, 'now']);
                         break;
 
-                    case $platform->getReservedKeywordsList()->isKeyword($column->getDefault()):
+                    case $default === $platform->getCurrentTimestampSQL():
+                        $property->setDefaultValue([Carbon::class, 'now']);
+                        break;
+
+                    case $platform->getReservedKeywordsList()->isKeyword($default):
                         break;
 
                     default:
-                        $property->setDefaultValue($column->getDefault());
+                        $property->setDefaultValue($default);
                         break;
                 }
             }
