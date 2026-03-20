@@ -8,10 +8,12 @@ use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type\Int32;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group sql
  */
+#[Group('sql')]
 class BatchMultipartTest extends TestCase
 {
     use WithSQLDriver;

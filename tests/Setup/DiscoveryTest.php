@@ -12,6 +12,7 @@ use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Pet;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\Group;
 
 class DiscoveryTest extends TestCase
 {
@@ -85,6 +86,7 @@ class DiscoveryTest extends TestCase
     /**
      * @group mongo
      */
+    #[Group('mongo')]
     public function test_mongo_collection()
     {
         Lodata::discover((new \MongoDB\Client)->test->passengers);

@@ -6,10 +6,12 @@ namespace Flat3\Lodata\Tests\Entity;
 
 use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group filesystem
  */
+#[Group('filesystem')]
 class FilesystemTest extends Entity
 {
     use WithFilesystemDriver;

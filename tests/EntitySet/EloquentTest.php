@@ -10,10 +10,12 @@ use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Illuminate\Database\Eloquent\Builder;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group eloquent
  */
+#[Group('eloquent')]
 class EloquentTest extends EntitySet
 {
     use WithEloquentDriver;

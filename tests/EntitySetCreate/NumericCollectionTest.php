@@ -7,10 +7,12 @@ namespace Flat3\Lodata\Tests\EntitySetCreate;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Tests\Drivers\WithNumericCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group numeric-collection
  */
+#[Group('numeric-collection')]
 class NumericCollectionTest extends EntitySetCreate
 {
     use WithNumericCollectionDriver;

@@ -9,10 +9,12 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Facades\Lodata;
 use Flat3\Lodata\Tests\Drivers\WithKeyedCollectionDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group keyed-collection
  */
+#[Group('keyed-collection')]
 class KeyedCollectionTest extends EntitySetCreate
 {
     use WithKeyedCollectionDriver;

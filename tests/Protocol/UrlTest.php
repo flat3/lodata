@@ -7,10 +7,12 @@ use Flat3\Lodata\Tests\Drivers\WithSQLDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group sql
  */
+#[Group('sql')]
 class UrlTest extends TestCase
 {
     use WithSQLDriver;

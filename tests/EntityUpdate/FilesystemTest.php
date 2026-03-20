@@ -7,10 +7,12 @@ namespace Flat3\Lodata\Tests\EntityUpdate;
 use Flat3\Lodata\Tests\Drivers\WithFilesystemDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @group filesystem
  */
+#[Group('filesystem')]
 class FilesystemTest extends TestCase
 {
     use WithFilesystemDriver;
