@@ -33,6 +33,7 @@ use Flat3\Lodata\Type\TimeOfDay;
 use Flat3\Lodata\Type\UInt16;
 use Flat3\Lodata\Type\UInt32;
 use Flat3\Lodata\Type\UInt64;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @requires PHP >= 8.0
@@ -209,6 +210,7 @@ class AttributeDiscoveryTest extends TestCase
     /**
      * @dataProvider attributes
      */
+    #[DataProvider('attributes')]
     public function test_attributes($name, $type, $key = null, $source = null, $extra = [])
     {
         $entitySet = Lodata::getEntitySet('Alternative');

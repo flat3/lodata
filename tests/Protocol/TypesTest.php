@@ -4,6 +4,7 @@ namespace Flat3\Lodata\Tests\Protocol;
 
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Type;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TypesTest extends TestCase
 {
@@ -355,6 +356,7 @@ class TypesTest extends TestCase
     /**
      * @dataProvider typeProvider
      */
+    #[DataProvider('typeProvider')]
     public function test_types(string $type, array $toUrl, array $toJson)
     {
         foreach (['toUrl', 'toJson'] as $method) {

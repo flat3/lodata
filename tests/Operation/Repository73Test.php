@@ -10,10 +10,12 @@ use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Laravel\Models\Airport;
 use Flat3\Lodata\Tests\Laravel\Models\Repository as RepositoryModel;
 use Flat3\Lodata\Tests\TestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 
 /**
  * @requires PHP < 7.4
  */
+#[RequiresPhp("7.4")]
 class Repository73Test extends TestCase
 {
     public function setUp(): void

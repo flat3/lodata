@@ -7,6 +7,7 @@ namespace Flat3\Lodata\Tests\Parser;
 use Flat3\Lodata\Exception\Internal\LexerException;
 use Flat3\Lodata\Expression\Lexer;
 use Flat3\Lodata\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LexerTest extends TestCase
 {
@@ -36,6 +37,7 @@ class LexerTest extends TestCase
     /**
      * @dataProvider durations
      */
+    #[DataProvider('durations')]
     public function test_duration($duration)
     {
         $this->expectNotToPerformAssertions();
@@ -46,6 +48,7 @@ class LexerTest extends TestCase
     /**
      * @dataProvider bad_durations
      */
+    #[DataProvider('bad_durations')]
     public function test_bad_duration($duration)
     {
         $this->expectException(LexerException::class);

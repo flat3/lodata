@@ -6,6 +6,7 @@ namespace Flat3\Lodata\Tests\Protocol;
 
 use Flat3\Lodata\Tests\TestCase;
 use Flat3\Lodata\Transaction\MediaType;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MediaTypeTest extends TestCase
 {
@@ -52,6 +53,7 @@ class MediaTypeTest extends TestCase
     /**
      * @dataProvider typeProvider
      */
+    #[DataProvider('typeProvider')]
     public function test_types(
         string $original,
         string $normalised,

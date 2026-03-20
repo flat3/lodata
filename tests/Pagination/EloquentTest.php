@@ -8,6 +8,7 @@ use Flat3\Lodata\Drivers\EloquentEntitySet;
 use Flat3\Lodata\Tests\Drivers\WithEloquentDriver;
 use Flat3\Lodata\Tests\Helpers\Request;
 use Flat3\Lodata\Tests\Laravel\Models\Pet;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @group eloquent
@@ -48,6 +49,7 @@ class EloquentTest extends Pagination
     /**
      * @dataProvider chunkSizes
      */
+    #[DataProvider('chunkSizes')]
     public function test_chunk_standard($chunkSize)
     {
         EloquentEntitySet::$chunkSize = $chunkSize;
@@ -63,6 +65,7 @@ class EloquentTest extends Pagination
     /**
      * @dataProvider chunkSizes
      */
+    #[DataProvider('chunkSizes')]
     public function test_chunk_skip_top($chunkSize)
     {
         EloquentEntitySet::$chunkSize = $chunkSize;
@@ -82,6 +85,7 @@ class EloquentTest extends Pagination
     /**
      * @dataProvider chunkSizes
      */
+    #[DataProvider('chunkSizes')]
     public function test_chunk_top($chunkSize)
     {
         EloquentEntitySet::$chunkSize = $chunkSize;
@@ -100,6 +104,7 @@ class EloquentTest extends Pagination
     /**
      * @dataProvider chunkSizes
      */
+    #[DataProvider('chunkSizes')]
     public function test_chunk_skip($chunkSize)
     {
         EloquentEntitySet::$chunkSize = $chunkSize;
