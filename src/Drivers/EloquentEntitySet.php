@@ -29,6 +29,7 @@ use Flat3\Lodata\Exception\Protocol\InternalServerErrorException;
 use Flat3\Lodata\Exception\Protocol\NotFoundException;
 use Flat3\Lodata\Exception\Protocol\NotImplementedException;
 use Flat3\Lodata\Facades\Lodata;
+use Flat3\Lodata\Helper\CollectionType;
 use Flat3\Lodata\Helper\Discovery;
 use Flat3\Lodata\Helper\JSON;
 use Flat3\Lodata\Helper\PropertyValue;
@@ -532,7 +533,15 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         foreach ($this->getSelectedProperties() as $declaredProperty) {
             $propertyValue = $entity->newPropertyValue();
             $propertyValue->setProperty($declaredProperty);
-            $propertyValue->setValue($declaredProperty->getType()->instance($model->getAttribute($this->getPropertySourceName($declaredProperty))));
+            $rawValue = $model->getAttribute($this->getPropertySourceName($declaredProperty));
+            if ($declaredProperty->getType() instanceof CollectionType
+                && is_string($rawValue)
+                && strlen($rawValue) > 1
+                && $rawValue[0] === '{'
+            ) {
+                $rawValue = static::parsePostgresArray($rawValue);
+            }
+            $propertyValue->setValue($declaredProperty->getType()->instance($rawValue));
             $entity->addPropertyValue($propertyValue);
         }
 
@@ -547,6 +556,67 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         return $entity;
+    }
+
+    /**
+     * Parse a PostgreSQL array literal string into a PHP array.
+     *
+     * PostgreSQL TEXT[] columns are returned by PDO as literal strings of the
+     * form {"val1","val with spaces",NULL} rather than valid JSON. Laravel's
+     * 'array' cast calls json_decode() on this string, which returns null, so
+     * collection properties end up empty. This method handles the PG format
+     * directly.
+     *
+     * Supports:
+     *   - Double-quoted elements:  {"foo","bar baz"}
+     *   - Escaped double quotes inside elements (doubled): {"say ""hi"""}
+     *   - Bare (unquoted) elements and NULL
+     *
+     * @param  string  $value  PostgreSQL array literal, e.g. {"a","b",NULL}
+     * @return array PHP array
+     */
+    protected static function parsePostgresArray(string $value): array
+    {
+        $inner = trim($value, '{}');
+        if ($inner === '' || $inner === 'NULL') {
+            return [];
+        }
+
+        $result = [];
+        $current = '';
+        $inQuotes = false;
+
+        for ($i = 0, $len = strlen($inner); $i < $len; $i++) {
+            $char = $inner[$i];
+
+            if ($char === '"' && !$inQuotes) {
+                $inQuotes = true;
+                continue;
+            }
+
+            if ($char === '"' && $inQuotes) {
+                // Doubled quote inside a quoted element is an escaped quote
+                if ($i + 1 < $len && $inner[$i + 1] === '"') {
+                    $current .= '"';
+                    $i++;
+                    continue;
+                }
+                $inQuotes = false;
+                continue;
+            }
+
+            if ($char === ',' && !$inQuotes) {
+                $result[] = $current === 'NULL' ? null : $current;
+                $current = '';
+                continue;
+            }
+
+            $current .= $char;
+        }
+
+        $result[] = $current === 'NULL' ? null : $current;
+
+        return $result;
     }
 
     /**
