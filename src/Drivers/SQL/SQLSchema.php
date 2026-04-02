@@ -25,26 +25,72 @@ use Illuminate\Support\Arr;
 trait SQLSchema
 {
     /**
-     * Discover SQL fields on this entity set as OData properties
+     * Discover SQL fields on this entity set as OData properties.
+     * Uses Discovery::remember() to cache the full processed property descriptors
+     * (not just the raw DBAL Table), avoiding per-request column-to-property conversion.
      * @return $this
      */
     public function discoverProperties()
     {
-        $table = (new Discovery)->remember(
-            sprintf("sql.%s.%s", $this->getConnection()->getName(), $this->getTable()),
-            function () {
-                return $this->getDatabase()->listTableDetails($this->getTable());
-            }
-        );
+        $cacheKey = sprintf("sql.properties.%s.%s", $this->getConnection()->getName(), $this->getTable());
 
-        $columns = $table->getColumns();
-        $indexes = $table->getIndexes();
+        $propertyDescriptors = (new Discovery)->remember($cacheKey, function () {
+            return $this->buildPropertyDescriptors();
+        });
 
         $type = $this->getType();
 
-        /** @var DeclaredProperty $key */
-        $key = null;
+        // Hydrate cached descriptors into actual OData DeclaredProperty objects
+        if (isset($propertyDescriptors['key'])) {
+            $keyDesc = $propertyDescriptors['key'];
+            $key = new DeclaredProperty($keyDesc['name'], $this->resolveType($keyDesc['type']));
+            if ($keyDesc['computed']) {
+                $key->addAnnotation(new Computed);
+            }
+            $type->setKey($key);
+        }
 
+        foreach ($propertyDescriptors['properties'] as $propDesc) {
+            $property = new DeclaredProperty($propDesc['name'], $this->resolveType($propDesc['type']));
+            $property->setNullable($propDesc['nullable']);
+
+            if ($propDesc['has_default']) {
+                $property->addAnnotation(new ComputedDefaultValue);
+                if ($propDesc['default_value'] !== null) {
+                    $property->setDefaultValue($propDesc['default_value']);
+                }
+                if ($propDesc['default_is_carbon_now'] ?? false) {
+                    $property->setDefaultValue([Carbon::class, 'now']);
+                }
+            }
+
+            if (isset($propDesc['source_name'])) {
+                $this->setPropertySourceName($property, $propDesc['source_name']);
+            }
+
+            $type->addProperty($property);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Build a serializable array of property descriptors from the database schema.
+     * This is the expensive part that we cache.
+     * @return array
+     */
+    protected function buildPropertyDescriptors(): array
+    {
+        $table = $this->getDatabase()->listTableDetails($this->getTable());
+
+        $columns = $table->getColumns();
+        $indexes = $table->getIndexes();
+        $blacklist = config('lodata.discovery.blacklist', []);
+        $platform = $this->getDatabase()->getDatabasePlatform();
+
+        $result = ['key' => null, 'properties' => []];
+
+        // Find primary key
         foreach ($indexes as $index) {
             if (!$index->isPrimary()) {
                 continue;
@@ -59,71 +105,152 @@ trait SQLSchema
                 continue;
             }
 
-            $key = $this->columnToDeclaredProperty($column);
-
-            if (null === $key) {
+            $typeName = $this->columnToTypeName($column);
+            if ($typeName === null) {
                 throw new ConfigurationException(
                     'missing_key',
                     sprintf('The table %s had no resolvable key', $this->getTable())
                 );
             }
 
-            if ($column->getAutoincrement()) {
-                $key->addAnnotation(new Computed);
-            }
-
-            $type->setKey($key);
+            $result['key'] = [
+                'name' => $this->resolveColumnName($column),
+                'type' => $typeName,
+                'computed' => $column->getAutoincrement(),
+            ];
         }
 
-        $blacklist = config('lodata.discovery.blacklist', []);
-        $platform = $this->getDatabase()->getDatabasePlatform();
+        // Process remaining columns
+        $keyName = $result['key'] ? $result['key']['name'] : null;
 
         foreach ($columns as $column) {
-            $columnName = $column->getName();
+            $columnName = $this->resolveColumnName($column);
 
-            if ($key && $columnName === $key->getName()) {
+            if ($keyName && $columnName === $keyName) {
                 continue;
             }
 
-            if (in_array($columnName, $blacklist)) {
+            if (in_array($column->getName(), $blacklist)) {
                 continue;
             }
 
-            $property = $this->columnToDeclaredProperty($column);
-
-            if (null === $property) {
+            $typeName = $this->columnToTypeName($column);
+            if ($typeName === null) {
                 continue;
             }
 
-            $property->setNullable(!$column->getNotnull());
+            $propDesc = [
+                'name' => $columnName,
+                'type' => $typeName,
+                'nullable' => !$column->getNotnull(),
+                'has_default' => (bool) $column->getDefault(),
+                'default_value' => null,
+                'default_is_carbon_now' => false,
+            ];
+
+            // Track source name if it differs from the resolved column name
+            if ($columnName !== $column->getName()) {
+                $propDesc['source_name'] = $column->getName();
+            }
 
             if ($column->getDefault()) {
-                $property->addAnnotation(new ComputedDefaultValue);
                 $default = $column->getDefault();
 
                 switch (true) {
                     // DBAL 4.x returns DefaultExpression objects instead of strings
                     case !is_string($default):
-                        $property->setDefaultValue([Carbon::class, 'now']);
+                        $propDesc['default_is_carbon_now'] = true;
                         break;
 
                     case $default === $platform->getCurrentTimestampSQL():
-                        $property->setDefaultValue([Carbon::class, 'now']);
+                        $propDesc['default_is_carbon_now'] = true;
                         break;
 
                     case $platform->getReservedKeywordsList()->isKeyword($default):
                         break;
 
                     default:
-                        $property->setDefaultValue($default);
+                        $propDesc['default_value'] = $default;
                         break;
                 }
             }
 
-            $type->addProperty($property);
+            $result['properties'][] = $propDesc;
         }
 
-        return $this;
+        return $result;
+    }
+
+    /**
+     * Map a DBAL column to an OData type name string (for caching).
+     * @param Column $column
+     * @return string|null
+     */
+    protected function columnToTypeName(Column $column): ?string
+    {
+        $columnType = $column->getType();
+
+        switch (true) {
+            case $columnType instanceof Types\BooleanType:
+                return 'boolean';
+            case $columnType instanceof Types\DateType:
+                return 'date';
+            case $columnType instanceof Types\DateTimeType:
+                return 'datetimeoffset';
+            case $columnType instanceof Types\DecimalType:
+            case $columnType instanceof Types\FloatType:
+                return 'decimal';
+            case $columnType instanceof Types\SmallIntType:
+                return $column->getUnsigned() ? 'uint16' : 'int16';
+            case $columnType instanceof Types\IntegerType:
+                return $column->getUnsigned() ? 'uint32' : 'int32';
+            case $columnType instanceof Types\BigIntType:
+                return $column->getUnsigned() ? 'uint64' : 'int64';
+            case $columnType instanceof Types\TimeType:
+                return 'timeofday';
+            case $columnType instanceof Types\StringType:
+            default:
+                return 'string';
+        }
+    }
+
+    /**
+     * Resolve a type name string back to an OData Type instance.
+     * @param string $typeName
+     * @return Type
+     */
+    protected function resolveType(string $typeName): Type
+    {
+        switch ($typeName) {
+            case 'boolean': return Type::boolean();
+            case 'date': return Type::date();
+            case 'datetimeoffset': return Type::datetimeoffset();
+            case 'decimal': return Type::decimal();
+            case 'uint16':
+                return Lodata::getTypeDefinition(Type\UInt16::identifier) ? Type::uint16() : Type::int16();
+            case 'int16': return Type::int16();
+            case 'uint32':
+                return Lodata::getTypeDefinition(Type\UInt32::identifier) ? Type::uint32() : Type::int32();
+            case 'int32': return Type::int32();
+            case 'uint64':
+                return Lodata::getTypeDefinition(Type\UInt64::identifier) ? Type::uint64() : Type::int64();
+            case 'int64': return Type::int64();
+            case 'timeofday': return Type::timeofday();
+            case 'string':
+            default: return Type::string();
+        }
+    }
+
+    /**
+     * Resolve the name of a column, accounting for namespaced columns.
+     * @param Column $column
+     * @return string
+     */
+    protected function resolveColumnName(Column $column): string
+    {
+        return $column->getNamespaceName()
+            ? ($column->getNamespaceName().'_'.$column->getShortestName($column->getNamespaceName()))
+            : $column->getName();
     }
 
     /**
