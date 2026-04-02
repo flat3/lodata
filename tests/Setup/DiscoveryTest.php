@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Setup;
 
-use Doctrine\DBAL\Schema\Table;
 use Flat3\Lodata\Drivers\MongoEntitySet;
 use Flat3\Lodata\Drivers\MongoEntityType;
 use Flat3\Lodata\Facades\Lodata;
@@ -61,9 +60,12 @@ class DiscoveryTest extends TestCase
         ]);
 
         Lodata::discoverEloquentModel(Airport::class);
-        $table = Cache::store('redis')->get('lodata.discovery.sql.testing.airports');
-        $this->assertInstanceOf(Table::class, $table);
-        $this->assertEquals(-2, Cache::store('redis')->getRedis()->ttl('lodata.discovery.sql.testing.airports'));
+        $cacheKey = 'lodata.discovery.sql.properties.testing.airports';
+        $cached = Cache::store('redis')->get($cacheKey);
+        $this->assertIsArray($cached);
+        $this->assertArrayHasKey('key', $cached);
+        $this->assertArrayHasKey('properties', $cached);
+        $this->assertEquals(-2, Cache::store('redis')->getRedis()->ttl($cacheKey));
     }
 
     public function test_default_config()
