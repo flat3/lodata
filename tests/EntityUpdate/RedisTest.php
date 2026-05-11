@@ -27,7 +27,6 @@ class RedisTest extends EntityUpdate
     {
         parent::test_delete();
 
-        // @phpstan-ignore-next-line
         $this->assertNull(Redis::get($this->entityId));
     }
 }
