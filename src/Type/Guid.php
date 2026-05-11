@@ -10,6 +10,7 @@ use Flat3\Lodata\PathSegment\OpenAPI;
 use Flat3\Lodata\Primitive;
 use Flat3\Lodata\Property;
 use Stringable;
+use UnitEnum;
 
 /**
  * Guid
@@ -46,6 +47,10 @@ class Guid extends Primitive
 
     public function set($value): self
     {
+        if ($value instanceof UnitEnum) {
+            $value = $value->value;
+        }
+
         $this->value = Lexer::patternCheck(
             Lexer::guid,
             (string) $value

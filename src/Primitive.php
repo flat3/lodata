@@ -50,7 +50,6 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     public function __construct($value = null)
     {
-        $value = $value instanceof BackedEnum ? $value->value : $value;
         $this->set($value);
     }
 
