@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata;
 
+use BackedEnum;
 use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\NoContentException;
@@ -49,6 +50,7 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
 
     public function __construct($value = null)
     {
+        $value = $value instanceof BackedEnum ? $value->value : $value;
         $this->set($value);
     }
 
