@@ -72,7 +72,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         $this->app->bind(Response::class, function () {
-            return Kernel::VERSION_ID < 60000 ? new Symfony\Response5() : new Symfony\Response6();
+            return version_compare(InstalledVersions::getVersion('symfony/http-kernel'), '6.0.0', '<') ? new Symfony\Response5() : new Symfony\Response6();
         });
 
         $this->app->bind(Filesystem::class, function () {
