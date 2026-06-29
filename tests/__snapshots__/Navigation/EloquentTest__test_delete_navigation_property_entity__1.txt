@@ -1,0 +1,23 @@
+@@ @@
+             "emails": null
+         },
+         {
+-            "id": 3,
+-            "flight_id": 1,
+-            "name": "Gamma",
+-            "dob": "2002-03-03 06:06:06",
+-            "age": 2,
+-            "chips": true,
+-            "dq": "2002-03-03",
+-            "in_role": 347561,
+-            "open_time": "07:07:07",
+-            "colour": 4,
+-            "sock_colours": 7,
+-            "emails": [
+-                "gamma@example.com"
+-            ]
+-        },
+-        {
+             "id": 4,
+             "flight_id": null,
+             "name": "Delta",

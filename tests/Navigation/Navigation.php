@@ -630,4 +630,50 @@ abstract class Navigation extends TestCase
             $this->urlToReq($response->passengers[0]->{'MyPets@navigationLink'})
         );
     }
+
+    public function test_read_navigation_property_entity()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath.'(1)/passengers(3)')
+        );
+    }
+
+    public function test_read_navigation_property_entity_key_as_segment()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath.'/1/passengers/3')
+        );
+    }
+
+    public function test_update_navigation_property_entity_key_as_segment()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->patch()
+                ->path($this->flightEntitySetPath.'/1/passengers/3')
+                ->body([
+                    'name' => 'Renamed Passenger',
+                ])
+        );
+    }
+
+    public function test_delete_navigation_property_entity()
+    {
+        $this->assertNoContent(
+            (new Request)
+                ->delete()
+                ->path($this->flightEntitySetPath.'(1)/passengers(3)')
+        );
+    }
+
+    public function test_delete_navigation_property_entity_key_as_segment()
+    {
+        $this->assertNoContent(
+            (new Request)
+                ->delete()
+                ->path($this->flightEntitySetPath.'/1/passengers/3')
+        );
+    }
 }
