@@ -25,6 +25,13 @@ class Key implements PipeInterface
         ?string $nextSegment,
         ?PipeInterface $argument
     ): ?PipeInterface {
+        // A navigation property that resolves to a collection arrives here wrapped in a
+        // PropertyValue (e.g. People('id')/Trips/0). Unwrap it so a following key segment
+        // selects a single related entity, mirroring the People('id')/Trips(0) form.
+        if ($argument instanceof PropertyValue && $argument->getValue() instanceof EntitySet) {
+            $argument = $argument->getValue();
+        }
+
         if (!$argument instanceof EntitySet) {
             throw new PathNotHandledException();
         }
