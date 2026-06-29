@@ -85,6 +85,12 @@ abstract class Common extends Parser
         }
 
         switch (true) {
+            case $node instanceof Node\Property\Navigation\Count:
+                throw new NotImplementedException(
+                    'unsupported_expression',
+                    'This entity set does not support counting a navigation property within an expression'
+                );
+
             // Deserialization
             case $node instanceof Node\Property:
                 $propertyValue = $entity[$node->getValue()];

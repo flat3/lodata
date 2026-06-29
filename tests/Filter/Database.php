@@ -94,4 +94,31 @@ abstract class Database extends Filter
                 ->expand('MyPets')
         );
     }
+
+    public function test_filter_navigation_count_eq()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySet)
+                ->filter('MyPets/$count eq 0')
+        );
+    }
+
+    public function test_filter_navigation_count_gt()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySet)
+                ->filter('MyPets/$count gt 1')
+        );
+    }
+
+    public function test_filter_navigation_count_combined()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->entitySet)
+                ->filter('MyPets/$count gt 1 or id eq 2')
+        );
+    }
 }

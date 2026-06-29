@@ -103,6 +103,10 @@ class SQLExpression
                 $this->lambdaExpression($node);
                 break;
 
+            case $node instanceof Node\Property\Navigation\Count:
+                $this->navigationPropertyCountExpression($node);
+                break;
+
             case $node instanceof Property:
                 $this->propertyExpression($node);
                 break;
@@ -1289,6 +1293,56 @@ class SQLExpression
      * @param  Lambda  $node  Node
      * @return void
      */
+    /**
+     * Expand a navigation property count expression into a correlated COUNT subquery
+     * @param  Node\Property\Navigation\Count  $node  Node
+     * @return void
+     */
+    protected function navigationPropertyCountExpression(Node\Property\Navigation\Count $node): void
+    {
+        /** @var NavigationProperty $navigationProperty */
+        $navigationProperty = $node->getValue();
+
+        /** @var NavigationBinding $navigationBinding */
+        $navigationBinding = $this->entitySet->getBindingByNavigationProperty($navigationProperty);
+
+        /** @var SQLEntitySet $targetSet */
+        $targetSet = $navigationBinding->getTarget();
+
+        /** @var ReferentialConstraint[] $constraints */
+        $constraints = $navigationBinding->getPath()->getConstraints()->all();
+
+        if (!$constraints) {
+            $node->notImplemented();
+        }
+
+        $this->pushStatement(
+            sprintf(
+                '( SELECT COUNT(*) FROM %s WHERE',
+                $targetSet->quoteSingleIdentifier($targetSet->getTable())
+            )
+        );
+
+        $first = true;
+
+        foreach ($constraints as $constraint) {
+            if (!$first) {
+                $this->pushStatement('AND');
+            }
+
+            $first = false;
+
+            $referencedField = $targetSet->propertyToExpression($constraint->getReferencedProperty());
+            $localField = $this->entitySet->propertyToExpression($constraint->getProperty());
+
+            $this->pushStatement(sprintf('%s = %s', $referencedField->getStatement(), $localField->getStatement()));
+            $this->pushParameters($referencedField->getParameters());
+            $this->pushParameters($localField->getParameters());
+        }
+
+        $this->pushStatement(')');
+    }
+
     protected function lambdaExpression(Lambda $node): void
     {
         $driver = $this->entitySet->getDriver();
