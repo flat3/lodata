@@ -63,6 +63,24 @@ class ComplexValue implements ArrayAccess, Arrayable, JsonInterface, ReferenceIn
     }
 
     /**
+     * Clone this complex value instance
+     *
+     * The property values and metadata are request-scoped mutable state (the property
+     * value collection maintains an internal iterator position during emission, and the
+     * metadata container is rebuilt per request). When a shared instance such as a
+     * Singleton is reused across requests - for example under Laravel Octane - these must
+     * not be shared between the original and the clone.
+     */
+    public function __clone()
+    {
+        assert(!$this->transaction);
+
+        $this->cloned = true;
+        $this->propertyValues = clone $this->propertyValues;
+        $this->metadata = null;
+    }
+
+    /**
      * Set the parent property value of this complex value
      * @param  PropertyValue  $parent  Parent property
      * @return $this
