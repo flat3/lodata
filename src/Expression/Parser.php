@@ -307,6 +307,17 @@ abstract class Parser
             return false;
         }
 
+        $this->pushOperator($token);
+
+        return true;
+    }
+
+    /**
+     * Push an operator onto the operator stack
+     * @param  string  $token  Operator symbol
+     */
+    protected function pushOperator(string $token): void
+    {
         $token = strtolower($token);
 
         /**
@@ -348,8 +359,6 @@ abstract class Parser
          * Then, push the current operator on the operator stack.
          */
         $this->operatorStack[] = $o1;
-
-        return true;
     }
 
     /**
@@ -827,7 +836,7 @@ abstract class Parser
             return $operator.'\b';
         }, array_keys($this->symbols)));
 
-        $expression = '(?!'.$exceptions.')([^ \'"\(\)]+)';
+        $expression = '(?!'.$exceptions.')([^\s\'"\(\)]+)';
 
         $token = $this->lexer->maybeExpression($expression, false);
 

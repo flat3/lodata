@@ -44,17 +44,62 @@ class SearchExpressionTest extends Expression
 
     public function test_7()
     {
-        $this->assertFalseExpression('hell or ther not world');
+        $this->assertTrueExpression('hell or ther not world');
     }
 
     public function test_8()
     {
-        $this->assertTrueExpression('ornot or andthis or ther not th');
+        $this->assertFalseExpression('ornot or andthis or ther not th');
     }
 
     public function test_9()
     {
-        $this->assertTrueExpression('ornot OR ANDthis or ther NOT th');
+        $this->assertFalseExpression('ornot OR ANDthis or ther NOT th');
+    }
+
+    public function test_implicit_and()
+    {
+        $this->assertTrueExpression('hell wor');
+    }
+
+    public function test_implicit_and_false()
+    {
+        $this->assertFalseExpression('hell ther');
+    }
+
+    public function test_implicit_and_precedence()
+    {
+        $this->assertTrueExpression('ther or hell wor');
+    }
+
+    public function test_implicit_and_not_false()
+    {
+        $this->assertFalseExpression('hell not wor');
+    }
+
+    public function test_implicit_and_not_true()
+    {
+        $this->assertTrueExpression('hell not ther');
+    }
+
+    public function test_implicit_and_group()
+    {
+        $this->assertTrueExpression('(ther or hell) wor');
+    }
+
+    public function test_implicit_and_phrase()
+    {
+        $this->assertTrueExpression('"hello world" wor');
+    }
+
+    public function test_implicit_and_multiple_whitespace()
+    {
+        $this->assertTrueExpression("hell  \t wor");
+    }
+
+    public function test_implicit_and_operator_prefix_words()
+    {
+        $this->assertFalseExpression('andthis ornot');
     }
 
     public function evaluate(string $expression)

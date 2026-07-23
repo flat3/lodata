@@ -1,0 +1,2 @@
+expression: t1 t2
+result: ( "t1" AND "t2" )

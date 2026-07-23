@@ -1,2 +1,2 @@
 expression: t1 OR t2 NOT t3 AND t4
-result: ( "t2" OR ( ( NOT "t3" ) AND "t4" ) )
+result: ( "t1" OR ( ( "t2" AND ( NOT "t3" ) ) AND "t4" ) )

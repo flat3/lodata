@@ -58,4 +58,9 @@ class SearchTest extends Expression
     {
         $this->assertSearch('""',);
     }
+
+    public function test_implicit_and()
+    {
+        $this->assertSearch('t1 t2',);
+    }
 }

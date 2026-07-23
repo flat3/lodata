@@ -22,6 +22,18 @@ use Illuminate\Support\Str;
  */
 class Search extends Parser
 {
+    /**
+     * Whether the last token completed a search expression
+     * @var bool
+     */
+    protected $expressionComplete = false;
+
+    /**
+     * Whether whitespace was consumed after a completed expression
+     * @var bool
+     */
+    protected $pendingAnd = false;
+
     protected $symbols = [
         Node\Operator\Comparison\Not_::class,
         Node\Operator\Comparison\And_::class,
@@ -35,12 +47,77 @@ class Search extends Parser
      */
     protected function findToken(): bool
     {
-        return $this->tokenizeLeftParen() ||
-            $this->tokenizeRightParen() ||
-            $this->tokenizeNonOperatorString() ||
-            $this->tokenizeOperator() ||
-            $this->tokenizeDoubleQuotedString() ||
-            $this->tokenizeSpace();
+        if ($this->pendingAnd && $this->expressionComplete && $this->nextTokenStartsExpression()) {
+            $this->pushOperator(Node\Operator\Comparison\And_::getSymbol());
+            $this->pendingAnd = false;
+            $this->expressionComplete = false;
+
+            return true;
+        }
+
+        if ($this->tokenizeLeftParen()) {
+            $this->expressionComplete = false;
+
+            return true;
+        }
+
+        if ($this->tokenizeRightParen()) {
+            $this->expressionComplete = true;
+            $this->pendingAnd = false;
+
+            return true;
+        }
+
+        if ($this->tokenizeNonOperatorString() || $this->tokenizeDoubleQuotedString()) {
+            $this->expressionComplete = true;
+            $this->pendingAnd = false;
+
+            return true;
+        }
+
+        if ($this->tokenizeOperator()) {
+            $this->expressionComplete = false;
+            $this->pendingAnd = false;
+
+            return true;
+        }
+
+        return $this->tokenizeSpace();
+    }
+
+    /**
+     * Tokenize whitespace, preserving it as a possible implicit AND
+     * @return bool
+     */
+    public function tokenizeSpace(): bool
+    {
+        if (!$this->lexer->maybeExpression('\s')) {
+            return false;
+        }
+
+        $this->pendingAnd = $this->pendingAnd || $this->expressionComplete;
+
+        return true;
+    }
+
+    /**
+     * Determine whether the next token starts a search expression
+     * @return bool
+     */
+    protected function nextTokenStartsExpression(): bool
+    {
+        $startsExpression = false;
+
+        $this->lexer->with(function () use (&$startsExpression) {
+            $startsExpression = !!$this->lexer->maybeExpression(
+                '(?!(?:and|or)\b)(?:not\s|["\(]|[^\s\'"\(\)]+)',
+                false
+            );
+
+            return null;
+        });
+
+        return $startsExpression;
     }
 
     /**
