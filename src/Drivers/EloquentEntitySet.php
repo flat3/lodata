@@ -71,6 +71,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionAttribute;
 use ReflectionClass;
+use ReflectionEnum;
 use ReflectionException;
 use ReflectionMethod;
 use Staudenmeir\EloquentJsonRelations\Relations\BelongsToJson;
@@ -783,6 +784,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
                     break;
 
                 case EnumerationType::isEnum($cast):
+                    if ((new \ReflectionEnum($cast))->getBackingType() == 'string') {
+                        $type = Type::string();
+                        break;
+                    }
                     $type = EnumerationType::discover($cast);
                     break;
 
