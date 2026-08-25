@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Testing\Fakes\QueueFake;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Runner\Version;
 use Ramsey\Uuid\Uuid;
@@ -101,6 +102,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app->register(RedisMockServiceProvider::class);
 
         Str::createUuidsUsing(function (): UuidInterface {
+            if (in_array(QueueFake::class, array_column(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 'class'), true)) {
+                return Uuid::uuid4();
+            }
+
             return Uuid::fromInteger($this->uuid++);
         });
 
