@@ -34,7 +34,7 @@
         "ext-dom": "*",
         "ext-pdo": "*",
         "league/flysystem": "^1.0|^3.0",
-        "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
+        "guzzlehttp/guzzle": "^6.5.5|^7.0.1|^8.0",
         "zbateson/stream-decorators": "^1.0|^3.0"
     },
     "extra": {
