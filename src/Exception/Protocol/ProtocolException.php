@@ -159,6 +159,16 @@ abstract class ProtocolException extends RuntimeException implements Responsable
     }
 
     /**
+     * Get the HTTP Code associated to the exception
+     *
+     * @return int
+     */
+    public function getHttpCode(): int
+    {
+        return $this->httpCode;
+    }
+
+    /**
      * Get the original exception that caused this exception
      *
      * @return Throwable|null
@@ -188,7 +198,9 @@ abstract class ProtocolException extends RuntimeException implements Responsable
         $response->setProtocolVersion('1.1');
         $response->setStatusCode($this->httpCode);
         $response->headers->replace($this->headers);
-        $response->headers->set(Constants::contentType, MediaType::json);
+        if (!$this->suppressContent) {
+            $response->headers->set(Constants::contentType, MediaType::json);
+        }
 
         return $response;
     }

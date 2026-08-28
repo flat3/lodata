@@ -1,20 +1,17 @@
 {
-    "responses": [
-        {
-            "id": 0,
-            "status": 404,
-            "headers": {
-                "content-type": "application/json"
-            },
-            "body": {
-                "error": {
-                    "code": "no_handler",
-                    "message": "No route handler was able to process this request",
-                    "target": null,
-                    "details": [],
-                    "innererror": {}
-                }
-            }
-        }
-    ]
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/json"
+        ],
+        "odata-version": [
+            "4.01"
+        ],
+        "asyncresult": [
+            "200"
+        ]
+    },
+    "status": 200
 }

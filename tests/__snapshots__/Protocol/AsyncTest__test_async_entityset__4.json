@@ -1,11 +1,9 @@
 {
-    "headers": {
-        "cache-control": [
-            "no-cache, private"
-        ],
-        "content-type": [
-            "application/json"
-        ]
-    },
-    "status": 404
+    "error": {
+        "code": "no_handler",
+        "message": "No route handler was able to process this request",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
 }
