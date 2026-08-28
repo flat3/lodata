@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Drivers;
 
+use Carbon\Carbon;
 use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
 use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\Attributes\LodataIdentifier;
 use Flat3\Lodata\Attributes\LodataProperty;
@@ -65,6 +67,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -824,6 +827,109 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
         }
 
         return $property;
+    }
+
+    /**
+     * Eloquent's columnToDeclaredProperty applies hidden/visible filtering and
+     * cast-based type overrides. The descriptor cache in SQLSchema bypasses
+     * that hook, so use the legacy per-column flow here to preserve casts.
+     */
+    public function discoverProperties()
+    {
+        $table = (new Discovery)->remember(
+            sprintf("sql.%s.%s", $this->getConnection()->getName(), $this->getTable()),
+            function () {
+                return $this->getDatabase()->listTableDetails($this->getTable());
+            }
+        );
+
+        $columns = $table->getColumns();
+        $indexes = $table->getIndexes();
+
+        $type = $this->getType();
+
+        /** @var DeclaredProperty $key */
+        $key = null;
+
+        foreach ($indexes as $index) {
+            if (!$index->isPrimary()) {
+                continue;
+            }
+
+            /** @var Column $column */
+            $column = Arr::first($columns, function (Column $column) use ($index) {
+                return $column->getName() === $index->getColumns()[0];
+            });
+
+            if (!$column) {
+                continue;
+            }
+
+            $key = $this->columnToDeclaredProperty($column);
+
+            if (null === $key) {
+                throw new ConfigurationException(
+                    'missing_key',
+                    sprintf('The table %s had no resolvable key', $this->getTable())
+                );
+            }
+
+            if ($column->getAutoincrement()) {
+                $key->addAnnotation(new Computed);
+            }
+
+            $type->setKey($key);
+        }
+
+        $blacklist = config('lodata.discovery.blacklist', []);
+        $platform = $this->getDatabase()->getDatabasePlatform();
+
+        foreach ($columns as $column) {
+            $columnName = $column->getName();
+
+            if ($key && $columnName === $key->getName()) {
+                continue;
+            }
+
+            if (in_array($columnName, $blacklist)) {
+                continue;
+            }
+
+            $property = $this->columnToDeclaredProperty($column);
+
+            if (null === $property) {
+                continue;
+            }
+
+            $property->setNullable(!$column->getNotnull());
+
+            if ($column->getDefault()) {
+                $property->addAnnotation(new ComputedDefaultValue);
+                $default = $column->getDefault();
+
+                switch (true) {
+                    // DBAL 4.x returns DefaultExpression objects instead of strings
+                    case !is_string($default):
+                        $property->setDefaultValue([Carbon::class, 'now']);
+                        break;
+
+                    case $default === $platform->getCurrentTimestampSQL():
+                        $property->setDefaultValue([Carbon::class, 'now']);
+                        break;
+
+                    case $platform->getReservedKeywordsList()->isKeyword($default):
+                        break;
+
+                    default:
+                        $property->setDefaultValue($default);
+                        break;
+                }
+            }
+
+            $type->addProperty($property);
+        }
+
+        return $this;
     }
 
     /**
