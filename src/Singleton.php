@@ -109,6 +109,10 @@ class Singleton extends Entity implements ServiceInterface, IdentifierInterface,
             throw new PathNotHandledException();
         }
 
+        // Operate on a clone so the request cycle does not mutate the shared model
+        // instance, which is reused across requests under Laravel Octane.
+        $singleton = clone $singleton;
+
         Gate::read($singleton, $transaction)->ensure();
 
         return $singleton;
