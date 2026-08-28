@@ -1,0 +1,3 @@
+expression: da/$count eq 1
+result: ( ( SELECT COUNT(*) FROM "airports" WHERE "airports"."code" = "flights"."destination" ) = ? )
+parameters: 1

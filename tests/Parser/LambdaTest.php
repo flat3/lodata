@@ -28,4 +28,19 @@ class LambdaTest extends Expression
     {
         $this->assertLambda("airports/any(d:d/name eq 'hello') and 1 eq 2 or airports/all(d:d/name eq 'hello')");
     }
+
+    public function test_count_single_constraint()
+    {
+        $this->assertLambda('da/$count eq 1');
+    }
+
+    public function test_count_multiple_constraints()
+    {
+        $this->assertLambda('airports/$count gt 0');
+    }
+
+    public function test_count_logical_combination()
+    {
+        $this->assertLambda('da/$count ge 2 or airports/$count eq 0');
+    }
 }

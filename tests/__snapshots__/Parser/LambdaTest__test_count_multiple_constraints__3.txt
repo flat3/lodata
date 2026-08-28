@@ -1,0 +1,3 @@
+expression: airports/$count gt 0
+result: ( ( SELECT COUNT(*) FROM "airports" WHERE "airports"."code" = "flights"."origin" AND "airports"."code" = "flights"."destination" ) > ? )
+parameters: 0
