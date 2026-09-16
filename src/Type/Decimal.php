@@ -33,7 +33,13 @@ class Decimal extends Numeric
             return $value;
         }
 
-        return sprintf(sprintf('%%.%dF', max(15 - floor(log10($this->value)), 0)), $this->value);
+        if ($this->value === 0.0) {
+            return '0';
+        }
+
+        $precision = max(15 - floor(log10(abs($this->value))), 0);
+
+        return sprintf("%.{$precision}F", $this->value);
     }
 
     public function toJson()

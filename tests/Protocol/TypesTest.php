@@ -370,4 +370,13 @@ class TypesTest extends TestCase
             }
         }
     }
+
+
+    public function test_decimal_zero_serializes_in_ieee754_mode(): void
+    {
+        $this->assertSame(
+            '0',
+            (new Type\Decimal(0.0))->toJsonIeee754()
+        );
+    }
 }
