@@ -474,6 +474,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             $expansionSet = clone $this->getBindingByNavigationProperty($navigationProperty)->getTarget();
             $expansionSet->setTransaction($expansionTransaction);
 
+            if ($navigationProperty->isCollection()) {
+                $expansionSet->applyExpansionPageSize();
+            }
+
             $relations[$expansionPropertyName] = function ($builder) use ($expansionSet) {
                 $expansionSet->configureBuilder($builder);
             };

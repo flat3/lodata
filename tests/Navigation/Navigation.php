@@ -186,6 +186,73 @@ abstract class Navigation extends TestCase
         );
     }
 
+    public function test_expand_collection_default_page_size()
+    {
+        config(['lodata.pagination.default' => 1]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->top('3')
+                ->expand('passengers')
+        );
+    }
+
+    public function test_expand_collection_under_default_page_size()
+    {
+        config(['lodata.pagination.default' => 5]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->expand('passengers')
+        );
+    }
+
+    public function test_expand_collection_default_page_size_single_entity()
+    {
+        config(['lodata.pagination.default' => 1]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath.'/1')
+                ->expand('passengers')
+        );
+    }
+
+    public function test_expand_collection_top_within_maximum_page_size()
+    {
+        config(['lodata.pagination.default' => 1, 'lodata.pagination.max' => 5]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->expand('passengers($top=2)')
+        );
+    }
+
+    public function test_expand_collection_top_above_maximum_page_size()
+    {
+        config(['lodata.pagination.default' => 5, 'lodata.pagination.max' => 1]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->expand('passengers($top=2)')
+        );
+    }
+
+    public function test_expand_collection_without_page_size()
+    {
+        config(['lodata.pagination.default' => null, 'lodata.pagination.max' => null]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->expand('passengers')
+        );
+    }
+
     public function test_expand_containing_search()
     {
         $this->assertJsonResponseSnapshot(

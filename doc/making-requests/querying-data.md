@@ -300,6 +300,10 @@ GET http://localhost:8000/odata/flights?$expand=passengers
 </code-block>
 </code-group>
 
+Expanded collections are paged with the same default and maximum page size as the entity set that contains them.
+When an expanded collection has more items than fit in a page, the response includes a next link for that property, for example `passengers@nextLink`, which requests the remaining items through the navigation path.
+An explicit `$top` inside the `$expand` option is used as the page size, up to the configured maximum.
+
 ## $select
 
 The `$select` system query option allows the clients to requests a limited set of properties for each entity or

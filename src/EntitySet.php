@@ -237,6 +237,48 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     }
 
     /**
+     * Get the page size that applies to this entity set, from the request or the pagination configuration
+     * @param  Transaction  $transaction  Related transaction
+     * @return int|string|null Page size
+     */
+    protected function getTargetPageSize(Transaction $transaction)
+    {
+        $targetPageSize = $this->getTop()->getValue()
+            ?? $transaction->getPreferenceValue(Constants::maxPageSize)
+            ?? config('lodata.pagination.default');
+
+        $maxPageSize = config('lodata.pagination.max');
+
+        if ($maxPageSize && (!$targetPageSize || $targetPageSize > $maxPageSize)) {
+            $targetPageSize = $maxPageSize;
+        }
+
+        return $targetPageSize;
+    }
+
+    /**
+     * Apply server-driven paging to this entity set when it is used as an expanded collection
+     * @return $this
+     */
+    public function applyExpansionPageSize(): self
+    {
+        $top = $this->getTop();
+        $maxPageSize = config('lodata.pagination.max');
+
+        if ($top->hasValue() && (!$maxPageSize || $top->getValue() <= $maxPageSize)) {
+            return $this;
+        }
+
+        $targetPageSize = $this->getTargetPageSize($this->transaction);
+
+        if ($targetPageSize) {
+            $top->setValue((string) $targetPageSize);
+        }
+
+        return $this;
+    }
+
+    /**
      * Read this entity set
      * @param  Transaction  $transaction  Related transaction
      * @param  ContextInterface|null  $context  Current context
@@ -248,14 +290,8 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $top = $this->getTop();
 
-        $defaultPageSize = config('lodata.pagination.default');
-        $maxPageSize = config('lodata.pagination.max');
         $preferPageSize = $transaction->getPreferenceValue(Constants::maxPageSize);
-        $targetPageSize = $top->getValue() ?? $preferPageSize ?? $defaultPageSize;
-
-        if ($maxPageSize && (!$targetPageSize || $targetPageSize > $maxPageSize)) {
-            $targetPageSize = $maxPageSize;
-        }
+        $targetPageSize = $this->getTargetPageSize($transaction);
 
         if ($preferPageSize && $targetPageSize === $preferPageSize) {
             $transaction->preferenceApplied(Constants::maxPageSize, (string) $targetPageSize);
