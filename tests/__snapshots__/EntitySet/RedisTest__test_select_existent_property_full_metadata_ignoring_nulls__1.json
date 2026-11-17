@@ -4,6 +4,13 @@
     "value": [
         {
             "@type": "#com.example.odata.passenger",
+            "@id": "http://localhost/odata/passengers('alpha')",
+            "@readLink": "http://localhost/odata/passengers('alpha')",
+            "name": "Alpha",
+            "age": 4
+        },
+        {
+            "@type": "#com.example.odata.passenger",
             "@id": "http://localhost/odata/passengers('beta')",
             "@readLink": "http://localhost/odata/passengers('beta')",
             "name": "Beta",

@@ -190,6 +190,7 @@ class NavigationProperty extends Property
         if ($requestedTarget) {
             $propertyValue->setValue($requestedTarget);
         } elseif ($this->isCollection()) {
+            $expansionSet->applyExpansionPageSize();
             $propertyValue->setValue($expansionSet);
         } else {
             $expansionSingular = $expansionSet->query()->current();

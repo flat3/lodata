@@ -53,7 +53,7 @@ services:
       interval: 1s
 
   mongo_db:
-    image: "mongo"
+    image: "mongo:7"
     restart: on-failure
     expose:
       - 27017
