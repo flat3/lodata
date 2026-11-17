@@ -480,6 +480,10 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
             $relations[$expansionPropertyName] = function ($builder) use ($expansionSet) {
                 $expansionSet->configureBuilder($builder);
+
+                if ($expansionSet->getTop()->hasValue()) {
+                    $builder->limit($expansionSet->getTop()->getValue() + 1);
+                }
             };
 
             $relations = array_merge(

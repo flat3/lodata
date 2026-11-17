@@ -37,6 +37,16 @@ abstract class Pagination extends TestCase
         );
     }
 
+    public function test_top_skip_ending_on_the_last_row()
+    {
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->skip('3')
+                ->top('2')
+                ->path($this->entitySetPath)
+        );
+    }
+
     public function test_sequence()
     {
         $this->assertPaginationSequence(

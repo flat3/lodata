@@ -106,6 +106,12 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
     protected $navigationSource;
 
     /**
+     * Whether a row beyond the emitted page exists, found by querying one row more than $top
+     * @var bool $hasMoreResults
+     */
+    protected $hasMoreResults;
+
+    /**
      * Mapping of OData properties to source identifiers
      * @var ObjectArray $sourceMap
      */
@@ -203,13 +209,19 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
 
         $transaction = $this->transaction ?: $transaction;
 
+        $top = $this->getTop();
+        $pageSize = $top->getValue();
+        $limit = $pageSize ?? 0;
+        $overfetch = $this instanceof PaginationInterface && $top->hasValue();
+
+        if ($overfetch) {
+            $top->setValue((string) ($pageSize + 1));
+        }
+
         /** @var Generator $results */
         $results = $this->query();
 
         $transaction->outputJsonArrayStart();
-
-        $top = $this->getTop();
-        $limit = $top->getValue() ?? 0;
 
         while ($results->valid()) {
             if ($top->hasValue() && $limit === 0) {
@@ -231,6 +243,11 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
             }
 
             $transaction->outputJsonSeparator();
+        }
+
+        if ($overfetch) {
+            $this->hasMoreResults = $results->valid();
+            $top->setValue((string) $pageSize);
         }
 
         $transaction->outputJsonArrayEnd();
@@ -839,24 +856,15 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
      */
     public function addTrailingMetadata(Transaction $transaction, MetadataContainer $metadata, string $resourceUrl)
     {
-        $count = null;
-
-        if (
-            ($this instanceof CountInterface && $transaction->getCount()->hasValue()) ||
-            ($this instanceof PaginationInterface && $transaction->getTop()->hasValue())
-        ) {
-            $count = $this->count();
-        }
-
         if ($this instanceof CountInterface && $transaction->getCount()->hasValue()) {
-            $metadata->offsetSet('count', $count);
+            $metadata->offsetSet('count', $this->count());
         }
 
         if ($this instanceof PaginationInterface || $this instanceof TokenPaginationInterface) {
             $top = $transaction->getTop();
             $paginationParams = [];
 
-            if ($top->hasValue() && ($count === null || $top->getValue() < $count)) {
+            if ($top->hasValue() && ($this instanceof TokenPaginationInterface || $this->hasMoreResults)) {
                 switch (true) {
                     case $this instanceof TokenPaginationInterface:
                         $skipToken = $transaction->getSkipToken();
@@ -870,7 +878,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                     case $this instanceof PaginationInterface:
                         $skip = $transaction->getSkip();
 
-                        if ($skip->hasValue() && ($count === null || $skip->getValue() < $count)) {
+                        if ($skip->hasValue()) {
                             $paginationParams[$top::param] = $top->getValue();
                             $paginationParams[$skip::param] = $skip->getValue();
                         }

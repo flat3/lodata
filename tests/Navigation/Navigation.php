@@ -220,6 +220,17 @@ abstract class Navigation extends TestCase
         );
     }
 
+    public function test_expand_collection_exactly_the_page_size()
+    {
+        config(['lodata.pagination.default' => 2]);
+
+        $this->assertJsonResponseSnapshot(
+            (new Request)
+                ->path($this->flightEntitySetPath)
+                ->expand('passengers')
+        );
+    }
+
     public function test_expand_collection_top_within_maximum_page_size()
     {
         config(['lodata.pagination.default' => 1, 'lodata.pagination.max' => 5]);

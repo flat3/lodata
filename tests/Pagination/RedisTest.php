@@ -25,6 +25,11 @@ class RedisTest extends Pagination
         $this->expectNotToPerformAssertions();
     }
 
+    public function test_top_skip_ending_on_the_last_row()
+    {
+        $this->expectNotToPerformAssertions();
+    }
+
     public function test_sequence_skip()
     {
         $this->expectNotToPerformAssertions();
