@@ -141,10 +141,14 @@ trait SQLSchema
                 break;
 
             case $columnType instanceof Types\DateType:
+            case $columnType instanceof Types\DateImmutableType:
                 $type = Type::date();
                 break;
 
             case $columnType instanceof Types\DateTimeType:
+            case $columnType instanceof Types\DateTimeImmutableType:
+            case $columnType instanceof Types\DateTimeTzType:
+            case $columnType instanceof Types\DateTimeTzImmutableType:
                 $type = Type::datetimeoffset();
                 break;
 
@@ -166,6 +170,7 @@ trait SQLSchema
                 break;
 
             case $columnType instanceof Types\TimeType:
+            case $columnType instanceof Types\TimeImmutableType:
                 $type = Type::timeofday();
                 break;
 
