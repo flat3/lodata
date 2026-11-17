@@ -4,6 +4,10 @@
     "value": [
         {
             "@type": "#com.example.odata.passenger",
+            "@id": "passengers('alpha')"
+        },
+        {
+            "@type": "#com.example.odata.passenger",
             "@id": "passengers('beta')"
         },
         {

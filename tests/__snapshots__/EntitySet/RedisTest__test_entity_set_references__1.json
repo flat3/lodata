@@ -2,6 +2,9 @@
     "@context": "http://localhost/odata/$metadata#Collection($ref)",
     "value": [
         {
+            "@id": "passengers('alpha')"
+        },
+        {
             "@id": "passengers('beta')"
         },
         {
