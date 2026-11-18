@@ -1,17 +1,10 @@
 {
-    "headers": {
-        "location": [
-            "http://localhost/odata/_lodata/monitor/00000000-0000-0000-0000-000000000001"
-        ],
-        "preference-applied": [
-            "callback"
-        ],
-        "cache-control": [
-            "no-cache, private"
-        ],
-        "content-type": [
-            "application/json"
-        ]
-    },
-    "status": 202
+    "@context": "http://localhost/odata/$metadata",
+    "value": [
+        {
+            "name": "passengers",
+            "kind": "EntitySet",
+            "url": "passengers"
+        }
+    ]
 }

@@ -8,6 +8,9 @@
         ],
         "odata-version": [
             "4.01"
+        ],
+        "asyncresult": [
+            "200"
         ]
     },
     "status": 200

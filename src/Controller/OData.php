@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Controller;
 
+use Flat3\Lodata\Exception\Protocol\ProtocolException;
 use Flat3\Lodata\Helper\Constants;
 use Illuminate\Routing\Controller;
 
@@ -24,12 +25,20 @@ class OData extends Controller
     {
         $transaction->initialize($request);
 
-        if ($transaction->hasPreference(Constants::respondAsync)) {
-            $job->setTransaction($transaction);
-            $job->dispatch();
-        }
+        try {
+            if ($transaction->hasPreference(Constants::respondAsync)) {
+                $job->setTransaction($transaction);
+                $job->dispatch();
+            }
 
-        return $transaction->execute();
+            return $transaction->execute();
+        } catch (ProtocolException $e) {
+            if ($e->getHttpCode() < 400) {
+                return $e->toResponse($request);
+            }
+
+            throw $e;
+        }
     }
 
     /**

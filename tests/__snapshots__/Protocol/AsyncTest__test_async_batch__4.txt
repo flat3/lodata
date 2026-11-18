@@ -1,0 +1,9 @@
+
+--00000000-0000-0000-0000-000000000002
+content-type: application/http
+
+HTTP/1.1 404 Not Found
+content-type: application/json
+
+{"error":{"code":"no_handler","message":"No route handler was able to process this request","target":null,"details":[],"innererror":{}}}
+--00000000-0000-0000-0000-000000000002--

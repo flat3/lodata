@@ -1,8 +1,5 @@
 {
     "headers": {
-        "location": [
-            "http://localhost/odata/_lodata/monitor/00000000-0000-0000-0000-000000000001"
-        ],
         "cache-control": [
             "no-cache, private"
         ],
@@ -10,5 +7,5 @@
             "application/json"
         ]
     },
-    "status": 202
+    "status": 404
 }

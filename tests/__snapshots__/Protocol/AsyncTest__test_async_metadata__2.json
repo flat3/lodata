@@ -1,9 +1,14 @@
 {
-    "error": {
-        "code": "accepted",
-        "message": "Accepted",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
+    "headers": {
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "application/xml"
+        ],
+        "odata-version": [
+            "4.01"
+        ]
+    },
+    "status": 200
 }

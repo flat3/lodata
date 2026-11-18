@@ -1,9 +1,17 @@
 {
-    "error": {
-        "code": "accepted",
-        "message": "Accepted",
-        "target": null,
-        "details": [],
-        "innererror": {}
-    }
+    "headers": {
+        "location": [
+            "http://localhost/odata/_lodata/monitor/00000000-0000-0000-0000-000000000001"
+        ],
+        "preference-applied": [
+            "callback"
+        ],
+        "cache-control": [
+            "no-cache, private"
+        ],
+        "content-type": [
+            "text/html; charset=UTF-8"
+        ]
+    },
+    "status": 202
 }
