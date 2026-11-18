@@ -809,8 +809,22 @@ class Operation implements ServiceInterface, ResourceInterface, IdentifierInterf
             return;
         }
 
-        $namespace = null;
         $reflectionClass = new ReflectionClass($discoverable);
+
+        // Fast path: skip full discovery if no methods have LodataOperation attributes.
+        // This avoids expensive reflection loops for Eloquent models that don't define operations.
+        $hasAnyOperations = false;
+        foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            if ($method->getAttributes(LodataOperation::class, ReflectionAttribute::IS_INSTANCEOF)) {
+                $hasAnyOperations = true;
+                break;
+            }
+        }
+        if (!$hasAnyOperations) {
+            return;
+        }
+
+        $namespace = null;
 
         /** @var ReflectionAttribute $namespaceAttribute */
         $namespaceAttribute = Arr::first($reflectionClass->getAttributes(LodataNamespace::class));
