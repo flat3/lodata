@@ -319,6 +319,7 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
         }
 
         $this->assertValidOrderBy();
+        $this->assertValidFilter();
 
         return $transaction->getResponse()->setResourceCallback($this, function () use ($transaction, $context) {
             $context = $context ?: $this;
@@ -1173,6 +1174,25 @@ abstract class EntitySet implements EntityTypeInterface, ReferenceInterface, Ide
                 sprintf('The orderby parameter specified properties (%s) that did not exist', join(',', $diff))
             );
         }
+    }
+
+    /**
+     * Assert that the $filter expression is syntactically valid and references only known properties.
+     * This runs BEFORE the streaming response begins so that an invalid filter yields HTTP 400
+     * rather than a malformed mid-stream error fragment.
+     * @return void
+     */
+    protected function assertValidFilter(): void
+    {
+        $filter = $this->getFilter();
+
+        if (!$filter->hasValue()) {
+            return;
+        }
+
+        $parser = $this->getFilterParser();
+        $parser->pushEntitySet($this);
+        $parser->generateTree($filter->getExpression());
     }
 
     /**
