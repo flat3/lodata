@@ -1,0 +1,2 @@
+expression: airports/$count gt 0
+result: ( airports/$count gt 0 )

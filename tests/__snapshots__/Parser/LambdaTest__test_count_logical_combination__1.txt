@@ -1,0 +1,2 @@
+expression: da/$count ge 2 or airports/$count eq 0
+result: ( ( da/$count ge 2 ) or ( airports/$count eq 0 ) )

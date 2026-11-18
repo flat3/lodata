@@ -29,4 +29,19 @@ class MongoTest extends Database
     {
         $this->markTestSkipped();
     }
+
+    public function test_filter_navigation_count_eq()
+    {
+        $this->markTestSkipped();
+    }
+
+    public function test_filter_navigation_count_gt()
+    {
+        $this->markTestSkipped();
+    }
+
+    public function test_filter_navigation_count_combined()
+    {
+        $this->markTestSkipped();
+    }
 }

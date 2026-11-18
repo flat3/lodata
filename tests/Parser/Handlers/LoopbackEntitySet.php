@@ -170,6 +170,10 @@ class LoopbackEntitySet extends EntitySet implements ComputeInterface, SearchInt
                 ));
                 return;
 
+            case $node instanceof Node\Property\Navigation\Count:
+                $this->addCommon(sprintf('%s/$count', $node->getValue()));
+                return;
+
             case $node instanceof Node\Property:
                 $this->addCommon($node->getValue());
                 return;

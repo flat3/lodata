@@ -626,6 +626,42 @@ abstract class Parser
     }
 
     /**
+     * Tokenize a navigation property count (e.g. `passengers/$count`)
+     * @return bool
+     */
+    public function tokenizeNavigationPropertyCount(): bool
+    {
+        $currentResource = $this->getCurrentResource();
+
+        if (!$currentResource) {
+            return false;
+        }
+
+        $navigationProperties = $currentResource->getType()->getNavigationProperties();
+
+        $token = $this->lexer->with(function () use ($navigationProperties) {
+            $identifier = $this->lexer->identifier();
+            $this->lexer->char(Lexer::pathSeparator);
+            $this->lexer->literal('$count');
+
+            return $navigationProperties->get($identifier) ? $identifier : null;
+        });
+
+        if (!$token) {
+            return false;
+        }
+
+        $property = $navigationProperties->get($token);
+
+        $operand = new Node\Property\Navigation\Count($this);
+        $operand->setValue($property);
+        $this->operandStack[] = $operand;
+        $this->tokens[] = $operand;
+
+        return true;
+    }
+
+    /**
      * Tokenize a navigation property path
      * @return bool
      */

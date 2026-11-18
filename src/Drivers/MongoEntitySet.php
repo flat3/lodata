@@ -419,6 +419,10 @@ class MongoEntitySet extends EntitySet implements ReadInterface, CreateInterface
             case $node instanceof Node\Literal:
                 return $node->getValue()->get();
 
+            case $node instanceof Node\Property\Navigation\Count:
+                $node->notImplemented();
+
+            // no break
             case $node instanceof Node\Property:
                 return '$'.$node->getValue()->getName();
         }

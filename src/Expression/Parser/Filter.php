@@ -113,6 +113,7 @@ class Filter extends Common
             $this->tokenizeDeclaredProperty() ||
             $this->tokenizeComputedProperty() ||
             $this->tokenizeOperator() ||
+            $this->tokenizeNavigationPropertyCount() ||
             $this->tokenizeNavigationPropertyPath();
     }
 

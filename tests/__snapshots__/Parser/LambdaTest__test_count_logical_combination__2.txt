@@ -1,0 +1,3 @@
+expression: da/$count ge 2 or airports/$count eq 0
+result: ( ( ( SELECT COUNT(*) FROM "airports" WHERE "airports"."code" = "flights"."destination" ) >= ? ) OR ( ( SELECT COUNT(*) FROM "airports" WHERE "airports"."code" = "flights"."origin" AND "airports"."code" = "flights"."destination" ) = ? ) )
+parameters: 2,0
