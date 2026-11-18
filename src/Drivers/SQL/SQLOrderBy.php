@@ -15,6 +15,13 @@ use Flat3\Lodata\Property;
 trait SQLOrderBy
 {
     /**
+     * Navigation properties referenced in $orderby that need LEFT JOINs.
+     * Populated by generateOrderBy(), consumed by configureBuilder().
+     * @var array
+     */
+    protected array $orderByNavigationJoins = [];
+
+    /**
      * Generate expression for orderby parameters
      * @return SQLExpression
      */
@@ -29,6 +36,7 @@ trait SQLOrderBy
         }
 
         $this->assertValidOrderBy();
+        $this->orderByNavigationJoins = [];
 
         $orders = $orderby->getSortOrders();
 
@@ -42,9 +50,40 @@ trait SQLOrderBy
             $order = array_shift($orders);
             [$propertyName, $direction] = $order;
 
-            $property = $properties[$propertyName];
+            if (str_contains($propertyName, '/')) {
+                // Navigation property path (e.g., "Status/SortOrder")
+                $segments = explode('/', $propertyName);
+                [$navPropertyName, $targetPropertyName] = $segments;
 
-            $expression->pushStatement($this->quoteSingleIdentifier($this->getPropertySourceName($property)));
+                $navigationProperty = $this->getType()->getNavigationProperties()->get($navPropertyName);
+                $binding = $this->getBindingByNavigationProperty($navigationProperty);
+                $targetSet = $binding->getTarget();
+                $targetProperty = $targetSet->getType()->getProperty($targetPropertyName);
+
+                // Store join info for configureBuilder()
+                $joinKey = $navPropertyName;
+                if (!isset($this->orderByNavigationJoins[$joinKey])) {
+                    $this->orderByNavigationJoins[$joinKey] = [
+                        'navigationProperty' => $navigationProperty,
+                        'binding' => $binding,
+                    ];
+                }
+
+                // Generate fully qualified column: "target_table"."target_column"
+                $targetTable = $targetSet->getTable();
+                $targetColumn = $targetSet->getPropertySourceName($targetProperty);
+                $expression->pushStatement(
+                    $this->quoteSingleIdentifier($targetTable) . '.' .
+                    $this->quoteSingleIdentifier($targetColumn)
+                );
+            } else {
+                // Direct property (existing behavior)
+                $property = $properties[$propertyName];
+                $expression->pushStatement(
+                    $this->quoteSingleIdentifier($this->getPropertySourceName($property))
+                );
+            }
+
             $expression->pushStatement($direction);
 
             if ($this->getDriver() === SQLEntitySet::PostgreSQL) {

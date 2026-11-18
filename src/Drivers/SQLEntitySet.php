@@ -360,14 +360,45 @@ class SQLEntitySet extends EntitySet implements CountInterface, CreateInterface,
 
         $expression->pushStatement(sprintf("FROM %s", $this->quoteSingleIdentifier($this->getTable())));
 
+        $orderby = $this->generateOrderBy();
+
+        // Add LEFT JOINs for navigation properties referenced in $orderby
+        if (!empty($this->orderByNavigationJoins)) {
+            foreach ($this->orderByNavigationJoins as $joinInfo) {
+                $navigationProperty = $joinInfo['navigationProperty'];
+                $binding = $joinInfo['binding'];
+                $targetSet = $binding->getTarget();
+
+                $constraints = $navigationProperty->getConstraints();
+                foreach ($constraints as $constraint) {
+                    $localColumn = sprintf(
+                        '%s.%s',
+                        $this->quoteSingleIdentifier($this->getTable()),
+                        $this->quoteSingleIdentifier($this->getPropertySourceName($constraint->getProperty()))
+                    );
+                    $targetTable = $targetSet->getTable();
+                    $targetColumnRef = sprintf(
+                        '%s.%s',
+                        $this->quoteSingleIdentifier($targetTable),
+                        $this->quoteSingleIdentifier($targetSet->getPropertySourceName($constraint->getReferencedProperty()))
+                    );
+
+                    $expression->pushStatement(sprintf(
+                        'LEFT JOIN %s ON %s = %s',
+                        $this->quoteSingleIdentifier($targetTable),
+                        $localColumn,
+                        $targetColumnRef
+                    ));
+                }
+            }
+        }
+
         $where = $this->generateWhere();
 
         if ($where->hasStatement()) {
             $expression->pushStatement('WHERE');
             $expression->pushExpression($where);
         }
-
-        $orderby = $this->generateOrderBy();
 
         if ($orderby->hasStatement()) {
             $expression->pushStatement('ORDER BY');

@@ -1,0 +1,9 @@
+{
+    "error": {
+        "code": "invalid_orderby_collection_navigation",
+        "message": "Cannot order by collection navigation property (passengers)",
+        "target": null,
+        "details": [],
+        "innererror": {}
+    }
+}
